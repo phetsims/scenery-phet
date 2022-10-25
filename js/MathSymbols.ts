@@ -16,9 +16,6 @@
 import SceneryPhetStrings from './SceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
 
-const symbolOhmsString = SceneryPhetStrings.symbol.ohms;
-const symbolResistivityString = SceneryPhetStrings.symbol.resistivity;
-
 const MathSymbols = {
 
   //==================================================================================================================
@@ -66,8 +63,8 @@ const MathSymbols = {
   //==================================================================================================================
 
   // universal units
-  OHMS: symbolOhmsString,
-  RESISTIVITY: symbolResistivityString
+  OHMS: SceneryPhetStrings.symbol.ohms, //TODO https://github.com/phetsims/scenery-phet/issues/780 StringProperty
+  RESISTIVITY: SceneryPhetStrings.symbol.resistivity //TODO https://github.com/phetsims/scenery-phet/issues/780 StringProperty
 };
 
 sceneryPhet.register( 'MathSymbols', MathSymbols );

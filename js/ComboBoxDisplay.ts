@@ -95,6 +95,7 @@ export default class ComboBoxDisplay<T> extends ComboBox<T> {
       // Order is important here, so that we don't write to options.numberDisplayOptions or item.numberDisplayOptions,
       // and so that item.numberDisplayOptions overrides options.numberDisplayOptions.
       const numberDisplayOptions = combineOptions<NumberDisplayOptions>( {
+        //TODO https://github.com/phetsims/scenery-phet/issues/780 StringProperty
         valuePattern: StringUtils.fillIn( SceneryPhetStrings.comboBoxDisplay.valueUnits, { units: item.units } )
       }, options.numberDisplayOptions );
 

@@ -44,6 +44,7 @@ export default class WavelengthSlider extends SpectrumSlider {
       maxWavelength: VisibleColor.MAX_WAVELENGTH,
 
       // SpectrumSliderOptions
+      //TODO https://github.com/phetsims/scenery-phet/issues/780 StringProperty
       valueToString: function( value: number ) {
         return StringUtils.format( SceneryPhetStrings.WavelengthSlider.pattern_0wavelength_1units,
           Utils.toFixed( value, 0 ), SceneryPhetStrings.units_nm );
