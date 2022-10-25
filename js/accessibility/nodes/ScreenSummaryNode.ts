@@ -16,11 +16,6 @@ import { Node } from '../../../../scenery/js/imports.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 
-// constants
-const screenSummaryMultiScreenIntroString = SceneryPhetStrings.a11y.simSection.screenSummary.multiScreenIntro;
-const screenSummaryKeyboardShortcutsHintString = SceneryPhetStrings.a11y.simSection.screenSummary.keyboardShortcutsHint;
-const screenSummarySingleScreenIntroPatternString = SceneryPhetStrings.a11y.simSection.screenSummary.singleScreenIntroPattern;
-
 export default class ScreenSummaryNode extends Node {
 
   private readonly openingSummaryNode: Node;
@@ -33,7 +28,7 @@ export default class ScreenSummaryNode extends Node {
 
     const keyboardShortcutsHint = new Node( {
       tagName: 'p',
-      innerContent: screenSummaryKeyboardShortcutsHintString
+      innerContent: SceneryPhetStrings.a11y.simSection.screenSummary.keyboardShortcutsHintStringProperty
     } );
 
     this.addChild( this.openingSummaryNode );
@@ -52,9 +47,10 @@ export default class ScreenSummaryNode extends Node {
   public setIntroString( simName: string, screenDisplayName: string | null, isMultiScreen: boolean ): void {
 
     // different default string depending on if there are multiple screens
-    this.openingSummaryNode.innerContent = isMultiScreen && screenDisplayName ?
-                                           StringUtils.fillIn( screenSummaryMultiScreenIntroString, { screen: screenDisplayName } ) :
-                                           StringUtils.fillIn( screenSummarySingleScreenIntroPatternString, { sim: simName } );
+    this.openingSummaryNode.innerContent =
+      ( isMultiScreen && screenDisplayName ) ?
+      StringUtils.fillIn( SceneryPhetStrings.a11y.simSection.screenSummary.multiScreenIntroStringProperty, { screen: screenDisplayName } ) :
+      StringUtils.fillIn( SceneryPhetStrings.a11y.simSection.screenSummary.singleScreenIntroPatternStringProperty, { sim: simName } );
   }
 }
 
