@@ -20,6 +20,8 @@ import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
 import Property from '../../axon/js/Property.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import StringProperty from '../../axon/js/StringProperty.js';
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
 
 // constants
 const DEFAULT_FONT = new PhetFont( 14 );
@@ -39,7 +41,7 @@ export type ComboBoxDisplayItem<T> = {
   range: Range;
 
   // the units used to label the item's numeric value
-  units: string;
+  units: string | TReadOnlyProperty<string>;
 
   // options passed to this item's NumberDisplay, these override ComboBoxDisplayOptions.numberDisplayOptions
   numberDisplayOptions?: SubsetOfNumberDisplayOptions;
@@ -57,6 +59,8 @@ type SelfOptions = {
 export type ComboBoxDisplayOptions = SelfOptions & ComboBoxOptions;
 
 export default class ComboBoxDisplay<T> extends ComboBox<T> {
+
+  private readonly disposeComboBoxDisplay: () => void;
 
   /**
    * @param choiceProperty - determines which item is currently selected
@@ -88,19 +92,20 @@ export default class ComboBoxDisplay<T> extends ComboBox<T> {
 
     // Convert ComboBoxDisplayItems to ComboBoxItems
     const comboBoxItems: ComboBoxItem<T>[] = [];
+    const valuePatternStringProperties: TReadOnlyProperty<string>[] = [];
     items.forEach( item => {
 
-      // optionize only supports 2 sources of option values, and we have 3.
-      // So use 2 optionize calls to assemble the options for the item's NumberDisplay.
-      // Order is important here, so that we don't write to options.numberDisplayOptions or item.numberDisplayOptions,
-      // and so that item.numberDisplayOptions overrides options.numberDisplayOptions.
-      const numberDisplayOptions = combineOptions<NumberDisplayOptions>( {
-        //TODO https://github.com/phetsims/scenery-phet/issues/780 StringProperty
-        valuePattern: StringUtils.fillIn( SceneryPhetStrings.comboBoxDisplay.valueUnits, { units: item.units } )
-      }, options.numberDisplayOptions );
+      const unitsProperty = ( typeof item.units === 'string' ) ? new StringProperty( item.units ) : item.units;
+      const valuePatternStringProperty = new DerivedProperty(
+        [ SceneryPhetStrings.comboBoxDisplay.valueUnitsStringProperty, unitsProperty ],
+        ( pattern, units ) => StringUtils.fillIn( pattern, { units: units } )
+      );
+      valuePatternStringProperties.push( valuePatternStringProperty );
 
       const itemNode = new NumberDisplay( item.numberProperty, item.range,
-        combineOptions<NumberDisplayOptions>( numberDisplayOptions, item.numberDisplayOptions )
+        combineOptions<NumberDisplayOptions>( {
+          valuePattern: valuePatternStringProperty
+        }, options.numberDisplayOptions, item.numberDisplayOptions )
       );
 
       // Don't allow the NumberDisplay to grow, since it's in a ComboBox
@@ -115,6 +120,16 @@ export default class ComboBoxDisplay<T> extends ComboBox<T> {
     } );
 
     super( choiceProperty, comboBoxItems, listParent, options );
+
+    this.disposeComboBoxDisplay = () => {
+      comboBoxItems.forEach( comboBoxItem => comboBoxItem.node.dispose() );
+      valuePatternStringProperties.forEach( property => property.dispose() );
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeComboBoxDisplay();
+    super.dispose();
   }
 }
 
