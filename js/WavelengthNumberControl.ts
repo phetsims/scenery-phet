@@ -22,8 +22,6 @@ import Property from '../../axon/js/Property.js';
 import NestedStrictOmit from '../../phet-core/js/types/NestedStrictOmit.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 
-const wavelengthNMValuePatternString = SceneryPhetStrings.wavelengthNMValuePattern;
-
 // constants
 const DEFAULT_RANGE = new Range( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );
 const DEFAULT_TRACK_SIZE = new Dimension2( 160, 20 );
@@ -90,7 +88,7 @@ export default class WavelengthNumberControl extends NumberControl {
         textOptions: {
           font: new PhetFont( 14 )
         },
-        valuePattern: wavelengthNMValuePatternString,
+        valuePattern: SceneryPhetStrings.wavelengthNMValuePattern, //TODO https://github.com/phetsims/scenery-phet/issues/780 StringProperty
         maxWidth: 120
       },
       sliderOptions: {

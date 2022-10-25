@@ -368,7 +368,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       units: '',
 
       // Units cannot be baked into the i18n string because they can change independently
-      valueUnitsPattern: SceneryPhetStrings.stopwatchValueUnitsPattern
+      valueUnitsPattern: SceneryPhetStrings.stopwatchValueUnitsPattern //TODO https://github.com/phetsims/scenery-phet/issues/780 StringProperty
     }, providedOptions );
 
     return ( time: number ) => {
