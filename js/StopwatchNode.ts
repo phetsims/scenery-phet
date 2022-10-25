@@ -32,6 +32,7 @@ import SceneryPhetStrings from './SceneryPhetStrings.js';
 import ShadedRectangle from './ShadedRectangle.js';
 import Stopwatch from './Stopwatch.js';
 import UTurnArrowShape from './UTurnArrowShape.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = {
 
@@ -68,8 +69,8 @@ type FormatterOptions = {
   bigNumberFont?: number;
   smallNumberFont?: number;
   unitsFont?: number;
-  units?: string;
-  valueUnitsPattern?: string;
+  units?: string | TReadOnlyProperty<string>;
+  valueUnitsPattern?: string | TReadOnlyProperty<string>;
 };
 
 export default class StopwatchNode extends InteractiveHighlighting( Node ) {
@@ -353,6 +354,12 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
 
   /**
    * Creates a custom value for options.numberDisplayOptions.numberFormatter, passed to NumberDisplay.
+   *
+   * TODO https://github.com/phetsims/scenery-phet/issues/781
+   * Because this is called by NumberDisplay when its valueProperty changes, there's no way to make
+   * this API update immediately when options.valueUnitsPattern or options.units changes. The NumberDisplay
+   * will not show changes to those strings until the value changes. If this is a problem, we'll need to
+   * come up with a new API for updating the NumberDisplay when associated StringProperties change.
    */
   public static createRichTextNumberFormatter( providedOptions?: FormatterOptions ): ( time: number ) => string {
 
@@ -365,21 +372,28 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       bigNumberFont: 20,
       smallNumberFont: 14,
       unitsFont: 14,
-      units: '', //TODO https://github.com/phetsims/scenery-phet/issues/780 support TReadOnlyProperty<string>
+      units: '',
 
       // Units cannot be baked into the i18n string because they can change independently
-      valueUnitsPattern: SceneryPhetStrings.stopwatchValueUnitsPattern //TODO https://github.com/phetsims/scenery-phet/issues/780 support TReadOnlyProperty<string>
+      valueUnitsPattern: SceneryPhetStrings.stopwatchValueUnitsPatternStringProperty
     }, providedOptions );
 
     return ( time: number ) => {
       const minutesAndSeconds = options.showAsMinutesAndSeconds ? toMinutesAndSeconds( time ) : Math.floor( time );
       const centiseconds = StopwatchNode.getDecimalPlaces( time, options.numberOfDecimalPlaces );
 
+      const valueUnitsPattern = ( typeof options.valueUnitsPattern === 'string' ) ?
+                                options.valueUnitsPattern :
+                                options.valueUnitsPattern.value;
+      const units = ( typeof options.units === 'string' ) ?
+                    options.units :
+                    options.units.value;
+
       // Single quotes around CSS style so the double-quotes in the CSS font family work. Himalaya doesn't like &quot;
       // See https://github.com/phetsims/collision-lab/issues/140.
-      return StringUtils.fillIn( options.valueUnitsPattern, {
+      return StringUtils.fillIn( valueUnitsPattern, {
         value: `<span style='font-size: ${options.bigNumberFont}px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${minutesAndSeconds}</span><span style='font-size: ${options.smallNumberFont}px;font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${centiseconds}</span>`,
-        units: `<span style='font-size: ${options.unitsFont}px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${options.units}</span>`
+        units: `<span style='font-size: ${options.unitsFont}px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${units}</span>`
       } );
     };
   }
