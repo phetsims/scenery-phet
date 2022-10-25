@@ -20,9 +20,9 @@ import Tandem from '../../tandem/js/Tandem.js';
 import Slider from '../../sun/js/Slider.js';
 import Property from '../../axon/js/Property.js';
 import NestedStrictOmit from '../../phet-core/js/types/NestedStrictOmit.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 
 const wavelengthNMValuePatternString = SceneryPhetStrings.wavelengthNMValuePattern;
-const wavelengthString = SceneryPhetStrings.wavelength;
 
 // constants
 const DEFAULT_RANGE = new Range( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );
@@ -32,7 +32,7 @@ const DEFAULT_THUMB_HEIGHT = 25;
 const DEFAULT_VALUE_TO_COLOR = VisibleColor.wavelengthToColor;
 
 type SelfOptions = {
-  title?: string;
+  title?: string | TReadOnlyProperty<string>;
   range?: Range; // in nm
   spectrumSliderTrackOptions?: SpectrumSliderTrackOptions;
   spectrumSliderThumbOptions?: SpectrumSliderThumbOptions;
@@ -55,7 +55,7 @@ export default class WavelengthNumberControl extends NumberControl {
   public constructor( wavelengthProperty: Property<number>, providedOptions?: WavelengthNumberControlOptions ) {
 
     const options = optionize<WavelengthNumberControlOptions, SelfOptions, NumberControlOptions>()( {
-      title: wavelengthString,
+      title: SceneryPhetStrings.wavelengthStringProperty,
       range: DEFAULT_RANGE,
       spectrumSliderTrackOptions: {
         valueToColor: DEFAULT_VALUE_TO_COLOR,
