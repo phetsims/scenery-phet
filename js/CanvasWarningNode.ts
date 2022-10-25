@@ -14,7 +14,19 @@ import SceneryPhetStrings from './SceneryPhetStrings.js';
 
 export default class CanvasWarningNode extends HBox {
 
+  private readonly disposeCanvasWarningNode: () => void;
+
   public constructor() {
+
+    const titleText = new Text( SceneryPhetStrings.webglWarning.titleStringProperty, {
+      font: new PhetFont( 14 ),
+      fill: '#ddd'
+    } );
+
+    const bodyText = new Text( SceneryPhetStrings.webglWarning.bodyStringProperty, {
+      font: new PhetFont( 10 ),
+      fill: '#999'
+    } );
 
     super( {
       children: [
@@ -23,16 +35,7 @@ export default class CanvasWarningNode extends HBox {
           scale: 0.048
         } ),
         new VBox( {
-          children: [
-            new Text( SceneryPhetStrings.webglWarning.titleStringProperty, {
-              font: new PhetFont( 14 ),
-              fill: '#ddd'
-            } ),
-            new Text( SceneryPhetStrings.webglWarning.bodyStringProperty, {
-              font: new PhetFont( 10 ),
-              fill: '#999'
-            } )
-          ],
+          children: [ titleText, bodyText ],
           spacing: 3,
           align: 'left'
         } )
@@ -49,6 +52,16 @@ export default class CanvasWarningNode extends HBox {
         openPopup( `https://phet.colorado.edu/webgl-disabled-page?simLocale=${phet.joist.sim.locale}` );
       }
     } );
+
+    this.disposeCanvasWarningNode = () => {
+      titleText.dispose();
+      bodyText.dispose();
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeCanvasWarningNode();
+    super.dispose();
   }
 }
 

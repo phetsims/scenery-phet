@@ -30,6 +30,8 @@ export default class ContextLossFailureDialog extends Dialog {
 
   private readonly reload: () => void; // see SelfOptions.reload
 
+  private readonly disposeContextLossFailureDialog: () => void;
+
   public constructor( providedOptions?: ContextLossFailureDialogOptions ) {
 
     const options = optionize<ContextLossFailureDialogOptions, SelfOptions, DialogOptions>()( {
@@ -50,7 +52,9 @@ export default class ContextLossFailureDialog extends Dialog {
       scale: 0.048
     } );
 
-    const text = new Text( SceneryPhetStrings.webglWarning.contextLossFailureStringProperty, { font: new PhetFont( 12 ) } );
+    const text = new Text( SceneryPhetStrings.webglWarning.contextLossFailureStringProperty, {
+      font: new PhetFont( 12 )
+    } );
 
     const button = new TextPushButton( SceneryPhetStrings.webglWarning.contextLossReloadStringProperty, {
       font: new PhetFont( 12 ),
@@ -66,6 +70,16 @@ export default class ContextLossFailureDialog extends Dialog {
     super( content, options );
 
     this.reload = options.reload;
+
+    this.disposeContextLossFailureDialog = () => {
+      text.dispose();
+      button.dispose();
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeContextLossFailureDialog();
+    super.dispose();
   }
 
   /**
