@@ -50,9 +50,9 @@ export default class ContextLossFailureDialog extends Dialog {
       scale: 0.048
     } );
 
-    const text = new Text( SceneryPhetStrings.webglWarning.contextLossFailure, { font: new PhetFont( 12 ) } );
+    const text = new Text( SceneryPhetStrings.webglWarning.contextLossFailureStringProperty, { font: new PhetFont( 12 ) } );
 
-    const button = new TextPushButton( SceneryPhetStrings.webglWarning.contextLossReload, {
+    const button = new TextPushButton( SceneryPhetStrings.webglWarning.contextLossReloadStringProperty, {
       font: new PhetFont( 12 ),
       baseColor: '#E87600',
       listener: () => this.hide()

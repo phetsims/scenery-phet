@@ -24,11 +24,11 @@ export default class CanvasWarningNode extends HBox {
         } ),
         new VBox( {
           children: [
-            new Text( SceneryPhetStrings.webglWarning.title, {
+            new Text( SceneryPhetStrings.webglWarning.titleStringProperty, {
               font: new PhetFont( 14 ),
               fill: '#ddd'
             } ),
-            new Text( SceneryPhetStrings.webglWarning.body, {
+            new Text( SceneryPhetStrings.webglWarning.bodyStringProperty, {
               font: new PhetFont( 10 ),
               fill: '#999'
             } )
