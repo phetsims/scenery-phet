@@ -16,11 +16,11 @@
  * @author Jesse Greenberg
  */
 
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import StringProperty from '../../../../axon/js/StringProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { HBox, Node, ReadingBlock, ReadingBlockOptions, Text, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -28,11 +28,6 @@ import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
-
-// constants
-const keyboardHelpDialogGrabOrReleaseHeadingPatternString = SceneryPhetStrings.keyboardHelpDialog.grabOrReleaseHeadingPattern;
-const keyboardHelpDialogGrabOrReleaseLabelPatternString = SceneryPhetStrings.keyboardHelpDialog.grabOrReleaseLabelPattern;
-const grabOrReleaseDescriptionPatternString = SceneryPhetStrings.a11y.keyboardHelpDialog.grabOrReleaseDescriptionPattern;
 
 // heading defaults
 const DEFAULT_HEADING_CONTENT_SPACING = 13; // spacing between h
@@ -217,7 +212,7 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
    * @param thingAsLowerCase - the item being grabbed, lower case as used in a sentence.
    * @param [providedOptions]
    */
-  public static getGrabReleaseHelpSection( thingAsTitle: string, thingAsLowerCase: string,
+  public static getGrabReleaseHelpSection( thingAsTitle: TReadOnlyProperty<string>, thingAsLowerCase: TReadOnlyProperty<string>,
                                            providedOptions?: GrabReleaseKeyboardHelpSectionOptions ): KeyboardHelpSection {
 
     const options = combineOptions<KeyboardHelpSectionOptions>( {
@@ -227,31 +222,31 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
     }, providedOptions );
 
     // the visible heading string
-    const heading = StringUtils.fillIn( keyboardHelpDialogGrabOrReleaseHeadingPatternString, {
+    const headingStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.grabOrReleaseHeadingPatternStringProperty, {
       thing: thingAsTitle
     } );
 
     // the visible label string
-    const labelString = StringUtils.fillIn( keyboardHelpDialogGrabOrReleaseLabelPatternString, {
+    const labelStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.grabOrReleaseLabelPatternStringProperty, {
       thing: thingAsLowerCase
     } );
 
     // the string for the PDOM
-    const descriptionString = StringUtils.fillIn( grabOrReleaseDescriptionPatternString, {
+    const descriptionStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.grabOrReleaseDescriptionPatternStringProperty, {
       thing: thingAsLowerCase
     } );
 
     const spaceKeyNode = TextKeyNode.space();
     const enterKeyNode = TextKeyNode.enter();
     const icons = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode );
-    const labelWithContentRow = KeyboardHelpSectionRow.labelWithIcon( labelString, icons, {
-      labelInnerContent: descriptionString,
+    const labelWithContentRow = KeyboardHelpSectionRow.labelWithIcon( labelStringProperty, icons, {
+      labelInnerContent: descriptionStringProperty,
       iconOptions: {
         tagName: 'p' // it is the only item, so it is 'p' rather than 'li'
       }
     } );
 
-    return new KeyboardHelpSection( heading, [ labelWithContentRow ], options );
+    return new KeyboardHelpSection( headingStringProperty, [ labelWithContentRow ], options );
   }
 }
 
