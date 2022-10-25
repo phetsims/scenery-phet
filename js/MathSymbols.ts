@@ -13,7 +13,6 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import SceneryPhetStrings from './SceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
 
 const MathSymbols = {
@@ -55,15 +54,7 @@ const MathSymbols = {
   // See https://github.com/phetsims/scenery-phet/issues/431
   NO_VALUE: '\u2014', // em dash
 
-  DEGREES: '\u00B0',
-
-  //==================================================================================================================
-  // Symbols in this section represent logical concepts and ARE translatable.
-  // See https://github.com/phetsims/resistance-in-a-wire/issues/187
-  //==================================================================================================================
-
-  // universal units
-  RESISTIVITY: SceneryPhetStrings.symbol.resistivity //TODO https://github.com/phetsims/scenery-phet/issues/780 StringProperty
+  DEGREES: '\u00B0'
 };
 
 sceneryPhet.register( 'MathSymbols', MathSymbols );
