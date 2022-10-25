@@ -7,6 +7,7 @@
  * @author Jesse Greenberg
  */
 
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { Font, TColor, RichText } from '../../../scenery/js/imports.js';
 import PhetFont from '../PhetFont.js';
@@ -24,7 +25,9 @@ export type TextKeyNodeOptions = SelfOptions & KeyNodeOptions;
 
 export default class TextKeyNode extends KeyNode {
 
-  public constructor( string: string, providedOptions?: TextKeyNodeOptions ) {
+  private readonly disposeTextKeyNode: () => void;
+
+  public constructor( string: string | TReadOnlyProperty<string>, providedOptions?: TextKeyNodeOptions ) {
 
     // margins, width, and height in ScreenView coordinates
     const options = optionize<TextKeyNodeOptions, SelfOptions, KeyNodeOptions>()( {
@@ -40,13 +43,22 @@ export default class TextKeyNode extends KeyNode {
     }, providedOptions );
 
     // use RichText because some keys (like page up/page down/caps lock) might span multiple lines
-    const textNode = new RichText( string, {
+    const text = new RichText( string, {
       font: options.font,
       fill: options.fill,
       maxWidth: options.textMaxWidth
     } );
 
-    super( textNode, options );
+    super( text, options );
+
+    this.disposeTextKeyNode = () => {
+      text.dispose();
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeTextKeyNode();
+    super.dispose();
   }
 
   //-------------------------------------------------------------------------------------------------
@@ -55,51 +67,51 @@ export default class TextKeyNode extends KeyNode {
   //-------------------------------------------------------------------------------------------------
 
   public static alt( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.alt, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.altStringProperty, providedOptions );
   }
 
   public static capsLock( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.capsLock, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.capsLockStringProperty, providedOptions );
   }
 
   public static esc( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.esc, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.escStringProperty, providedOptions );
   }
 
   public static end( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.end, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.endStringProperty, providedOptions );
   }
 
   public static enter( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.enter, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.enterStringProperty, providedOptions );
   }
 
   public static fn( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.fn, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.fnStringProperty, providedOptions );
   }
 
   public static home( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.home, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.homeStringProperty, providedOptions );
   }
 
   public static pageDown( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.pageDown, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.pageDownStringProperty, providedOptions );
   }
 
   public static pageUp( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.pageUp, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.pageUpStringProperty, providedOptions );
   }
 
   public static space( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.space, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.spaceStringProperty, providedOptions );
   }
 
   public static shift( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.shift, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.shiftStringProperty, providedOptions );
   }
 
   public static tab( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.tab, providedOptions );
+    return new TextKeyNode( SceneryPhetStrings.key.tabStringProperty, providedOptions );
   }
 }
 
