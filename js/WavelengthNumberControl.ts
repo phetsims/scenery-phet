@@ -88,7 +88,7 @@ export default class WavelengthNumberControl extends NumberControl {
         textOptions: {
           font: new PhetFont( 14 )
         },
-        valuePattern: SceneryPhetStrings.wavelengthNMValuePattern, //TODO https://github.com/phetsims/scenery-phet/issues/780 StringProperty
+        valuePattern: SceneryPhetStrings.wavelengthNMValuePatternStringProperty,
         maxWidth: 120
       },
       sliderOptions: {
