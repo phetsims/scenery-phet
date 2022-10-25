@@ -106,7 +106,7 @@ export default class TimeControlNode extends Node {
       // pdom
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: SceneryPhetStrings.a11y.timeControlNode.label
+      labelContent: SceneryPhetStrings.a11y.timeControlNode.labelStringProperty
     }, providedOptions );
 
     super();
