@@ -365,10 +365,10 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       bigNumberFont: 20,
       smallNumberFont: 14,
       unitsFont: 14,
-      units: '',
+      units: '', //TODO https://github.com/phetsims/scenery-phet/issues/780 support TReadOnlyProperty<string>
 
       // Units cannot be baked into the i18n string because they can change independently
-      valueUnitsPattern: SceneryPhetStrings.stopwatchValueUnitsPattern //TODO https://github.com/phetsims/scenery-phet/issues/780 StringProperty
+      valueUnitsPattern: SceneryPhetStrings.stopwatchValueUnitsPattern //TODO https://github.com/phetsims/scenery-phet/issues/780 support TReadOnlyProperty<string>
     }, providedOptions );
 
     return ( time: number ) => {
