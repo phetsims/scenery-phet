@@ -64,7 +64,7 @@ class ButtonsScreen extends Screen<Model, ButtonsScreenView> {
         backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'red' ),
         tandem: tandem,
-        keyboardHelpNode: keyboardHelpNode
+        createKeyboardHelpNode: () => keyboardHelpNode
       }
     );
   }
@@ -80,7 +80,7 @@ class ComponentsScreen extends Screen<Model, ComponentsScreenView> {
         backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'orange' ),
         tandem: tandem,
-        keyboardHelpNode: keyboardHelpNode
+        createKeyboardHelpNode: () => keyboardHelpNode
       }
     );
   }
@@ -96,7 +96,7 @@ class DialogsScreen extends Screen<Model, DialogsScreenView> {
         backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'maroon' ),
         tandem: tandem,
-        keyboardHelpNode: keyboardHelpNode
+        createKeyboardHelpNode: () => keyboardHelpNode
       }
     );
   }
@@ -112,7 +112,7 @@ class KeyboardScreen extends Screen<Model, DialogsScreenView> {
         backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'pink' ),
         tandem: tandem,
-        keyboardHelpNode: keyboardHelpNode
+        createKeyboardHelpNode: () => keyboardHelpNode
       }
     );
   }
@@ -128,7 +128,7 @@ class SlidersScreen extends Screen<Model, SlidersScreenView> {
         backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'yellow' ),
         tandem: tandem,
-        keyboardHelpNode: keyboardHelpNode
+        createKeyboardHelpNode: () => keyboardHelpNode
       }
     );
   }
@@ -144,7 +144,7 @@ class SpinnersScreen extends Screen<Model, SpinnersScreenView> {
         backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'green' ),
         tandem: tandem,
-        keyboardHelpNode: keyboardHelpNode
+        createKeyboardHelpNode: () => keyboardHelpNode
       }
     );
   }
