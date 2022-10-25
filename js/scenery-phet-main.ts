@@ -28,9 +28,6 @@ class Model {
   public reset(): void { /* nothing to do */ }
 }
 
-// Keyboard help used for all screens
-const keyboardHelpNode = new SceneryPhetKeyboardHelpContent();
-
 // Create and start sim
 simLauncher.launch( () => {
 
@@ -58,13 +55,12 @@ class ButtonsScreen extends Screen<Model, ButtonsScreenView> {
   public constructor( tandem: Tandem ) {
     super(
       () => new Model(),
-      () => new ButtonsScreenView( { tandem: tandem.createTandem( 'view' ) } ),
-      {
+      () => new ButtonsScreenView( { tandem: tandem.createTandem( 'view' ) } ), {
         name: new Property( 'Buttons' ),
         backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'red' ),
         tandem: tandem,
-        createKeyboardHelpNode: () => keyboardHelpNode
+        createKeyboardHelpNode: () => new SceneryPhetKeyboardHelpContent()
       }
     );
   }
@@ -74,13 +70,12 @@ class ComponentsScreen extends Screen<Model, ComponentsScreenView> {
   public constructor( tandem: Tandem ) {
     super(
       () => new Model(),
-      () => new ComponentsScreenView( { tandem: tandem.createTandem( 'view' ) } ),
-      {
+      () => new ComponentsScreenView( { tandem: tandem.createTandem( 'view' ) } ), {
         name: new Property( 'Components' ),
         backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'orange' ),
         tandem: tandem,
-        createKeyboardHelpNode: () => keyboardHelpNode
+        createKeyboardHelpNode: () => new SceneryPhetKeyboardHelpContent()
       }
     );
   }
@@ -90,13 +85,12 @@ class DialogsScreen extends Screen<Model, DialogsScreenView> {
   public constructor( tandem: Tandem ) {
     super(
       () => new Model(),
-      () => new DialogsScreenView( { tandem: tandem.createTandem( 'view' ) } ),
-      {
+      () => new DialogsScreenView( { tandem: tandem.createTandem( 'view' ) } ), {
         name: new Property( 'Dialogs' ),
         backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'maroon' ),
         tandem: tandem,
-        createKeyboardHelpNode: () => keyboardHelpNode
+        createKeyboardHelpNode: () => new SceneryPhetKeyboardHelpContent()
       }
     );
   }
@@ -106,13 +100,12 @@ class KeyboardScreen extends Screen<Model, DialogsScreenView> {
   public constructor( tandem: Tandem ) {
     super(
       () => new Model(),
-      () => new KeyboardScreenView( { tandem: tandem.createTandem( 'view' ) } ),
-      {
+      () => new KeyboardScreenView( { tandem: tandem.createTandem( 'view' ) } ), {
         name: new Property( 'Keyboard' ),
         backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'pink' ),
         tandem: tandem,
-        createKeyboardHelpNode: () => keyboardHelpNode
+        createKeyboardHelpNode: () => new SceneryPhetKeyboardHelpContent()
       }
     );
   }
@@ -122,13 +115,12 @@ class SlidersScreen extends Screen<Model, SlidersScreenView> {
   public constructor( tandem: Tandem ) {
     super(
       () => new Model(),
-      () => new SlidersScreenView( { tandem: tandem.createTandem( 'view' ) } ),
-      {
+      () => new SlidersScreenView( { tandem: tandem.createTandem( 'view' ) } ), {
         name: new Property( 'Sliders' ),
         backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'yellow' ),
         tandem: tandem,
-        createKeyboardHelpNode: () => keyboardHelpNode
+        createKeyboardHelpNode: () => new SceneryPhetKeyboardHelpContent()
       }
     );
   }
@@ -138,13 +130,12 @@ class SpinnersScreen extends Screen<Model, SpinnersScreenView> {
   public constructor( tandem: Tandem ) {
     super(
       () => new Model(),
-      () => new SpinnersScreenView( { tandem: tandem.createTandem( 'view' ) } ),
-      {
+      () => new SpinnersScreenView( { tandem: tandem.createTandem( 'view' ) } ), {
         name: new Property( 'Spinners' ),
         backgroundColorProperty: new Property( Color.toColor( sceneryPhetQueryParameters.backgroundColor ) ),
         homeScreenIcon: createScreenIcon( 'green' ),
         tandem: tandem,
-        createKeyboardHelpNode: () => keyboardHelpNode
+        createKeyboardHelpNode: () => new SceneryPhetKeyboardHelpContent()
       }
     );
   }
