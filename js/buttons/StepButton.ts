@@ -47,7 +47,7 @@ export default class StepButton extends RoundPushButton {
       // RoundPushButtonOptions
       fireOnHold: true,
       soundPlayer: stepForwardSoundPlayer,
-      innerContent: SceneryPhetStrings.a11y.stepButton.stepForward,
+      innerContent: SceneryPhetStrings.a11y.stepButton.stepForwardStringProperty,
       appendDescription: true
     }, providedOptions );
 
