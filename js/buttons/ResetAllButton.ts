@@ -20,10 +20,6 @@ import SceneryPhetConstants from '../SceneryPhetConstants.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
 import ResetButton, { ResetButtonOptions } from './ResetButton.js';
 
-const resetAllButtonNameString = SceneryPhetStrings.a11y.resetAll.label;
-const resetAllAlertString = SceneryPhetStrings.a11y.resetAll.alert;
-const resetAllContextResponseString = SceneryPhetStrings.a11y.voicing.resetAll.contextResponse;
-
 const MARGIN_COEFFICIENT = 5 / SceneryPhetConstants.DEFAULT_BUTTON_RADIUS;
 
 type SelfOptions = {
@@ -62,11 +58,11 @@ export default class ResetAllButton extends ResetButton {
       soundPlayer: resetAllSoundPlayer,
 
       // pdom
-      innerContent: resetAllButtonNameString,
+      innerContent: SceneryPhetStrings.a11y.resetAll.labelStringProperty,
 
       // voicing
-      voicingNameResponse: resetAllButtonNameString,
-      voicingContextResponse: resetAllContextResponseString
+      voicingNameResponse: SceneryPhetStrings.a11y.resetAll.alertStringProperty,
+      voicingContextResponse: SceneryPhetStrings.a11y.voicing.resetAll.contextResponseStringProperty
     }, providedOptions );
 
     // Wrap the listener for all cases, since PhET-iO won't be able to call this.isPhetioInstrumented() until the super
@@ -92,7 +88,7 @@ export default class ResetAllButton extends ResetButton {
     // a11y - when reset all button is fired, disable alerts so that there isn't an excessive stream of alerts
     // while many Properties are reset. When callbacks are ended for reset all, enable alerts again and announce an
     // alert that everything was reset.
-    const resetUtterance = new ActivationUtterance( { alert: resetAllAlertString } );
+    const resetUtterance = new ActivationUtterance( { alert: SceneryPhetStrings.a11y.resetAll.alertStringProperty } );
     let voicingEnabledOnFire = voicingUtteranceQueue.enabled;
     const ariaEnabledOnFirePerUtteranceQueueMap = new Map(); // Keep track of the enabled of each connected description UtteranceQueue
     this.pushButtonModel.isFiringProperty.lazyLink( ( isFiring: boolean ) => {

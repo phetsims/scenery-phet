@@ -21,13 +21,13 @@ export type PDOMSectionNodeOptions = SelfOptions &
 
 export default class PDOMSectionNode extends Node {
 
-  public constructor( label: TReadOnlyProperty<string>, providedOptions?: PDOMSectionNodeOptions ) {
+  public constructor( labelStringProperty: TReadOnlyProperty<string>, providedOptions?: PDOMSectionNodeOptions ) {
     super( optionize<PDOMSectionNodeOptions, SelfOptions, NodeOptions>()( {
 
       // accessibility options controlled by PDOMSectionNode
       containerTagName: 'section',
       tagName: 'div',
-      labelContent: label,
+      labelContent: labelStringProperty,
       labelTagName: 'h2'
     }, providedOptions ) );
   }

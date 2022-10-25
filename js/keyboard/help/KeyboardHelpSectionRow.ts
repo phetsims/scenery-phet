@@ -22,9 +22,6 @@ import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
 
-// constants
-const keyboardHelpDialogOrString = SceneryPhetStrings.keyboardHelpDialog.or;
-
 // text fonts and max widths
 const LABEL_FONT = new PhetFont( 16 );
 const OR_TEXT_MAX_WIDTH = 16;
@@ -235,7 +232,7 @@ class KeyboardHelpSectionRow {
     // for each of the icons (excluding the last one, add a vertically aligned 'or' text to the right
     const iconsWithOrText = [];
     for ( let i = 0; i < icons.length - 1; i++ ) {
-      const orText = new Text( keyboardHelpDialogOrString, {
+      const orText = new Text( SceneryPhetStrings.keyboardHelpDialog.orStringProperty, {
         font: LABEL_FONT,
         maxWidth: OR_TEXT_MAX_WIDTH
       } );

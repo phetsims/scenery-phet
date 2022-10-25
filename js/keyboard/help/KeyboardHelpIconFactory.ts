@@ -63,7 +63,7 @@ export default class KeyboardHelpIconFactory {
       spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
     }, providedOptions );
 
-    const orText = new Text( SceneryPhetStrings.keyboardHelpDialog.or, {
+    const orText = new Text( SceneryPhetStrings.keyboardHelpDialog.orStringProperty, {
       font: LABEL_FONT,
       maxWidth: OR_TEXT_MAX_WIDTH
     } );
@@ -80,7 +80,7 @@ export default class KeyboardHelpIconFactory {
       spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING / 2
     }, providedOptions );
 
-    const hyphenText = new Text( SceneryPhetStrings.keyboardHelpDialog.hyphen, {
+    const hyphenText = new Text( SceneryPhetStrings.keyboardHelpDialog.hyphenStringProperty, {
       font: LABEL_FONT,
       maxWidth: OR_TEXT_MAX_WIDTH
     } );
