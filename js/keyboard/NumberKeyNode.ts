@@ -7,9 +7,19 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import sceneryPhet from '../sceneryPhet.js';
-import LetterKeyNode from './LetterKeyNode.js';
+import LetterKeyNode, { LetterKeyNodeOptions } from './LetterKeyNode.js';
 
-export default class NumberKeyNode extends LetterKeyNode {}
+type SelfOptions = EmptySelfOptions;
+
+export type NumberKeyNodeOptions = SelfOptions & LetterKeyNodeOptions;
+
+export default class NumberKeyNode extends LetterKeyNode {
+  public constructor( value: number, providedOptions?: NumberKeyNodeOptions ) {
+    assert && assert( value >= 0 && Number.isInteger( value ) );
+    super( value.toString(), providedOptions );
+  }
+}
 
 sceneryPhet.register( 'NumberKeyNode', NumberKeyNode );
