@@ -29,8 +29,7 @@ export default class UndoButton extends RectangularPushButton {
       // RectangularPushButtonOptions
       xMargin: 5,
       yMargin: 5,
-      baseColor: PhetColorScheme.BUTTON_YELLOW,
-      cursor: 'pointer'
+      baseColor: PhetColorScheme.BUTTON_YELLOW
     }, providedOptions );
 
     options.content = new UndoIcon( options.iconOptions );

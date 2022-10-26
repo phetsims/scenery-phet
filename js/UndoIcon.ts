@@ -13,7 +13,7 @@ import { Path, PathOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
-  size?: number; // width and height, because the icon is square
+  height?: number; // height of the icon
 };
 
 export type UndoIconOptions = SelfOptions & PathOptions;
@@ -25,20 +25,20 @@ export default class UndoIcon extends Path {
     const options = optionize<UndoIconOptions, SelfOptions, PathOptions>()( {
 
       // SelfOptions
-      size: 17,
+      height: 17,
       
       // PathOptions
       fill: 'black'
     }, providedOptions );
 
-    const size = options.size;
+    const height = options.height;
     const shape = new Shape()
       .moveTo( 0, 0 )
-      .lineTo( 0, size )
-      .lineTo( size, size )
-      .lineTo( size * 0.7, size * 0.7 )
-      .quadraticCurveTo( size * 1.25, -size * 0.1, size * 2, size * 0.75 )
-      .quadraticCurveTo( size * 1.25, -size * 0.5, size * 0.3, size * 0.3 )
+      .lineTo( 0, height )
+      .lineTo( height, height )
+      .lineTo( height * 0.7, height * 0.7 )
+      .quadraticCurveTo( height * 1.25, -height * 0.1, height * 2, height * 0.75 )
+      .quadraticCurveTo( height * 1.25, -height * 0.5, height * 0.3, height * 0.3 )
       .close();
 
     super( shape, options );
