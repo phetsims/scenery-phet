@@ -1,5 +1,6 @@
 // Copyright 2017-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * button for undoing a previous operation
  *
