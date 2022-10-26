@@ -9,7 +9,7 @@
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { TPaint, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
+import { Node, NodeOptions, Path, TPaint } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type BracketNodeOrientation = 'left' | 'right' | 'up' | 'down';
@@ -47,6 +47,8 @@ type SelfOptions = {
 export type BracketNodeOptions = SelfOptions & NodeOptions;
 
 export default class BracketNode extends Node {
+
+  private readonly disposeBracketNode: () => void;
 
   public constructor( providedOptions?: BracketNodeOptions ) {
 
@@ -117,38 +119,53 @@ export default class BracketNode extends Node {
         throw new Error( `unsupported orientation: ${options.orientation}` );
     }
 
-    // optional label, positioned near the bracket's tip
+    // optional label, centered on the bracket's tip
+    let labelNodeBoundsListener: () => void;
     if ( options.labelNode ) {
 
       const labelNode = options.labelNode;
       this.addChild( labelNode );
 
-      switch( options.orientation ) {
-        case 'up':
-          labelNode.centerX = bracketNode.left + ( options.bracketTipPosition * bracketNode.width );
-          labelNode.bottom = bracketNode.top - options.spacing;
-          break;
-        case 'down':
-          labelNode.centerX = bracketNode.left + ( options.bracketTipPosition * bracketNode.width );
-          labelNode.top = bracketNode.bottom + options.spacing;
-          break;
-        case 'left':
-          labelNode.right = bracketNode.left - options.spacing;
-          labelNode.centerY = bracketNode.top + ( options.bracketTipPosition * bracketNode.height );
-          break;
-        case 'right':
-          labelNode.left = bracketNode.right + options.spacing;
-          labelNode.centerY = bracketNode.top + ( options.bracketTipPosition * bracketNode.height );
-          break;
-        default:
-          throw new Error( `unsupported orientation: ${options.orientation}` );
-      }
+      labelNodeBoundsListener = () => {
+        switch( options.orientation ) {
+          case 'up':
+            labelNode.centerX = bracketNode.left + ( options.bracketTipPosition * bracketNode.width );
+            labelNode.bottom = bracketNode.top - options.spacing;
+            break;
+          case 'down':
+            labelNode.centerX = bracketNode.left + ( options.bracketTipPosition * bracketNode.width );
+            labelNode.top = bracketNode.bottom + options.spacing;
+            break;
+          case 'left':
+            labelNode.right = bracketNode.left - options.spacing;
+            labelNode.centerY = bracketNode.top + ( options.bracketTipPosition * bracketNode.height );
+            break;
+          case 'right':
+            labelNode.left = bracketNode.right + options.spacing;
+            labelNode.centerY = bracketNode.top + ( options.bracketTipPosition * bracketNode.height );
+            break;
+          default:
+            throw new Error( `unsupported orientation: ${options.orientation}` );
+        }
+      };
+      labelNode.boundsProperty.link( labelNodeBoundsListener );
     }
 
     this.mutate( options );
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'BracketNode', this );
+
+    this.disposeBracketNode = () => {
+      if ( options.labelNode && labelNodeBoundsListener && options.labelNode.boundsProperty.hasListener( labelNodeBoundsListener ) ) {
+        options.labelNode.boundsProperty.removeListener( labelNodeBoundsListener );
+      }
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeBracketNode();
+    super.dispose();
   }
 }
 
