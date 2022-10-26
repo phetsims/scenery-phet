@@ -42,22 +42,22 @@ class MultiLineText extends RichText {
       font: new PhetFont()
     }, providedOptions );
 
-    super( replaceNewlines( text ), options );
+    super( MultiLineText.replaceNewlines( text ), options );
   }
 
   /**
    * Sets the text, replacing newlines with '<br>'.
    */
   public override setText( text: string | number ): this {
-    return super.setText( replaceNewlines( text ) );
+    return super.setText( MultiLineText.replaceNewlines( text ) );
   }
-}
 
-/**
- * Replaces newline characters with '<br>'.
- */
-function replaceNewlines( text: string | number ): string {
-  return text.toString().replace( /\n/g, '<br>' );
+  /**
+   * Replaces newline characters with '<br>'.
+   */
+  public static replaceNewlines( text: string | number ): string {
+    return text.toString().replace( /\n/g, '<br>' );
+  }
 }
 
 sceneryPhet.register( 'MultiLineText', MultiLineText );
