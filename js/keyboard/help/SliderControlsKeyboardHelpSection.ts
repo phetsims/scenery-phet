@@ -77,12 +77,12 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
     } );
 
     const keysStringProperty =
-      ( ArrowKeyIconDisplay.LEFT_RIGHT === options.arrowKeyIconDisplay ) ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.leftRightArrowKeys :
-      ( ArrowKeyIconDisplay.UP_DOWN === options.arrowKeyIconDisplay ) ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.upDownArrowKeys :
+      ( ArrowKeyIconDisplay.LEFT_RIGHT === options.arrowKeyIconDisplay ) ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.leftRightArrowKeysStringProperty :
+      ( ArrowKeyIconDisplay.UP_DOWN === options.arrowKeyIconDisplay ) ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.upDownArrowKeysStringProperty :
       ( ArrowKeyIconDisplay.BOTH === options.arrowKeyIconDisplay ) ?
       new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.orKeysPatternStringProperty, {
-        leftRight: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.leftRightArrowKeys,
-        upDown: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.upDownArrowKeys
+        leftRight: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.leftRightArrowKeysStringProperty,
+        upDown: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.upDownArrowKeysStringProperty
       } ) : null;
     assert && assert( keysStringProperty );
     const keyboardHelpDialogDefaultStepsStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.defaultStepsDescriptionPatternStringProperty, {
@@ -92,11 +92,11 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
     } );
 
     const shiftKeysStringProperty =
-      ( ArrowKeyIconDisplay.LEFT_RIGHT === options.arrowKeyIconDisplay ) ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftLeftRightArrowKeys :
-      ( ArrowKeyIconDisplay.UP_DOWN === options.arrowKeyIconDisplay ) ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftUpDownArrowKeys :
+      ( ArrowKeyIconDisplay.LEFT_RIGHT === options.arrowKeyIconDisplay ) ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftLeftRightArrowKeysStringProperty :
+      ( ArrowKeyIconDisplay.UP_DOWN === options.arrowKeyIconDisplay ) ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftUpDownArrowKeysStringProperty :
       ( ArrowKeyIconDisplay.BOTH === options.arrowKeyIconDisplay ) ? new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.orKeysPatternStringProperty, {
-        leftRight: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftLeftRightArrowKeys,
-        upDown: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftUpDownArrowKeys
+        leftRight: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftLeftRightArrowKeysStringProperty,
+        upDown: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftUpDownArrowKeysStringProperty
       } ) : null;
     assert && assert( shiftKeysStringProperty );
     const keyboardHelpDialogSmallerStepsStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.smallerStepsDescriptionPatternStringProperty, {
