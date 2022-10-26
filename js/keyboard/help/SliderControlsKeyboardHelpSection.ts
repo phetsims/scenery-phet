@@ -91,17 +91,17 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
       keys: keysStringProperty
     } );
 
-    const shiftKeysString =
+    const shiftKeysStringProperty =
       ( ArrowKeyIconDisplay.LEFT_RIGHT === options.arrowKeyIconDisplay ) ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftLeftRightArrowKeys :
       ( ArrowKeyIconDisplay.UP_DOWN === options.arrowKeyIconDisplay ) ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftUpDownArrowKeys :
       ( ArrowKeyIconDisplay.BOTH === options.arrowKeyIconDisplay ) ? new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.orKeysPatternStringProperty, {
         leftRight: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftLeftRightArrowKeys,
         upDown: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftUpDownArrowKeys
       } ) : null;
-    assert && assert( shiftKeysString );
+    assert && assert( shiftKeysStringProperty );
     const keyboardHelpDialogSmallerStepsStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.smallerStepsDescriptionPatternStringProperty, {
       verb: options.verbString,
-      keys: shiftKeysString
+      keys: shiftKeysStringProperty
     } );
     const keyboardHelpDialogLargerStepsStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.largerStepsDescriptionPatternStringProperty, {
       verb: options.verbString
