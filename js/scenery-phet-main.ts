@@ -44,7 +44,6 @@ simLauncher.launch( () => {
     credits: {
       leadDesign: 'PhET'
     },
-    hasKeyboardHelpContent: true,
     webgl: true
   } );
 
