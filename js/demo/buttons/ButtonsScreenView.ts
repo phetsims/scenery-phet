@@ -42,6 +42,7 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import ButtonNode from '../../../../sun/js/buttons/ButtonNode.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import TrashButton from '../../buttons/TrashButton.js';
+import UndoButton from '../../buttons/UndoButton.js';
 
 type SelfOptions = EmptySelfOptions;
 type ButtonsScreenViewOptions = SelfOptions & PickRequired<ScreenViewOptions, 'tandem'>;
@@ -132,6 +133,11 @@ export default class ButtonsScreenView extends ScreenView {
       listener: () => console.log( 'ResetAllButton pressed' )
     } );
     pushButtons.push( resetAllButton );
+
+    const undoButton = new UndoButton( {
+      listener: () => console.log( 'UndoButton pressed' )
+    } );
+    pushButtons.push( undoButton );
 
     const pushButtonsHBox = new HBox( {
       children: pushButtons,

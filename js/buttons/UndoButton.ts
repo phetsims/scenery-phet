@@ -1,56 +1,42 @@
 // Copyright 2017-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
- * button for undoing a previous operation
+ * UndoButton is a push button for undoing a previous operation.
  *
  * @author John Blanco
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { Shape } from '../../../kite/js/imports.js';
-import merge from '../../../phet-core/js/merge.js';
-import { Color, Path } from '../../../scenery/js/imports.js';
-import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
+import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import sceneryPhet from '../../../scenery-phet/js/sceneryPhet.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import UndoIcon, { UndoIconOptions } from '../UndoIcon.js';
+import PhetColorScheme from '../PhetColorScheme.js';
 
-// constants
-const MARGIN = 5;
-const ICON_HEIGHT = 17; // empirically determined, controls size of icon
+type SelfOptions = {
+  iconOptions?: UndoIconOptions;
+};
 
-class UndoButton extends RectangularPushButton {
+export type UndoButtonOptions = SelfOptions & StrictOmit<RectangularPushButtonOptions, 'content'>;
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+export default class UndoButton extends RectangularPushButton {
 
-    options = merge( {
-      xMargin: MARGIN,
-      yMargin: MARGIN,
-      baseColor: new Color( 'yellow' ),
-      cursor: 'pointer',
-      arrowFill: 'black'
-    }, options );
+  public constructor( providedOptions?: UndoButtonOptions ) {
 
-    // create the shape for the undo arrow
-    const undoArrowShape = new Shape()
-      .moveTo( 0, 0 )
-      .lineTo( 0, ICON_HEIGHT )
-      .lineTo( ICON_HEIGHT, ICON_HEIGHT )
-      .lineTo( ICON_HEIGHT * 0.7, ICON_HEIGHT * 0.7 )
-      .quadraticCurveTo( ICON_HEIGHT * 1.25, -ICON_HEIGHT * 0.1, ICON_HEIGHT * 2, ICON_HEIGHT * 0.75 )
-      .quadraticCurveTo( ICON_HEIGHT * 1.25, -ICON_HEIGHT * 0.5, ICON_HEIGHT * 0.3, ICON_HEIGHT * 0.3 )
-      .close();
+    const options = optionize<UndoButtonOptions, StrictOmit<SelfOptions, 'iconOptions'>, RectangularPushButtonOptions>()( {
 
-    // set up the content node
-    assert && assert( !options.content, 'content should not be specified for this button' );
-    options.content = new Path( undoArrowShape, {
-      fill: options.arrowFill
-    } );
+      // RectangularPushButtonOptions
+      xMargin: 5,
+      yMargin: 5,
+      baseColor: PhetColorScheme.BUTTON_YELLOW,
+      cursor: 'pointer'
+    }, providedOptions );
+
+    options.content = new UndoIcon( options.iconOptions );
 
     super( options );
   }
 }
 
 sceneryPhet.register( 'UndoButton', UndoButton );
-export default UndoButton;
