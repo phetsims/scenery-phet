@@ -1,8 +1,7 @@
 // Copyright 2017-2022, University of Colorado Boulder
 
 /**
- * TextKeyNode is a keyboard key with text that is generally more than a single character. By default, a key
- * with text is more rectangular than a letter key (LetterKeyNode), and the key compactly surrounds the text content.
+ * TextKeyNode is a KeyNode with a text icon. It has layout, spacing, and defaults for KeyNode that are suited for text.
  *
  * @author Jesse Greenberg
  */
