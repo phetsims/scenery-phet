@@ -114,11 +114,11 @@ export default function demoGridBox( layoutBounds ) {
       } ),
       new ExampleExpandingRectangle( {
         fill: 'gray',
-        layoutOptions: { x: 0, y: 1, stretch: true, grow: 1 }
+        layoutOptions: { column: 0, row: 1, stretch: true, grow: 1 }
       } ),
       new ExampleExpandingRectangle( {
         fill: 'gray',
-        layoutOptions: { x: 3, y: 0, verticalSpan: 3, yStretch: true, leftMargin: 20, yMargin: 10 }
+        layoutOptions: { column: 3, row: 0, verticalSpan: 3, yStretch: true, leftMargin: 20, yMargin: 10 }
       } )
     ]
   } );
