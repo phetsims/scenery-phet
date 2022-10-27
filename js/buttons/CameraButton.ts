@@ -12,6 +12,7 @@ import { Path, TColor } from '../../../scenery/js/imports.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import cameraSolidShape from '../../../sherpa/js/fontawesome-5/cameraSolidShape.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import PhetColorScheme from '../PhetColorScheme.js';
 
 type SelfOptions = {
   iconFill?: TColor;
@@ -33,7 +34,7 @@ export default class CameraButton extends RectangularPushButton {
       iconScale: 0.037,
 
       // RectangularPushButtonOptions
-      baseColor: 'white',
+      baseColor: PhetColorScheme.BUTTON_YELLOW,
       xMargin: 8,
       yMargin: 4
     }, providedOptions );
