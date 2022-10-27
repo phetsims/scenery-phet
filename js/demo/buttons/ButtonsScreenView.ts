@@ -43,6 +43,8 @@ import ButtonNode from '../../../../sun/js/buttons/ButtonNode.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import TrashButton from '../../buttons/TrashButton.js';
 import UndoButton from '../../buttons/UndoButton.js';
+import CameraButton from '../../buttons/CameraButton.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 type SelfOptions = EmptySelfOptions;
 type ButtonsScreenViewOptions = SelfOptions & PickRequired<ScreenViewOptions, 'tandem'>;
@@ -138,6 +140,12 @@ export default class ButtonsScreenView extends ScreenView {
       listener: () => console.log( 'UndoButton pressed' )
     } );
     pushButtons.push( undoButton );
+
+    const cameraButton = new CameraButton( {
+      listener: () => console.log( 'cameraButton pressed' ),
+      tandem: Tandem.OPT_OUT
+    } );
+    pushButtons.push( cameraButton );
 
     const pushButtonsHBox = new HBox( {
       children: pushButtons,
