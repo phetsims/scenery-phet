@@ -31,7 +31,7 @@ const sceneryPhetQueryParameters = QueryStringMachine.getAll( {
   // Should be a CSS font-family compatible string, see https://developer.mozilla.org/en-US/docs/Web/CSS/font-family
   fontFamily: {
     type: 'string',
-    defaultValue: '"Helvetica Neue", Helvetica, Arial, "Lucida Grande"'
+    defaultValue: 'Arial'
   }
 } );
 
