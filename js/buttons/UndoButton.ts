@@ -1,4 +1,4 @@
-// Copyright 2017-2022, University of Colorado Boulder
+// Copyright 2022, University of Colorado Boulder
 
 /**
  * UndoButton is a push button for undoing a previous operation.
