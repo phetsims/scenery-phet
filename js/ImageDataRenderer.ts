@@ -6,7 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import waveInterference from '../../waveInterference.js';
+import sceneryPhet from './sceneryPhet.js';
 
 class ImageDataRenderer {
   public readonly canvas: HTMLCanvasElement;
@@ -36,5 +36,5 @@ class ImageDataRenderer {
   }
 }
 
-waveInterference.register( 'ImageDataRenderer', ImageDataRenderer );
+sceneryPhet.register( 'ImageDataRenderer', ImageDataRenderer );
 export default ImageDataRenderer;

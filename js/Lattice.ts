@@ -6,10 +6,10 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import Emitter from '../../../../axon/js/Emitter.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Matrix from '../../../../dot/js/Matrix.js';
-import waveInterference from '../../waveInterference.js';
+import Emitter from '../../axon/js/Emitter.js';
+import Bounds2 from '../../dot/js/Bounds2.js';
+import Matrix from '../../dot/js/Matrix.js';
+import sceneryPhet from './sceneryPhet.js';
 
 // constants
 
@@ -309,5 +309,5 @@ class Lattice {
   }
 }
 
-waveInterference.register( 'Lattice', Lattice );
+sceneryPhet.register( 'Lattice', Lattice );
 export default Lattice;
