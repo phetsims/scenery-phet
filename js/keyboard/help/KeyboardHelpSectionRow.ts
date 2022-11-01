@@ -9,6 +9,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import Emitter from '../../../../axon/js/Emitter.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -82,6 +83,9 @@ class KeyboardHelpSectionRow {
   // when the row is activated with a click.
   public readonly readingBlockContent: VoicingResponse | null;
 
+  // called on dispose
+  public readonly disposeEmitter = new Emitter();
+
   public constructor( text: Text | RichText, label: Node, icon: Node, providedOptions?: KeyboardHelpSectionRowOptions ) {
     const options = optionize<KeyboardHelpSectionRowOptions>()( {
       readingBlockContent: null
@@ -91,6 +95,10 @@ class KeyboardHelpSectionRow {
     this.label = label;
     this.icon = icon;
     this.readingBlockContent = options.readingBlockContent;
+  }
+
+  public dispose(): void {
+    this.disposeEmitter.emit();
   }
 
   /**
@@ -121,9 +129,15 @@ class KeyboardHelpSectionRow {
 
     iconBox.innerContent = options.labelInnerContent;
 
-    return new KeyboardHelpSectionRow( labelText, labelBox, iconBox, {
+    const keyboardHelpSectionRow = new KeyboardHelpSectionRow( labelText, labelBox, iconBox, {
       readingBlockContent: options.readingBlockContent || options.labelInnerContent
     } );
+
+    keyboardHelpSectionRow.disposeEmitter.addListener( () => {
+      labelText.dispose();
+      labelIconGroup.dispose();
+    } );
+    return keyboardHelpSectionRow;
   }
 
   /**
@@ -256,9 +270,14 @@ class KeyboardHelpSectionRow {
     const iconsBox = labelIconListGroup.createBox( iconsVBox, groupOptions ); // create the box to match height, but reference not necessary
     const labelWithHeightBox = labelIconListGroup.createBox( labelBox, groupOptions );
 
-    return new KeyboardHelpSectionRow( labelText, labelWithHeightBox, iconsBox, {
+    const keyboardHelpSectionRow = new KeyboardHelpSectionRow( labelText, labelWithHeightBox, iconsBox, {
       readingBlockContent: options.readingBlockContent || options.labelInnerContent
     } );
+    keyboardHelpSectionRow.disposeEmitter.addListener( () => {
+      labelText.dispose();
+      labelIconListGroup.dispose();
+    } );
+    return keyboardHelpSectionRow;
   }
 }
 
