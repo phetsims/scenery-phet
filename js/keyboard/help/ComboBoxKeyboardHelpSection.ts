@@ -93,9 +93,10 @@ export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
         labelInnerContent: createPatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.chooseNewPatternDescriptionStringProperty )
       } );
 
+    const escapeKeyNode = TextKeyNode.esc();
     const closeWithoutChanging = KeyboardHelpSectionRow.labelWithIcon(
       SceneryPhetStrings.keyboardHelpDialog.comboBox.closeWithoutChangingStringProperty,
-      TextKeyNode.esc(), {
+      escapeKeyNode, {
         labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.closeWithoutChangingDescriptionStringProperty
       } );
 
@@ -106,6 +107,7 @@ export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
       ourPatternStringsToDispose.forEach( patternString => patternString.dispose() );
       spaceKeyNode.dispose();
       enterKeyNode.dispose();
+      escapeKeyNode.dispose();
       spaceOrEnterIcon.dispose();
     };
   }

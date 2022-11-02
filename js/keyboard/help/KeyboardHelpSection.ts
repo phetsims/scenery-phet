@@ -166,6 +166,7 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
     this.setReadingBlockNameResponse( this.generateReadingBlockNameResponse() );
 
     this.disposeKeyboardHelpSection = () => {
+      iconVBox.dispose();
       labelVBox.dispose();
       contentHBox.dispose();
       content.forEach( oneContent => oneContent.dispose() );
@@ -265,6 +266,7 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
     } );
 
     const keyboardHelpSection = new KeyboardHelpSection( headingStringProperty, [ labelWithContentRow ], options );
+    // TODO: delete disposeEmitter and turn this function into a subclass, https://github.com/phetsims/scenery-phet/issues/769
     keyboardHelpSection.disposeEmitter.addListener( () => {
       headingStringProperty.dispose();
       labelStringProperty.dispose();
