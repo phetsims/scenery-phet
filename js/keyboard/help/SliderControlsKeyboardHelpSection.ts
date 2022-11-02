@@ -52,6 +52,7 @@ export type SliderControlsKeyboardHelpSectionOptions = SelfOptions & KeyboardHel
 export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSection {
 
   public static readonly ArrowKeyIconDisplay = ArrowKeyIconDisplay;
+  private readonly disposeSliderControlsKeyboardHelpSection: () => void;
 
   public constructor( providedOptions?: SliderControlsKeyboardHelpSectionOptions ) {
 
@@ -122,24 +123,27 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
 
     // 'Move sliders' content
 
-    const shiftPlusLeftRightIcon = KeyboardHelpIconFactory.shiftPlusIcon( KeyboardHelpIconFactory.leftRightArrowKeysRowIcon() );
-    const shiftPlusUpDownIcon = KeyboardHelpIconFactory.shiftPlusIcon( KeyboardHelpIconFactory.upDownArrowKeysRowIcon() );
+    const leftRightArrowKeysRowIcon = KeyboardHelpIconFactory.leftRightArrowKeysRowIcon();
+    const shiftPlusLeftRightIcon = KeyboardHelpIconFactory.shiftPlusIcon( leftRightArrowKeysRowIcon );
+    const upDownArrowKeysRowIcon = KeyboardHelpIconFactory.upDownArrowKeysRowIcon();
+    const shiftPlusUpDownIcon = KeyboardHelpIconFactory.shiftPlusIcon( upDownArrowKeysRowIcon );
+    const leftRightOrUpDownIcon = KeyboardHelpIconFactory.iconOrIcon( leftRightArrowKeysRowIcon, upDownArrowKeysRowIcon );
 
     let adjustSliderIcon = null;
     let adjustSliderSmallerStepsIcons = null;
 
     switch( options.arrowKeyIconDisplay ) {
       case ArrowKeyIconDisplay.LEFT_RIGHT:
-        adjustSliderIcon = KeyboardHelpIconFactory.leftRightArrowKeysRowIcon();
+        adjustSliderIcon = leftRightArrowKeysRowIcon;
         adjustSliderSmallerStepsIcons = [ shiftPlusLeftRightIcon ];
         break;
       case ArrowKeyIconDisplay.UP_DOWN:
-        adjustSliderIcon = KeyboardHelpIconFactory.upDownArrowKeysRowIcon();
+        adjustSliderIcon = upDownArrowKeysRowIcon;
         adjustSliderSmallerStepsIcons = [ shiftPlusUpDownIcon ];
         break;
       default:
         assert && assert( options.arrowKeyIconDisplay === ArrowKeyIconDisplay.BOTH, 'unsupported arrowKeyIconDisplay' );
-        adjustSliderIcon = KeyboardHelpIconFactory.iconOrIcon( KeyboardHelpIconFactory.leftRightArrowKeysRowIcon(), KeyboardHelpIconFactory.upDownArrowKeysRowIcon() );
+        adjustSliderIcon = leftRightOrUpDownIcon;
         adjustSliderSmallerStepsIcons = [ shiftPlusLeftRightIcon, shiftPlusUpDownIcon ];
     }
     const adjustSliderRow = KeyboardHelpSectionRow.labelWithIcon( keyboardHelpDialogVerbSliderStringProperty, adjustSliderIcon, {
@@ -178,6 +182,39 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
     const content = [ adjustSliderRow, adjustSliderInSmallerStepsRow, adjustInLargerStepsRow, jumpToMinimumRow, jumpToMaximumRow ];
 
     super( options.headingString, content, options );
+
+    this.disposeSliderControlsKeyboardHelpSection = () => {
+      keyboardHelpDialogVerbSliderStringProperty.dispose();
+      keyboardHelpDialogVerbInSmallerStepsStringProperty.dispose();
+      keyboardHelpDialogVerbInLargerStepsStringProperty.dispose();
+      keyboardHelpDialogDefaultStepsStringProperty.dispose();
+      keyboardHelpDialogSmallerStepsStringProperty.dispose();
+      keyboardHelpDialogLargerStepsStringProperty.dispose();
+      jumpToMinimumStringProperty.dispose();
+      jumpToMaximumStringProperty.dispose();
+      jumpToMinimumDescriptionStringProperty.dispose();
+      jumpToMaximumDescriptionStringProperty.dispose();
+      homeKeyNode.dispose();
+      endKeyNode.dispose();
+      pageUpKeyNode.dispose();
+      pageDownKeyNode.dispose();
+      leftRightArrowKeysRowIcon.dispose();
+      shiftPlusLeftRightIcon.dispose();
+      upDownArrowKeysRowIcon.dispose();
+      shiftPlusUpDownIcon.dispose();
+      leftRightOrUpDownIcon.dispose();
+
+      [ shiftKeysStringProperty, keysStringProperty ].forEach( property => {
+
+        // We only own these for disposal if a PatternStringProperty
+        property instanceof PatternStringProperty && property.dispose();
+      } );
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeSliderControlsKeyboardHelpSection();
+    super.dispose();
   }
 }
 

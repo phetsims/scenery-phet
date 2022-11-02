@@ -16,6 +16,7 @@
  * @author Jesse Greenberg
  */
 
+import Emitter from '../../../../axon/js/Emitter.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import StringProperty from '../../../../axon/js/StringProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
@@ -74,6 +75,10 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
   private readonly iconVBox: VBox;
   private readonly contentHBox: HBox;
 
+  public disposeEmitter = new Emitter();
+
+  private readonly disposeKeyboardHelpSection: () => void;
+
   public static readonly DEFAULT_VERTICAL_ICON_SPACING = DEFAULT_VERTICAL_ICON_SPACING;
 
   /**
@@ -81,7 +86,7 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
    * @param content -  icons and labels are each placed in their own VBox, and these layout boxes are aligned
    *   horizontally. It is assumed that label and icon have identical bounds so that each row of content can be
    *   aligned by KeyboardHelpSection. Static functions in this file use AlignGroup to achieve this. For examples,
-   *   see labelWithIcon() and labelWithIconList().
+   *   see labelWithIcon() and labelWithIconList(). KeyboardHelpSection will dispose these for you!!!
    * @param [providedOptions]
    */
   public constructor( headingString: string | TReadOnlyProperty<string>, content: KeyboardHelpSectionRow[],
@@ -159,6 +164,19 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
     this.keyboardHelpSectionRows = content;
 
     this.setReadingBlockNameResponse( this.generateReadingBlockNameResponse() );
+
+    this.disposeKeyboardHelpSection = () => {
+      labelVBox.dispose();
+      contentHBox.dispose();
+      content.forEach( oneContent => oneContent.dispose() );
+      headingText.dispose();
+      this.disposeEmitter.emit();
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeKeyboardHelpSection();
+    super.dispose();
   }
 
   /**
@@ -246,7 +264,16 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
       }
     } );
 
-    return new KeyboardHelpSection( headingStringProperty, [ labelWithContentRow ], options );
+    const keyboardHelpSection = new KeyboardHelpSection( headingStringProperty, [ labelWithContentRow ], options );
+    keyboardHelpSection.disposeEmitter.addListener( () => {
+      headingStringProperty.dispose();
+      labelStringProperty.dispose();
+      descriptionStringProperty.dispose();
+      spaceKeyNode.dispose();
+      enterKeyNode.dispose();
+      icons.dispose();
+    } );
+    return keyboardHelpSection;
   }
 }
 

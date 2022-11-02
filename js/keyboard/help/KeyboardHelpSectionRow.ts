@@ -95,6 +95,7 @@ class KeyboardHelpSectionRow {
     this.label = label;
     this.icon = icon;
     this.readingBlockContent = options.readingBlockContent;
+    this.disposeEmitter = new Emitter();
   }
 
   public dispose(): void {
@@ -125,7 +126,7 @@ class KeyboardHelpSectionRow {
     // make the label and icon the same height so that they will align when we assemble help section group
     const labelIconGroup = new AlignGroup( { matchHorizontal: false } );
     const labelBox = labelIconGroup.createBox( labelText );
-    const iconBox = labelIconGroup.createBox( icon, options.iconOptions );
+    const iconBox = labelIconGroup.createBox( new Node( { children: [ icon ] } ), options.iconOptions );
 
     iconBox.innerContent = options.labelInnerContent;
 
@@ -237,6 +238,8 @@ class KeyboardHelpSectionRow {
 
     const labelText = new RichText( labelString, { font: LABEL_FONT } );
 
+    const toDispose: Node[] = [];
+
     // horizontally align the label with the first item in the list of icons, guarantees that the label and first
     // icon have identical heights
     const labelFirstIconGroup = new AlignGroup( { matchHorizontal: false } );
@@ -251,11 +254,15 @@ class KeyboardHelpSectionRow {
         maxWidth: OR_TEXT_MAX_WIDTH
       } );
 
+
       // place orText with the icon in an HBox
-      iconsWithOrText.push( new HBox( {
+      const hBox = new HBox( {
         children: [ new Node( { children: [ icons[ i ] ] } ), orText ],
         spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
-      } ) );
+      } );
+      toDispose.push( orText, hBox );
+
+      iconsWithOrText.push( hBox );
     }
     iconsWithOrText.push( icons[ icons.length - 1 ] );
 
@@ -274,8 +281,10 @@ class KeyboardHelpSectionRow {
       readingBlockContent: options.readingBlockContent || options.labelInnerContent
     } );
     keyboardHelpSectionRow.disposeEmitter.addListener( () => {
+      labelFirstIconGroup.dispose();
       labelText.dispose();
       labelIconListGroup.dispose();
+      toDispose.forEach( disposable => disposable.dispose() );
     } );
     return keyboardHelpSectionRow;
   }

@@ -6,11 +6,10 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import StringProperty from '../../../../axon/js/StringProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import TextKeyNode from '../TextKeyNode.js';
@@ -33,6 +32,7 @@ type SelfOptions = {
 export type ComboBoxKeyboardHelpSectionOptions = SelfOptions & KeyboardHelpSectionOptions;
 
 export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
+  private readonly disposeComboBoxKeyboardHelpSection: () => void;
 
   public constructor( providedOptions?: ComboBoxKeyboardHelpSectionOptions ) {
 
@@ -58,31 +58,39 @@ export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
                                                    new StringProperty( options.thingAsLowerCaseSingular ) :
                                                    options.thingAsLowerCaseSingular;
 
+    const ourPatternStringsToDispose: PatternStringProperty<object>[] = [];
+
     // Create a DerivedProperty that fills in a plural/singular pattern, and support dynamic locale.
-    const createDerivedStringProperty = ( patternStringProperty: TReadOnlyProperty<string> ) => new DerivedProperty(
-      [ patternStringProperty, thingAsLowerCasePluralStringProperty, thingAsLowerCaseSingularStringProperty ],
-      ( patternString, thingAsLowerCasePluralString, thingAsLowerCaseSingular ) =>
-        StringUtils.fillIn( patternString, {
-          thingPlural: thingAsLowerCasePluralString,
-          thingSingular: thingAsLowerCaseSingular
-        } ) );
+    const createPatternStringProperty = ( providedStringProperty: TReadOnlyProperty<string> ) => {
+      const patternStringProperty = new PatternStringProperty(
+        providedStringProperty, {
+          thingPlural: thingAsLowerCasePluralStringProperty,
+          thingSingular: thingAsLowerCaseSingularStringProperty
+        } );
+      ourPatternStringsToDispose.push( patternStringProperty );
+      return patternStringProperty;
+    };
+
+    const spaceKeyNode = TextKeyNode.space();
+    const enterKeyNode = TextKeyNode.enter();
+    const spaceOrEnterIcon = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode );
 
     const popUpList = KeyboardHelpSectionRow.labelWithIcon(
-      createDerivedStringProperty( SceneryPhetStrings.keyboardHelpDialog.comboBox.popUpListPatternStringProperty ),
-      KeyboardHelpIconFactory.iconOrIcon( TextKeyNode.space(), TextKeyNode.enter() ), {
-        labelInnerContent: createDerivedStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.popUpListPatternDescriptionStringProperty )
+      createPatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.comboBox.popUpListPatternStringProperty ),
+      spaceOrEnterIcon, {
+        labelInnerContent: createPatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.popUpListPatternDescriptionStringProperty )
       } );
 
     const moveThrough = KeyboardHelpSectionRow.labelWithIcon(
-      createDerivedStringProperty( SceneryPhetStrings.keyboardHelpDialog.comboBox.moveThroughPatternStringProperty ),
+      createPatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.comboBox.moveThroughPatternStringProperty ),
       KeyboardHelpIconFactory.upDownArrowKeysRowIcon(), {
-        labelInnerContent: createDerivedStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.moveThroughPatternDescriptionStringProperty )
+        labelInnerContent: createPatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.moveThroughPatternDescriptionStringProperty )
       } );
 
     const chooseNew = KeyboardHelpSectionRow.labelWithIcon(
-      createDerivedStringProperty( SceneryPhetStrings.keyboardHelpDialog.comboBox.chooseNewPatternStringProperty ),
-      TextKeyNode.enter(), {
-        labelInnerContent: createDerivedStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.chooseNewPatternDescriptionStringProperty )
+      createPatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.comboBox.chooseNewPatternStringProperty ),
+      enterKeyNode, {
+        labelInnerContent: createPatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.chooseNewPatternDescriptionStringProperty )
       } );
 
     const closeWithoutChanging = KeyboardHelpSectionRow.labelWithIcon(
@@ -93,6 +101,18 @@ export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
 
     // order the rows of content
     super( options.headingString, [ popUpList, moveThrough, chooseNew, closeWithoutChanging ], options );
+
+    this.disposeComboBoxKeyboardHelpSection = () => {
+      ourPatternStringsToDispose.forEach( patternString => patternString.dispose() );
+      spaceKeyNode.dispose();
+      enterKeyNode.dispose();
+      spaceOrEnterIcon.dispose();
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeComboBoxKeyboardHelpSection();
+    super.dispose();
   }
 }
 

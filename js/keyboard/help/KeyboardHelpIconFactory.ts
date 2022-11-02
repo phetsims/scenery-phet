@@ -7,6 +7,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import Emitter from '../../../../axon/js/Emitter.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -35,6 +36,15 @@ type WithPlusIconSelfOptions = {
 };
 type WithPlusIconOptions = WithPlusIconSelfOptions & KeyboardHelpIconFactoryOptions;
 
+class KeyboardIconNode extends Node {
+  public readonly disposeEmitter = new Emitter();
+
+  public override dispose(): void {
+    this.disposeEmitter.emit();
+    super.dispose();
+  }
+}
+
 export default class KeyboardHelpIconFactory {
 
   public static readonly DEFAULT_ICON_SPACING = 6.5;
@@ -46,18 +56,23 @@ export default class KeyboardHelpIconFactory {
   /**
    * Horizontal layout of a set of icons, in left-to-right order.
    */
-  public static iconRow( icons: Node[], providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
+  public static iconRow( icons: Node[], providedOptions?: KeyboardHelpIconFactoryOptions ): KeyboardIconNode {
     const options = optionize<KeyboardHelpIconFactoryOptions, SelfOptions, HBoxOptions>()( {
       spacing: DEFAULT_HORIZONTAL_KEY_SPACING,
       children: icons
     }, providedOptions );
-    return new HBox( options );
+    const hBox = new HBox( options );
+    const icon = new KeyboardIconNode( { children: [ hBox ] } );
+    icon.disposeEmitter.addListener( () => {
+      hBox.dispose();
+    } );
+    return icon;
   }
 
   /**
    * Two icons with horizontal layout, separated by 'or' text.
    */
-  public static iconOrIcon( leftIcon: Node, rightIcon: Node, providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
+  public static iconOrIcon( leftIcon: Node, rightIcon: Node, providedOptions?: KeyboardHelpIconFactoryOptions ): KeyboardIconNode {
 
     const options = combineOptions<KeyboardHelpIconFactoryOptions>( {
       spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
@@ -68,13 +83,18 @@ export default class KeyboardHelpIconFactory {
       maxWidth: OR_TEXT_MAX_WIDTH
     } );
 
-    return KeyboardHelpIconFactory.iconRow( [ leftIcon, orText, rightIcon ], options );
+    const icon = KeyboardHelpIconFactory.iconRow( [ new Node( { children: [ leftIcon ] } ), orText,
+      new Node( { children: [ rightIcon ] } ) ], options );
+    icon.disposeEmitter.addListener( () => {
+      orText.dispose();
+    } );
+    return icon;
   }
 
   /**
    * Two icons with horizontal layout, and separated by '-' text. This is useful for a range, like 0-9.
    */
-  public static iconToIcon( leftIcon: Node, rightIcon: Node, providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
+  public static iconToIcon( leftIcon: Node, rightIcon: Node, providedOptions?: KeyboardHelpIconFactoryOptions ): KeyboardIconNode {
 
     const options = combineOptions<KeyboardHelpIconFactoryOptions>( {
       spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING / 2
@@ -85,13 +105,17 @@ export default class KeyboardHelpIconFactory {
       maxWidth: OR_TEXT_MAX_WIDTH
     } );
 
-    return KeyboardHelpIconFactory.iconRow( [ leftIcon, hyphenText, rightIcon ], options );
+    const icon = KeyboardHelpIconFactory.iconRow( [ new Node( { children: [ leftIcon ] } ), hyphenText, new Node( { children: [ rightIcon ] } ) ], options );
+    icon.disposeEmitter.addListener( () => {
+      hyphenText.dispose();
+    } );
+    return icon;
   }
 
   /**
    * Two icons with horizontal layout, separated by '+' text.
    */
-  public static iconPlusIcon( leftIcon: Node, rightIcon: Node, providedOptions?: WithPlusIconOptions ): Node {
+  public static iconPlusIcon( leftIcon: Node, rightIcon: Node, providedOptions?: WithPlusIconOptions ): KeyboardIconNode {
 
     const options = combineOptions<WithPlusIconOptions>( {
       plusIconSize: new Dimension2( 8, 1.2 ),
@@ -102,13 +126,13 @@ export default class KeyboardHelpIconFactory {
       size: options.plusIconSize
     } );
 
-    return KeyboardHelpIconFactory.iconRow( [ leftIcon, plusIconNode, rightIcon ], options );
+    return KeyboardHelpIconFactory.iconRow( [ new Node( { children: [ leftIcon ] } ), plusIconNode, new Node( { children: [ rightIcon ] } ) ], options );
   }
 
   /**
    * An icon with horizontal layout in order: shift, plus, and provided icon.
    */
-  public static shiftPlusIcon( icon: Node, providedOptions?: WithPlusIconOptions ): Node {
+  public static shiftPlusIcon( icon: Node, providedOptions?: WithPlusIconOptions ): KeyboardIconNode {
 
     const options = combineOptions<WithPlusIconOptions>( {
       plusIconSize: new Dimension2( 8, 1.2 ),
@@ -121,50 +145,90 @@ export default class KeyboardHelpIconFactory {
       size: options.plusIconSize
     } );
 
-    return KeyboardHelpIconFactory.iconRow( [ shiftKeyIcon, plusIconNode, icon ], options );
+    const iconNode = KeyboardHelpIconFactory.iconRow( [ shiftKeyIcon, plusIconNode, new Node( { children: [ icon ] } ) ], options );
+    iconNode.disposeEmitter.addListener( () => {
+      shiftKeyIcon.dispose();
+      plusIconNode.dispose();
+    } );
+    return iconNode;
   }
 
   /**
    * "Space or Enter" icon
    */
-  public static spaceOrEnter(): Node {
-    return KeyboardHelpIconFactory.iconOrIcon( TextKeyNode.space(), TextKeyNode.enter() );
+  public static spaceOrEnter(): KeyboardIconNode {
+    const spaceKey = TextKeyNode.space();
+    const enterKey = TextKeyNode.enter();
+    const icon = KeyboardHelpIconFactory.iconOrIcon( spaceKey, enterKey );
+    icon.disposeEmitter.addListener( () => {
+      spaceKey.dispose();
+      enterKey.dispose();
+    } );
+    return icon;
   }
 
   /**
    * An icon with up and down arrows, separated by 'or', in horizontal layout.
    */
-  public static upOrDown(): Node {
-    return KeyboardHelpIconFactory.iconOrIcon( new ArrowKeyNode( 'up' ), new ArrowKeyNode( 'down' ) );
+  public static upOrDown(): KeyboardIconNode {
+    const upArrowKeyNode = new ArrowKeyNode( 'up' );
+    const downArrowKeyNode = new ArrowKeyNode( 'down' );
+    const icon = KeyboardHelpIconFactory.iconOrIcon( upArrowKeyNode, downArrowKeyNode );
+    icon.disposeEmitter.addListener( () => {
+      upArrowKeyNode.dispose();
+      downArrowKeyNode.dispose();
+    } );
+    return icon;
   }
 
   /**
    * An icon with up and down arrow keys, in a horizontal layout.
    */
-  public static wasdRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
+  public static wasdRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): KeyboardIconNode {
 
     const options = optionize<KeyboardHelpIconFactoryOptions, SelfOptions, HBoxOptions>()( {
       spacing: DEFAULT_HORIZONTAL_KEY_SPACING
     }, providedOptions );
 
-    // Strings are not translated because they map directly to specific key codes.
-    const icons = [ new LetterKeyNode( 'W' ), new LetterKeyNode( 'A' ), new LetterKeyNode( 'S' ), new LetterKeyNode( 'D' ) ];
+    const WKeyNode = new LetterKeyNode( 'W' );
+    const AKeyNode = new LetterKeyNode( 'A' );
+    const SKeyNode = new LetterKeyNode( 'S' );
+    const DKeyNode = new LetterKeyNode( 'D' );
 
-    return KeyboardHelpIconFactory.iconRow( icons, options );
+    // Strings are not translated because they map directly to specific key codes.
+    const icons = [ WKeyNode, AKeyNode, SKeyNode, DKeyNode ];
+
+    const icon = KeyboardHelpIconFactory.iconRow( icons, options );
+    icon.disposeEmitter.addListener( () => {
+      WKeyNode.dispose();
+      AKeyNode.dispose();
+      SKeyNode.dispose();
+      DKeyNode.dispose();
+    } );
+    return icon;
   }
 
   /**
    * An icon with the 4 arrow keys, in a horizontal layout.
    */
-  public static arrowKeysRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
+  public static arrowKeysRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): KeyboardIconNode {
 
     const options = optionize<KeyboardHelpIconFactoryOptions, SelfOptions, HBoxOptions>()( {
       spacing: DEFAULT_HORIZONTAL_KEY_SPACING
     }, providedOptions );
 
-    const icons = [ new ArrowKeyNode( 'up' ), new ArrowKeyNode( 'left' ), new ArrowKeyNode( 'down' ), new ArrowKeyNode( 'right' ) ];
-
-    return KeyboardHelpIconFactory.iconRow( icons, options );
+    const upArrowKeyNode = new ArrowKeyNode( 'up' );
+    const leftArrowKeyNode = new ArrowKeyNode( 'left' );
+    const rightArrowKeyNode = new ArrowKeyNode( 'right' );
+    const downArrowKeyNode = new ArrowKeyNode( 'down' );
+    const icon = KeyboardHelpIconFactory.iconRow( [ upArrowKeyNode, leftArrowKeyNode, rightArrowKeyNode, downArrowKeyNode ], options );
+    icon.disposeEmitter.addListener( () => {
+      upArrowKeyNode.dispose();
+      downArrowKeyNode.dispose();
+      leftArrowKeyNode.dispose();
+      rightArrowKeyNode.dispose();
+    } );
+    return icon;
   }
 
   /**
@@ -179,35 +243,61 @@ export default class KeyboardHelpIconFactory {
     const arrowKeys = KeyboardHelpIconFactory.arrowKeysRowIcon();
     const wasdKeys = KeyboardHelpIconFactory.wasdRowIcon();
 
-    return KeyboardHelpIconFactory.iconOrIcon( arrowKeys, wasdKeys, options );
+    const icon = KeyboardHelpIconFactory.iconOrIcon( arrowKeys, wasdKeys, options );
+    icon.disposeEmitter.addListener( () => {
+      arrowKeys.dispose();
+      wasdKeys.dispose();
+    } );
+    return icon;
   }
 
   /**
    * An icon with page up/down keys, in horizontal layout.
    */
-  public static pageUpPageDownRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
+  public static pageUpPageDownRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): KeyboardIconNode {
 
     const options = optionize<KeyboardHelpIconFactoryOptions, SelfOptions, HBoxOptions>()( {
       spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
     }, providedOptions );
 
-    const icons = [ TextKeyNode.pageUp(), TextKeyNode.pageDown() ];
+    const pageUpKeyNode = TextKeyNode.pageUp();
+    const pageDownKeyNode = TextKeyNode.pageDown();
+    const icons = [ pageUpKeyNode, pageDownKeyNode ];
 
-    return KeyboardHelpIconFactory.iconRow( icons, options );
+    const icon = KeyboardHelpIconFactory.iconRow( icons, options );
+    icon.disposeEmitter.addListener( () => {
+      pageUpKeyNode.dispose();
+      pageDownKeyNode.dispose();
+    } );
+    return icon;
   }
 
   /**
    * An icon with up and down arrow keys, in horizontal layout.
    */
-  public static upDownArrowKeysRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
-    return KeyboardHelpIconFactory.iconRow( [ new ArrowKeyNode( 'up' ), new ArrowKeyNode( 'down' ) ], providedOptions );
+  public static upDownArrowKeysRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): KeyboardIconNode {
+    const upArrowKeyNode = new ArrowKeyNode( 'up' );
+    const downArrowKeyNode = new ArrowKeyNode( 'down' );
+    const icon = KeyboardHelpIconFactory.iconRow( [ upArrowKeyNode, downArrowKeyNode ], providedOptions );
+    icon.disposeEmitter.addListener( () => {
+      upArrowKeyNode.dispose();
+      downArrowKeyNode.dispose();
+    } );
+    return icon;
   }
 
   /**
    * An icon with left and right arrow keys, in horizontal layout.
    */
-  public static leftRightArrowKeysRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
-    return KeyboardHelpIconFactory.iconRow( [ new ArrowKeyNode( 'left' ), new ArrowKeyNode( 'right' ) ], providedOptions );
+  public static leftRightArrowKeysRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): KeyboardIconNode {
+    const leftArrowKeyNode = new ArrowKeyNode( 'left' );
+    const rightArrowKeyNode = new ArrowKeyNode( 'right' );
+    const icon = KeyboardHelpIconFactory.iconRow( [ leftArrowKeyNode, rightArrowKeyNode ], providedOptions );
+    icon.disposeEmitter.addListener( () => {
+      leftArrowKeyNode.dispose();
+      rightArrowKeyNode.dispose();
+    } );
+    return icon;
   }
 }
 

@@ -27,6 +27,7 @@ type SelfOptions = {
 export type BasicActionsKeyboardHelpSectionOptions = SelfOptions & KeyboardHelpSectionOptions;
 
 export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection {
+  private readonly disposeBasicActionsKeyboardHelpSection: () => void;
 
   public constructor( providedOptions?: BasicActionsKeyboardHelpSectionOptions ) {
 
@@ -34,32 +35,39 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
       withCheckboxContent: false
     }, providedOptions );
 
+    const tabKeyNode = TextKeyNode.tab();
+
     // 'Move to next item or group'
     const moveToNextItemRow = KeyboardHelpSectionRow.labelWithIcon(
       SceneryPhetStrings.keyboardHelpDialog.moveToNextItemOrGroupStringProperty,
-      TextKeyNode.tab(), {
+      tabKeyNode, {
         labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.tabGroupDescriptionStringProperty
       } );
+
+    const shiftPlusTabIcon = KeyboardHelpIconFactory.shiftPlusIcon( tabKeyNode );
 
     // 'Move to previous item or group'
     const moveToPreviousItemRow = KeyboardHelpSectionRow.labelWithIcon(
       SceneryPhetStrings.keyboardHelpDialog.moveToPreviousItemOrGroupStringProperty,
-      KeyboardHelpIconFactory.shiftPlusIcon( TextKeyNode.tab() ), {
+      shiftPlusTabIcon, {
         labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.shiftTabGroupDescriptionStringProperty
       } );
 
     // 'Move between items in a group'
     const leftRightArrowsIcon = KeyboardHelpIconFactory.leftRightArrowKeysRowIcon();
     const upDownArrowsIcon = KeyboardHelpIconFactory.upDownArrowKeysRowIcon();
+    const arrowsIcon = KeyboardHelpIconFactory.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon );
     const moveBetweenItemsInAGroupRow = KeyboardHelpSectionRow.labelWithIcon(
       SceneryPhetStrings.keyboardHelpDialog.moveBetweenItemsInAGroupStringProperty,
-      KeyboardHelpIconFactory.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon ), {
+      arrowsIcon, {
         labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.groupNavigationDescriptionStringProperty
       } );
 
+    const spaceKeyNode = TextKeyNode.space();
+
     // 'Press buttons'
     const pressButtonsItemRow = KeyboardHelpSectionRow.labelWithIcon(
-      SceneryPhetStrings.keyboardHelpDialog.pressButtonsStringProperty, TextKeyNode.space(), {
+      SceneryPhetStrings.keyboardHelpDialog.pressButtonsStringProperty, spaceKeyNode, {
         labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.pressButtonsDescriptionStringProperty
       } );
 
@@ -73,21 +81,37 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
     // 'Toggle checkboxes'
     if ( options.withCheckboxContent ) {
       const toggleCheckboxes = KeyboardHelpSectionRow.labelWithIcon(
-        SceneryPhetStrings.keyboardHelpDialog.toggleCheckboxesStringProperty, TextKeyNode.space(), {
+        SceneryPhetStrings.keyboardHelpDialog.toggleCheckboxesStringProperty, spaceKeyNode, {
           labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.toggleCheckboxesDescriptionStringProperty
         } );
       content.push( toggleCheckboxes );
     }
 
+    const escapeKeyNode = TextKeyNode.esc();
+
     // 'Exit a dialog'
     const exitADialogRow = KeyboardHelpSectionRow.labelWithIcon(
-      SceneryPhetStrings.keyboardHelpDialog.exitADialogStringProperty, TextKeyNode.esc(), {
+      SceneryPhetStrings.keyboardHelpDialog.exitADialogStringProperty, escapeKeyNode, {
         labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.exitDialogDescriptionStringProperty
       } );
     content.push( exitADialogRow );
 
     // order the rows of content
     super( SceneryPhetStrings.keyboardHelpDialog.basicActionsStringProperty, content, options );
+
+    this.disposeBasicActionsKeyboardHelpSection = () => {
+      shiftPlusTabIcon.dispose();
+      tabKeyNode.dispose();
+      arrowsIcon.dispose();
+      leftRightArrowsIcon.dispose();
+      upDownArrowsIcon.dispose();
+      spaceKeyNode.dispose();
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeBasicActionsKeyboardHelpSection();
+    super.dispose();
   }
 }
 
