@@ -20,7 +20,7 @@ import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
-import { Circle, DragListener, Font, TColor, Image, Node, NodeOptions, Path, PathOptions, Rectangle, Text } from '../../scenery/js/imports.js';
+import { Circle, DragListener, Font, Image, Node, NodeOptions, Path, PathOptions, Rectangle, TColor, Text } from '../../scenery/js/imports.js';
 import batteryDCell_png from '../images/batteryDCell_png.js';
 import LightBulbNode from './LightBulbNode.js';
 import MinusNode from './MinusNode.js';
@@ -28,6 +28,7 @@ import PhetFont from './PhetFont.js';
 import PlusNode from './PlusNode.js';
 import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 
 // constants
 const SHOW_TESTER_ORIGIN = false; // draws a red circle at the tester's origin, for debugging
@@ -81,7 +82,7 @@ class ConductivityTesterNode extends Node {
    * @param negativeProbePositionProperty position of bottom-center of the negative probe (model coordinate frame)
    * @param providedOptions
    */
-  public constructor( brightnessProperty: TProperty<number>,
+  public constructor( brightnessProperty: TReadOnlyProperty<number>,
                       positionProperty: TProperty<Vector2>,
                       positiveProbePositionProperty: TProperty<Vector2>,
                       negativeProbePositionProperty: TProperty<Vector2>,
