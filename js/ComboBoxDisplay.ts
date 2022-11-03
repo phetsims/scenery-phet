@@ -11,7 +11,6 @@
 import Range from '../../dot/js/Range.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
-import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import { Node } from '../../scenery/js/imports.js';
 import ComboBox, { ComboBoxItem, ComboBoxOptions } from '../../sun/js/ComboBox.js';
 import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
@@ -21,7 +20,7 @@ import SceneryPhetStrings from './SceneryPhetStrings.js';
 import Property from '../../axon/js/Property.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import StringProperty from '../../axon/js/StringProperty.js';
-import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import PatternStringProperty from '../../axon/js/PatternStringProperty.js';
 
 // constants
 const DEFAULT_FONT = new PhetFont( 14 );
@@ -96,10 +95,9 @@ export default class ComboBoxDisplay<T> extends ComboBox<T> {
     items.forEach( item => {
 
       const unitsProperty = ( typeof item.units === 'string' ) ? new StringProperty( item.units ) : item.units;
-      const valuePatternStringProperty = new DerivedProperty(
-        [ SceneryPhetStrings.comboBoxDisplay.valueUnitsStringProperty, unitsProperty ],
-        ( pattern, units ) => StringUtils.fillIn( pattern, { units: units } )
-      );
+      const valuePatternStringProperty = new PatternStringProperty( SceneryPhetStrings.comboBoxDisplay.valueUnitsStringProperty, {
+        units: unitsProperty
+      } );
       valuePatternStringProperties.push( valuePatternStringProperty );
 
       const itemNode = new NumberDisplay( item.numberProperty, item.range,
