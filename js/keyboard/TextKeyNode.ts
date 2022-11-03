@@ -34,7 +34,7 @@ export default class TextKeyNode extends KeyNode {
       // text options
       font: new PhetFont( { size: 16 } ),
       fill: 'black',
-      textMaxWidth: 45, // Long keys like Space, Enter, Tab, Shift are all smaller than this.
+      textMaxWidth: 55, // Long keys like Space, Enter, Tab, Shift are all smaller than this.
 
       // by default, key should tightly surround the text, with a bit more horizontal space
       xPadding: 11
