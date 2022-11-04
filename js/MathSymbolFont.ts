@@ -59,9 +59,9 @@ export default class MathSymbolFont extends Font {
   /**
    * Wraps a dynamic string in RichText that will display the string in the same font as MathSymbolFont.
    */
-  public static createDerivedProperty( symbolStringProperty: TReadOnlyProperty<string> ): TReadOnlyProperty<string> {
+  public static createDerivedProperty( symbolStringProperty: TReadOnlyProperty<string>, style = DEFAULT_STYLE ): TReadOnlyProperty<string> {
     return new DerivedProperty( [ symbolStringProperty ],
-      symbolString => MathSymbolFont.getRichTextMarkup( symbolString ) );
+      symbolString => MathSymbolFont.getRichTextMarkup( symbolString, style ) );
   }
 }
 
