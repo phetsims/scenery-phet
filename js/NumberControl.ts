@@ -537,6 +537,13 @@ export default class NumberControl extends Node {
   }
 
   /**
+   * Sets the numberFormatter for the NumberDisplay.
+   */
+  public setNumberFormatter( numberFormatter: ( n: number ) => string ): void {
+    this.numberDisplay.setNumberFormatter( numberFormatter );
+  }
+
+  /**
    * Creates a NumberControl with default tick marks for min and max values.
    */
   public static withMinMaxTicks( label: string, property: Property<number>, range: Range,
