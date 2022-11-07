@@ -62,11 +62,7 @@ export default class KeyboardHelpIconFactory {
       children: icons
     }, providedOptions );
     const hBox = new HBox( options );
-    const icon = new KeyboardIconNode( { children: [ hBox ] } );
-    icon.disposeEmitter.addListener( () => {
-      hBox.dispose();
-    } );
-    return icon;
+    return new KeyboardIconNode( { children: [ hBox ] } );
   }
 
   /**

@@ -166,9 +166,6 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
     this.setReadingBlockNameResponse( this.generateReadingBlockNameResponse() );
 
     this.disposeKeyboardHelpSection = () => {
-      iconVBox.dispose();
-      labelVBox.dispose();
-      contentHBox.dispose();
       content.forEach( oneContent => oneContent.dispose() );
       headingText.dispose();
       this.disposeEmitter.emit();
