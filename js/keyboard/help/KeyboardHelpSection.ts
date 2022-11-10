@@ -16,7 +16,6 @@
  * @author Jesse Greenberg
  */
 
-import Emitter from '../../../../axon/js/Emitter.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import StringProperty from '../../../../axon/js/StringProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
@@ -74,8 +73,6 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
   // used by methods to adjust spacing if necessary
   private readonly iconVBox: VBox;
   private readonly contentHBox: HBox;
-
-  public disposeEmitter = new Emitter();
 
   private readonly disposeKeyboardHelpSection: () => void;
 
@@ -168,7 +165,6 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
     this.disposeKeyboardHelpSection = () => {
       content.forEach( oneContent => oneContent.dispose() );
       headingText.dispose();
-      this.disposeEmitter.emit();
     };
   }
 

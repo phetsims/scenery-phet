@@ -9,11 +9,11 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import Emitter from '../../../../axon/js/Emitter.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import { AlignBoxOptions, AlignGroup, HBox, Node, RichText, RichTextOptions, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import Disposable, { DisposableOptions } from '../../../../axon/js/Disposable.js';
 import { VoicingResponse } from '../../../../utterance-queue/js/ResponsePacket.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -60,14 +60,15 @@ type LabelWithIconOptions = {
   iconOptions?: StrictOmit<AlignBoxOptions, 'innerContent'>;
 };
 
-type KeyboardHelpSectionRowOptions = {
+type SelfOptions = {
 
   // voicing - The content that is read with the Voicing feature when enabled. When clicked, the readingBlockContent
   // for every KeyboardHelpSectionRow in the KeyboardHelpSection is read.
   readingBlockContent?: VoicingResponse | null;
 };
+type KeyboardHelpSectionRowOptions = SelfOptions & DisposableOptions;
 
-class KeyboardHelpSectionRow {
+class KeyboardHelpSectionRow extends Disposable {
 
   // Includes a reference to the Text because KeyboardHelpSection will constrain the width of all text in its
   // KeyboardHelpSectionRows for i18n.
@@ -83,24 +84,19 @@ class KeyboardHelpSectionRow {
   // when the row is activated with a click.
   public readonly readingBlockContent: VoicingResponse | null;
 
-  // called on dispose
-  public readonly disposeEmitter = new Emitter();
-
   public constructor( text: Text | RichText, label: Node, icon: Node, providedOptions?: KeyboardHelpSectionRowOptions ) {
-    const options = optionize<KeyboardHelpSectionRowOptions>()( {
+    const options = optionize<KeyboardHelpSectionRowOptions, SelfOptions, DisposableOptions>()( {
       readingBlockContent: null
     }, providedOptions );
+
+    super( options );
 
     this.text = text;
     this.label = label;
     this.icon = icon;
     this.readingBlockContent = options.readingBlockContent;
-    this.disposeEmitter = new Emitter();
   }
 
-  public dispose(): void {
-    this.disposeEmitter.emit();
-  }
 
   /**
    * Horizontally align a label and an icon, with the label on the left and the icon on the right. AlignGroup is used
