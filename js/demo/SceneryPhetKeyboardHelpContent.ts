@@ -9,6 +9,7 @@
 import StringProperty from '../../../axon/js/StringProperty.js';
 import merge from '../../../phet-core/js/merge.js';
 import BasicActionsKeyboardHelpSection from '../keyboard/help/BasicActionsKeyboardHelpSection.js';
+import GrabReleaseKeyboardHelpSection from '../keyboard/help/GrabReleaseKeyboardHelpSection.js';
 import KeyboardHelpSection from '../keyboard/help/KeyboardHelpSection.js';
 import SliderControlsKeyboardHelpSection from '../keyboard/help/SliderControlsKeyboardHelpSection.js';
 import TwoColumnKeyboardHelpContent from '../keyboard/help/TwoColumnKeyboardHelpContent.js';
@@ -29,7 +30,7 @@ export default class SceneryPhetKeyboardHelpContent extends TwoColumnKeyboardHel
     } ) );
     const sliderControlsKeyboardHelpSection = new SliderControlsKeyboardHelpSection( helpContentOptions );
 
-    const grabDragHelpContent = KeyboardHelpSection.getGrabReleaseHelpSection( new StringProperty( 'Grabbable' ),
+    const grabDragHelpContent = new GrabReleaseKeyboardHelpSection( new StringProperty( 'Grabbable' ),
       new StringProperty( 'grabbable' ), helpContentOptions );
     const leftHelpContent = [ basicActionsHelpContent ];
 

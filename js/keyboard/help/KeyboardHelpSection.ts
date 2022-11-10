@@ -16,7 +16,6 @@
  * @author Jesse Greenberg
  */
 
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import StringProperty from '../../../../axon/js/StringProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -24,9 +23,6 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import { HBox, Node, ReadingBlock, ReadingBlockOptions, Text, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import SceneryPhetStrings from '../../SceneryPhetStrings.js';
-import TextKeyNode from '../TextKeyNode.js';
-import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 
 // heading defaults
@@ -39,9 +35,6 @@ const DEFAULT_VERTICAL_ICON_SPACING = 13;
 // text fonts and max widths
 const DEFAULT_LABEL_MAX_WIDTH = 235;
 const DEFAULT_HEADING_MAX_WIDTH = 335;
-
-// Options type for getGrabReleaseHelpSection, see that function.
-type GrabReleaseKeyboardHelpSectionOptions = StrictOmit<KeyboardHelpSectionOptions, 'a11yContentTagName'>;
 
 type SelfOptions = {
 
@@ -216,59 +209,6 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
     sectionArray.forEach( section => {
       section.contentHBox.spacing = section.contentHBox.spacing + maxLeftEdge - section.iconVBox.left;
     } );
-  }
-
-  /**
-   * Convenience method to construct a KeyboardHelpSection for describing the grab button interaction
-   * @param thingAsTitle - the item being grabbed, capitalized as a title
-   * @param thingAsLowerCase - the item being grabbed, lower case as used in a sentence.
-   * @param [providedOptions]
-   */
-  public static getGrabReleaseHelpSection( thingAsTitle: TReadOnlyProperty<string>, thingAsLowerCase: TReadOnlyProperty<string>,
-                                           providedOptions?: GrabReleaseKeyboardHelpSectionOptions ): KeyboardHelpSection {
-
-    const options = combineOptions<KeyboardHelpSectionOptions>( {
-
-      // There is only a single paragraph for this section, no list needed in the PDOM
-      a11yContentTagName: null
-    }, providedOptions );
-
-    // the visible heading string
-    const headingStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.grabOrReleaseHeadingPatternStringProperty, {
-      thing: thingAsTitle
-    } );
-
-    // the visible label string
-    const labelStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.grabOrReleaseLabelPatternStringProperty, {
-      thing: thingAsLowerCase
-    } );
-
-    // the string for the PDOM
-    const descriptionStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.grabOrReleaseDescriptionPatternStringProperty, {
-      thing: thingAsLowerCase
-    } );
-
-    const spaceKeyNode = TextKeyNode.space();
-    const enterKeyNode = TextKeyNode.enter();
-    const icons = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode );
-    const labelWithContentRow = KeyboardHelpSectionRow.labelWithIcon( labelStringProperty, icons, {
-      labelInnerContent: descriptionStringProperty,
-      iconOptions: {
-        tagName: 'p' // it is the only item, so it is 'p' rather than 'li'
-      }
-    } );
-
-    const keyboardHelpSection = new KeyboardHelpSection( headingStringProperty, [ labelWithContentRow ], options );
-    // TODO: delete disposeEmitter and turn this function into a subclass, https://github.com/phetsims/scenery-phet/issues/769
-    keyboardHelpSection.disposeEmitter.addListener( () => {
-      headingStringProperty.dispose();
-      labelStringProperty.dispose();
-      descriptionStringProperty.dispose();
-      spaceKeyNode.dispose();
-      enterKeyNode.dispose();
-      icons.dispose();
-    } );
-    return keyboardHelpSection;
   }
 }
 
