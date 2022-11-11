@@ -1,4 +1,4 @@
-// Copyright 2020-2022, University of Colorado Boulder
+// Copyright 2022, University of Colorado Boulder
 
 /**
  * Help section for explaining how to use a keyboard to interact with a ComboBox.
