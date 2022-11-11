@@ -19,7 +19,7 @@ import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
 import Range from '../../../dot/js/Range.js';
 import Keypad, { KeypadLayout, KeypadOptions } from '../../../scenery-phet/js/keypad/Keypad.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { Color, Font, Node, Rectangle, TColor, Text, VBox } from '../../../scenery/js/imports.js';
+import { Color, Font, Node, Rectangle, RichText, TColor, Text, VBox } from '../../../scenery/js/imports.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import Dialog, { DialogOptions } from '../../../sun/js/Dialog.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -39,6 +39,9 @@ type SelfOptions = {
 
   // Vertical spacing between the content of the KeypadDialog.
   contentSpacing?: number;
+
+  // If true, the range Text will be created as a RichText
+  useRichTextRange?: boolean;
 
   keypadLayout?: KeypadLayout;
 
@@ -69,7 +72,7 @@ class KeypadDialog extends Dialog {
   private readonly keypad: Keypad;
 
   // The Text Node that displays the Range of the current edit.
-  private readonly rangeText: Text;
+  private readonly rangeText: Text | RichText;
 
   // So we can dispose it
   private rangeStringProperty: TReadOnlyProperty<string> | null = null;
@@ -91,6 +94,8 @@ class KeypadDialog extends Dialog {
       valueBoxWidth: 85,
       valueYMargin: 3,
       contentSpacing: 10,
+
+      useRichTextRange: false,
 
       keypadLayout: Keypad.PositiveAndNegativeFloatingPointLayout,
 
@@ -114,7 +119,9 @@ class KeypadDialog extends Dialog {
     this.errorTextColor = options.keypadErrorTextColor;
 
     this.keypad = new Keypad( options.keypadLayout, options.keypadOptions );
-    this.rangeText = new Text( '', { font: options.font, maxWidth: this.keypad.width } );
+    this.rangeText = options.useRichTextRange
+                     ? new RichText( '', { font: options.font, maxWidth: this.keypad.width } )
+                     : new Text( '', { font: options.font, maxWidth: this.keypad.width } );
     this.valueText = new Text( '', { font: options.font } );
 
     // Create the Background to the valueText Node.
