@@ -100,11 +100,7 @@ export default class BeakerNode extends Node {
     // Water fill and shading paths
     const solutionSide = new Path( null, {
       fill: options.solutionFill,
-      pickable: false,
-
-      // Needed for Safari antiArtifact, we tried using an antiArtifactRectangle, and it led to other problems.
-      // See: https://github.com/phetsims/mean-share-and-balance/issues/122
-      renderer: 'canvas'
+      pickable: false
     } );
     const solutionTop = new Path( null, {
       fill: options.solutionFill,
