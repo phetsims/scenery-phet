@@ -17,7 +17,7 @@ export default function demoGaugeNode( layoutBounds: Bounds2 ): Node {
   const gaugeValueRange = new Range( -100, 100 );
   const sliderValueRange = new Range( gaugeValueRange.min - 20, gaugeValueRange.max + 20 );
 
-  const gaugeNode = new GaugeNode( valueProperty, 'GaugeNode', gaugeValueRange );
+  const gaugeNode = new GaugeNode( valueProperty, new Property( 'GaugeNode' ), gaugeValueRange );
 
   return new VBox( {
     spacing: 15,

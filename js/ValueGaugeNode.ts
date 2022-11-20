@@ -32,7 +32,7 @@ export default class ValueGaugeNode extends GaugeNode {
   private _numberDisplayVisible: boolean;
   private readonly numberDisplay: NumberDisplay;
 
-  public constructor( valueProperty: TReadOnlyProperty<number>, label: string, range: Range,
+  public constructor( valueProperty: TReadOnlyProperty<number>, label: TReadOnlyProperty<string>, range: Range,
                       providedOptions?: ValueGaugeNodeOptions ) {
 
     const options = optionize<ValueGaugeNodeOptions, SelfOptions, GaugeNodeOptions>()( {
