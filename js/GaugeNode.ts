@@ -116,7 +116,7 @@ export default class GaugeNode extends Node {
       maxWidth: this.radius * options.maxLabelWidthScale,
       tandem: tandem.createTandem( 'labelText' )
     } );
-    labelProperty.link( () => {
+    labelText.boundsProperty.link( () => {
       labelText.centerX = 0;
       labelText.centerY = -this.radius / 3;
     } );
