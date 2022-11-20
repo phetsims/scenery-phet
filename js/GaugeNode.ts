@@ -56,11 +56,11 @@ export default class GaugeNode extends Node {
 
   /**
    * @param valueProperty
-   * @param label - label to display, scaled to fit if necessary
+   * @param labelProperty - label to display, scaled to fit if necessary
    * @param range - range of the needle. If valueProperty exceeds this range, the needle will stop at min or max.
    * @param providedOptions
    */
-  public constructor( valueProperty: TReadOnlyProperty<number>, label: TReadOnlyProperty<string>, range: Range, providedOptions?: GaugeNodeOptions ) {
+  public constructor( valueProperty: TReadOnlyProperty<number>, labelProperty: TReadOnlyProperty<string>, range: Range, providedOptions?: GaugeNodeOptions ) {
 
     const options = optionize<GaugeNodeOptions, SelfOptions, NodeOptions>()( {
 
@@ -111,13 +111,14 @@ export default class GaugeNode extends Node {
       lineWidth: options.needleLineWidth
     } );
 
-    const labelText = new Text( label, {
+    const labelText = new Text( labelProperty, {
       font: new PhetFont( 20 ),
       maxWidth: this.radius * options.maxLabelWidthScale,
       tandem: tandem.createTandem( 'labelText' )
-    } ).mutate( {
-      centerX: 0,
-      centerY: -this.radius / 3
+    } );
+    labelProperty.link( () => {
+      labelText.centerX = 0;
+      labelText.centerY = -this.radius / 3;
     } );
     foregroundNode.addChild( labelText );
 
