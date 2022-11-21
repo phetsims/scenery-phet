@@ -61,7 +61,7 @@ export default class ResetAllButton extends ResetButton {
       innerContent: SceneryPhetStrings.a11y.resetAll.labelStringProperty,
 
       // voicing
-      voicingNameResponse: SceneryPhetStrings.a11y.resetAll.alertStringProperty,
+      voicingNameResponse: SceneryPhetStrings.a11y.resetAll.labelStringProperty,
       voicingContextResponse: SceneryPhetStrings.a11y.voicing.resetAll.contextResponseStringProperty
     }, providedOptions );
 
