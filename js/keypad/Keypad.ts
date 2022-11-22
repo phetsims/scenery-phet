@@ -9,7 +9,7 @@
 
 import merge from '../../../phet-core/js/merge.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { Font, Node, NodeOptions, Text, TPaint } from '../../../scenery/js/imports.js';
+import { Font, KeyboardListener, Node, NodeOptions, Text, TPaint } from '../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import BackspaceIcon from '../BackspaceIcon.js';
@@ -17,6 +17,7 @@ import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
 import Key from './Key.js';
 import KeyID, { KeyIDValue } from './KeyID.js';
+import type { OneKeyStroke } from '../../../scenery/js/imports.js';
 import NumberAccumulator, { NumberAccumulatorOptions } from './NumberAccumulator.js';
 import AbstractKeyAccumulator from './AbstractKeyAccumulator.js';
 import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
@@ -29,20 +30,21 @@ const DEFAULT_BUTTON_FONT = new PhetFont( { size: 20 } );
 const DEFAULT_BUTTON_COLOR = 'white';
 const PLUS_CHAR = '\u002b';
 const MINUS_CHAR = '\u2212';
-const _0 = new Key( '0', KeyID.ZERO );
-const _1 = new Key( '1', KeyID.ONE );
-const _2 = new Key( '2', KeyID.TWO );
-const _3 = new Key( '3', KeyID.THREE );
-const _4 = new Key( '4', KeyID.FOUR );
-const _5 = new Key( '5', KeyID.FIVE );
-const _6 = new Key( '6', KeyID.SIX );
-const _7 = new Key( '7', KeyID.SEVEN );
-const _8 = new Key( '8', KeyID.EIGHT );
-const _9 = new Key( '9', KeyID.NINE );
+const _0 = new Key( '0', KeyID.ZERO, { keyboardIdentifier: '0' } );
+const _1 = new Key( '1', KeyID.ONE, { keyboardIdentifier: '1' } );
+const _2 = new Key( '2', KeyID.TWO, { keyboardIdentifier: '2' } );
+const _3 = new Key( '3', KeyID.THREE, { keyboardIdentifier: '3' } );
+const _4 = new Key( '4', KeyID.FOUR, { keyboardIdentifier: '4' } );
+const _5 = new Key( '5', KeyID.FIVE, { keyboardIdentifier: '5' } );
+const _6 = new Key( '6', KeyID.SIX, { keyboardIdentifier: '6' } );
+const _7 = new Key( '7', KeyID.SEVEN, { keyboardIdentifier: '7' } );
+const _8 = new Key( '8', KeyID.EIGHT, { keyboardIdentifier: '8' } );
+const _9 = new Key( '9', KeyID.NINE, { keyboardIdentifier: '9' } );
 const WIDE_ZERO = new Key( '0', KeyID.ZERO, { horizontalSpan: 2 } );
-const BACKSPACE_KEY = new Key( ( new BackspaceIcon( { scale: 1.5 } ) ), KeyID.BACKSPACE );
-const PLUS_MINUS_KEY = new Key( `${PLUS_CHAR}/${MINUS_CHAR}`, KeyID.PLUS_MINUS );
-const DECIMAL_KEY = new Key( '.', KeyID.DECIMAL );
+const BACKSPACE_KEY = new Key( ( new BackspaceIcon( { scale: 1.5 } ) ),
+  KeyID.BACKSPACE, { keyboardIdentifier: 'backspace' } );
+const PLUS_MINUS_KEY = new Key( `${PLUS_CHAR}/${MINUS_CHAR}`, KeyID.PLUS_MINUS, { keyboardIdentifier: 'minus' } );
+const DECIMAL_KEY = new Key( '.', KeyID.DECIMAL, { keyboardIdentifier: 'period' } );
 
 export type KeypadLayout = ( Key | null )[][];
 
@@ -68,6 +70,9 @@ type SelfOptions = {
 };
 
 export type KeypadOptions = SelfOptions & NodeOptions;
+type KeyboardKeys = {
+  [K in OneKeyStroke]?: Key;
+};
 
 class Keypad extends Node {
 
@@ -90,7 +95,7 @@ class Keypad extends Node {
    */
   public constructor( layout: ( Key | null )[][], providedOptions?: KeypadOptions ) {
 
-    const options = optionize<KeypadOptions, SelfOptions>()( {
+    const options = optionize<KeypadOptions, SelfOptions, NodeOptions>()( {
       buttonWidth: DEFAULT_BUTTON_WIDTH,
       buttonHeight: DEFAULT_BUTTON_HEIGHT,
       xSpacing: 10,
@@ -102,7 +107,9 @@ class Keypad extends Node {
       accumulator: null,
       accumulatorOptions: null,
       tandem: Tandem.REQUIRED,
-      tandemNameSuffix: 'Keypad'
+      tandemNameSuffix: 'Keypad',
+      tagName: 'div',
+      focusable: true
     }, providedOptions );
 
     super();
@@ -148,18 +155,24 @@ class Keypad extends Node {
       }
     }
 
+    const keyboardKeys: KeyboardKeys = {};
+
     // interpret the layout specification
     for ( let row = 0; row < layout.length; row++ ) {
       const startRow = row;
       for ( let column = 0; column < layout[ row ].length; column++ ) {
-        const button = layout[ row ][ column ];
-        if ( button ) {
+        const key = layout[ row ][ column ];
+        if ( key ) {
+          if ( key.keyboardIdentifier ) {
+            keyboardKeys[ key.keyboardIdentifier ] = key;
+          }
+
           const keyBefore = layout[ row ][ column - 1 ];
           const startColumn = column +
                               ( column > 0 && keyBefore ?
                                 keyBefore.horizontalSpan - 1 : 0 );
-          const verticalSpan = button.verticalSpan;
-          const horizontalSpan = button.horizontalSpan;
+          const verticalSpan = key.verticalSpan;
+          const horizontalSpan = key.horizontalSpan;
 
           // check for overlap between the buttons
           for ( let x = startRow; x < ( startRow + verticalSpan ); x++ ) {
@@ -170,9 +183,9 @@ class Keypad extends Node {
           }
 
           // create and add the buttons
-          const buttonWidth = button.horizontalSpan * options.buttonWidth + ( button.horizontalSpan - 1 ) * options.xSpacing;
-          const buttonHeight = button.verticalSpan * options.buttonHeight + ( button.verticalSpan - 1 ) * options.ySpacing;
-          const buttonNode = createKeyNode( button, this.keyAccumulator, buttonWidth, buttonHeight, options.tandem, options );
+          const buttonWidth = key.horizontalSpan * options.buttonWidth + ( key.horizontalSpan - 1 ) * options.xSpacing;
+          const buttonHeight = key.verticalSpan * options.buttonHeight + ( key.verticalSpan - 1 ) * options.ySpacing;
+          const buttonNode = createKeyNode( key, this.keyAccumulator, buttonWidth, buttonHeight, options.tandem, options );
           buttonNode.left = startColumn * options.buttonWidth + startColumn * options.xSpacing;
           buttonNode.top = startRow * options.buttonHeight + startRow * options.ySpacing;
           this.buttonNodes.push( buttonNode );
@@ -180,6 +193,14 @@ class Keypad extends Node {
         }
       }
     }
+
+    this.addInputListener( new KeyboardListener( {
+      keys: Object.keys( keyboardKeys ) as OneKeyStroke[],
+      callback: ( sceneryEvent, listener ) => {
+        const keyObject = keyboardKeys[ listener.keysPressed! ];
+        this.keyAccumulator.handleKeyPressed( keyObject!.identifier );
+      }
+    } ) );
 
     this.mutate( options );
   }
@@ -291,6 +312,12 @@ function createKeyNode(
     xMargin: 5,
     yMargin: 5,
     listener: () => keyAccumulator.handleKeyPressed( keyObject.identifier ),
+
+    // pdom
+    // alt input is handled as a whole keypad, so do not allow focus of individual keys
+    focusable: false,
+
+    // phet-io
     tandem: keyPadTandem.createTandem( keyObject.buttonTandemName )
   } );
   keyNode.dispose = function() {

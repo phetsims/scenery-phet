@@ -8,13 +8,14 @@
  */
 
 import optionize from '../../../phet-core/js/optionize.js';
-import { Node } from '../../../scenery/js/imports.js';
+import { Node, OneKeyStroke } from '../../../scenery/js/imports.js';
 import sceneryPhet from '../sceneryPhet.js';
 import { KeyIDValue } from './KeyID.js';
 
 type SelfOptions = {
   horizontalSpan?: number;
   verticalSpan?: number;
+  keyboardIdentifier?: OneKeyStroke | null;
 };
 
 export type KeyOptions = SelfOptions;
@@ -30,6 +31,9 @@ class Key {
   // The tandem component name to use when creating a button from this key.
   public readonly buttonTandemName: string;
 
+  // For keyboard input, this is used to identify the keystroke to activate this key (see KeyboardListener.ts)
+  public readonly keyboardIdentifier: OneKeyStroke | null;
+
   /**
    * @param label - node or string that will appear on the key
    * @param identifier - ID for this key, see KeyID.js
@@ -42,11 +46,13 @@ class Key {
 
     const options = optionize<KeyOptions, SelfOptions>()( {
       horizontalSpan: 1,
-      verticalSpan: 1
+      verticalSpan: 1,
+      keyboardIdentifier: null
     }, providedOptions );
 
     this.horizontalSpan = options.horizontalSpan;
     this.verticalSpan = options.verticalSpan;
+    this.keyboardIdentifier = options.keyboardIdentifier;
 
     this.buttonTandemName = `${_.camelCase( this.identifier )}Button`;
   }
