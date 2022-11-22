@@ -351,7 +351,11 @@ export default class NumberDisplay extends Node {
 
   public set backgroundStroke( value: TPaint ) { this.setBackgroundStroke( value ); }
 
-  public static NumberDisplayIO: IOType;
+  public static readonly NumberDisplayIO = new IOType( 'NumberDisplayIO', {
+    valueType: NumberDisplay,
+    supertype: Node.NodeIO,
+    documentation: 'A numeric readout with a background'
+  } );
 }
 
 sceneryPhet.register( 'NumberDisplay', NumberDisplay );
@@ -370,9 +374,3 @@ const valueToString = <S extends number | null>( value: S, noValueString: string
   }
   return stringValue;
 };
-
-NumberDisplay.NumberDisplayIO = new IOType( 'NumberDisplayIO', {
-  valueType: NumberDisplay,
-  supertype: Node.NodeIO,
-  documentation: 'A numeric readout with a background'
-} );

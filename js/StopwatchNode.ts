@@ -89,9 +89,9 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
   // Another advantage of using a non-monospace font (with monospace digits) is that the : and . symbols aren't as
   // wide as the numerals. @ariel-phet and @samreid tested this combination of families on Mac/Chrome and Windows/Chrome
   // and it seemed to work nicely, with no jitter.
-  public static NUMBER_FONT_FAMILY = '"Trebuchet MS", "Lucida Grande", monospace';
+  public static readonly NUMBER_FONT_FAMILY = '"Trebuchet MS", "Lucida Grande", monospace';
 
-  public static DEFAULT_FONT = new PhetFont( { size: 20, family: StopwatchNode.NUMBER_FONT_FAMILY } );
+  public static readonly DEFAULT_FONT = new PhetFont( { size: 20, family: StopwatchNode.NUMBER_FONT_FAMILY } );
 
   /**
    * A value for options.numberDisplayOptions.numberFormatter where time is interpreted as minutes and seconds.

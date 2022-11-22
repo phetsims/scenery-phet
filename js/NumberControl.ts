@@ -749,8 +749,12 @@ export default class NumberControl extends Node {
     };
   }
 
-  public static NumberControlIO: IOType;
-  public static SLIDER_TANDEM_NAME = 'slider' as const;
+  public static readonly NumberControlIO = new IOType( 'NumberControlIO', {
+    valueType: NumberControl,
+    documentation: 'A number control with a title, slider and +/- buttons',
+    supertype: Node.NodeIO
+  } );
+  public static readonly SLIDER_TANDEM_NAME = 'slider' as const;
 }
 
 /**
@@ -795,11 +799,5 @@ function specificCallbackKeysInOptions( options: Record<string, unknown> ): bool
   const intersection = SPECIFIC_COMPONENT_CALLBACK_OPTIONS.filter( x => _.includes( optionKeys, x ) );
   return intersection.length > 0;
 }
-
-NumberControl.NumberControlIO = new IOType( 'NumberControlIO', {
-  valueType: NumberControl,
-  documentation: 'A number control with a title, slider and +/- buttons',
-  supertype: Node.NodeIO
-} );
 
 sceneryPhet.register( 'NumberControl', NumberControl );
