@@ -21,6 +21,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import { HBox, Node, ReadingBlock, ReadingBlockOptions, Text, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
@@ -184,7 +185,7 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
     // Append the readingBlockNameResponse assigned to each row.
     this.keyboardHelpSectionRows.forEach( row => {
       if ( row.readingBlockContent ) {
-        readingBlockNameResponse += `${row.readingBlockContent} `;
+        readingBlockNameResponse += `${ResponsePacket.getResponseText( row.readingBlockContent )} `;
       }
     } );
 
