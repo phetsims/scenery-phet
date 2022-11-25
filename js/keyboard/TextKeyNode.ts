@@ -8,7 +8,7 @@
 
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { Font, TColor, RichText } from '../../../scenery/js/imports.js';
+import { Font, RichText, TColor } from '../../../scenery/js/imports.js';
 import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
@@ -23,8 +23,6 @@ type SelfOptions = {
 export type TextKeyNodeOptions = SelfOptions & KeyNodeOptions;
 
 export default class TextKeyNode extends KeyNode {
-
-  private readonly disposeTextKeyNode: () => void;
 
   public constructor( string: string | TReadOnlyProperty<string>, providedOptions?: TextKeyNodeOptions ) {
 
@@ -49,15 +47,7 @@ export default class TextKeyNode extends KeyNode {
     } );
 
     super( text, options );
-
-    this.disposeTextKeyNode = () => {
-      text.dispose();
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeTextKeyNode();
-    super.dispose();
+    text.disposer = this;
   }
 
   //-------------------------------------------------------------------------------------------------

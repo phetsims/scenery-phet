@@ -51,8 +51,7 @@ export default class KeyboardHelpIconFactory {
       spacing: DEFAULT_HORIZONTAL_KEY_SPACING,
       children: icons
     }, providedOptions );
-    const hBox = new HBox( options );
-    return new Node( { children: [ hBox ] } );
+    return new HBox( options );
   }
 
   /**
@@ -92,9 +91,7 @@ export default class KeyboardHelpIconFactory {
     } );
 
     const icon = KeyboardHelpIconFactory.iconRow( [ new Node( { children: [ leftIcon ] } ), hyphenText, new Node( { children: [ rightIcon ] } ) ], options );
-    icon.disposeEmitter.addListener( () => {
-      hyphenText.dispose();
-    } );
+    hyphenText.disposer = hyphenText;
     return icon;
   }
 
@@ -265,10 +262,8 @@ export default class KeyboardHelpIconFactory {
     const upArrowKeyNode = new ArrowKeyNode( 'up' );
     const downArrowKeyNode = new ArrowKeyNode( 'down' );
     const icon = KeyboardHelpIconFactory.iconRow( [ upArrowKeyNode, downArrowKeyNode ], providedOptions );
-    icon.disposeEmitter.addListener( () => {
-      upArrowKeyNode.dispose();
-      downArrowKeyNode.dispose();
-    } );
+    upArrowKeyNode.disposer = icon;
+    downArrowKeyNode.disposer = icon;
     return icon;
   }
 

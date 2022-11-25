@@ -130,10 +130,8 @@ class KeyboardHelpSectionRow extends Disposable {
       readingBlockContent: options.readingBlockContent || options.labelInnerContent
     } );
 
-    keyboardHelpSectionRow.disposeEmitter.addListener( () => {
-      labelText.dispose();
-      labelIconGroup.dispose();
-    } );
+    labelText.disposer = keyboardHelpSectionRow;
+    labelIconGroup.disposer = keyboardHelpSectionRow;
     return keyboardHelpSectionRow;
   }
 
