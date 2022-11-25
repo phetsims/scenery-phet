@@ -34,7 +34,7 @@ export type ComboBoxDisplayItem<T> = {
   choice: T;
 
   // the item's numeric value
-  numberProperty: TReadOnlyProperty<number>;
+  numberProperty: TReadOnlyProperty<number | null>;
 
   // the range of the item's numeric value
   range: Range;
