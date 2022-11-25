@@ -9,14 +9,14 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import TProperty from '../../axon/js/TProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import LinearFunction from '../../dot/js/LinearFunction.js';
 import Range from '../../dot/js/Range.js';
 import Utils from '../../dot/js/Utils.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { TColor, LinearGradient, Node, NodeOptions, Path, Rectangle } from '../../scenery/js/imports.js';
+import { LinearGradient, Node, NodeOptions, Path, Rectangle, TColor } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NullableIO from '../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
@@ -75,7 +75,7 @@ export default class ThermometerNode extends Node {
    * @param maxTemperature
    * @param [providedOptions?]
    */
-  public constructor( temperatureProperty: TProperty<number | null>, minTemperature: number, maxTemperature: number,
+  public constructor( temperatureProperty: TReadOnlyProperty<number | null>, minTemperature: number, maxTemperature: number,
                       providedOptions?: ThermometerNodeOptions ) {
 
     const options = optionize<ThermometerNodeOptions, SelfOptions, NodeOptions>()( {
