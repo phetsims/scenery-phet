@@ -25,7 +25,7 @@ export default function demoFineCoarseSpinner( layoutBounds: Bounds2, providedOp
   const numberProperty = new NumberProperty( 0, {
     range: new Range( 0, 100 ),
     tandem: options.tandem.createTandem( 'numberProperty' )
-  } );
+  } ).asRanged();
 
   const enabledProperty = new BooleanProperty( true, {
     tandem: options.tandem.createTandem( 'enabledProperty' )

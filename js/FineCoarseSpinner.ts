@@ -8,7 +8,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import NumberProperty from '../../axon/js/NumberProperty.js';
+import { RangedProperty } from '../../axon/js/NumberProperty.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import Range from '../../dot/js/Range.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
@@ -34,7 +34,7 @@ export default class FineCoarseSpinner extends Node {
 
   private readonly disposeFineCoarseSpinner: () => void;
 
-  public constructor( numberProperty: NumberProperty, providedOptions?: FineCoarseSpinnerOptions ) {
+  public constructor( numberProperty: RangedProperty, providedOptions?: FineCoarseSpinnerOptions ) {
 
     const options = optionize<FineCoarseSpinnerOptions,
       StrictOmit<SelfOptions, 'numberDisplayOptions' | 'arrowButtonOptions'>, NodeOptions>()( {
@@ -52,8 +52,7 @@ export default class FineCoarseSpinner extends Node {
       phetioEnabledPropertyInstrumented: true
     }, providedOptions );
 
-    const range = options.range ? options.range : numberProperty.range!;
-    assert && assert( range, 'numberProperty.range or options.range must be provided' );
+    const range = options.range ? options.range : numberProperty.range;
 
     assert && assert( options.deltaFine > 0, `invalid deltaFine: ${options.deltaFine}` );
     assert && assert( options.deltaCoarse > 0, `invalid deltaCoarse: ${options.deltaCoarse}` );
