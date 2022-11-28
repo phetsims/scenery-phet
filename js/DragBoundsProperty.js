@@ -22,7 +22,7 @@ class DragBoundsProperty extends DerivedProperty {
 
   /**
    * @param {Node} targetNode - the Node that is to be constrained
-   * @param {Property.<Bounds2>} boundsProperty - targetNode will be fully inside these bounds. Should be given in the
+   * @param {TReadOnlyProperty.<Bounds2>} boundsProperty - targetNode will be fully inside these bounds. Should be given in the
    *                                              parent coordinate frame of the targetNode
    */
   constructor( targetNode, boundsProperty ) {
