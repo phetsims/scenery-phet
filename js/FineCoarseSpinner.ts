@@ -10,7 +10,6 @@
 
 import { RangedProperty } from '../../axon/js/NumberProperty.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import Range from '../../dot/js/Range.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import { HBox, Node, NodeOptions } from '../../scenery/js/imports.js';
@@ -20,7 +19,6 @@ import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
-  range?: Range | null; // if null, numberProperty.range is used and must exist
   deltaFine?: number; // amount to increment/decrement when the 'fine' tweakers are pressed
   deltaCoarse?: number; // amount to increment/decrement when the 'coarse' tweakers are pressed
   spacing?: number; // horizontal space between subcomponents
@@ -40,7 +38,6 @@ export default class FineCoarseSpinner extends Node {
       StrictOmit<SelfOptions, 'numberDisplayOptions' | 'arrowButtonOptions'>, NodeOptions>()( {
 
       // SelfOptions
-      range: null,
       deltaFine: 1,
       deltaCoarse: 10,
       spacing: 10,
@@ -52,7 +49,7 @@ export default class FineCoarseSpinner extends Node {
       phetioEnabledPropertyInstrumented: true
     }, providedOptions );
 
-    const range = options.range ? options.range : numberProperty.range;
+    const range = numberProperty.range;
 
     assert && assert( options.deltaFine > 0, `invalid deltaFine: ${options.deltaFine}` );
     assert && assert( options.deltaCoarse > 0, `invalid deltaCoarse: ${options.deltaCoarse}` );
