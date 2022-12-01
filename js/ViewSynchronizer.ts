@@ -41,6 +41,10 @@ export default class ViewSynchronizer<Model, View extends Node> {
     modelView.dispose();
   }
 
+  public getView( model: Model ): View {
+    return this.map.get( model )!;
+  }
+
   public dispose(): void {
     for ( const model of this.map.keys() ) {
       this.remove( model );
