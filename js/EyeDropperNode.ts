@@ -56,13 +56,13 @@ export default class EyeDropperNode extends Node {
   private readonly disposeEyeDropperNode: () => void;
 
   // You'll need these if you want to create fluid coming out of the tip.
-  public static TIP_WIDTH = 15;
-  public static TIP_HEIGHT = 4;
-  public static GLASS_WIDTH = 46;
+  public static readonly TIP_WIDTH = 15;
+  public static readonly TIP_HEIGHT = 4;
+  public static readonly GLASS_WIDTH = 46;
 
   // You'll need these if you want to put a label on the glass. Values are relative to bottom center.
-  public static GLASS_MIN_Y = -124;
-  public static GLASS_MAX_Y = -18;
+  public static readonly GLASS_MIN_Y = -124;
+  public static readonly GLASS_MAX_Y = -18;
 
   public constructor( provideOptions?: EyeDropperNodeOptions ) {
 

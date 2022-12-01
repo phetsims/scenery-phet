@@ -53,7 +53,7 @@ class Lattice {
   // a Bounds2 representing the visible (non-damping) region of the lattice.
   public readonly visibleBounds: Bounds2;
 
-  public static WAVE_SPEED = WAVE_SPEED;
+  public static readonly WAVE_SPEED = WAVE_SPEED;
 
   /**
    * @param width - width of the lattice (includes damping regions)

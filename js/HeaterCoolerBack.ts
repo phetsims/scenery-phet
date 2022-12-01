@@ -30,7 +30,7 @@ export type HeaterCoolerBackOptions = SelfOptions & NodeOptions;
 export default class HeaterCoolerBack extends Node {
 
   // Scale factor that determines the height of the heater opening. Can be made an optional parameter if necessary.
-  public static OPENING_HEIGHT_SCALE = 0.1;
+  public static readonly OPENING_HEIGHT_SCALE = 0.1;
 
   /**
    * @param heatCoolAmountProperty // +1 for max heating, -1 for max cooling
