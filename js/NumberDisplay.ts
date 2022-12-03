@@ -19,6 +19,7 @@ import { Font, TPaint, Node, NodeOptions, Rectangle, RichText, RichTextOptions, 
 import SunConstants from '../../sun/js/SunConstants.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
+import StringIO from '../../tandem/js/types/StringIO.js';
 import MathSymbols from './MathSymbols.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -207,6 +208,7 @@ export default class NumberDisplay extends Node {
 
     // value
     const Constructor = options.useRichText ? RichText : Text;
+    const valueTextTandem = options.tandem.createTandem( 'valueText' );
     const valueStringProperty = new DerivedProperty( [
       numberProperty,
       noValuePatternProperty,
@@ -219,6 +221,9 @@ export default class NumberDisplay extends Node {
       return StringUtils.fillIn( valuePattern, {
         value: stringValue
       } );
+    }, {
+      tandem: valueTextTandem.createTandem( Text.STRING_PROPERTY_TANDEM_NAME ),
+      phetioValueType: StringIO
     } );
 
     const valueTextOptions = combineOptions<TextOptions | RichTextOptions>( {}, options.textOptions, {
@@ -226,7 +231,7 @@ export default class NumberDisplay extends Node {
     } );
 
     const valueText: Text | RichText = new Constructor( valueStringProperty, combineOptions<TextOptions | RichTextOptions>( {
-      tandem: options.tandem.createTandem( 'valueText' )
+      tandem: valueTextTandem
     }, valueTextOptions ) );
 
     const originalTextHeight = valueText.height;
