@@ -21,7 +21,7 @@ export default function demoBicyclePumpNode( layoutBounds: Bounds2 ): Node {
     range: new Range( 0, 100 )
   } );
 
-  const rangeProperty = new Property( numberOfParticlesProperty.range! );
+  const rangeProperty = new Property( numberOfParticlesProperty.range );
 
   const bicyclePumpNode = new BicyclePumpNode( numberOfParticlesProperty, rangeProperty, {
     hoseAttachmentOffset: new Vector2( 100, -100 )

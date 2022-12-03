@@ -129,10 +129,10 @@ export default class Stopwatch extends PhetioObject {
     if ( this.isRunningProperty.value ) {
 
       // Increment time, but don't exceed the range.
-      this.timeProperty.value = this.timeProperty.range!.constrainValue( this.timeProperty.value + dt );
+      this.timeProperty.value = this.timeProperty.range.constrainValue( this.timeProperty.value + dt );
 
       // If the max is reached, then pause.
-      if ( this.timeProperty.value >= this.timeProperty.range!.max ) {
+      if ( this.timeProperty.value >= this.timeProperty.range.max ) {
         this.isRunningProperty.value = false;
       }
     }

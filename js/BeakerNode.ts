@@ -13,7 +13,7 @@ import SceneryPhetColors from './SceneryPhetColors.js';
 import sceneryPhet from './sceneryPhet.js';
 import { Color, TColor, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { RangedProperty } from '../../axon/js/NumberProperty.js';
+import NumberProperty from '../../axon/js/NumberProperty.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = {
@@ -39,9 +39,9 @@ export default class BeakerNode extends Node {
   private readonly ticks: Path;
   private readonly disposeBeakerNode: () => void;
 
-  public constructor( solutionLevelProperty: RangedProperty, providedOptions?: BeakerNodeOptions ) {
+  public constructor( solutionLevelProperty: NumberProperty, providedOptions?: BeakerNodeOptions ) {
     assert && assert( solutionLevelProperty.range.min >= 0 && solutionLevelProperty.range.max <= 1,
-      'SolutionLevelProperty must be a RangedProperty with min >= 0 and max <= 1' );
+      'SolutionLevelProperty must be a NumberProperty with min >= 0 and max <= 1' );
 
     let solutionGlareFill;
     let solutionShadowFill;

@@ -8,7 +8,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { RangedProperty } from '../../axon/js/NumberProperty.js';
+import NumberProperty from '../../axon/js/NumberProperty.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
@@ -32,7 +32,7 @@ export default class FineCoarseSpinner extends Node {
 
   private readonly disposeFineCoarseSpinner: () => void;
 
-  public constructor( numberProperty: RangedProperty, providedOptions?: FineCoarseSpinnerOptions ) {
+  public constructor( numberProperty: NumberProperty, providedOptions?: FineCoarseSpinnerOptions ) {
 
     const options = optionize<FineCoarseSpinnerOptions,
       StrictOmit<SelfOptions, 'numberDisplayOptions' | 'arrowButtonOptions'>, NodeOptions>()( {
