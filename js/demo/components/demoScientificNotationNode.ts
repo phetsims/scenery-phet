@@ -132,7 +132,7 @@ class ControlPanel extends Panel {
     const mantissaControl = new HBox( {
       spacing: 10,
       children: [
-        new NumberSpinner( mantissaDecimalPlacesProperty, new Property( mantissaDecimalPlacesProperty.range! ) ),
+        new NumberSpinner( mantissaDecimalPlacesProperty, new Property( mantissaDecimalPlacesProperty.range ) ),
         new Text( 'mantissaDecimalPlaces', textOptions )
       ]
     } );
@@ -144,7 +144,7 @@ class ControlPanel extends Panel {
     const exponentControl = new HBox( {
       spacing: 10,
       children: [
-        new NumberSpinner( exponentProperty, new Property( exponentProperty.range! ) ),
+        new NumberSpinner( exponentProperty, new Property( exponentProperty.range ) ),
         new Text( 'exponent', textOptions )
       ]
     } );
@@ -190,7 +190,7 @@ class ControlPanel extends Panel {
       ]
     } );
 
-    const maxDigits = mantissaDecimalPlacesProperty.range!.max + 1;
+    const maxDigits = mantissaDecimalPlacesProperty.range.max + 1;
     const keypad = new Keypad( Keypad.PositiveDecimalLayout, {
       accumulatorOptions: {
         maxDigits: maxDigits,

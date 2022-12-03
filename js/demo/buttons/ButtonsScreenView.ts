@@ -220,7 +220,7 @@ export default class ButtonsScreenView extends ScreenView {
     // Property shared by ZoomButtonGroups
     const zoomLevelProperty = new NumberProperty( 0, {
       range: new Range( 0, 5 )
-    } ).asRanged();
+    } );
     zoomLevelProperty.lazyLink( zoomLevel => console.log( `zoomLevel=${zoomLevel}` ) );
 
     // Spacing shared by ZoomButtonGroups

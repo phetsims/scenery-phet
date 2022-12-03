@@ -30,9 +30,9 @@ export default function demoBeakerNode( layoutBounds: Bounds2 ): Node {
     range: new Range( 0, 1 )
   } );
 
-  const solutionLevelSlider = new VSlider( solutionLevelProperty, solutionLevelProperty.range! );
+  const solutionLevelSlider = new VSlider( solutionLevelProperty, solutionLevelProperty.range );
 
-  const beakerNode = new BeakerNode( solutionLevelProperty.asRanged(), {
+  const beakerNode = new BeakerNode( solutionLevelProperty, {
     ticksVisible: true
   } );
 

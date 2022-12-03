@@ -217,7 +217,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
     // Disable the reset button when time is zero, and enable the play/pause button when not at the max time
     const timeListener = ( time: number ) => {
       resetButton.enabled = ( time > 0 );
-      playPauseButton.enabled = ( time < stopwatch.timeProperty.range!.max );
+      playPauseButton.enabled = ( time < stopwatch.timeProperty.range.max );
     };
     stopwatch.timeProperty.link( timeListener );
 

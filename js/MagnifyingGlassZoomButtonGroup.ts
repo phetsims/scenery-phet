@@ -6,7 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import { RangedProperty } from '../../axon/js/NumberProperty.js';
+import NumberProperty from '../../axon/js/NumberProperty.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import MagnifyingGlassNode, { MagnifyingGlassNodeOptions } from './MagnifyingGlassNode.js';
@@ -31,7 +31,7 @@ export default class MagnifyingGlassZoomButtonGroup extends ZoomButtonGroup {
    * @param zoomLevelProperty - smaller value means more zoomed out
    * @param providedOptions
    */
-  public constructor( zoomLevelProperty: RangedProperty, providedOptions?: MagnifyingGlassZoomButtonGroupOptions ) {
+  public constructor( zoomLevelProperty: NumberProperty, providedOptions?: MagnifyingGlassZoomButtonGroupOptions ) {
 
     const options = optionize<MagnifyingGlassZoomButtonGroupOptions, SelfOptions, ZoomButtonGroupOptions>()( {
 
