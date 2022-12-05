@@ -6,6 +6,7 @@
  * @author Jesse Greenberg
  */
 
+import TinyEmitter from '../../../axon/js/TinyEmitter.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { Font, RichText, TColor } from '../../../scenery/js/imports.js';
@@ -35,7 +36,9 @@ export default class TextKeyNode extends KeyNode {
       textMaxWidth: 55, // Long keys like Space, Enter, Tab, Shift are all smaller than this.
 
       // by default, key should tightly surround the text, with a bit more horizontal space
-      xPadding: 11
+      xPadding: 11,
+
+      disposeEmitter: new TinyEmitter()
 
     }, providedOptions );
 
@@ -43,11 +46,11 @@ export default class TextKeyNode extends KeyNode {
     const text = new RichText( string, {
       font: options.font,
       fill: options.fill,
-      maxWidth: options.textMaxWidth
+      maxWidth: options.textMaxWidth,
+      disposer: options.disposeEmitter
     } );
 
     super( text, options );
-    text.disposer = this;
   }
 
   //-------------------------------------------------------------------------------------------------
