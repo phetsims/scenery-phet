@@ -8,6 +8,7 @@
 
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import StringProperty from '../../../../axon/js/StringProperty.js';
+import TinyEmitter from '../../../../axon/js/TinyEmitter.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -32,7 +33,6 @@ type SelfOptions = {
 export type ComboBoxKeyboardHelpSectionOptions = SelfOptions & KeyboardHelpSectionOptions;
 
 export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
-  private readonly disposeComboBoxKeyboardHelpSection: () => void;
 
   public constructor( providedOptions?: ComboBoxKeyboardHelpSectionOptions ) {
 
@@ -47,7 +47,8 @@ export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
       a11yContentTagName: 'ol', // ordered list
       vBoxOptions: {
         spacing: 8 // A bit tighter so that it looks like one set of instructions
-      }
+      },
+      disposeEmitter: new TinyEmitter()
     }, providedOptions );
 
     // options may be string or TReadOnlyProperty<string>, so ensure that we have a TReadOnlyProperty<string>.
@@ -66,14 +67,14 @@ export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
         providedStringProperty, {
           thingPlural: thingAsLowerCasePluralStringProperty,
           thingSingular: thingAsLowerCaseSingularStringProperty
-        } );
+        }, { disposer: options.disposeEmitter } );
       ourPatternStringsToDispose.push( patternStringProperty );
       return patternStringProperty;
     };
 
-    const spaceKeyNode = TextKeyNode.space();
-    const enterKeyNode = TextKeyNode.enter();
-    const spaceOrEnterIcon = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode );
+    const spaceKeyNode = TextKeyNode.space( { disposer: options.disposeEmitter } );
+    const enterKeyNode = TextKeyNode.enter( { disposer: options.disposeEmitter } );
+    const spaceOrEnterIcon = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode, { disposer: options.disposeEmitter } );
 
     const popUpList = KeyboardHelpSectionRow.labelWithIcon(
       createPatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.comboBox.popUpListPatternStringProperty ),
@@ -93,7 +94,7 @@ export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
         labelInnerContent: createPatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.chooseNewPatternDescriptionStringProperty )
       } );
 
-    const escapeKeyNode = TextKeyNode.esc();
+    const escapeKeyNode = TextKeyNode.esc( { disposer: options.disposeEmitter } );
     const closeWithoutChanging = KeyboardHelpSectionRow.labelWithIcon(
       SceneryPhetStrings.keyboardHelpDialog.comboBox.closeWithoutChangingStringProperty,
       escapeKeyNode, {
@@ -102,19 +103,6 @@ export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
 
     // order the rows of content
     super( options.headingString, [ popUpList, moveThrough, chooseNew, closeWithoutChanging ], options );
-
-    this.disposeComboBoxKeyboardHelpSection = () => {
-      ourPatternStringsToDispose.forEach( patternString => patternString.dispose() );
-      spaceKeyNode.dispose();
-      enterKeyNode.dispose();
-      escapeKeyNode.dispose();
-      spaceOrEnterIcon.dispose();
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeComboBoxKeyboardHelpSection();
-    super.dispose();
   }
 }
 
