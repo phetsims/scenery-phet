@@ -12,7 +12,7 @@
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { AlignBoxOptions, AlignGroup, HBox, Node, RichText, RichTextOptions, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { AlignBoxOptions, AlignGroup, HBox, Node, PDOMValueType, RichText, RichTextOptions, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import Disposable, { DisposableOptions } from '../../../../axon/js/Disposable.js';
 import { VoicingResponse } from '../../../../utterance-queue/js/ResponsePacket.js';
 import PhetFont from '../../PhetFont.js';
@@ -31,7 +31,7 @@ const OR_TEXT_MAX_WIDTH = 16;
 type LabelWithIconListOptions = {
 
   // content for the parallel DOM, read by a screen reader
-  labelInnerContent?: string | TReadOnlyProperty<string> | null;
+  labelInnerContent?: PDOMValueType | null;
 
   // voicing
   // Content for this icon that is read by the Voicing feature when in a KeyboardHelpSection. If null,
