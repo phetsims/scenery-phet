@@ -8,8 +8,6 @@
  * @author Jesse Greenberg
  */
 
-import optionize from '../../../../phet-core/js/optionize.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import BasicActionsKeyboardHelpSection, { BasicActionsKeyboardHelpSectionOptions } from './BasicActionsKeyboardHelpSection.js';
 import SliderControlsKeyboardHelpSection, { SliderControlsKeyboardHelpSectionOptions } from './SliderControlsKeyboardHelpSection.js';
@@ -29,13 +27,7 @@ export type SliderControlsAndBasicActionsKeyboardHelpContentOptions = SelfOption
 export default class SliderControlsAndBasicActionsKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 
   public constructor( providedOptions?: SliderControlsAndBasicActionsKeyboardHelpContentOptions ) {
-
-    const options = optionize<SliderControlsAndBasicActionsKeyboardHelpContentOptions,
-      StrictOmit<SelfOptions, 'sliderSectionOptions' | 'generalSectionOptions'>,
-      TwoColumnKeyboardHelpContentOptions>()( {
-      //TODO https://github.com/phetsims/scenery-phet/issues/769 no such option, is this vestigial?
-      // textMaxWidth: 160 // a bit narrower than default, so the sections fit side-by-side
-    }, providedOptions );
+    const options = providedOptions || {};
 
     const sliderHelpSection = new SliderControlsKeyboardHelpSection( options.sliderSectionOptions );
     const basicActionsHelpSection = new BasicActionsKeyboardHelpSection( options.generalSectionOptions );

@@ -31,7 +31,6 @@ const OR_TEXT_MAX_WIDTH = 16;
 type LabelWithIconListOptions = {
 
   // content for the parallel DOM, read by a screen reader
-  //TODO https://github.com/phetsims/scenery-phet/issues/769 is it OK to use a dynamic translated string here?
   labelInnerContent?: string | TReadOnlyProperty<string> | null;
 
   // voicing
