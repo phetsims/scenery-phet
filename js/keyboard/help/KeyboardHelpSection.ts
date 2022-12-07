@@ -16,8 +16,9 @@
  * @author Jesse Greenberg
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import StringProperty from '../../../../axon/js/StringProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import TReadOnlyProperty, { isTReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import { HBox, Node, ReadingBlock, ReadingBlockOptions, Text, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
@@ -154,9 +155,11 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
     this.contentHBox = contentHBox;
     this.keyboardHelpSectionRows = content;
 
-    this.setReadingBlockNameResponse( this.generateReadingBlockNameResponse() );
+    const readingBlockResponseProperty = this.createReadingBlockResponseProperty();
+    this.setReadingBlockNameResponse( readingBlockResponseProperty );
 
     this.disposeKeyboardHelpSection = () => {
+      readingBlockResponseProperty.dispose();
       content.forEach( oneContent => oneContent.dispose() );
       headingText.dispose();
     };
@@ -171,25 +174,36 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
    * Assemble the content that is read for this KeyboardHelpSection as a ReadingBlock. When
    * Voicing is enabled, activating the section will read all the content to the user.
    *
-   * NOTE: This probably doesn't hold up for i18n, but Voicing does not support translation and
-   * that will have to be worked on another time.
+   * NOTE: Though this supports dynamic string Properties, this probably doesn't hold up for i18n. That said Voicing
+   * does not support translation and that will have to be worked on another time.
    */
-  private generateReadingBlockNameResponse(): string {
+  private createReadingBlockResponseProperty(): TReadOnlyProperty<string> {
 
-    // Include the section heading. Headings typically don't have punctuation, but don't use a period because
-    // it may appear to the synth as an abbreviation and change the pronunciation.
-    let readingBlockNameResponse = '';
+    const dependencies: TReadOnlyProperty<unknown>[] = [ this.headingStringProperty ];
+    for ( let i = 0; i < this.keyboardHelpSectionRows.length; i++ ) {
+      const keyboardHelpSectionRow = this.keyboardHelpSectionRows[ i ];
 
-    readingBlockNameResponse += `${this.headingStringProperty.value}, `;
-
-    // Append the readingBlockNameResponse assigned to each row.
-    this.keyboardHelpSectionRows.forEach( row => {
-      if ( row.readingBlockContent ) {
-        readingBlockNameResponse += `${ResponsePacket.getResponseText( row.readingBlockContent )} `;
+      if ( isTReadOnlyProperty( keyboardHelpSectionRow.readingBlockContent ) ) {
+        dependencies.push( keyboardHelpSectionRow.readingBlockContent );
       }
-    } );
+    }
 
-    return readingBlockNameResponse;
+    return DerivedProperty.deriveAny( dependencies, () => {
+
+      let readingBlockNameResponse = '';
+
+      // Include the section heading. Headings typically don't have punctuation, but don't use a period because
+      // it may appear to the synth as an abbreviation and change the pronunciation.
+      readingBlockNameResponse += `${this.headingStringProperty.value}, `;
+
+      // Append the readingBlockNameResponse assigned to each row.
+      this.keyboardHelpSectionRows.forEach( row => {
+        if ( row.readingBlockContent ) {
+          readingBlockNameResponse += `${ResponsePacket.getResponseText( row.readingBlockContent )} `;
+        }
+      } );
+      return readingBlockNameResponse;
+    } );
   }
 
   /**
