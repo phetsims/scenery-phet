@@ -15,7 +15,6 @@ export default function demoMeasuringTapeNode( layoutBounds: Bounds2 ): Node {
 
   const measuringTapeUnitsProperty = new Property( { name: 'meters', multiplier: 1 } );
 
-  // @ts-ignore MeasuringTapeNode has not been converted to TypeScript
   return new MeasuringTapeNode( measuringTapeUnitsProperty, {
     textColor: 'black',
     textBackgroundColor: 'rgba( 255, 0, 0, 0.1 )', // translucent red

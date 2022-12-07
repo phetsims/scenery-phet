@@ -172,7 +172,6 @@ export default class NumberDisplay extends Node {
       ? new TinyProperty( replaceValuePatternValue( options.valuePattern ) )
       : new DerivedProperty( [ options.valuePattern ], replaceValuePatternValue );
 
-    // @ts-ignore convert chipper query parameters
     assert && assert( !!phet.chipper.queryParameters.stringTest ||
                       valuePatternProperty.value.includes( SunConstants.VALUE_NAMED_PLACEHOLDER ),
       `missing value placeholder in options.valuePattern: ${valuePatternProperty.value}` );
@@ -184,7 +183,6 @@ export default class NumberDisplay extends Node {
     }
     const noValuePatternProperty = typeof options.noValuePattern === 'string' ? new TinyProperty( options.noValuePattern ) : options.noValuePattern;
 
-    // @ts-ignore convert chipper query parameters
     assert && assert( !!phet.chipper.queryParameters.stringTest ||
                       noValuePatternProperty.value.includes( SunConstants.VALUE_NAMED_PLACEHOLDER ),
       `missing value placeholder in options.noValuePattern: ${noValuePatternProperty.value}` );

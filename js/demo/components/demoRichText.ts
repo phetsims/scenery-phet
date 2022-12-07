@@ -23,7 +23,7 @@ export default function demoRichText( layoutBounds: Bounds2 ): Node {
       new RichText( 'Supports <a href="{{phetWebsite}}"><em>links</em> with <b>markup</b></a>, and <a href="{{callback}}">links that call functions</a>.', {
         links: {
           phetWebsite: 'https://phet.colorado.edu',
-          // @ts-ignore TODO https://github.com/phetsims/scenery-phet/issues/754 TS2322: Type '() => void' is not assignable to type 'string'.
+          // @ts-expect-error TODO https://github.com/phetsims/scenery-phet/issues/754 TS2322: Type '() => void' is not assignable to type 'string'.
           callback: () => console.log( 'Link was clicked' )
         }
       } ),

@@ -339,7 +339,6 @@ export default class NumberControl extends Node {
     // Get the pointer area options related to ArrowButton so that we can handle pointer areas here.
     // And do not propagate those options to ArrowButton instances.
     const arrowButtonPointerAreaOptions = _.pick( options.arrowButtonOptions, POINTER_AREA_OPTION_NAMES ) as PickRequired<ArrowButtonOptions, typeof POINTER_AREA_OPTION_NAMES[number]>;
-    // @ts-ignore How to handle this?
     options.arrowButtonOptions = _.omit( options.arrowButtonOptions, POINTER_AREA_OPTION_NAMES );
 
     // pdom - for alternative input, the number control is accessed entirely through slider interaction and these

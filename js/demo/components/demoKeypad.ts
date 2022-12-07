@@ -25,12 +25,10 @@ export default function demoKeypad( layoutBounds: Bounds2 ): Node {
   const integerStringRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
   const integerValueRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
 
-  // @ts-ignore Keypad has not been converted to TypeScript
   integerKeyPad.stringProperty.link( value => {
     integerStringRepresentation.text = `string: ${value}`;
   } );
 
-  // @ts-ignore Keypad has not been converted to TypeScript
   integerKeyPad.valueProperty.link( value => {
     integerValueRepresentation.text = `number: ${value}`;
   } );
@@ -48,7 +46,6 @@ export default function demoKeypad( layoutBounds: Bounds2 ): Node {
     clearOnNextKeyPress => integerKeyPad.setClearOnNextKeyPress( clearOnNextKeyPress )
   );
 
-  // @ts-ignore Keypad has not been converted to TypeScript
   integerKeyPad.valueProperty.link( value => {
     integerClearOnNextKeyPressProperty.value = integerKeyPad.getClearOnNextKeyPress();
   } );
@@ -78,12 +75,10 @@ export default function demoKeypad( layoutBounds: Bounds2 ): Node {
   const floatingPointStringRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
   const floatingPointValueRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
 
-  // @ts-ignore Keypad has not been converted to TypeScript
   floatingPointKeyPad.stringProperty.link( value => {
     floatingPointStringRepresentation.text = `string: ${value}`;
   } );
 
-  // @ts-ignore Keypad has not been converted to TypeScript
   floatingPointKeyPad.valueProperty.link( value => {
     floatingPointValueRepresentation.text = `number: ${value}`;
   } );
@@ -129,12 +124,10 @@ export default function demoKeypad( layoutBounds: Bounds2 ): Node {
   const positiveAndNegativeFloatingPointStringRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
   const positiveAndNegativeFloatingPointValueRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
 
-  // @ts-ignore Keypad has not been converted to TypeScript
   positiveAndNegativeFloatingPointKeyPad.stringProperty.link( value => {
     positiveAndNegativeFloatingPointStringRepresentation.text = `string: ${value}`;
   } );
 
-  // @ts-ignore Keypad has not been converted to TypeScript
   positiveAndNegativeFloatingPointKeyPad.valueProperty.link( value => {
     positiveAndNegativeFloatingPointValueRepresentation.text = `number: ${value}`;
   } );
@@ -158,7 +151,6 @@ export default function demoKeypad( layoutBounds: Bounds2 ): Node {
     handlePositiveAndNegativeFloatingPointClearOnNextKeyPressChanged
   );
 
-  // @ts-ignore Keypad has not been converted to TypeScript
   positiveAndNegativeFloatingPointKeyPad.valueProperty.link( value => {
     positiveAndNegativeFloatingPointClearOnNextKeyPressProperty.value =
       positiveAndNegativeFloatingPointKeyPad.getClearOnNextKeyPress();
