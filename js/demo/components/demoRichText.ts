@@ -22,9 +22,7 @@ export default function demoRichText( layoutBounds: Bounds2 ): Node {
       new RichText( 'HTML entities need to be escaped, like &amp; and &lt;.' ),
       new RichText( 'Supports <a href="{{phetWebsite}}"><em>links</em> with <b>markup</b></a>, and <a href="{{callback}}">links that call functions</a>.', {
         links: {
-          phetWebsite: 'https://phet.colorado.edu',
-          // @ts-expect-error TODO https://github.com/phetsims/scenery-phet/issues/754 TS2322: Type '() => void' is not assignable to type 'string'.
-          callback: () => console.log( 'Link was clicked' )
+          phetWebsite: 'https://phet.colorado.edu'
         }
       } ),
       new RichText( 'Or also <a href="https://phet.colorado.edu">links directly in the string</a>.', {
