@@ -137,5 +137,8 @@ export default function demoGridBox( layoutBounds ) {
 
   window.gridBox = gridBox;
 
-  return scene;
+  return new Node( {
+    children: [ scene ],
+    center: layoutBounds.center
+  } );
 }

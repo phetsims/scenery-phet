@@ -363,5 +363,8 @@ export default function demoFlowBox( layoutBounds ) {
   } );
   leftBox.addChild( demoBox( verticalBox, null, true, false ) );
 
-  return scene;
+  return new Node( {
+    children: [ scene ],
+    center: layoutBounds.center
+  } );
 }

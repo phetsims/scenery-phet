@@ -34,5 +34,8 @@ export default function demoManualConstraint( layoutBounds: Bounds2 ): Node {
     nodeBWrapper.centerY = nodeAWrapper.centerY;
   } );
 
-  return base;
+  return new Node( {
+    children: [ base ],
+    center: layoutBounds.center
+  } );
 }
