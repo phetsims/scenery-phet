@@ -20,6 +20,7 @@ import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { AquaRadioButtonGroupItem } from '../../sun/js/AquaRadioButtonGroup.js';
+import sceneryPhet from './sceneryPhet.js';
 
 // maps TimeSpeed to its label and Tandem name
 const SPEED_LABEL_MAP = new Map();
@@ -96,3 +97,5 @@ export default class TimeSpeedRadioButtonGroup extends VerticalAquaRadioButtonGr
     super( timeSpeedProperty, items, options );
   }
 }
+
+sceneryPhet.register( 'TimeSpeedRadioButtonGroup', TimeSpeedRadioButtonGroup );

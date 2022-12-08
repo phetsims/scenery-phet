@@ -13,6 +13,7 @@ import RectangularPushButton, { RectangularPushButtonOptions } from '../../../su
 import cameraSolidShape from '../../../sherpa/js/fontawesome-5/cameraSolidShape.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import PhetColorScheme from '../PhetColorScheme.js';
+import sceneryPhet from '../sceneryPhet.js';
 
 type SelfOptions = {
   iconFill?: TColor;
@@ -47,3 +48,5 @@ export default class CameraButton extends RectangularPushButton {
     super( options );
   }
 }
+
+sceneryPhet.register( 'CameraButton', CameraButton );

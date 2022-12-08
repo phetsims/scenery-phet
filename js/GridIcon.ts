@@ -9,6 +9,7 @@
 import optionize from '../../phet-core/js/optionize.js';
 import { Path, PathOptions } from '../../scenery/js/imports.js';
 import { Shape } from '../../kite/js/imports.js';
+import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
   size?: number; // dimensions of the icon, same for width and height
@@ -56,3 +57,5 @@ export default class GridIcon extends Path {
     super( shape, options );
   }
 }
+
+sceneryPhet.register( 'GridIcon', GridIcon );
