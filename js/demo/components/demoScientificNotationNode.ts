@@ -122,9 +122,6 @@ class ControlPanel extends Panel {
                       nullExponentProperty: Property<boolean>,
                       showZeroExponentProperty: Property<boolean> ) {
 
-    assert && assert( mantissaDecimalPlacesProperty.range );
-    assert && assert( exponentProperty.range );
-
     const textOptions = {
       font: CONTROL_FONT
     };
