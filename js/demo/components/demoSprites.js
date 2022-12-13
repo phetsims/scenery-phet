@@ -42,6 +42,7 @@ export default function demoSprites( layoutBounds ) {
 
   // Example of how to create a SpriteImage from a non-HTMLImageElement, as recommended by @jonathanolson
   // in https://github.com/phetsims/beers-law-lab/issues/276#issuecomment-1347071650
+  // Add additional parameters for the toCanvas callback if you need resolution scaling.
   const particleRectangle = new Rectangle( 0, 0, 50, 50, {
     fill: 'red',
     stroke: 'black'
