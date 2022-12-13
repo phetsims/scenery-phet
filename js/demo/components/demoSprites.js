@@ -13,7 +13,7 @@ import dotRandom from '../../../../dot/js/dotRandom.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import arrayRemove from '../../../../phet-core/js/arrayRemove.js';
-import { DragListener, Node, Sprite, SpriteImage, SpriteInstance, SpriteListenable, Sprites, VBox } from '../../../../scenery/js/imports.js';
+import { DragListener, Node, Rectangle, Sprite, SpriteImage, SpriteInstance, SpriteListenable, Sprites, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import flame_png from '../../../images/flame_png.js';
 import iceCubeStack_png from '../../../images/iceCubeStack_png.js';
@@ -40,14 +40,26 @@ export default function demoSprites( layoutBounds ) {
   const measuringTapeSpriteImage = new SpriteImage( measuringTape_png, new Vector2( 50, 40 ), { hitTestPixels: true } );
   const iceCubeStackSpriteImage = new SpriteImage( iceCubeStack_png, new Vector2( 25, 25 ), { hitTestPixels: true } );
 
+  // Example of how to create a SpriteImage from a non-HTMLImageElement, as recommended by @jonathanolson
+  // in https://github.com/phetsims/beers-law-lab/issues/276#issuecomment-1347071650
+  const particleRectangle = new Rectangle( 0, 0, 50, 50, {
+    fill: 'red',
+    stroke: 'black'
+  } );
+  let particleSpriteImage;
+  particleRectangle.toCanvas( canvas => {
+    particleSpriteImage = new SpriteImage( canvas, particleRectangle.center );
+  } );
+
   // Sprites
   const sprite0 = new Sprite( flameSpriteImage );
   const sprite1 = new Sprite( measuringTapeSpriteImage );
   const sprite2 = new Sprite( iceCubeStackSpriteImage );
+  const sprite3 = new Sprite( particleSpriteImage );
 
   const createSpriteInstance = () => {
     const instance = SpriteInstance.pool.create();
-    instance.sprite = dotRandom.sample( [ sprite0, sprite1, sprite2 ] );
+    instance.sprite = dotRandom.sample( [ sprite0, sprite1, sprite2, sprite3 ] );
     instance.matrix.setToTranslation( dotRandom.nextDouble() * getAvailableWidth(), dotRandom.nextDouble() * getAvailableHeight() );
 
     // Put a custom velocity on each one
@@ -76,7 +88,7 @@ export default function demoSprites( layoutBounds ) {
   const sprites = new Sprites( {
 
     // The sprites we have available (fixed, won't change)
-    sprites: [ sprite0, sprite1, sprite2 ],
+    sprites: [ sprite0, sprite1, sprite2, sprite3 ],
     spriteInstances: instances,
     canvasBounds: layoutBounds.dilated( 200 ),
     hitTestSprites: true,
