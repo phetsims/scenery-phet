@@ -98,7 +98,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
    * The format is MM:SS.CC, where M=minutes, S=seconds, C=centiseconds. The returned string is plain text, so all
    * digits will be the same size, and the client is responsible for setting the font size.
    */
-  public static PLAIN_TEXT_MINUTES_AND_SECONDS = ( time: number ): string => {
+  public static readonly PLAIN_TEXT_MINUTES_AND_SECONDS = ( time: number ): string => {
     const minutesAndSeconds = toMinutesAndSeconds( time );
     const centiseconds = StopwatchNode.getDecimalPlaces( time, 2 );
     return minutesAndSeconds + centiseconds;
@@ -109,7 +109,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
    * The format is format MM:SS.cc, where M=minutes, S=seconds, c=centiseconds. The string returned is in RichText
    * format, with the 'c' digits in a smaller font.
    */
-  public static RICH_TEXT_MINUTES_AND_SECONDS = StopwatchNode.createRichTextNumberFormatter( {
+  public static readonly RICH_TEXT_MINUTES_AND_SECONDS = StopwatchNode.createRichTextNumberFormatter( {
     showAsMinutesAndSeconds: true,
     numberOfDecimalPlaces: 2
   } );

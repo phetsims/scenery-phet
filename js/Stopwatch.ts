@@ -46,7 +46,7 @@ export default class Stopwatch extends PhetioObject {
 
   private readonly disposeStopwatch: () => void;
 
-  public static ZERO_TO_ALMOST_SIXTY = new Range( 0, 3599.99 ); // works out to be 59:59.99
+  public static readonly ZERO_TO_ALMOST_SIXTY = new Range( 0, 3599.99 ); // works out to be 59:59.99
 
   public constructor( providedOptions?: StopwatchOptions ) {
 

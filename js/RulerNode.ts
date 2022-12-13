@@ -55,7 +55,7 @@ class RulerNode extends Node {
 
   private readonly disposeRulerNode: () => void;
 
-  public static DEFAULT_FILL = 'rgb(236, 225, 113)';
+  public static readonly DEFAULT_FILL = 'rgb(236, 225, 113)';
 
   /**
    * @param rulerWidth  distance between left-most and right-most tick, insets will be added to this

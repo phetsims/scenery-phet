@@ -79,7 +79,7 @@ export default class HeaterCoolerFront extends Node {
 
   private readonly disposeHeaterCoolerFront: () => void;
 
-  public static DEFAULT_BASE_COLOR = 'rgb( 159, 182, 205 )';
+  public static readonly DEFAULT_BASE_COLOR = 'rgb( 159, 182, 205 )';
 
   /**
    * @param heatCoolAmountProperty +1 for max heating, -1 for max cooling
