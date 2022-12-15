@@ -46,15 +46,17 @@ const POINTER_AREA_OPTION_NAMES = [ 'touchAreaXDilation', 'touchAreaYDilation', 
 
 export type LayoutFunction = ( titleNode: Node, numberDisplay: NumberDisplay, slider: Slider, decrementButton: ArrowButton | null, incrementButton: ArrowButton | null ) => Node;
 
-export type NumberControlSliderOptions = StrictOmit<SliderOptions, 'enabledRangeProperty'> & {
-  // other slider options that are specific to NumberControl
-  // NOTE: This majorTicks field isn't an HSlider option! We are constructing them here.
+// description of a major tick
+type NumberControlMajorTick = {
+  value: number; // value that the tick corresponds to
+  label?: Node; // optional label that appears at the tick mark
+};
 
-  // array of objects with these fields: { value: {number}, label: {Node} }
-  majorTicks?: {
-    value: number;
-    label: Node;
-  }[];
+// other slider options that are specific to NumberControl
+export type NumberControlSliderOptions = StrictOmit<SliderOptions, 'enabledRangeProperty'> & {
+
+  // description of major ticks
+  majorTicks?: NumberControlMajorTick[];
 
   // zero indicates no minor ticks
   minorTickSpacing?: number;
@@ -285,8 +287,7 @@ export default class NumberControl extends Node {
         minorTickStroke: 'rgba( 0, 0, 0, 0.3 )',
 
         // other slider options that are specific to NumberControl
-        // NOTE: This majorTicks field isn't an HSlider option! We are constructing them here.
-        majorTicks: [], // array of objects with these fields: { value: {number}, label: {Node} }
+        majorTicks: [],
         minorTickSpacing: 0, // zero indicates no minor ticks
 
         // constrain the slider value to the provided range and the same delta as the arrow buttons,
@@ -479,8 +480,8 @@ export default class NumberControl extends Node {
     }
 
     // major ticks for the slider
-    // NOTE: Typing for majorTicks should be improved
-    const majorTicks = options.sliderOptions.majorTicks as { value: number; label: Node }[];
+    const majorTicks = options.sliderOptions.majorTicks!;
+    assert && assert( majorTicks );
     for ( let i = 0; i < majorTicks.length; i++ ) {
       this.slider.addMajorTick( majorTicks[ i ].value, majorTicks[ i ].label );
     }
