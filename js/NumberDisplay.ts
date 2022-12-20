@@ -36,7 +36,7 @@ const DEFAULT_DECIMAL_PLACES = 0;
 type NumberFormatter = ( n: number ) => string;
 
 type SelfOptions = {
-  // see ALIGN_VALUES
+
   align?: NumberDisplayAlign;
 
   // Pattern used to format the value.
