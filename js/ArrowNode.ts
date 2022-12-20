@@ -36,10 +36,11 @@ export type ArrowNodeOptions = SelfOptions & PathOptions;
 
 export default class ArrowNode extends Path {
 
-  private tailX: number;
-  private tailY: number;
-  private tipX: number;
-  private tipY: number;
+  // These are public for accessing only. To change these use setTailAndTip().
+  public tailX: number;
+  public tailY: number;
+  public tipX: number;
+  public tipY: number;
 
   private readonly options: Required<SelfOptions>;
   private shapePoints: Vector2[];
