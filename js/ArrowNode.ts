@@ -36,15 +36,7 @@ export type ArrowNodeOptions = SelfOptions & PathOptions;
 
 export default class ArrowNode extends Path {
 
-  // These are public for accessing only. To change these use setTailAndTip().
-  public tailX: number;
-  public tailY: number;
-  public tipX: number;
-  public tipY: number;
-
-  private readonly options: Required<SelfOptions>;
-  private shapePoints: Vector2[];
-
+  // Get these fields using ES5 getters.
   public constructor( tailX: number, tailY: number, tipX: number, tipY: number, providedOptions?: ArrowNodeOptions ) {
 
     // default options
@@ -74,10 +66,10 @@ export default class ArrowNode extends Path {
     this.options = options;
     this.shapePoints = [];
 
-    this.tailX = tailX;
-    this.tailY = tailY;
-    this.tipX = tipX;
-    this.tipY = tipY;
+    this._tailX = tailX;
+    this._tailY = tailY;
+    this._tipX = tipX;
+    this._tipY = tipY;
 
     this.setTailAndTip( tailX, tailY, tipX, tipY );
 
@@ -87,14 +79,49 @@ export default class ArrowNode extends Path {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ArrowNode', this );
   }
 
+  // Set these fields using setTail, setTip, setTailAndTip.
+  private _tailX: number;
+
+  public get tailX(): number { return this._tailX; }
+
+  private _tailY: number;
+
+  private readonly options: Required<SelfOptions>;
+  private shapePoints: Vector2[];
+
+  public get tailY(): number { return this._tailY; }
+
+  private _tipX: number;
+
+  public get tipX(): number { return this._tipX; }
+
+  private _tipY: number;
+
+  public get tipY(): number { return this._tipY; }
+
   /**
-   * Update the internal shapePoints array which is used to populate the points in the Shape instance.
-   * Returns true if the number of points in the array has changed, which would require building a new shape instance.
+   * Sets the tail and tip positions to update the arrow shape.
+   * If the tail and tip are at the same point, the arrow is not shown.
    */
-  private updateShapePoints(): boolean {
-    const numberOfPoints = this.shapePoints.length;
-    this.shapePoints = ArrowShape.getArrowShapePoints( this.tailX, this.tailY, this.tipX, this.tipY, this.shapePoints, this.options );
-    return ( this.shapePoints.length !== numberOfPoints );
+  public setTailAndTip( tailX: number, tailY: number, tipX: number, tipY: number ): void {
+
+    this._tailX = tailX;
+    this._tailY = tailY;
+    this._tipX = tipX;
+    this._tipY = tipY;
+
+    const numberOfPointsChanged = this.updateShapePoints();
+
+    // This bit of logic is to improve performance for the case where the Shape instance can be reused
+    // (if the number of points in the array is the same).
+    if ( !this.shape || numberOfPointsChanged ) {
+      this.updateShape();
+    }
+    else {
+
+      // This is the higher-performance case where the Shape instance can be reused
+      this.shape.invalidatePoints();
+    }
   }
 
   /**
@@ -116,42 +143,27 @@ export default class ArrowNode extends Path {
   }
 
   /**
-   * Sets the tail and tip positions to update the arrow shape.
-   * If the tail and tip are at the same point, the arrow is not shown.
-   */
-  public setTailAndTip( tailX: number, tailY: number, tipX: number, tipY: number ): void {
-
-    this.tailX = tailX;
-    this.tailY = tailY;
-    this.tipX = tipX;
-    this.tipY = tipY;
-
-    const numberOfPointsChanged = this.updateShapePoints();
-
-    // This bit of logic is to improve performance for the case where the Shape instance can be reused
-    // (if the number of points in the array is the same).
-    if ( !this.shape || numberOfPointsChanged ) {
-      this.updateShape();
-    }
-    else {
-
-      // This is the higher-performance case where the Shape instance can be reused
-      this.shape.invalidatePoints();
-    }
-  }
-
-  /**
    * Sets the tail position.
    */
   public setTail( tailX: number, tailY: number ): void {
-    this.setTailAndTip( tailX, tailY, this.tipX, this.tipY );
+    this.setTailAndTip( tailX, tailY, this._tipX, this._tipY );
   }
 
   /**
    * Sets the tip position.
    */
   public setTip( tipX: number, tipY: number ): void {
-    this.setTailAndTip( this.tailX, this.tailY, tipX, tipY );
+    this.setTailAndTip( this._tailX, this._tailY, tipX, tipY );
+  }
+
+  /**
+   * Update the internal shapePoints array which is used to populate the points in the Shape instance.
+   * Returns true if the number of points in the array has changed, which would require building a new shape instance.
+   */
+  private updateShapePoints(): boolean {
+    const numberOfPoints = this.shapePoints.length;
+    this.shapePoints = ArrowShape.getArrowShapePoints( this._tailX, this._tailY, this._tipX, this._tipY, this.shapePoints, this.options );
+    return ( this.shapePoints.length !== numberOfPoints );
   }
 
   /**
