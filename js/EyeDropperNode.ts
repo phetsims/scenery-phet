@@ -11,12 +11,13 @@ import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
-import { Circle, Image, TPaint, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
+import { Circle, Image, Node, NodeOptions, Path, TPaint } from '../../scenery/js/imports.js';
 import RoundMomentaryButton, { RoundMomentaryButtonOptions } from '../../sun/js/buttons/RoundMomentaryButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import eyeDropperBackground_png from '../images/eyeDropperBackground_png.js';
 import eyeDropperForeground_png from '../images/eyeDropperForeground_png.js';
 import sceneryPhet from './sceneryPhet.js';
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
 
 // constants
 const DEBUG_ORIGIN = false; // if true, put a red dot at the dropper's origin (bottom center)
@@ -94,7 +95,7 @@ export default class EyeDropperNode extends Node {
     this.isEmptyProperty = options.isEmptyProperty;
 
     // fluid fills the glass portion of the dropper, shape is specific to the dropper image file
-    this.fluidNode = new Path( new Shape()
+    const fluidShape = new Shape()
       .moveTo( -EyeDropperNode.TIP_WIDTH / 2, 0 )
       .lineTo( -EyeDropperNode.TIP_WIDTH / 2, -EyeDropperNode.TIP_HEIGHT )
       .lineTo( -EyeDropperNode.GLASS_WIDTH / 2, EyeDropperNode.GLASS_MAX_Y )
@@ -103,33 +104,31 @@ export default class EyeDropperNode extends Node {
       .lineTo( EyeDropperNode.GLASS_WIDTH / 2, EyeDropperNode.GLASS_MAX_Y )
       .lineTo( EyeDropperNode.TIP_WIDTH / 2, -EyeDropperNode.TIP_HEIGHT )
       .lineTo( EyeDropperNode.TIP_WIDTH / 2, 0 )
-      .close(), {
-      fill: options.fluidColor
+      .close();
+    this.fluidNode = new Path( fluidShape, {
+      fill: options.fluidColor,
+      visibleProperty: DerivedProperty.not( this.isEmptyProperty ) // visible when not empty
     } );
 
-    // images, origin moved to bottom center
+    // body of the dropper, origin at bottom center
     const foreground = new Image( eyeDropperForeground_png );
-    const background = new Image( eyeDropperBackground_png );
-    foreground.x = -foreground.width / 2;
-    foreground.y = -foreground.height;
-    background.x = -background.width / 2;
-    background.y = -background.height;
+    const background = new Image( eyeDropperBackground_png, {
+      visibleProperty: this.isEmptyProperty // visible when empty
+    } );
+    const bodyNode = new Node( {
+      children: [ background, foreground ]
+    } );
+    bodyNode.x = -bodyNode.width / 2;
+    bodyNode.y = -bodyNode.height;
 
     // button, centered in the dropper's bulb
     const button = new RoundMomentaryButton( this.isDispensingProperty, false, true, combineOptions<RoundMomentaryButtonOptions>( {
-      centerX: foreground.centerX,
-      centerY: foreground.top + BUTTON_CENTER_Y_OFFSET,
+      centerX: bodyNode.centerX,
+      centerY: bodyNode.top + BUTTON_CENTER_Y_OFFSET,
       tandem: options.tandem.createTandem( 'button' )
     }, options.buttonOptions ) );
 
-    // make the background visible only when the dropper is empty
-    const emptyObserver = ( empty: boolean ) => {
-      this.fluidNode.visible = !empty;
-      background.visible = empty;
-    };
-    this.isEmptyProperty.link( emptyObserver );
-
-    options.children = [ this.fluidNode, background, foreground, button ];
+    options.children = [ this.fluidNode, bodyNode, button ];
 
     // add a red dot at the origin
     if ( DEBUG_ORIGIN ) {
@@ -140,7 +139,6 @@ export default class EyeDropperNode extends Node {
 
     this.disposeEyeDropperNode = () => {
       button.dispose();
-      this.isEmptyProperty.unlink( emptyObserver );
     };
 
     this.button = button;
@@ -155,27 +153,26 @@ export default class EyeDropperNode extends Node {
   }
 
   /**
-   * Sets the color of the fluid in the dropper.
-   */
-  public setFluidColor( color: TPaint ): void {
-    this.fluidNode.fill = color;
-  }
-
-  public set fluidColor( value: TPaint ) {
-    this.setFluidColor( value );
-  }
-
-  public get fluidColor(): TPaint {
-    return this.getFluidColor();
-  }
-
-  /**
    * Gets the color of the fluid in the dropper.
    */
   public getFluidColor(): TPaint {
     return this.fluidNode.fill;
   }
 
+  /**
+   * Sets the color of the fluid in the dropper.
+   */
+  public setFluidColor( color: TPaint ): void {
+    this.fluidNode.fill = color;
+  }
+
+  public get fluidColor(): TPaint {
+    return this.getFluidColor();
+  }
+
+  public set fluidColor( value: TPaint ) {
+    this.setFluidColor( value );
+  }
 }
 
 sceneryPhet.register( 'EyeDropperNode', EyeDropperNode );
