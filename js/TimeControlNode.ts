@@ -68,7 +68,7 @@ export default class TimeControlNode extends Node {
   private readonly speedRadioButtonGroup: TimeSpeedRadioButtonGroup | null;
 
   // parent for speedRadioButtonGroup, optionally a Panel
-  private readonly speedRadioButtonGroupParent: Node | Panel | null;
+  protected readonly speedRadioButtonGroupParent: Node | Panel | null;
 
   // whether the radio buttons are to the left or right of the push buttons
   private readonly speedRadioButtonGroupOnLeft: boolean;
