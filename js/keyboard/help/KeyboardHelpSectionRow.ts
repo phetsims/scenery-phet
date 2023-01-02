@@ -83,6 +83,9 @@ class KeyboardHelpSectionRow extends Disposable {
   // when the row is activated with a click.
   public readonly readingBlockContent: VoicingResponse | null;
 
+  // Reusable font style and size for the KeyboardHelpDialog labels.
+  public static readonly LABEL_FONT = LABEL_FONT;
+
   public constructor( text: Text | RichText, label: Node, icon: Node, providedOptions?: KeyboardHelpSectionRowOptions ) {
     const options = optionize<KeyboardHelpSectionRowOptions, SelfOptions, DisposableOptions>()( {
       readingBlockContent: null

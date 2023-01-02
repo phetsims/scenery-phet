@@ -107,7 +107,44 @@ export default class KeyboardHelpIconFactory {
       size: options.plusIconSize
     } );
 
+    // Scenery layout will set transforms for children. Wrap content in a Node so that layout will work for cases
+    // using DAG since we do not own the icons.
     return KeyboardHelpIconFactory.iconRow( [ new Node( { children: [ leftIcon ] } ), plusIconNode, new Node( { children: [ rightIcon ] } ) ], options );
+  }
+
+  /**
+   * Returns a row of icons separated by '+'. Useful when a keyboard shortcut has multiple modifier keys for one
+   * key press listener.
+   */
+  public static iconPlusIconRow( iconList: Node[], providedOptions?: WithPlusIconOptions ): Node {
+    const options = combineOptions<WithPlusIconOptions>( {
+      plusIconSize: new Dimension2( 8, 1.2 ),
+      spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
+    }, providedOptions );
+
+    // Weave plus icons into the provided array of icons. Like Array.join, but with a new array instead of a string.
+    const iconListWithSeparators = [];
+    for ( let i = 0; i < iconList.length; i++ ) {
+
+      // Scenery layout controls transforms of children. Since we don't own the iconNode, we have to wrap it in another
+      // so that layout will work in cases of DAG.
+      iconListWithSeparators.push(
+        new Node( {
+          children: [ iconList[ i ] ]
+        } )
+      );
+
+      // don't add the separator to the last item
+      if ( i < iconList.length - 1 ) {
+        iconListWithSeparators.push( new PlusNode( {
+          size: options.plusIconSize
+        } ) );
+      }
+    }
+
+    return KeyboardHelpIconFactory.iconRow( iconListWithSeparators, {
+      spacing: options.spacing
+    } );
   }
 
   /**
@@ -132,6 +169,14 @@ export default class KeyboardHelpIconFactory {
       plusIconNode.dispose();
     } );
     return iconNode;
+  }
+
+  /**
+   * An icon with horizontal layout in order: alt, plus, and provided icon.
+   */
+  public static altPlusIcon( icon: Node, providedOptions?: WithPlusIconOptions ): Node {
+    const altKeyIcon = TextKeyNode.alt();
+    return KeyboardHelpIconFactory.iconPlusIcon( altKeyIcon, icon, providedOptions );
   }
 
   /**
