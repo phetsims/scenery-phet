@@ -97,19 +97,7 @@ export default class KeyboardHelpIconFactory {
    * Two icons with horizontal layout, separated by '+' text.
    */
   public static iconPlusIcon( leftIcon: Node, rightIcon: Node, providedOptions?: WithPlusIconOptions ): Node {
-
-    const options = combineOptions<WithPlusIconOptions>( {
-      plusIconSize: new Dimension2( 8, 1.2 ),
-      spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
-    }, providedOptions );
-
-    const plusIconNode = new PlusNode( {
-      size: options.plusIconSize
-    } );
-
-    // Scenery layout will set transforms for children. Wrap content in a Node so that layout will work for cases
-    // using DAG since we do not own the icons.
-    return KeyboardHelpIconFactory.iconRow( [ new Node( { children: [ leftIcon ] } ), plusIconNode, new Node( { children: [ rightIcon ] } ) ], options );
+    return KeyboardHelpIconFactory.iconPlusIconRow( [ leftIcon, rightIcon ] );
   }
 
   /**
@@ -151,24 +139,8 @@ export default class KeyboardHelpIconFactory {
    * An icon with horizontal layout in order: shift, plus, and provided icon.
    */
   public static shiftPlusIcon( icon: Node, providedOptions?: WithPlusIconOptions ): Node {
-
-    const options = combineOptions<WithPlusIconOptions>( {
-      plusIconSize: new Dimension2( 8, 1.2 ),
-      spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
-    }, providedOptions );
-
-    const shiftKeyIcon = TextKeyNode.shift();
-
-    const plusIconNode = new PlusNode( {
-      size: options.plusIconSize
-    } );
-
-    const iconNode = KeyboardHelpIconFactory.iconRow( [ shiftKeyIcon, plusIconNode, new Node( { children: [ icon ] } ) ], options );
-    iconNode.disposeEmitter.addListener( () => {
-      shiftKeyIcon.dispose();
-      plusIconNode.dispose();
-    } );
-    return iconNode;
+    const altKeyIcon = TextKeyNode.shift();
+    return KeyboardHelpIconFactory.iconPlusIcon( altKeyIcon, icon, providedOptions );
   }
 
   /**
