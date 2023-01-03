@@ -184,6 +184,8 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
       const keyboardHelpSectionRow = this.keyboardHelpSectionRows[ i ];
 
       if ( isTReadOnlyProperty( keyboardHelpSectionRow.readingBlockContent ) ) {
+
+        // @ts-ignore
         dependencies.push( keyboardHelpSectionRow.readingBlockContent );
       }
     }
