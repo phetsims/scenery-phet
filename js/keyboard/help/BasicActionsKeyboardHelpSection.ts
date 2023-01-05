@@ -64,10 +64,11 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
       } );
 
     const spaceKeyNode = TextKeyNode.space();
+    const enterKeyNode = TextKeyNode.enter();
 
     // 'Press buttons'
     const pressButtonsItemRow = KeyboardHelpSectionRow.labelWithIcon(
-      SceneryPhetStrings.keyboardHelpDialog.pressButtonsStringProperty, spaceKeyNode, {
+      SceneryPhetStrings.keyboardHelpDialog.pressButtonsStringProperty, KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode ), {
         labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.pressButtonsDescriptionStringProperty
       } );
 
@@ -107,6 +108,7 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
       leftRightArrowsIcon.dispose();
       upDownArrowsIcon.dispose();
       spaceKeyNode.dispose();
+      enterKeyNode.dispose();
     };
   }
 
