@@ -69,6 +69,7 @@ type StringsType = {
     'moveToPreviousItemOrGroupStringProperty': LinkableProperty<string>;
     'pressButtonsStringProperty': LinkableProperty<string>;
     'moveBetweenItemsInAGroupStringProperty': LinkableProperty<string>;
+    'resetAllStringProperty': LinkableProperty<string>;
     'exitADialogStringProperty': LinkableProperty<string>;
     'toggleCheckboxesStringProperty': LinkableProperty<string>;
     'orStringProperty': LinkableProperty<string>;
@@ -145,6 +146,7 @@ type StringsType = {
         'groupNavigationDescriptionStringProperty': LinkableProperty<string>;
         'exitDialogDescriptionStringProperty': LinkableProperty<string>;
         'toggleCheckboxesDescriptionStringProperty': LinkableProperty<string>;
+        'resetAllDescriptionStringProperty': LinkableProperty<string>;
       };
       'slider': {
         'orKeysPatternStringProperty': LinkableProperty<string>;

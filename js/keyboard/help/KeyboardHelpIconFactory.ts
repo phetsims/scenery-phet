@@ -97,7 +97,7 @@ export default class KeyboardHelpIconFactory {
    * Two icons with horizontal layout, separated by '+' text.
    */
   public static iconPlusIcon( leftIcon: Node, rightIcon: Node, providedOptions?: WithPlusIconOptions ): Node {
-    return KeyboardHelpIconFactory.iconPlusIconRow( [ leftIcon, rightIcon ] );
+    return KeyboardHelpIconFactory.iconPlusIconRow( [ leftIcon, rightIcon ], providedOptions );
   }
 
   /**

@@ -152,6 +152,9 @@
   "keyboardHelpDialog.moveBetweenItemsInAGroup": {
     "value": "Move between items in a group"
   },
+  "keyboardHelpDialog.resetAll": {
+    "value": "Reset All"
+  },
   "keyboardHelpDialog.exitADialog": {
     "value": "Exit a dialog"
   },
@@ -326,6 +329,9 @@
         },
         "toggleCheckboxesDescription": {
           "value": "Toggle checkboxes with Space key."
+        },
+        "resetAllDescription": {
+          "value": "Reset All with Alt plus R."
         }
       },
       "slider": {

@@ -17,6 +17,7 @@ import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
+import LetterKeyNode from '../LetterKeyNode.js';
 
 type SelfOptions = {
 
@@ -65,10 +66,11 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
 
     const spaceKeyNode = TextKeyNode.space();
     const enterKeyNode = TextKeyNode.enter();
+    const spaceOrEnterIcon = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode );
 
     // 'Press buttons'
     const pressButtonsItemRow = KeyboardHelpSectionRow.labelWithIcon(
-      SceneryPhetStrings.keyboardHelpDialog.pressButtonsStringProperty, KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode ), {
+      SceneryPhetStrings.keyboardHelpDialog.pressButtonsStringProperty, spaceOrEnterIcon, {
         labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.pressButtonsDescriptionStringProperty
       } );
 
@@ -87,6 +89,17 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
         } );
       content.push( toggleCheckboxes );
     }
+
+    // 'Reset All'
+    const altIcon = TextKeyNode.alt();
+    const rIcon = new LetterKeyNode( 'R' );
+    const altPlusRIcon = KeyboardHelpIconFactory.iconPlusIcon( altIcon, rIcon );
+    const resetAllRow = KeyboardHelpSectionRow.labelWithIcon(
+      SceneryPhetStrings.keyboardHelpDialog.resetAllStringProperty, altPlusRIcon, {
+        labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.resetAllDescriptionStringProperty
+      }
+    );
+    content.push( resetAllRow );
 
     const escapeKeyNode = TextKeyNode.esc();
 
@@ -109,6 +122,10 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
       upDownArrowsIcon.dispose();
       spaceKeyNode.dispose();
       enterKeyNode.dispose();
+      spaceOrEnterIcon.dispose();
+      altIcon.dispose();
+      rIcon.dispose();
+      altPlusRIcon.dispose();
     };
   }
 
