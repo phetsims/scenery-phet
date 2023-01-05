@@ -6,7 +6,6 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { RangedProperty } from '../../axon/js/NumberProperty.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import merge from '../../phet-core/js/merge.js';
 import { FlowBox, FlowBoxOptions, Node } from '../../scenery/js/imports.js';
@@ -14,6 +13,7 @@ import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/j
 import Tandem from '../../tandem/js/Tandem.js';
 import optionize from '../../phet-core/js/optionize.js';
 import sceneryPhet from './sceneryPhet.js';
+import TRangedProperty from '../../axon/js/TRangedProperty.js';
 
 type SelfOptions = {
 
@@ -45,7 +45,7 @@ export default class ZoomButtonGroup extends FlowBox {
    * @param zoomOutIcon
    * @param providedOptions?
    */
-  public constructor( zoomLevelProperty: RangedProperty, zoomInIcon: Node, zoomOutIcon: Node,
+  public constructor( zoomLevelProperty: TRangedProperty, zoomInIcon: Node, zoomOutIcon: Node,
                       providedOptions?: ZoomButtonGroupOptions ) {
 
     const zoomLevelRange = zoomLevelProperty.range;

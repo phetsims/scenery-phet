@@ -6,7 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import { RangedProperty } from '../../axon/js/NumberProperty.js';
+import TRangedProperty from '../../axon/js/TRangedProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import optionize from '../../phet-core/js/optionize.js';
 import { AlignBox, AlignGroup, PathOptions } from '../../scenery/js/imports.js';
@@ -35,7 +35,7 @@ export default class PlusMinusZoomButtonGroup extends ZoomButtonGroup {
    * @param zoomLevelProperty - smaller value means more zoomed out
    * @param providedOptions
    */
-  public constructor( zoomLevelProperty: RangedProperty, providedOptions?: PlusMinusZoomButtonGroupOptions ) {
+  public constructor( zoomLevelProperty: TRangedProperty, providedOptions?: PlusMinusZoomButtonGroupOptions ) {
 
     const options = optionize<PlusMinusZoomButtonGroupOptions, SelfOptions, ZoomButtonGroupOptions>()( {
 
