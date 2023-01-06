@@ -8,7 +8,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { voicingUtteranceQueue } from '../../../scenery/js/imports.js';
+import { KeyboardListener, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import resetAllSoundPlayer from '../../../tambo/js/shared-sound-players/resetAllSoundPlayer.js';
 import optionize from '../../../phet-core/js/optionize.js';
@@ -123,7 +123,19 @@ export default class ResetAllButton extends ResetButton {
       } );
     } );
 
+    const keyboardListener = new KeyboardListener( {
+      keys: [ 'alt+r' ],
+      callback: () => this.pdomClick(),
+      global: true,
+
+      // fires on up because the listener will often call interruptSubtreeInput (interrupting this keyboard listener)
+      fireOnKeyDown: false,
+      fireOnKeyUp: true
+    } );
+    this.addInputListener( keyboardListener );
+
     this.disposeResetAllButton = () => {
+      this.removeInputListener( keyboardListener );
       ariaEnabledOnFirePerUtteranceQueueMap.clear();
     };
   }
