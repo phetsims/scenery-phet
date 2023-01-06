@@ -60,14 +60,14 @@ class DebugLoggerText extends RichText {
     if ( this.messages.length >= this.numMessagesToDisplay ) {
 
       // remove the oldest message
-      this.messages.shift();
+      this.messages.pop();
     }
 
     // add the newest message
-    this.messages.push( message );
+    this.messages.unshift( message );
 
     // munge the messages together and set the value of the text
-    this.text = _.reduce( this.messages, ( memo, compositeMessage ) => {
+    this.string = _.reduce( this.messages, ( memo, compositeMessage ) => {
       return `${memo}<br>${compositeMessage}`;
     } );
   }
