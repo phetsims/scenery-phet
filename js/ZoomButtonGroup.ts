@@ -1,4 +1,4 @@
-// Copyright 2020-2022, University of Colorado Boulder
+// Copyright 2020-2023, University of Colorado Boulder
 
 /**
  * ZoomButtonGroup is the base class for a pair of buttons used to zoom 'in' and 'out'.
