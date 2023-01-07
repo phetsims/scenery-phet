@@ -25,6 +25,7 @@ type StringsType = {
     'tabStringProperty': LinkableProperty<string>;
     'shiftStringProperty': LinkableProperty<string>;
     'altStringProperty': LinkableProperty<string>;
+    'optionStringProperty': LinkableProperty<string>;
     'kStringProperty': LinkableProperty<string>;
     'lStringProperty': LinkableProperty<string>;
     'capsLockStringProperty': LinkableProperty<string>;
