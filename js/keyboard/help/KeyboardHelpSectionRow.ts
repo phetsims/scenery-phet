@@ -30,8 +30,11 @@ const OR_TEXT_MAX_WIDTH = 16;
 // Options type for labelWithIconList, see that function.
 type LabelWithIconListOptions = {
 
-  // content for the parallel DOM, read by a screen reader
+  // content for the parallel DOM representing the entire row, read by a screen reader
   labelInnerContent?: PDOMValueType | null;
+
+  // options passed to the RichText label
+  labelOptions?: RichTextOptions;
 
   // voicing
   // Content for this icon that is read by the Voicing feature when in a KeyboardHelpSection. If null,
@@ -220,7 +223,10 @@ class KeyboardHelpSectionRow extends Disposable {
     const options = optionize<LabelWithIconListOptions>()( {
       labelInnerContent: null,
       readingBlockContent: null,
-      iconsVBoxOptions: {}
+      iconsVBoxOptions: {},
+      labelOptions: {
+        font: LABEL_FONT
+      }
     }, providedOptions );
 
     options.iconsVBoxOptions = combineOptions<VBoxOptions>( {
@@ -232,7 +238,7 @@ class KeyboardHelpSectionRow extends Disposable {
       innerContent: options.labelInnerContent
     }, options.iconsVBoxOptions );
 
-    const labelText = new RichText( labelString, { font: LABEL_FONT } );
+    const labelText = new RichText( labelString, options.labelOptions );
 
     const toDispose: Node[] = [];
 
