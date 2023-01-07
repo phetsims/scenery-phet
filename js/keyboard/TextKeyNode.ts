@@ -9,6 +9,7 @@
 import TinyEmitter from '../../../axon/js/TinyEmitter.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import platform from '../../../phet-core/js/platform.js';
 import { Font, RichText, TColor } from '../../../scenery/js/imports.js';
 import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -59,7 +60,10 @@ export default class TextKeyNode extends KeyNode {
   //-------------------------------------------------------------------------------------------------
 
   public static alt( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.altStringProperty, providedOptions );
+    return new TextKeyNode(
+      platform.mac ?
+      SceneryPhetStrings.key.optionStringProperty :
+      SceneryPhetStrings.key.altStringProperty, providedOptions );
   }
 
   public static capsLock( providedOptions?: KeyNodeOptions ): KeyNode {
