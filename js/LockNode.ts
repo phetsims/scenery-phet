@@ -8,7 +8,7 @@
 
 import TProperty from '../../axon/js/TProperty.js';
 import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
-import { AlignBox, AlignBoxOptions, AlignGroup, Image } from '../../scenery/js/imports.js';
+import { AlignBox, AlignBoxOptions, AlignGroup, HBox, HStrut, Image } from '../../scenery/js/imports.js';
 import BooleanToggleNode, { BooleanToggleNodeOptions } from '../../sun/js/BooleanToggleNode.js';
 import lockClosed_png from '../images/lockClosed_png.js';
 import lockOpened_png from '../images/lockOpened_png.js';
@@ -31,12 +31,24 @@ export default class LockNode extends BooleanToggleNode {
       // To make both icons have the same effective dimensions
       group: new AlignGroup(),
 
-      // The edges of the 2 images that match up
-      xAlign: 'left',
+      xAlign: 'center',
       yAlign: 'bottom'
     };
 
-    super( isLockedProperty, new AlignBox( new Image( lockClosed_png ), alignBoxOptions ), new AlignBox( new Image( lockOpened_png ), alignBoxOptions ), providedOptions );
+    const lockClosedImage = new Image( lockClosed_png );
+    const lockClosedNode = new AlignBox( lockClosedImage, alignBoxOptions );
+
+    // For the 'open' icon, add a strut to the left, so that the lock body is in the center of lockOpenedNode.
+    const lockOpenedImage = new Image( lockOpened_png );
+    const lockOpenedNode = new AlignBox( new HBox( {
+      children: [
+        new HStrut( lockOpenedImage.width - lockClosedImage.width ),
+        lockOpenedImage
+      ],
+      spacing: 0
+    } ), alignBoxOptions );
+
+    super( isLockedProperty, lockClosedNode, lockOpenedNode, providedOptions );
   }
 }
 
