@@ -6,6 +6,7 @@
  * @author Jesse Greenberg
  */
 
+import LinkableProperty from '../../../axon/js/LinkableProperty.js';
 import TinyEmitter from '../../../axon/js/TinyEmitter.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
@@ -54,16 +55,24 @@ export default class TextKeyNode extends KeyNode {
     super( text, options );
   }
 
+  /**
+   * Returns the correct platform dependent key string for "Alt". "Alt" on Windows, "Option" on Mac.
+   */
+  public static getAltKeyString(): LinkableProperty<string> {
+    return platform.mac ?
+           SceneryPhetStrings.key.optionStringProperty :
+           SceneryPhetStrings.key.altStringProperty;
+  }
+
   //-------------------------------------------------------------------------------------------------
   // Static factory methods for specific text strings. For brevity, these methods have the same names
-  // as their string keys. For example SceneryPhetStrings.key.alt is rendered by the alt method.
+  // as their string keys. For example SceneryPhetStrings.key.esc is rendered by the esc method.
   //-------------------------------------------------------------------------------------------------
 
+  // Note that this will render "Alt" OR "Options", depending on platform. If there is a description of this icon
+  // in the PDOM please use getAltKeyString().
   public static alt( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode(
-      platform.mac ?
-      SceneryPhetStrings.key.optionStringProperty :
-      SceneryPhetStrings.key.altStringProperty, providedOptions );
+    return new TextKeyNode( TextKeyNode.getAltKeyString(), providedOptions );
   }
 
   public static capsLock( providedOptions?: KeyNodeOptions ): KeyNode {
