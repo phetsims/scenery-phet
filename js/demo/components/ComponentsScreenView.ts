@@ -12,7 +12,6 @@
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import DemosScreenView, { DemosScreenViewOptions } from '../../../../sun/js/demo/DemosScreenView.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import sceneryPhetQueryParameters from '../../sceneryPhetQueryParameters.js';
 import demoArrowNode from './demoArrowNode.js';
@@ -61,8 +60,7 @@ export default class ComponentsScreenView extends DemosScreenView {
   public constructor( providedOptions: ComponentsScreenViewOptions ) {
 
     const options = optionize<ComponentsScreenViewOptions, SelfOptions, DemosScreenViewOptions>()( {
-      selectedDemoLabel: sceneryPhetQueryParameters.component,
-      tandem: Tandem.REQUIRED
+      selectedDemoLabel: sceneryPhetQueryParameters.component
     }, providedOptions );
 
     // To add a demo, add an entry here of type SunDemo.

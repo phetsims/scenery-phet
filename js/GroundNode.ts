@@ -12,9 +12,10 @@ import { Color, TColor } from '../../scenery/js/imports.js';
 import GradientBackgroundNode from './GradientBackgroundNode.js';
 import sceneryPhet from './sceneryPhet.js';
 
+// TODO CM: should these be optional, or should we remove the defaults? https://github.com/phetsims/chipper/issues/1360
 type SelfOptions = {
-  topColor: TColor;
-  bottomColor: TColor;
+  topColor?: TColor;
+  bottomColor?: TColor;
 };
 
 export type GroundNodeOptions = SelfOptions; // superclass GradientBackgroundNode has no options
