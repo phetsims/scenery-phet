@@ -18,6 +18,7 @@ import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 import LetterKeyNode from '../LetterKeyNode.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
 type SelfOptions = {
 
@@ -96,7 +97,9 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
     const altPlusRIcon = KeyboardHelpIconFactory.iconPlusIcon( altIcon, rIcon );
     const resetAllRow = KeyboardHelpSectionRow.labelWithIcon(
       SceneryPhetStrings.keyboardHelpDialog.resetAllStringProperty, altPlusRIcon, {
-        labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.resetAllDescriptionStringProperty
+        labelInnerContent: StringUtils.fillIn( SceneryPhetStrings.a11y.keyboardHelpDialog.general.resetAllDescriptionPatternStringProperty, {
+          altKey: TextKeyNode.getAltKeyString()
+        } )
       }
     );
     content.push( resetAllRow );

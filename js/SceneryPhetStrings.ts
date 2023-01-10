@@ -147,7 +147,7 @@ type StringsType = {
         'groupNavigationDescriptionStringProperty': LinkableProperty<string>;
         'exitDialogDescriptionStringProperty': LinkableProperty<string>;
         'toggleCheckboxesDescriptionStringProperty': LinkableProperty<string>;
-        'resetAllDescriptionStringProperty': LinkableProperty<string>;
+        'resetAllDescriptionPatternStringProperty': LinkableProperty<string>;
       };
       'slider': {
         'orKeysPatternStringProperty': LinkableProperty<string>;
