@@ -178,6 +178,9 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
 
     const playPauseButton = new BooleanRectangularToggleButton( stopwatch.isRunningProperty, pausePath, playPath, {
       baseColor: options.buttonBaseColor,
+      touchAreaXDilation: 5,
+      touchAreaXShift: 5,
+      touchAreaYDilation: 8,
       tandem: options.tandem.createTandem( 'playPauseButton' )
     } );
 
@@ -186,6 +189,9 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
         stopwatch.isRunningProperty.set( false );
         stopwatch.timeProperty.set( 0 );
       },
+      touchAreaXDilation: 5,
+      touchAreaXShift: -5,
+      touchAreaYDilation: 8,
       content: resetPath,
       baseColor: options.buttonBaseColor,
       tandem: options.tandem.createTandem( 'resetButton' )
