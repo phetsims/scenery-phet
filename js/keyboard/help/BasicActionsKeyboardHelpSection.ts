@@ -92,7 +92,7 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
     }
 
     // 'Reset All'
-    const altIcon = TextKeyNode.alt();
+    const altIcon = TextKeyNode.altOrOption();
     const rIcon = new LetterKeyNode( 'R' );
     const altPlusRIcon = KeyboardHelpIconFactory.iconPlusIcon( altIcon, rIcon );
     const resetAllRow = KeyboardHelpSectionRow.labelWithIcon(

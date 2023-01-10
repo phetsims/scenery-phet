@@ -147,7 +147,7 @@ export default class KeyboardHelpIconFactory {
    * An icon with horizontal layout in order: alt, plus, and provided icon.
    */
   public static altPlusIcon( icon: Node, providedOptions?: WithPlusIconOptions ): Node {
-    const altKeyIcon = TextKeyNode.alt();
+    const altKeyIcon = TextKeyNode.altOrOption();
     return KeyboardHelpIconFactory.iconPlusIcon( altKeyIcon, icon, providedOptions );
   }
 

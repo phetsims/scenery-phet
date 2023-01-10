@@ -204,7 +204,7 @@ class KeyboardHelpSectionRow extends Disposable {
    */
   public static createGlobalHotkeyRow( labelString: string | TReadOnlyProperty<string>, keyString: string,
                                        providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
-    return KeyboardHelpSectionRow.createKeysRow( [ TextKeyNode.alt(), new LetterKeyNode( keyString ) ], labelString, providedOptions );
+    return KeyboardHelpSectionRow.createKeysRow( [ TextKeyNode.altOrOption(), new LetterKeyNode( keyString ) ], labelString, providedOptions );
   }
 
   /**
