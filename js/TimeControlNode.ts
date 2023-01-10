@@ -62,7 +62,7 @@ export type TimeControlNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'chil
 export default class TimeControlNode extends Node {
 
   // push button for play/pause and (optionally) step forward, step back
-  private readonly playPauseStepButtons: PlayPauseStepButtonGroup;
+  protected readonly playPauseStepButtons: PlayPauseStepButtonGroup;
 
   // radio buttons from controlling speed
   private readonly speedRadioButtonGroup: TimeSpeedRadioButtonGroup | null;
