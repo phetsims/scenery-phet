@@ -98,7 +98,7 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
     const resetAllRow = KeyboardHelpSectionRow.labelWithIcon(
       SceneryPhetStrings.keyboardHelpDialog.resetAllStringProperty, altPlusRIcon, {
         labelInnerContent: StringUtils.fillIn( SceneryPhetStrings.a11y.keyboardHelpDialog.general.resetAllDescriptionPatternStringProperty, {
-          altKey: TextKeyNode.getAltKeyString()
+          altOrOption: TextKeyNode.getAltKeyString()
         } )
       }
     );

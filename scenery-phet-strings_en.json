@@ -334,7 +334,7 @@
           "value": "Toggle checkboxes with Space key."
         },
         "resetAllDescriptionPattern": {
-          "value": "Reset All with {{altKey}} plus R."
+          "value": "Reset All with {{altOrOption}} plus R."
         }
       },
       "slider": {
