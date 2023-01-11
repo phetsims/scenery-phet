@@ -71,7 +71,7 @@ export default class TextKeyNode extends KeyNode {
 
   // Note that this will render "Alt" OR "Options", depending on platform. If there is a description of this icon
   // in the PDOM please use getAltKeyString().
-  public static alt( providedOptions?: KeyNodeOptions ): KeyNode {
+  public static altOrOption( providedOptions?: KeyNodeOptions ): KeyNode {
     return new TextKeyNode( TextKeyNode.getAltKeyString(), providedOptions );
   }
 
