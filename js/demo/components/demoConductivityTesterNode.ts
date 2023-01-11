@@ -18,6 +18,7 @@ import HSlider from '../../../../sun/js/HSlider.js';
 import ConductivityTesterNode from '../../ConductivityTesterNode.js';
 import PhetFont from '../../PhetFont.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 export default function demoConductivityTesterNode( layoutBounds: Bounds2 ): Node {
 
@@ -29,7 +30,8 @@ export default function demoConductivityTesterNode( layoutBounds: Bounds2 ): Nod
   const conductivityTesterNode = new ConductivityTesterNode( brightnessProperty,
     testerPositionProperty, positiveProbePositionProperty, negativeProbePositionProperty, {
       positiveProbeFill: 'orange',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      tandem: Tandem.OPT_OUT
     }
   );
 

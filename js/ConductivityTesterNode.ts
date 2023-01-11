@@ -29,6 +29,7 @@ import PlusNode from './PlusNode.js';
 import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import PickRequired from '../../phet-core/js/types/PickRequired.js';
 
 // constants
 const SHOW_TESTER_ORIGIN = false; // draws a red circle at the tester's origin, for debugging
@@ -68,7 +69,8 @@ type SelfOptions = {
   shortCircuitFill?: TColor;
 };
 
-export type ConductivityTesterNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
+export type ConductivityTesterNodeOptions = SelfOptions &
+  StrictOmit<NodeOptions, 'children'> & PickRequired<NodeOptions, 'tandem'>;
 
 class ConductivityTesterNode extends Node {
 
@@ -205,7 +207,9 @@ class ConductivityTesterNode extends Node {
         const yModel = options.modelViewTransform.viewToModelY( yView );
         positiveProbePositionProperty.set( new Vector2( positiveProbePositionProperty.get().x, yModel ) );
         negativeProbePositionProperty.set( new Vector2( negativeProbePositionProperty.get().x, yModel ) );
-      }
+      },
+
+      tandem: options.tandem.createTandem( 'probeDragListener' )
     } );
 
     // probes
