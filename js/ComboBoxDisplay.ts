@@ -112,15 +112,14 @@ export default class ComboBoxDisplay<T> extends ComboBox<T> {
 
       comboBoxItems.push( {
         value: item.choice,
-        node: itemNode,
-        tandemName: item.tandemName || null
+        createNode: tandem => itemNode,
+        tandemName: item.tandemName
       } );
     } );
 
     super( choiceProperty, comboBoxItems, listParent, options );
 
     this.disposeComboBoxDisplay = () => {
-      comboBoxItems.forEach( comboBoxItem => comboBoxItem.node.dispose() );
       valuePatternStringProperties.forEach( property => property.dispose() );
     };
   }
