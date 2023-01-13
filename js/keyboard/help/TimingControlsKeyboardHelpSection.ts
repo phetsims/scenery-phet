@@ -11,12 +11,12 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
+import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 
 // constants
-// These are not translatable yet until we have decisions made in https://github.com/phetsims/greenhouse-effect/issues/194
-const timingControlsString = 'Timing Controls';
-const pauseOrPlayActionString = 'Pause or play action';
-const pauseOrPlayActionDescriptionString = 'Pause or play action with alt key plus K.';
+const timingControlsStringProperty = SceneryPhetStrings.keyboardHelpDialog.timingControls.timingControlsStringProperty;
+const pauseOrPlayActionStringProperty = SceneryPhetStrings.keyboardHelpDialog.timingControls.pauseOrPlayActionStringProperty;
+const pauseOrPlayActionDescriptionStringProperty = SceneryPhetStrings.a11y.keyboardHelpDialog.timingControls.pauseOrPlayActionDescriptionStringProperty;
 
 type SelfOptions = {
 
@@ -25,10 +25,10 @@ type SelfOptions = {
 
   // Visible string that describes the action of pause/play from a key command. You may want sim-specific terminology
   // for this command.
-  pauseOrPlayActionString?: string;
+  pauseOrPlayActionString?: string | TReadOnlyProperty<string>;
 
   // String for the PDOM (screen readers) that describes the hotkeys for play/pause.
-  pauseOrPlayActionDescriptionString?: string;
+  pauseOrPlayActionDescriptionString?: string | TReadOnlyProperty<string>;
 };
 type ParentOptions = KeyboardHelpSectionOptions;
 export type TimingControlsKeyboardHelpSectionOptions = SelfOptions & ParentOptions;
@@ -36,9 +36,9 @@ export type TimingControlsKeyboardHelpSectionOptions = SelfOptions & ParentOptio
 class TimingControlsKeyboardHelpSection extends KeyboardHelpSection {
   public constructor( providedOptions?: TimingControlsKeyboardHelpSectionOptions ) {
     const options = optionize<TimingControlsKeyboardHelpSectionOptions, SelfOptions, ParentOptions>()( {
-      headingString: timingControlsString,
-      pauseOrPlayActionString: pauseOrPlayActionString,
-      pauseOrPlayActionDescriptionString: pauseOrPlayActionDescriptionString
+      headingString: timingControlsStringProperty,
+      pauseOrPlayActionString: pauseOrPlayActionStringProperty,
+      pauseOrPlayActionDescriptionString: pauseOrPlayActionDescriptionStringProperty
     }, providedOptions );
 
     const playPauseRow = KeyboardHelpSectionRow.createPlayPauseKeyRow( options.pauseOrPlayActionString, {
