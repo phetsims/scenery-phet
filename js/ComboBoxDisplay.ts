@@ -112,7 +112,7 @@ export default class ComboBoxDisplay<T> extends ComboBox<T> {
 
       comboBoxItems.push( {
         value: item.choice,
-        createNode: tandem => itemNode,
+        createNode: () => itemNode,
         tandemName: item.tandemName
       } );
     } );

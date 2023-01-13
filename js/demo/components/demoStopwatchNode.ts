@@ -71,9 +71,9 @@ export default function demoStopwatchNode( layoutBounds: Bounds2, providedOption
   } );
 
   const unitsRadioButtonGroup = new RectangularRadioButtonGroup( unitsProperty, [
-    { value: 'ps', createNode: tandem => new Text( 'picoseconds' ), tandemName: 'picosecondsRadioButton' },
-    { value: 'ms', createNode: tandem => new Text( 'milliseconds' ), tandemName: 'millisecondsRadioButton' },
-    { value: 'fs', createNode: tandem => new Text( 'femtoseconds' ), tandemName: 'femtosecondsRadioButton' }
+    { value: 'ps', createNode: () => new Text( 'picoseconds' ), tandemName: 'picosecondsRadioButton' },
+    { value: 'ms', createNode: () => new Text( 'milliseconds' ), tandemName: 'millisecondsRadioButton' },
+    { value: 'fs', createNode: () => new Text( 'femtoseconds' ), tandemName: 'femtosecondsRadioButton' }
   ], {
     spacing: 5,
     tandem: tandem.createTandem( 'unitsRadioButtonGroup' )
