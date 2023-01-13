@@ -86,6 +86,10 @@ type StringsType = {
       'closeWithoutChangingStringProperty': LinkableProperty<string>;
       'optionsStringProperty': LinkableProperty<string>;
       'optionStringProperty': LinkableProperty<string>;
+    };
+    'timingControls': {
+      'timingControlsStringProperty': LinkableProperty<string>;
+      'pauseOrPlayActionStringProperty': LinkableProperty<string>;
     }
   };
   'speed': {
@@ -167,6 +171,9 @@ type StringsType = {
         'moveThroughPatternDescriptionStringProperty': LinkableProperty<string>;
         'chooseNewPatternDescriptionStringProperty': LinkableProperty<string>;
         'closeWithoutChangingDescriptionStringProperty': LinkableProperty<string>;
+      };
+      'timingControls': {
+        'pauseOrPlayActionDescriptionStringProperty': LinkableProperty<string>;
       }
     };
     'playControlButton': {
