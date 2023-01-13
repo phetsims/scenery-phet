@@ -169,8 +169,8 @@ export default class NumberDisplay extends Node {
     };
 
     const valuePatternProperty = ( typeof options.valuePattern === 'string' )
-      ? new TinyProperty( replaceValuePatternValue( options.valuePattern ) )
-      : new DerivedProperty( [ options.valuePattern ], replaceValuePatternValue );
+                                 ? new TinyProperty( replaceValuePatternValue( options.valuePattern ) )
+                                 : new DerivedProperty( [ options.valuePattern ], replaceValuePatternValue );
 
     assert && assert( !!phet.chipper.queryParameters.stringTest ||
                       valuePatternProperty.value.includes( SunConstants.VALUE_NAMED_PLACEHOLDER ),
@@ -353,6 +353,23 @@ export default class NumberDisplay extends Node {
   }
 
   public set backgroundStroke( value: TPaint ) { this.setBackgroundStroke( value ); }
+
+  /**
+   * Get the width of the background.
+   */
+  public getBackgroundWidth(): number {
+    return this.backgroundNode.getRectWidth();
+  }
+
+  /**
+   * Set the width of the background node.
+   */
+  public setBackgroundWidth( width: number ): void {
+    this.backgroundNode.setRectWidth( width );
+  }
+
+  public get backgroundWidth(): number { return this.getBackgroundWidth(); }
+  public set backgroundWidth( width: number ) { this.setBackgroundWidth( width ); }
 
   public static readonly NumberDisplayIO = new IOType( 'NumberDisplayIO', {
     valueType: NumberDisplay,
