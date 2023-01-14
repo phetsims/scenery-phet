@@ -31,11 +31,11 @@ type SelfOptions = {
   pauseOrPlayActionDescriptionString?: string | TReadOnlyProperty<string>;
 };
 type ParentOptions = KeyboardHelpSectionOptions;
-export type TimingControlsKeyboardHelpSectionOptions = SelfOptions & ParentOptions;
+export type TimeControlKeyboardHelpSectionOptions = SelfOptions & ParentOptions;
 
-class TimingControlsKeyboardHelpSection extends KeyboardHelpSection {
-  public constructor( providedOptions?: TimingControlsKeyboardHelpSectionOptions ) {
-    const options = optionize<TimingControlsKeyboardHelpSectionOptions, SelfOptions, ParentOptions>()( {
+class TimeControlKeyboardHelpSection extends KeyboardHelpSection {
+  public constructor( providedOptions?: TimeControlKeyboardHelpSectionOptions ) {
+    const options = optionize<TimeControlKeyboardHelpSectionOptions, SelfOptions, ParentOptions>()( {
       headingString: timingControlsStringProperty,
       pauseOrPlayActionString: pauseOrPlayActionStringProperty,
       pauseOrPlayActionDescriptionString: pauseOrPlayActionDescriptionStringProperty
@@ -49,5 +49,5 @@ class TimingControlsKeyboardHelpSection extends KeyboardHelpSection {
   }
 }
 
-sceneryPhet.register( 'TimingControlsKeyboardHelpSection', TimingControlsKeyboardHelpSection );
-export default TimingControlsKeyboardHelpSection;
+sceneryPhet.register( 'TimeControlKeyboardHelpSection', TimeControlKeyboardHelpSection );
+export default TimeControlKeyboardHelpSection;
