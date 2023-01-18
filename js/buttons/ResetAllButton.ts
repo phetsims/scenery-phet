@@ -129,8 +129,7 @@ export default class ResetAllButton extends ResetButton {
       global: true,
 
       // fires on up because the listener will often call interruptSubtreeInput (interrupting this keyboard listener)
-      fireOnKeyDown: false,
-      fireOnKeyUp: true
+      listenerFireTrigger: 'up'
     } );
     this.addInputListener( keyboardListener );
 
