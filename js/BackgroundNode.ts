@@ -9,7 +9,7 @@
 
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Node, NodeOptions, Rectangle, RectangleOptions } from '../../scenery/js/imports.js';
+import { ManualConstraint, Node, NodeOptions, Rectangle, RectangleOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
@@ -31,8 +31,6 @@ export default class BackgroundNode extends Node {
   public constructor( node: Node, providedOptions?: BackgroundNodeOptions ) {
 
     const options = optionize<BackgroundNodeOptions, SelfOptions, NodeOptions>()( {
-
-      // BackgroundNodeOptions
       xMargin: 2,
       yMargin: 2,
       rectangleOptions: {
@@ -49,11 +47,12 @@ export default class BackgroundNode extends Node {
     // Wrap the provided Node in a parent to avoid unneeded notifications in the bounds-change listener.
     const wrapperNode = new Node( { children: [ node ] } );
 
-    // Size the background rectangle to fit the Node.
-    node.boundsProperty.link( bounds => {
-      if ( !bounds.isEmpty() ) {
+    ManualConstraint.create( this, [ wrapperNode, this.background ], ( wrapperNodeProxy, backgroundNodeProxy ) => {
+      if ( !wrapperNodeProxy.bounds.isEmpty() ) {
+
+        // Use the background itself since LayoutProxy doesn't support rectBounds
         this.background.setRect( 0, 0, node.width + 2 * options.xMargin, node.height + 2 * options.yMargin );
-        wrapperNode.center = this.background.center;
+        wrapperNodeProxy.center = backgroundNodeProxy.center;
       }
     } );
 
