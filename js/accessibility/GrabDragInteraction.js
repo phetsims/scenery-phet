@@ -342,8 +342,7 @@ class GrabDragInteraction extends EnabledComponent {
       priority: Utterance.MEDIUM_PRIORITY,
 
       announcerOptions: {
-        ariaLivePriority: AriaLiveAnnouncer.AriaLive.ASSERTIVE, // for AriaLiveAnnouncer
-        cancelOther: false // for voicingManager
+        ariaLivePriority: AriaLiveAnnouncer.AriaLive.ASSERTIVE // for AriaLiveAnnouncer
       }
     } );
 
