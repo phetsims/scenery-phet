@@ -43,7 +43,7 @@ class DragBoundsProperty extends DerivedProperty {
       );
     }, {
       // Don't make spurious changes, we often won't be changing
-      useDeepEquality: true
+      valueComparisonStrategy: 'equalsFunction'
     } );
   }
 }
