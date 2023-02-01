@@ -337,6 +337,10 @@ class GrabDragInteraction extends EnabledComponent {
     // https://github.com/phetsims/balloons-and-static-electricity/issues/491
     const releasedUtterance = new Utterance( {
       alert: new ResponsePacket( { objectResponse: releasedString } ),
+
+      // This was being obscured by other messages, the priority helps make sure it is heard, see https://github.com/phetsims/friction/issues/325
+      priority: Utterance.MEDIUM_PRIORITY,
+
       announcerOptions: {
         ariaLivePriority: AriaLiveAnnouncer.AriaLive.ASSERTIVE, // for AriaLiveAnnouncer
         cancelOther: false // for voicingManager
