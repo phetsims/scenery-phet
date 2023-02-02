@@ -1,7 +1,7 @@
 // Copyright 2020-2023, University of Colorado Boulder
 
 /**
- * ZoomButtonGroup is the base class for a pair of buttons used to zoom 'in' and 'out'.
+ * CCKZoomButtonGroup is the base class for a pair of buttons used to zoom 'in' and 'out'.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -45,8 +45,8 @@ export default class ZoomButtonGroup extends FlowBox {
    * @param zoomOutIcon
    * @param providedOptions?
    */
-  public constructor( zoomLevelProperty: TRangedProperty, zoomInIcon: Node, zoomOutIcon: Node,
-                      providedOptions?: ZoomButtonGroupOptions ) {
+  protected constructor( zoomLevelProperty: TRangedProperty, zoomInIcon: Node, zoomOutIcon: Node,
+                         providedOptions?: ZoomButtonGroupOptions ) {
 
     const zoomLevelRange = zoomLevelProperty.range;
 
@@ -62,7 +62,9 @@ export default class ZoomButtonGroup extends FlowBox {
       buttonOptions: {
         fireOnHold: true,
         fireOnHoldDelay: 600, // ms
-        fireOnHoldInterval: 250 // ms
+        fireOnHoldInterval: 250, // ms
+        phetioVisiblePropertyInstrumented: false,
+        phetioEnabledPropertyInstrumented: false
       },
 
       // FlowBoxOptions
