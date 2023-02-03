@@ -215,11 +215,12 @@ export default class KeyboardHelpIconFactory {
       spacing: DEFAULT_HORIZONTAL_KEY_SPACING
     }, providedOptions );
 
+    // order of these icons matches movement with the WASD keys
     const upArrowKeyNode = new ArrowKeyNode( 'up' );
     const leftArrowKeyNode = new ArrowKeyNode( 'left' );
-    const rightArrowKeyNode = new ArrowKeyNode( 'right' );
     const downArrowKeyNode = new ArrowKeyNode( 'down' );
-    const icon = KeyboardHelpIconFactory.iconRow( [ upArrowKeyNode, leftArrowKeyNode, rightArrowKeyNode, downArrowKeyNode ], options );
+    const rightArrowKeyNode = new ArrowKeyNode( 'right' );
+    const icon = KeyboardHelpIconFactory.iconRow( [ upArrowKeyNode, leftArrowKeyNode, downArrowKeyNode, rightArrowKeyNode ], options );
     icon.disposeEmitter.addListener( () => {
       upArrowKeyNode.dispose();
       downArrowKeyNode.dispose();
