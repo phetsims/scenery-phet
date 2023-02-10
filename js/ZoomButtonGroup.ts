@@ -1,7 +1,7 @@
 // Copyright 2020-2023, University of Colorado Boulder
 
 /**
- * CCKZoomButtonGroup is the base class for a pair of buttons used to zoom 'in' and 'out'.
+ * ZoomButtonGroup is the base class for a pair of buttons used to zoom 'in' and 'out'.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
