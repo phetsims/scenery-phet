@@ -1,7 +1,7 @@
 // Copyright 2022, University of Colorado Boulder
 
 /**
- * Button with a back arrow.
+ * Button with a curved back arrow (points left) that can indicate returning an object to a location, or undoing a behavior.
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  * @author Chris Klusendorf (PhET Interactive Simulations)
@@ -31,7 +31,7 @@ class ReturnButton extends RectangularPushButton {
       listener: listener
     }, providedOptions );
 
-    const undoArrowShape = new Shape()
+    const backArrowShape = new Shape()
       .moveTo( 0, 0 )
       .lineTo( 0, ICON_HEIGHT )
       .lineTo( ICON_HEIGHT, ICON_HEIGHT )
@@ -40,12 +40,12 @@ class ReturnButton extends RectangularPushButton {
       .quadraticCurveTo( ICON_HEIGHT * 1.25, -ICON_HEIGHT * 0.5, ICON_HEIGHT * 0.3, ICON_HEIGHT * 0.3 )
       .close();
 
-    const undoArrowPath = new Path( undoArrowShape, {
+    const backArrowPath = new Path( backArrowShape, {
       fill: 'black',
       scale: 0.7
     } );
 
-    options.content = undoArrowPath;
+    options.content = backArrowPath;
 
     super( options );
   }
