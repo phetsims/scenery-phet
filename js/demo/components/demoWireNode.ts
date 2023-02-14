@@ -4,7 +4,7 @@
  * Demo for WireNode - two circles connected by a wire.
  */
 
-import { Circle, DragListener, Node, NodeProperty } from '../../../../scenery/js/imports.js';
+import { Circle, DragListener, Node } from '../../../../scenery/js/imports.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import WireNode from '../../WireNode.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
