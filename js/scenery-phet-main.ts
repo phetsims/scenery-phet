@@ -11,6 +11,7 @@ import Screen from '../../joist/js/Screen.js';
 import ScreenIcon from '../../joist/js/ScreenIcon.js';
 import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
+import TModel from '../../joist/js/TModel.js';
 import { Color, TColor, Rectangle } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import ButtonsScreenView from './demo/buttons/ButtonsScreenView.js';
@@ -24,7 +25,7 @@ import sceneryPhetQueryParameters from './sceneryPhetQueryParameters.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
 
 // empty model used for all demo screens
-class Model {
+class Model implements TModel {
   public reset(): void { /* nothing to do */ }
 }
 
