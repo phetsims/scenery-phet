@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2022-2023, University of Colorado Boulder
 
 /**
  * Button with a curved back arrow (points left) that can indicate returning an object to a location, or undoing a behavior.
