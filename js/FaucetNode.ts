@@ -275,7 +275,7 @@ export default class FaucetNode extends Node {
       // fluid at a time every press using tapToDispense.
       // TODO: https://github.com/phetsims/scenery-phet/issues/773 - If tapToDispense is false, the click will do
       //  nothing. If design likes this, use tapToDispense on click even if tapToDispenseEnabled is false.
-      allowClick: true
+      canClick: true
     } );
     shooterNode.addInputListener( dragListener );
 
