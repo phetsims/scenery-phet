@@ -11,23 +11,23 @@
 import { Shape } from '../../kite/js/imports.js';
 import SceneryPhetColors from './SceneryPhetColors.js';
 import sceneryPhet from './sceneryPhet.js';
-import { Color, TColor, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
+import { Node, NodeOptions, PaintColorProperty, Path, TColor, TPaint } from '../../scenery/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
-import NumberProperty from '../../axon/js/NumberProperty.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import TRangedProperty from '../../axon/js/TRangedProperty.js';
 
 type SelfOptions = {
-  emptyBeakerFill?: TColor;
+  emptyBeakerFill?: TPaint;
   solutionFill?: TColor;
-  solutionShadowFill?: TColor;
-  solutionGlareFill?: TColor;
-  beakerGlareFill?: TColor;
+  solutionShadowFill?: TPaint;
+  solutionGlareFill?: TPaint;
+  beakerGlareFill?: TPaint;
   beakerHeight?: number;
   beakerWidth?: number;
   yRadiusOfEnds?: number; // radius of the ellipses used for the ends, to provide 3D perspective
   ticksVisible?: boolean;
-  tickStroke?: TColor;
-  beakerStroke?: TColor;
+  tickStroke?: TPaint;
+  beakerStroke?: TPaint;
   lineWidth?: number;
   numberOfTicks?: number; // The number of tick marks shown on beaker.
 };
@@ -35,28 +35,30 @@ export type BeakerNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'
 
 export default class BeakerNode extends Node {
 
-  public readonly yRadiusOfEnds: number;
   private readonly ticks: Path;
   private readonly disposeBeakerNode: () => void;
 
-  public constructor( solutionLevelProperty: NumberProperty, providedOptions?: BeakerNodeOptions ) {
+  public constructor( solutionLevelProperty: TRangedProperty, providedOptions?: BeakerNodeOptions ) {
     assert && assert( solutionLevelProperty.range.min >= 0 && solutionLevelProperty.range.max <= 1,
       'SolutionLevelProperty must be a NumberProperty with min >= 0 and max <= 1' );
 
-    let solutionGlareFill;
-    let solutionShadowFill;
-
     // Generates highlight and shading when a custom solutionFill is provided.
-    if ( providedOptions?.solutionFill ) {
-      solutionGlareFill = Color.toColor( providedOptions.solutionFill ).colorUtilsBrighter( 0.5 );
-      solutionShadowFill = Color.toColor( providedOptions?.solutionFill ).colorUtilsDarker( 0.2 );
-    }
+    const originalGlareFill = providedOptions?.solutionFill !== undefined
+                              ? providedOptions.solutionFill
+                              : SceneryPhetColors.solutionShineFillProperty;
+    const originalShadowFill = providedOptions?.solutionFill !== undefined
+                               ? providedOptions.solutionFill
+                                : SceneryPhetColors.solutionShadowFillProperty;
+
+    // Keep our solution glare/shadow up-to-date if solutionFill is a Property<Color> and it changes
+    const solutionGlareFillProperty = new PaintColorProperty( originalGlareFill, { luminanceFactor: 0.5 } );
+    const solutionShadowFillProperty = new PaintColorProperty( originalShadowFill, { luminanceFactor: -0.2 } );
 
     const options = optionize<BeakerNodeOptions, SelfOptions, NodeOptions>()( {
       emptyBeakerFill: SceneryPhetColors.emptyBeakerFillProperty,
       solutionFill: SceneryPhetColors.solutionFillProperty,
-      solutionShadowFill: solutionShadowFill ? solutionShadowFill : SceneryPhetColors.solutionShadowFillProperty,
-      solutionGlareFill: solutionGlareFill ? solutionGlareFill : SceneryPhetColors.solutionShineFillProperty,
+      solutionGlareFill: solutionGlareFillProperty,
+      solutionShadowFill: solutionShadowFillProperty,
       beakerGlareFill: SceneryPhetColors.beakerShineFillProperty,
       beakerStroke: SceneryPhetColors.beakerStroke,
       lineWidth: 1,
@@ -234,13 +236,12 @@ export default class BeakerNode extends Node {
 
     super( options );
 
-    this.yRadiusOfEnds = options.yRadiusOfEnds;
     this.ticks = ticks;
 
     this.disposeBeakerNode = () => {
-      if ( solutionLevelProperty.hasListener( solutionLevelListener ) ) {
-        solutionLevelProperty.unlink( solutionLevelListener );
-      }
+      solutionGlareFillProperty.dispose();
+      solutionShadowFillProperty.dispose();
+      solutionLevelProperty.unlink( solutionLevelListener );
     };
   }
 
