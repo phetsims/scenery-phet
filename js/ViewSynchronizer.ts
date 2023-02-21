@@ -45,6 +45,10 @@ export default class ViewSynchronizer<Model, View extends Node> {
     return this.map.get( model )!;
   }
 
+  public getViews(): View[] {
+    return [ ...this.map.values() ];
+  }
+
   public dispose(): void {
     for ( const model of this.map.keys() ) {
       this.remove( model );
