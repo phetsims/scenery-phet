@@ -24,7 +24,7 @@ export type PlusNodeOptions = SelfOptions & PathOptions;
 
 export default class PlusNode extends Path {
 
-  public constructor( providedOptions: PlusNodeOptions ) {
+  public constructor( providedOptions?: PlusNodeOptions ) {
 
     const options = optionize<PlusNodeOptions, SelfOptions, PathOptions>()( {
 
