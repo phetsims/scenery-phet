@@ -29,13 +29,13 @@ QUnit.test( 'exponent === 0', assert => {
 
   const ZERO_EXPONENT = 0;
 
-  // For exponent === 0, we use dot.Utils.toFixed to create the mantissa. This example adds zeros to decimal places.
+  // For exponent === 0, we use phet.dot.Utils.toFixed to create the mantissa. This example adds zeros to decimal places.
   assert.deepEqual( ScientificNotationNode.toScientificNotation( 424.8, {
     exponent: ZERO_EXPONENT,
     mantissaDecimalPlaces: 3
   } ), { mantissa: '424.800', exponent: '0' } );
 
-  // For exponent === 0, we use dot.Utils.toFixed to create the mantissa. This example rounds decimal places.
+  // For exponent === 0, we use phet.dot.Utils.toFixed to create the mantissa. This example rounds decimal places.
   assert.deepEqual( ScientificNotationNode.toScientificNotation( 424.856, {
     exponent: ZERO_EXPONENT,
     mantissaDecimalPlaces: 1

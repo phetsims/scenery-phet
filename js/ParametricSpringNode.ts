@@ -102,7 +102,7 @@ export default class ParametricSpringNode extends Node {
       phase: Math.PI,
       deltaPhase: Math.PI / 2,
       xScale: 2.5,
-      boundsMethod: 'accurate', // method used to compute bounds for scenery.Path components, see Path.boundsMethod
+      boundsMethod: 'accurate', // method used to compute bounds for phet.scenery.Path components, see Path.boundsMethod
 
       // phet-io
       tandem: Tandem.OPTIONAL

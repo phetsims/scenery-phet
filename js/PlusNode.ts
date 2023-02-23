@@ -1,7 +1,7 @@
 // Copyright 2014-2022, University of Colorado Boulder
 
 /**
- * Plus sign, created using scenery.Path because scenery.Text("+") cannot be accurately centered.
+ * Plus sign, created using phet.scenery.Path because scenery.Text("+") cannot be accurately centered.
  * Origin at upper left.
  *
  * @author Chris Malley (PixelZoom, Inc.)

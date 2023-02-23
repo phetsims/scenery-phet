@@ -3,7 +3,7 @@
 /**
  * Colors that are specific to PhET simulations.
  * Reuse these in sims whenever possible to facilitate uniformity across sims.
- * These should all be instances of scenery.Color, since {Color} can typically be used anywhere but {string} cannot.
+ * These should all be instances of phet.scenery.Color, since {Color} can typically be used anywhere but {string} cannot.
  *
  * This is based on the google doc here:
  * https://docs.google.com/spreadsheets/d/1mNsOWSbcoO-Ox2evxJij5Lix4HTZbXKbFgMlPe9W-u0/edit#gid=0

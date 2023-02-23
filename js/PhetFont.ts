@@ -19,7 +19,7 @@ import sceneryPhetQueryParameters from './sceneryPhetQueryParameters.js';
 export default class PhetFont extends Font {
 
   /**
-   * @param providedOptions - number or string indicate the font size, otherwise same options as scenery.Font
+   * @param providedOptions - number or string indicate the font size, otherwise same options as phet.scenery.Font
    */
   public constructor( providedOptions?: number | string | FontOptions ) {
 
