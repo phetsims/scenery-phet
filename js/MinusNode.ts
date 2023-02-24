@@ -1,4 +1,4 @@
-// Copyright 2014-2022, University of Colorado Boulder
+// Copyright 2014-2023, University of Colorado Boulder
 
 /**
  * Minus sign, created using phet.scenery.Rectangle because scenery.Text("-") looks awful on Windows and cannot be accurately

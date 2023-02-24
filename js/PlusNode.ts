@@ -1,4 +1,4 @@
-// Copyright 2014-2022, University of Colorado Boulder
+// Copyright 2014-2023, University of Colorado Boulder
 
 /**
  * Plus sign, created using phet.scenery.Path because scenery.Text("+") cannot be accurately centered.

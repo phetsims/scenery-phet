@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2022-2023, University of Colorado Boulder
 
 /**
  * QUnit tests for ScientificNotationNode.toScientificNotation, the part of ScientificNotationNode that is unit-testable.
