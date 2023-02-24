@@ -139,8 +139,10 @@ export default class KeyboardHelpIconFactory {
    * An icon with horizontal layout in order: shift, plus, and provided icon.
    */
   public static shiftPlusIcon( icon: Node, providedOptions?: WithPlusIconOptions ): Node {
-    const altKeyIcon = TextKeyNode.shift();
-    return KeyboardHelpIconFactory.iconPlusIcon( altKeyIcon, icon, providedOptions );
+    const shiftKeyIcon = TextKeyNode.shift();
+    const iconPlusIconNode = KeyboardHelpIconFactory.iconPlusIcon( shiftKeyIcon, icon, providedOptions );
+    iconPlusIconNode.disposeEmitter.addListener( () => shiftKeyIcon.dispose() );
+    return iconPlusIconNode;
   }
 
   /**
@@ -148,7 +150,9 @@ export default class KeyboardHelpIconFactory {
    */
   public static altPlusIcon( icon: Node, providedOptions?: WithPlusIconOptions ): Node {
     const altKeyIcon = TextKeyNode.altOrOption();
-    return KeyboardHelpIconFactory.iconPlusIcon( altKeyIcon, icon, providedOptions );
+    const altPlusIconNode = KeyboardHelpIconFactory.iconPlusIcon( altKeyIcon, icon, providedOptions );
+    altPlusIconNode.disposeEmitter.addListener( () => altKeyIcon.dispose() );
+    return altPlusIconNode;
   }
 
   /**
@@ -278,8 +282,10 @@ export default class KeyboardHelpIconFactory {
     const upArrowKeyNode = new ArrowKeyNode( 'up' );
     const downArrowKeyNode = new ArrowKeyNode( 'down' );
     const icon = KeyboardHelpIconFactory.iconRow( [ upArrowKeyNode, downArrowKeyNode ], providedOptions );
-    upArrowKeyNode.disposer = icon;
-    downArrowKeyNode.disposer = icon;
+    icon.disposeEmitter.addListener( () => {
+      upArrowKeyNode.dispose();
+      downArrowKeyNode.dispose();
+    } );
     return icon;
   }
 
