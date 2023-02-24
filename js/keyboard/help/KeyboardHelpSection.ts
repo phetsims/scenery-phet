@@ -158,10 +158,9 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
     const readingBlockResponseProperty = this.createReadingBlockResponseProperty();
     this.setReadingBlockNameResponse( readingBlockResponseProperty );
 
-    headingText.disposer = this;
-
     this.disposeKeyboardHelpSection = () => {
       readingBlockResponseProperty.dispose();
+      headingText.dispose();
       content.forEach( oneContent => oneContent.dispose() );
       this.keyboardHelpSectionRows = []; // defensive in case one row has a memory leak
     };

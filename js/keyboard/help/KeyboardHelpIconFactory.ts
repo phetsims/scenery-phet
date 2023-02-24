@@ -89,7 +89,7 @@ export default class KeyboardHelpIconFactory {
     } );
 
     const icon = KeyboardHelpIconFactory.iconRow( [ new Node( { children: [ leftIcon ] } ), hyphenText, new Node( { children: [ rightIcon ] } ) ], options );
-    hyphenText.disposer = hyphenText;
+    icon.disposeEmitter.addListener( () => hyphenText.dispose() );
     return icon;
   }
 
