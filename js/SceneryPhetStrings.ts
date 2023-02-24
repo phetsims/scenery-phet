@@ -37,6 +37,15 @@ type StringsType = {
     'pageDownStringProperty': LinkableProperty<string>;
     'homeStringProperty': LinkableProperty<string>;
     'endStringProperty': LinkableProperty<string>;
+    'aStringProperty': LinkableProperty<string>;
+    'cStringProperty': LinkableProperty<string>;
+    'dStringProperty': LinkableProperty<string>;
+    'rStringProperty': LinkableProperty<string>;
+    'sStringProperty': LinkableProperty<string>;
+    'wStringProperty': LinkableProperty<string>;
+    'oneStringProperty': LinkableProperty<string>;
+    'twoStringProperty': LinkableProperty<string>;
+    'threeStringProperty': LinkableProperty<string>;
     'toGrabOrReleaseStringProperty': LinkableProperty<string>;
   };
   'webglWarning': {

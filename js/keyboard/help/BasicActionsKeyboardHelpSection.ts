@@ -93,7 +93,7 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
 
     // 'Reset All'
     const altIcon = TextKeyNode.altOrOption();
-    const rIcon = new LetterKeyNode( 'R' );
+    const rIcon = LetterKeyNode.r();
     const altPlusRIcon = KeyboardHelpIconFactory.iconPlusIcon( altIcon, rIcon );
     const resetAllRow = KeyboardHelpSectionRow.labelWithIcon(
       SceneryPhetStrings.keyboardHelpDialog.resetAllStringProperty, altPlusRIcon, {

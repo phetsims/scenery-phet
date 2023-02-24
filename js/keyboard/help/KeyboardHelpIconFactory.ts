@@ -192,10 +192,10 @@ export default class KeyboardHelpIconFactory {
       spacing: DEFAULT_HORIZONTAL_KEY_SPACING
     }, providedOptions );
 
-    const WKeyNode = new LetterKeyNode( 'W' );
-    const AKeyNode = new LetterKeyNode( 'A' );
-    const SKeyNode = new LetterKeyNode( 'S' );
-    const DKeyNode = new LetterKeyNode( 'D' );
+    const WKeyNode = LetterKeyNode.w();
+    const AKeyNode = LetterKeyNode.a();
+    const SKeyNode = LetterKeyNode.s();
+    const DKeyNode = LetterKeyNode.d();
 
     // Strings are not translated because they map directly to specific key codes.
     const icons = [ WKeyNode, AKeyNode, SKeyNode, DKeyNode ];

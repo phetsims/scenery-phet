@@ -68,6 +68,33 @@
   "key.end": {
     "value": "End"
   },
+  "key.a": {
+    "value": "A"
+  },
+  "key.c": {
+    "value": "C"
+  },
+  "key.d": {
+    "value": "D"
+  },
+  "key.r": {
+    "value": "R"
+  },
+  "key.s": {
+    "value": "S"
+  },
+  "key.w": {
+    "value": "W"
+  },
+  "key.one": {
+    "value": "1"
+  },
+  "key.two": {
+    "value": "2"
+  },
+  "key.three": {
+    "value": "3"
+  },
   "key.toGrabOrRelease": {
     "value": "to <b>Grab</b> or <b>Release</b>"
   },
