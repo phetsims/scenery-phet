@@ -136,20 +136,20 @@ export default class ScientificNotationNode extends Node {
     if ( value === null ) {
 
       // no value
-      this.mantissaNode.text = options.nullValueString;
+      this.mantissaNode.string = options.nullValueString;
       this.children = [ this.mantissaNode ];
     }
     else if ( !isFinite( value ) ) {
 
       // use built-in toFixed to format values that are not finite
       // NaN -> 'NaN', Infinity -> 'Infinity', etc.
-      this.mantissaNode.text = value.toFixed( 0 ); // eslint-disable-line bad-sim-text
+      this.mantissaNode.string = value.toFixed( 0 ); // eslint-disable-line bad-sim-text
       this.children = [ this.mantissaNode ];
     }
     else if ( Math.floor( value ) === value && options.showIntegersAsMantissaOnly ) {
 
       // show integers as mantissa only, 'M'
-      this.mantissaNode.text = value;
+      this.mantissaNode.string = value;
       this.children = [ this.mantissaNode ];
     }
     else {
@@ -158,21 +158,21 @@ export default class ScientificNotationNode extends Node {
       if ( parseFloat( scientificNotation.mantissa ) === 0 && options.showZeroAsInteger ) {
 
         // show '0 x 10^E' as '0'
-        this.mantissaNode.text = '0';
+        this.mantissaNode.string = '0';
         this.children = [ this.mantissaNode ];
       }
       else if ( scientificNotation.exponent === '0' && !options.showZeroExponent ) {
 
         // show 'M x 10^0' as 'M'
-        this.mantissaNode.text = scientificNotation.mantissa;
+        this.mantissaNode.string = scientificNotation.mantissa;
         this.children = [ this.mantissaNode ];
       }
       else {
 
         // show 'M x 10^E'
-        this.mantissaNode.text = scientificNotation.mantissa;
-        this.timesTenNode.text = 'x 10';
-        this.exponentNode.text = scientificNotation.exponent;
+        this.mantissaNode.string = scientificNotation.mantissa;
+        this.timesTenNode.string = 'x 10';
+        this.exponentNode.string = scientificNotation.exponent;
         this.children = [ this.mantissaNode, this.exponentNode, this.timesTenNode ];
 
         // adjust layout

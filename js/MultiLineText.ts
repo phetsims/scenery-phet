@@ -48,8 +48,8 @@ class MultiLineText extends RichText {
   /**
    * Sets the text, replacing newlines with '<br>'.
    */
-  public override setText( text: string | number ): this {
-    return super.setText( MultiLineText.replaceNewlines( text ) );
+  public override setString( text: string | number ): this {
+    return super.setString( MultiLineText.replaceNewlines( text ) );
   }
 
   /**

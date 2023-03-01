@@ -225,11 +225,11 @@ class ControlPanel extends Panel {
 
     keypad.stringProperty.link( ( keypadString: string ) => {
       if ( keypadString.length === 0 ) {
-        keypadValueText.text = 'no value';
+        keypadValueText.string = 'no value';
         keypadValueText.fill = 'red';
       }
       else {
-        keypadValueText.text = keypadString;
+        keypadValueText.string = keypadString;
         keypadValueText.fill = 'black';
       }
     } );

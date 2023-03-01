@@ -52,7 +52,7 @@ class NumberEntryControl extends Node {
 
     // Add the number readout background.
     const testString = new Text( '', { font: options.readoutFont } );
-    _.times( options.maxDigits, () => { testString.text = `${testString.text}9`; } );
+    _.times( options.maxDigits, () => { testString.string = `${testString.string}9`; } );
     const readoutBackground = new Rectangle( 0, 0, testString.width * 1.2, testString.height * 1.2, 4, 4, {
       fill: 'white',
       stroke: '#777777',
@@ -66,7 +66,7 @@ class NumberEntryControl extends Node {
     this.addChild( digits );
     this.value = 0; // @private
     this.keypad.valueStringProperty.link( valueString => {
-      digits.text = valueString;
+      digits.string = valueString;
       digits.center = readoutBackground.center;
       this.value = Number( valueString );
     } );

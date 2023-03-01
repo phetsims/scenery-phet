@@ -65,7 +65,7 @@ class MixedFractionNode extends HBox {
 
     const maxTextBounds = ( textNode, maxNumber ) => {
       return _.reduce( _.range( 0, maxNumber + 1 ), ( bounds, number ) => {
-        textNode.text = number;
+        textNode.string = number;
         return bounds.union( textNode.bounds );
       }, Bounds2.NOTHING );
     };
@@ -120,9 +120,9 @@ class MixedFractionNode extends HBox {
       ...( hasWhole ? [ this.wholeContainer ] : [] ),
       ...( hasNumerator || hasDenominator ? [ this.vbox ] : [] )
     ];
-    this.wholeText.text = hasWhole ? this._whole : ' ';
-    this.numeratorText.text = hasNumerator ? this._numerator : ' ';
-    this.denominatorText.text = hasDenominator ? this._denominator : ' ';
+    this.wholeText.string = hasWhole ? this._whole : ' ';
+    this.numeratorText.string = hasNumerator ? this._numerator : ' ';
+    this.denominatorText.string = hasDenominator ? this._denominator : ' ';
 
     this.vinculumNode.x1 = -this._vinculumExtension;
     this.vinculumNode.x2 = Math.max( this.numeratorContainer.width, this.denominatorContainer.width ) + 2 + this._vinculumExtension;

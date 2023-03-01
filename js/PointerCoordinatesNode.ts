@@ -88,7 +88,7 @@ export default class PointerCoordinatesNode extends Node {
         const yModel = Utils.toFixed( modelPoint.y, options.modelDecimalPlaces );
 
         // Update coordinates display.
-        textNode.text = `(${xView},${yView})<br>(${xModel},${yModel})`;
+        textNode.string = `(${xView},${yView})<br>(${xModel},${yModel})`;
 
         // Resize background
         backgroundNode.setRect( 0, 0, textNode.width + 4, textNode.height + 4 );

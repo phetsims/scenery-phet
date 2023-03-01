@@ -35,7 +35,7 @@ export default function demoBicyclePumpNode( layoutBounds: Bounds2 ): Node {
   } );
 
   numberOfParticlesProperty.link( numberOfParticles => {
-    displayNode.text = numberOfParticles;
+    displayNode.string = numberOfParticles;
   } );
 
   const resetButton = new ResetButton( {

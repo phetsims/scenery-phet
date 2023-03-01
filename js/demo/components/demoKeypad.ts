@@ -26,11 +26,11 @@ export default function demoKeypad( layoutBounds: Bounds2 ): Node {
   const integerValueRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
 
   integerKeyPad.stringProperty.link( value => {
-    integerStringRepresentation.text = `string: ${value}`;
+    integerStringRepresentation.string = `string: ${value}`;
   } );
 
   integerKeyPad.valueProperty.link( value => {
-    integerValueRepresentation.text = `number: ${value}`;
+    integerValueRepresentation.string = `number: ${value}`;
   } );
 
   const integerClearButton = new RectangularPushButton( {
@@ -76,11 +76,11 @@ export default function demoKeypad( layoutBounds: Bounds2 ): Node {
   const floatingPointValueRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
 
   floatingPointKeyPad.stringProperty.link( value => {
-    floatingPointStringRepresentation.text = `string: ${value}`;
+    floatingPointStringRepresentation.string = `string: ${value}`;
   } );
 
   floatingPointKeyPad.valueProperty.link( value => {
-    floatingPointValueRepresentation.text = `number: ${value}`;
+    floatingPointValueRepresentation.string = `number: ${value}`;
   } );
 
   const floatingPointClearButton = new RectangularPushButton( {
@@ -125,11 +125,11 @@ export default function demoKeypad( layoutBounds: Bounds2 ): Node {
   const positiveAndNegativeFloatingPointValueRepresentation = new Text( '', { font: new PhetFont( 24 ) } );
 
   positiveAndNegativeFloatingPointKeyPad.stringProperty.link( value => {
-    positiveAndNegativeFloatingPointStringRepresentation.text = `string: ${value}`;
+    positiveAndNegativeFloatingPointStringRepresentation.string = `string: ${value}`;
   } );
 
   positiveAndNegativeFloatingPointKeyPad.valueProperty.link( value => {
-    positiveAndNegativeFloatingPointValueRepresentation.text = `number: ${value}`;
+    positiveAndNegativeFloatingPointValueRepresentation.string = `number: ${value}`;
   } );
 
   const positiveAndNegativeFloatingPointClearButton = new RectangularPushButton( {

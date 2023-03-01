@@ -113,10 +113,10 @@ export default class FaceWithPointsNode extends Node {
     assert && assert( points >= 0, 'points must be non-negative' );
 
     if ( points === 0 && !this.showZeroPoints ) {
-      this.pointsNode.text = '';
+      this.pointsNode.string = '';
     }
     else {
-      this.pointsNode.text = `+${points}`;
+      this.pointsNode.string = `+${points}`;
     }
     this.updatePointsPosition();
   }

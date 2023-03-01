@@ -437,7 +437,7 @@ class ValueDisplay extends Text {
     super( '?', providedOptions );
 
     const valueObserver = ( value: number ) => {
-      this.text = valueToString( value );
+      this.string = valueToString( value );
     };
     valueProperty.link( valueObserver );
 

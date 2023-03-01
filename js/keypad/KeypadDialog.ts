@@ -157,7 +157,7 @@ class KeypadDialog extends Dialog {
     // Observe when the Keypad is edited and update our valueText display. Link is never disposed as KeypadDialogs
     // are never disposed.
     this.keypad.stringProperty.link( string => {
-      this.valueText.text = string;
+      this.valueText.string = string;
       this.valueText.center = valueBackgroundNode.center;
     } );
 
