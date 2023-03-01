@@ -513,6 +513,10 @@ export default class GradientRectangle extends Rectangle {
   public get extension(): number {
     return this._extension;
   }
+
+  public override mutate( options?: GradientRectangleOptions ): this {
+    return super.mutate( options );
+  }
 }
 
 // We use the Node system for mutator keys, so they get added here
