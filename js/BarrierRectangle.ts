@@ -14,21 +14,22 @@ import sceneryPhet from './sceneryPhet.js';
 import { ObservableArray } from '../../axon/js/createObservableArray.js';
 import { PopupableNode } from '../../sun/js/Popupable.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
-import PickRequired from '../../phet-core/js/types/PickRequired.js';
+import Tandem from '../../tandem/js/Tandem.js';
 
 type SelfOptions = EmptySelfOptions;
 
-export type BarrierRectangleOptions = SelfOptions & PickRequired<PlaneOptions, 'tandem' | 'phetioDocumentation'>;
+export type BarrierRectangleOptions = SelfOptions & PlaneOptions;
 
 export default class BarrierRectangle extends Plane {
 
   private readonly disposeBarrierRectangle: () => void;
 
-  public constructor( modalNodeStack: ObservableArray<PopupableNode>, providedOptions: BarrierRectangleOptions ) {
+  public constructor( modalNodeStack: ObservableArray<PopupableNode>, providedOptions?: BarrierRectangleOptions ) {
 
     const options = optionize<BarrierRectangleOptions, SelfOptions, PlaneOptions>()( {
       fill: 'rgba( 0, 0, 0, 0.3 )',
       pickable: true,
+      tandem: Tandem.OPTIONAL,
       phetioReadOnly: true, // Disable controls in the PhET-iO Studio wrapper
       phetioEventType: EventType.USER,
       visiblePropertyOptions: {
@@ -44,7 +45,7 @@ export default class BarrierRectangle extends Plane {
     modalNodeStack.lengthProperty.link( lengthListener );
 
     this.addInputListener( new FireListener( {
-      tandem: options.tandem.createTandem( 'inputListener' ),
+      tandem: options.tandem.createTandem( 'fireListener' ),
       phetioReadOnly: options.phetioReadOnly,
       fire() {
         assert && assert( modalNodeStack.length > 0, 'There must be a Node in the stack to hide.' );
