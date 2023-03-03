@@ -26,7 +26,7 @@ import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
-import { Circle, DragListener, Font, Image, InteractiveHighlightingNode, Line, Node, NodeOptions, NodeTranslationOptions, Path, PressListenerEvent, Rectangle, TColor, Text } from '../../scenery/js/imports.js';
+import { Circle, DragListener, Font, Image, InteractiveHighlightingNode, KeyboardDragListener, Line, Node, NodeOptions, NodeTranslationOptions, Path, PressListenerEvent, Rectangle, TColor, Text } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
@@ -34,6 +34,7 @@ import measuringTape_png from '../images/measuringTape_png.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
+import TProperty from '../../axon/js/TProperty.js';
 
 export type MeasuringTapeUnits = {
   name: string;
@@ -106,7 +107,7 @@ class MeasuringTapeNode extends Node {
   private readonly significantFigures: number;
   public readonly _isTipUserControlledProperty: Property<boolean>;
   public readonly _isBaseUserControlledProperty: Property<boolean>;
-  private dragBounds: Bounds2;
+  private readonly dragBoundsProperty: TProperty<Bounds2>;
   private readonly isTipDragBounded: boolean;
   private readonly baseDragListener: DragListener | null;
   private readonly baseImage: Image;
@@ -165,7 +166,7 @@ class MeasuringTapeNode extends Node {
 
     this.unitsProperty = unitsProperty;
     this.significantFigures = options.significantFigures;
-    this.dragBounds = options.dragBounds;
+    this.dragBoundsProperty = new Property( options.dragBounds );
     this.modelViewTransformProperty = new Property( options.modelViewTransform );
     this.isTipDragBounded = options.isTipDragBounded;
     this.basePositionProperty = options.basePositionProperty;
@@ -216,7 +217,12 @@ class MeasuringTapeNode extends Node {
     } );
     this.baseImage = new Image( measuringTape_png, {
       scale: options.baseScale,
-      cursor: 'pointer'
+      cursor: 'pointer',
+
+      // pdom
+      tagName: 'div',
+      focusable: true,
+      innerContent: 'Measuring Tape'
     } );
     baseImageParent.addChild( this.baseImage );
 
@@ -232,7 +238,12 @@ class MeasuringTapeNode extends Node {
       cursor: 'pointer',
 
       // interactive highlights - will only be enabled when interactive
-      interactiveHighlightEnabled: false
+      interactiveHighlightEnabled: false,
+
+      // pdom
+      tagName: 'div',
+      focusable: true,
+      innerContent: 'Measuring Tape Tip'
     } );
 
     const readoutStringProperty = new DerivedProperty(
@@ -294,22 +305,46 @@ class MeasuringTapeNode extends Node {
       baseImageParent.interactiveHighlightEnabled = true;
       tip.interactiveHighlightEnabled = true;
 
+      const baseStart = () => {
+        this.moveToFront();
+        options.baseDragStarted();
+        this._isBaseUserControlledProperty.value = true;
+      };
+
+      const baseEnd = () => {
+        this._isBaseUserControlledProperty.value = false;
+        options.baseDragEnded();
+      };
+
+      const handleTipOnBaseDrag = ( delta: Vector2 ) => {
+
+        // translate the position of the tip if it is not being dragged
+        // when the user is not holding onto the tip, dragging the body will also drag the tip
+        if ( !this.isTipUserControlledProperty.value ) {
+          const unconstrainedTipPosition = delta.plus( this.tipPositionProperty.value );
+          if ( options.isTipDragBounded ) {
+            const constrainedTipPosition = this.dragBoundsProperty.value.closestPointTo( unconstrainedTipPosition );
+            // translation of the tipPosition (subject to the constraining drag bounds)
+            this.tipPositionProperty.set( constrainedTipPosition );
+          }
+          else {
+            this.tipPositionProperty.set( unconstrainedTipPosition );
+          }
+        }
+      };
+
       // Drag listener for base
       this.baseDragListener = new DragListener( {
         tandem: options.tandem.createTandem( 'baseDragListener' ),
-
         start: event => {
-          this.moveToFront();
-          options.baseDragStarted();
-          this._isBaseUserControlledProperty.value = true;
+          baseStart();
           const position = this.modelViewTransformProperty.value.modelToViewPosition( this.basePositionProperty.value );
           baseStartOffset = event.currentTarget!.globalToParentPoint( event.pointer.point ).minus( position );
         },
-
         drag: ( event, listener ) => {
           const parentPoint = listener.currentTarget.globalToParentPoint( event.pointer.point ).minus( baseStartOffset );
           const unconstrainedBasePosition = this.modelViewTransformProperty.value.viewToModelPosition( parentPoint );
-          const constrainedBasePosition = this.dragBounds.closestPointTo( unconstrainedBasePosition );
+          const constrainedBasePosition = this.dragBoundsProperty.value.closestPointTo( unconstrainedBasePosition );
 
           // the basePosition value has not been updated yet, hence it is the old value of the basePosition;
           const translationDelta = constrainedBasePosition.minus( this.basePositionProperty.value ); // in model reference frame
@@ -317,30 +352,32 @@ class MeasuringTapeNode extends Node {
           // translation of the basePosition (subject to the constraining drag bounds)
           this.basePositionProperty.set( constrainedBasePosition );
 
-          // translate the position of the tip if it is not being dragged
-          // when the user is not holding onto the tip, dragging the body will also drag the tip
-          if ( !this.isTipUserControlledProperty.value ) {
-            const unconstrainedTipPosition = translationDelta.add( this.tipPositionProperty.value );
-            if ( options.isTipDragBounded ) {
-              const constrainedTipPosition = this.dragBounds.closestPointTo( unconstrainedTipPosition );
-              // translation of the tipPosition (subject to the constraining drag bounds)
-              this.tipPositionProperty.set( constrainedTipPosition );
-            }
-            else {
-              this.tipPositionProperty.set( unconstrainedTipPosition );
-            }
-          }
+          handleTipOnBaseDrag( translationDelta );
         },
-
-        end: () => {
-          this._isBaseUserControlledProperty.value = false;
-          options.baseDragEnded();
-        }
+        end: baseEnd
       } );
       this.baseImage.addInputListener( this.baseDragListener );
 
-      // Drag listener for tip
+      // Drag listener for base
+      const baseKeyboardDragListener = new KeyboardDragListener( {
+        tandem: options.tandem.createTandem( 'baseKeyboardDragListener' ),
+        positionProperty: this.basePositionProperty,
+        transform: this.modelViewTransformProperty.value,
+        dragBoundsProperty: this.dragBoundsProperty,
+        start: baseStart,
+        drag: handleTipOnBaseDrag,
+        end: baseEnd
+      } );
+
+      this.baseImage.addInputListener( baseKeyboardDragListener );
+
+      const tipEnd = () => {
+        this._isTipUserControlledProperty.value = false;
+      };
+
       let tipStartOffset: Vector2;
+
+      // Drag listener for tip
       const tipDragListener = new DragListener( {
         tandem: options.tandem.createTandem( 'tipDragListener' ),
 
@@ -357,18 +394,35 @@ class MeasuringTapeNode extends Node {
 
           if ( options.isTipDragBounded ) {
             // translation of the tipPosition (subject to the constraining drag bounds)
-            this.tipPositionProperty.value = this.dragBounds.closestPointTo( unconstrainedTipPosition );
+            this.tipPositionProperty.value = this.dragBoundsProperty.value.closestPointTo( unconstrainedTipPosition );
           }
           else {
             this.tipPositionProperty.value = unconstrainedTipPosition;
           }
         },
 
-        end: () => {
-          this._isTipUserControlledProperty.value = false;
-        }
+        end: tipEnd
       } );
       tip.addInputListener( tipDragListener );
+
+      const tipKeyboardDragListener = new KeyboardDragListener( {
+        tandem: options.tandem.createTandem( 'tipKeyboardDragListener' ),
+        positionProperty: this.tipPositionProperty,
+        dragBoundsProperty: options.isTipDragBounded ? this.dragBoundsProperty : null,
+        shiftDragDelta: 2.5,
+        start: () => {
+          this.moveToFront();
+          this._isTipUserControlledProperty.value = true;
+        },
+        end: tipEnd
+      } );
+      tip.addInputListener( tipKeyboardDragListener );
+
+      // KeyboardDragListener doesn't support a tranform Property, so link here
+      this.modelViewTransformProperty.link( transform => {
+        baseKeyboardDragListener.transform = transform;
+        tipKeyboardDragListener.transform = transform;
+      } );
     }
 
     const updateTextReadout = () => {
@@ -443,15 +497,16 @@ class MeasuringTapeNode extends Node {
    * Sets the dragBounds of the measuring tape.
    * In addition, it forces the tip and base of the measuring tape to be within the new bounds.
    */
-  public setDragBounds( dragBounds: Bounds2 ): void {
-    this.dragBounds = dragBounds.copy();
+  public setDragBounds( newDragBounds: Bounds2 ): void {
+    const dragBounds = newDragBounds.copy();
+    this.dragBoundsProperty.value = dragBounds;
 
     // sets the base position of the measuring tape, which may have changed if it was outside of the dragBounds
-    this.basePositionProperty.value = this.dragBounds.closestPointTo( this.basePositionProperty.value );
+    this.basePositionProperty.value = dragBounds.closestPointTo( this.basePositionProperty.value );
 
     // sets a new tip position if the tip of the measuring tape is subject to dragBounds
     if ( this.isTipDragBounded ) {
-      this.tipPositionProperty.value = this.dragBounds.closestPointTo( this.tipPositionProperty.value );
+      this.tipPositionProperty.value = dragBounds.closestPointTo( this.tipPositionProperty.value );
     }
   }
 
@@ -459,7 +514,7 @@ class MeasuringTapeNode extends Node {
    * Gets the dragBounds of the measuring tape.
    */
   public getDragBounds(): Bounds2 {
-    return this.dragBounds.copy();
+    return this.dragBoundsProperty.value.copy();
   }
 
   /**
