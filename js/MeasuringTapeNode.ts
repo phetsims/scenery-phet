@@ -41,6 +41,9 @@ export type MeasuringTapeUnits = {
   multiplier: number;
 };
 
+// motion when using a keyboard, in view coordinates per second
+const KEYBOARD_DRAG_VELOCITY = 600;
+
 type SelfOptions = {
 
   // base Position in model coordinate reference frame (rightBottom position of the measuring tape image)
@@ -364,6 +367,8 @@ class MeasuringTapeNode extends Node {
         positionProperty: this.basePositionProperty,
         transform: this.modelViewTransformProperty.value,
         dragBoundsProperty: this.dragBoundsProperty,
+        dragVelocity: KEYBOARD_DRAG_VELOCITY,
+        shiftDragVelocity: 300,
         start: baseStart,
         drag: handleTipOnBaseDrag,
         end: baseEnd
@@ -409,7 +414,8 @@ class MeasuringTapeNode extends Node {
         tandem: options.tandem.createTandem( 'tipKeyboardDragListener' ),
         positionProperty: this.tipPositionProperty,
         dragBoundsProperty: options.isTipDragBounded ? this.dragBoundsProperty : null,
-        shiftDragDelta: 2.5,
+        dragVelocity: KEYBOARD_DRAG_VELOCITY,
+        shiftDragVelocity: 150,
         start: () => {
           this.moveToFront();
           this._isTipUserControlledProperty.value = true;
