@@ -22,13 +22,15 @@ export default function demoRichText( layoutBounds: Bounds2 ): Node {
       new RichText( 'HTML entities need to be escaped, like &amp; and &lt;.' ),
       new RichText( 'Supports <a href="{{phetWebsite}}"><em>links</em> with <b>markup</b></a>, and <a href="{{callback}}">links that call functions</a>.', {
         links: {
-          phetWebsite: 'https://phet.colorado.edu'
+          phetWebsite: 'https://phet.colorado.edu',
+          callback: () => {
+            console.log( 'demo' );
+          }
         }
       } ),
       new RichText( 'Or also <a href="https://phet.colorado.edu">links directly in the string</a>.', {
         links: true
       } ),
-      new RichText( 'Links not found <a href="{{bogus}}">are ignored</a> for security.' ),
       new HBox( {
         spacing: 30,
         children: [
