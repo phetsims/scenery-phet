@@ -187,7 +187,7 @@ class KeyboardHelpSectionRow extends Disposable {
    */
   public static createPlayPauseKeyRow( labelString: string | TReadOnlyProperty<string>,
                                        providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
-    return KeyboardHelpSectionRow.createGlobalHotkeyRow( labelString, 'K', providedOptions );
+    return KeyboardHelpSectionRow.createGlobalHotkeyRow( labelString, SceneryPhetStrings.key.kStringProperty, providedOptions );
   }
 
   /**
@@ -195,14 +195,14 @@ class KeyboardHelpSectionRow extends Disposable {
    */
   public static createStepForwardKeyRow( labelString: string | TReadOnlyProperty<string>,
                                          providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
-    return KeyboardHelpSectionRow.createGlobalHotkeyRow( labelString, 'L', providedOptions );
+    return KeyboardHelpSectionRow.createGlobalHotkeyRow( labelString, SceneryPhetStrings.key.lStringProperty, providedOptions );
   }
 
   /**
    * Create a KeyboardHelpSectionRow that describes how to use a global hotkey. Global hotkeys are triggered with "Alt" plus
    * some other key, to be provided.
    */
-  public static createGlobalHotkeyRow( labelString: string | TReadOnlyProperty<string>, keyString: string,
+  public static createGlobalHotkeyRow( labelString: string | TReadOnlyProperty<string>, keyString: string | TReadOnlyProperty<string>,
                                        providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
     return KeyboardHelpSectionRow.createKeysRow( [ TextKeyNode.altOrOption(), new LetterKeyNode( keyString ) ], labelString, providedOptions );
   }
