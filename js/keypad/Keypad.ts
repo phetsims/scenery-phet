@@ -9,6 +9,7 @@
 
 import merge from '../../../phet-core/js/merge.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import type { OneKeyStroke } from '../../../scenery/js/imports.js';
 import { Font, KeyboardListener, Node, NodeOptions, Text, TPaint } from '../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -17,7 +18,6 @@ import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
 import Key from './Key.js';
 import KeyID, { KeyIDValue } from './KeyID.js';
-import type { OneKeyStroke } from '../../../scenery/js/imports.js';
 import NumberAccumulator, { NumberAccumulatorOptions } from './NumberAccumulator.js';
 import AbstractKeyAccumulator from './AbstractKeyAccumulator.js';
 import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
@@ -40,7 +40,7 @@ const _6 = new Key( '6', KeyID.SIX, { keyboardIdentifier: '6' } );
 const _7 = new Key( '7', KeyID.SEVEN, { keyboardIdentifier: '7' } );
 const _8 = new Key( '8', KeyID.EIGHT, { keyboardIdentifier: '8' } );
 const _9 = new Key( '9', KeyID.NINE, { keyboardIdentifier: '9' } );
-const WIDE_ZERO = new Key( '0', KeyID.ZERO, { horizontalSpan: 2 } );
+const WIDE_ZERO = new Key( '0', KeyID.ZERO, { horizontalSpan: 2, keyboardIdentifier: '0' } );
 const BACKSPACE_KEY = new Key( ( new BackspaceIcon( { scale: 1.5 } ) ),
   KeyID.BACKSPACE, { keyboardIdentifier: 'backspace' } );
 const PLUS_MINUS_KEY = new Key( `${PLUS_CHAR}/${MINUS_CHAR}`, KeyID.PLUS_MINUS, { keyboardIdentifier: 'minus' } );
@@ -109,6 +109,7 @@ class Keypad extends Node {
       tandem: Tandem.REQUIRED,
       tandemNameSuffix: 'Keypad',
       tagName: 'div',
+      ariaLabel: 'Keypad',
       focusable: true
     }, providedOptions );
 
@@ -164,6 +165,7 @@ class Keypad extends Node {
         const key = layout[ row ][ column ];
         if ( key ) {
           if ( key.keyboardIdentifier ) {
+            assert && assert( !keyboardKeys.hasOwnProperty( key.keyboardIdentifier ), 'already registered key: ' + key.keyboardIdentifier );
             keyboardKeys[ key.keyboardIdentifier ] = key;
           }
 
@@ -201,6 +203,10 @@ class Keypad extends Node {
         this.keyAccumulator.handleKeyPressed( keyObject!.identifier );
       }
     } ) );
+
+    this.stringProperty.link( string => {
+      this.innerContent = string; // show current value in the PDOM
+    } );
 
     this.mutate( options );
   }
@@ -314,8 +320,8 @@ function createKeyNode(
     listener: () => keyAccumulator.handleKeyPressed( keyObject.identifier ),
 
     // pdom
-    // alt input is handled as a whole keypad, so do not allow focus of individual keys
-    focusable: false,
+    // alt input is handled as a whole keypad, so remove these individual keys from the keypad
+    tagName: null,
 
     // phet-io
     tandem: keyPadTandem.createTandem( keyObject.buttonTandemName )

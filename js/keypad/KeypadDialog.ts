@@ -141,7 +141,8 @@ class KeypadDialog extends Dialog {
     const enterButton = new RectangularPushButton( combineOptions<RectangularPushButtonOptions>( {
       listener: this.submitEdit.bind( this ),
 
-      content: enterText
+      content: enterText,
+      accessibleName: SceneryPhetStrings.key.enterStringProperty
     }, options.enterButtonOptions ) );
 
     // Set the children of the content of the KeypadDialog, in the correct rendering order.
