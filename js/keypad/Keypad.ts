@@ -200,7 +200,7 @@ class Keypad extends Node {
     }
 
     this.addInputListener( new KeyboardListener( {
-      keys: Object.keys( keyboardKeys ) as OneKeyStroke[],
+      keys: Object.keys( keyboardKeys ),
       callback: ( sceneryEvent, listener ) => {
         const keyObject = keyboardKeys[ listener.keysPressed! ];
         this.keyAccumulator.handleKeyPressed( keyObject!.identifier );
