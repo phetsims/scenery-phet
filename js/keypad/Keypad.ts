@@ -30,21 +30,23 @@ const DEFAULT_BUTTON_FONT = new PhetFont( { size: 20 } );
 const DEFAULT_BUTTON_COLOR = 'white';
 const PLUS_CHAR = '\u002b';
 const MINUS_CHAR = '\u2212';
-const _0 = new Key( '0', KeyID.ZERO, { keyboardIdentifier: '0' } );
-const _1 = new Key( '1', KeyID.ONE, { keyboardIdentifier: '1' } );
-const _2 = new Key( '2', KeyID.TWO, { keyboardIdentifier: '2' } );
-const _3 = new Key( '3', KeyID.THREE, { keyboardIdentifier: '3' } );
-const _4 = new Key( '4', KeyID.FOUR, { keyboardIdentifier: '4' } );
-const _5 = new Key( '5', KeyID.FIVE, { keyboardIdentifier: '5' } );
-const _6 = new Key( '6', KeyID.SIX, { keyboardIdentifier: '6' } );
-const _7 = new Key( '7', KeyID.SEVEN, { keyboardIdentifier: '7' } );
-const _8 = new Key( '8', KeyID.EIGHT, { keyboardIdentifier: '8' } );
-const _9 = new Key( '9', KeyID.NINE, { keyboardIdentifier: '9' } );
-const WIDE_ZERO = new Key( '0', KeyID.ZERO, { horizontalSpan: 2, keyboardIdentifier: '0' } );
+const _0 = new Key( '0', KeyID.ZERO, { keyboardIdentifiers: [ '0', 'Numpad0' ] } );
+const _1 = new Key( '1', KeyID.ONE, { keyboardIdentifiers: [ '1', 'Numpad1' ] } );
+const _2 = new Key( '2', KeyID.TWO, { keyboardIdentifiers: [ '2', 'Numpad2' ] } );
+const _3 = new Key( '3', KeyID.THREE, { keyboardIdentifiers: [ '3', 'Numpad3' ] } );
+const _4 = new Key( '4', KeyID.FOUR, { keyboardIdentifiers: [ '4', 'Numpad4' ] } );
+const _5 = new Key( '5', KeyID.FIVE, { keyboardIdentifiers: [ '5', 'Numpad5' ] } );
+const _6 = new Key( '6', KeyID.SIX, { keyboardIdentifiers: [ '6', 'Numpad6' ] } );
+const _7 = new Key( '7', KeyID.SEVEN, { keyboardIdentifiers: [ '7', 'Numpad7' ] } );
+const _8 = new Key( '8', KeyID.EIGHT, { keyboardIdentifiers: [ '8', 'Numpad8' ] } );
+const _9 = new Key( '9', KeyID.NINE, { keyboardIdentifiers: [ '9', 'Numpad9' ] } );
+const WIDE_ZERO = new Key( '0', KeyID.ZERO, { horizontalSpan: 2, keyboardIdentifiers: [ '0', 'Numpad0' ] } );
+const DECIMAL_KEY = new Key( '.', KeyID.DECIMAL, { keyboardIdentifiers: [ 'period', 'NumpadDecimal' ] } );
 const BACKSPACE_KEY = new Key( ( new BackspaceIcon( { scale: 1.5 } ) ),
-  KeyID.BACKSPACE, { keyboardIdentifier: 'backspace' } );
-const PLUS_MINUS_KEY = new Key( `${PLUS_CHAR}/${MINUS_CHAR}`, KeyID.PLUS_MINUS, { keyboardIdentifier: 'minus' } );
-const DECIMAL_KEY = new Key( '.', KeyID.DECIMAL, { keyboardIdentifier: 'period' } );
+  KeyID.BACKSPACE, { keyboardIdentifiers: [ 'backspace' ] } );
+const PLUS_MINUS_KEY = new Key( `${PLUS_CHAR}/${MINUS_CHAR}`, KeyID.PLUS_MINUS, {
+  keyboardIdentifiers: [ 'minus', 'plus', 'NumpadSubtract', 'NumpadAdd' ]
+} );
 
 export type KeypadLayout = ( Key | null )[][];
 
@@ -164,9 +166,10 @@ class Keypad extends Node {
       for ( let column = 0; column < layout[ row ].length; column++ ) {
         const key = layout[ row ][ column ];
         if ( key ) {
-          if ( key.keyboardIdentifier ) {
-            assert && assert( !keyboardKeys.hasOwnProperty( key.keyboardIdentifier ), 'already registered key: ' + key.keyboardIdentifier );
-            keyboardKeys[ key.keyboardIdentifier ] = key;
+          for ( let i = 0; i < key.keyboardIdentifiers.length; i++ ) {
+            const keyboardIdentifier = key.keyboardIdentifiers[ i ];
+            assert && assert( !keyboardKeys.hasOwnProperty( keyboardIdentifier ), 'Keypad has already registered key for keyboard input: ' + keyboardIdentifier );
+            keyboardKeys[ keyboardIdentifier ] = key;
           }
 
           const keyBefore = layout[ row ][ column - 1 ];
