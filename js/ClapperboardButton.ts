@@ -6,7 +6,7 @@
  *
  * This is intended to be used in studies with users to assist with data collection. Not a typical UI component.
  *
- * TODO: Emit a PhET-iO state when triggered, https://github.com/phetsims/scenery-phet/issues/739
+ * Next time this is used: Would be nice to emit a PhET-iO state when triggered
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
