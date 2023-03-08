@@ -93,7 +93,7 @@ class Keypad extends Node {
 
   /**
    * @param layout - an array that specifies the keys and the layout, see static instance below for example usage
-   * @param [options]
+   * @param [providedOptions]
    */
   public constructor( layout: ( Key | null )[][], providedOptions?: KeypadOptions ) {
 
