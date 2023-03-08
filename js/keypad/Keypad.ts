@@ -60,7 +60,8 @@ type SelfOptions = {
   buttonColor?: TPaint;
   buttonFont?: Font;
 
-  // Accumulator that collects and interprets key presses, see various implementations for examples
+  // Accumulator that collects and interprets key presses, see various implementations for examples. If provided, this
+  // will be disposed with this Keypad
   accumulator?: AbstractKeyAccumulator | null;
 
   // Options passed to NumberAccumulator, ignored if options.accumulator is provided
@@ -199,13 +200,15 @@ class Keypad extends Node {
       }
     }
 
-    this.addInputListener( new KeyboardListener( {
+    const keyboardListener = new KeyboardListener( {
       keys: Object.keys( keyboardKeys ),
       callback: ( sceneryEvent, listener ) => {
         const keyObject = keyboardKeys[ listener.keysPressed! ];
         this.keyAccumulator.handleKeyPressed( keyObject!.identifier );
       }
-    } ) );
+    } );
+    this.addInputListener( keyboardListener );
+    this.disposeEmitter.addListener( () => keyboardListener.dispose() );
 
     this.stringProperty.link( string => {
       this.innerContent = string; // show current value in the PDOM

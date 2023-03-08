@@ -151,7 +151,7 @@ export default function demoKeypad( layoutBounds: Bounds2 ): Node {
     handlePositiveAndNegativeFloatingPointClearOnNextKeyPressChanged
   );
 
-  positiveAndNegativeFloatingPointKeyPad.valueProperty.link( value => {
+  positiveAndNegativeFloatingPointKeyPad.valueProperty.link( () => {
     positiveAndNegativeFloatingPointClearOnNextKeyPressProperty.value =
       positiveAndNegativeFloatingPointKeyPad.getClearOnNextKeyPress();
   } );
