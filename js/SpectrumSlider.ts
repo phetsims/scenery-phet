@@ -89,7 +89,6 @@ export default class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
   /**
    * @param valueProperty
    * @param providedOptions
-   * @mixes AccessibleSlider
    */
   public constructor( valueProperty: TProperty<number>, providedOptions?: SpectrumSliderOptions ) {
     assert && deprecationWarning( 'SpectrumSlider is deprecated, please use Slider with SpectrumSlideTrack/Thumb instead' );
