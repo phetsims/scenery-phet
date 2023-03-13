@@ -26,6 +26,7 @@ import sceneryPhet from '../sceneryPhet.js';
 import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = {
   // Font used for all Text instances within the Dialog.
@@ -53,7 +54,7 @@ type SelfOptions = {
   keypadErrorTextColor?: TColor;
 };
 
-export type KeypadDialogOptions = DialogOptions & SelfOptions;
+export type KeypadDialogOptions = StrictOmit<DialogOptions, 'focusOnShowNode'> & SelfOptions;
 
 class KeypadDialog extends Dialog {
 
@@ -113,12 +114,16 @@ class KeypadDialog extends Dialog {
     // Reference the content of the Dialog. Children are added later.
     const contentNode = new VBox( { spacing: options.contentSpacing, align: 'center' } );
 
+    const keypad = new Keypad( options.keypadLayout, options.keypadOptions );
+
+    options.focusOnShowNode = keypad;
+
     super( contentNode, options );
 
     this.defaultTextColor = options.keypadDefaultTextColor;
     this.errorTextColor = options.keypadErrorTextColor;
 
-    this.keypad = new Keypad( options.keypadLayout, options.keypadOptions );
+    this.keypad = keypad;
     this.rangeText = options.useRichTextRange
                      ? new RichText( '', { font: options.font, maxWidth: this.keypad.width } )
                      : new Text( '', { font: options.font, maxWidth: this.keypad.width } );
