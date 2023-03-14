@@ -365,7 +365,7 @@ class MeasuringTapeNode extends Node {
       const baseKeyboardDragListener = new KeyboardDragListener( {
         tandem: options.tandem.createTandem( 'baseKeyboardDragListener' ),
         positionProperty: this.basePositionProperty,
-        transform: this.modelViewTransformProperty.value,
+        transform: this.modelViewTransformProperty,
         dragBoundsProperty: this.dragBoundsProperty,
         dragVelocity: KEYBOARD_DRAG_VELOCITY,
         shiftDragVelocity: 300,
@@ -415,6 +415,7 @@ class MeasuringTapeNode extends Node {
         positionProperty: this.tipPositionProperty,
         dragBoundsProperty: options.isTipDragBounded ? this.dragBoundsProperty : null,
         dragVelocity: KEYBOARD_DRAG_VELOCITY,
+        transform: this.modelViewTransformProperty,
         shiftDragVelocity: 150,
         start: () => {
           this.moveToFront();
@@ -423,12 +424,6 @@ class MeasuringTapeNode extends Node {
         end: tipEnd
       } );
       tip.addInputListener( tipKeyboardDragListener );
-
-      // KeyboardDragListener doesn't support a tranform Property, so link here
-      this.modelViewTransformProperty.link( transform => {
-        baseKeyboardDragListener.transform = transform;
-        tipKeyboardDragListener.transform = transform;
-      } );
     }
 
     const updateTextReadout = () => {
