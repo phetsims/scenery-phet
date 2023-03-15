@@ -19,11 +19,19 @@ import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpS
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 import LetterKeyNode from '../LetterKeyNode.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import NumberKeyNode from '../NumberKeyNode.js';
+import Emitter from '../../../../axon/js/Emitter.js';
 
 type SelfOptions = {
 
   // if true, the help content will include information about how to interact with checkboxes
   withCheckboxContent?: boolean;
+
+  // if true, the help content will include information about how to interact with 2-d draggable content
+  withDraggableContent?: boolean;
+
+  // if true, the help content will include information about how to interact with a keypad
+  withKeypadContent?: boolean;
 };
 
 export type BasicActionsKeyboardHelpSectionOptions = SelfOptions & KeyboardHelpSectionOptions;
@@ -34,7 +42,9 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
   public constructor( providedOptions?: BasicActionsKeyboardHelpSectionOptions ) {
 
     const options = optionize<BasicActionsKeyboardHelpSectionOptions, SelfOptions, KeyboardHelpSectionOptions>()( {
-      withCheckboxContent: false
+      withCheckboxContent: false,
+      withDraggableContent: false,
+      withKeypadContent: false
     }, providedOptions );
 
 
@@ -98,6 +108,27 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
       moveBetweenItemsInAGroupRow
     ];
 
+    if ( options.withDraggableContent ) {
+
+      // 'Move draggable objects'
+      const moveDraggableObjectsRow = KeyboardHelpSectionRow.labelWithIcon(
+        SceneryPhetStrings.keyboardHelpDialog.moveDraggableObjectsStringProperty, KeyboardHelpIconFactory.arrowKeysRowIcon(), {
+          labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.moveDraggableObjectsDescriptionStringProperty
+        } );
+      content.push( moveDraggableObjectsRow );
+    }
+
+    if ( options.withKeypadContent ) {
+
+      // 'Set values within pop-up keypad'
+      const zeroToNineIcon = KeyboardHelpIconFactory.iconToIcon( new NumberKeyNode( 0 ), new NumberKeyNode( 9 ) );
+      const setValuesInKeypadRow = KeyboardHelpSectionRow.labelWithIcon(
+        SceneryPhetStrings.keyboardHelpDialog.setValuesInKeypadStringProperty, zeroToNineIcon, {
+          labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.setValuesInKeypadDescriptionStringProperty
+        } );
+      content.push( setValuesInKeypadRow );
+    }
+
     // 'Toggle checkboxes'
     if ( options.withCheckboxContent ) {
       const toggleCheckboxes = KeyboardHelpSectionRow.labelWithIcon(
@@ -130,6 +161,7 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
       altIcon.dispose();
       rIcon.dispose();
       altPlusRIcon.dispose();
+      disposeEmitter.emit();
     };
   }
 

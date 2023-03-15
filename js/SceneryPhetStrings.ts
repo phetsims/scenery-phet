@@ -79,6 +79,8 @@ type StringsType = {
     'moveToPreviousItemOrGroupStringProperty': LinkableProperty<string>;
     'pressButtonsStringProperty': LinkableProperty<string>;
     'moveBetweenItemsInAGroupStringProperty': LinkableProperty<string>;
+    'moveDraggableObjectsStringProperty': LinkableProperty<string>;
+    'setValuesInKeypadStringProperty': LinkableProperty<string>;
     'resetAllStringProperty': LinkableProperty<string>;
     'exitADialogStringProperty': LinkableProperty<string>;
     'toggleCheckboxesStringProperty': LinkableProperty<string>;
@@ -158,6 +160,8 @@ type StringsType = {
         'shiftTabGroupDescriptionStringProperty': LinkableProperty<string>;
         'pressButtonsDescriptionStringProperty': LinkableProperty<string>;
         'groupNavigationDescriptionStringProperty': LinkableProperty<string>;
+        'moveDraggableObjectsDescriptionStringProperty': LinkableProperty<string>;
+        'setValuesInKeypadDescriptionStringProperty': LinkableProperty<string>;
         'exitDialogDescriptionStringProperty': LinkableProperty<string>;
         'toggleCheckboxesDescriptionStringProperty': LinkableProperty<string>;
         'resetAllDescriptionPatternStringProperty': LinkableProperty<string>;
