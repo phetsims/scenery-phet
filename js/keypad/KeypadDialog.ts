@@ -19,7 +19,7 @@ import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
 import Range from '../../../dot/js/Range.js';
 import Keypad, { KeypadLayout, KeypadOptions } from '../../../scenery-phet/js/keypad/Keypad.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { Color, Font, Node, Rectangle, RichText, TColor, Text, VBox } from '../../../scenery/js/imports.js';
+import { Color, Font, KeyboardListener, Node, Rectangle, RichText, TColor, Text, VBox } from '../../../scenery/js/imports.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import Dialog, { DialogOptions } from '../../../sun/js/Dialog.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -173,7 +173,14 @@ class KeypadDialog extends Dialog {
       this.rangeText.fill = this.defaultTextColor;
     } );
 
+    const submitFromKeypadListener = new KeyboardListener( {
+      keys: [ 'space', 'enter' ],
+      callback: () => this.submitEdit()
+    } );
+    this.keypad.addInputListener( submitFromKeypadListener );
+
     this.disposeKeypadDialog = () => {
+      submitFromKeypadListener.dispose();
       this.keypad.dispose();
       this.rangeStringProperty && this.rangeStringProperty.dispose();
       enterText.dispose(); // linked to a translated string Property
