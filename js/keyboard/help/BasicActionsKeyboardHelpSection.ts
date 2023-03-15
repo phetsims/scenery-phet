@@ -122,7 +122,7 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
 
     if ( options.withKeypadContent ) {
 
-      // 'Set values within pop-up keypad'
+      // 'Set values within keypad'
       const zeroToNineIcon = KeyboardHelpIconFactory.iconToIcon( new NumberKeyNode( 0 ), new NumberKeyNode( 9 ) );
       const setValuesInKeypadRow = KeyboardHelpSectionRow.labelWithIcon(
         SceneryPhetStrings.keyboardHelpDialog.setValuesInKeypadStringProperty, zeroToNineIcon, {
