@@ -14,6 +14,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import optionize from '../../phet-core/js/optionize.js';
 import sceneryPhet from './sceneryPhet.js';
 import TRangedProperty from '../../axon/js/TRangedProperty.js';
+import SceneryPhetStrings from './SceneryPhetStrings.js';
 
 type SelfOptions = {
 
@@ -96,6 +97,7 @@ export default class ZoomButtonGroup extends FlowBox {
       touchAreaYShift: -touchYShift,
       mouseAreaXShift: mouseXShift,
       mouseAreaYShift: -mouseYShift,
+      accessibleName: SceneryPhetStrings.a11y.zoomInStringProperty,
       tandem: options.tandem.createTandem( 'zoomInButton' )
     }, options.buttonOptions ) );
 
@@ -113,6 +115,7 @@ export default class ZoomButtonGroup extends FlowBox {
       touchAreaYShift: touchYShift,
       mouseAreaXShift: -mouseXShift,
       mouseAreaYShift: mouseYShift,
+      accessibleName: SceneryPhetStrings.a11y.zoomOutStringProperty,
       tandem: options.tandem.createTandem( 'zoomOutButton' )
     }, options.buttonOptions ) );
 
