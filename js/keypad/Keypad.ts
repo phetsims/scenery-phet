@@ -341,8 +341,8 @@ function createKeyNode(
     listener: () => keyAccumulator.handleKeyPressed( keyObject.identifier ),
 
     // pdom
-    // alt input is handled as a whole keypad, so remove these individual keys from the keypad
-    tagName: null,
+    // alt input is handled as a whole keypad, so remove these individual keys from the keypad if covered by the KeyboardListener.
+    tagName: keyObject.keyboardIdentifiers.length === 0 ? 'button' : null, // Duplicated tagName with `ButtonNode`
 
     // phet-io
     tandem: keyPadTandem.createTandem( keyObject.buttonTandemName )
