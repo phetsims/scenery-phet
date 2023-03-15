@@ -47,6 +47,8 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
       withKeypadContent: false
     }, providedOptions );
 
+    // Use a custom disposeEmitter since all usages are before super for dependency injections.
+    const disposeEmitter = new Emitter();
 
     // 'Move to next item or group'
     const tabKeyNode = TextKeyNode.tab();
@@ -131,11 +133,15 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
 
     // 'Toggle checkboxes'
     if ( options.withCheckboxContent ) {
+      const checkboxSpaceKeyNode = TextKeyNode.space();
       const toggleCheckboxes = KeyboardHelpSectionRow.labelWithIcon(
-        SceneryPhetStrings.keyboardHelpDialog.toggleCheckboxesStringProperty, spaceKeyNode, {
+        SceneryPhetStrings.keyboardHelpDialog.toggleCheckboxesStringProperty, checkboxSpaceKeyNode, {
           labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.toggleCheckboxesDescriptionStringProperty
         } );
       content.push( toggleCheckboxes );
+      disposeEmitter.addListener( () => {
+        checkboxSpaceKeyNode.dispose();
+      } );
     }
 
     // a bit strange, but important for ordering with optional rows
