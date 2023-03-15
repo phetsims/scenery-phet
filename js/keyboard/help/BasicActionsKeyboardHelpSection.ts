@@ -37,18 +37,17 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
       withCheckboxContent: false
     }, providedOptions );
 
-    const tabKeyNode = TextKeyNode.tab();
 
     // 'Move to next item or group'
+    const tabKeyNode = TextKeyNode.tab();
     const moveToNextItemRow = KeyboardHelpSectionRow.labelWithIcon(
       SceneryPhetStrings.keyboardHelpDialog.moveToNextItemOrGroupStringProperty,
       tabKeyNode, {
         labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.tabGroupDescriptionStringProperty
       } );
 
-    const shiftPlusTabIcon = KeyboardHelpIconFactory.shiftPlusIcon( tabKeyNode );
-
     // 'Move to previous item or group'
+    const shiftPlusTabIcon = KeyboardHelpIconFactory.shiftPlusIcon( tabKeyNode );
     const moveToPreviousItemRow = KeyboardHelpSectionRow.labelWithIcon(
       SceneryPhetStrings.keyboardHelpDialog.moveToPreviousItemOrGroupStringProperty,
       shiftPlusTabIcon, {
@@ -65,31 +64,14 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
         labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.groupNavigationDescriptionStringProperty
       } );
 
+    // 'Press buttons'
     const spaceKeyNode = TextKeyNode.space();
     const enterKeyNode = TextKeyNode.enter();
     const spaceOrEnterIcon = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode );
-
-    // 'Press buttons'
     const pressButtonsItemRow = KeyboardHelpSectionRow.labelWithIcon(
       SceneryPhetStrings.keyboardHelpDialog.pressButtonsStringProperty, spaceOrEnterIcon, {
         labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.pressButtonsDescriptionStringProperty
       } );
-
-    const content = [
-      moveToNextItemRow,
-      moveToPreviousItemRow,
-      moveBetweenItemsInAGroupRow,
-      pressButtonsItemRow
-    ];
-
-    // 'Toggle checkboxes'
-    if ( options.withCheckboxContent ) {
-      const toggleCheckboxes = KeyboardHelpSectionRow.labelWithIcon(
-        SceneryPhetStrings.keyboardHelpDialog.toggleCheckboxesStringProperty, spaceKeyNode, {
-          labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.toggleCheckboxesDescriptionStringProperty
-        } );
-      content.push( toggleCheckboxes );
-    }
 
     // 'Reset All'
     const altIcon = TextKeyNode.altOrOption();
@@ -102,16 +84,35 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
         } )
       }
     );
-    content.push( resetAllRow );
-
-    const escapeKeyNode = TextKeyNode.esc();
 
     // 'Exit a dialog'
+    const escapeKeyNode = TextKeyNode.esc();
     const exitADialogRow = KeyboardHelpSectionRow.labelWithIcon(
       SceneryPhetStrings.keyboardHelpDialog.exitADialogStringProperty, escapeKeyNode, {
         labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.exitDialogDescriptionStringProperty
       } );
-    content.push( exitADialogRow );
+
+    const content = [
+      moveToNextItemRow,
+      moveToPreviousItemRow,
+      moveBetweenItemsInAGroupRow
+    ];
+
+    // 'Toggle checkboxes'
+    if ( options.withCheckboxContent ) {
+      const toggleCheckboxes = KeyboardHelpSectionRow.labelWithIcon(
+        SceneryPhetStrings.keyboardHelpDialog.toggleCheckboxesStringProperty, spaceKeyNode, {
+          labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.toggleCheckboxesDescriptionStringProperty
+        } );
+      content.push( toggleCheckboxes );
+    }
+
+    // a bit strange, but important for ordering with optional rows
+    content.push( ...[
+      pressButtonsItemRow,
+      resetAllRow,
+      exitADialogRow
+    ] );
 
     // order the rows of content
     super( SceneryPhetStrings.keyboardHelpDialog.basicActionsStringProperty, content, options );
