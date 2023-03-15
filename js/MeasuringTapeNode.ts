@@ -225,7 +225,9 @@ class MeasuringTapeNode extends Node {
       // pdom
       tagName: 'div',
       focusable: true,
-      innerContent: 'Measuring Tape'
+      ariaRole: 'application',
+      innerContent: SceneryPhetStrings.a11y.measuringTapeStringProperty,
+      ariaLabel: SceneryPhetStrings.a11y.measuringTapeStringProperty
     } );
     baseImageParent.addChild( this.baseImage );
 
@@ -246,7 +248,9 @@ class MeasuringTapeNode extends Node {
       // pdom
       tagName: 'div',
       focusable: true,
-      innerContent: 'Measuring Tape Tip'
+      ariaRole: 'application',
+      innerContent: SceneryPhetStrings.a11y.measuringTapeTipStringProperty,
+      ariaLabel: SceneryPhetStrings.a11y.measuringTapeTipStringProperty
     } );
 
     const readoutStringProperty = new DerivedProperty(

@@ -252,6 +252,8 @@ type StringsType = {
     'closeStringProperty': LinkableProperty<string>;
     'zoomInStringProperty': LinkableProperty<string>;
     'zoomOutStringProperty': LinkableProperty<string>;
+    'measuringTapeStringProperty': LinkableProperty<string>;
+    'measuringTapeTipStringProperty': LinkableProperty<string>;
   }
 };
 

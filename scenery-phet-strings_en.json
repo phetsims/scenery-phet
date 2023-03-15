@@ -577,6 +577,12 @@
     },
     "zoomOut": {
       "value": "Zoom Out"
+    },
+    "measuringTape": {
+      "value": "Measuring Tape"
+    },
+    "measuringTapeTip": {
+      "value": "Measuring Tape Tip"
     }
   }
 }
