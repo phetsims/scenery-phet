@@ -41,10 +41,10 @@ const _7 = new Key( '7', KeyID.SEVEN, { keyboardIdentifiers: [ '7', 'Numpad7' ] 
 const _8 = new Key( '8', KeyID.EIGHT, { keyboardIdentifiers: [ '8', 'Numpad8' ] } );
 const _9 = new Key( '9', KeyID.NINE, { keyboardIdentifiers: [ '9', 'Numpad9' ] } );
 const WIDE_ZERO = new Key( '0', KeyID.ZERO, { horizontalSpan: 2, keyboardIdentifiers: [ '0', 'Numpad0' ] } );
-const DECIMAL_KEY = new Key( '.', KeyID.DECIMAL, { keyboardIdentifiers: [ 'period', 'NumpadDecimal' ] } );
-const BACKSPACE_KEY = new Key( ( new BackspaceIcon( { scale: 1.5 } ) ),
+const DECIMAL = new Key( '.', KeyID.DECIMAL, { keyboardIdentifiers: [ 'period', 'NumpadDecimal' ] } );
+const BACKSPACE = new Key( ( new BackspaceIcon( { scale: 1.5 } ) ),
   KeyID.BACKSPACE, { keyboardIdentifiers: [ 'backspace' ] } );
-const PLUS_MINUS_KEY = new Key( `${PLUS_CHAR}/${MINUS_CHAR}`, KeyID.PLUS_MINUS, {
+const PLUS_MINUS = new Key( `${PLUS_CHAR}/${MINUS_CHAR}`, KeyID.PLUS_MINUS, {
   keyboardIdentifiers: [ 'minus', 'plus', 'NumpadSubtract', 'NumpadAdd' ]
 } );
 
@@ -256,36 +256,36 @@ class Keypad extends Node {
     [ _7, _8, _9 ],
     [ _4, _5, _6 ],
     [ _1, _2, _3 ],
-    [ WIDE_ZERO, BACKSPACE_KEY ]
+    [ WIDE_ZERO, BACKSPACE ]
   ];
 
   public static readonly PositiveDecimalLayout: KeypadLayout = [
     [ _7, _8, _9 ],
     [ _4, _5, _6 ],
     [ _1, _2, _3 ],
-    [ DECIMAL_KEY, _0, BACKSPACE_KEY ]
+    [ DECIMAL, _0, BACKSPACE ]
   ];
 
   public static readonly PositiveAndNegativeIntegerLayout: KeypadLayout = [
     [ _7, _8, _9 ],
     [ _4, _5, _6 ],
     [ _1, _2, _3 ],
-    [ BACKSPACE_KEY, _0, PLUS_MINUS_KEY ]
+    [ BACKSPACE, _0, PLUS_MINUS ]
   ];
 
   public static readonly PositiveFloatingPointLayout: KeypadLayout = [
     [ _7, _8, _9 ],
     [ _4, _5, _6 ],
     [ _1, _2, _3 ],
-    [ DECIMAL_KEY, _0, BACKSPACE_KEY ]
+    [ DECIMAL, _0, BACKSPACE ]
   ];
 
   public static readonly PositiveAndNegativeFloatingPointLayout: KeypadLayout = [
     [ _7, _8, _9 ],
     [ _4, _5, _6 ],
     [ _1, _2, _3 ],
-    [ WIDE_ZERO, PLUS_MINUS_KEY ],
-    [ DECIMAL_KEY, null, BACKSPACE_KEY ]
+    [ WIDE_ZERO, PLUS_MINUS ],
+    [ DECIMAL, null, BACKSPACE ]
   ];
 
   // Weird Layout is created for testing purposes to test the edge cases and layout capabilities
@@ -297,6 +297,20 @@ class Keypad extends Node {
     [ null, new Key( '0', KeyID.ZERO, { horizontalSpan: 2, verticalSpan: 2 } ) ]
   ];
 
+  public static readonly KEY_0 = _0;
+  public static readonly KEY_1 = _1;
+  public static readonly KEY_2 = _2;
+  public static readonly KEY_3 = _3;
+  public static readonly KEY_4 = _4;
+  public static readonly KEY_5 = _5;
+  public static readonly KEY_6 = _6;
+  public static readonly KEY_7 = _7;
+  public static readonly KEY_8 = _8;
+  public static readonly KEY_9 = _9;
+  public static readonly KEY_WIDE_ZERO = WIDE_ZERO;
+  public static readonly KEY_DECIMAL = DECIMAL;
+  public static readonly KEY_BACKSPACE = BACKSPACE;
+  public static readonly KEY_PLUS_MINUS = PLUS_MINUS;
 }
 
 /**
