@@ -27,9 +27,6 @@ type SelfOptions = {
   // if true, the help content will include information about how to interact with checkboxes
   withCheckboxContent?: boolean;
 
-  // if true, the help content will include information about how to interact with 2-d draggable content
-  withDraggableContent?: boolean;
-
   // if true, the help content will include information about how to interact with a keypad
   withKeypadContent?: boolean;
 };
@@ -43,7 +40,6 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
 
     const options = optionize<BasicActionsKeyboardHelpSectionOptions, SelfOptions, KeyboardHelpSectionOptions>()( {
       withCheckboxContent: false,
-      withDraggableContent: false,
       withKeypadContent: false
     }, providedOptions );
 
@@ -109,16 +105,6 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
       moveToPreviousItemRow,
       moveBetweenItemsInAGroupRow
     ];
-
-    if ( options.withDraggableContent ) {
-
-      // 'Move draggable objects'
-      const moveDraggableObjectsRow = KeyboardHelpSectionRow.labelWithIcon(
-        SceneryPhetStrings.keyboardHelpDialog.moveDraggableObjectsStringProperty, KeyboardHelpIconFactory.arrowKeysRowIcon(), {
-          labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.moveDraggableObjectsDescriptionStringProperty
-        } );
-      content.push( moveDraggableObjectsRow );
-    }
 
     if ( options.withKeypadContent ) {
 

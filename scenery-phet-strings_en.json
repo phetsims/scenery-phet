@@ -182,9 +182,6 @@
   "keyboardHelpDialog.moveBetweenItemsInAGroup": {
     "value": "Move between items in a group"
   },
-  "keyboardHelpDialog.moveDraggableObjects": {
-    "value": "Move draggable objects"
-  },
   "keyboardHelpDialog.setValuesInKeypad": {
     "value": "Set values within keypad"
   },
@@ -365,9 +362,6 @@
         },
         "groupNavigationDescription": {
           "value": "Move between items in a group with Left and Right arrow keys or Up and Down arrow keys."
-        },
-        "moveDraggableObjectsDescription": {
-          "value": "Move draggable objects with Left and Right arrow keys or Up and Down arrow keys."
         },
         "setValuesInKeypadDescription": {
           "value": "Set values within keypad using number keys 0-9."
