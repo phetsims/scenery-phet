@@ -230,6 +230,15 @@
   "keyboardHelpDialog.comboBox.option": {
     "value": "option"
   },
+  "keyboardHelpDialog.moveDraggableItems": {
+    "value": "Move Draggable Items"
+  },
+  "keyboardHelpDialog.move": {
+    "value": "Move"
+  },
+  "keyboardHelpDialog.moveSlower": {
+    "value": "Move slower"
+  },
   "speed.normal": {
     "value": "Normal"
   },
@@ -423,6 +432,14 @@
         },
         "closeWithoutChangingDescription": {
           "value": " Close list without changing with Escape key."
+        }
+      },
+      "draggableItems": {
+        "moveDescription": {
+          "value": "Move with arrow keys or W, A, S, or D keys."
+        },
+        "moveSlowerDescription": {
+          "value": "Move slower with shift plus arrow keys or W, A, S, or D keys."
         }
       },
       "timingControls": {
