@@ -175,6 +175,7 @@ class KeypadDialog extends Dialog {
 
     const submitFromKeypadListener = new KeyboardListener( {
       keys: [ 'space', 'enter' ],
+      listenerFireTrigger: 'up',
       callback: () => this.submitEdit()
     } );
     this.keypad.addInputListener( submitFromKeypadListener );
