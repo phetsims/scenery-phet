@@ -581,8 +581,8 @@ export default class NumberControl extends Node {
     }, providedOptions );
 
     return ( titleNode, numberDisplay, slider, decrementButton, incrementButton ) => {
-      assert && assert( decrementButton );
-      assert && assert( incrementButton );
+      assert && assert( decrementButton, 'There is no decrementButton!' );
+      assert && assert( incrementButton, 'There is no incrementButton!' );
 
       return new VBox( {
         align: options.align,
