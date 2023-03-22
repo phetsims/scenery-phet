@@ -588,10 +588,10 @@ export default class NumberControl extends Node {
         align: options.align,
         spacing: options.ySpacing,
         children: [
-    /*      new HBox( {
+          new HBox( {
             spacing: options.titleXSpacing,
             children: [ titleNode, numberDisplay ]
-          } ),*/
+          } ),
           new HBox( {
             spacing: options.arrowButtonsXSpacing,
             resize: false, // prevent slider from causing a resize when thumb is at min or max
