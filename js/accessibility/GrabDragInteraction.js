@@ -767,6 +767,7 @@ class GrabDragInteraction extends EnabledComponent {
    */
   dispose() {
     this.disposeGrabDragInteraction();
+    super.dispose();
   }
 
   /**
