@@ -141,6 +141,8 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
     super( SceneryPhetStrings.keyboardHelpDialog.basicActionsStringProperty, content, options );
 
     this.disposeBasicActionsKeyboardHelpSection = () => {
+      content.forEach( row => row.dispose() );
+
       escapeKeyNode.dispose();
       shiftPlusTabIcon.dispose();
       tabKeyNode.dispose();

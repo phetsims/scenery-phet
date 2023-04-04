@@ -42,6 +42,8 @@ class MoveDraggableItemsKeyboardHelpSection extends KeyboardHelpSection {
     super( SceneryPhetStrings.keyboardHelpDialog.moveDraggableItemsStringProperty, [ normalRow, slowerRow ] );
 
     this.disposeEmitter.addListener( () => {
+      normalRow.dispose();
+      slowerRow.dispose();
       wasdOrArrowsIcon.dispose();
       arrowKeysIcon.dispose();
       wasdKeysIcon.dispose();

@@ -78,7 +78,7 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
    * @param content -  icons and labels are each placed in their own VBox, and these layout boxes are aligned
    *   horizontally. It is assumed that label and icon have identical bounds so that each row of content can be
    *   aligned by KeyboardHelpSection. Static functions in this file use AlignGroup to achieve this. For examples,
-   *   see labelWithIcon() and labelWithIconList(). KeyboardHelpSection will dispose these for you!!!
+   *   see labelWithIcon() and labelWithIconList().
    * @param [providedOptions]
    */
   public constructor( headingString: string | TReadOnlyProperty<string>, content: KeyboardHelpSectionRow[],
@@ -161,7 +161,6 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
     this.disposeKeyboardHelpSection = () => {
       readingBlockResponseProperty.dispose();
       headingText.dispose();
-      content.forEach( oneContent => oneContent.dispose() );
       this.keyboardHelpSectionRows = []; // defensive in case one row has a memory leak
     };
   }

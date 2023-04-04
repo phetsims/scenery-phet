@@ -100,9 +100,11 @@ export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
       } );
 
     // order the rows of content
-    super( options.headingString, [ popUpList, moveThrough, chooseNew, closeWithoutChanging ], options );
+    const rows = [ popUpList, moveThrough, chooseNew, closeWithoutChanging ];
+    super( options.headingString, rows, options );
 
     this.disposeEmitter.addListener( () => {
+      rows.forEach( row => row.dispose() );
       escapeKeyNode.dispose();
       spaceOrEnterIcon.dispose();
       enterKeyNode.dispose();

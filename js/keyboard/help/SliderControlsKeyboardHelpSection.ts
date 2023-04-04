@@ -184,6 +184,7 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
     super( options.headingStringProperty, content, options );
 
     this.disposeSliderControlsKeyboardHelpSection = () => {
+      content.forEach( row => row.dispose() );
       keyboardHelpDialogVerbSliderStringProperty.dispose();
       keyboardHelpDialogVerbInSmallerStepsStringProperty.dispose();
       keyboardHelpDialogVerbInLargerStepsStringProperty.dispose();

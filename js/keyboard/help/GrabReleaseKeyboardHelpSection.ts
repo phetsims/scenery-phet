@@ -63,6 +63,7 @@ export default class GrabReleaseKeyboardHelpSection extends KeyboardHelpSection 
     super( headingStringProperty, [ labelWithContentRow ], options );
 
     this.disposeEmitter.addListener( () => {
+      labelWithContentRow.dispose();
       icons.dispose();
       enterKeyNode.dispose();
       spaceKeyNode.dispose();
