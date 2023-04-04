@@ -5,6 +5,7 @@ import './ArrowNode.js';
 import './FaceNode.js';
 import './GradientRectangle.js';
 import './GridNode.js';
+import './accessibility/describers/MovementAlerter.js';
 import './NumberControl.js';
 import './NumberDisplay.js';
 import './PhetFont.js';
