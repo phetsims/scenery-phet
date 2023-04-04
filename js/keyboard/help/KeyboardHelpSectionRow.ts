@@ -13,7 +13,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import { AlignBoxOptions, AlignGroup, HBox, Node, PDOMValueType, RichText, RichTextOptions, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
-import Disposable, { DisposableOptions } from '../../../../axon/js/Disposable.js';
+import Disposable from '../../../../axon/js/Disposable.js';
 import { VoicingResponse } from '../../../../utterance-queue/js/ResponsePacket.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -68,7 +68,7 @@ type SelfOptions = {
   // for every KeyboardHelpSectionRow in the KeyboardHelpSection is read.
   readingBlockContent?: VoicingResponse | null;
 };
-type KeyboardHelpSectionRowOptions = SelfOptions & DisposableOptions;
+type KeyboardHelpSectionRowOptions = SelfOptions;
 
 class KeyboardHelpSectionRow extends Disposable {
 
@@ -90,11 +90,11 @@ class KeyboardHelpSectionRow extends Disposable {
   public static readonly LABEL_FONT = LABEL_FONT;
 
   public constructor( text: Text | RichText, label: Node, icon: Node, providedOptions?: KeyboardHelpSectionRowOptions ) {
-    const options = optionize<KeyboardHelpSectionRowOptions, SelfOptions, DisposableOptions>()( {
+    const options = optionize<KeyboardHelpSectionRowOptions, SelfOptions>()( {
       readingBlockContent: null
     }, providedOptions );
 
-    super( options );
+    super();
 
     this.text = text;
     this.label = label;
@@ -135,8 +135,10 @@ class KeyboardHelpSectionRow extends Disposable {
       readingBlockContent: options.readingBlockContent || options.labelInnerContent
     } );
 
-    labelText.disposer = keyboardHelpSectionRow;
-    labelIconGroup.disposer = keyboardHelpSectionRow;
+    keyboardHelpSectionRow.disposeEmitter.addListener( () => {
+      labelIconGroup.dispose();
+      labelText.dispose();
+    } );
     return keyboardHelpSectionRow;
   }
 
@@ -248,14 +250,14 @@ class KeyboardHelpSectionRow extends Disposable {
     labelFirstIconGroup.createBox( new Node( { children: [ icons[ 0 ] ] } ) ); // create the box to restrain bounds, but a reference isn't necessary
     const labelBox = labelFirstIconGroup.createBox( labelText );
 
-    // for each of the icons (excluding the last one, add a vertically aligned 'or' text to the right
     const iconsWithOrText = [];
+
+    // for each of the icons (excluding the last one, add a vertically aligned 'or' text to the right
     for ( let i = 0; i < icons.length - 1; i++ ) {
       const orText = new Text( SceneryPhetStrings.keyboardHelpDialog.orStringProperty, {
         font: LABEL_FONT,
         maxWidth: OR_TEXT_MAX_WIDTH
       } );
-
 
       // place orText with the icon in an HBox
       const hBox = new HBox( {
@@ -282,6 +284,7 @@ class KeyboardHelpSectionRow extends Disposable {
     const keyboardHelpSectionRow = new KeyboardHelpSectionRow( labelText, labelWithHeightBox, iconsBox, {
       readingBlockContent: options.readingBlockContent || options.labelInnerContent
     } );
+
     keyboardHelpSectionRow.disposeEmitter.addListener( () => {
       labelFirstIconGroup.dispose();
       labelText.dispose();

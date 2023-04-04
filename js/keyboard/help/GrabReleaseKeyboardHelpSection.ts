@@ -7,7 +7,6 @@
  */
 
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import TinyEmitter from '../../../../axon/js/TinyEmitter.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -33,29 +32,27 @@ export default class GrabReleaseKeyboardHelpSection extends KeyboardHelpSection 
     const options = combineOptions<KeyboardHelpSectionOptions>( {
 
       // There is only a single paragraph for this section, no list needed in the PDOM
-      a11yContentTagName: null,
-
-      disposeEmitter: new TinyEmitter()
+      a11yContentTagName: null
     }, providedOptions );
 
     // the visible heading string
     const headingStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.grabOrReleaseHeadingPatternStringProperty, {
       thing: thingAsTitle
-    }, { disposer: options.disposeEmitter } );
+    } );
 
     // the visible label string
     const labelStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.grabOrReleaseLabelPatternStringProperty, {
       thing: thingAsLowerCase
-    }, { disposer: options.disposeEmitter } );
+    } );
 
     // the string for the PDOM
     const descriptionStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.grabOrReleaseDescriptionPatternStringProperty, {
       thing: thingAsLowerCase
-    }, { disposer: options.disposeEmitter } );
+    } );
 
-    const spaceKeyNode = TextKeyNode.space( { disposer: options.disposeEmitter } );
-    const enterKeyNode = TextKeyNode.enter( { disposer: options.disposeEmitter } );
-    const icons = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode, { disposer: options.disposeEmitter } );
+    const spaceKeyNode = TextKeyNode.space();
+    const enterKeyNode = TextKeyNode.enter();
+    const icons = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode );
     const labelWithContentRow = KeyboardHelpSectionRow.labelWithIcon( labelStringProperty, icons, {
       labelInnerContent: descriptionStringProperty,
       iconOptions: {
@@ -64,6 +61,15 @@ export default class GrabReleaseKeyboardHelpSection extends KeyboardHelpSection 
     } );
 
     super( headingStringProperty, [ labelWithContentRow ], options );
+
+    this.disposeEmitter.addListener( () => {
+      icons.dispose();
+      enterKeyNode.dispose();
+      spaceKeyNode.dispose();
+      descriptionStringProperty.dispose();
+      labelStringProperty.dispose();
+      headingStringProperty.dispose();
+    } );
   }
 }
 

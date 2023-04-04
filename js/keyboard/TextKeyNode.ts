@@ -7,7 +7,6 @@
  */
 
 import LinkableProperty from '../../../axon/js/LinkableProperty.js';
-import TinyEmitter from '../../../axon/js/TinyEmitter.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import platform from '../../../phet-core/js/platform.js';
@@ -38,21 +37,18 @@ export default class TextKeyNode extends KeyNode {
       textMaxWidth: 55, // Long keys like Space, Enter, Tab, Shift are all smaller than this.
 
       // by default, key should tightly surround the text, with a bit more horizontal space
-      xPadding: 11,
-
-      disposeEmitter: new TinyEmitter()
-
+      xPadding: 11
     }, providedOptions );
 
     // use RichText because some keys (like page up/page down/caps lock) might span multiple lines
     const text = new RichText( string, {
       font: options.font,
       fill: options.fill,
-      maxWidth: options.textMaxWidth,
-      disposer: options.disposeEmitter
+      maxWidth: options.textMaxWidth
     } );
 
     super( text, options );
+    this.disposeEmitter.addListener( () => text.dispose() );
   }
 
   /**

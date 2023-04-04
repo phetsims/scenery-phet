@@ -70,7 +70,7 @@ export default class KeyboardHelpIconFactory {
 
     const icon = KeyboardHelpIconFactory.iconRow( [ new Node( { children: [ leftIcon ] } ), orText,
       new Node( { children: [ rightIcon ] } ) ], options );
-    orText.disposer = icon;
+    icon.disposeEmitter.addListener( () => orText.dispose() );
     return icon;
   }
 
