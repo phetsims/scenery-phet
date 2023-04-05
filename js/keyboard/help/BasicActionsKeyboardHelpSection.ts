@@ -115,6 +115,7 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
           labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.setValuesInKeypadDescriptionStringProperty
         } );
       content.push( setValuesInKeypadRow );
+      disposeEmitter.addListener( () => zeroToNineIcon.dispose() );
     }
 
     // 'Toggle checkboxes'
