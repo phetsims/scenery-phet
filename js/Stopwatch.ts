@@ -91,7 +91,9 @@ export default class Stopwatch extends PhetioObject {
 
     // When the stopwatch visibility changes, stop it and reset its value.
     const visibilityListener = () => {
-      if ( !phet.joist.sim.isSettingPhetioStateProperty.value ) {
+      const joistGlobal = _.get( window, 'phet.joist', null ); // returns null if global isn't found
+
+      if ( !joistGlobal || !joistGlobal.sim.isSettingPhetioStateProperty.value ) {
         this.isRunningProperty.value = false;
         this.timeProperty.value = 0;
       }
