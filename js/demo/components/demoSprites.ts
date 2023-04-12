@@ -13,14 +13,16 @@ import dotRandom from '../../../../dot/js/dotRandom.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import arrayRemove from '../../../../phet-core/js/arrayRemove.js';
-import { DragListener, Node, Rectangle, Sprite, SpriteImage, SpriteInstance, SpriteListenable, Sprites, VBox } from '../../../../scenery/js/imports.js';
+import { DragListener, Node, PressedDragListener, Rectangle, Sprite, SpriteImage, SpriteInstance, SpriteListenable, Sprites, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import flame_png from '../../../images/flame_png.js';
 import iceCubeStack_png from '../../../images/iceCubeStack_png.js';
 import measuringTape_png from '../../../images/measuringTape_png.js';
 import NumberControl from '../../NumberControl.js';
 
-export default function demoSprites( layoutBounds ) {
+type SpriteInstanceWithVelocity = SpriteInstance & { velocity: Vector2 };
+
+export default function demoSprites( layoutBounds: Bounds2 ): Node {
 
   const spriteCountProperty = new NumberProperty( 500, {
     range: new Range( 0, 10000 )
@@ -47,7 +49,7 @@ export default function demoSprites( layoutBounds ) {
     fill: 'red',
     stroke: 'black'
   } );
-  let particleSpriteImage;
+  let particleSpriteImage: SpriteImage;
   particleRectangle.toCanvas( canvas => {
     particleSpriteImage = new SpriteImage( canvas, particleRectangle.center );
   } );
@@ -56,10 +58,10 @@ export default function demoSprites( layoutBounds ) {
   const sprite0 = new Sprite( flameSpriteImage );
   const sprite1 = new Sprite( measuringTapeSpriteImage );
   const sprite2 = new Sprite( iceCubeStackSpriteImage );
-  const sprite3 = new Sprite( particleSpriteImage );
+  const sprite3 = new Sprite( particleSpriteImage! );
 
-  const createSpriteInstance = () => {
-    const instance = SpriteInstance.pool.create();
+  const createSpriteInstance = (): SpriteInstanceWithVelocity => {
+    const instance = SpriteInstance.pool.create() as SpriteInstanceWithVelocity;
     instance.sprite = dotRandom.sample( [ sprite0, sprite1, sprite2, sprite3 ] );
     instance.matrix.setToTranslation( dotRandom.nextDouble() * getAvailableWidth(), dotRandom.nextDouble() * getAvailableHeight() );
 
@@ -83,7 +85,7 @@ export default function demoSprites( layoutBounds ) {
     }
   } );
 
-  let selectedInstance = null;
+  let selectedInstance: SpriteInstanceWithVelocity | null = null;
 
   // Create the 'Sprites' node
   const sprites = new Sprites( {
@@ -99,8 +101,10 @@ export default function demoSprites( layoutBounds ) {
     inputListeners: [ new ( SpriteListenable( DragListener ) )( {
       applyOffset: false,
 
-      start: ( event, listener ) => {
-        selectedInstance = listener.spriteInstance;
+      start: ( event, listener: PressedDragListener ) => {
+
+        const myListener = listener as PressedDragListener & { spriteInstance: SpriteInstanceWithVelocity };
+        selectedInstance = myListener.spriteInstance;
 
         // e.g. moveToFront
         arrayRemove( instances, selectedInstance );
@@ -109,7 +113,7 @@ export default function demoSprites( layoutBounds ) {
 
       drag: ( event, listener ) => {
         // translate the selected instance
-        const matrix = selectedInstance.matrix;
+        const matrix = selectedInstance!.matrix;
         matrix.set02( matrix.m02() + listener.modelDelta.x / spriteScaleProperty.value );
         matrix.set12( matrix.m12() + listener.modelDelta.y / spriteScaleProperty.value );
 
@@ -137,7 +141,7 @@ export default function demoSprites( layoutBounds ) {
 
   sprites.invalidatePaint();
 
-  const listener = dt => {
+  const listener = ( dt: number ) => {
 
     const distance = dt * spriteSpeedProperty.value / spriteScaleProperty.value;
     const width = getAvailableWidth();
@@ -162,7 +166,7 @@ export default function demoSprites( layoutBounds ) {
 
   sprites.dispose = () => {
     stepTimer.removeListener( listener );
-    Node.prototype.dispose.call( this );
+    Node.prototype.dispose.call( node );
   };
 
   const controlPanel = new Panel( new VBox( {
@@ -182,7 +186,8 @@ export default function demoSprites( layoutBounds ) {
     right: layoutBounds.right - 10
   } );
 
-  return new Node( {
+  const node = new Node( {
     children: [ sprites, controlPanel ]
   } );
+  return node;
 }
