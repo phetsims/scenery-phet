@@ -11,27 +11,29 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import LinkableProperty from '../../axon/js/LinkableProperty.js';
+import Property from '../../axon/js/Property.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
+import Range from '../../dot/js/Range.js';
 import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
+import PickOptional from '../../phet-core/js/types/PickOptional.js';
+import PickRequired from '../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { AlignBox, Font, HBox, Node, NodeOptions, PaintColorProperty, Text, TextOptions, VBox } from '../../scenery/js/imports.js';
 import ArrowButton, { ArrowButtonOptions } from '../../sun/js/buttons/ArrowButton.js';
 import HSlider from '../../sun/js/HSlider.js';
 import Slider, { SliderOptions } from '../../sun/js/Slider.js';
-import Range from '../../dot/js/Range.js';
+import nullSoundPlayer from '../../tambo/js/shared-sound-players/nullSoundPlayer.js';
+import ValueChangeSoundPlayer, { ValueChangeSoundPlayerOptions } from '../../tambo/js/sound-generators/ValueChangeSoundPlayer.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
-import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
-import PickRequired from '../../phet-core/js/types/PickRequired.js';
-import Property from '../../axon/js/Property.js';
-import PickOptional from '../../phet-core/js/types/PickOptional.js';
-import LinkableProperty from '../../axon/js/LinkableProperty.js';
 
 // constants
 const SPECIFIC_COMPONENT_CALLBACK_OPTIONS = [
@@ -43,6 +45,9 @@ const SPECIFIC_COMPONENT_CALLBACK_OPTIONS = [
   'rightEnd'
 ];
 const POINTER_AREA_OPTION_NAMES = [ 'touchAreaXDilation', 'touchAreaYDilation', 'mouseAreaXDilation', 'mouseAreaYDilation' ] as const;
+
+// This is a marker to indicate that we should create the actual default sound player.
+const DEFAULT_SOUND = new ValueChangeSoundPlayer( new Range( 0, 1 ) );
 
 export type LayoutFunction = ( titleNode: Node, numberDisplay: NumberDisplay, slider: Slider, decrementButton: ArrowButton | null, incrementButton: ArrowButton | null ) => Node;
 
@@ -162,6 +167,13 @@ type SelfOptions = {
   // constrain the range of actual values to within this range.
   enabledRangeProperty?: SliderOptions[ 'enabledRangeProperty' ];
 
+  // This is used to generate sounds as the value of the number is changed using the slider or the buttons.  If not
+  // provided, a default sound generator will be created. If set to null, the number control will generate no sound.
+  soundGenerator?: ValueChangeSoundPlayer | null;
+
+  // Options for the default sound generator.  These should only be provided when NOT providing a custom sound player.
+  valueChangeSoundGeneratorOptions?: ValueChangeSoundPlayerOptions;
+
   // A {function} that handles layout of subcomponents.
   // It has signature function( titleNode, numberDisplay, slider, decrementButton, incrementButton )
   // and returns a Node. If you want to customize the layout, use one of the predefined creators
@@ -217,6 +229,9 @@ export default class NumberControl extends Node {
       // {boolean} If set to true, then increment/decrement arrow buttons will be added to the NumberControl
       includeArrowButtons: true,
 
+      soundGenerator: DEFAULT_SOUND,
+      valueChangeSoundGeneratorOptions: {},
+
       // phet-io
       tandem: Tandem.REQUIRED,
       tandemNameSuffix: 'Control',
@@ -245,6 +260,32 @@ export default class NumberControl extends Node {
       const newValue = Utils.roundToInterval( value, options.delta );
       return getCurrentRange().constrainValue( newValue );
     };
+
+    assert && assert(
+      initialOptions.soundGenerator === DEFAULT_SOUND || _.isEmpty( initialOptions.valueChangeSoundGeneratorOptions ),
+      'options should only be supplied when using default sound generator'
+    );
+
+    // If no sound generator was provided, create one using the default configuration.
+    if ( initialOptions.soundGenerator === DEFAULT_SOUND ) {
+      let valueChangeSoundGeneratorOptions = initialOptions.valueChangeSoundGeneratorOptions;
+      if ( _.isEmpty( initialOptions.valueChangeSoundGeneratorOptions ) ) {
+
+        // If no options were provided for the ValueChangeSoundGenerator, use a default where a sound will be produced
+        // for every valid value set by this control.
+        valueChangeSoundGeneratorOptions = {
+          interThresholdDelta: initialOptions.delta,
+          constrainValue: constrainValue
+        };
+      }
+      initialOptions.soundGenerator = new ValueChangeSoundPlayer(
+        numberRange,
+        valueChangeSoundGeneratorOptions
+      );
+    }
+    else if ( initialOptions.soundGenerator === null ) {
+      initialOptions.soundGenerator = ValueChangeSoundPlayer.NO_SOUND;
+    }
 
     // Merge all nested options in one block.
     const options: typeof initialOptions = combineOptions<typeof initialOptions>( {
@@ -294,12 +335,7 @@ export default class NumberControl extends Node {
         // see https://github.com/phetsims/scenery-phet/issues/384
         constrainValue: constrainValue,
 
-        valueChangeSoundGeneratorOptions: {
-
-          // By default, the slider will generate a sound at each valid value for this number control.
-          interThresholdDelta: initialOptions.delta,
-          constrainValue: constrainValue
-        },
+        soundGenerator: initialOptions.soundGenerator,
 
         // phet-io
         tandem: initialOptions.tandem.createTandem( NumberControl.SLIDER_TANDEM_NAME )
@@ -403,22 +439,28 @@ export default class NumberControl extends Node {
     if ( options.includeArrowButtons ) {
 
       decrementButton = new ArrowButton( 'left', () => {
-        let value = numberProperty.get() - options.delta;
-        value = Utils.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
-        value = Math.max( value, getCurrentRange().min ); // constrain to range
-        numberProperty.set( value );
+        const oldValue = numberProperty.get();
+        let newValue = numberProperty.get() - options.delta;
+        newValue = Utils.roundToInterval( newValue, options.delta ); // constrain to multiples of delta, see #384
+        newValue = Math.max( newValue, getCurrentRange().min ); // constrain to range
+        numberProperty.set( newValue );
+        options.soundGenerator!.playSoundForValueChange( newValue, oldValue );
       }, combineOptions<ArrowButtonOptions>( {
+        soundPlayer: nullSoundPlayer,
         startCallback: options.arrowButtonOptions.leftStart,
         endCallback: options.arrowButtonOptions.leftEnd,
         tandem: options.tandem.createTandem( 'decrementButton' )
       }, options.arrowButtonOptions ) );
 
       incrementButton = new ArrowButton( 'right', () => {
-        let value = numberProperty.get() + options.delta;
-        value = Utils.roundToInterval( value, options.delta ); // constrain to multiples of delta, see #384
-        value = Math.min( value, getCurrentRange().max ); // constrain to range
-        numberProperty.set( value );
+        const oldValue = numberProperty.get();
+        let newValue = numberProperty.get() + options.delta;
+        newValue = Utils.roundToInterval( newValue, options.delta ); // constrain to multiples of delta, see #384
+        newValue = Math.min( newValue, getCurrentRange().max ); // constrain to range
+        numberProperty.set( newValue );
+        options.soundGenerator!.playSoundForValueChange( newValue, oldValue );
       }, combineOptions<ArrowButtonOptions>( {
+        soundPlayer: nullSoundPlayer,
         startCallback: options.arrowButtonOptions.rightStart,
         endCallback: options.arrowButtonOptions.rightEnd,
         tandem: options.tandem.createTandem( 'incrementButton' )
