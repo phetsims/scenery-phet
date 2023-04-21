@@ -27,6 +27,9 @@ import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import SpectrumNode from './SpectrumNode.js';
 
+const DEFAULT_MIN_VALUE = 0;
+const DEFAULT_MAX_VALUE = 1;
+
 type SelfOptions = {
 
   // The minimum value to be displayed
@@ -93,13 +96,16 @@ export default class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
   public constructor( valueProperty: TProperty<number>, providedOptions?: SpectrumSliderOptions ) {
     assert && deprecationWarning( 'SpectrumSlider is deprecated, please use Slider with SpectrumSlideTrack/Thumb instead' );
 
+    const enabledRangeMin = providedOptions?.minValue ?? DEFAULT_MIN_VALUE;
+    const enabledRangeMax = providedOptions?.maxValue ?? DEFAULT_MAX_VALUE;
+    const enabledRangeProperty = new Property( new Range( enabledRangeMin, enabledRangeMax ) );
+
     // options that are specific to this type
-    // @ts-expect-error - chip away for https://github.com/phetsims/phet-core/issues/130
     const options = optionize<SpectrumSliderOptions, SelfOptions, ParentOptions>()( {
 
       // SelfOptions
-      minValue: 0,
-      maxValue: 1,
+      minValue: DEFAULT_MIN_VALUE,
+      maxValue: DEFAULT_MAX_VALUE,
       valueToString: ( value: number ) => `${value}`,
       valueToColor: ( value: number ) => new Color( 0, 0, 255 * value ),
 
@@ -137,7 +143,9 @@ export default class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
       cursorVisible: true,
       cursorStroke: 'black',
 
-      // phet-io
+      // ParentOptions
+      valueProperty: valueProperty,
+      enabledRangeProperty: enabledRangeProperty,
       tandem: Tandem.REQUIRED,
       tandemNameSuffix: 'Slider'
 
@@ -145,13 +153,6 @@ export default class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
 
     // validate values
     assert && assert( options.minValue < options.maxValue );
-
-    // mix accessible slider functionality into HSlider
-    assert && assert( !options.valueProperty, 'SpectrumSlider sets its own valueProperty' );
-    options.valueProperty = valueProperty;
-
-    assert && assert( !options.enabledRangeProperty, 'SpectrumSlider sets its own enabledRangeProperty' );
-    options.enabledRangeProperty = new Property( new Range( options.minValue, options.maxValue ) );
 
     // These options require valid Bounds, and will be applied later via mutate.
     const boundsRequiredOptionKeys = _.pick( options, Node.REQUIRES_BOUNDS_OPTION_KEYS );
