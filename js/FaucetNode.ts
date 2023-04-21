@@ -84,7 +84,7 @@ export default class FaucetNode extends Node {
   public constructor( maxFlowRate: number, flowRateProperty: Property<number>,
                       enabledProperty: TReadOnlyProperty<boolean>, providedOptions?: FaucetNodeOptions ) {
 
-    // @ts-expect-error - chip away for https://github.com/phetsims/center-and-variability/issues/142
+    // @ts-expect-error - chip away for https://github.com/phetsims/phet-core/issues/130
     const options = optionize<FaucetNodeOptions, StrictOmit<SelfOptions, 'shooterOptions'>, ParentOptions>()( {
 
       // SelfOptions

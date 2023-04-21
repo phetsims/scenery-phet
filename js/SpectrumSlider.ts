@@ -94,7 +94,7 @@ export default class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
     assert && deprecationWarning( 'SpectrumSlider is deprecated, please use Slider with SpectrumSlideTrack/Thumb instead' );
 
     // options that are specific to this type
-    // @ts-expect-error - chip away for https://github.com/phetsims/center-and-variability/issues/142
+    // @ts-expect-error - chip away for https://github.com/phetsims/phet-core/issues/130
     const options = optionize<SpectrumSliderOptions, SelfOptions, ParentOptions>()( {
 
       // SelfOptions
