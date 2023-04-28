@@ -27,7 +27,6 @@ import Bounds2 from '../../dot/js/Bounds2.js';
 import LinearFunction from '../../dot/js/LinearFunction.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import { Circle, DragListener, Image, InteractiveHighlighting, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
-import { AccessibleSliderOptions } from '../../sun/js/accessibility/AccessibleSlider.js';
 import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
@@ -74,8 +73,8 @@ type SelfOptions = {
   // options for the nested type ShooterNode
   shooterOptions?: ShooterNodeOptions;
 };
-type ParentOptions = AccessibleSliderOptions & NodeOptions;
-export type FaucetNodeOptions = SelfOptions & StrictOmit<ParentOptions, 'valueProperty' | 'enabledRangeProperty'>;
+type ParentOptions = NodeOptions;
+export type FaucetNodeOptions = SelfOptions & ParentOptions;
 
 export default class FaucetNode extends Node {
 
@@ -84,7 +83,6 @@ export default class FaucetNode extends Node {
   public constructor( maxFlowRate: number, flowRateProperty: Property<number>,
                       enabledProperty: TReadOnlyProperty<boolean>, providedOptions?: FaucetNodeOptions ) {
 
-    // @ts-expect-error see https://github.com/phetsims/scenery-phet/issues/808
     const options = optionize<FaucetNodeOptions, StrictOmit<SelfOptions, 'shooterOptions'>, ParentOptions>()( {
 
       // SelfOptions
