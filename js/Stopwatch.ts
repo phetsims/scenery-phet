@@ -128,10 +128,20 @@ export default class Stopwatch extends PhetioObject {
   public step( dt: number ): void {
     assert && assert( dt > 0, `invalid dt: ${dt}` );
 
+    this.setTime( this.timeProperty.value + dt );
+  }
+
+  /**
+   * Similar to step() but sets the time to a specific value.
+   * @param t
+   */
+  public setTime( t: number ): void {
+    assert && assert( t >= 0, `invalid t: ${t}` );
+
     if ( this.isRunningProperty.value ) {
 
       // Increment time, but don't exceed the range.
-      this.timeProperty.value = this.timeProperty.range.constrainValue( this.timeProperty.value + dt );
+      this.timeProperty.value = this.timeProperty.range.constrainValue( t );
 
       // If the max is reached, then pause.
       if ( this.timeProperty.value >= this.timeProperty.range.max ) {
