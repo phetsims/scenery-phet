@@ -12,6 +12,14 @@ type StringsType = {
   'scenery-phet': {
     'titleStringProperty': LinkableProperty<string>;
   };
+  'screen': {
+    'buttonsStringProperty': LinkableProperty<string>;
+    'componentsStringProperty': LinkableProperty<string>;
+    'dialogsStringProperty': LinkableProperty<string>;
+    'keyboardStringProperty': LinkableProperty<string>;
+    'slidersStringProperty': LinkableProperty<string>;
+    'spinnersStringProperty': LinkableProperty<string>;
+  };
   'WavelengthSlider': {
     'pattern_0wavelength_1unitsStringProperty': LinkableProperty<string>;
   };

@@ -33,7 +33,15 @@
     "supportsOutputJS": true,
     "phet-io": {
       "validation": false
-    }
+    },
+    "screenNameKeys": [
+      "SUN/screen.buttons",
+      "SUN/screen.components",
+      "SUN/screen.dialogs",
+      "SCENERY_PHET/screen.keyboard",
+      "SCENERY_PHET/screen.sliders",
+      "SCENERY_PHET/screen.spinners"
+    ]
   },
   "eslintConfig": {
     "extends": "../chipper/eslint/phet-library_eslintrc.js",

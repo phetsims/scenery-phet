@@ -2,6 +2,24 @@
   "scenery-phet.title": {
     "value": "scenery-phet demo"
   },
+  "screen.buttons": {
+    "value": "Buttons"
+  },
+  "screen.components": {
+    "value": "Components"
+  },
+  "screen.dialogs": {
+    "value": "Dialogs"
+  },
+  "screen.keyboard": {
+    "value": "Keyboard"
+  },
+  "screen.sliders": {
+    "value": "Sliders"
+  },
+  "screen.spinners": {
+    "value": "Spinners"
+  },
   "WavelengthSlider.pattern_0wavelength_1units": {
     "value": "{0} {1}"
   },
