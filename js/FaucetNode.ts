@@ -268,13 +268,7 @@ export default class FaucetNode extends Node {
           }
         }
       },
-      tandem: options.tandem.createTandem( 'dragListener' ),
-
-      // pdom - Even though this uses DragListener, allow discrete click events for alt input to let out a bit of
-      // fluid at a time every press using tapToDispense.
-      // TODO: https://github.com/phetsims/scenery-phet/issues/773 - If tapToDispense is false, the click will do
-      //  nothing. If design likes this, use tapToDispense on click even if tapToDispenseEnabled is false.
-      canClick: true
+      tandem: options.tandem.createTandem( 'dragListener' )
     } );
     shooterNode.addInputListener( dragListener );
 
@@ -298,9 +292,6 @@ export default class FaucetNode extends Node {
     // flow rate control is visible only when the faucet is interactive
     const interactiveObserver = ( interactive: boolean ) => {
       shooterNode.visible = trackNode.visible = interactive;
-
-      // Non-interactive faucet nodes should not be keyboard navigable.  Must be done after super() (to AccessibleSlider)
-      shooterNode.tagName = interactive ? 'button' : null;
     };
     options.interactiveProperty.link( interactiveObserver );
 
