@@ -15,6 +15,7 @@ import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
+import Tandem from '../../tandem/js/Tandem.js';
 
 type SelfOptions = {
 
@@ -59,7 +60,8 @@ export default class ContextLossFailureDialog extends Dialog {
     const button = new TextPushButton( SceneryPhetStrings.webglWarning.contextLossReloadStringProperty, {
       font: new PhetFont( 12 ),
       baseColor: '#E87600',
-      listener: () => this.hide()
+      listener: () => this.hide(),
+      tandem: Tandem.OPT_OUT
     } );
 
     const content = new HBox( {
