@@ -30,7 +30,7 @@ export default class QuestionBar extends StatusBar {
   private readonly disposeQuestionBar: () => void;
 
   public constructor( layoutBounds: Bounds2, visibleBoundsProperty: TReadOnlyProperty<Bounds2>,
-                      providedOptions?: QuestionBarOptions ) {
+                      providedOptions: QuestionBarOptions ) {
 
     const options = optionize<QuestionBarOptions, SelfOptions, StatusBarOptions>()( {
       floatToTop: true,
