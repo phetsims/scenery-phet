@@ -23,7 +23,7 @@ import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { AlignBox, Font, HBox, Node, NodeOptions, PaintColorProperty, Text, TextOptions, VBox } from '../../scenery/js/imports.js';
+import { AlignBox, extendsWidthSizable, Font, HBox, isWidthSizable, Node, NodeOptions, PaintColorProperty, Text, TextOptions, VBox, WidthSizable } from '../../scenery/js/imports.js';
 import ArrowButton, { ArrowButtonOptions } from '../../sun/js/buttons/ArrowButton.js';
 import HSlider from '../../sun/js/HSlider.js';
 import Slider, { SliderOptions } from '../../sun/js/Slider.js';
@@ -183,7 +183,7 @@ type SelfOptions = {
 
 export type NumberControlOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
-export default class NumberControl extends Node {
+export default class NumberControl extends WidthSizable( Node ) {
 
   public readonly slider: HSlider; // for a11y API
 
@@ -539,9 +539,30 @@ export default class NumberControl extends Node {
       }
     }
 
-    options.children = [
-      options.layoutFunction( titleNode, numberDisplay, this.slider, decrementButton, incrementButton )
-    ];
+    const child = options.layoutFunction( titleNode, numberDisplay, this.slider, decrementButton, incrementButton );
+
+    // Set up default sizability
+    this.widthSizable = isWidthSizable( child );
+
+    // Forward minimum/preferred width Properties to the child, so each layout is responsible for its dynamic layout
+    if ( extendsWidthSizable( child ) ) {
+      const minimumListener = ( minimumWidth: number | null ) => {
+        this.localMinimumWidth = minimumWidth;
+      };
+      child.minimumWidthProperty.link( minimumListener );
+
+      const preferredListener = ( localPreferredWidth: number | null ) => {
+        child.preferredWidth = localPreferredWidth;
+      };
+      this.localPreferredWidthProperty.link( preferredListener );
+
+      this.disposeEmitter.addListener( () => {
+        child.minimumWidthProperty.unlink( minimumListener );
+        this.localPreferredWidthProperty.unlink( preferredListener );
+      } );
+    }
+
+    options.children = [ child ];
 
     this.mutate( options );
 
@@ -626,6 +647,10 @@ export default class NumberControl extends Node {
       assert && assert( decrementButton, 'There is no decrementButton!' );
       assert && assert( incrementButton, 'There is no incrementButton!' );
 
+      slider.mutateLayoutOptions( {
+        grow: 1
+      } );
+
       return new VBox( {
         align: options.align,
         spacing: options.ySpacing,
@@ -635,8 +660,10 @@ export default class NumberControl extends Node {
             children: [ titleNode, numberDisplay ]
           } ),
           new HBox( {
+            layoutOptions: {
+              stretch: true
+            },
             spacing: options.arrowButtonsXSpacing,
-            resize: false, // prevent slider from causing a resize when thumb is at min or max
             children: [ decrementButton!, slider, incrementButton! ]
           } )
         ]
@@ -663,10 +690,13 @@ export default class NumberControl extends Node {
       assert && assert( decrementButton );
       assert && assert( incrementButton );
 
+      slider.mutateLayoutOptions( {
+        stretch: true
+      } );
+
       return new VBox( {
         align: options.align,
         spacing: options.ySpacing,
-        resize: false, // prevent slider from causing a resize when thumb is at min or max
         children: [
           new HBox( {
             spacing: options.xSpacing,
@@ -700,15 +730,20 @@ export default class NumberControl extends Node {
       assert && assert( decrementButton );
       assert && assert( incrementButton );
 
+      slider.mutateLayoutOptions( {
+        stretch: true
+      } );
+
       const titleAndContentVBox = new VBox( {
         spacing: options.ySpacing,
-        resize: false, // prevent slider from causing a resize when thumb is at min or max
         align: options.alignTitle,
         children: [
           new AlignBox( titleNode, { leftMargin: options.titleLeftIndent } ),
           new VBox( {
+            layoutOptions: {
+              stretch: true
+            },
             spacing: options.ySpacing,
-            resize: false, // prevent slider from causing a resize when thumb is at min or max
             align: options.alignNumber,
             children: [
               new HBox( {
@@ -753,6 +788,11 @@ export default class NumberControl extends Node {
     }, providedOptions );
 
     return ( titleNode, numberDisplay, slider, decrementButton, incrementButton ) => {
+
+      slider.mutateLayoutOptions( {
+        grow: 1
+      } );
+
       const includeArrowButtons = !!decrementButton; // if there aren't arrow buttons, then exclude them
       const bottomBox = new HBox( {
         spacing: options.arrowButtonSpacing,
@@ -762,6 +802,13 @@ export default class NumberControl extends Node {
           incrementButton!
         ],
         excludeInvisibleChildrenFromBounds: !options.layoutInvisibleButtons
+      } );
+
+      const bottomContent = options.createBottomContent ? options.createBottomContent( bottomBox ) : bottomBox;
+
+      bottomContent.mutateLayoutOptions( {
+        stretch: true,
+        xMargin: options.sliderPadding
       } );
 
       // Dynamic layout supported
@@ -780,12 +827,7 @@ export default class NumberControl extends Node {
             ],
             layoutOptions: { stretch: true }
           } ),
-          new Node( {
-            children: [
-              options.createBottomContent ? options.createBottomContent( bottomBox ) : bottomBox
-            ],
-            layoutOptions: { xMargin: options.sliderPadding }
-          } )
+          bottomContent
         ]
       } );
     };
