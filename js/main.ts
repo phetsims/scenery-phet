@@ -9,6 +9,7 @@ import './accessibility/describers/MovementAlerter.js';
 import './NumberControl.js';
 import './NumberDisplay.js';
 import './PhetFont.js';
+import './buttons/PlayStopButton.js';
 import './ShadedRectangle.js';
 import './ShadedSphereNode.js';
 
