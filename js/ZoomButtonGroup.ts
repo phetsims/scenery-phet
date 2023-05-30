@@ -7,11 +7,10 @@
  */
 
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import merge from '../../phet-core/js/merge.js';
 import { FlowBox, FlowBoxOptions, Node } from '../../scenery/js/imports.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import sceneryPhet from './sceneryPhet.js';
 import TRangedProperty from '../../axon/js/TRangedProperty.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
@@ -84,7 +83,7 @@ export default class ZoomButtonGroup extends FlowBox {
     const touchYShift = Math.max( 0, options.orientation === 'vertical' ? options.touchAreaYDilation - halfSpacing : 0 );
 
     // zoom in
-    const zoomInButton = new RectangularPushButton( merge( {
+    const zoomInButton = new RectangularPushButton( combineOptions<RectangularPushButtonOptions>( {
       content: zoomInIcon,
       listener: () => {
         zoomLevelProperty.value = options.applyZoomIn( zoomLevelProperty.value );
@@ -102,7 +101,7 @@ export default class ZoomButtonGroup extends FlowBox {
     }, options.buttonOptions ) );
 
     // zoom out
-    const zoomOutButton = new RectangularPushButton( merge( {
+    const zoomOutButton = new RectangularPushButton( combineOptions<RectangularPushButtonOptions>( {
       content: zoomOutIcon,
       listener: () => {
         zoomLevelProperty.value = options.applyZoomOut( zoomLevelProperty.value );

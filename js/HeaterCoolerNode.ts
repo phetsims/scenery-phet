@@ -15,8 +15,7 @@
 import NumberProperty from '../../axon/js/NumberProperty.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import merge from '../../phet-core/js/merge.js';
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import { Color, Node, NodeOptions } from '../../scenery/js/imports.js';
 import VSlider from '../../sun/js/VSlider.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -70,14 +69,14 @@ export default class HeaterCoolerNode extends Node {
     // Add the HeaterCoolerBack which contains the heater opening and the fire/ice images
     assert && assert( !options.backOptions || !options.backOptions.baseColor,
       'HeaterCoolerNode sets baseColor for HeaterCoolerBack' );
-    const heaterCoolerBack = new HeaterCoolerBack( heatCoolAmountProperty, merge( {
+    const heaterCoolerBack = new HeaterCoolerBack( heatCoolAmountProperty, combineOptions<HeaterCoolerBackOptions>( {
       baseColor: options.baseColor
     }, options.backOptions ) );
 
     // Add the HeaterCoolerFront which contains the labels, stove body, and control slider.
     assert && assert( !options.frontOptions || !options.frontOptions.baseColor,
       'HeaterCoolerNode sets baseColor for HeaterCoolerFront' );
-    const heaterCoolerFront = new HeaterCoolerFront( heatCoolAmountProperty, merge( {
+    const heaterCoolerFront = new HeaterCoolerFront( heatCoolAmountProperty, combineOptions<HeaterCoolerFrontOptions>( {
       baseColor: options.baseColor,
       leftTop: heaterCoolerBack.getHeaterFrontPosition(),
       heaterCoolerBack: heaterCoolerBack,
