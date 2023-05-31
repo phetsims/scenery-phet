@@ -19,6 +19,7 @@ import ReferenceIO from '../../tandem/js/types/ReferenceIO.js';
 import sceneryPhet from './sceneryPhet.js';
 import Property from '../../axon/js/Property.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import isSettingPhetioStateProperty from '../../tandem/js/isSettingPhetioStateProperty.js';
 
 const DEFAULT_TIME_RANGE = new Range( 0, Number.POSITIVE_INFINITY );
 
@@ -91,9 +92,7 @@ export default class Stopwatch extends PhetioObject {
 
     // When the stopwatch visibility changes, stop it and reset its value.
     const visibilityListener = () => {
-      const joistGlobal = _.get( window, 'phet.joist', null ); // returns null if global isn't found
-
-      if ( !joistGlobal || !joistGlobal.sim.isSettingPhetioStateProperty.value ) {
+      if ( !isSettingPhetioStateProperty.value ) {
         this.isRunningProperty.value = false;
         this.timeProperty.value = 0;
       }
