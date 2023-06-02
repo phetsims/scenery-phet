@@ -16,6 +16,7 @@ import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 type GrabReleaseKeyboardHelpSectionOptions = StrictOmit<KeyboardHelpSectionOptions, 'a11yContentTagName'>;
 
@@ -38,17 +39,17 @@ export default class GrabReleaseKeyboardHelpSection extends KeyboardHelpSection 
     // the visible heading string
     const headingStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.grabOrReleaseHeadingPatternStringProperty, {
       thing: thingAsTitle
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
 
     // the visible label string
     const labelStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.grabOrReleaseLabelPatternStringProperty, {
       thing: thingAsLowerCase
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
 
     // the string for the PDOM
     const descriptionStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.grabOrReleaseDescriptionPatternStringProperty, {
       thing: thingAsLowerCase
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
 
     const spaceKeyNode = TextKeyNode.space();
     const enterKeyNode = TextKeyNode.enter();

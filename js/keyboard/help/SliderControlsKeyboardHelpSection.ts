@@ -18,6 +18,7 @@ import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 // Configurations of arrow keys that can be displayed for 'Move between items in a group'
 class ArrowKeyIconDisplay extends EnumerationValue {
@@ -69,13 +70,13 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
     const keyboardHelpDialogVerbSliderStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.verbSliderPatternStringProperty, {
       verb: options.verbStringProperty,
       slider: options.sliderStringProperty
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
     const keyboardHelpDialogVerbInSmallerStepsStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.verbInSmallerStepsPatternStringProperty, {
       verb: options.verbStringProperty
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
     const keyboardHelpDialogVerbInLargerStepsStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.verbInLargerStepsPatternStringProperty, {
       verb: options.verbStringProperty
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
 
     const keysStringProperty =
       ( options.arrowKeyIconDisplay === ArrowKeyIconDisplay.LEFT_RIGHT ) ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.leftRightArrowKeysStringProperty :
@@ -84,13 +85,13 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
       new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.orKeysPatternStringProperty, {
         leftRight: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.leftRightArrowKeysStringProperty,
         upDown: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.upDownArrowKeysStringProperty
-      } ) : null;
+      }, { tandem: Tandem.OPT_OUT } ) : null;
     assert && assert( keysStringProperty );
     const keyboardHelpDialogDefaultStepsStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.defaultStepsDescriptionPatternStringProperty, {
       verb: options.verbStringProperty,
       slider: options.sliderStringProperty,
-      keys: keysStringProperty
-    } );
+      keys: keysStringProperty!
+    }, { tandem: Tandem.OPT_OUT } );
 
     const shiftKeysStringProperty =
       ( options.arrowKeyIconDisplay === ArrowKeyIconDisplay.LEFT_RIGHT ) ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftLeftRightArrowKeysStringProperty :
@@ -98,28 +99,28 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
       ( options.arrowKeyIconDisplay === ArrowKeyIconDisplay.BOTH ) ? new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.orKeysPatternStringProperty, {
         leftRight: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftLeftRightArrowKeysStringProperty,
         upDown: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftUpDownArrowKeysStringProperty
-      } ) : null;
+      }, { tandem: Tandem.OPT_OUT } ) : null;
     assert && assert( shiftKeysStringProperty );
     const keyboardHelpDialogSmallerStepsStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.smallerStepsDescriptionPatternStringProperty, {
       verb: options.verbStringProperty,
-      keys: shiftKeysStringProperty
-    } );
+      keys: shiftKeysStringProperty!
+    }, { tandem: Tandem.OPT_OUT } );
     const keyboardHelpDialogLargerStepsStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.largerStepsDescriptionPatternStringProperty, {
       verb: options.verbStringProperty
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
 
     const jumpToMinimumStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.jumpToMinimumPatternStringProperty, {
       minimum: options.minimumStringProperty
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
     const jumpToMaximumStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.jumpToMaximumPatternStringProperty, {
       maximum: options.maximumStringProperty
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
     const jumpToMinimumDescriptionStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.jumpToMinimumDescriptionPatternStringProperty, {
       minimum: options.minimumStringProperty
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
     const jumpToMaximumDescriptionStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.jumpToMaximumDescriptionPatternStringProperty, {
       maximum: options.maximumStringProperty
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
 
     // 'Move sliders' content
 

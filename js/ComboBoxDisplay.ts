@@ -21,6 +21,7 @@ import Property from '../../axon/js/Property.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import StringProperty from '../../axon/js/StringProperty.js';
 import PatternStringProperty from '../../axon/js/PatternStringProperty.js';
+import Tandem from '../../tandem/js/Tandem.js';
 
 // constants
 const DEFAULT_FONT = new PhetFont( 14 );
@@ -97,7 +98,7 @@ export default class ComboBoxDisplay<T> extends ComboBox<T> {
       const unitsProperty = ( typeof item.units === 'string' ) ? new StringProperty( item.units ) : item.units;
       const valuePatternStringProperty = new PatternStringProperty( SceneryPhetStrings.comboBoxDisplay.valueUnitsStringProperty, {
         units: unitsProperty
-      } );
+      }, { tandem: Tandem.OPT_OUT } );
       valuePatternStringProperties.push( valuePatternStringProperty );
 
       const itemNode = new NumberDisplay( item.numberProperty, item.range,

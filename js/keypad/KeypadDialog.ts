@@ -27,6 +27,7 @@ import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 
 type SelfOptions = {
   // Font used for all Text instances within the Dialog.
@@ -212,7 +213,7 @@ class KeypadDialog extends Dialog {
     this.rangeStringProperty = new PatternStringProperty( patternStringProperty, {
       min: valueRange.min,
       max: valueRange.max
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
     this.rangeText.mutate( {
       stringProperty: this.rangeStringProperty
     } );

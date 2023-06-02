@@ -16,6 +16,7 @@ import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 type SelfOptions = {
 
@@ -65,7 +66,7 @@ export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
         providedStringProperty, {
           thingPlural: thingAsLowerCasePluralStringProperty,
           thingSingular: thingAsLowerCaseSingularStringProperty
-        } );
+        }, { tandem: Tandem.OPT_OUT } );
       ourPatternStringsToDispose.push( patternStringProperty );
       return patternStringProperty;
     };
