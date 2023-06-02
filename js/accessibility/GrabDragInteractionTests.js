@@ -48,13 +48,20 @@ QUnit.test( 'GrabDragInteraction defaults', assert => {
 
   const testDefaultGrabbable = () => {
 
-    assert.ok( interaction.grabbable, 'default to grabbable' );
-    assert.ok( a.tagName.toUpperCase() === 'BUTTON', 'grabbable defaults to button' );
-    assert.ok( a.ariaRole === null, 'no role for grabbable' );
-    assert.ok( a.ariaLabel.indexOf( thingString ) >= 0, 'ariaLabel should include thing string for grabbable' );
+    // GrabDragInteraction requires the page to be active to behave corectly, otherwise focus/blur events do not
+    // fire. See https://github.com/phetsims/aqua/issues/134.
+    if ( document.hasFocus() ) {
+      assert.ok( interaction.grabbable, 'default to grabbable' );
+      assert.ok( a.tagName.toUpperCase() === 'BUTTON', 'grabbable defaults to button' );
+      assert.ok( a.ariaRole === null, 'no role for grabbable' );
+      assert.ok( a.ariaLabel.indexOf( thingString ) >= 0, 'ariaLabel should include thing string for grabbable' );
 
-    const aElement = a.pdomInstances[ 0 ].peer.primarySibling;
-    assert.ok( aElement.tagName === 'BUTTON', 'grabbable defaults to button html element.' );
+      const aElement = a.pdomInstances[ 0 ].peer.primarySibling;
+      assert.ok( aElement.tagName === 'BUTTON', 'grabbable defaults to button html element.' );
+    }
+    else {
+      console.warn( 'Cannot complete tests because document does not have focus.' );
+    }
   };
 
   testDefaultGrabbable();
