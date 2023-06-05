@@ -12,7 +12,7 @@ import Property from '../../../../axon/js/Property.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 
-export default function demoTemperatureNode( layoutBounds: Bounds2 ): Node {
+export default function demoThermometerNode( layoutBounds: Bounds2 ): Node {
 
   const temperatureProperty = new Property( 50 );
 
