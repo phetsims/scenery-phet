@@ -52,6 +52,7 @@
         ],
         "rules": {
           "@typescript-eslint/no-explicit-any": "error",
+          "default-class-match-filename": "off",
           "@typescript-eslint/ban-ts-comment": [
             "error",
             {
