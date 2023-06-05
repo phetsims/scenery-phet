@@ -14,12 +14,18 @@ import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import { Font, FontOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
+import PickOptional from '../../phet-core/js/types/PickOptional.js';
+import { PhetioObjectOptions } from '../../tandem/js/PhetioObject.js';
+import Tandem from '../../tandem/js/Tandem.js';
+import StringIO from '../../tandem/js/types/StringIO.js';
 
 const DEFAULT_STYLE = 'italic';
 
 type SelfOptions = EmptySelfOptions;
 
 export type MathSymbolFontOptions = SelfOptions & StrictOmit<FontOptions, 'family'>;
+
+type CreateDerivedPropertyOptions = PickOptional<FontOptions, 'style'> & PickOptional<PhetioObjectOptions, 'tandem'>;
 
 export default class MathSymbolFont extends Font {
 
@@ -59,9 +65,15 @@ export default class MathSymbolFont extends Font {
   /**
    * Wraps a dynamic string in RichText that will display the string in the same font as MathSymbolFont.
    */
-  public static createDerivedProperty( symbolStringProperty: TReadOnlyProperty<string>, style = DEFAULT_STYLE ): TReadOnlyProperty<string> {
+  public static createDerivedProperty( symbolStringProperty: TReadOnlyProperty<string>, providedOptions?: CreateDerivedPropertyOptions ): TReadOnlyProperty<string> {
+
+    const options = providedOptions || {};
+
     return new DerivedProperty( [ symbolStringProperty ],
-      symbolString => MathSymbolFont.getRichTextMarkup( symbolString, style ) );
+      symbolString => MathSymbolFont.getRichTextMarkup( symbolString, options.style || DEFAULT_STYLE ), {
+      tandem: options.tandem || Tandem.OPT_OUT,
+      phetioValueType: StringIO
+      } );
   }
 }
 
