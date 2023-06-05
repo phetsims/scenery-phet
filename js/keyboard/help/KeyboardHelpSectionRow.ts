@@ -159,7 +159,7 @@ class KeyboardHelpSectionRow extends Disposable {
   public static createKeysRow( keyIcons: Node[], labelString: string | TReadOnlyProperty<string>,
                                providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
     assert && assert( keyIcons.length > 0, 'expected keys' );
-    let keysNode = null;
+    let keysNode: Node | null = null;
     for ( let i = 0; i < keyIcons.length; i++ ) {
       const keyNode = keyIcons[ i ];
 
