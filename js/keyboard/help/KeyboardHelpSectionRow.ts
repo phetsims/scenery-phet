@@ -131,15 +131,9 @@ class KeyboardHelpSectionRow extends Disposable {
 
     iconBox.innerContent = options.labelInnerContent;
 
-    const keyboardHelpSectionRow = new KeyboardHelpSectionRow( labelText, labelBox, iconBox, {
+    return new KeyboardHelpSectionRow( labelText, labelBox, iconBox, {
       readingBlockContent: options.readingBlockContent || options.labelInnerContent
     } );
-
-    keyboardHelpSectionRow.disposeEmitter.addListener( () => {
-      labelIconGroup.dispose();
-      labelText.dispose();
-    } );
-    return keyboardHelpSectionRow;
   }
 
   /**
@@ -242,8 +236,6 @@ class KeyboardHelpSectionRow extends Disposable {
 
     const labelText = new RichText( labelString, options.labelOptions );
 
-    const toDispose: Node[] = [];
-
     // horizontally align the label with the first item in the list of icons, guarantees that the label and first
     // icon have identical heights
     const labelFirstIconGroup = new AlignGroup( { matchHorizontal: false } );
@@ -264,8 +256,6 @@ class KeyboardHelpSectionRow extends Disposable {
         children: [ new Node( { children: [ icons[ i ] ] } ), orText ],
         spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
       } );
-      toDispose.push( orText, hBox );
-
       iconsWithOrText.push( hBox );
     }
     iconsWithOrText.push( icons[ icons.length - 1 ] );
@@ -281,17 +271,9 @@ class KeyboardHelpSectionRow extends Disposable {
     const iconsBox = labelIconListGroup.createBox( iconsVBox, groupOptions ); // create the box to match height, but reference not necessary
     const labelWithHeightBox = labelIconListGroup.createBox( labelBox, groupOptions );
 
-    const keyboardHelpSectionRow = new KeyboardHelpSectionRow( labelText, labelWithHeightBox, iconsBox, {
+    return new KeyboardHelpSectionRow( labelText, labelWithHeightBox, iconsBox, {
       readingBlockContent: options.readingBlockContent || options.labelInnerContent
     } );
-
-    keyboardHelpSectionRow.disposeEmitter.addListener( () => {
-      labelFirstIconGroup.dispose();
-      labelText.dispose();
-      labelIconListGroup.dispose();
-      toDispose.forEach( disposable => disposable.dispose() );
-    } );
-    return keyboardHelpSectionRow;
   }
 }
 

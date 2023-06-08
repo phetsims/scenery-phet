@@ -24,7 +24,6 @@ type SelfOptions = {
 export type TwoColumnKeyboardHelpContentOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
 export default class TwoColumnKeyboardHelpContent extends Node {
-  private readonly disposeTwoColumnKeyboardHelpContent: () => void;
 
   /**
    * @param leftSections - KeyboardHelpSections for the left column
@@ -59,16 +58,6 @@ export default class TwoColumnKeyboardHelpContent extends Node {
     options.children = [ hBox ];
 
     super( options );
-    this.disposeTwoColumnKeyboardHelpContent = () => {
-      leftColumn.dispose();
-      rightColumn.dispose();
-      hBox.dispose();
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeTwoColumnKeyboardHelpContent();
-    super.dispose();
   }
 }
 

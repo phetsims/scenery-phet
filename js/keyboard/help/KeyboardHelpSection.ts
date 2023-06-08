@@ -69,8 +69,6 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
   private readonly iconVBox: VBox;
   private readonly contentHBox: HBox;
 
-  private readonly disposeKeyboardHelpSection: () => void;
-
   public static readonly DEFAULT_VERTICAL_ICON_SPACING = DEFAULT_VERTICAL_ICON_SPACING;
 
   /**
@@ -157,17 +155,6 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
 
     const readingBlockResponseProperty = this.createReadingBlockResponseProperty();
     this.setReadingBlockNameResponse( readingBlockResponseProperty );
-
-    this.disposeKeyboardHelpSection = () => {
-      readingBlockResponseProperty.dispose();
-      headingText.dispose();
-      this.keyboardHelpSectionRows = []; // defensive in case one row has a memory leak
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeKeyboardHelpSection();
-    super.dispose();
   }
 
   /**

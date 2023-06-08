@@ -20,7 +20,6 @@ import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 import LetterKeyNode from '../LetterKeyNode.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import NumberKeyNode from '../NumberKeyNode.js';
-import Emitter from '../../../../axon/js/Emitter.js';
 
 type SelfOptions = {
 
@@ -34,7 +33,6 @@ type SelfOptions = {
 export type BasicActionsKeyboardHelpSectionOptions = SelfOptions & KeyboardHelpSectionOptions;
 
 export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection {
-  private readonly disposeBasicActionsKeyboardHelpSection: () => void;
 
   public constructor( providedOptions?: BasicActionsKeyboardHelpSectionOptions ) {
 
@@ -42,9 +40,6 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
       withCheckboxContent: false,
       withKeypadContent: false
     }, providedOptions );
-
-    // Use a custom disposeEmitter since all usages are before super for dependency injections.
-    const disposeEmitter = new Emitter();
 
     // 'Move to next item or group'
     const tabKeyNode = TextKeyNode.tab();
@@ -115,7 +110,6 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
           labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.setValuesInKeypadDescriptionStringProperty
         } );
       content.push( setValuesInKeypadRow );
-      disposeEmitter.addListener( () => zeroToNineIcon.dispose() );
     }
 
     // 'Toggle checkboxes'
@@ -126,9 +120,6 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
           labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.toggleCheckboxesDescriptionStringProperty
         } );
       content.push( toggleCheckboxes );
-      disposeEmitter.addListener( () => {
-        checkboxSpaceKeyNode.dispose();
-      } );
     }
 
     // a bit strange, but important for ordering with optional rows
@@ -140,29 +131,6 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
 
     // order the rows of content
     super( SceneryPhetStrings.keyboardHelpDialog.basicActionsStringProperty, content, options );
-
-    this.disposeBasicActionsKeyboardHelpSection = () => {
-      content.forEach( row => row.dispose() );
-
-      escapeKeyNode.dispose();
-      shiftPlusTabIcon.dispose();
-      tabKeyNode.dispose();
-      arrowsIcon.dispose();
-      leftRightArrowsIcon.dispose();
-      upDownArrowsIcon.dispose();
-      spaceKeyNode.dispose();
-      enterKeyNode.dispose();
-      spaceOrEnterIcon.dispose();
-      altIcon.dispose();
-      rIcon.dispose();
-      altPlusRIcon.dispose();
-      disposeEmitter.emit();
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeBasicActionsKeyboardHelpSection();
-    super.dispose();
   }
 }
 

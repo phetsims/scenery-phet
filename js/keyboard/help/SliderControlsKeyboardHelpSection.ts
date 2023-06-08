@@ -53,7 +53,6 @@ export type SliderControlsKeyboardHelpSectionOptions = SelfOptions & KeyboardHel
 export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSection {
 
   public static readonly ArrowKeyIconDisplay = ArrowKeyIconDisplay;
-  private readonly disposeSliderControlsKeyboardHelpSection: () => void;
 
   public constructor( providedOptions?: SliderControlsKeyboardHelpSectionOptions ) {
 
@@ -183,40 +182,6 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
     const content = [ adjustSliderRow, adjustSliderInSmallerStepsRow, adjustInLargerStepsRow, jumpToMinimumRow, jumpToMaximumRow ];
 
     super( options.headingStringProperty, content, options );
-
-    this.disposeSliderControlsKeyboardHelpSection = () => {
-      content.forEach( row => row.dispose() );
-      keyboardHelpDialogVerbSliderStringProperty.dispose();
-      keyboardHelpDialogVerbInSmallerStepsStringProperty.dispose();
-      keyboardHelpDialogVerbInLargerStepsStringProperty.dispose();
-      keyboardHelpDialogDefaultStepsStringProperty.dispose();
-      keyboardHelpDialogSmallerStepsStringProperty.dispose();
-      keyboardHelpDialogLargerStepsStringProperty.dispose();
-      jumpToMinimumStringProperty.dispose();
-      jumpToMaximumStringProperty.dispose();
-      jumpToMinimumDescriptionStringProperty.dispose();
-      jumpToMaximumDescriptionStringProperty.dispose();
-      homeKeyNode.dispose();
-      endKeyNode.dispose();
-      pageUpKeyNode.dispose();
-      pageDownKeyNode.dispose();
-      leftRightArrowKeysRowIcon.dispose();
-      shiftPlusLeftRightIcon.dispose();
-      upDownArrowKeysRowIcon.dispose();
-      shiftPlusUpDownIcon.dispose();
-      leftRightOrUpDownIcon.dispose();
-
-      [ shiftKeysStringProperty, keysStringProperty ].forEach( property => {
-
-        // We only own these for disposal if a PatternStringProperty
-        property instanceof PatternStringProperty && property.dispose();
-      } );
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeSliderControlsKeyboardHelpSection();
-    super.dispose();
   }
 }
 

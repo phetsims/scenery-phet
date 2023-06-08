@@ -46,8 +46,6 @@ class TimeControlKeyboardHelpSection extends KeyboardHelpSection {
     } );
 
     super( options.headingString, [ playPauseRow ], options );
-    this.disposeEmitter.addListener( () => playPauseRow.dispose() );
-
   }
 }
 

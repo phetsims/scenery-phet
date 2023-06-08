@@ -68,10 +68,8 @@ export default class KeyboardHelpIconFactory {
       maxWidth: OR_TEXT_MAX_WIDTH
     } );
 
-    const icon = KeyboardHelpIconFactory.iconRow( [ new Node( { children: [ leftIcon ] } ), orText,
+    return KeyboardHelpIconFactory.iconRow( [ new Node( { children: [ leftIcon ] } ), orText,
       new Node( { children: [ rightIcon ] } ) ], options );
-    icon.disposeEmitter.addListener( () => orText.dispose() );
-    return icon;
   }
 
   /**
@@ -88,9 +86,7 @@ export default class KeyboardHelpIconFactory {
       maxWidth: OR_TEXT_MAX_WIDTH
     } );
 
-    const icon = KeyboardHelpIconFactory.iconRow( [ new Node( { children: [ leftIcon ] } ), hyphenText, new Node( { children: [ rightIcon ] } ) ], options );
-    icon.disposeEmitter.addListener( () => hyphenText.dispose() );
-    return icon;
+    return KeyboardHelpIconFactory.iconRow( [ new Node( { children: [ leftIcon ] } ), hyphenText, new Node( { children: [ rightIcon ] } ) ], options );
   }
 
   /**
@@ -140,9 +136,7 @@ export default class KeyboardHelpIconFactory {
    */
   public static shiftPlusIcon( icon: Node, providedOptions?: WithPlusIconOptions ): Node {
     const shiftKeyIcon = TextKeyNode.shift();
-    const iconPlusIconNode = KeyboardHelpIconFactory.iconPlusIcon( shiftKeyIcon, icon, providedOptions );
-    iconPlusIconNode.disposeEmitter.addListener( () => shiftKeyIcon.dispose() );
-    return iconPlusIconNode;
+    return KeyboardHelpIconFactory.iconPlusIcon( shiftKeyIcon, icon, providedOptions );
   }
 
   /**
@@ -150,9 +144,7 @@ export default class KeyboardHelpIconFactory {
    */
   public static altPlusIcon( icon: Node, providedOptions?: WithPlusIconOptions ): Node {
     const altKeyIcon = TextKeyNode.altOrOption();
-    const altPlusIconNode = KeyboardHelpIconFactory.iconPlusIcon( altKeyIcon, icon, providedOptions );
-    altPlusIconNode.disposeEmitter.addListener( () => altKeyIcon.dispose() );
-    return altPlusIconNode;
+    return KeyboardHelpIconFactory.iconPlusIcon( altKeyIcon, icon, providedOptions );
   }
 
   /**
@@ -161,12 +153,7 @@ export default class KeyboardHelpIconFactory {
   public static spaceOrEnter(): Node {
     const spaceKey = TextKeyNode.space();
     const enterKey = TextKeyNode.enter();
-    const icon = KeyboardHelpIconFactory.iconOrIcon( spaceKey, enterKey );
-    icon.disposeEmitter.addListener( () => {
-      spaceKey.dispose();
-      enterKey.dispose();
-    } );
-    return icon;
+    return KeyboardHelpIconFactory.iconOrIcon( spaceKey, enterKey );
   }
 
   /**
@@ -175,12 +162,7 @@ export default class KeyboardHelpIconFactory {
   public static upOrDown(): Node {
     const upArrowKeyNode = new ArrowKeyNode( 'up' );
     const downArrowKeyNode = new ArrowKeyNode( 'down' );
-    const icon = KeyboardHelpIconFactory.iconOrIcon( upArrowKeyNode, downArrowKeyNode );
-    icon.disposeEmitter.addListener( () => {
-      upArrowKeyNode.dispose();
-      downArrowKeyNode.dispose();
-    } );
-    return icon;
+    return KeyboardHelpIconFactory.iconOrIcon( upArrowKeyNode, downArrowKeyNode );
   }
 
   /**
@@ -200,14 +182,7 @@ export default class KeyboardHelpIconFactory {
     // Strings are not translated because they map directly to specific key codes.
     const icons = [ WKeyNode, AKeyNode, SKeyNode, DKeyNode ];
 
-    const icon = KeyboardHelpIconFactory.iconRow( icons, options );
-    icon.disposeEmitter.addListener( () => {
-      WKeyNode.dispose();
-      AKeyNode.dispose();
-      SKeyNode.dispose();
-      DKeyNode.dispose();
-    } );
-    return icon;
+    return KeyboardHelpIconFactory.iconRow( icons, options );
   }
 
   /**
@@ -224,14 +199,7 @@ export default class KeyboardHelpIconFactory {
     const leftArrowKeyNode = new ArrowKeyNode( 'left' );
     const downArrowKeyNode = new ArrowKeyNode( 'down' );
     const rightArrowKeyNode = new ArrowKeyNode( 'right' );
-    const icon = KeyboardHelpIconFactory.iconRow( [ upArrowKeyNode, leftArrowKeyNode, downArrowKeyNode, rightArrowKeyNode ], options );
-    icon.disposeEmitter.addListener( () => {
-      upArrowKeyNode.dispose();
-      downArrowKeyNode.dispose();
-      leftArrowKeyNode.dispose();
-      rightArrowKeyNode.dispose();
-    } );
-    return icon;
+    return KeyboardHelpIconFactory.iconRow( [ upArrowKeyNode, leftArrowKeyNode, downArrowKeyNode, rightArrowKeyNode ], options );
   }
 
   /**
@@ -246,12 +214,7 @@ export default class KeyboardHelpIconFactory {
     const arrowKeys = KeyboardHelpIconFactory.arrowKeysRowIcon();
     const wasdKeys = KeyboardHelpIconFactory.wasdRowIcon();
 
-    const icon = KeyboardHelpIconFactory.iconOrIcon( arrowKeys, wasdKeys, options );
-    icon.disposeEmitter.addListener( () => {
-      arrowKeys.dispose();
-      wasdKeys.dispose();
-    } );
-    return icon;
+    return KeyboardHelpIconFactory.iconOrIcon( arrowKeys, wasdKeys, options );
   }
 
   /**
@@ -267,12 +230,7 @@ export default class KeyboardHelpIconFactory {
     const pageDownKeyNode = TextKeyNode.pageDown();
     const icons = [ pageUpKeyNode, pageDownKeyNode ];
 
-    const icon = KeyboardHelpIconFactory.iconRow( icons, options );
-    icon.disposeEmitter.addListener( () => {
-      pageUpKeyNode.dispose();
-      pageDownKeyNode.dispose();
-    } );
-    return icon;
+    return KeyboardHelpIconFactory.iconRow( icons, options );
   }
 
   /**
@@ -281,12 +239,7 @@ export default class KeyboardHelpIconFactory {
   public static upDownArrowKeysRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
     const upArrowKeyNode = new ArrowKeyNode( 'up' );
     const downArrowKeyNode = new ArrowKeyNode( 'down' );
-    const icon = KeyboardHelpIconFactory.iconRow( [ upArrowKeyNode, downArrowKeyNode ], providedOptions );
-    icon.disposeEmitter.addListener( () => {
-      upArrowKeyNode.dispose();
-      downArrowKeyNode.dispose();
-    } );
-    return icon;
+    return KeyboardHelpIconFactory.iconRow( [ upArrowKeyNode, downArrowKeyNode ], providedOptions );
   }
 
   /**
@@ -295,12 +248,7 @@ export default class KeyboardHelpIconFactory {
   public static leftRightArrowKeysRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
     const leftArrowKeyNode = new ArrowKeyNode( 'left' );
     const rightArrowKeyNode = new ArrowKeyNode( 'right' );
-    const icon = KeyboardHelpIconFactory.iconRow( [ leftArrowKeyNode, rightArrowKeyNode ], providedOptions );
-    icon.disposeEmitter.addListener( () => {
-      leftArrowKeyNode.dispose();
-      rightArrowKeyNode.dispose();
-    } );
-    return icon;
+    return KeyboardHelpIconFactory.iconRow( [ leftArrowKeyNode, rightArrowKeyNode ], providedOptions );
   }
 }
 

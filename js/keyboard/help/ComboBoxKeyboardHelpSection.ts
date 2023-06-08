@@ -58,17 +58,13 @@ export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
                                                    new StringProperty( options.thingAsLowerCaseSingular ) :
                                                    options.thingAsLowerCaseSingular;
 
-    const ourPatternStringsToDispose: PatternStringProperty<object>[] = [];
-
-    // Create a DerivedProperty that fills in a plural/singular pattern, and support dynamic locale.
+    // Create a PatternStringProperty that fills in a plural/singular pattern, and support dynamic locale.
     const createPatternStringProperty = ( providedStringProperty: TReadOnlyProperty<string> ) => {
-      const patternStringProperty = new PatternStringProperty(
+      return new PatternStringProperty(
         providedStringProperty, {
           thingPlural: thingAsLowerCasePluralStringProperty,
           thingSingular: thingAsLowerCaseSingularStringProperty
         }, { tandem: Tandem.OPT_OUT } );
-      ourPatternStringsToDispose.push( patternStringProperty );
-      return patternStringProperty;
     };
 
     const spaceKeyNode = TextKeyNode.space();
@@ -103,15 +99,6 @@ export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
     // order the rows of content
     const rows = [ popUpList, moveThrough, chooseNew, closeWithoutChanging ];
     super( options.headingString, rows, options );
-
-    this.disposeEmitter.addListener( () => {
-      rows.forEach( row => row.dispose() );
-      escapeKeyNode.dispose();
-      spaceOrEnterIcon.dispose();
-      enterKeyNode.dispose();
-      spaceKeyNode.dispose();
-      ourPatternStringsToDispose.forEach( pattern => pattern.dispose() );
-    } );
   }
 }
 
