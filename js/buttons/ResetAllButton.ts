@@ -47,7 +47,6 @@ export default class ResetAllButton extends ResetButton {
       touchAreaDilation: 5.2,
       baseColor: PhetColorScheme.RESET_ALL_BUTTON_BASE_COLOR,
       arrowColor: 'white',
-      listener: _.noop, // {function}
 
       // phet-io
       tandem: Tandem.REQUIRED,
@@ -64,21 +63,6 @@ export default class ResetAllButton extends ResetButton {
       voicingNameResponse: SceneryPhetStrings.a11y.resetAll.labelStringProperty,
       voicingContextResponse: SceneryPhetStrings.a11y.voicing.resetAll.contextResponseStringProperty
     }, providedOptions );
-
-    // Wrap the listener for all cases, since PhET-iO won't be able to call this.isPhetioInstrumented() until the super
-    // call is complete.
-    const passedInListener = options.listener;
-    options.listener = () => {
-      passedInListener && passedInListener();
-
-      // every ResetAllButton has the option to reset to the last PhET-iO state if desired.
-      if ( Tandem.PHET_IO_ENABLED && options.phetioRestoreScreenStateOnReset &&
-
-           // even though this is Tandem.REQUIRED, still be graceful if not yet instrumented
-           this.isPhetioInstrumented() ) {
-        phet.phetio.phetioEngine.phetioStateEngine.restoreStateForScreen( options.tandem );
-      }
-    };
 
     assert && assert( options.xMargin === undefined && options.yMargin === undefined, 'resetAllButton sets margins' );
     options.xMargin = options.yMargin = options.radius * MARGIN_COEFFICIENT;
@@ -101,9 +85,18 @@ export default class ResetAllButton extends ResetButton {
       }
       else {
 
+        // every ResetAllButton has the option to reset to the last PhET-iO state if desired.
+        if ( Tandem.PHET_IO_ENABLED && options.phetioRestoreScreenStateOnReset &&
+
+             // even though this is Tandem.REQUIRED, still be graceful if not yet instrumented
+             this.isPhetioInstrumented() ) {
+          phet.phetio.phetioEngine.phetioStateEngine.restoreStateForScreen( options.tandem );
+        }
+
         // restore the enabled state to each utteranceQueue after resetting
         voicingUtteranceQueue.enabled = voicingEnabledOnFire;
         this.voicingSpeakFullResponse();
+
       }
 
       // Handle each connected description UtteranceQueue
