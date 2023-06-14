@@ -445,6 +445,7 @@ export default class NumberControl extends WidthSizable( Node ) {
         newValue = Math.max( newValue, getCurrentRange().min ); // constrain to range
         numberProperty.set( newValue );
         options.soundGenerator!.playSoundForValueChange( newValue, oldValue );
+        this.slider.voicingOnEndResponse( oldValue );
       }, combineOptions<ArrowButtonOptions>( {
         soundPlayer: nullSoundPlayer,
         startCallback: options.arrowButtonOptions.leftStart,
@@ -459,6 +460,7 @@ export default class NumberControl extends WidthSizable( Node ) {
         newValue = Math.min( newValue, getCurrentRange().max ); // constrain to range
         numberProperty.set( newValue );
         options.soundGenerator!.playSoundForValueChange( newValue, oldValue );
+        this.slider.voicingOnEndResponse( oldValue );
       }, combineOptions<ArrowButtonOptions>( {
         soundPlayer: nullSoundPlayer,
         startCallback: options.arrowButtonOptions.rightStart,
