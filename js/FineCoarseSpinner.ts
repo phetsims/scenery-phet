@@ -159,7 +159,7 @@ export default class FineCoarseSpinner extends Node {
 
     // Create a link to associated Property, so it's easier to find in Studio.
     this.addLinkedElement( numberProperty, {
-      tandem: options.tandem.createTandem( 'property' )
+      tandemName: 'property'
     } );
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified

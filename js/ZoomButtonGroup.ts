@@ -130,7 +130,7 @@ export default class ZoomButtonGroup extends FlowBox {
     zoomLevelProperty.link( zoomLevelListener );
 
     this.addLinkedElement( zoomLevelProperty, {
-      tandem: options.tandem.createTandem( 'zoomProperty' )
+      tandemName: 'zoomProperty'
     } );
 
     this.disposeZoomButtonGroup = () => {

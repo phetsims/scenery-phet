@@ -297,7 +297,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
     }
 
     this.addLinkedElement( stopwatch, {
-      tandem: options.tandem.createTandem( 'stopwatch' )
+      tandemName: 'stopwatch'
     } );
 
     this.disposeStopwatchNode = () => {

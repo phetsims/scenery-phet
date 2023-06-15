@@ -298,7 +298,7 @@ export default class FaucetNode extends Node {
     // Add a link to flowRateProperty, to make it easier to find in Studio.
     // See https://github.com/phetsims/ph-scale/issues/123
     this.addLinkedElement( flowRateProperty, {
-      tandem: options.tandem.createTandem( 'flowRateProperty' )
+      tandemName: 'flowRateProperty'
     } );
 
     this.disposeFaucetNode = () => {
