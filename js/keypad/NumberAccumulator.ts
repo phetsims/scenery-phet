@@ -15,10 +15,10 @@ import optionize from '../../../phet-core/js/optionize.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import NullableIO from '../../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
-import StringIO from '../../../tandem/js/types/StringIO.js';
 import sceneryPhet from '../sceneryPhet.js';
 import AbstractKeyAccumulator from './AbstractKeyAccumulator.js';
 import KeyID, { KeyIDValue } from './KeyID.js';
+import DerivedStringProperty from '../../../axon/js/DerivedStringProperty.js';
 
 // constants
 const NEGATIVE_CHAR = '\u2212';
@@ -73,11 +73,10 @@ class NumberAccumulator extends AbstractKeyAccumulator {
 
     super( validators );
 
-    this.stringProperty = new DerivedProperty( [ this.accumulatedKeysProperty ], accumulatedKeys => {
+    this.stringProperty = new DerivedStringProperty( [ this.accumulatedKeysProperty ], accumulatedKeys => {
       return this.keysToString( accumulatedKeys );
     }, {
-      tandem: options.tandem.createTandem( 'stringProperty' ), // eslint-disable-line bad-sim-text
-      phetioValueType: StringIO
+      tandem: options.tandem.createTandem( 'stringProperty' ) // eslint-disable-line bad-sim-text
     } );
 
     this.valueProperty = new DerivedProperty( [ this.stringProperty ], stringValue => {

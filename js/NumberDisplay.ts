@@ -15,14 +15,14 @@ import Utils from '../../dot/js/Utils.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
-import { Font, TPaint, Node, NodeOptions, Rectangle, RichText, RichTextOptions, Text, TextOptions, ManualConstraint } from '../../scenery/js/imports.js';
+import { Font, ManualConstraint, Node, NodeOptions, Rectangle, RichText, RichTextOptions, Text, TextOptions, TPaint } from '../../scenery/js/imports.js';
 import SunConstants from '../../sun/js/SunConstants.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
-import StringIO from '../../tandem/js/types/StringIO.js';
 import MathSymbols from './MathSymbols.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
+import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
 
 // constants
 const DEFAULT_FONT = new PhetFont( 20 );
@@ -207,7 +207,7 @@ export default class NumberDisplay extends Node {
     // value
     const Constructor = options.useRichText ? RichText : Text;
     const valueTextTandem = options.tandem.createTandem( 'valueText' );
-    const valueStringProperty = new DerivedProperty( [
+    const valueStringProperty = new DerivedStringProperty( [
       numberProperty,
       noValuePatternProperty,
       valuePatternProperty,
@@ -220,8 +220,7 @@ export default class NumberDisplay extends Node {
         value: stringValue
       } );
     }, {
-      tandem: valueTextTandem.createTandem( Text.STRING_PROPERTY_TANDEM_NAME ),
-      phetioValueType: StringIO
+      tandem: valueTextTandem.createTandem( Text.STRING_PROPERTY_TANDEM_NAME )
     } );
 
     const valueTextOptions = combineOptions<TextOptions | RichTextOptions>( {}, options.textOptions, {
@@ -369,6 +368,7 @@ export default class NumberDisplay extends Node {
   }
 
   public get backgroundWidth(): number { return this.getBackgroundWidth(); }
+
   public set backgroundWidth( width: number ) { this.setBackgroundWidth( width ); }
 
   public static readonly NumberDisplayIO = new IOType( 'NumberDisplayIO', {

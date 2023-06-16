@@ -29,12 +29,12 @@ import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js
 import { Circle, DragListener, Font, Image, InteractiveHighlightingNode, KeyboardDragListener, Line, Node, NodeOptions, NodeTranslationOptions, Path, PressListenerEvent, Rectangle, TColor, Text } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
-import StringIO from '../../tandem/js/types/StringIO.js';
 import measuringTape_png from '../images/measuringTape_png.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
 import TProperty from '../../axon/js/TProperty.js';
+import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
 
 export type MeasuringTapeUnits = {
   name: string;
@@ -253,7 +253,7 @@ class MeasuringTapeNode extends Node {
       ariaLabel: SceneryPhetStrings.a11y.measuringTapeTipStringProperty
     } );
 
-    const readoutStringProperty = new DerivedProperty(
+    const readoutStringProperty = new DerivedStringProperty(
       [ this.unitsProperty, this.measuredDistanceProperty, SceneryPhetStrings.measuringTapeReadoutPatternStringProperty ],
       ( units, measuredDistance, measuringTapeReadoutPattern ) => {
         const distance = Utils.toFixed( units.multiplier * measuredDistance, this.significantFigures );
@@ -263,7 +263,6 @@ class MeasuringTapeNode extends Node {
         } );
       }, {
         tandem: options.tandem.createTandem( 'readoutStringProperty' ),
-        phetioValueType: StringIO,
         phetioDocumentation: 'The text content of the readout on the measuring tape'
       } );
 

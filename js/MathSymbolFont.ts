@@ -7,7 +7,6 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
@@ -17,7 +16,7 @@ import sceneryPhet from './sceneryPhet.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
 import { PhetioObjectOptions } from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import StringIO from '../../tandem/js/types/StringIO.js';
+import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
 
 const DEFAULT_STYLE = 'italic';
 
@@ -69,10 +68,9 @@ export default class MathSymbolFont extends Font {
 
     const options = providedOptions || {};
 
-    return new DerivedProperty( [ symbolStringProperty ],
+    return new DerivedStringProperty( [ symbolStringProperty ],
       symbolString => MathSymbolFont.getRichTextMarkup( symbolString, options.style || DEFAULT_STYLE ), {
-      tandem: options.tandem || Tandem.OPT_OUT,
-      phetioValueType: StringIO
+        tandem: options.tandem || Tandem.OPT_OUT
       } );
   }
 }
