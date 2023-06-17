@@ -7,11 +7,11 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import sceneryPhet from './sceneryPhet.js';
 import StatusBar, { StatusBarOptions } from '../../scenery-phet/js/StatusBar.js';
-import { Text } from '../../scenery/js/imports.js';
+import { Text, TextOptions } from '../../scenery/js/imports.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -20,6 +20,7 @@ import Multilink from '../../axon/js/Multilink.js';
 
 type SelfOptions = {
   questionString: string | TReadOnlyProperty<string>;
+  textOptions?: TextOptions;
 };
 export type QuestionBarOptions = SelfOptions & StrictOmit<StatusBarOptions, 'floatToTop'>;
 
@@ -35,19 +36,21 @@ export default class QuestionBar extends StatusBar {
     const options = optionize<QuestionBarOptions, SelfOptions, StatusBarOptions>()( {
       floatToTop: true,
       barHeight: 70,
-      tandem: Tandem.OPTIONAL
+      tandem: Tandem.OPTIONAL,
+      textOptions: {
+        font: new PhetFont( {
+          weight: 'bold',
+          size: '23px'
+        } ),
+        maxWidth: layoutBounds.width - QUESTION_TEXT_MARGIN * 2
+      }
     }, providedOptions );
 
     super( layoutBounds, visibleBoundsProperty, options );
 
-    const questionText = new Text( options.questionString, {
-      font: new PhetFont( {
-        weight: 'bold',
-        size: '23px'
-      } ),
-      maxWidth: layoutBounds.width - QUESTION_TEXT_MARGIN * 2,
+    const questionText = new Text( options.questionString, combineOptions<TextOptions>( {
       tandem: options.tandem.createTandem( 'questionText' )
-    } );
+    }, options.textOptions ) );
 
     this.addChild( questionText );
 
