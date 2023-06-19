@@ -46,6 +46,7 @@ export default class FineCoarseSpinner extends Node {
       disabledOpacity: 0.5, // {number} opacity used to make the control look disabled
       tandem: Tandem.REQUIRED,
       tandemNameSuffix: 'Spinner',
+      phetioFeatured: true,
       phetioEnabledPropertyInstrumented: true
     }, providedOptions );
 

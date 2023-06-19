@@ -151,7 +151,8 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       interactiveHighlightEnabled: false,
 
       // Tandem is required to make sure the buttons are instrumented
-      tandem: Tandem.REQUIRED
+      tandem: Tandem.REQUIRED,
+      phetioFeatured: true
     }, providedOptions );
     assert && assert( !options.hasOwnProperty( 'maxValue' ), 'options.maxValue no longer supported' );
 

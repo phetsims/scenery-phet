@@ -72,7 +72,8 @@ export default class ZoomButtonGroup extends FlowBox {
       orientation: 'horizontal',
       align: 'center',
       tandem: Tandem.REQUIRED,
-      tandemNameSuffix: 'ZoomButtonGroup'
+      tandemNameSuffix: 'ZoomButtonGroup',
+      phetioFeatured: true
     }, providedOptions );
 
     // For pointer areas. Dependent on options.spacing, pointer areas will be shifted to prevent overlap.

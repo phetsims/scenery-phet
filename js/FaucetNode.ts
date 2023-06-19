@@ -103,6 +103,7 @@ export default class FaucetNode extends Node {
       tandem: Tandem.REQUIRED,
       tandemNameSuffix: 'FaucetNode',
       phetioType: FaucetNode.FaucetNodeIO,
+      phetioFeatured: true,
       phetioEventType: EventType.USER
     }, providedOptions );
 
