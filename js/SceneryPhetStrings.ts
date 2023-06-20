@@ -5,268 +5,268 @@
  */
 /* eslint-disable */
 import getStringModule from '../../chipper/js/getStringModule.js';
-import LinkableProperty from '../../axon/js/LinkableProperty.js';
+import type LocalizedStringProperty from '../../chipper/js/LocalizedStringProperty.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type StringsType = {
   'scenery-phet': {
-    'titleStringProperty': LinkableProperty<string>;
+    'titleStringProperty': LocalizedStringProperty;
   };
   'screen': {
-    'buttonsStringProperty': LinkableProperty<string>;
-    'componentsStringProperty': LinkableProperty<string>;
-    'dialogsStringProperty': LinkableProperty<string>;
-    'keyboardStringProperty': LinkableProperty<string>;
-    'slidersStringProperty': LinkableProperty<string>;
-    'spinnersStringProperty': LinkableProperty<string>;
+    'buttonsStringProperty': LocalizedStringProperty;
+    'componentsStringProperty': LocalizedStringProperty;
+    'dialogsStringProperty': LocalizedStringProperty;
+    'keyboardStringProperty': LocalizedStringProperty;
+    'slidersStringProperty': LocalizedStringProperty;
+    'spinnersStringProperty': LocalizedStringProperty;
   };
   'WavelengthSlider': {
-    'pattern_0wavelength_1unitsStringProperty': LinkableProperty<string>;
+    'pattern_0wavelength_1unitsStringProperty': LocalizedStringProperty;
   };
-  'frequencyUnitsPatternStringProperty': LinkableProperty<string>;
-  'stopwatchValueUnitsPatternStringProperty': LinkableProperty<string>;
-  'units_nmStringProperty': LinkableProperty<string>;
-  'shortCircuitStringProperty': LinkableProperty<string>;
-  'heatStringProperty': LinkableProperty<string>;
-  'coolStringProperty': LinkableProperty<string>;
+  'frequencyUnitsPatternStringProperty': LocalizedStringProperty;
+  'stopwatchValueUnitsPatternStringProperty': LocalizedStringProperty;
+  'units_nmStringProperty': LocalizedStringProperty;
+  'shortCircuitStringProperty': LocalizedStringProperty;
+  'heatStringProperty': LocalizedStringProperty;
+  'coolStringProperty': LocalizedStringProperty;
   'key': {
-    'tabStringProperty': LinkableProperty<string>;
-    'shiftStringProperty': LinkableProperty<string>;
-    'altStringProperty': LinkableProperty<string>;
-    'optionStringProperty': LinkableProperty<string>;
-    'kStringProperty': LinkableProperty<string>;
-    'lStringProperty': LinkableProperty<string>;
-    'capsLockStringProperty': LinkableProperty<string>;
-    'enterStringProperty': LinkableProperty<string>;
-    'spaceStringProperty': LinkableProperty<string>;
-    'escStringProperty': LinkableProperty<string>;
-    'fnStringProperty': LinkableProperty<string>;
-    'pageUpStringProperty': LinkableProperty<string>;
-    'pageDownStringProperty': LinkableProperty<string>;
-    'homeStringProperty': LinkableProperty<string>;
-    'endStringProperty': LinkableProperty<string>;
-    'aStringProperty': LinkableProperty<string>;
-    'cStringProperty': LinkableProperty<string>;
-    'dStringProperty': LinkableProperty<string>;
-    'rStringProperty': LinkableProperty<string>;
-    'sStringProperty': LinkableProperty<string>;
-    'wStringProperty': LinkableProperty<string>;
-    'oneStringProperty': LinkableProperty<string>;
-    'twoStringProperty': LinkableProperty<string>;
-    'threeStringProperty': LinkableProperty<string>;
-    'toGrabOrReleaseStringProperty': LinkableProperty<string>;
+    'tabStringProperty': LocalizedStringProperty;
+    'shiftStringProperty': LocalizedStringProperty;
+    'altStringProperty': LocalizedStringProperty;
+    'optionStringProperty': LocalizedStringProperty;
+    'kStringProperty': LocalizedStringProperty;
+    'lStringProperty': LocalizedStringProperty;
+    'capsLockStringProperty': LocalizedStringProperty;
+    'enterStringProperty': LocalizedStringProperty;
+    'spaceStringProperty': LocalizedStringProperty;
+    'escStringProperty': LocalizedStringProperty;
+    'fnStringProperty': LocalizedStringProperty;
+    'pageUpStringProperty': LocalizedStringProperty;
+    'pageDownStringProperty': LocalizedStringProperty;
+    'homeStringProperty': LocalizedStringProperty;
+    'endStringProperty': LocalizedStringProperty;
+    'aStringProperty': LocalizedStringProperty;
+    'cStringProperty': LocalizedStringProperty;
+    'dStringProperty': LocalizedStringProperty;
+    'rStringProperty': LocalizedStringProperty;
+    'sStringProperty': LocalizedStringProperty;
+    'wStringProperty': LocalizedStringProperty;
+    'oneStringProperty': LocalizedStringProperty;
+    'twoStringProperty': LocalizedStringProperty;
+    'threeStringProperty': LocalizedStringProperty;
+    'toGrabOrReleaseStringProperty': LocalizedStringProperty;
   };
   'webglWarning': {
-    'titleStringProperty': LinkableProperty<string>;
-    'bodyStringProperty': LinkableProperty<string>;
-    'contextLossFailureStringProperty': LinkableProperty<string>;
-    'contextLossReloadStringProperty': LinkableProperty<string>;
-    'ie11StencilBodyStringProperty': LinkableProperty<string>;
+    'titleStringProperty': LocalizedStringProperty;
+    'bodyStringProperty': LocalizedStringProperty;
+    'contextLossFailureStringProperty': LocalizedStringProperty;
+    'contextLossReloadStringProperty': LocalizedStringProperty;
+    'ie11StencilBodyStringProperty': LocalizedStringProperty;
   };
   'keyboardHelpDialog': {
-    'sliderControlsStringProperty': LinkableProperty<string>;
-    'adjustSliderStringProperty': LinkableProperty<string>;
-    'adjustInSmallerStepsStringProperty': LinkableProperty<string>;
-    'adjustInLargerStepsStringProperty': LinkableProperty<string>;
-    'jumpToMinimumStringProperty': LinkableProperty<string>;
-    'jumpToMaximumStringProperty': LinkableProperty<string>;
-    'adjustStringProperty': LinkableProperty<string>;
-    'sliderStringProperty': LinkableProperty<string>;
-    'verbSliderPatternStringProperty': LinkableProperty<string>;
-    'verbInSmallerStepsPatternStringProperty': LinkableProperty<string>;
-    'verbInLargerStepsPatternStringProperty': LinkableProperty<string>;
-    'minimumStringProperty': LinkableProperty<string>;
-    'maximumStringProperty': LinkableProperty<string>;
-    'jumpToMinimumPatternStringProperty': LinkableProperty<string>;
-    'jumpToMaximumPatternStringProperty': LinkableProperty<string>;
-    'generalNavigationStringProperty': LinkableProperty<string>;
-    'basicActionsStringProperty': LinkableProperty<string>;
-    'moveToNextItemStringProperty': LinkableProperty<string>;
-    'moveToPreviousItemStringProperty': LinkableProperty<string>;
-    'moveToNextItemOrGroupStringProperty': LinkableProperty<string>;
-    'moveToPreviousItemOrGroupStringProperty': LinkableProperty<string>;
-    'pressButtonsStringProperty': LinkableProperty<string>;
-    'moveBetweenItemsInAGroupStringProperty': LinkableProperty<string>;
-    'setValuesInKeypadStringProperty': LinkableProperty<string>;
-    'resetAllStringProperty': LinkableProperty<string>;
-    'exitADialogStringProperty': LinkableProperty<string>;
-    'toggleCheckboxesStringProperty': LinkableProperty<string>;
-    'orStringProperty': LinkableProperty<string>;
-    'hyphenStringProperty': LinkableProperty<string>;
-    'grabOrReleaseHeadingPatternStringProperty': LinkableProperty<string>;
-    'grabOrReleaseLabelPatternStringProperty': LinkableProperty<string>;
+    'sliderControlsStringProperty': LocalizedStringProperty;
+    'adjustSliderStringProperty': LocalizedStringProperty;
+    'adjustInSmallerStepsStringProperty': LocalizedStringProperty;
+    'adjustInLargerStepsStringProperty': LocalizedStringProperty;
+    'jumpToMinimumStringProperty': LocalizedStringProperty;
+    'jumpToMaximumStringProperty': LocalizedStringProperty;
+    'adjustStringProperty': LocalizedStringProperty;
+    'sliderStringProperty': LocalizedStringProperty;
+    'verbSliderPatternStringProperty': LocalizedStringProperty;
+    'verbInSmallerStepsPatternStringProperty': LocalizedStringProperty;
+    'verbInLargerStepsPatternStringProperty': LocalizedStringProperty;
+    'minimumStringProperty': LocalizedStringProperty;
+    'maximumStringProperty': LocalizedStringProperty;
+    'jumpToMinimumPatternStringProperty': LocalizedStringProperty;
+    'jumpToMaximumPatternStringProperty': LocalizedStringProperty;
+    'generalNavigationStringProperty': LocalizedStringProperty;
+    'basicActionsStringProperty': LocalizedStringProperty;
+    'moveToNextItemStringProperty': LocalizedStringProperty;
+    'moveToPreviousItemStringProperty': LocalizedStringProperty;
+    'moveToNextItemOrGroupStringProperty': LocalizedStringProperty;
+    'moveToPreviousItemOrGroupStringProperty': LocalizedStringProperty;
+    'pressButtonsStringProperty': LocalizedStringProperty;
+    'moveBetweenItemsInAGroupStringProperty': LocalizedStringProperty;
+    'setValuesInKeypadStringProperty': LocalizedStringProperty;
+    'resetAllStringProperty': LocalizedStringProperty;
+    'exitADialogStringProperty': LocalizedStringProperty;
+    'toggleCheckboxesStringProperty': LocalizedStringProperty;
+    'orStringProperty': LocalizedStringProperty;
+    'hyphenStringProperty': LocalizedStringProperty;
+    'grabOrReleaseHeadingPatternStringProperty': LocalizedStringProperty;
+    'grabOrReleaseLabelPatternStringProperty': LocalizedStringProperty;
     'comboBox': {
-      'chooseAThingPatternStringProperty': LinkableProperty<string>;
-      'headingStringStringProperty': LinkableProperty<string>;
-      'popUpListPatternStringProperty': LinkableProperty<string>;
-      'moveThroughPatternStringProperty': LinkableProperty<string>;
-      'chooseNewPatternStringProperty': LinkableProperty<string>;
-      'closeWithoutChangingStringProperty': LinkableProperty<string>;
-      'optionsStringProperty': LinkableProperty<string>;
-      'optionStringProperty': LinkableProperty<string>;
+      'chooseAThingPatternStringProperty': LocalizedStringProperty;
+      'headingStringStringProperty': LocalizedStringProperty;
+      'popUpListPatternStringProperty': LocalizedStringProperty;
+      'moveThroughPatternStringProperty': LocalizedStringProperty;
+      'chooseNewPatternStringProperty': LocalizedStringProperty;
+      'closeWithoutChangingStringProperty': LocalizedStringProperty;
+      'optionsStringProperty': LocalizedStringProperty;
+      'optionStringProperty': LocalizedStringProperty;
     };
-    'moveDraggableItemsStringProperty': LinkableProperty<string>;
-    'moveStringProperty': LinkableProperty<string>;
-    'moveSlowerStringProperty': LinkableProperty<string>;
+    'moveDraggableItemsStringProperty': LocalizedStringProperty;
+    'moveStringProperty': LocalizedStringProperty;
+    'moveSlowerStringProperty': LocalizedStringProperty;
     'timingControls': {
-      'timingControlsStringProperty': LinkableProperty<string>;
-      'pauseOrPlayActionStringProperty': LinkableProperty<string>;
+      'timingControlsStringProperty': LocalizedStringProperty;
+      'pauseOrPlayActionStringProperty': LocalizedStringProperty;
     }
   };
   'speed': {
-    'normalStringProperty': LinkableProperty<string>;
-    'slowStringProperty': LinkableProperty<string>;
-    'fastStringProperty': LinkableProperty<string>;
+    'normalStringProperty': LocalizedStringProperty;
+    'slowStringProperty': LocalizedStringProperty;
+    'fastStringProperty': LocalizedStringProperty;
   };
   'symbol': {
-    'ohmsStringProperty': LinkableProperty<string>;
-    'resistivityStringProperty': LinkableProperty<string>;
+    'ohmsStringProperty': LocalizedStringProperty;
+    'resistivityStringProperty': LocalizedStringProperty;
   };
   'comboBoxDisplay': {
-    'valueUnitsStringProperty': LinkableProperty<string>;
+    'valueUnitsStringProperty': LocalizedStringProperty;
   };
-  'wavelengthNMValuePatternStringProperty': LinkableProperty<string>;
-  'measuringTapeReadoutPatternStringProperty': LinkableProperty<string>;
-  'wavelengthStringProperty': LinkableProperty<string>;
-  'rulerCapitalizedStringProperty': LinkableProperty<string>;
-  'rulerStringProperty': LinkableProperty<string>;
-  'zeroStringProperty': LinkableProperty<string>;
-  'oneStringProperty': LinkableProperty<string>;
-  'twoStringProperty': LinkableProperty<string>;
-  'threeStringProperty': LinkableProperty<string>;
-  'fourStringProperty': LinkableProperty<string>;
-  'fiveStringProperty': LinkableProperty<string>;
-  'sixStringProperty': LinkableProperty<string>;
-  'sevenStringProperty': LinkableProperty<string>;
-  'eightStringProperty': LinkableProperty<string>;
-  'nineStringProperty': LinkableProperty<string>;
-  'tenStringProperty': LinkableProperty<string>;
+  'wavelengthNMValuePatternStringProperty': LocalizedStringProperty;
+  'measuringTapeReadoutPatternStringProperty': LocalizedStringProperty;
+  'wavelengthStringProperty': LocalizedStringProperty;
+  'rulerCapitalizedStringProperty': LocalizedStringProperty;
+  'rulerStringProperty': LocalizedStringProperty;
+  'zeroStringProperty': LocalizedStringProperty;
+  'oneStringProperty': LocalizedStringProperty;
+  'twoStringProperty': LocalizedStringProperty;
+  'threeStringProperty': LocalizedStringProperty;
+  'fourStringProperty': LocalizedStringProperty;
+  'fiveStringProperty': LocalizedStringProperty;
+  'sixStringProperty': LocalizedStringProperty;
+  'sevenStringProperty': LocalizedStringProperty;
+  'eightStringProperty': LocalizedStringProperty;
+  'nineStringProperty': LocalizedStringProperty;
+  'tenStringProperty': LocalizedStringProperty;
   'a11y': {
     'simSection': {
       'screenSummary': {
-        'multiScreenIntroStringProperty': LinkableProperty<string>;
-        'singleScreenIntroPatternStringProperty': LinkableProperty<string>;
-        'keyboardShortcutsHintStringProperty': LinkableProperty<string>;
+        'multiScreenIntroStringProperty': LocalizedStringProperty;
+        'singleScreenIntroPatternStringProperty': LocalizedStringProperty;
+        'keyboardShortcutsHintStringProperty': LocalizedStringProperty;
       };
-      'playAreaStringProperty': LinkableProperty<string>;
-      'controlAreaStringProperty': LinkableProperty<string>;
+      'playAreaStringProperty': LocalizedStringProperty;
+      'controlAreaStringProperty': LocalizedStringProperty;
     };
     'resetAll': {
-      'labelStringProperty': LinkableProperty<string>;
-      'alertStringProperty': LinkableProperty<string>;
+      'labelStringProperty': LocalizedStringProperty;
+      'alertStringProperty': LocalizedStringProperty;
     };
     'soundToggle': {
-      'labelStringProperty': LinkableProperty<string>;
+      'labelStringProperty': LocalizedStringProperty;
       'alert': {
-        'simSoundOnStringProperty': LinkableProperty<string>;
-        'simSoundOffStringProperty': LinkableProperty<string>;
+        'simSoundOnStringProperty': LocalizedStringProperty;
+        'simSoundOffStringProperty': LocalizedStringProperty;
       }
     };
     'keyboardHelpDialog': {
       'general': {
-        'tabDescriptionStringProperty': LinkableProperty<string>;
-        'shiftTabDescriptionStringProperty': LinkableProperty<string>;
-        'tabGroupDescriptionStringProperty': LinkableProperty<string>;
-        'shiftTabGroupDescriptionStringProperty': LinkableProperty<string>;
-        'pressButtonsDescriptionStringProperty': LinkableProperty<string>;
-        'groupNavigationDescriptionStringProperty': LinkableProperty<string>;
-        'setValuesInKeypadDescriptionStringProperty': LinkableProperty<string>;
-        'exitDialogDescriptionStringProperty': LinkableProperty<string>;
-        'toggleCheckboxesDescriptionStringProperty': LinkableProperty<string>;
-        'resetAllDescriptionPatternStringProperty': LinkableProperty<string>;
+        'tabDescriptionStringProperty': LocalizedStringProperty;
+        'shiftTabDescriptionStringProperty': LocalizedStringProperty;
+        'tabGroupDescriptionStringProperty': LocalizedStringProperty;
+        'shiftTabGroupDescriptionStringProperty': LocalizedStringProperty;
+        'pressButtonsDescriptionStringProperty': LocalizedStringProperty;
+        'groupNavigationDescriptionStringProperty': LocalizedStringProperty;
+        'setValuesInKeypadDescriptionStringProperty': LocalizedStringProperty;
+        'exitDialogDescriptionStringProperty': LocalizedStringProperty;
+        'toggleCheckboxesDescriptionStringProperty': LocalizedStringProperty;
+        'resetAllDescriptionPatternStringProperty': LocalizedStringProperty;
       };
       'slider': {
-        'orKeysPatternStringProperty': LinkableProperty<string>;
-        'leftRightArrowKeysStringProperty': LinkableProperty<string>;
-        'upDownArrowKeysStringProperty': LinkableProperty<string>;
-        'defaultStepsDescriptionPatternStringProperty': LinkableProperty<string>;
-        'shiftLeftRightArrowKeysStringProperty': LinkableProperty<string>;
-        'shiftUpDownArrowKeysStringProperty': LinkableProperty<string>;
-        'smallerStepsDescriptionPatternStringProperty': LinkableProperty<string>;
-        'largerStepsDescriptionPatternStringProperty': LinkableProperty<string>;
-        'jumpToMinimumDescriptionPatternStringProperty': LinkableProperty<string>;
-        'jumpToMaximumDescriptionPatternStringProperty': LinkableProperty<string>;
+        'orKeysPatternStringProperty': LocalizedStringProperty;
+        'leftRightArrowKeysStringProperty': LocalizedStringProperty;
+        'upDownArrowKeysStringProperty': LocalizedStringProperty;
+        'defaultStepsDescriptionPatternStringProperty': LocalizedStringProperty;
+        'shiftLeftRightArrowKeysStringProperty': LocalizedStringProperty;
+        'shiftUpDownArrowKeysStringProperty': LocalizedStringProperty;
+        'smallerStepsDescriptionPatternStringProperty': LocalizedStringProperty;
+        'largerStepsDescriptionPatternStringProperty': LocalizedStringProperty;
+        'jumpToMinimumDescriptionPatternStringProperty': LocalizedStringProperty;
+        'jumpToMaximumDescriptionPatternStringProperty': LocalizedStringProperty;
       };
-      'grabOrReleaseDescriptionPatternStringProperty': LinkableProperty<string>;
+      'grabOrReleaseDescriptionPatternStringProperty': LocalizedStringProperty;
       'comboBox': {
-        'popUpListPatternDescriptionStringProperty': LinkableProperty<string>;
-        'moveThroughPatternDescriptionStringProperty': LinkableProperty<string>;
-        'chooseNewPatternDescriptionStringProperty': LinkableProperty<string>;
-        'closeWithoutChangingDescriptionStringProperty': LinkableProperty<string>;
+        'popUpListPatternDescriptionStringProperty': LocalizedStringProperty;
+        'moveThroughPatternDescriptionStringProperty': LocalizedStringProperty;
+        'chooseNewPatternDescriptionStringProperty': LocalizedStringProperty;
+        'closeWithoutChangingDescriptionStringProperty': LocalizedStringProperty;
       };
       'draggableItems': {
-        'moveDescriptionStringProperty': LinkableProperty<string>;
-        'moveSlowerDescriptionStringProperty': LinkableProperty<string>;
+        'moveDescriptionStringProperty': LocalizedStringProperty;
+        'moveSlowerDescriptionStringProperty': LocalizedStringProperty;
       };
       'timingControls': {
-        'pauseOrPlayActionDescriptionStringProperty': LinkableProperty<string>;
+        'pauseOrPlayActionDescriptionStringProperty': LocalizedStringProperty;
       }
     };
     'playControlButton': {
-      'playStringProperty': LinkableProperty<string>;
-      'pauseStringProperty': LinkableProperty<string>;
-      'stopStringProperty': LinkableProperty<string>;
+      'playStringProperty': LocalizedStringProperty;
+      'pauseStringProperty': LocalizedStringProperty;
+      'stopStringProperty': LocalizedStringProperty;
     };
     'stepButton': {
-      'stepForwardStringProperty': LinkableProperty<string>;
-      'playingDescriptionStringProperty': LinkableProperty<string>;
-      'pausedDescriptionStringProperty': LinkableProperty<string>;
+      'stepForwardStringProperty': LocalizedStringProperty;
+      'playingDescriptionStringProperty': LocalizedStringProperty;
+      'pausedDescriptionStringProperty': LocalizedStringProperty;
     };
     'timeControlNode': {
-      'simSpeedDescriptionStringProperty': LinkableProperty<string>;
-      'labelStringProperty': LinkableProperty<string>;
-      'simSpeedsStringProperty': LinkableProperty<string>;
+      'simSpeedDescriptionStringProperty': LocalizedStringProperty;
+      'labelStringProperty': LocalizedStringProperty;
+      'simSpeedsStringProperty': LocalizedStringProperty;
     };
     'playPauseStepButtonGroup': {
-      'playingDescriptionStringProperty': LinkableProperty<string>;
-      'pausedDescriptionStringProperty': LinkableProperty<string>;
+      'playingDescriptionStringProperty': LocalizedStringProperty;
+      'pausedDescriptionStringProperty': LocalizedStringProperty;
     };
     'movementAlerter': {
-      'downStringProperty': LinkableProperty<string>;
-      'leftStringProperty': LinkableProperty<string>;
-      'rightStringProperty': LinkableProperty<string>;
-      'upStringProperty': LinkableProperty<string>;
-      'upAndToTheRightStringProperty': LinkableProperty<string>;
-      'upAndToTheLeftStringProperty': LinkableProperty<string>;
-      'downAndToTheRightStringProperty': LinkableProperty<string>;
-      'downAndToTheLeftStringProperty': LinkableProperty<string>;
-      'leftBorderAlertStringProperty': LinkableProperty<string>;
-      'rightBorderAlertStringProperty': LinkableProperty<string>;
-      'topBorderAlertStringProperty': LinkableProperty<string>;
-      'bottomBorderAlertStringProperty': LinkableProperty<string>;
+      'downStringProperty': LocalizedStringProperty;
+      'leftStringProperty': LocalizedStringProperty;
+      'rightStringProperty': LocalizedStringProperty;
+      'upStringProperty': LocalizedStringProperty;
+      'upAndToTheRightStringProperty': LocalizedStringProperty;
+      'upAndToTheLeftStringProperty': LocalizedStringProperty;
+      'downAndToTheRightStringProperty': LocalizedStringProperty;
+      'downAndToTheLeftStringProperty': LocalizedStringProperty;
+      'leftBorderAlertStringProperty': LocalizedStringProperty;
+      'rightBorderAlertStringProperty': LocalizedStringProperty;
+      'topBorderAlertStringProperty': LocalizedStringProperty;
+      'bottomBorderAlertStringProperty': LocalizedStringProperty;
     };
     'grabDrag': {
-      'grabPatternStringProperty': LinkableProperty<string>;
-      'movableStringProperty': LinkableProperty<string>;
-      'buttonStringProperty': LinkableProperty<string>;
-      'defaultObjectToGrabStringProperty': LinkableProperty<string>;
-      'releasedStringProperty': LinkableProperty<string>;
-      'gestureHelpTextPatternStringProperty': LinkableProperty<string>;
-      'spaceToGrabOrReleaseStringProperty': LinkableProperty<string>;
+      'grabPatternStringProperty': LocalizedStringProperty;
+      'movableStringProperty': LocalizedStringProperty;
+      'buttonStringProperty': LocalizedStringProperty;
+      'defaultObjectToGrabStringProperty': LocalizedStringProperty;
+      'releasedStringProperty': LocalizedStringProperty;
+      'gestureHelpTextPatternStringProperty': LocalizedStringProperty;
+      'spaceToGrabOrReleaseStringProperty': LocalizedStringProperty;
     };
     'voicing': {
       'simSection': {
         'screenSummary': {
-          'singleScreenIntroPatternStringProperty': LinkableProperty<string>;
+          'singleScreenIntroPatternStringProperty': LocalizedStringProperty;
         }
       };
       'keyboardHelpDialog': {
         'general': {
-          'descriptionPatternStringProperty': LinkableProperty<string>;
+          'descriptionPatternStringProperty': LocalizedStringProperty;
         }
       };
-      'grabDragHintPatternStringProperty': LinkableProperty<string>;
-      'grabbedAlertStringProperty': LinkableProperty<string>;
-      'draggableAlertStringProperty': LinkableProperty<string>;
+      'grabDragHintPatternStringProperty': LocalizedStringProperty;
+      'grabbedAlertStringProperty': LocalizedStringProperty;
+      'draggableAlertStringProperty': LocalizedStringProperty;
       'resetAll': {
-        'contextResponseStringProperty': LinkableProperty<string>;
+        'contextResponseStringProperty': LocalizedStringProperty;
       }
     };
-    'closeStringProperty': LinkableProperty<string>;
-    'zoomInStringProperty': LinkableProperty<string>;
-    'zoomOutStringProperty': LinkableProperty<string>;
-    'measuringTapeStringProperty': LinkableProperty<string>;
-    'measuringTapeTipStringProperty': LinkableProperty<string>;
+    'closeStringProperty': LocalizedStringProperty;
+    'zoomInStringProperty': LocalizedStringProperty;
+    'zoomOutStringProperty': LocalizedStringProperty;
+    'measuringTapeStringProperty': LocalizedStringProperty;
+    'measuringTapeTipStringProperty': LocalizedStringProperty;
   }
 };
 

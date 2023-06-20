@@ -11,7 +11,6 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import LinkableProperty from '../../axon/js/LinkableProperty.js';
 import Property from '../../axon/js/Property.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
@@ -34,6 +33,7 @@ import IOType from '../../tandem/js/types/IOType.js';
 import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
+import PhetioProperty from '../../axon/js/PhetioProperty.js';
 
 // constants
 const SPECIFIC_COMPONENT_CALLBACK_OPTIONS = [
@@ -191,7 +191,7 @@ export default class NumberControl extends WidthSizable( Node ) {
   private readonly numberDisplay: NumberDisplay;
   private readonly disposeNumberControl: () => void;
 
-  public constructor( title: string | TReadOnlyProperty<string>, numberProperty: LinkableProperty<number>, numberRange: Range, providedOptions?: NumberControlOptions ) {
+  public constructor( title: string | TReadOnlyProperty<string>, numberProperty: PhetioProperty<number>, numberRange: Range, providedOptions?: NumberControlOptions ) {
 
     // Make sure that general callbacks (for all components) and specific callbacks (for a specific component) aren't
     // used in tandem. This must be called before defaults are set.

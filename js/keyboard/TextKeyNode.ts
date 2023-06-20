@@ -6,7 +6,6 @@
  * @author Jesse Greenberg
  */
 
-import LinkableProperty from '../../../axon/js/LinkableProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import platform from '../../../phet-core/js/platform.js';
@@ -15,6 +14,7 @@ import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
 import KeyNode, { KeyNodeOptions } from './KeyNode.js';
+import PhetioProperty from '../../../axon/js/PhetioProperty.js';
 
 type SelfOptions = {
   font?: Font;
@@ -54,7 +54,7 @@ export default class TextKeyNode extends KeyNode {
   /**
    * Returns the correct platform dependent key string for "Alt". "Alt" on Windows, "Option" on Mac.
    */
-  public static getAltKeyString(): LinkableProperty<string> {
+  public static getAltKeyString(): PhetioProperty<string> {
     return platform.mac ?
            SceneryPhetStrings.key.optionStringProperty :
            SceneryPhetStrings.key.altStringProperty;
