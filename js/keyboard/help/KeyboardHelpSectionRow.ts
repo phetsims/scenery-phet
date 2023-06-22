@@ -13,7 +13,6 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import { AlignBoxOptions, AlignGroup, HBox, Node, PDOMValueType, RichText, RichTextOptions, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
-import Disposable from '../../../../axon/js/Disposable.js';
 import { VoicingResponse } from '../../../../utterance-queue/js/ResponsePacket.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -70,7 +69,7 @@ type SelfOptions = {
 };
 type KeyboardHelpSectionRowOptions = SelfOptions;
 
-class KeyboardHelpSectionRow extends Disposable {
+class KeyboardHelpSectionRow {
 
   // Includes a reference to the Text because KeyboardHelpSection will constrain the width of all text in its
   // KeyboardHelpSectionRows for i18n.
@@ -93,8 +92,6 @@ class KeyboardHelpSectionRow extends Disposable {
     const options = optionize<KeyboardHelpSectionRowOptions, SelfOptions>()( {
       readingBlockContent: null
     }, providedOptions );
-
-    super();
 
     this.text = text;
     this.label = label;
