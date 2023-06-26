@@ -41,7 +41,7 @@ export default function demoCapacitorNode( layoutBounds: Bounds2 ): Node {
   const electricFieldVisibleProperty = new BooleanProperty( true );
 
   const capacitorNode = new CapacitorNode( circuit, modelViewTransform, plateChargeVisibleProperty, electricFieldVisibleProperty, {
-    tandem: Tandem.OPTIONAL
+    tandem: Tandem.OPT_OUT
   } );
 
   const controls = new VBox( {

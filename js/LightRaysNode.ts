@@ -10,7 +10,6 @@ import Utils from '../../dot/js/Utils.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
 import { Path, PathOptions } from '../../scenery/js/imports.js';
-import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants, these are specific to bulb images
@@ -56,8 +55,7 @@ export default class LightRaysNode extends Path {
       shortRayLineWidth: 0.5, // for short rays
 
       // PathOptions
-      stroke: 'yellow',
-      tandem: Tandem.OPTIONAL
+      stroke: 'yellow'
     }, provideOptions );
 
     super( null );

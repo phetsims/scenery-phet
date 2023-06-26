@@ -14,7 +14,6 @@ import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
 import { Path, PathOptions } from '../../scenery/js/imports.js';
-import Tandem from '../../tandem/js/Tandem.js';
 import ArrowShape from './ArrowShape.js';
 import sceneryPhet from './sceneryPhet.js';
 
@@ -52,10 +51,7 @@ export default class ArrowNode extends Path {
       // Path options
       fill: 'black',
       stroke: 'black',
-      lineWidth: 1,
-
-      // phet-io
-      tandem: Tandem.OPTIONAL
+      lineWidth: 1
     }, providedOptions );
 
     // things you're likely to mess up, add more as needed

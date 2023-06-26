@@ -17,7 +17,6 @@ import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import { Font, ManualConstraint, Node, NodeOptions, Rectangle, RichText, RichTextOptions, Text, TextOptions, TPaint } from '../../scenery/js/imports.js';
 import SunConstants from '../../sun/js/SunConstants.js';
-import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import MathSymbols from './MathSymbols.js';
 import PhetFont from './PhetFont.js';
@@ -122,7 +121,6 @@ export default class NumberDisplay extends Node {
       noValuePattern: null,
 
       // phet-io
-      tandem: Tandem.OPTIONAL,
       phetioType: NumberDisplay.NumberDisplayIO
     }, providedOptions );
 
@@ -206,7 +204,7 @@ export default class NumberDisplay extends Node {
 
     // value
     const Constructor = options.useRichText ? RichText : Text;
-    const valueTextTandem = options.tandem.createTandem( 'valueText' );
+    const valueTextTandem = options.tandem?.createTandem( 'valueText' );
     const valueStringProperty = new DerivedStringProperty( [
       numberProperty,
       noValuePatternProperty,
@@ -220,7 +218,7 @@ export default class NumberDisplay extends Node {
         value: stringValue
       } );
     }, {
-      tandem: valueTextTandem.createTandem( Text.STRING_PROPERTY_TANDEM_NAME )
+      tandem: valueTextTandem?.createTandem( Text.STRING_PROPERTY_TANDEM_NAME )
     } );
 
     const valueTextOptions = combineOptions<TextOptions | RichTextOptions>( {}, options.textOptions, {

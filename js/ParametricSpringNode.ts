@@ -23,8 +23,7 @@ import Range from '../../dot/js/Range.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import { Circle, TColor, LinearGradient, Node, NodeOptions, Path, PathOptions } from '../../scenery/js/imports.js';
-import Tandem from '../../tandem/js/Tandem.js';
+import { Circle, LinearGradient, Node, NodeOptions, Path, PathOptions, TColor } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
@@ -102,53 +101,50 @@ export default class ParametricSpringNode extends Node {
       phase: Math.PI,
       deltaPhase: Math.PI / 2,
       xScale: 2.5,
-      boundsMethod: 'accurate', // method used to compute bounds for phet.scenery.Path components, see Path.boundsMethod
-
-      // phet-io
-      tandem: Tandem.OPTIONAL
+      boundsMethod: 'accurate' // method used to compute bounds for phet.scenery.Path components, see Path.boundsMethod
     }, providedOptions );
 
     super();
 
     this.loopsProperty = new NumberProperty( options.loops, {
-      tandem: options.tandem.createTandem( 'loopsProperty' ),
+      tandem: options.tandem?.createTandem( 'loopsProperty' ),
       numberType: 'Integer',
       range: new Range( 1, Number.POSITIVE_INFINITY )
     } );
 
     this.radiusProperty = new NumberProperty( options.radius, {
-      tandem: options.tandem.createTandem( 'radiusProperty' ),
+      tandem: options.tandem?.createTandem( 'radiusProperty' ),
       range: new Range( 0, Number.POSITIVE_INFINITY )
     } );
 
     this.aspectRatioProperty = new NumberProperty( options.aspectRatio, {
-      tandem: options.tandem.createTandem( 'aspectRatioProperty' ),
+      tandem: options.tandem?.createTandem( 'aspectRatioProperty' ),
       range: new Range( 0, Number.POSITIVE_INFINITY )
     } );
 
     this.pointsPerLoopProperty = new NumberProperty( options.pointsPerLoop, {
-      tandem: options.tandem.createTandem( 'pointsPerLoopProperty' ),
+      tandem: options.tandem?.createTandem( 'pointsPerLoopProperty' ),
       numberType: 'Integer',
       range: new Range( 0, Number.POSITIVE_INFINITY )
     } );
 
     this.lineWidthProperty = new NumberProperty( options.lineWidth, {
-      tandem: options.tandem.createTandem( 'lineWidthProperty' ),
+      tandem: options.tandem?.createTandem( 'lineWidthProperty' ),
       range: new Range( 0, Number.POSITIVE_INFINITY )
     } );
 
     this.phaseProperty = new NumberProperty( options.phase, {
-      tandem: options.tandem.createTandem( 'phaseProperty' ),
+      tandem: options.tandem?.createTandem( 'phaseProperty' ),
       range: new Range( Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY )
     } );
 
     this.deltaPhaseProperty = new NumberProperty( options.deltaPhase, {
-      tandem: options.tandem.createTandem( 'deltaPhaseProperty' ),
+      tandem: options.tandem?.createTandem( 'deltaPhaseProperty' ),
       range: new Range( Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY )
     } );
 
     this.xScaleProperty = new NumberProperty( options.xScale, {
-      tandem: options.tandem.createTandem( 'xScaleProperty' ),
+      tandem: options.tandem?.createTandem( 'xScaleProperty' ),
       range: new Range( Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY )
     } );
 
@@ -159,10 +155,10 @@ export default class ParametricSpringNode extends Node {
       lineJoin: 'round'
     };
     const frontPath = new Path( null, combineOptions<PathOptions>( {
-      tandem: options.tandem.createTandem( 'frontPath' )
+      tandem: options.tandem?.createTandem( 'frontPath' )
     }, pathOptions ) );
     const backPath = new Path( null, combineOptions<PathOptions>( {
-      tandem: options.tandem.createTandem( 'backPath' )
+      tandem: options.tandem?.createTandem( 'backPath' )
     }, pathOptions ) );
 
     // Update the line width

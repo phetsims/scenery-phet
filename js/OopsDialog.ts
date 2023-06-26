@@ -13,7 +13,6 @@ import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { HBox, Image, Node, RichText, RichTextOptions } from '../../scenery/js/imports.js';
 import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
-import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import phetGirlWaggingFinger_png from '../images/phetGirlWaggingFinger_png.js';
 import PhetFont from './PhetFont.js';
@@ -49,7 +48,6 @@ export default class OopsDialog extends Dialog {
       bottomMargin: 20,
 
       // phet-io
-      tandem: Tandem.OPTIONAL,
       phetioType: OopsDialog.OopsDialogIO
     }, providedOptions );
 
@@ -57,7 +55,7 @@ export default class OopsDialog extends Dialog {
       font: new PhetFont( 20 ),
       maxWidth: 600,
       maxHeight: 400,
-      tandem: options.tandem.createTandem( 'text' )
+      tandem: options.tandem?.createTandem( 'text' )
     }, options.richTextOptions ) );
 
     const iconNode = options.iconNode || new Image( phetGirlWaggingFinger_png, {

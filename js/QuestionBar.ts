@@ -14,7 +14,6 @@ import StatusBar, { StatusBarOptions } from '../../scenery-phet/js/StatusBar.js'
 import { Text, TextOptions } from '../../scenery/js/imports.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import Tandem from '../../tandem/js/Tandem.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
 
@@ -36,7 +35,6 @@ export default class QuestionBar extends StatusBar {
     const options = optionize<QuestionBarOptions, SelfOptions, StatusBarOptions>()( {
       floatToTop: true,
       barHeight: 70,
-      tandem: Tandem.OPTIONAL,
       textOptions: {
         font: new PhetFont( {
           weight: 'bold',
@@ -49,7 +47,7 @@ export default class QuestionBar extends StatusBar {
     super( layoutBounds, visibleBoundsProperty, options );
 
     const questionText = new Text( options.questionString, combineOptions<TextOptions>( {
-      tandem: options.tandem.createTandem( 'questionText' )
+      tandem: options.tandem?.createTandem( 'questionText' )
     }, options.textOptions ) );
 
     this.addChild( questionText );

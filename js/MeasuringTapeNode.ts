@@ -27,7 +27,6 @@ import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
 import { Circle, DragListener, Font, Image, InteractiveHighlightingNode, KeyboardDragListener, Line, Node, NodeOptions, NodeTranslationOptions, Path, PressListenerEvent, Rectangle, TColor, Text } from '../../scenery/js/imports.js';
-import Tandem from '../../tandem/js/Tandem.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
 import measuringTape_png from '../images/measuringTape_png.js';
 import PhetFont from './PhetFont.js';
@@ -158,8 +157,7 @@ class MeasuringTapeNode extends Node {
       isTipDragBounded: true, // is the tip subject to dragBounds
       interactive: true, // specifies whether the node adds its own input listeners. Setting this to false may be helpful in creating an icon.
       baseDragStarted: _.noop, // called when the base drag starts
-      baseDragEnded: _.noop, // called when the base drag ends, for testing whether it has dropped into the toolbox
-      tandem: Tandem.OPTIONAL
+      baseDragEnded: _.noop // called when the base drag ends, for testing whether it has dropped into the toolbox
     }, providedOptions );
 
     super();
@@ -188,7 +186,7 @@ class MeasuringTapeNode extends Node {
     this.measuredDistanceProperty = new DerivedProperty(
       [ this.basePositionProperty, this.tipPositionProperty ],
       ( basePosition, tipPosition ) => basePosition.distance( tipPosition ), {
-        tandem: options.tandem.createTandem( 'measuredDistanceProperty' ),
+        tandem: options.tandem?.createTandem( 'measuredDistanceProperty' ),
         phetioDocumentation: 'The distance measured by the measuring tape',
         phetioValueType: NumberIO,
         units: this.basePositionProperty.units
@@ -262,7 +260,7 @@ class MeasuringTapeNode extends Node {
           units: units.name
         } );
       }, {
-        tandem: options.tandem.createTandem( 'readoutStringProperty' ),
+        tandem: options.tandem?.createTandem( 'readoutStringProperty' ),
         phetioDocumentation: 'The text content of the readout on the measuring tape'
       } );
 
@@ -341,7 +339,7 @@ class MeasuringTapeNode extends Node {
 
       // Drag listener for base
       this.baseDragListener = new DragListener( {
-        tandem: options.tandem.createTandem( 'baseDragListener' ),
+        tandem: options.tandem?.createTandem( 'baseDragListener' ),
         start: event => {
           baseStart();
           const position = this.modelViewTransformProperty.value.modelToViewPosition( this.basePositionProperty.value );
@@ -366,7 +364,7 @@ class MeasuringTapeNode extends Node {
 
       // Drag listener for base
       const baseKeyboardDragListener = new KeyboardDragListener( {
-        tandem: options.tandem.createTandem( 'baseKeyboardDragListener' ),
+        tandem: options.tandem?.createTandem( 'baseKeyboardDragListener' ),
         positionProperty: this.basePositionProperty,
         transform: this.modelViewTransformProperty,
         dragBoundsProperty: this.dragBoundsProperty,
@@ -387,7 +385,7 @@ class MeasuringTapeNode extends Node {
 
       // Drag listener for tip
       const tipDragListener = new DragListener( {
-        tandem: options.tandem.createTandem( 'tipDragListener' ),
+        tandem: options.tandem?.createTandem( 'tipDragListener' ),
 
         start: event => {
           this.moveToFront();
@@ -414,7 +412,7 @@ class MeasuringTapeNode extends Node {
       tip.addInputListener( tipDragListener );
 
       const tipKeyboardDragListener = new KeyboardDragListener( {
-        tandem: options.tandem.createTandem( 'tipKeyboardDragListener' ),
+        tandem: options.tandem?.createTandem( 'tipKeyboardDragListener' ),
         positionProperty: this.tipPositionProperty,
         dragBoundsProperty: options.isTipDragBounded ? this.dragBoundsProperty : null,
         dragVelocity: KEYBOARD_DRAG_VELOCITY,

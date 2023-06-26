@@ -9,7 +9,6 @@
 
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
 import SpectrumNode, { SpectrumNodeOptions } from './SpectrumNode.js';
 import VisibleColor from './VisibleColor.js';
@@ -28,8 +27,7 @@ export default class WavelengthSpectrumNode extends SpectrumNode {
     const options = optionize<WavelengthSpectrumNodeOptions, SelfOptions, SpectrumNodeOptions>()( {
       valueToColor: ( value: number ) => VisibleColor.wavelengthToColor( value ),
       minWavelength: VisibleColor.MIN_WAVELENGTH,
-      maxWavelength: VisibleColor.MAX_WAVELENGTH,
-      tandem: Tandem.OPTIONAL
+      maxWavelength: VisibleColor.MAX_WAVELENGTH
     }, providedOptions );
 
     // validation

@@ -29,7 +29,6 @@ export default class BarrierRectangle extends Plane {
     const options = optionize<BarrierRectangleOptions, SelfOptions, PlaneOptions>()( {
       fill: 'rgba( 0, 0, 0, 0.3 )',
       pickable: true,
-      tandem: Tandem.OPTIONAL,
       phetioReadOnly: true, // Disable controls in the PhET-iO Studio wrapper
       phetioEventType: EventType.USER,
       visiblePropertyOptions: {
@@ -45,7 +44,7 @@ export default class BarrierRectangle extends Plane {
     modalNodeStack.lengthProperty.link( lengthListener );
 
     this.addInputListener( new FireListener( {
-      tandem: options.tandem.createTandem( 'fireListener' ),
+      tandem: Tandem.OPT_OUT,
       phetioReadOnly: options.phetioReadOnly,
       fire() {
         assert && assert( modalNodeStack.length > 0, 'There must be a Node in the stack to hide.' );

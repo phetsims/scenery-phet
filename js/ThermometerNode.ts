@@ -17,7 +17,6 @@ import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
 import { LinearGradient, Node, NodeOptions, Path, Rectangle, TColor } from '../../scenery/js/imports.js';
-import Tandem from '../../tandem/js/Tandem.js';
 import NullableIO from '../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -95,8 +94,7 @@ export default class ThermometerNode extends Node {
       // all the default colors are shades of red
       fluidMainColor: '#850e0e',
       fluidHighlightColor: '#ff7575',
-      fluidRightSideColor: '#c41515',
-      tandem: Tandem.OPTIONAL
+      fluidRightSideColor: '#c41515'
     }, providedOptions );
 
     super();
@@ -243,7 +241,7 @@ export default class ThermometerNode extends Node {
       return temp === null ? 0 :
              thermometerRange.getNormalizedValue( Utils.clamp( temp, thermometerRange.min, thermometerRange.max ) ) * 100;
     }, {
-      tandem: options.tandem.createTandem( 'percentProperty' ),
+      tandem: options.tandem?.createTandem( 'percentProperty' ),
       phetioDocumentation: 'the percentage of the thermometer that is filled by the current temperature. If temperature is null, then percent will be 0',
       phetioValueType: NullableIO( NumberIO )
     } );
