@@ -99,6 +99,15 @@ class KeyboardHelpSectionRow {
     this.readingBlockContent = options.readingBlockContent;
   }
 
+  /**
+   * Sets visibility of the label, icon, and text so that it can be hidden if necessary. If using
+   * KeyboardHelpSection, this will also correctly layout the content because of scenery dynamic layout.
+   */
+  public setContentsVisible( visible: boolean ): void {
+    this.text.visible = visible;
+    this.label.visible = visible;
+    this.icon.visible = visible;
+  }
 
   /**
    * Horizontally align a label and an icon, with the label on the left and the icon on the right. AlignGroup is used
