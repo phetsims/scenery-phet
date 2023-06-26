@@ -66,10 +66,6 @@ type SelfOptions = {
 
   // Options passed to NumberAccumulator, ignored if options.accumulator is provided
   accumulatorOptions?: NumberAccumulatorOptions | null;
-
-  // phet-io
-  tandem?: Tandem;
-  tandemNameSuffix?: string;
 };
 
 export type KeypadOptions = SelfOptions & NodeOptions;

@@ -19,6 +19,7 @@ import sceneryPhet from '../sceneryPhet.js';
 import AbstractKeyAccumulator from './AbstractKeyAccumulator.js';
 import KeyID, { KeyIDValue } from './KeyID.js';
 import DerivedStringProperty from '../../../axon/js/DerivedStringProperty.js';
+import { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 
 // constants
 const NEGATIVE_CHAR = '\u2212';
@@ -32,9 +33,7 @@ const MAX_DIGITS = MAX_SAFE_INTEGER.toString().length - 1;
 type SelfOptions = {
   maxDigitsRightOfMantissa?: number;
   maxDigits?: number;
-  tandem?: Tandem;
-  tandemNameSuffix?: string;
-};
+} & Pick<PhetioObjectOptions, 'tandem' | 'tandemNameSuffix'>;
 
 export type NumberAccumulatorOptions = SelfOptions;
 
