@@ -21,7 +21,7 @@ import StringProperty from '../../../../axon/js/StringProperty.js';
 import TReadOnlyProperty, { isTReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { HBox, Node, ReadingBlock, ReadingBlockOptions, Text, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { HBox, Node, ReadingBlock, ReadingBlockOptions, RichText, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -107,7 +107,7 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
     }, providedOptions );
 
     // create the heading
-    const headingText = new Text( headingString, options.headingOptions );
+    const headingText = new RichText( headingString, options.headingOptions );
 
     // place icons in labels in unique layout boxes for alignment
     const icons = [];

@@ -15,7 +15,10 @@ export default function demoBasicActionsKeyboardHelpSection( layoutBounds: Bound
   return new HBox( {
     children: [
       new BasicActionsKeyboardHelpSection(),
-      new BasicActionsKeyboardHelpSection( { withCheckboxContent: true } )
+      new BasicActionsKeyboardHelpSection( {
+        withCheckboxContent: true,
+        withKeypadContent: true
+      } )
     ],
     spacing: 100,
     align: 'top',
