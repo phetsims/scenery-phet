@@ -81,6 +81,13 @@ type SelfOptions = {
   interactive?: boolean; // specifies whether the node adds its own input listeners. Setting this to false may be helpful in creating an icon.
   baseDragStarted?: () => void; // called when the base drag starts
   baseDragEnded?: () => void; // called when the base drag ends, for testing whether it has dropped into the toolbox
+
+  keyboardDragListenerOptions?: {
+    baseDragVelocity?: number;
+    baseShiftDragVelocity?: number;
+    tipDragVelocity?: number;
+    tipShiftDragVelocity?: number;
+  };
 };
 
 /**
@@ -157,7 +164,14 @@ class MeasuringTapeNode extends Node {
       isTipDragBounded: true, // is the tip subject to dragBounds
       interactive: true, // specifies whether the node adds its own input listeners. Setting this to false may be helpful in creating an icon.
       baseDragStarted: _.noop, // called when the base drag starts
-      baseDragEnded: _.noop // called when the base drag ends, for testing whether it has dropped into the toolbox
+      baseDragEnded: _.noop, // called when the base drag ends, for testing whether it has dropped into the toolbox
+
+      keyboardDragListenerOptions: {
+        baseDragVelocity: KEYBOARD_DRAG_VELOCITY,
+        baseShiftDragVelocity: KEYBOARD_DRAG_VELOCITY / 2,
+        tipDragVelocity: KEYBOARD_DRAG_VELOCITY,
+        tipShiftDragVelocity: 150
+      }
     }, providedOptions );
 
     super();
@@ -368,8 +382,8 @@ class MeasuringTapeNode extends Node {
         positionProperty: this.basePositionProperty,
         transform: this.modelViewTransformProperty,
         dragBoundsProperty: this.dragBoundsProperty,
-        dragVelocity: KEYBOARD_DRAG_VELOCITY,
-        shiftDragVelocity: 300,
+        dragVelocity: options.keyboardDragListenerOptions.baseDragVelocity,
+        shiftDragVelocity: options.keyboardDragListenerOptions.baseShiftDragVelocity,
         start: baseStart,
         drag: handleTipOnBaseDrag,
         end: baseEnd
@@ -415,9 +429,9 @@ class MeasuringTapeNode extends Node {
         tandem: options.tandem?.createTandem( 'tipKeyboardDragListener' ),
         positionProperty: this.tipPositionProperty,
         dragBoundsProperty: options.isTipDragBounded ? this.dragBoundsProperty : null,
-        dragVelocity: KEYBOARD_DRAG_VELOCITY,
         transform: this.modelViewTransformProperty,
-        shiftDragVelocity: 150,
+        dragVelocity: options.keyboardDragListenerOptions.tipDragVelocity,
+        shiftDragVelocity: options.keyboardDragListenerOptions.tipShiftDragVelocity,
         start: () => {
           this.moveToFront();
           this._isTipUserControlledProperty.value = true;
