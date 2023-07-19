@@ -15,7 +15,7 @@ import { KeyIDValue } from './KeyID.js';
 type SelfOptions = {
   horizontalSpan?: number;
   verticalSpan?: number;
-  keyboardIdentifiers?: OneKeyStroke[ ];
+  keyboardIdentifiers?: OneKeyStroke[];
 };
 
 export type KeyOptions = SelfOptions;
