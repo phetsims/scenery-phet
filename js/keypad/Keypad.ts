@@ -198,7 +198,6 @@ class Keypad extends Node {
 
     const keyboardListener = new KeyboardListener( {
       keys: Object.keys( keyboardKeys ),
-      allowOtherKeys: true,
       callback: ( sceneryEvent, listener ) => {
         const keyObject = keyboardKeys[ listener.keysPressed! ];
         this.keyAccumulator.handleKeyPressed( keyObject!.identifier );
