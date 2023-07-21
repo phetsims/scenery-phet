@@ -9,7 +9,7 @@
 
 import Property from '../../../axon/js/Property.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { Circle, globalKeyStateTracker, KeyboardUtils, Node, Path, PDOMValueType } from '../../../scenery/js/imports.js';
+import { Circle, KeyboardListener, Node, Path, PDOMValueType } from '../../../scenery/js/imports.js';
 import BooleanRoundToggleButton, { BooleanRoundToggleButtonOptions } from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
 import TSoundPlayer from '../../../tambo/js/TSoundPlayer.js';
 import pauseSoundPlayer from '../../../tambo/js/shared-sound-players/pauseSoundPlayer.js';
@@ -28,7 +28,7 @@ type SelfOptions = {
   scaleFactorWhenNotPlaying?: number;
 
   // pdom: If true, listener is added to toggle isPlayingProperty with key command "alt + k" regardless
-  // of where focus is in the document.
+  // of where focus is in the document. Only if the sim supports Interactive Description.
   includeGlobalHotkey?: boolean;
 
   // Label for the button in the PDOM when the button will set isPlayingProperty to true
@@ -113,36 +113,29 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
     isPlayingProperty.link( isPlayingListener );
 
     // a listener that toggles the isPlayingProperty with hotkey Alt+K, regardless of where focus is in the document
-    let globalKeyboardListener: ( ( event: KeyboardEvent ) => void ) | null;
-    if ( options.includeGlobalHotkey ) {
-      globalKeyboardListener = ( event: KeyboardEvent ) => {
-
-        // Only enabled if the sim supports interactive descriptions, and this Node is in the PDOM.
-        if (
-          phet.chipper.queryParameters.supportsInteractiveDescription &&
-          this.pdomDisplayed &&
-          this.buttonModel.enabledProperty.get() &&
-          globalKeyStateTracker.altKeyDown &&
-          KeyboardUtils.isKeyEvent( event, KeyboardUtils.KEY_K )
-        ) {
+    const keys = [ 'alt+k' ] as const;
+    let globalKeyboardListener: KeyboardListener<typeof keys> | null = null;
+    if ( options.includeGlobalHotkey && phet.chipper.queryParameters.supportsInteractiveDescription ) {
+      globalKeyboardListener = new KeyboardListener( {
+        keys: keys,
+        global: true,
+        listenerFireTrigger: 'up',
+        callback: () => {
           isPlayingProperty.set( !isPlayingProperty.get() );
-
           const soundPlayer = isPlayingProperty.get() ? options.valueOnSoundPlayer : options.valueOffSoundPlayer;
           if ( soundPlayer ) { soundPlayer.play(); }
         }
-      };
-      globalKeyStateTracker.keyupEmitter.addListener( globalKeyboardListener );
-    }
-    else {
-      globalKeyboardListener = null;
+      } );
+      this.addInputListener( globalKeyboardListener );
     }
 
     this.disposePlayStopButton = () => {
       if ( isPlayingProperty.hasListener( isPlayingListener ) ) {
         isPlayingProperty.unlink( isPlayingListener );
       }
-      if ( globalKeyboardListener && globalKeyStateTracker.keyupEmitter.hasListener( globalKeyboardListener ) ) {
-        globalKeyStateTracker.keyupEmitter.removeListener( globalKeyboardListener );
+      if ( globalKeyboardListener ) {
+        this.removeInputListener( globalKeyboardListener );
+        globalKeyboardListener.dispose();
       }
     };
   }
