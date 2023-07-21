@@ -197,6 +197,9 @@ class Keypad extends Node {
     }
 
     const keyboardListener = new KeyboardListener( {
+
+      // @ts-expect-error - TypeScript doesn't know that keyboardKeys has keys of type OneKeyStroke. Type assertion
+      // works but is incompatible with eslint.
       keys: Object.keys( keyboardKeys ),
       callback: ( sceneryEvent, listener ) => {
         const keyObject = keyboardKeys[ listener.keysPressed! ];
