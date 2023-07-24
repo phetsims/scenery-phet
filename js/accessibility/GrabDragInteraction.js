@@ -391,8 +391,8 @@ class GrabDragInteraction extends EnabledComponent {
     } );
 
     // Update the passed in node's focusHighlight to make it dashed for the "draggable" state
-    this.dragFocusHighlight.makeDashed();
-    this.dragInteractiveHighlight.makeDashed();
+    this.dragFocusHighlight.makeDashed( true );
+    this.dragInteractiveHighlight.makeDashed( true );
 
     // if the Node layers its interactive highlights in the scene graph, add the dragInteractiveHighlight in the same
     // way the grabInteractiveHighlight was added
