@@ -54,8 +54,7 @@ export default class OopsDialog extends Dialog {
     const text = new RichText( messageString, optionize<RichTextOptions, EmptySelfOptions, RichTextOptions>()( {
       font: new PhetFont( 20 ),
       maxWidth: 600,
-      maxHeight: 400,
-      tandem: options.tandem?.createTandem( 'text' )
+      maxHeight: 400
     }, options.richTextOptions ) );
 
     const iconNode = options.iconNode || new Image( phetGirlWaggingFinger_png, {
