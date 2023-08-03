@@ -56,7 +56,7 @@ import assertHasProperties from '../../../phet-core/js/assertHasProperties.js';
 import getGlobal from '../../../phet-core/js/getGlobal.js';
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { FocusHighlightFromNode, FocusHighlightPath, KeyboardUtils, Node, PDOMPeer, PressListener, Voicing } from '../../../scenery/js/imports.js';
+import { FocusHighlightFromNode, FocusHighlightPath, KeyboardListener, KeyboardUtils, Node, PDOMPeer, PressListener, Voicing } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AriaLiveAnnouncer from '../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import ResponsePacket from '../../../utterance-queue/js/ResponsePacket.js';
@@ -484,38 +484,36 @@ class GrabDragInteraction extends EnabledComponent {
     // @private - keep track of all listeners to swap out grab/drag functionalities
     this.listenersForGrabState = options.listenersForGrabState.concat( grabButtonListener );
 
-    // use arrow functions so that we can have the right "this" reference
-    const dragDivListener = {
-
-      // Release the draggable on 'enter' key, tracking that we have released the draggable with this key so that
-      // we don't immediately catch the 'click' event while the enter key is down on the button
-      keydown: event => {
-        if ( KeyboardUtils.isKeyEvent( event.domEvent, KeyboardUtils.KEY_ENTER ) ) {
+    const dragDivListener = new KeyboardListener( {
+      keys: [ 'enter', 'space', 'escape' ],
+      listenerFireTrigger: 'both',
+      callback: ( event, listener ) => {
+        if ( listener.keysDown && listener.keysPressed === 'enter' ) {
 
           // set a guard to make sure the key press from enter doesn't fire future listeners, therefore
           // "clicking" the grab button also on this key press.
           guardKeyPressFromDraggable = true;
           this.releaseDraggable();
         }
-      },
-      keyup: event => {
+        else if ( !listener.keysDown && listener.keysPressed === 'space' || listener.keysPressed === 'escape' ) {
 
-        // Release  on keyup of spacebar so that we don't pick up the draggable again when we release the spacebar
-        // and trigger a click event - escape could be added to either keyup or keydown listeners
-        if ( KeyboardUtils.isAnyKeyEvent( event.domEvent, [ KeyboardUtils.KEY_SPACE, KeyboardUtils.KEY_ESCAPE ] ) ) {
-          this.releaseDraggable();
+          // Release  on keyup of spacebar so that we don't pick up the draggable again when we release the spacebar
+          // and trigger a click event - escape could be added to either keyup or keydown listeners
+          if ( KeyboardUtils.isAnyKeyEvent( event.domEvent, [ KeyboardUtils.KEY_SPACE, KeyboardUtils.KEY_ESCAPE ] ) ) {
+            this.releaseDraggable();
+          }
+
+          // if successfully dragged, then make the cue node invisible
+          this.updateVisibilityForCues();
         }
-
-        // if successfully dragged, then make the cue node invisible
-        this.updateVisibilityForCues();
       },
-      blur: () => this.releaseDraggable(),
-      focus: () => {
 
-        // if successfully dragged, then make the cue node invisible
-        this.updateVisibilityForCues();
-      }
-    };
+      // release when focus is lost
+      blur: () => this.releaseDraggable(),
+
+      // if successfully dragged, then make the cue node invisible
+      focus: () => this.updateVisibilityForCues()
+    } );
 
     // @private
     this.listenersForDragState = options.listenersForDragState.concat( [ dragDivListener, keyboardDragListener ] );
@@ -574,6 +572,8 @@ class GrabDragInteraction extends EnabledComponent {
       else {
         this.removeInputListeners( this.listenersForDragState );
       }
+
+      dragDivListener.dispose();
 
       this.grabFocusHighlight.highlightChangedEmitter.removeListener( onFocusHighlightChange );
       this.grabInteractiveHighlight.highlightChangedEmitter.removeListener( onInteractiveHighlightChange );
