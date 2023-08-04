@@ -242,7 +242,7 @@ export default class ConductivityTesterNode extends Node {
     super( options );
 
     // when the position changes ...
-    const positionObserver = ( position: Vector2, oldPosition: Vector2 | null ) => {
+    positionProperty.link( ( position, oldPosition ) => {
 
       // move the entire tester
       this.translation = options.modelViewTransform.modelToViewPosition( position );
@@ -256,8 +256,7 @@ export default class ConductivityTesterNode extends Node {
         negativeProbePositionProperty.value = new Vector2( negativeProbePositionProperty.value.x + dx,
           negativeProbePositionProperty.value.y + dy );
       }
-    };
-    positionProperty.link( positionObserver );
+    } );
 
     // update positive wire if end point was changed
     const positiveProbeObserver = ( positiveProbePosition: Vector2 ) => {
