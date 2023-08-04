@@ -184,55 +184,62 @@ class ConductivityTesterNode extends Node {
       { stroke: options.wireStroke, lineWidth: options.wireLineWidth }
     );
 
-    // drag listener for probes
-    let clickYOffset = 0;
-    const probeDragListener = new DragListener( {
-
-      start: event => {
-        const currentTarget = event.currentTarget!;
-        clickYOffset = currentTarget.globalToParentPoint( event.pointer.point ).y - currentTarget.y;
-      },
-
-      // probes move together
-      drag: ( event, listener ) => {
-
-        // do dragging in view coordinate frame
-        const positionView = options.modelViewTransform.modelToViewPosition( positionProperty.get() );
-        let yView = listener.currentTarget.globalToParentPoint( event.pointer.point ).y + positionView.y - clickYOffset;
-        if ( options.probeDragYRange ) {
-          yView = Utils.clamp( yView, positionView.y + options.probeDragYRange.min, positionView.y + options.probeDragYRange.max );
-        }
-
-        // convert to model coordinate frame
-        const yModel = options.modelViewTransform.viewToModelY( yView );
-        positiveProbePositionProperty.set( new Vector2( positiveProbePositionProperty.get().x, yModel ) );
-        negativeProbePositionProperty.set( new Vector2( negativeProbePositionProperty.get().x, yModel ) );
-      },
-
-      tandem: options.tandem.createTandem( 'probeDragListener' )
-    } );
-
     // probes
     const positiveProbe = new ProbeNode( new PlusNode( { fill: options.positiveLabelFill } ), {
       size: options.probeSize,
       fill: options.positiveProbeFill,
       stroke: options.positiveProbeStroke,
-      lineWidth: options.probeLineWidth
+      lineWidth: options.probeLineWidth,
+      tagName: 'div',
+      focusable: true
     } );
     const negativeProbe = new ProbeNode( new MinusNode( { fill: options.negativeLabelFill } ), {
       size: options.probeSize,
       fill: options.negativeProbeFill,
       stroke: options.negativeProbeStroke,
-      lineWidth: options.probeLineWidth
+      lineWidth: options.probeLineWidth,
+      tagName: 'div',
+      focusable: true
     } );
+
     if ( options.interactive ) {
+
+      // drag listener for probes
+      let clickYOffset = 0;
+      const probeDragListener = new DragListener( {
+
+        start: event => {
+          const currentTarget = event.currentTarget!;
+          clickYOffset = currentTarget.globalToParentPoint( event.pointer.point ).y - currentTarget.y;
+        },
+
+        // probes move together
+        drag: ( event, listener ) => {
+
+          // do dragging in view coordinate frame
+          const positionView = options.modelViewTransform.modelToViewPosition( positionProperty.get() );
+          let yView = listener.currentTarget.globalToParentPoint( event.pointer.point ).y + positionView.y - clickYOffset;
+          if ( options.probeDragYRange ) {
+            yView = Utils.clamp( yView, positionView.y + options.probeDragYRange.min, positionView.y + options.probeDragYRange.max );
+          }
+
+          // convert to model coordinate frame
+          const yModel = options.modelViewTransform.viewToModelY( yView );
+          positiveProbePositionProperty.set( new Vector2( positiveProbePositionProperty.get().x, yModel ) );
+          negativeProbePositionProperty.set( new Vector2( negativeProbePositionProperty.get().x, yModel ) );
+        },
+
+        tandem: options.tandem.createTandem( 'probeDragListener' )
+      } );
+
       positiveProbe.cursor = options.probeCursor;
       positiveProbe.addInputListener( probeDragListener );
+
       negativeProbe.cursor = options.probeCursor;
       negativeProbe.addInputListener( probeDragListener );
     }
 
-    options.children = [ positiveWire, negativeWire, positiveProbe, negativeProbe, apparatusNode ];
+    options.children = [ negativeWire, positiveWire, negativeProbe, positiveProbe, apparatusNode ];
 
     super( options );
 
@@ -290,7 +297,7 @@ class ConductivityTesterNode extends Node {
       positiveProbePositionProperty.unlink( positiveProbeObserver );
       negativeProbePositionProperty.unlink( negativeProbeObserver );
 
-      // dispose of sub-components
+      // dispose of subcomponents
       lightBulbNode.dispose();
     };
 
