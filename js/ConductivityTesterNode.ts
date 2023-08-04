@@ -189,17 +189,13 @@ class ConductivityTesterNode extends Node {
       size: options.probeSize,
       fill: options.positiveProbeFill,
       stroke: options.positiveProbeStroke,
-      lineWidth: options.probeLineWidth,
-      tagName: 'div',
-      focusable: true
+      lineWidth: options.probeLineWidth
     } );
     const negativeProbe = new ProbeNode( new MinusNode( { fill: options.negativeLabelFill } ), {
       size: options.probeSize,
       fill: options.negativeProbeFill,
       stroke: options.negativeProbeStroke,
-      lineWidth: options.probeLineWidth,
-      tagName: 'div',
-      focusable: true
+      lineWidth: options.probeLineWidth
     } );
 
     if ( options.interactive ) {
@@ -370,7 +366,9 @@ class ProbeNode extends Node {
       size: new Dimension2( 20, 60 ),
       fill: 'white',
       stroke: 'black',
-      lineWidth: 1.5
+      lineWidth: 1.5,
+      tagName: 'div',
+      focusable: true
     }, providedOptions );
 
     super();
@@ -382,7 +380,7 @@ class ProbeNode extends Node {
       lineWidth: options.lineWidth
     } );
 
-    // scale the label to fix, place it towards bottom center
+    // scale the label to fit, place it towards bottom center
     labelNode.setScaleMagnitude( 0.5 * options.size.width / labelNode.width );
     labelNode.centerX = plateNode.centerX;
     labelNode.bottom = plateNode.bottom - 10;
