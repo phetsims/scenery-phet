@@ -119,7 +119,8 @@ export default class ConductivityTesterNode extends Node {
       shortCircuitFill: 'black',
 
       // NodeOptions
-      isDisposable: false
+      isDisposable: false,
+      phetioInputEnabledPropertyInstrumented: true
     }, providedOptions );
 
     // bulb, origin at bottom center of base
