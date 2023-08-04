@@ -132,7 +132,7 @@ export default class ConductivityTesterNode extends Node {
     } );
 
     // short-circuit indicator, centered above the light bulb
-    assert && assert( brightnessProperty.get() === 0, 'layout will be incorrect if lightBulbNode has rays' );
+    assert && assert( brightnessProperty.value === 0, 'layout will be incorrect if lightBulbNode has rays' );
     const shortCircuitNode = new Text( SceneryPhetStrings.shortCircuitStringProperty, {
       font: options.shortCircuitFont,
       fill: options.shortCircuitFill,
@@ -173,16 +173,16 @@ export default class ConductivityTesterNode extends Node {
     const positiveWire = new WireNode(
       battery.getGlobalBounds().right,
       battery.getGlobalBounds().centerY,
-      options.modelViewTransform.modelToViewX( positiveProbePositionProperty.get().x ) - options.modelViewTransform.modelToViewX( positionProperty.get().x ),
-      options.modelViewTransform.modelToViewY( positiveProbePositionProperty.get().y ) - options.modelViewTransform.modelToViewY( positionProperty.get().y ) - options.probeSize.height,
+      options.modelViewTransform.modelToViewX( positiveProbePositionProperty.value.x ) - options.modelViewTransform.modelToViewX( positionProperty.value.x ),
+      options.modelViewTransform.modelToViewY( positiveProbePositionProperty.value.y ) - options.modelViewTransform.modelToViewY( positionProperty.value.y ) - options.probeSize.height,
       { stroke: options.wireStroke, lineWidth: options.wireLineWidth }
     );
 
     // wire from base of bulb (origin) to negative probe
     const negativeWire = new WireNode(
       -5, -5, // specific to bulb image file
-      options.modelViewTransform.modelToViewX( negativeProbePositionProperty.get().x ) - options.modelViewTransform.modelToViewX( positionProperty.get().x ),
-      options.modelViewTransform.modelToViewY( negativeProbePositionProperty.get().y ) - options.modelViewTransform.modelToViewY( positionProperty.get().y ) - options.probeSize.height,
+      options.modelViewTransform.modelToViewX( negativeProbePositionProperty.value.x ) - options.modelViewTransform.modelToViewX( positionProperty.value.x ),
+      options.modelViewTransform.modelToViewY( negativeProbePositionProperty.value.y ) - options.modelViewTransform.modelToViewY( positionProperty.value.y ) - options.probeSize.height,
       { stroke: options.wireStroke, lineWidth: options.wireLineWidth }
     );
 
@@ -215,7 +215,7 @@ export default class ConductivityTesterNode extends Node {
         drag: ( event, listener ) => {
 
           // do dragging in view coordinate frame
-          const positionView = options.modelViewTransform.modelToViewPosition( positionProperty.get() );
+          const positionView = options.modelViewTransform.modelToViewPosition( positionProperty.value );
           let yView = listener.currentTarget.globalToParentPoint( event.pointer.point ).y + positionView.y - clickYOffset;
           if ( options.probeDragYRange ) {
             yView = Utils.clamp( yView, positionView.y + options.probeDragYRange.min, positionView.y + options.probeDragYRange.max );
@@ -223,8 +223,8 @@ export default class ConductivityTesterNode extends Node {
 
           // convert to model coordinate frame
           const yModel = options.modelViewTransform.viewToModelY( yView );
-          positiveProbePositionProperty.set( new Vector2( positiveProbePositionProperty.get().x, yModel ) );
-          negativeProbePositionProperty.set( new Vector2( negativeProbePositionProperty.get().x, yModel ) );
+          positiveProbePositionProperty.value = new Vector2( positiveProbePositionProperty.value.x, yModel );
+          negativeProbePositionProperty.value = new Vector2( negativeProbePositionProperty.value.x, yModel );
         },
 
         tandem: options.tandem.createTandem( 'probeDragListener' )
@@ -251,10 +251,10 @@ export default class ConductivityTesterNode extends Node {
       if ( oldPosition ) {
         const dx = position.x - oldPosition.x;
         const dy = position.y - oldPosition.y;
-        positiveProbePositionProperty.set( new Vector2( positiveProbePositionProperty.get().x + dx,
-          positiveProbePositionProperty.get().y + dy ) );
-        negativeProbePositionProperty.set( new Vector2( negativeProbePositionProperty.get().x + dx,
-          negativeProbePositionProperty.get().y + dy ) );
+        positiveProbePositionProperty.value = new Vector2( positiveProbePositionProperty.value.x + dx,
+          positiveProbePositionProperty.value.y + dy );
+        negativeProbePositionProperty.value = new Vector2( negativeProbePositionProperty.value.x + dx,
+          negativeProbePositionProperty.value.y + dy );
       }
     };
     positionProperty.link( positionObserver );
@@ -262,9 +262,9 @@ export default class ConductivityTesterNode extends Node {
     // update positive wire if end point was changed
     const positiveProbeObserver = ( positiveProbePosition: Vector2 ) => {
       positiveProbe.centerX = options.modelViewTransform.modelToViewX( positiveProbePosition.x ) -
-                              options.modelViewTransform.modelToViewX( positionProperty.get().x );
+                              options.modelViewTransform.modelToViewX( positionProperty.value.x );
       positiveProbe.bottom = options.modelViewTransform.modelToViewY( positiveProbePosition.y ) -
-                             options.modelViewTransform.modelToViewY( positionProperty.get().y );
+                             options.modelViewTransform.modelToViewY( positionProperty.value.y );
       positiveWire.setEndPoint( positiveProbe.x, positiveProbe.y - options.probeSize.height );
     };
     positiveProbePositionProperty.link( positiveProbeObserver );
@@ -272,9 +272,9 @@ export default class ConductivityTesterNode extends Node {
     // update negative wire if end point was changed
     const negativeProbeObserver = ( negativeProbePosition: Vector2 ) => {
       negativeProbe.centerX = options.modelViewTransform.modelToViewX( negativeProbePosition.x ) -
-                              options.modelViewTransform.modelToViewX( positionProperty.get().x );
+                              options.modelViewTransform.modelToViewX( positionProperty.value.x );
       negativeProbe.bottom = options.modelViewTransform.modelToViewY( negativeProbePosition.y ) -
-                             options.modelViewTransform.modelToViewY( positionProperty.get().y );
+                             options.modelViewTransform.modelToViewY( positionProperty.value.y );
       negativeWire.setEndPoint( negativeProbe.x, negativeProbe.y - options.probeSize.height );
     };
     negativeProbePositionProperty.link( negativeProbeObserver );
