@@ -10,15 +10,13 @@
 
 import TProperty from '../../axon/js/TProperty.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import Property from '../../axon/js/Property.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Utils from '../../dot/js/Utils.js';
 import Range from '../../dot/js/Range.js';
 import Vector2 from '../../dot/js/Vector2.js';
-import Vector2Property from '../../dot/js/Vector2Property.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import optionize from '../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
 import { Circle, DragListener, Font, Image, Node, NodeOptions, Path, PathOptions, Rectangle, TColor, Text } from '../../scenery/js/imports.js';
 import batteryDCell_png from '../images/batteryDCell_png.js';
@@ -39,7 +37,6 @@ const DEFAULT_SHORT_CIRCUIT_FONT = new PhetFont( 14 );
 type SelfOptions = {
 
   modelViewTransform?: ModelViewTransform2;
-  interactive?: boolean; // set to false if you're creating an icon
   bulbImageScale?: number;
   batteryDCell_pngScale?: number;
 
@@ -93,7 +90,6 @@ export default class ConductivityTesterNode extends Node {
     const options = optionize<ConductivityTesterNodeOptions, SelfOptions, NodeOptions>()( {
 
       modelViewTransform: ModelViewTransform2.createIdentity(),
-      interactive: true, // set to false if you're creating an icon
       bulbImageScale: 0.33,
       batteryDCell_pngScale: 0.6,
 
@@ -200,42 +196,39 @@ export default class ConductivityTesterNode extends Node {
       lineWidth: options.probeLineWidth
     } );
 
-    if ( options.interactive ) {
+    // drag listener for probes
+    let clickYOffset = 0;
+    const probeDragListener = new DragListener( {
 
-      // drag listener for probes
-      let clickYOffset = 0;
-      const probeDragListener = new DragListener( {
+      start: event => {
+        const currentTarget = event.currentTarget!;
+        clickYOffset = currentTarget.globalToParentPoint( event.pointer.point ).y - currentTarget.y;
+      },
 
-        start: event => {
-          const currentTarget = event.currentTarget!;
-          clickYOffset = currentTarget.globalToParentPoint( event.pointer.point ).y - currentTarget.y;
-        },
+      // probes move together
+      drag: ( event, listener ) => {
 
-        // probes move together
-        drag: ( event, listener ) => {
+        // do dragging in view coordinate frame
+        const positionView = options.modelViewTransform.modelToViewPosition( positionProperty.value );
+        let yView = listener.currentTarget.globalToParentPoint( event.pointer.point ).y + positionView.y - clickYOffset;
+        if ( options.probeDragYRange ) {
+          yView = Utils.clamp( yView, positionView.y + options.probeDragYRange.min, positionView.y + options.probeDragYRange.max );
+        }
 
-          // do dragging in view coordinate frame
-          const positionView = options.modelViewTransform.modelToViewPosition( positionProperty.value );
-          let yView = listener.currentTarget.globalToParentPoint( event.pointer.point ).y + positionView.y - clickYOffset;
-          if ( options.probeDragYRange ) {
-            yView = Utils.clamp( yView, positionView.y + options.probeDragYRange.min, positionView.y + options.probeDragYRange.max );
-          }
+        // convert to model coordinate frame
+        const yModel = options.modelViewTransform.viewToModelY( yView );
+        positiveProbePositionProperty.value = new Vector2( positiveProbePositionProperty.value.x, yModel );
+        negativeProbePositionProperty.value = new Vector2( negativeProbePositionProperty.value.x, yModel );
+      },
 
-          // convert to model coordinate frame
-          const yModel = options.modelViewTransform.viewToModelY( yView );
-          positiveProbePositionProperty.value = new Vector2( positiveProbePositionProperty.value.x, yModel );
-          negativeProbePositionProperty.value = new Vector2( negativeProbePositionProperty.value.x, yModel );
-        },
+      tandem: options.tandem.createTandem( 'probeDragListener' )
+    } );
 
-        tandem: options.tandem.createTandem( 'probeDragListener' )
-      } );
+    positiveProbe.cursor = options.probeCursor;
+    positiveProbe.addInputListener( probeDragListener );
 
-      positiveProbe.cursor = options.probeCursor;
-      positiveProbe.addInputListener( probeDragListener );
-
-      negativeProbe.cursor = options.probeCursor;
-      negativeProbe.addInputListener( probeDragListener );
-    }
+    negativeProbe.cursor = options.probeCursor;
+    negativeProbe.addInputListener( probeDragListener );
 
     options.children = [ negativeWire, positiveWire, negativeProbe, positiveProbe, apparatusNode ];
 
@@ -299,32 +292,6 @@ export default class ConductivityTesterNode extends Node {
    * to ensure that the bulb's brightness (as set by brightnessProperty) is appropriate for a short circuit.
    */
   public set shortCircuit( value: boolean ) { this.shortCircuitNode.visible = value; }
-
-  /**
-   * Convenience function for creating an icon.
-   * @param brightness 0-1 (off to full on)
-   * @param positiveProbeXOffset x-offset of the positive probe, relative to the bulb's tip
-   * @param negativeProbeXOffset x-offset of the negative probe, relative to the bulb's tip
-   * @param bothProbesYOffset y-offset of both probes, relative to the bulb's tip
-   * @param providedOptions
-   */
-  public static createIcon( brightness: number,
-                            positiveProbeXOffset: number, negativeProbeXOffset: number,
-                            bothProbesYOffset: number,
-                            providedOptions: StrictOmit<ConductivityTesterNodeOptions, 'interactive'> ): Node {
-
-    const options = combineOptions<ConductivityTesterNodeOptions>( {
-      interactive: false
-    }, providedOptions );
-
-    return new ConductivityTesterNode(
-      new Property( brightness ),
-      new Vector2Property( new Vector2( 0, 0 ) ),
-      new Vector2Property( new Vector2( positiveProbeXOffset, bothProbesYOffset ) ),
-      new Vector2Property( new Vector2( negativeProbeXOffset, bothProbesYOffset ) ),
-      options
-    );
-  }
 }
 
 type ProbeNodeSelfOptions = {
