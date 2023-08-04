@@ -72,10 +72,9 @@ type SelfOptions = {
 export type ConductivityTesterNodeOptions = SelfOptions &
   StrictOmit<NodeOptions, 'children'> & PickRequired<NodeOptions, 'tandem'>;
 
-class ConductivityTesterNode extends Node {
+export default class ConductivityTesterNode extends Node {
 
   private readonly shortCircuitNode: Node;
-  private readonly disposeConductivityTesterNode: () => void;
 
   /**
    * @param brightnessProperty brightness of bulb varies from 0 (off) to 1 (full on)
@@ -121,7 +120,10 @@ class ConductivityTesterNode extends Node {
 
       // short-circuit indicator
       shortCircuitFont: DEFAULT_SHORT_CIRCUIT_FONT,
-      shortCircuitFill: 'black'
+      shortCircuitFill: 'black',
+
+      // NodeOptions
+      isDisposable: false
     }, providedOptions );
 
     // bulb, origin at bottom center of base
@@ -284,19 +286,6 @@ class ConductivityTesterNode extends Node {
       lightBulbNode.visible = visible;
     } );
 
-    this.disposeConductivityTesterNode = () => {
-
-      shortCircuitNode.dispose();
-
-      // unlink from axon properties
-      positionProperty.unlink( positionObserver );
-      positiveProbePositionProperty.unlink( positiveProbeObserver );
-      negativeProbePositionProperty.unlink( negativeProbeObserver );
-
-      // dispose of subcomponents
-      lightBulbNode.dispose();
-    };
-
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ConductivityTesterNode', this );
   }
@@ -337,14 +326,7 @@ class ConductivityTesterNode extends Node {
       options
     );
   }
-
-  public override dispose(): void {
-    this.disposeConductivityTesterNode();
-    super.dispose();
-  }
 }
-
-sceneryPhet.register( 'ConductivityTesterNode', ConductivityTesterNode );
 
 type ProbeNodeSelfOptions = {
   size?: Dimension2;
@@ -442,4 +424,4 @@ class WireNode extends Path {
   }
 }
 
-export default ConductivityTesterNode;
+sceneryPhet.register( 'ConductivityTesterNode', ConductivityTesterNode );
