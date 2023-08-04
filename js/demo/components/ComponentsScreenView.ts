@@ -20,6 +20,7 @@ import demoBicyclePumpNode from './demoBicyclePumpNode.js';
 import demoBracketNode from './demoBracketNode.js';
 import demoCapacitorNode from './demoCapacitorNode.js';
 import demoComboBoxDisplay from './demoComboBoxDisplay.js';
+import demoConductivityTesterNode from './demoConductivityTesterNode.js';
 import demoDrawer from './demoDrawer.js';
 import demoEyeDropperNode from './demoEyeDropperNode.js';
 import demoFaucetNode from './demoFaucetNode.js';
@@ -70,6 +71,7 @@ export default class ComponentsScreenView extends DemosScreenView {
       { label: 'BracketNode', createNode: demoBracketNode },
       { label: 'CapacitorNode', createNode: demoCapacitorNode },
       { label: 'ComboBoxDisplay', createNode: demoComboBoxDisplay },
+      { label: 'ConductivityTesterNode', createNode: demoConductivityTesterNode },
       { label: 'Drawer', createNode: demoDrawer },
       { label: 'EyeDropperNode', createNode: demoEyeDropperNode },
       { label: 'FaucetNode', createNode: demoFaucetNode },
