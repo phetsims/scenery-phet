@@ -16,9 +16,9 @@ import Range from '../../dot/js/Range.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
-import { Circle, DragListener, Font, Image, Node, NodeOptions, Path, PathOptions, Rectangle, TColor, Text } from '../../scenery/js/imports.js';
+import { Circle, DragListener, Font, Image, KeyboardDragListener, KeyboardDragListenerOptions, Node, NodeOptions, Path, PathOptions, Rectangle, TColor, Text } from '../../scenery/js/imports.js';
 import batteryDCell_png from '../images/batteryDCell_png.js';
 import LightBulbNode from './LightBulbNode.js';
 import MinusNode from './MinusNode.js';
@@ -64,6 +64,8 @@ type SelfOptions = {
   // short-circuit indicator
   shortCircuitFont?: Font;
   shortCircuitFill?: TColor;
+
+  keyboardDragListenerOptions?: StrictOmit<KeyboardDragListenerOptions, 'tandem'>;
 };
 
 export type ConductivityTesterNodeOptions = SelfOptions &
@@ -87,7 +89,7 @@ export default class ConductivityTesterNode extends Node {
                       providedOptions?: ConductivityTesterNodeOptions ) {
 
     // NOTE! Since positionProperty determines translation, avoid options related to translation!
-    const options = optionize<ConductivityTesterNodeOptions, SelfOptions, NodeOptions>()( {
+    const options = optionize<ConductivityTesterNodeOptions, StrictOmit<SelfOptions, 'keyboardDragListenerOptions'>, NodeOptions>()( {
 
       modelViewTransform: ModelViewTransform2.createIdentity(),
       bulbImageScale: 0.33,
@@ -225,11 +227,36 @@ export default class ConductivityTesterNode extends Node {
       tandem: options.tandem.createTandem( 'probeDragListener' )
     } );
 
+    // Keyboard drag listener for probes, see https://github.com/phetsims/acid-base-solutions/issues/208
+    const probeKeyboardDragListener = new KeyboardDragListener( combineOptions<KeyboardDragListenerOptions>( {
+      transform: options.modelViewTransform,
+      drag: vectorDelta => {
+
+        // probes move together
+        const y = positionProperty.value.y;
+
+        const yPositiveProbe = positiveProbePositionProperty.value.y + vectorDelta.y;
+        const yPositiveProbeConstrained = options.probeDragYRange ?
+                                          Utils.clamp( yPositiveProbe, y + options.probeDragYRange.min, y + options.probeDragYRange.max ) :
+                                          yPositiveProbe;
+        positiveProbePositionProperty.value = new Vector2( positiveProbePositionProperty.value.x, yPositiveProbeConstrained );
+
+        const yNegativeProbe = negativeProbePositionProperty.value.y + vectorDelta.y;
+        const yNegativeProbeConstrained = options.probeDragYRange ?
+                                          Utils.clamp( yNegativeProbe, y + options.probeDragYRange.min, y + options.probeDragYRange.max ) :
+                                          yNegativeProbe;
+        negativeProbePositionProperty.value = new Vector2( negativeProbePositionProperty.value.x, yNegativeProbeConstrained );
+      },
+      tandem: options.tandem.createTandem( 'probeKeyboardDragListener' )
+    }, options.keyboardDragListenerOptions ) );
+
     positiveProbe.cursor = options.probeCursor;
     positiveProbe.addInputListener( probeDragListener );
+    positiveProbe.addInputListener( probeKeyboardDragListener );
 
     negativeProbe.cursor = options.probeCursor;
     negativeProbe.addInputListener( probeDragListener );
+    negativeProbe.addInputListener( probeKeyboardDragListener );
 
     options.children = [ negativeWire, positiveWire, negativeProbe, positiveProbe, apparatusNode ];
 
