@@ -46,9 +46,7 @@ export default class QuestionBar extends StatusBar {
 
     super( layoutBounds, visibleBoundsProperty, options );
 
-    const questionText = new Text( options.questionString, combineOptions<TextOptions>( {
-      tandem: options.tandem?.createTandem( 'questionText' )
-    }, options.textOptions ) );
+    const questionText = new Text( options.questionString, options.textOptions );
 
     this.addChild( questionText );
 
