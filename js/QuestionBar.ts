@@ -7,7 +7,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import sceneryPhet from './sceneryPhet.js';
 import StatusBar, { StatusBarOptions } from '../../scenery-phet/js/StatusBar.js';
