@@ -16,7 +16,7 @@ import SceneryPhetStrings from './SceneryPhetStrings.js';
 import { Text, TextOptions } from '../../scenery/js/imports.js';
 import VerticalAquaRadioButtonGroup, { VerticalAquaRadioButtonGroupOptions } from '../../sun/js/VerticalAquaRadioButtonGroup.js';
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
-import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import optionize from '../../phet-core/js/optionize.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { AquaRadioButtonGroupItem } from '../../sun/js/AquaRadioButtonGroup.js';
@@ -85,9 +85,7 @@ export default class TimeSpeedRadioButtonGroup extends VerticalAquaRadioButtonGr
 
       const item: AquaRadioButtonGroupItem<TimeSpeed> = {
         value: speed,
-        createNode: tandem => new Text( stringProperty, combineOptions<TextOptions>( {
-          tandem: tandem.createTandem( 'labelText' )
-        }, options.labelOptions ) ),
+        createNode: () => new Text( stringProperty, options.labelOptions ),
         labelContent: stringProperty,
         tandemName: SPEED_LABEL_MAP.get( speed ).tandemName
       };
