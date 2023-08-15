@@ -123,10 +123,13 @@ export default class TimeControlNode extends Node {
     this.speedRadioButtonGroupParent = null;
     if ( options.timeSpeedProperty !== null ) {
 
-      this.speedRadioButtonGroup = new TimeSpeedRadioButtonGroup( options.timeSpeedProperty, options.timeSpeeds,
+      this.speedRadioButtonGroup = new TimeSpeedRadioButtonGroup(
+        options.timeSpeedProperty,
+        options.timeSpeeds,
         combineOptions<TimeSpeedRadioButtonGroupOptions>( {
           tandem: options.tandem.createTandem( 'speedRadioButtonGroup' )
-        }, options.speedRadioButtonGroupOptions ) );
+        }, options.speedRadioButtonGroupOptions )
+      );
 
       if ( options.wrapSpeedRadioButtonGroupInPanel ) {
         this.speedRadioButtonGroupParent = new Panel( this.speedRadioButtonGroup, options.speedRadioButtonGroupPanelOptions );
