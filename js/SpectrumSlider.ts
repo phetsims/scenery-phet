@@ -19,7 +19,7 @@ import { Shape } from '../../kite/js/imports.js';
 import deprecationWarning from '../../phet-core/js/deprecationWarning.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
-import { Color, DragListener, FocusHighlightFromNode, Font, TColor, Node, NodeOptions, Path, PathOptions, Rectangle, RectangleOptions, SceneryEvent, Text, TextOptions } from '../../scenery/js/imports.js';
+import { Color, DragListener, HighlightFromNode, Font, TColor, Node, NodeOptions, Path, PathOptions, Rectangle, RectangleOptions, SceneryEvent, Text, TextOptions } from '../../scenery/js/imports.js';
 import AccessibleSlider, { AccessibleSliderOptions } from '../../sun/js/accessibility/AccessibleSlider.js';
 import ArrowButton from '../../sun/js/buttons/ArrowButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -308,7 +308,7 @@ export default class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
     } ) );
 
     // custom focus highlight that surrounds and moves with the thumb
-    this.focusHighlight = new FocusHighlightFromNode( thumb );
+    this.focusHighlight = new HighlightFromNode( thumb );
 
     // sync with model
     const updateUI = ( value: number ) => {

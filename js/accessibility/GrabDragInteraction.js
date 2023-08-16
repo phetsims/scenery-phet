@@ -56,7 +56,7 @@ import assertHasProperties from '../../../phet-core/js/assertHasProperties.js';
 import getGlobal from '../../../phet-core/js/getGlobal.js';
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { FocusHighlightFromNode, HighlightPath, KeyboardListener, KeyboardUtils, Node, PDOMPeer, PressListener, Voicing } from '../../../scenery/js/imports.js';
+import { HighlightFromNode, HighlightPath, KeyboardListener, KeyboardUtils, Node, PDOMPeer, PressListener, Voicing } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AriaLiveAnnouncer from '../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import ResponsePacket from '../../../utterance-queue/js/ResponsePacket.js';
@@ -374,8 +374,8 @@ class GrabDragInteraction extends EnabledComponent {
     // @private - Take highlights from the node for the grab button interaction. The Interactive Highlights cannot
     // fall back to the default focus highlights because GrabDragInteraction adds "grab cue" Nodes as children
     // to the focus highlights that should not be displayed when using Interactive Highlights.
-    this.grabFocusHighlight = node.focusHighlight || new FocusHighlightFromNode( node );
-    this.grabInteractiveHighlight = node.interactiveHighlight || new FocusHighlightFromNode( node );
+    this.grabFocusHighlight = node.focusHighlight || new HighlightFromNode( node );
+    this.grabInteractiveHighlight = node.interactiveHighlight || new HighlightFromNode( node );
 
     node.focusHighlight = this.grabFocusHighlight;
     node.interactiveHighlight = this.grabInteractiveHighlight;
