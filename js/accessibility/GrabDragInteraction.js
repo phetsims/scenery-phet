@@ -56,7 +56,7 @@ import assertHasProperties from '../../../phet-core/js/assertHasProperties.js';
 import getGlobal from '../../../phet-core/js/getGlobal.js';
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { FocusHighlightFromNode, FocusHighlightPath, KeyboardListener, KeyboardUtils, Node, PDOMPeer, PressListener, Voicing } from '../../../scenery/js/imports.js';
+import { FocusHighlightFromNode, HighlightPath, KeyboardListener, KeyboardUtils, Node, PDOMPeer, PressListener, Voicing } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AriaLiveAnnouncer from '../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import ResponsePacket from '../../../utterance-queue/js/ResponsePacket.js';
@@ -196,11 +196,11 @@ class GrabDragInteraction extends EnabledComponent {
         'if interactiveHighlightLayerable, the highlight must be added to the scene graph before construction' );
     }
     if ( node.focusHighlight ) {
-      assert && assert( node.focusHighlight instanceof phet.scenery.FocusHighlightPath,
+      assert && assert( node.focusHighlight instanceof phet.scenery.HighlightPath,
         'if provided, focusHighlight must be a Path to support highlightChangedEmitter' );
     }
     if ( node.interactiveHighlight ) {
-      assert && assert( node.interactiveHighlight instanceof phet.scenery.FocusHighlightPath,
+      assert && assert( node.interactiveHighlight instanceof phet.scenery.HighlightPath,
         'if provided, interactiveHighlight must be a Path to support highlightChangedEmitter' );
     }
     assert && assert( typeof options.onGrab === 'function' );
@@ -381,11 +381,11 @@ class GrabDragInteraction extends EnabledComponent {
     node.interactiveHighlight = this.grabInteractiveHighlight;
 
     // @private - Make the draggable highlights in the spitting image of the node's grabbable highlights
-    this.dragFocusHighlight = new FocusHighlightPath( this.grabFocusHighlight.shape, {
+    this.dragFocusHighlight = new HighlightPath( this.grabFocusHighlight.shape, {
       visible: false,
       transformSourceNode: this.grabFocusHighlight.transformSourceNode || node
     } );
-    this.dragInteractiveHighlight = new FocusHighlightPath( this.grabInteractiveHighlight.shape, {
+    this.dragInteractiveHighlight = new HighlightPath( this.grabInteractiveHighlight.shape, {
       visible: false,
       transformSourceNode: this.grabInteractiveHighlight.transformSourceNode || node
     } );
