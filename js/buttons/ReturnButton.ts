@@ -1,7 +1,7 @@
 // Copyright 2022, University of Colorado Boulder
 
 /**
- * UndoButton is a push button for undoing a previous operation.
+ * ReturnButton is a push button for undoing a previous operation.
  *
  * @author John Blanco
  * @author Chris Malley (PixelZoom, Inc.)
@@ -11,20 +11,20 @@ import RectangularPushButton, { RectangularPushButtonOptions } from '../../../su
 import sceneryPhet from '../../../scenery-phet/js/sceneryPhet.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import UndoIcon, { UndoIconOptions } from '../UndoIcon.js';
+import ReturnIcon, { ReturnIconOptions } from '../ReturnIcon.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 
 type SelfOptions = {
-  iconOptions?: UndoIconOptions;
+  iconOptions?: ReturnIconOptions;
 };
 
-export type UndoButtonOptions = SelfOptions & StrictOmit<RectangularPushButtonOptions, 'content'>;
+export type ReturnButtonOptions = SelfOptions & StrictOmit<RectangularPushButtonOptions, 'content'>;
 
-export default class UndoButton extends RectangularPushButton {
+export default class ReturnButton extends RectangularPushButton {
 
-  public constructor( providedOptions?: UndoButtonOptions ) {
+  public constructor( providedOptions?: ReturnButtonOptions ) {
 
-    const options = optionize<UndoButtonOptions, StrictOmit<SelfOptions, 'iconOptions'>, RectangularPushButtonOptions>()( {
+    const options = optionize<ReturnButtonOptions, StrictOmit<SelfOptions, 'iconOptions'>, RectangularPushButtonOptions>()( {
 
       // RectangularPushButtonOptions
       xMargin: 5,
@@ -32,10 +32,10 @@ export default class UndoButton extends RectangularPushButton {
       baseColor: PhetColorScheme.BUTTON_YELLOW
     }, providedOptions );
 
-    options.content = new UndoIcon( options.iconOptions );
+    options.content = new ReturnIcon( options.iconOptions );
 
     super( options );
   }
 }
 
-sceneryPhet.register( 'UndoButton', UndoButton );
+sceneryPhet.register( 'ReturnButton', ReturnButton );

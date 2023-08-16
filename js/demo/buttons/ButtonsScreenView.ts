@@ -42,7 +42,7 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import ButtonNode from '../../../../sun/js/buttons/ButtonNode.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import TrashButton from '../../buttons/TrashButton.js';
-import UndoButton from '../../buttons/UndoButton.js';
+import ReturnButton from '../../buttons/ReturnButton.js';
 import CameraButton from '../../buttons/CameraButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 
@@ -136,10 +136,10 @@ export default class ButtonsScreenView extends ScreenView {
     } );
     pushButtons.push( resetAllButton );
 
-    const undoButton = new UndoButton( {
-      listener: () => console.log( 'UndoButton pressed' )
+    const returnButton = new ReturnButton( {
+      listener: () => console.log( 'ReturnButton pressed' )
     } );
-    pushButtons.push( undoButton );
+    pushButtons.push( returnButton );
 
     const cameraButton = new CameraButton( {
       listener: () => console.log( 'cameraButton pressed' ),

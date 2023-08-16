@@ -1,7 +1,7 @@
 // Copyright 2022, University of Colorado Boulder
 
 /**
- * UndoIcon is the icon used to signify 'undo'.
+ * ReturnIcon is the icon used to signify 'undo'.
  *
  * @author John Blanco
  * @author Chris Malley (PixelZoom, Inc.)
@@ -16,13 +16,13 @@ type SelfOptions = {
   height?: number; // height of the icon
 };
 
-export type UndoIconOptions = SelfOptions & PathOptions;
+export type ReturnIconOptions = SelfOptions & PathOptions;
 
-export default class UndoIcon extends Path {
+export default class ReturnIcon extends Path {
 
-  public constructor( providedOptions?: UndoIconOptions ) {
+  public constructor( providedOptions?: ReturnIconOptions ) {
 
-    const options = optionize<UndoIconOptions, SelfOptions, PathOptions>()( {
+    const options = optionize<ReturnIconOptions, SelfOptions, PathOptions>()( {
 
       // SelfOptions
       height: 17,
@@ -45,4 +45,4 @@ export default class UndoIcon extends Path {
   }
 }
 
-sceneryPhet.register( 'UndoIcon', UndoIcon );
+sceneryPhet.register( 'ReturnIcon', ReturnIcon );
