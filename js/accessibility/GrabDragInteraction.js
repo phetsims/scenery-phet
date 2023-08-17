@@ -487,15 +487,15 @@ class GrabDragInteraction extends EnabledComponent {
     const dragDivListener = new KeyboardListener( {
       keys: [ 'enter', 'space', 'escape' ],
       listenerFireTrigger: 'both',
-      callback: ( event, listener ) => {
-        if ( listener.keysDown && listener.keysPressed === 'enter' ) {
+      callback: ( event, keysPressed, listener ) => {
+        if ( listener.keysDown && keysPressed === 'enter' ) {
 
           // set a guard to make sure the key press from enter doesn't fire future listeners, therefore
           // "clicking" the grab button also on this key press.
           guardKeyPressFromDraggable = true;
           this.releaseDraggable();
         }
-        else if ( !listener.keysDown && listener.keysPressed === 'space' || listener.keysPressed === 'escape' ) {
+        else if ( !listener.keysDown && keysPressed === 'space' || keysPressed === 'escape' ) {
 
           // Release  on keyup of spacebar so that we don't pick up the draggable again when we release the spacebar
           // and trigger a click event - escape could be added to either keyup or keydown listeners
