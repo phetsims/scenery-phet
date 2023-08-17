@@ -18,7 +18,7 @@ import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
-import { Circle, DragListener, Font, Image, KeyboardDragListener, KeyboardDragListenerOptions, Node, NodeOptions, Path, PathOptions, Rectangle, TColor, Text } from '../../scenery/js/imports.js';
+import { Circle, DragListener, Font, Image, InteractiveHighlighting, KeyboardDragListener, KeyboardDragListenerOptions, Node, NodeOptions, Path, PathOptions, Rectangle, TColor, Text } from '../../scenery/js/imports.js';
 import batteryDCell_png from '../images/batteryDCell_png.js';
 import LightBulbNode from './LightBulbNode.js';
 import MinusNode from './MinusNode.js';
@@ -334,7 +334,7 @@ type ProbeNodeOptions = ProbeNodeSelfOptions & NodeOptions;
 /**
  * Conductivity probe, origin at bottom center.
  */
-class ProbeNode extends Node {
+class ProbeNode extends InteractiveHighlighting( Node ) {
 
   public constructor( labelNode: Node, providedOptions?: ProbeNodeOptions ) {
 
