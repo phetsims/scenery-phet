@@ -21,7 +21,7 @@ import StringProperty from '../../../../axon/js/StringProperty.js';
 import TReadOnlyProperty, { isTReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { HBox, Node, ReadingBlock, ReadingBlockOptions, RichText, RichTextOptions, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { HBox, Node, ReadingBlock, ReadingBlockOptions, RichText, RichTextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
