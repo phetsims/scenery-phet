@@ -21,7 +21,7 @@ import StringProperty from '../../../../axon/js/StringProperty.js';
 import TReadOnlyProperty, { isTReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { HBox, Node, ReadingBlock, ReadingBlockOptions, RichText, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { HBox, Node, ReadingBlock, ReadingBlockOptions, RichText, RichTextOptions, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -41,7 +41,7 @@ const DEFAULT_HEADING_MAX_WIDTH = 335;
 type SelfOptions = {
 
   // propagated to the Text for the section heading
-  headingOptions?: TextOptions;
+  headingOptions?: RichTextOptions;
 
   // Used as maxWidth for each KeyboardHelpSectionRow.text
   textMaxWidth?: number;
