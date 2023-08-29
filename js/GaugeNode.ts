@@ -37,6 +37,9 @@ type SelfOptions = {
   majorTickLineWidth?: number;
   minorTickLineWidth?: number;
 
+  //text
+  titleFontSize?: number;
+
   // the top half of the gauge, plus PI/8 extended below the top half on each side
   span?: number; // the visible span of the gauge value range, in radians
 
@@ -81,6 +84,8 @@ export default class GaugeNode extends Node {
       needleLineWidth: 3,
       updateWhenInvisible: true,
 
+      titleFontSize: 20,
+
       // NodeOptions
       tandem: Tandem.REQUIRED,
       tandemNameSuffix: 'Node'
@@ -112,7 +117,7 @@ export default class GaugeNode extends Node {
     } );
 
     const labelText = new Text( labelProperty, {
-      font: new PhetFont( 20 ),
+      font: new PhetFont( options.titleFontSize ),
       maxWidth: this.radius * options.maxLabelWidthScale,
       tandem: tandem.createTandem( 'labelText' )
     } );
