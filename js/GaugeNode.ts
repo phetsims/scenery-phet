@@ -21,7 +21,7 @@ import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 
-export type GaugeNodeLabelTextOptions = StrictOmit<TextOptions, 'maxWidth'>;
+type GaugeNodeLabelTextOptions = StrictOmit<TextOptions, 'maxWidth' | 'tandem'>;
 
 type SelfOptions = {
 
@@ -68,7 +68,7 @@ export default class GaugeNode extends Node {
    */
   public constructor( valueProperty: TReadOnlyProperty<number>, labelProperty: TReadOnlyProperty<string>, range: Range, providedOptions?: GaugeNodeOptions ) {
 
-    const initialOptions = optionize<GaugeNodeOptions, SelfOptions, NodeOptions>()( {
+    const options = optionize<GaugeNodeOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
       radius: 100,
@@ -87,22 +87,14 @@ export default class GaugeNode extends Node {
       needleLineWidth: 3,
       updateWhenInvisible: true,
 
-      labelTextOptions: {},
+      labelTextOptions: {
+        font: new PhetFont( 20 )
+      },
 
       // NodeOptions
       tandem: Tandem.REQUIRED,
       tandemNameSuffix: 'Node'
     }, providedOptions );
-
-    const options: typeof initialOptions = combineOptions<typeof initialOptions>( {
-
-      // Options propagated to the label text
-      labelTextOptions: {
-        font: new PhetFont( 20 ),
-        fill: 'black',
-        tandem: initialOptions.tandem.createTandem( 'labelText' )
-      }
-    }, initialOptions );
 
     assert && assert( options.span <= 2 * Math.PI, `options.span must be <= 2 * Math.PI: ${options.span}` );
 
@@ -128,7 +120,10 @@ export default class GaugeNode extends Node {
       lineWidth: options.needleLineWidth
     } );
 
-    const labelText = new Text( labelProperty, combineOptions<TextOptions>( { maxWidth: this.radius * options.maxLabelWidthScale }, options.labelTextOptions ) );
+    const labelText = new Text( labelProperty, combineOptions<TextOptions>( options.labelTextOptions, {
+      tandem: options.tandem.createTandem( 'labelText' ),
+      maxWidth: options.radius * options.maxLabelWidthScale
+    } ) );
 
     labelText.boundsProperty.link( () => {
       labelText.centerX = 0;
