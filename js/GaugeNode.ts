@@ -14,11 +14,14 @@ import Range from '../../dot/js/Range.js';
 import Utils from '../../dot/js/Utils.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import optionize from '../../phet-core/js/optionize.js';
-import { Circle, TColor, Node, NodeOptions, Path, Text } from '../../scenery/js/imports.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import { Circle, TColor, Node, NodeOptions, Path, Text, TextOptions } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+
+export type GaugeNodeLabelTextOptions = StrictOmit<TextOptions, 'maxWidth'>;
 
 type SelfOptions = {
 
@@ -37,8 +40,8 @@ type SelfOptions = {
   majorTickLineWidth?: number;
   minorTickLineWidth?: number;
 
-  //text
-  titleFontSize?: number;
+  // label text
+  labelTextOptions?: GaugeNodeLabelTextOptions;
 
   // the top half of the gauge, plus PI/8 extended below the top half on each side
   span?: number; // the visible span of the gauge value range, in radians
@@ -65,7 +68,7 @@ export default class GaugeNode extends Node {
    */
   public constructor( valueProperty: TReadOnlyProperty<number>, labelProperty: TReadOnlyProperty<string>, range: Range, providedOptions?: GaugeNodeOptions ) {
 
-    const options = optionize<GaugeNodeOptions, SelfOptions, NodeOptions>()( {
+    const initialOptions = optionize<GaugeNodeOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
       radius: 100,
@@ -84,12 +87,22 @@ export default class GaugeNode extends Node {
       needleLineWidth: 3,
       updateWhenInvisible: true,
 
-      titleFontSize: 20,
+      labelTextOptions: {},
 
       // NodeOptions
       tandem: Tandem.REQUIRED,
       tandemNameSuffix: 'Node'
     }, providedOptions );
+
+    const options: typeof initialOptions = combineOptions<typeof initialOptions>( {
+
+      // Options propagated to the label text
+      labelTextOptions: {
+        font: new PhetFont( 20 ),
+        fill: 'black',
+        tandem: initialOptions.tandem.createTandem( 'labelText' )
+      }
+    }, initialOptions );
 
     assert && assert( options.span <= 2 * Math.PI, `options.span must be <= 2 * Math.PI: ${options.span}` );
 
@@ -98,7 +111,6 @@ export default class GaugeNode extends Node {
     this.radius = options.radius;
 
     const anglePerTick = options.span / options.numberOfTicks;
-    const tandem = options.tandem;
 
     this.addChild( new Circle( this.radius, {
       fill: options.backgroundFill,
@@ -116,11 +128,8 @@ export default class GaugeNode extends Node {
       lineWidth: options.needleLineWidth
     } );
 
-    const labelText = new Text( labelProperty, {
-      font: new PhetFont( options.titleFontSize ),
-      maxWidth: this.radius * options.maxLabelWidthScale,
-      tandem: tandem.createTandem( 'labelText' )
-    } );
+    const labelText = new Text( labelProperty, combineOptions<TextOptions>( { maxWidth: this.radius * options.maxLabelWidthScale }, options.labelTextOptions ) );
+
     labelText.boundsProperty.link( () => {
       labelText.centerX = 0;
       labelText.centerY = -this.radius / 3;
