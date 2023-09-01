@@ -14,6 +14,8 @@ import RectangularPushButton, { RectangularPushButtonOptions } from '../../../su
 import eraser_png from '../../images/eraser_png.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
+import SoundClipPlayer from '../../../tambo/js/sound-generators/SoundClipPlayer.js';
+import erase_mp3 from '../../sounds/erase_mp3.js';
 
 type SelfOptions = {
   iconWidth?: number; // width of eraser icon, used for scaling, the aspect ratio will determine height
@@ -31,7 +33,11 @@ export default class EraserButton extends RectangularPushButton {
       iconWidth: 20,
 
       // RectangularPushButtonOptions
-      baseColor: PhetColorScheme.BUTTON_YELLOW
+      baseColor: PhetColorScheme.BUTTON_YELLOW,
+
+      soundPlayer: new SoundClipPlayer( erase_mp3, {
+        soundClipOptions: { initialOutputLevel: 0.22 }
+      } )
     }, providedOptions );
 
     // eraser icon
