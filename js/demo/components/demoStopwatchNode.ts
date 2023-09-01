@@ -30,7 +30,7 @@ export default function demoStopwatchNode( layoutBounds: Bounds2, providedOption
   stepTimer.addListener( stepListener );
 
   // StopwatchNode with plain text format MM:SS.CC
-  const plainTextStopwatchNode = new StopwatchNode( stopwatch, {
+  const stopwatchNodeMMSSCC = new StopwatchNode( stopwatch, {
     numberDisplayOptions: {
       numberFormatter: StopwatchNode.PLAIN_TEXT_MINUTES_AND_SECONDS
     },
@@ -38,7 +38,7 @@ export default function demoStopwatchNode( layoutBounds: Bounds2, providedOption
   } );
 
   // StopwatchNode with rich format MM:SS.cc and no units
-  const richTextStopwatchNode = new StopwatchNode( stopwatch, {
+  const stopwatchNodeMMSScc = new StopwatchNode( stopwatch, {
     numberDisplayOptions: {
       numberFormatter: StopwatchNode.RICH_TEXT_MINUTES_AND_SECONDS
     },
@@ -85,8 +85,8 @@ export default function demoStopwatchNode( layoutBounds: Bounds2, providedOption
     spacing: 20,
     center: layoutBounds.center,
     children: [
-      plainTextStopwatchNode,
-      richTextStopwatchNode,
+      stopwatchNodeMMSSCC,
+      stopwatchNodeMMSScc,
       new HBox( {
         spacing: 20,
         children: [
