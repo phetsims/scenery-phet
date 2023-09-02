@@ -105,6 +105,7 @@ export default class PlayPauseStepButtonGroup extends HBox {
     // by default, the step buttons are enabled when isPlayingProperty is false, but only create a PhET-iO instrumented
     // Property if it is going to be used
     if ( ( !options.stepForwardButtonOptions.enabledProperty ) || ( !options.stepBackwardButtonOptions.enabledProperty ) ) {
+      // eslint-disable-next-line tandem-name-should-match
       const defaultEnabledProperty = DerivedProperty.not( isPlayingProperty, {
         tandem: options.tandem.createTandem( 'enabledProperty' ),
         phetioValueType: BooleanIO

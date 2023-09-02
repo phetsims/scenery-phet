@@ -42,6 +42,7 @@ export default class BucketFront extends Node {
     if ( !options.labelNode ) {
 
       //TODO https://github.com/phetsims/scenery-phet/issues/732 BuckFront owns this instance, and must dispose it
+      // eslint-disable-next-line tandem-name-should-match
       options.labelNode = new Text( bucket.captionText, {
         font: new PhetFont( 20 ),
         fill: bucket.captionColor,
