@@ -33,6 +33,8 @@ import ShadedRectangle from './ShadedRectangle.js';
 import Stopwatch from './Stopwatch.js';
 import UTurnArrowShape from './UTurnArrowShape.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import TSoundPlayer from '../../tambo/js/TSoundPlayer.js';
+import pushButtonSoundPlayer from '../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
 
 type SelfOptions = {
 
@@ -43,6 +45,7 @@ type SelfOptions = {
   iconLineWidth?: number;
   backgroundBaseColor?: TColor;
   buttonBaseColor?: TColor;
+  resetButtonSoundPlayer?: TSoundPlayer;
   xSpacing?: number; // horizontal space between the buttons
   ySpacing?: number; // vertical space between readout and buttons
   xMargin?: number;
@@ -126,6 +129,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       iconLineWidth: 1,
       backgroundBaseColor: 'rgb( 80, 130, 230 )',
       buttonBaseColor: '#DFE0E1',
+      resetButtonSoundPlayer: pushButtonSoundPlayer,
       xSpacing: 6, // horizontal space between the buttons
       ySpacing: 6, // vertical space between readout and buttons
       xMargin: 8,
@@ -195,6 +199,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       touchAreaYDilation: 8,
       content: resetPath,
       baseColor: options.buttonBaseColor,
+      soundPlayer: options.resetButtonSoundPlayer,
       tandem: options.tandem.createTandem( 'resetButton' )
     } );
 
