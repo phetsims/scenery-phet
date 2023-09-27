@@ -18,7 +18,7 @@ import Vector2 from '../../dot/js/Vector2.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
-import { Circle, DragListener, DragListenerOptions, HBox, InteractiveHighlighting, InteractiveHighlightingOptions, Node, NodeOptions, Path, PressedDragListener, PressListenerEvent, TColor, VBox } from '../../scenery/js/imports.js';
+import { Circle, DragListener, DragListenerOptions, HBox, InteractiveHighlighting, InteractiveHighlightingOptions, KeyboardDragListener, KeyboardDragListenerOptions, Node, NodeOptions, Path, PressedDragListener, PressListenerEvent, TColor, VBox } from '../../scenery/js/imports.js';
 import BooleanRectangularToggleButton from '../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import RectangularPushButton from '../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -58,6 +58,7 @@ type SelfOptions = {
 
   // options propagated to the DragListener
   dragListenerOptions?: DragListenerOptions<PressedDragListener>;
+  keyboardDragListenerOptions?: KeyboardDragListenerOptions;
 };
 
 type ParentOptions = InteractiveHighlightingOptions & NodeOptions;
@@ -83,6 +84,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
 
   // Non-null if draggable. Can be used for forwarding press events when dragging out of a toolbox.
   public readonly dragListener: DragListener | null;
+  public readonly keyboardDragListener: KeyboardDragListener | null;
 
   private readonly disposeStopwatchNode: () => void;
 
@@ -150,6 +152,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       dragListenerOptions: {
         start: _.noop
       },
+      keyboardDragListenerOptions: {},
 
       // highlight will only be visible if the component is interactive (provide dragBoundsProperty)
       interactiveHighlightEnabled: false,
@@ -218,7 +221,9 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
 
     const backgroundNode = new ShadedRectangle( new Bounds2( 0, 0,
       contents.width + 2 * options.xMargin, contents.height + 2 * options.yMargin ), {
-      baseColor: options.backgroundBaseColor
+      baseColor: options.backgroundBaseColor,
+      tagName: 'div',
+      focusable: true
     } );
     contents.center = backgroundNode.center;
 
@@ -256,6 +261,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
     stopwatch.positionProperty.link( stopwatchPositionListener );
 
     this.dragListener = null;
+    this.keyboardDragListener = null;
 
     let adjustedDragBoundsProperty: DragBoundsProperty | null = null;
     if ( options.dragBoundsProperty ) {
@@ -296,9 +302,21 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       this.dragListener = new DragListener( dragListenerOptions );
       backgroundNode.addInputListener( this.dragListener );
 
+      const keyboardDragListenerOptions = combineOptions<KeyboardDragListenerOptions>( {
+        positionProperty: stopwatch.positionProperty,
+        dragBoundsProperty: adjustedDragBoundsProperty,
+        tandem: options.tandem.createTandem( 'keyboardDragListener' )
+      }, options.keyboardDragListenerOptions );
+
+      this.keyboardDragListener = new KeyboardDragListener( keyboardDragListenerOptions );
+      this.addInputListener( this.keyboardDragListener );
+
       // Move to front on pointer down, anywhere on this Node, including interactive subcomponents.
       this.addInputListener( {
         down: () => this.moveToFront()
+      } );
+      backgroundNode.addInputListener( {
+        focus: () => this.moveToFront()
       } );
     }
 
@@ -318,6 +336,10 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       if ( this.dragListener ) {
         backgroundNode.removeInputListener( this.dragListener );
         this.dragListener.dispose();
+      }
+      if ( this.keyboardDragListener ) {
+        this.removeInputListener( this.keyboardDragListener );
+        this.keyboardDragListener.dispose();
       }
 
       adjustedDragBoundsProperty && adjustedDragBoundsProperty.dispose();
