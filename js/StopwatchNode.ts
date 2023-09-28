@@ -311,6 +311,9 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       this.keyboardDragListener = new KeyboardDragListener( keyboardDragListenerOptions );
       this.addInputListener( this.keyboardDragListener );
 
+      // The group focus highlight makes it clear the stopwatch is highlighted even if the children are focused
+      this.groupFocusHighlight = true;
+
       // Move to front on pointer down, anywhere on this Node, including interactive subcomponents.
       this.addInputListener( {
         down: () => this.moveToFront()
