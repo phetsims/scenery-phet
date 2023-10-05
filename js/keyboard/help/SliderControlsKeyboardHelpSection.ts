@@ -19,6 +19,7 @@ import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import assertMutuallyExclusiveOptions from '../../../../phet-core/js/assertMutuallyExclusiveOptions.js';
 
 // Configurations of arrow keys that can be displayed for 'Move between items in a group'
 class ArrowKeyIconDisplay extends EnumerationValue {
@@ -37,10 +38,21 @@ type SelfOptions = {
   // heading string for this content
   headingStringProperty?: TReadOnlyProperty<string>;
 
-  // verb used to describe the movement of the slider
+  // custom string for the "Adjust Slider" row
+  adjustSliderStringProperty?: TReadOnlyProperty<string>;
+
+  // custom string for the "Adjust in Smaller Steps" row
+  adjustInSmallerStepsStringProperty?: TReadOnlyProperty<string>;
+
+  // custom string for the "Adjust in Larger Steps" row
+  adjustInLargerStepsStringProperty?: TReadOnlyProperty<string>;
+
+  // verb used to describe the movement of the slider - this will be filled into the default pattern for
+  // each row so you cannot use this and the other string options at the same time
   verbStringProperty?: TReadOnlyProperty<string>;
 
-  // name to call the slider (lowercase), default to "slider"
+  // name to call the slider (lowercase), default to "slider" - this will be filled into the default pattern for
+  // each row so you cannot use this and the other string options at the same time
   sliderStringProperty?: TReadOnlyProperty<string>;
 
   // Strings for extremities to support shortcuts like "jump to maximum" (renaming "maximum" if desired.
@@ -60,6 +72,12 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
 
   public constructor( providedOptions?: SliderControlsKeyboardHelpSectionOptions ) {
 
+    // If you provide a string for the verb or slider, it will be filled into the default pattern
+    // for all rows so you cannot customize each row individually.
+    assert && assertMutuallyExclusiveOptions( providedOptions,
+      [ 'verbStringProperty', 'sliderStringProperty' ],
+      [ 'adjustSliderStringProperty', 'adjustInSmallerStepsStringProperty', 'adjustInLargerStepsStringProperty' ] );
+
     const options = optionize<SliderControlsKeyboardHelpSectionOptions, SelfOptions, KeyboardHelpSectionOptions>()( {
       arrowKeyIconDisplay: ArrowKeyIconDisplay.BOTH,
       headingStringProperty: SceneryPhetStrings.keyboardHelpDialog.sliderControlsStringProperty,
@@ -68,19 +86,33 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
       sliderStringProperty: SceneryPhetStrings.keyboardHelpDialog.sliderStringProperty,
       maximumStringProperty: SceneryPhetStrings.keyboardHelpDialog.maximumStringProperty,
       minimumStringProperty: SceneryPhetStrings.keyboardHelpDialog.minimumStringProperty,
+
+      adjustSliderStringProperty: SceneryPhetStrings.keyboardHelpDialog.adjustSliderStringProperty,
+      adjustInSmallerStepsStringProperty: SceneryPhetStrings.keyboardHelpDialog.adjustInSmallerStepsStringProperty,
+      adjustInLargerStepsStringProperty: SceneryPhetStrings.keyboardHelpDialog.adjustInLargerStepsStringProperty,
+
       includeSmallerStepsRow: true
     }, providedOptions );
 
-    const keyboardHelpDialogVerbSliderStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.verbSliderPatternStringProperty, {
-      verb: options.verbStringProperty,
-      slider: options.sliderStringProperty
-    }, { tandem: Tandem.OPT_OUT } );
-    const keyboardHelpDialogVerbInSmallerStepsStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.verbInSmallerStepsPatternStringProperty, {
-      verb: options.verbStringProperty
-    }, { tandem: Tandem.OPT_OUT } );
-    const keyboardHelpDialogVerbInLargerStepsStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.verbInLargerStepsPatternStringProperty, {
-      verb: options.verbStringProperty
-    }, { tandem: Tandem.OPT_OUT } );
+    let adjustSliderStringProperty = options.adjustSliderStringProperty;
+    let adjustInSmallerStepsStringProperty = options.adjustInSmallerStepsStringProperty;
+    let adjustInLargerStepsStringProperty = options.adjustInLargerStepsStringProperty;
+    if ( options.verbStringProperty !== SceneryPhetStrings.keyboardHelpDialog.adjustStringProperty ||
+         options.sliderStringProperty !== SceneryPhetStrings.keyboardHelpDialog.sliderStringProperty
+    ) {
+
+      // we are filling in the verb and name
+      adjustSliderStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.verbSliderPatternStringProperty, {
+        verb: options.verbStringProperty,
+        slider: options.sliderStringProperty
+      }, { tandem: Tandem.OPT_OUT } );
+      adjustInSmallerStepsStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.verbInSmallerStepsPatternStringProperty, {
+        verb: options.verbStringProperty
+      }, { tandem: Tandem.OPT_OUT } );
+      adjustInLargerStepsStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.verbInLargerStepsPatternStringProperty, {
+        verb: options.verbStringProperty
+      }, { tandem: Tandem.OPT_OUT } );
+    }
 
     const keysStringProperty =
       ( options.arrowKeyIconDisplay === ArrowKeyIconDisplay.LEFT_RIGHT ) ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.leftRightArrowKeysStringProperty :
@@ -151,11 +183,11 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
         adjustSliderIcon = leftRightOrUpDownIcon;
         adjustSliderSmallerStepsIcons = [ shiftPlusLeftRightIcon, shiftPlusUpDownIcon ];
     }
-    const adjustSliderRow = KeyboardHelpSectionRow.labelWithIcon( keyboardHelpDialogVerbSliderStringProperty, adjustSliderIcon, {
+    const adjustSliderRow = KeyboardHelpSectionRow.labelWithIcon( adjustSliderStringProperty, adjustSliderIcon, {
       labelInnerContent: keyboardHelpDialogDefaultStepsStringProperty
     } );
 
-    const adjustSliderInSmallerStepsRow = KeyboardHelpSectionRow.labelWithIconList( keyboardHelpDialogVerbInSmallerStepsStringProperty,
+    const adjustSliderInSmallerStepsRow = KeyboardHelpSectionRow.labelWithIconList( adjustInSmallerStepsStringProperty,
       adjustSliderSmallerStepsIcons, {
         labelInnerContent: keyboardHelpDialogSmallerStepsStringProperty
       } );
@@ -167,7 +199,7 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
       children: [ pageUpKeyNode, pageDownKeyNode ],
       spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
     } );
-    const adjustInLargerStepsRow = KeyboardHelpSectionRow.labelWithIcon( keyboardHelpDialogVerbInLargerStepsStringProperty, pageUpPageDownIcon, {
+    const adjustInLargerStepsRow = KeyboardHelpSectionRow.labelWithIcon( adjustInLargerStepsStringProperty, pageUpPageDownIcon, {
       labelInnerContent: keyboardHelpDialogLargerStepsStringProperty
     } );
 
