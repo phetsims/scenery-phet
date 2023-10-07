@@ -8,15 +8,16 @@
 <body>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
-  $( document ).ready( function( e ) {
+  $( document ).ready( () => {
     showViewportSize();
   } );
-  $( window ).resize( function( e ) {
+  $( window ).resize( () => {
     showViewportSize();
   } );
+
   function showViewportSize() {
-    var the_width = $( window ).width();
-    var the_height = $( window ).height();
+    const the_width = $( window ).width();
+    const the_height = $( window ).height();
     $( '#width' ).text( the_width );
     $( '#height' ).text( the_height );
   }
