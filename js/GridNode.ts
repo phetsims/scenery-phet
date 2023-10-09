@@ -12,10 +12,10 @@
 import sceneryPhet from './sceneryPhet.js';
 import { Shape } from '../../kite/js/imports.js';
 import { Path, PathOptions } from '../../scenery/js/imports.js';
-import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -30,7 +30,7 @@ export default class GridNode extends Path {
    * @param numGridLines - number grid lines on each side of the center
    * @param [providedOptions]
    */
-  public constructor( transformProperty: ReadOnlyProperty<ModelViewTransform2>, spacing: number, center: Vector2, numGridLines: number, providedOptions?: GridNodeOptions ) {
+  public constructor( transformProperty: TReadOnlyProperty<ModelViewTransform2>, spacing: number, center: Vector2, numGridLines: number, providedOptions?: GridNodeOptions ) {
 
     const options = optionize<GridNodeOptions, SelfOptions, PathOptions>()( {
       stroke: 'gray'
