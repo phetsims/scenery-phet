@@ -29,16 +29,16 @@ export default class ViewSynchronizer<Model, View extends Node> {
   }
 
   public add( model: Model ): void {
-    const modelView = this.factory( model );
-    this.map.set( model, modelView );
-    this.container.addChild( modelView );
+    const node = this.factory( model );
+    this.map.set( model, node );
+    this.container.addChild( node );
   }
 
   public remove( model: Model ): void {
-    const modelView = this.map.get( model )!;
+    const node = this.map.get( model )!;
     this.map.delete( model );
-    this.container.removeChild( modelView );
-    modelView.dispose();
+    this.container.removeChild( node );
+    node.dispose();
   }
 
   public getView( model: Model ): View {
