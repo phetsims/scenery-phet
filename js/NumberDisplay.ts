@@ -22,6 +22,7 @@ import MathSymbols from './MathSymbols.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
+import Tandem from '../../tandem/js/Tandem.js';
 
 // constants
 const DEFAULT_FONT = new PhetFont( 20 );
@@ -121,6 +122,7 @@ export default class NumberDisplay extends Node {
       noValuePattern: null,
 
       // phet-io
+      tandem: Tandem.OPT_OUT,
       phetioType: NumberDisplay.NumberDisplayIO
     }, providedOptions );
 
@@ -204,7 +206,7 @@ export default class NumberDisplay extends Node {
 
     // value
     const ValueTextConstructor = options.useRichText ? RichText : Text;
-    const valueTextTandem = options.tandem?.createTandem( 'valueText' );
+    const valueTextTandem = options.tandem.createTandem( 'valueText' );
     const valueStringProperty = new DerivedStringProperty(
       [ numberProperty, noValuePatternProperty, valuePatternProperty, numberFormatterProperty ],
       ( value, noValuePattern, valuePatternValue, numberFormatter ) => {
@@ -215,7 +217,7 @@ export default class NumberDisplay extends Node {
           value: stringValue
         } );
       }, {
-        tandem: valueTextTandem?.createTandem( Text.STRING_PROPERTY_TANDEM_NAME )
+        tandem: valueTextTandem.createTandem( Text.STRING_PROPERTY_TANDEM_NAME )
       } );
 
     const valueTextOptions = combineOptions<TextOptions | RichTextOptions>( {
