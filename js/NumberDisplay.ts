@@ -203,31 +203,28 @@ export default class NumberDisplay extends Node {
     } );
 
     // value
-    const Constructor = options.useRichText ? RichText : Text;
+    const ValueTextConstructor = options.useRichText ? RichText : Text;
     const valueTextTandem = options.tandem?.createTandem( 'valueText' );
-    const valueStringProperty = new DerivedStringProperty( [
-      numberProperty,
-      noValuePatternProperty,
-      valuePatternProperty,
-      numberFormatterProperty
-    ], ( value, noValuePattern, valuePatternValue, numberFormatter ) => {
-      const valuePattern = ( value === null && noValuePattern ) ? noValuePattern : valuePatternValue;
-      // NOTE: this.numberFormatter could change, so we support a recomputeText() below that recomputes this derivation
-      const stringValue = valueToString( value, options.noValueString, numberFormatter );
-      return StringUtils.fillIn( valuePattern, {
-        value: stringValue
+    const valueStringProperty = new DerivedStringProperty(
+      [ numberProperty, noValuePatternProperty, valuePatternProperty, numberFormatterProperty ],
+      ( value, noValuePattern, valuePatternValue, numberFormatter ) => {
+        const valuePattern = ( value === null && noValuePattern ) ? noValuePattern : valuePatternValue;
+        // NOTE: this.numberFormatter could change, so we support a recomputeText() below that recomputes this derivation
+        const stringValue = valueToString( value, options.noValueString, numberFormatter );
+        return StringUtils.fillIn( valuePattern, {
+          value: stringValue
+        } );
+      }, {
+        tandem: valueTextTandem?.createTandem( Text.STRING_PROPERTY_TANDEM_NAME )
       } );
-    }, {
-      tandem: valueTextTandem?.createTandem( Text.STRING_PROPERTY_TANDEM_NAME )
-    } );
 
-    const valueTextOptions = combineOptions<TextOptions | RichTextOptions>( {}, options.textOptions, {
+    const valueTextOptions = combineOptions<TextOptions | RichTextOptions>( {
+      tandem: valueTextTandem
+    }, options.textOptions, {
       maxWidth: null // we are handling maxWidth manually, so we don't want to provide it initially.
     } );
 
-    const valueText: Text | RichText = new Constructor( valueStringProperty, combineOptions<TextOptions | RichTextOptions>( {
-      tandem: valueTextTandem
-    }, valueTextOptions ) );
+    const valueText: Text | RichText = new ValueTextConstructor( valueStringProperty, valueTextOptions );
 
     const originalTextHeight = valueText.height;
 
@@ -242,7 +239,7 @@ export default class NumberDisplay extends Node {
 
     // Manually set maxWidth later, adjusting it to the width of the longest string if it's null
     longestStringProperty.link( longestString => {
-      const demoText = new Constructor( longestString, _.omit( valueTextOptions, 'tandem' ) );
+      const demoText = new ValueTextConstructor( longestString, _.omit( valueTextOptions, 'tandem' ) );
 
       valueText.maxWidth = ( options.textOptions.maxWidth !== null ) ? options.textOptions.maxWidth! :
                            ( demoText.width !== 0 ) ? demoText.width : null;
