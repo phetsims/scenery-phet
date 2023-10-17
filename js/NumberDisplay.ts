@@ -206,7 +206,7 @@ export default class NumberDisplay extends Node {
 
     // value
     const ValueTextConstructor = options.useRichText ? RichText : Text;
-    const valueTextTandem = options.tandem.createTandem( 'valueText' );
+    const valueTextTandem = options.textOptions.tandem || options.tandem.createTandem( 'valueText' );
     const valueStringProperty = new DerivedStringProperty(
       [ numberProperty, noValuePatternProperty, valuePatternProperty, numberFormatterProperty ],
       ( value, noValuePattern, valuePatternValue, numberFormatter ) => {
