@@ -46,10 +46,10 @@ const KEYBOARD_DRAG_VELOCITY = 600;
 type SelfOptions = {
 
   // base Position in model coordinate reference frame (rightBottom position of the measuring tape image)
-  basePositionProperty?: Vector2Property;
+  basePositionProperty?: Property<Vector2>;
 
   // tip Position in model coordinate reference frame (center position of the tip)
-  tipPositionProperty?: Vector2Property;
+  tipPositionProperty?: Property<Vector2>;
 
   // use this to omit the value and units displayed below the tape measure, useful with createIcon
   hasValue?: boolean;
@@ -108,8 +108,8 @@ class MeasuringTapeNode extends Node {
   public readonly measuredDistanceProperty: TReadOnlyProperty<number>;
   public readonly isTipUserControlledProperty: TReadOnlyProperty<boolean>;
   public readonly isBaseUserControlledProperty: TReadOnlyProperty<boolean>;
-  public readonly basePositionProperty: Vector2Property;
-  public readonly tipPositionProperty: Vector2Property;
+  public readonly basePositionProperty: Property<Vector2>;
+  public readonly tipPositionProperty: Property<Vector2>;
   public readonly modelViewTransformProperty: Property<ModelViewTransform2>;
 
   private readonly unitsProperty: TReadOnlyProperty<MeasuringTapeUnits>;
