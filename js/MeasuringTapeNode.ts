@@ -125,7 +125,13 @@ class MeasuringTapeNode extends Node {
   private readonly valueContainer: Node; // parent that displays the text and its background
   private readonly disposeMeasuringTapeNode: () => void;
 
+  // If you provide position Properties for the base and tip, then you are responsible for resetting and disposing them.
+  private readonly ownsBasePositionProperty: boolean;
+  private readonly ownsTipPositionProperty: boolean;
+
   public constructor( unitsProperty: TReadOnlyProperty<MeasuringTapeUnits>, providedOptions?: MeasuringTapeNodeOptions ) {
+    const ownsBasePositionProperty = !providedOptions?.basePositionProperty;
+    const ownsTipPositionProperty = !providedOptions?.tipPositionProperty;
 
     const options = optionize<MeasuringTapeNodeOptions, SelfOptions, NodeOptions>()( {
 
@@ -186,6 +192,8 @@ class MeasuringTapeNode extends Node {
     this.isTipDragBounded = options.isTipDragBounded;
     this.basePositionProperty = options.basePositionProperty;
     this.tipPositionProperty = options.tipPositionProperty;
+    this.ownsBasePositionProperty = ownsBasePositionProperty;
+    this.ownsTipPositionProperty = ownsTipPositionProperty;
 
     // private Property and its public read-only interface
     this._isTipUserControlledProperty = new Property<boolean>( false );
@@ -488,6 +496,9 @@ class MeasuringTapeNode extends Node {
       multilink.dispose();
       readoutStringProperty.dispose();
 
+      this.ownsBasePositionProperty && this.basePositionProperty.dispose();
+      this.ownsTipPositionProperty && this.tipPositionProperty.dispose();
+
       // interactive highlighting related listeners require disposal
       baseImageParent.dispose();
       tip.dispose();
@@ -500,8 +511,8 @@ class MeasuringTapeNode extends Node {
   }
 
   public reset(): void {
-    this.basePositionProperty.reset();
-    this.tipPositionProperty.reset();
+    this.ownsBasePositionProperty && this.basePositionProperty.reset();
+    this.ownsTipPositionProperty && this.tipPositionProperty.reset();
   }
 
   public override dispose(): void {
