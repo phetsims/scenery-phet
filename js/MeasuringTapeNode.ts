@@ -34,6 +34,7 @@ import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
 import TProperty from '../../axon/js/TProperty.js';
 import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
+import Tandem from '../../tandem/js/Tandem.js';
 
 export type MeasuringTapeUnits = {
   name: string;
@@ -81,7 +82,7 @@ type SelfOptions = {
   interactive?: boolean; // specifies whether the node adds its own input listeners. Setting this to false may be helpful in creating an icon.
   baseDragStarted?: () => void; // called when the base drag starts
   baseDragEnded?: () => void; // called when the base drag ends, for testing whether it has dropped into the toolbox
-
+  phetioReadoutStringPropertyInstrumented?: boolean; // whether to instrument readoutStringProperty for PhET-iO
   keyboardDragListenerOptions?: {
     baseDragVelocity?: number;
     baseShiftDragVelocity?: number;
@@ -171,7 +172,7 @@ class MeasuringTapeNode extends Node {
       interactive: true, // specifies whether the node adds its own input listeners. Setting this to false may be helpful in creating an icon.
       baseDragStarted: _.noop, // called when the base drag starts
       baseDragEnded: _.noop, // called when the base drag ends, for testing whether it has dropped into the toolbox
-
+      phetioReadoutStringPropertyInstrumented: true,
       keyboardDragListenerOptions: {
         baseDragVelocity: KEYBOARD_DRAG_VELOCITY,
         baseShiftDragVelocity: KEYBOARD_DRAG_VELOCITY / 2,
@@ -282,7 +283,7 @@ class MeasuringTapeNode extends Node {
           units: units.name
         } );
       }, {
-        tandem: options.tandem?.createTandem( 'readoutStringProperty' ),
+        tandem: options.phetioReadoutStringPropertyInstrumented ? options.tandem?.createTandem( 'readoutStringProperty' ) : Tandem.OPT_OUT,
         phetioDocumentation: 'The text content of the readout on the measuring tape'
       } );
 
