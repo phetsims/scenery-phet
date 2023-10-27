@@ -83,6 +83,7 @@ type SelfOptions = {
   baseDragStarted?: () => void; // called when the base drag starts
   baseDragEnded?: () => void; // called when the base drag ends, for testing whether it has dropped into the toolbox
   phetioReadoutStringPropertyInstrumented?: boolean; // whether to instrument readoutStringProperty for PhET-iO
+  phetioFeaturedMeasuredDistanceProperty?: boolean; // phetioFeatured value for measuredDistanceProperty
   keyboardDragListenerOptions?: {
     baseDragVelocity?: number;
     baseShiftDragVelocity?: number;
@@ -173,6 +174,7 @@ class MeasuringTapeNode extends Node {
       baseDragStarted: _.noop, // called when the base drag starts
       baseDragEnded: _.noop, // called when the base drag ends, for testing whether it has dropped into the toolbox
       phetioReadoutStringPropertyInstrumented: true,
+      phetioFeaturedMeasuredDistanceProperty: false,
       keyboardDragListenerOptions: {
         baseDragVelocity: KEYBOARD_DRAG_VELOCITY,
         baseShiftDragVelocity: KEYBOARD_DRAG_VELOCITY / 2,
@@ -212,6 +214,7 @@ class MeasuringTapeNode extends Node {
         tandem: options.tandem?.createTandem( 'measuredDistanceProperty' ),
         phetioDocumentation: 'The distance measured by the measuring tape',
         phetioValueType: NumberIO,
+        phetioFeatured: options.phetioFeaturedMeasuredDistanceProperty,
         units: this.basePositionProperty.units
       } );
 
