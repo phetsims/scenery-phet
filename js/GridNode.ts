@@ -27,10 +27,10 @@ export default class GridNode extends Path {
    * @param transformProperty
    * @param spacing - spacing between grid lines
    * @param center - center of the grid in model coordinates
-   * @param numGridLines - number grid lines on each side of the center
+   * @param numberOfGridLines - number of grid lines on each side of the center
    * @param [providedOptions]
    */
-  public constructor( transformProperty: TReadOnlyProperty<ModelViewTransform2>, spacing: number, center: Vector2, numGridLines: number, providedOptions?: GridNodeOptions ) {
+  public constructor( transformProperty: TReadOnlyProperty<ModelViewTransform2>, spacing: number, center: Vector2, numberOfGridLines: number, providedOptions?: GridNodeOptions ) {
 
     const options = optionize<GridNodeOptions, SelfOptions, PathOptions>()( {
       stroke: 'gray'
@@ -41,12 +41,12 @@ export default class GridNode extends Path {
     transformProperty.link( ( transform: ModelViewTransform2 ) => {
       const shape = new Shape();
 
-      const x1 = -numGridLines * spacing + center.x;
-      const x2 = numGridLines * spacing + center.x;
-      const y1 = -numGridLines * spacing + center.y;
-      const y2 = numGridLines * spacing + center.y;
+      const x1 = -numberOfGridLines * spacing + center.x;
+      const x2 = numberOfGridLines * spacing + center.x;
+      const y1 = -numberOfGridLines * spacing + center.y;
+      const y2 = numberOfGridLines * spacing + center.y;
 
-      for ( let i = -numGridLines; i <= numGridLines; i++ ) {
+      for ( let i = -numberOfGridLines; i <= numberOfGridLines; i++ ) {
         const x = i * spacing + center.x;
         const y = i * spacing + center.y;
         shape.moveTo( x1, y ).lineTo( x2, y ); // horizontal lines
