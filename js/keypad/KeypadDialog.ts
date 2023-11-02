@@ -150,7 +150,8 @@ class KeypadDialog extends Dialog {
       listener: this.submitEdit.bind( this ),
 
       content: enterText,
-      accessibleName: SceneryPhetStrings.key.enterStringProperty
+      accessibleName: SceneryPhetStrings.key.enterStringProperty,
+      tandem: options.tandem.createTandem( 'enterButton' )
     }, options.enterButtonOptions ) );
 
     // Set the children of the content of the KeypadDialog, in the correct rendering order.
