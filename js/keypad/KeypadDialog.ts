@@ -47,7 +47,7 @@ type SelfOptions = {
 
   keypadLayout?: KeypadLayout;
 
-  keypadOptions?: KeypadOptions;
+  keypadOptions?: StrictOmit<KeypadOptions, 'tandem'>;
 
   enterButtonOptions?: RectangularPushButtonOptions;
 
@@ -55,7 +55,7 @@ type SelfOptions = {
   keypadErrorTextColor?: TColor;
 };
 
-export type KeypadDialogOptions = StrictOmit<DialogOptions, 'focusOnShowNode'> & SelfOptions;
+export type KeypadDialogOptions = SelfOptions & StrictOmit<DialogOptions, 'focusOnShowNode'>;
 
 class KeypadDialog extends Dialog {
 
@@ -115,7 +115,9 @@ class KeypadDialog extends Dialog {
     // Reference the content of the Dialog. Children are added later.
     const contentNode = new VBox( { spacing: options.contentSpacing, align: 'center' } );
 
-    const keypad = new Keypad( options.keypadLayout, options.keypadOptions );
+    const keypad = new Keypad( options.keypadLayout, combineOptions<KeypadOptions>( {}, options.keypadOptions, {
+      tandem: options.tandem?.createTandem( 'keypad' ) || null
+    } ) );
 
     options.focusOnShowNode = keypad;
 
