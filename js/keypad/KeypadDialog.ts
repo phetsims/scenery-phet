@@ -107,7 +107,9 @@ class KeypadDialog extends Dialog {
       enterButtonOptions: {
         // baseColor: CollisionLabColors.KEYPAD_ENTER_BUTTON,
       },
-      keypadOptions: {}
+      keypadOptions: {},
+
+      tandem: Tandem.OPTIONAL // TODO: is this optional or required? https://github.com/phetsims/scenery-phet/issues/540
     }, providedOptions );
 
     //----------------------------------------------------------------------------------------
@@ -116,7 +118,7 @@ class KeypadDialog extends Dialog {
     const contentNode = new VBox( { spacing: options.contentSpacing, align: 'center' } );
 
     const keypad = new Keypad( options.keypadLayout, combineOptions<KeypadOptions>( {}, options.keypadOptions, {
-      tandem: options.tandem?.createTandem( 'keypad' ) || null
+      tandem: options.tandem.createTandem( 'keypad' )
     } ) );
 
     options.focusOnShowNode = keypad;
