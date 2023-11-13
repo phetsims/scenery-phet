@@ -151,7 +151,9 @@ type SelfOptions = {
   // Subcomponent options objects
   numberDisplayOptions?: NumberDisplayOptions;
   sliderOptions?: NumberControlSliderOptions;
-  arrowButtonOptions?: ArrowButtonOptions & {
+
+  //TODO https://github.com/phetsims/my-solar-system/issues/292 fireOnDown is buggy
+  arrowButtonOptions?: StrictOmit<ArrowButtonOptions, 'fireOnDown'> & {
     // We stuffed enabledEpsilon here
     enabledEpsilon?: number;
 
