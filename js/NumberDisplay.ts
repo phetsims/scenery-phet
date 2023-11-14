@@ -190,9 +190,13 @@ export default class NumberDisplay extends Node {
     // determine the widest value
     const minStringProperty = new DerivedProperty( [ numberFormatterProperty ], numberFormatter => {
       return valueToString( displayRange.min, options.noValueString, numberFormatter );
+    }, {
+      accessNonDependencies: true
     } );
     const maxStringProperty = new DerivedProperty( [ numberFormatterProperty ], numberFormatter => {
       return valueToString( displayRange.max, options.noValueString, numberFormatter );
+    }, {
+      accessNonDependencies: true
     } );
     const longestStringProperty = new DerivedProperty( [
       valuePatternProperty,
@@ -217,7 +221,8 @@ export default class NumberDisplay extends Node {
           value: stringValue
         } );
       }, {
-        tandem: valueTextTandem.createTandem( Text.STRING_PROPERTY_TANDEM_NAME )
+        tandem: valueTextTandem.createTandem( Text.STRING_PROPERTY_TANDEM_NAME ),
+        accessNonDependencies: true
       } );
 
     const valueTextOptions = combineOptions<TextOptions | RichTextOptions>( {

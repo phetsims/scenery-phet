@@ -82,7 +82,8 @@ class NumberAccumulator extends AbstractKeyAccumulator {
       return this.stringToInteger( stringValue );
     }, {
       tandem: options.tandem.createTandem( 'valueProperty' ),
-      phetioValueType: NullableIO( NumberIO )
+      phetioValueType: NullableIO( NumberIO ),
+      accessNonDependencies: true
     } );
   }
 
