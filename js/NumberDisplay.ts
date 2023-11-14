@@ -191,12 +191,12 @@ export default class NumberDisplay extends Node {
     const minStringProperty = new DerivedProperty( [ numberFormatterProperty ], numberFormatter => {
       return valueToString( displayRange.min, options.noValueString, numberFormatter );
     }, {
-      accessNonDependencies: true
+      accessNonDependencies: true //TODO https://github.com/phetsims/axon/issues/441
     } );
     const maxStringProperty = new DerivedProperty( [ numberFormatterProperty ], numberFormatter => {
       return valueToString( displayRange.max, options.noValueString, numberFormatter );
     }, {
-      accessNonDependencies: true
+      accessNonDependencies: true //TODO https://github.com/phetsims/axon/issues/441
     } );
     const longestStringProperty = new DerivedProperty( [
       valuePatternProperty,
@@ -222,7 +222,7 @@ export default class NumberDisplay extends Node {
         } );
       }, {
         tandem: valueTextTandem.createTandem( Text.STRING_PROPERTY_TANDEM_NAME ),
-        accessNonDependencies: true
+        accessNonDependencies: true //TODO https://github.com/phetsims/axon/issues/441
       } );
 
     const valueTextOptions = combineOptions<TextOptions | RichTextOptions>( {

@@ -288,7 +288,7 @@ class MeasuringTapeNode extends Node {
       }, {
         tandem: options.phetioReadoutStringPropertyInstrumented ? options.tandem?.createTandem( 'readoutStringProperty' ) : Tandem.OPT_OUT,
         phetioDocumentation: 'The text content of the readout on the measuring tape',
-        accessNonDependencies: true
+        accessNonDependencies: true //TODO https://github.com/phetsims/axon/issues/441
       } );
 
     this.valueNode = new Text( readoutStringProperty, {
