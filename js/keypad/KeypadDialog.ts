@@ -118,7 +118,7 @@ class KeypadDialog extends Dialog {
     const contentNode = new VBox( { spacing: options.contentSpacing, align: 'center' } );
 
     const keypad = new Keypad( options.keypadLayout, combineOptions<KeypadOptions>( {}, options.keypadOptions, {
-      tandem: options.tandem.createTandem( 'keypad' )
+      tandem: Tandem.OPT_OUT
     } ) );
 
     options.focusOnShowNode = keypad;
@@ -153,7 +153,7 @@ class KeypadDialog extends Dialog {
 
       content: enterText,
       accessibleName: SceneryPhetStrings.key.enterStringProperty,
-      tandem: options.tandem.createTandem( 'enterButton' )
+      tandem: Tandem.OPT_OUT
     }, options.enterButtonOptions ) );
 
     // Set the children of the content of the KeypadDialog, in the correct rendering order.
