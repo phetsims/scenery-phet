@@ -44,7 +44,7 @@ type SelfOptions = {
   buttonGroupXSpacing?: number;
 
   // options passed along to the PlayPauseStepButtons, see the inner class for defaults
-  playPauseStepButtonOptions?: StrictOmit<PlayPauseStepButtonGroupOptions, 'tandem'>;
+  playPauseStepButtonOptions?: PlayPauseStepButtonGroupOptions;
 
   // options passed along to the SpeedRadioButtonGroup, if included
   speedRadioButtonGroupOptions?: StrictOmit<TimeSpeedRadioButtonGroupOptions, 'tandem'>;
