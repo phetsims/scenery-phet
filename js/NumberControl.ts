@@ -152,7 +152,7 @@ type SelfOptions = {
   numberDisplayOptions?: NumberDisplayOptions;
   sliderOptions?: NumberControlSliderOptions;
 
-  //TODO https://github.com/phetsims/my-solar-system/issues/292 fireOnDown is buggy
+  // fireOnDown is buggy, so omit it, see https://github.com/phetsims/scenery-phet/issues/825
   arrowButtonOptions?: StrictOmit<ArrowButtonOptions, 'fireOnDown'> & {
     // We stuffed enabledEpsilon here
     enabledEpsilon?: number;
