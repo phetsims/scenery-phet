@@ -37,6 +37,8 @@ export type ZoomButtonGroupOptions = SelfOptions & StrictOmit<FlowBoxOptions, 'c
 
 export default class ZoomButtonGroup extends FlowBox {
 
+  public readonly zoomInButton: RectangularPushButton;
+  public readonly zoomOutButton: RectangularPushButton;
   private readonly disposeZoomButtonGroup: () => void;
 
   /**
@@ -121,14 +123,18 @@ export default class ZoomButtonGroup extends FlowBox {
 
     options.children = ( options.orientation === 'horizontal' ) ? [ zoomOutButton, zoomInButton ] : [ zoomInButton, zoomOutButton ];
 
-    super( options );
-
     // disable a button if we reach the min or max
     const zoomLevelListener = ( zoomLevel: number ) => {
       zoomOutButton.enabled = zoomLevelRange.contains( options.applyZoomOut( zoomLevel ) );
       zoomInButton.enabled = zoomLevelRange.contains( options.applyZoomIn( zoomLevel ) );
     };
     zoomLevelProperty.link( zoomLevelListener );
+
+    super( options );
+
+    // Make the zoom buttons available as properties.
+    this.zoomOutButton = zoomOutButton;
+    this.zoomInButton = zoomInButton;
 
     this.addLinkedElement( zoomLevelProperty, {
       tandemName: 'zoomProperty'
