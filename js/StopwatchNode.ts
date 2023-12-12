@@ -19,8 +19,8 @@ import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import { Circle, DragListener, DragListenerOptions, HBox, InteractiveHighlighting, InteractiveHighlightingOptions, KeyboardDragListener, KeyboardDragListenerOptions, Node, NodeOptions, Path, PressedDragListener, PressListenerEvent, TColor, VBox } from '../../scenery/js/imports.js';
-import BooleanRectangularToggleButton from '../../sun/js/buttons/BooleanRectangularToggleButton.js';
-import RectangularPushButton from '../../sun/js/buttons/RectangularPushButton.js';
+import BooleanRectangularToggleButton, { BooleanRectangularToggleButtonOptions } from '../../sun/js/buttons/BooleanRectangularToggleButton.js';
+import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import DragBoundsProperty from './DragBoundsProperty.js';
 import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
@@ -59,6 +59,10 @@ type SelfOptions = {
   // options propagated to the DragListener
   dragListenerOptions?: DragListenerOptions<PressedDragListener>;
   keyboardDragListenerOptions?: KeyboardDragListenerOptions;
+
+  // Passed to their respective buttons
+  playPauseButtonOptions?: BooleanRectangularToggleButtonOptions;
+  resetButtonOptions?: RectangularPushButtonOptions;
 };
 
 type ParentOptions = InteractiveHighlightingOptions & NodeOptions;
@@ -121,7 +125,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
 
   public constructor( stopwatch: Stopwatch, providedOptions?: StopwatchNodeOptions ) {
 
-    const options = optionize<StopwatchNodeOptions, SelfOptions, ParentOptions>()( {
+    const options = optionize<StopwatchNodeOptions, StrictOmit<SelfOptions, 'playPauseButtonOptions' | 'resetButtonOptions'>, ParentOptions>()( {
 
       // SelfOptions
       cursor: 'pointer',
@@ -184,15 +188,16 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       fill: options.iconFill
     } );
 
-    const playPauseButton = new BooleanRectangularToggleButton( stopwatch.isRunningProperty, pausePath, playPath, {
-      baseColor: options.buttonBaseColor,
-      touchAreaXDilation: 5,
-      touchAreaXShift: 5,
-      touchAreaYDilation: 8,
-      tandem: options.tandem.createTandem( 'playPauseButton' )
-    } );
+    const playPauseButton = new BooleanRectangularToggleButton( stopwatch.isRunningProperty, pausePath, playPath,
+      combineOptions<BooleanRectangularToggleButtonOptions>( {
+        baseColor: options.buttonBaseColor,
+        touchAreaXDilation: 5,
+        touchAreaXShift: 5,
+        touchAreaYDilation: 8,
+        tandem: options.tandem.createTandem( 'playPauseButton' )
+      }, options.playPauseButtonOptions ) );
 
-    const resetButton = new RectangularPushButton( {
+    const resetButton = new RectangularPushButton( combineOptions<RectangularPushButtonOptions>( {
       listener: () => {
         stopwatch.isRunningProperty.set( false );
         stopwatch.timeProperty.set( 0 );
@@ -204,7 +209,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       baseColor: options.buttonBaseColor,
       soundPlayer: options.resetButtonSoundPlayer,
       tandem: options.tandem.createTandem( 'resetButton' )
-    } );
+    }, options.resetButtonOptions ) );
 
     const contents = new VBox( {
       spacing: options.ySpacing,
