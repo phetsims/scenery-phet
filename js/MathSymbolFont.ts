@@ -62,7 +62,7 @@ export default class MathSymbolFont extends Font {
   }
 
   /**
-   * Wraps a dynamic string in RichText that will display the string in the same font as MathSymbolFont.
+   * Wraps a dynamic string in RichText markup that will display the string in the same font as MathSymbolFont.
    */
   public static createDerivedProperty( symbolStringProperty: TReadOnlyProperty<string>, providedOptions?: CreateDerivedPropertyOptions ): TReadOnlyProperty<string> {
 
