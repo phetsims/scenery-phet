@@ -1,9 +1,9 @@
 // Copyright 2013-2023, University of Colorado Boulder
 
 /**
- * Faucet with a pinball machine 'shooter'.
+ * FaucetNode is a faucet with a pinball machine 'shooter' that behaves like a slider.
  * When the faucet is disabled, the flow rate is set to zero and the shooter is disabled.
- * Origin is at the bottom-center of the spout.
+ * The origin is at the bottom-center of the spout.
  *
  * The shooter is optionally interactive. When it's not interactive, the shooter and track are hidden.
  * When the shooter is interactive, it has the following features:
