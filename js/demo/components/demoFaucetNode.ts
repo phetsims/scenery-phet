@@ -4,32 +4,125 @@
  * Demo for FaucetNode
  */
 
-import FaucetNode from '../../FaucetNode.js';
+import FaucetNode, { FaucetNodeOptions } from '../../FaucetNode.js';
 import PhetFont from '../../PhetFont.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { Node, Text } from '../../../../scenery/js/imports.js';
+import { HBox, Node, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
 import Property from '../../../../axon/js/Property.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Utils from '../../../../dot/js/Utils.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import Panel from '../../../../sun/js/Panel.js';
+
+const MAX_FLOW_RATE = 1;
+const FONT = new PhetFont( 14 );
 
 export default function demoFaucetNode( layoutBounds: Bounds2 ): Node {
 
-  const fluidRateProperty = new Property( 0 );
-  const faucetEnabledProperty = new Property( true );
-
-  const faucetNode = new FaucetNode( 10, fluidRateProperty, faucetEnabledProperty, {
-    shooterOptions: {
-      touchAreaXDilation: 37,
-      touchAreaYDilation: 60
+  const docText = new RichText(
+    'Options:<br><br>' +
+    '<b>tapToDispenseEnabled</b>: when true, tapping the shooter dispenses some fluid<br><br>' +
+    '<b>closeOnRelease</b>: when true, releasing the shooter closes the faucet', {
+      font: FONT
     }
+  );
+
+  // A panel for each combination of tapToDispenseEnabled and closeOnRelease behavior, to facilitate a11y design
+  // discussion in https://github.com/phetsims/scenery-phet/issues/773.
+  let panelNumber = 1;
+
+  const panel1 = new FaucetDemoPanel( panelNumber++, MAX_FLOW_RATE, {
+    tapToDispenseEnabled: true,
+    closeOnRelease: true
   } );
 
-  const faucetEnabledCheckbox = new Checkbox( faucetEnabledProperty, new Text( 'faucet enabled', { font: new PhetFont( 20 ) } ), {
-    left: faucetNode.left,
-    bottom: faucetNode.top - 20
+  const panel2 = new FaucetDemoPanel( panelNumber++, MAX_FLOW_RATE, {
+    tapToDispenseEnabled: true,
+    closeOnRelease: false
   } );
 
-  return new Node( {
-    children: [ faucetNode, faucetEnabledCheckbox ],
+  const panel3 = new FaucetDemoPanel( panelNumber++, MAX_FLOW_RATE, {
+    tapToDispenseEnabled: false,
+    closeOnRelease: true
+  } );
+
+  const panel4 = new FaucetDemoPanel( panelNumber++, MAX_FLOW_RATE, {
+    tapToDispenseEnabled: false,
+    closeOnRelease: false
+  } );
+
+  const panelsBox = new HBox( {
+    children: [ panel1, panel2, panel3, panel4 ],
+    spacing: 15,
+    resize: false
+  } );
+
+  return new VBox( {
+    children: [ docText, panelsBox ],
+    align: 'left',
+    spacing: 35,
     center: layoutBounds.center
   } );
+}
+
+class FaucetDemoPanel extends Panel {
+
+  public constructor( panelNumber: number, maxFlowRate: number, faucetNodeOptions: PickRequired<FaucetNodeOptions, 'tapToDispenseEnabled' | 'closeOnRelease'> ) {
+
+    const titleText = new Text( `Example ${panelNumber}`, {
+      font: new PhetFont( {
+        size: 18,
+        weight: 'bold'
+      } )
+    } );
+
+    // Display the configuration values.
+    const configurationText = new RichText(
+      `tapToDispenseEnabled=${faucetNodeOptions.tapToDispenseEnabled}<br>` +
+      `closeOnRelease=${faucetNodeOptions.closeOnRelease}`, {
+        font: FONT
+      } );
+
+    const flowRateProperty = new Property( 0 );
+    const faucetEnabledProperty = new Property( true );
+
+    const faucetNode = new FaucetNode( maxFlowRate, flowRateProperty, faucetEnabledProperty,
+      combineOptions<FaucetNodeOptions>( {
+        scale: 0.70,
+        shooterOptions: {
+          touchAreaXDilation: 37,
+          touchAreaYDilation: 60
+        }
+      }, faucetNodeOptions ) );
+
+    const flowRateStringProperty = new DerivedProperty( [ flowRateProperty ],
+      flowRate => `flowRate=${Utils.toFixed( flowRate, 2 )}` );
+    const flowRateDisplay = new Text( flowRateStringProperty, {
+      font: FONT
+    } );
+
+    const enabledText = new Text( 'enabled', { font: FONT } );
+    const enabledCheckbox = new Checkbox( faucetEnabledProperty, enabledText, {
+      boxWidth: 12
+    } );
+
+    const content = new VBox( {
+      align: 'left',
+      spacing: 10,
+      children: [
+        titleText,
+        configurationText,
+        faucetNode,
+        flowRateDisplay,
+        enabledCheckbox
+      ]
+    } );
+
+    super( content, {
+      xMargin: 15,
+      yMargin: 10
+    } );
+  }
 }
