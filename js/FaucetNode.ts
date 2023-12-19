@@ -1,9 +1,9 @@
 // Copyright 2013-2023, University of Colorado Boulder
 
 /**
- * Faucet with a pinball machine 'shooter'.
+ * FaucetNode is a faucet with a pinball machine 'shooter' that behaves like a slider.
  * When the faucet is disabled, the flow rate is set to zero and the shooter is disabled.
- * Origin is at the bottom-center of the spout.
+ * The origin is at the bottom-center of the spout.
  *
  * The shooter is optionally interactive. When it's not interactive, the shooter and track are hidden.
  * When the shooter is interactive, it has the following features:
@@ -61,10 +61,10 @@ const TRACK_Y_OFFSET = 15; // offset of the track's bottom from the top of fauce
 type SelfOptions = {
   horizontalPipeLength?: number; // distance between left edge of horizontal pipe and spout's center
   verticalPipeLength?: number; // length of the vertical pipe that connects the faucet body to the spout
-  tapToDispenseEnabled?: boolean; // tap-to-dispense feature: tapping the shooter dispenses some fluid
+  tapToDispenseEnabled?: boolean; // tap-to-dispense feature: when true, tapping the shooter dispenses some fluid
   tapToDispenseAmount?: number; // tap-to-dispense feature: amount to dispense, in L
   tapToDispenseInterval?: number; // tap-to-dispense feature: amount of time that fluid is dispensed, in milliseconds
-  closeOnRelease?: boolean; // when the shooter is released, close the faucet
+  closeOnRelease?: boolean; // when true, releasing the shooter closes the faucet
   interactiveProperty?: TReadOnlyProperty<boolean>; // when the faucet is interactive, the flow rate control is visible, see issue #67
 
   // Overcome a flickering problems, see https://github.com/phetsims/wave-interference/issues/187
