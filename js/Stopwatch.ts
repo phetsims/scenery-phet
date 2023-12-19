@@ -75,19 +75,23 @@ export default class Stopwatch extends PhetioObject {
 
     this.positionProperty = new Vector2Property( options.position, {
       tandem: options.tandem.createTandem( 'positionProperty' ),
-      phetioDocumentation: `view coordinates for the upper-left of the stopwatch (initially ${options.position.x},${options.position.y})`
+      phetioDocumentation: `view coordinates for the upper-left of the stopwatch (initially ${options.position.x},${options.position.y})`,
+      phetioFeatured: true
     } );
 
     this.isVisibleProperty = new BooleanProperty( options.isVisible, {
-      tandem: options.tandem.createTandem( 'isVisibleProperty' )
+      tandem: options.tandem.createTandem( 'isVisibleProperty' ),
+      phetioFeatured: true
     } );
 
     this.isRunningProperty = new BooleanProperty( false, {
-      tandem: options.tandem.createTandem( 'isRunningProperty' )
+      tandem: options.tandem.createTandem( 'isRunningProperty' ),
+      phetioFeatured: true
     } );
 
     this.timeProperty = new NumberProperty( 0, combineOptions<NumberPropertyOptions>( {
-      tandem: options.tandem.createTandem( 'timeProperty' )
+      tandem: options.tandem.createTandem( 'timeProperty' ),
+      phetioFeatured: true
     }, options.timePropertyOptions ) );
 
     // When the stopwatch visibility changes, stop it and reset its value.
