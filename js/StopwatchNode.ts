@@ -194,7 +194,9 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
         touchAreaXDilation: 5,
         touchAreaXShift: 5,
         touchAreaYDilation: 8,
-        tandem: options.tandem.createTandem( 'playPauseButton' )
+        tandem: options.tandem.createTandem( 'playPauseButton' ),
+        phetioVisiblePropertyInstrumented: false,
+        phetioEnabledPropertyInstrumented: false
       }, options.playPauseButtonOptions ) );
 
     const resetButton = new RectangularPushButton( combineOptions<RectangularPushButtonOptions>( {
@@ -208,7 +210,9 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       content: resetPath,
       baseColor: options.buttonBaseColor,
       soundPlayer: options.resetButtonSoundPlayer,
-      tandem: options.tandem.createTandem( 'resetButton' )
+      tandem: options.tandem.createTandem( 'resetButton' ),
+      phetioVisiblePropertyInstrumented: false,
+      phetioEnabledPropertyInstrumented: false
     }, options.resetButtonOptions ) );
 
     const contents = new VBox( {
