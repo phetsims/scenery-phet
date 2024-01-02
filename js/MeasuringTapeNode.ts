@@ -1,4 +1,4 @@
-// Copyright 2014-2023, University of Colorado Boulder
+// Copyright 2014-2024, University of Colorado Boulder
 
 /**
  * A scenery node that is used to represent a draggable Measuring Tape. It contains a tip and a base that can be dragged
