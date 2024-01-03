@@ -204,7 +204,6 @@ export default class ScientificNotationNode extends Node {
     else {
 
       // Convert to a string in exponential notation, where the mantissa has 1 digit to the left of the decimal place.
-      //TODO https://github.com/phetsims/scenery-phet/issues/613 toExponential uses Number.toFixed, which doesn't round the same on all platforms
       const exponentialString = value.toExponential( options.mantissaDecimalPlaces );
 
       // Break into mantissa and exponent tokens.
