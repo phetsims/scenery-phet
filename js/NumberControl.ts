@@ -414,7 +414,7 @@ export default class NumberControl extends WidthSizable( Node ) {
       // pdom - by default, shiftKeyboardStep should most likely be the same as clicking the arrow buttons.
       shiftKeyboardStep: options.delta,
 
-      // Make sure Slider gets created with the right IO Type
+      // Make sure Slider gets created with the right IOType
       phetioType: Slider.SliderIO
     }, options.sliderOptions );
 
