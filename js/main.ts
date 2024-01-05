@@ -1,5 +1,9 @@
 // Copyright 2022-2023, University of Colorado Boulder
 
+/**
+ * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ */
+
 import sceneryPhet from './sceneryPhet.js';
 import './ArrowNode.js';
 import './FaceNode.js';

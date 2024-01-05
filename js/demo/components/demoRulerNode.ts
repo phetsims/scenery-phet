@@ -2,6 +2,8 @@
 
 /**
  * Demo for RulerNode
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import RulerNode from '../../RulerNode.js';

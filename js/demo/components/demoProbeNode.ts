@@ -2,6 +2,8 @@
 
 /**
  * Demo for ProbeNode
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import { Color, Node, Path, Text, VBox } from '../../../../scenery/js/imports.js';

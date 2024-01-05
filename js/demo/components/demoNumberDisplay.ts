@@ -2,6 +2,8 @@
 
 /**
  * Demo for NumberDisplay
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import NumberDisplay, { NumberDisplayOptions } from '../../NumberDisplay.js';

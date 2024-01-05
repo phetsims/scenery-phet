@@ -2,6 +2,8 @@
 
 /**
  * Demo for PaperAirplaneNode
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import PaperAirplaneNode from '../../PaperAirplaneNode.js';

@@ -2,6 +2,8 @@
 
 /**
  * Demo for BicyclePumpNode
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import { Node, Text } from '../../../../scenery/js/imports.js';

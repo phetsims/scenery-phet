@@ -2,6 +2,8 @@
 
 /**
  * Demo for HeaterCoolerNode
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import { Node } from '../../../../scenery/js/imports.js';

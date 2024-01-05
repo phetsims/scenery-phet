@@ -2,6 +2,8 @@
 
 /**
  * Demo for Keypad
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import Keypad from '../../keypad/Keypad.js';

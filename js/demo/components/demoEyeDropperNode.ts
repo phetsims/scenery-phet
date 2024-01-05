@@ -2,6 +2,8 @@
 
 /**
  * Demo for EyeDropperNode
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import EyeDropperNode from '../../EyeDropperNode.js';

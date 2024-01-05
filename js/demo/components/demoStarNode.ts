@@ -2,6 +2,8 @@
 
 /**
  * Demo for StarNode
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import StarNode from '../../StarNode.js';

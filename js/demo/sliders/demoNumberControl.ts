@@ -2,6 +2,8 @@
 
 /**
  * Demo for NumberControl
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import PhetFont from '../../PhetFont.js';

@@ -2,6 +2,8 @@
 
 /**
  * Demo for ThermometerNode
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import ThermometerNode from '../../ThermometerNode.js';

@@ -2,6 +2,8 @@
 
 /**
  * Demo for WireNode - two circles connected by a wire.
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import { Circle, DragListener, Node } from '../../../../scenery/js/imports.js';

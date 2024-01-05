@@ -2,6 +2,8 @@
 
 /**
  * Demo for KeyNode and its subtypes
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import ArrowKeyNode from '../../keyboard/ArrowKeyNode.js';

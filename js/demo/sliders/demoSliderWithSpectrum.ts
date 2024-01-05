@@ -2,6 +2,8 @@
 
 /**
  * Demos an HSlider that uses a SpectrumSliderTrack and SpectrumSliderThumb.
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';

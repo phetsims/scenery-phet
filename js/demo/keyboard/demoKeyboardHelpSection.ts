@@ -2,6 +2,8 @@
 
 /**
  * Demonstrates how to create custom help with KeyboardHelpSection.
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import KeyboardHelpIconFactory from '../../keyboard/help/KeyboardHelpIconFactory.js';

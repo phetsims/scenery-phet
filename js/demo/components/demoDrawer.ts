@@ -2,6 +2,8 @@
 
 /**
  * Demo for Drawer
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import Drawer from '../../Drawer.js';

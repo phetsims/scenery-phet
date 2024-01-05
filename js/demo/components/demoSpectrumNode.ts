@@ -2,6 +2,8 @@
 
 /**
  * Demo for RulerNode
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import SpectrumNode from '../../SpectrumNode.js';

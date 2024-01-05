@@ -2,6 +2,8 @@
 
 /**
  * Demo for HandleNode
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import HandleNode from '../../HandleNode.js';

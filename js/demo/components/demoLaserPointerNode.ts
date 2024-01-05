@@ -2,6 +2,8 @@
 
 /**
  * Demo for LaserPointerNode
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import { Node, Rectangle } from '../../../../scenery/js/imports.js';

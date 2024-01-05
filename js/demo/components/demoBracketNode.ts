@@ -2,6 +2,8 @@
 
 /**
  * Demo for BracketNode
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';

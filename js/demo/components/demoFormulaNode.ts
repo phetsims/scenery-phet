@@ -2,6 +2,8 @@
 
 /**
  * Demo for FormulaNode
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import FormulaNode from '../../FormulaNode.js';

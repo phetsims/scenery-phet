@@ -2,6 +2,8 @@
 
 /**
  * Demo for FaucetNode
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import FaucetNode, { FaucetNodeOptions } from '../../FaucetNode.js';
