@@ -2,6 +2,9 @@
 
 /**
  * GroupSortInteractionModel
+ *
+ * In general, there is just one instance of this per model, and not per scene. This is because if someone can
+ * successfully grab and drag in one scene, then that data should transfer to the next scene.
  * @author Michael Kauzmann (PhET Interactive Simulations)
  *
  */
@@ -15,8 +18,6 @@ import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import DragIndicatorModel from './DragIndicatorModel.js';
-import Emitter from '../../../axon/js/Emitter.js';
-
 
 type SelfOptions = {
   dragIndicatorModelTandem?: Tandem | null;
@@ -55,9 +56,6 @@ export default class GroupSortInteractionModel {
   // Whether the user has changed the selected soccer ball with the keyboard controls
   public readonly hasKeyboardSelectedDifferentBallProperty = new BooleanProperty( false );
 
-  // TODO: ???? https://github.com/phetsims/scenery-phet/issues/815
-  public readonly focusResetEmitter = new Emitter();
-
   public constructor( dragEnabledProperty: TReadOnlyProperty<boolean>, providedOptions: GroupSortInteractionModelOptions ) {
     const dragIndicatorModelTandem = providedOptions?.dragIndicatorModelTandem || Tandem.OPT_OUT;
 
@@ -65,10 +63,6 @@ export default class GroupSortInteractionModel {
       dragIndicatorModelTandem: null,
       dragIndicatorModel: new DragIndicatorModel( this.isKeyboardFocusedProperty, dragEnabledProperty, dragIndicatorModelTandem )
     }, providedOptions );
-
-    this.focusResetEmitter.addListener( () => {
-      this.focusedSoccerBallProperty.value = null;
-    } );
 
     this.dragIndicatorModel = options.dragIndicatorModel;
 
@@ -97,7 +91,7 @@ export default class GroupSortInteractionModel {
     this.hasKeyboardMovedBallProperty.reset();
   }
 
-  public clearData(): void {
+  public clearFocus(): void {
     this.focusedSoccerBallProperty.value = null;
   }
 }
