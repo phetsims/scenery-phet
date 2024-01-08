@@ -24,9 +24,10 @@ type SelfOptions = {
   dragIndicatorModel?: DragIndicatorModel;
 };
 
+// TODO: "Soccer ball" -> "group item" https://github.com/phetsims/scenery-phet/issues/815
 export type GroupSortInteractionModelOptions = SelfOptions;
 
-// TODO: Of type T https://github.com/phetsims/scenery-phet/issues/815
+// TODO: Of type ItemModel https://github.com/phetsims/scenery-phet/issues/815
 export default class GroupSortInteractionModel {
 
   // The model for the visual indicator for dragging soccer balls via mouse, touch or keyboard
@@ -56,6 +57,7 @@ export default class GroupSortInteractionModel {
   // Whether the user has changed the selected soccer ball with the keyboard controls
   public readonly hasKeyboardSelectedDifferentBallProperty = new BooleanProperty( false );
 
+  // TODO: extend EnabledComponent? This is just a CAV studio thing right now soccerBallsEnabledProperty. https://github.com/phetsims/scenery-phet/issues/815
   public constructor( dragEnabledProperty: TReadOnlyProperty<boolean>, providedOptions: GroupSortInteractionModelOptions ) {
     const dragIndicatorModelTandem = providedOptions?.dragIndicatorModelTandem || Tandem.OPT_OUT;
 
@@ -71,6 +73,7 @@ export default class GroupSortInteractionModel {
         return focusedSoccerBall !== null && !hasGrabbedBall && hasKeyboardFocus;
       } );
 
+    // TODO: inline, and likely don't need to make an option for this grabCondition. https://github.com/phetsims/scenery-phet/issues/815
     const createDerivedProperty = ( conditionProperty: TReadOnlyProperty<boolean>, grabCondition: ( isSoccerBallKeyboardGrabbed: boolean ) => boolean ) => new DerivedProperty(
       [ this.focusedSoccerBallProperty, this.isSoccerBallKeyboardGrabbedProperty, this.isKeyboardFocusedProperty, conditionProperty ],
       ( focusedBall, isSoccerBallKeyboardGrabbed, isKeyboardFocused, condition ) =>
@@ -79,14 +82,20 @@ export default class GroupSortInteractionModel {
     this.isKeyboardDragArrowVisibleProperty = createDerivedProperty( this.hasKeyboardMovedBallProperty, isSoccerBallKeyboardGrabbed => isSoccerBallKeyboardGrabbed );
   }
 
-  public reset(): void {
-
-    // We need to reset keyboard focus Properties that are used by the sceneModels, before
-    // resetting the sceneModels themselves.
+  /**
+   * Reset the interaction without changing the cueing logic.
+   */
+  public resetInteractionState(): void {
     this.focusedSoccerBallProperty.reset();
     this.isSoccerBallKeyboardGrabbedProperty.reset();
-    this.hasKeyboardGrabbedBallProperty.reset();
     this.isKeyboardFocusedProperty.reset();
+  }
+
+  public reset(): void {
+    this.resetInteractionState();
+
+    // TODO: is it ok for this to be after isKeyboardFocusedProperty? https://github.com/phetsims/scenery-phet/issues/815
+    this.hasKeyboardGrabbedBallProperty.reset();
     this.hasKeyboardSelectedDifferentBallProperty.reset();
     this.hasKeyboardMovedBallProperty.reset();
   }
