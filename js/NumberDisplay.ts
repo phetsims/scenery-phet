@@ -21,8 +21,8 @@ import IOType from '../../tandem/js/types/IOType.js';
 import MathSymbols from './MathSymbols.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import StringIO from '../../tandem/js/types/StringIO.js';
 
 // constants
 const DEFAULT_FONT = new PhetFont( 20 );
@@ -50,8 +50,12 @@ type SelfOptions = {
 
   // Takes a {number} and returns a {string} for full control. Mutually exclusive with valuePattern and
   // decimalPlaces.  Named "numberFormatter" instead of "formatter" to help clarify that it is separate from the
-  // noValueString/Align/Pattern defined below.
+  // noValueString/Align/Pattern defined below. Please see also numberFormatterDependencies
   numberFormatter?: ( ( n: number ) => string ) | null;
+
+  // If your numberFormatter depends on other Properties, you must specify them so that the text will update when those
+  // dependencies change. You can test for missing dependencies with ?strictAxonDependencies=true
+  numberFormatterDependencies?: TReadOnlyProperty<unknown>[];
 
   useRichText?: boolean;
 
@@ -99,6 +103,7 @@ export default class NumberDisplay extends Node {
       valuePattern: SunConstants.VALUE_NAMED_PLACEHOLDER,
       decimalPlaces: DEFAULT_DECIMAL_PLACES,
       numberFormatter: null,
+      numberFormatterDependencies: [],
       useRichText: false,
       useFullHeight: false,
       textOptions: {
@@ -188,15 +193,11 @@ export default class NumberDisplay extends Node {
       `missing value placeholder in options.noValuePattern: ${noValuePatternProperty.value}` );
 
     // determine the widest value
-    const minStringProperty = new DerivedProperty( [ numberFormatterProperty ], numberFormatter => {
-      return valueToString( displayRange.min, options.noValueString, numberFormatter );
-    }, {
-      strictAxonDependencies: false //TODO https://github.com/phetsims/scenery-phet/issues/824
+    const minStringProperty = DerivedProperty.deriveAny( [ numberFormatterProperty, ...options.numberFormatterDependencies ], () => {
+      return valueToString( displayRange.min, options.noValueString, numberFormatterProperty.value );
     } );
-    const maxStringProperty = new DerivedProperty( [ numberFormatterProperty ], numberFormatter => {
-      return valueToString( displayRange.max, options.noValueString, numberFormatter );
-    }, {
-      strictAxonDependencies: false //TODO https://github.com/phetsims/scenery-phet/issues/824
+    const maxStringProperty = DerivedProperty.deriveAny( [ numberFormatterProperty, ...options.numberFormatterDependencies ], () => {
+      return valueToString( displayRange.max, options.noValueString, numberFormatterProperty.value );
     } );
     const longestStringProperty = new DerivedProperty( [
       valuePatternProperty,
@@ -211,18 +212,29 @@ export default class NumberDisplay extends Node {
     // value
     const ValueTextConstructor = options.useRichText ? RichText : Text;
     const valueTextTandem = options.textOptions.tandem || options.tandem.createTandem( 'valueText' );
-    const valueStringProperty = new DerivedStringProperty(
-      [ numberProperty, noValuePatternProperty, valuePatternProperty, numberFormatterProperty ],
-      ( value, noValuePattern, valuePatternValue, numberFormatter ) => {
+    const valueStringProperty = DerivedProperty.deriveAny(
+      [ numberProperty, noValuePatternProperty, valuePatternProperty, numberFormatterProperty, ...options.numberFormatterDependencies ],
+      () => {
+        const value = numberProperty.value;
+        const noValuePattern = noValuePatternProperty.value;
+        const valuePatternValue = valuePatternProperty.value;
+        const numberFormatter = numberFormatterProperty.value;
+
         const valuePattern = ( value === null && noValuePattern ) ? noValuePattern : valuePatternValue;
+
         // NOTE: this.numberFormatter could change, so we support a recomputeText() below that recomputes this derivation
         const stringValue = valueToString( value, options.noValueString, numberFormatter );
         return StringUtils.fillIn( valuePattern, {
           value: stringValue
         } );
       }, {
-        tandem: valueTextTandem.createTandem( Text.STRING_PROPERTY_TANDEM_NAME ),
-        strictAxonDependencies: false //TODO https://github.com/phetsims/scenery-phet/issues/824
+
+        // These options were copied here when we moved from DerivedStringProperty to DerivedProperty.
+        phetioFeatured: true,
+        phetioValueType: StringIO,
+        tandemNameSuffix: 'StringProperty',
+
+        tandem: valueTextTandem.createTandem( Text.STRING_PROPERTY_TANDEM_NAME )
       } );
 
     const valueTextOptions = combineOptions<TextOptions | RichTextOptions>( {
@@ -293,6 +305,12 @@ export default class NumberDisplay extends Node {
     };
   }
 
+  /**
+   * Change the number formatter being used. Note there is no setter for the numberFormatterDependencies, this means all
+   * possible options.numberFormatterDependencies must be specified on construction, even if the number formatter changes
+   * later on. Errors resulting from switching to a numberFormatter without listed dependencies can be caught by testing
+   * with ?strictAxonDependencies=true
+   */
   public setNumberFormatter( numberFormatter: ( n: number ) => string ): void {
     this.numberFormatterProperty.value = numberFormatter;
   }

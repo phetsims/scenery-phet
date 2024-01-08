@@ -142,6 +142,11 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       yMargin: 8,
       numberDisplayOptions: {
         numberFormatter: StopwatchNode.RICH_TEXT_MINUTES_AND_SECONDS,
+        numberFormatterDependencies: [
+
+          // Used in the numberFormatter above
+          SceneryPhetStrings.stopwatchValueUnitsPatternStringProperty
+        ],
         useRichText: true,
         textOptions: {
           font: StopwatchNode.DEFAULT_FONT
