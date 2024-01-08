@@ -222,7 +222,6 @@ export default class NumberDisplay extends Node {
 
         const valuePattern = ( value === null && noValuePattern ) ? noValuePattern : valuePatternValue;
 
-        // NOTE: this.numberFormatter could change, so we support a recomputeText() below that recomputes this derivation
         const stringValue = valueToString( value, options.noValueString, numberFormatter );
         return StringUtils.fillIn( valuePattern, {
           value: stringValue
