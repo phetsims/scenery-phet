@@ -375,11 +375,6 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
     this.numberDisplay.setNumberFormatter( numberFormatter );
   }
 
-  // Redraw the text when something other than the numberProperty changes (such as units, formatter, etc).
-  public redrawNumberDisplay(): void {
-    this.numberDisplay.recomputeText();
-  }
-
   public override dispose(): void {
     this.disposeStopwatchNode();
     super.dispose();

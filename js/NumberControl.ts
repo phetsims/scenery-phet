@@ -590,14 +590,6 @@ export default class NumberControl extends WidthSizable( Node ) {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'NumberControl', this );
   }
 
-  /**
-   * Redraws the NumberDisplay. This is useful when you have additional Properties that determine the format
-   * of the displayed value.
-   */
-  public redrawNumberDisplay(): void {
-    this.numberDisplay.recomputeText();
-  }
-
   public override dispose(): void {
     this.disposeNumberControl();
     super.dispose();

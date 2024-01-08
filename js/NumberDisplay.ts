@@ -315,12 +315,6 @@ export default class NumberDisplay extends Node {
     this.numberFormatterProperty.value = numberFormatter;
   }
 
-  // Redraw the text when something other than the numberProperty changes (such as units, formatter, etc).
-  // @deprecated
-  public recomputeText(): void {
-    // no-op, not needed now
-  }
-
   public override dispose(): void {
     this.disposeNumberDisplay();
     super.dispose();
