@@ -304,16 +304,6 @@ export default class NumberDisplay extends Node {
     };
   }
 
-  /**
-   * Change the number formatter being used. Note there is no setter for the numberFormatterDependencies, this means all
-   * possible options.numberFormatterDependencies must be specified on construction, even if the number formatter changes
-   * later on. Errors resulting from switching to a numberFormatter without listed dependencies can be caught by testing
-   * with ?strictAxonDependencies=true
-   */
-  public setNumberFormatter( numberFormatter: ( n: number ) => string ): void {
-    this.numberFormatterProperty.value = numberFormatter;
-  }
-
   public override dispose(): void {
     this.disposeNumberDisplay();
     super.dispose();

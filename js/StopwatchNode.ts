@@ -368,13 +368,6 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
     assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'StopwatchNode', this );
   }
 
-  /**
-   * Sets the formatter for the NumberDisplay.
-   */
-  public setNumberFormatter( numberFormatter: ( n: number ) => string ): void {
-    this.numberDisplay.setNumberFormatter( numberFormatter );
-  }
-
   public override dispose(): void {
     this.disposeStopwatchNode();
     super.dispose();
