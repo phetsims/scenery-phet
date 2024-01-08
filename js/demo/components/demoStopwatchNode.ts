@@ -57,17 +57,11 @@ export default function demoStopwatchNode( layoutBounds: Bounds2, providedOption
         showAsMinutesAndSeconds: false, // because we're not showing minutes & seconds
         numberOfDecimalPlaces: numberOfDecimalPlaces,
         units: unitsProperty.value
-      } )
+      } ),
+      numberFormatterDependencies: [ unitsProperty ]
     },
     scale: 2,
     tandem: tandem.createTandem( 'customStopwatchNode' )
-  } );
-  unitsProperty.link( units => {
-    customStopwatchNode.setNumberFormatter( StopwatchNode.createRichTextNumberFormatter( {
-      showAsMinutesAndSeconds: false, // because we're not showing minutes & seconds
-      numberOfDecimalPlaces: numberOfDecimalPlaces,
-      units: units
-    } ) );
   } );
 
   const unitsRadioButtonGroup = new RectangularRadioButtonGroup( unitsProperty, [
