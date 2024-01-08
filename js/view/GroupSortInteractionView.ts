@@ -19,7 +19,7 @@ import Matrix3 from '../../../dot/js/Matrix3.js';
 import GroupSortInteractionModel from '../model/GroupSortInteractionModel.js';
 
 
-// TODO: USe T, https://github.com/phetsims/scenery-phet/issues/815
+// TODO: parameterize on ItemModel and ItemView, https://github.com/phetsims/scenery-phet/issues/815
 export default class GroupSortInteractionView {
 
   // TODO: rename, this is the group focus highlight (kinda?) https://github.com/phetsims/scenery-phet/issues/815
@@ -34,9 +34,8 @@ export default class GroupSortInteractionView {
     public readonly modelViewTransform: ModelViewTransform2,
     physicalRange: Range ) {
 
-    // const soccerBallsEnabledProperty = soccerModel.soccerBallsEnabledProperty;
     const focusedSoccerBallProperty = this.groupSortInteractionModel.focusedSoccerBallProperty;
-    const hasKeyboardFocusProperty = this.groupSortInteractionModel.isKeyboardFocusedProperty;
+    const isKeyboardFocusedProperty = this.groupSortInteractionModel.isKeyboardFocusedProperty;
     const isSoccerBallKeyboardGrabbedProperty = this.groupSortInteractionModel.isSoccerBallKeyboardGrabbedProperty;
     const hasKeyboardGrabbedBallProperty = this.groupSortInteractionModel.hasKeyboardGrabbedBallProperty;
     const soccerBallHasBeenDraggedProperty = this.groupSortInteractionModel.dragIndicatorModel.soccerBallHasBeenDraggedProperty;
@@ -88,7 +87,7 @@ export default class GroupSortInteractionView {
           }
 
         }
-        hasKeyboardFocusProperty.value = true;
+        isKeyboardFocusedProperty.value = true;
 
         // When the group receives keyboard focus, make sure that the focused ball is displayed
         if ( focusedSoccerBallProperty.value !== null ) {
@@ -98,10 +97,10 @@ export default class GroupSortInteractionView {
       },
       blur: () => {
         isSoccerBallKeyboardGrabbedProperty.value = false;
-        hasKeyboardFocusProperty.value = false;
+        isKeyboardFocusedProperty.value = false;
       },
       over: () => {
-        hasKeyboardFocusProperty.value = false;
+        isKeyboardFocusedProperty.value = false;
       }
     } );
 
@@ -241,11 +240,11 @@ export default class GroupSortInteractionView {
     primaryFocusedNode.setGroupFocusHighlight( this.focusHighlightPath );
     primaryFocusedNode.addInputListener( keyboardListener );
 
-    // TODO: wat https://github.com/phetsims/scenery-phet/issues/815
+    // TODO: move to the model and use use resetInteractionState(), see about https://github.com/phetsims/scenery-phet/issues/815
     sceneModel.preClearDataEmitter.addListener( () => {
-        focusedSoccerBallProperty.reset();
-        isSoccerBallKeyboardGrabbedProperty.reset();
-        hasKeyboardFocusProperty.reset();
+      focusedSoccerBallProperty.reset();
+      isSoccerBallKeyboardGrabbedProperty.reset();
+      isKeyboardFocusedProperty.reset();
       }
     );
   }
