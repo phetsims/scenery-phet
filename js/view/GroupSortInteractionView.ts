@@ -5,30 +5,39 @@
  */
 
 import { animatedPanZoomSingleton, HighlightFromNode, HighlightPath, KeyboardListener, Node } from '../../../scenery/js/imports.js';
-import SoccerBallNode from './SoccerBallNode.js';
 import { SoccerBallPhase } from '../model/SoccerBallPhase.js';
-import SoccerSceneModel from '../model/SoccerSceneModel.js';
 import soccerCommon from '../soccerCommon.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
-import SoccerBall from '../model/SoccerBall.js';
 import { Shape } from '../../../kite/js/imports.js';
 import Range from '../../../dot/js/Range.js';
 import Utils from '../../../dot/js/Utils.js';
 import Multilink from '../../../axon/js/Multilink.js';
 import Matrix3 from '../../../dot/js/Matrix3.js';
-import GroupSortInteractionModel from '../model/GroupSortInteractionModel.js';
+import GroupSortInteractionModel, { ItemModelType } from '../model/GroupSortInteractionModel.js';
+import TEmitter from '../../../axon/js/TEmitter.js';
 
+type ItemViewType<ItemModel> = {
+  soccerBall: ItemModel;
+} & Node;
 
-// TODO: parameterize on ItemModel and ItemView, https://github.com/phetsims/scenery-phet/issues/815
-export default class GroupSortInteractionView {
+// TODO: Remove this? https://github.com/phetsims/scenery-phet/issues/815
+type SceneModel<ItemModel> = {
+  getTopSoccerBalls(): ItemModel[];
+  soccerBalls: ItemModel[];
+  stackChangedEmitter: TEmitter<[ ItemModel[] ]>;
+  getStackAtValue( value: number, filter?: ( item: ItemModel ) => boolean ): ItemModel[];
+  preClearDataEmitter: TEmitter;
+};
+
+export default class GroupSortInteractionView<ItemModel extends ItemModelType, ItemView extends ItemViewType<ItemModel>> {
 
   // TODO: rename, this is the group focus highlight (kinda?) https://github.com/phetsims/scenery-phet/issues/815
   private readonly focusHighlightPath: HighlightPath;
 
   public constructor(
-    private readonly groupSortInteractionModel: GroupSortInteractionModel,
-    public readonly sceneModel: SoccerSceneModel, // TODO: Think hard about the best interface for this, https://github.com/phetsims/scenery-phet/issues/815
-    soccerBallMap: Map<SoccerBall, SoccerBallNode>,
+    private readonly groupSortInteractionModel: GroupSortInteractionModel<ItemModel>,
+    public readonly sceneModel: SceneModel<ItemModel>, // TODO: Think hard about the best interface for this, https://github.com/phetsims/scenery-phet/issues/815
+    soccerBallMap: Map<ItemModel, ItemView>,
     keyboardDragArrowNode: Node,
     primaryFocusedNode: Node,
     public readonly modelViewTransform: ModelViewTransform2,
@@ -54,21 +63,22 @@ export default class GroupSortInteractionView {
     } );
 
     // Update pointer areas and soccer ball focus (for keyboard and interactive highlight) when topmost ball changes
-    sceneModel.stackChangedEmitter.addListener( stack => {
+    sceneModel.stackChangedEmitter.addListener( () => {
+      const focusedGroupItem = focusedGroupItemProperty.value;
 
       // When a user is focused on the backLayerSoccerBallLayer, but no balls have landed yet, we want to ensure that
       // a focusedSoccerBall gets assigned once the ball lands.
       // TODO: Hard to generalize, perhaps with a hook like "update focus please" https://github.com/phetsims/scenery-phet/issues/815
       const topSoccerBalls = sceneModel.getTopSoccerBalls();
-      if ( focusedGroupItemProperty.value === null && topSoccerBalls.length > 0 && primaryFocusedNode.focused ) {
+      if ( focusedGroupItem === null && topSoccerBalls.length > 0 && primaryFocusedNode.focused ) {
         focusedGroupItemProperty.value = topSoccerBalls[ 0 ];
       }
 
       // Anytime a stack changes and the focusedSoccerBall is assigned, we want to make sure the focusedSoccerBall
       // stays on top.
-      if ( focusedGroupItemProperty.value !== null ) {
-        assert && assert( focusedGroupItemProperty.value.valueProperty.value !== null, 'The valueProperty of the focusedSoccerBall should not be null.' );
-        const focusedStack = sceneModel.getStackAtValue( focusedGroupItemProperty.value.valueProperty.value! );
+      if ( focusedGroupItem !== null ) {
+        assert && assert( focusedGroupItem.valueProperty.value !== null, 'The valueProperty of the focusedSoccerBall should not be null.' );
+        const focusedStack = sceneModel.getStackAtValue( focusedGroupItem.valueProperty.value! );
         focusedGroupItemProperty.value = focusedStack[ focusedStack.length - 1 ];
       }
     } );
@@ -79,7 +89,7 @@ export default class GroupSortInteractionView {
         if ( focusedGroupItemProperty.value === null && topSoccerBalls.length > 0 ) {
           if ( dragIndicatorValueProperty.value !== null ) {
             const dragIndicatorStack = sceneModel.getStackAtValue( dragIndicatorValueProperty.value,
-              ( soccerBall: SoccerBall ) => soccerBall.soccerBallPhaseProperty.value === SoccerBallPhase.STACKED );
+              soccerBall => soccerBall.soccerBallPhaseProperty.value === SoccerBallPhase.STACKED );
             focusedGroupItemProperty.value = dragIndicatorStack[ dragIndicatorStack.length - 1 ];
           }
           else {
@@ -142,7 +152,7 @@ export default class GroupSortInteractionView {
 
     // Move the focus highlight to a different soccer ball based on the provided delta.
     // TODO: Probably a hook, https://github.com/phetsims/scenery-phet/issues/815
-    const moveFocusByDelta = ( delta: number, topBallNodes: SoccerBallNode[] ) => {
+    const moveFocusByDelta = ( delta: number, topBallNodes: ItemView[] ) => {
 
       if ( focusedGroupItemProperty.value === null ) {
 
@@ -211,7 +221,7 @@ export default class GroupSortInteractionView {
                                                keysPressed === '8' ? 8 :
                                                keysPressed === '9' ? 9 :
                                                keysPressed === '0' ? 10 :
-                                               // TODO: Generalize to the range https://github.com/phetsims/scenery-phet/issues/815
+                                                 // TODO: Generalize to the range https://github.com/phetsims/scenery-phet/issues/815
                                                keysPressed === 'pageDown' ? Math.max( soccerBall.valueProperty.value! - 3, physicalRange.min ) :
                                                keysPressed === 'pageUp' ? Math.min( soccerBall.valueProperty.value! + 3, physicalRange.max ) :
                                                soccerBall.valueProperty.value;
@@ -242,9 +252,9 @@ export default class GroupSortInteractionView {
 
     // TODO: move to the model and use use resetInteractionState(), see about https://github.com/phetsims/scenery-phet/issues/815
     sceneModel.preClearDataEmitter.addListener( () => {
-      focusedGroupItemProperty.reset();
-      isGroupItemKeyboardGrabbedProperty.reset();
-      isKeyboardFocusedProperty.reset();
+        focusedGroupItemProperty.reset();
+        isGroupItemKeyboardGrabbedProperty.reset();
+        isKeyboardFocusedProperty.reset();
       }
     );
   }
