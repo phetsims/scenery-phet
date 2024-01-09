@@ -6,6 +6,10 @@
  * In general, there is just one instance of this per model, and not per scene. This is because if someone can
  * successfully grab and sort in one scene, then that data should transfer to the next scene.
  *
+ * To implement:
+ * - use with GroupSortInteractionView
+ * - call updateSortIndicator() manually (see CAV)
+ *
  * TODO: Dispose? https://github.com/phetsims/scenery-phet/issues/815
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
@@ -23,7 +27,6 @@ import NullableIO from '../../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import TProperty from '../../../axon/js/TProperty.js';
-import SoccerSceneModel from './SoccerSceneModel.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import { SoccerBallPhase } from './SoccerBallPhase.js';
 import TEmitter from '../../../axon/js/TEmitter.js';
@@ -46,7 +49,9 @@ export type GroupSortInteractionModelOptions = SelfOptions & ParentOptions;
 export default class GroupSortInteractionModel<ItemModel extends ItemModelType> {
 
   // The ItemModel that is receiving the highlight focus within the group highlight.
-  public readonly focusedGroupItemProperty = new Property<ItemModel | null>( null );
+  public readonly focusedGroupItemProperty = new Property<ItemModel | null>( null, {
+    isValidValue: x => !!x || x === null
+  } );
 
   // Whether a group item is being grabbed via keyboard interaction
   public readonly isGroupItemKeyboardGrabbedProperty = new Property( false );
@@ -129,27 +134,21 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   }
 
   /**
-   * TODO: doc https://github.com/phetsims/scenery-phet/issues/815
+   * Apply a heuristic to set the sort indicator value
    */
-  public updateSortIndicator( sceneModel: Pick<SoccerSceneModel, 'getActiveSoccerBalls' | 'getSortedStackedObjects'>, soccerBallCount: number, maxKicks: number ): void {
-
-    //  if an object was sorted, objects are not input enabled, or the max number of balls haven't been kicked out
-    //  don't show the sortIndicatorArrowNode
-    this.sortIndicatorCueVisibleProperty.value = !this.hasGroupItemBeenSortedProperty.value &&
-                                                 !this.isKeyboardFocusedProperty.value &&
-                                                 soccerBallCount === maxKicks &&
-                                                 this.sortEnabledProperty.value &&
-                                                 _.every( sceneModel?.getActiveSoccerBalls(), soccerBall => soccerBall.valueProperty.value !== null );
-
-    const reversedBalls = sceneModel.getActiveSoccerBalls().filter( soccerBall => soccerBall.valueProperty.value !== null ).reverse();
-
-    // Show the sort indicator over the most recently landed ball
-    this.sortIndicatorValueProperty.value = reversedBalls.length > 0 ? reversedBalls[ 0 ].valueProperty.value : null;
+  public updateSortIndicator(): void {
+    this.moveSortIndicatorToFocusedGroupItem();
   }
 
-
-  public moveToFocus( focusedSoccerBall: ItemModel | null ): void {
-    // TODO: needed for CAV, elsewhere too? https://github.com/phetsims/scenery-phet/issues/815
+  // No op if there is no stored focusedGroupItem.
+  public moveSortIndicatorToFocusedGroupItem(): void {
+    const focusedGroupItem = this.focusedGroupItemProperty.value;
+    if ( focusedGroupItem !== null ) {
+      console.log( focusedGroupItem );
+      // If there is an already focused group item, i.e. a group item that has been selected or tabbed to via the keyboard,
+      // that takes precedence for indication.
+      this.sortIndicatorValueProperty.value = focusedGroupItem.valueProperty.value;
+    }
   }
 
   /**
