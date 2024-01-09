@@ -115,13 +115,13 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
         return focusedGroupItem !== null && !hasGrabbedBall && hasKeyboardFocus;
       } );
 
-    // TODO: inline, and likely don't need to make an option for this grabCondition. https://github.com/phetsims/scenery-phet/issues/815
-    const createDerivedProperty = ( conditionProperty: TReadOnlyProperty<boolean>, grabCondition: ( isSoccerBallKeyboardGrabbed: boolean ) => boolean ) => new DerivedProperty(
-      [ this.focusedGroupItemProperty, this.isGroupItemKeyboardGrabbedProperty, this.isKeyboardFocusedProperty, conditionProperty ],
-      ( focusedBall, isSoccerBallKeyboardGrabbed, isKeyboardFocused, condition ) =>
-        focusedBall !== null && grabCondition( isSoccerBallKeyboardGrabbed ) && isKeyboardFocused && !condition );
-
-    this.isKeyboardDragArrowVisibleProperty = createDerivedProperty( this.hasKeyboardMovedGroupItemProperty, isSoccerBallKeyboardGrabbed => isSoccerBallKeyboardGrabbed );
+    this.isKeyboardDragArrowVisibleProperty = new DerivedProperty(
+      [ this.focusedGroupItemProperty,
+        this.isGroupItemKeyboardGrabbedProperty,
+        this.isKeyboardFocusedProperty,
+        this.hasKeyboardMovedGroupItemProperty
+      ], ( focusedGroupItem, isGroupItemKeyboardGrabbed, isKeyboardFocused, hasKeyboardMovedGroupItem ) =>
+        focusedGroupItem !== null && isGroupItemKeyboardGrabbed && isKeyboardFocused && !hasKeyboardMovedGroupItem );
   }
 
 
