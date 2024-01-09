@@ -34,7 +34,7 @@ export default class GroupSortInteractionView {
     public readonly modelViewTransform: ModelViewTransform2,
     physicalRange: Range ) {
 
-    const focusedSoccerBallProperty = this.groupSortInteractionModel.focusedSoccerBallProperty;
+    const focusedGroupItemProperty = this.groupSortInteractionModel.focusedGroupItemProperty;
     const isKeyboardFocusedProperty = this.groupSortInteractionModel.isKeyboardFocusedProperty;
     const isSoccerBallKeyboardGrabbedProperty = this.groupSortInteractionModel.isSoccerBallKeyboardGrabbedProperty;
     const hasKeyboardGrabbedBallProperty = this.groupSortInteractionModel.hasKeyboardGrabbedBallProperty;
@@ -60,39 +60,39 @@ export default class GroupSortInteractionView {
       // a focusedSoccerBall gets assigned once the ball lands.
       // TODO: Hard to generalize, perhaps with a hook like "update focus please" https://github.com/phetsims/scenery-phet/issues/815
       const topSoccerBalls = sceneModel.getTopSoccerBalls();
-      if ( focusedSoccerBallProperty.value === null && topSoccerBalls.length > 0 && primaryFocusedNode.focused ) {
-        focusedSoccerBallProperty.value = topSoccerBalls[ 0 ];
+      if ( focusedGroupItemProperty.value === null && topSoccerBalls.length > 0 && primaryFocusedNode.focused ) {
+        focusedGroupItemProperty.value = topSoccerBalls[ 0 ];
       }
 
       // Anytime a stack changes and the focusedSoccerBall is assigned, we want to make sure the focusedSoccerBall
       // stays on top.
-      if ( focusedSoccerBallProperty.value !== null ) {
-        assert && assert( focusedSoccerBallProperty.value.valueProperty.value !== null, 'The valueProperty of the focusedSoccerBall should not be null.' );
-        const focusedStack = sceneModel.getStackAtValue( focusedSoccerBallProperty.value.valueProperty.value! );
-        focusedSoccerBallProperty.value = focusedStack[ focusedStack.length - 1 ];
+      if ( focusedGroupItemProperty.value !== null ) {
+        assert && assert( focusedGroupItemProperty.value.valueProperty.value !== null, 'The valueProperty of the focusedSoccerBall should not be null.' );
+        const focusedStack = sceneModel.getStackAtValue( focusedGroupItemProperty.value.valueProperty.value! );
+        focusedGroupItemProperty.value = focusedStack[ focusedStack.length - 1 ];
       }
     } );
 
     primaryFocusedNode.addInputListener( {
       focus: () => {
         const topSoccerBalls = sceneModel.getTopSoccerBalls();
-        if ( focusedSoccerBallProperty.value === null && topSoccerBalls.length > 0 ) {
+        if ( focusedGroupItemProperty.value === null && topSoccerBalls.length > 0 ) {
           if ( dragIndicatorValueProperty.value !== null ) {
             const dragIndicatorStack = sceneModel.getStackAtValue( dragIndicatorValueProperty.value,
               ( soccerBall: SoccerBall ) => soccerBall.soccerBallPhaseProperty.value === SoccerBallPhase.STACKED );
-            focusedSoccerBallProperty.value = dragIndicatorStack[ dragIndicatorStack.length - 1 ];
+            focusedGroupItemProperty.value = dragIndicatorStack[ dragIndicatorStack.length - 1 ];
           }
           else {
-            focusedSoccerBallProperty.value = topSoccerBalls[ 0 ];
+            focusedGroupItemProperty.value = topSoccerBalls[ 0 ];
           }
 
         }
         isKeyboardFocusedProperty.value = true;
 
         // When the group receives keyboard focus, make sure that the focused ball is displayed
-        if ( focusedSoccerBallProperty.value !== null ) {
+        if ( focusedGroupItemProperty.value !== null ) {
           // TODO: awkward, https://github.com/phetsims/scenery-phet/issues/815
-          animatedPanZoomSingleton.listener.panToNode( soccerBallMap.get( focusedSoccerBallProperty.value )!, true );
+          animatedPanZoomSingleton.listener.panToNode( soccerBallMap.get( focusedGroupItemProperty.value )!, true );
         }
       },
       blur: () => {
@@ -105,7 +105,7 @@ export default class GroupSortInteractionView {
     } );
 
     Multilink.multilink( [
-        focusedSoccerBallProperty,
+        focusedGroupItemProperty,
         isSoccerBallKeyboardGrabbedProperty,
         dragIndicatorValueProperty
       ],
@@ -144,9 +144,9 @@ export default class GroupSortInteractionView {
     // TODO: Probably a hook, https://github.com/phetsims/scenery-phet/issues/815
     const moveFocusByDelta = ( delta: number, topBallNodes: SoccerBallNode[] ) => {
 
-      if ( focusedSoccerBallProperty.value === null ) {
+      if ( focusedGroupItemProperty.value === null ) {
 
-        // No-op if we do not have a focusedSoccerBallProperty.
+        // No-op if we do not have a focusedGroupItem.
         return;
       }
 
@@ -154,9 +154,9 @@ export default class GroupSortInteractionView {
 
       // We are deciding not to wrap the value around the ends of the range because the grabbed soccer ball
       // also does not wrap.
-      const currentIndex = topBallNodes.indexOf( soccerBallMap.get( focusedSoccerBallProperty.value )! );
+      const currentIndex = topBallNodes.indexOf( soccerBallMap.get( focusedGroupItemProperty.value )! );
       const nextIndex = Utils.clamp( currentIndex + delta, 0, numberOfTopSoccerBalls - 1 );
-      focusedSoccerBallProperty.value = topBallNodes[ nextIndex ].soccerBall;
+      focusedGroupItemProperty.value = topBallNodes[ nextIndex ].soccerBall;
     };
 
     const keyboardListener = new KeyboardListener( {
@@ -167,7 +167,7 @@ export default class GroupSortInteractionView {
         const topBallNodes = sceneModel.getTopSoccerBalls().map( soccerBall => soccerBallMap.get( soccerBall )! );
 
         // Select a soccer ball
-        if ( focusedSoccerBallProperty.value !== null ) {
+        if ( focusedGroupItemProperty.value !== null ) {
           if ( ( [ 'arrowRight', 'arrowLeft', 'a', 'd', 'arrowUp', 'arrowDown', 'w', 's' ].includes( keysPressed ) ) ) {
             if ( [ 'arrowRight', 'arrowLeft', 'arrowUp', 'arrowDown' ].includes( keysPressed ) && !isSoccerBallKeyboardGrabbedProperty.value ) {
               this.groupSortInteractionModel.hasKeyboardSelectedDifferentBallProperty.value = true;
@@ -179,7 +179,7 @@ export default class GroupSortInteractionView {
               this.groupSortInteractionModel.hasKeyboardMovedBallProperty.value = true;
 
               const delta = [ 'arrowLeft', 'a', 'arrowDown', 's' ].includes( keysPressed ) ? -1 : 1;
-              const soccerBall = focusedSoccerBallProperty.value;
+              const soccerBall = focusedGroupItemProperty.value;
               soccerBall.valueProperty.value = physicalRange.constrainValue( soccerBall.valueProperty.value! + delta );
               soccerBall.toneEmitter.emit( soccerBall.valueProperty.value );
             }
@@ -198,7 +198,7 @@ export default class GroupSortInteractionView {
               isSoccerBallKeyboardGrabbedProperty.value = false;
             }
             else {
-              const soccerBall = focusedSoccerBallProperty.value;
+              const soccerBall = focusedGroupItemProperty.value;
               soccerBall.valueProperty.value = keysPressed === 'home' ? physicalRange.min :
                                                keysPressed === 'end' ? physicalRange.max :
                                                keysPressed === '1' ? 1 :
@@ -225,7 +225,7 @@ export default class GroupSortInteractionView {
           // When using keyboard input, make sure that the "focused" ball is still displayed by panning to keep it
           // in view. `panToCenter` is false because centering the ball in the screen is too much movement.
           // TODO: Oh boy, https://github.com/phetsims/scenery-phet/issues/815
-          animatedPanZoomSingleton.listener.panToNode( soccerBallMap.get( focusedSoccerBallProperty.value )!, false );
+          animatedPanZoomSingleton.listener.panToNode( soccerBallMap.get( focusedGroupItemProperty.value )!, false );
         }
       }
     } );
@@ -242,7 +242,7 @@ export default class GroupSortInteractionView {
 
     // TODO: move to the model and use use resetInteractionState(), see about https://github.com/phetsims/scenery-phet/issues/815
     sceneModel.preClearDataEmitter.addListener( () => {
-      focusedSoccerBallProperty.reset();
+      focusedGroupItemProperty.reset();
       isSoccerBallKeyboardGrabbedProperty.reset();
       isKeyboardFocusedProperty.reset();
       }
