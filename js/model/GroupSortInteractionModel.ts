@@ -4,7 +4,7 @@
  * GroupSortInteractionModel
  *
  * In general, there is just one instance of this per model, and not per scene. This is because if someone can
- * successfully grab and drag in one scene, then that data should transfer to the next scene.
+ * successfully grab and sort in one scene, then that data should transfer to the next scene.
  *
  * TODO: Dispose? https://github.com/phetsims/scenery-phet/issues/815
  *
@@ -54,8 +54,8 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   // Whether the 'Press SPACE to Grab or Release' dialog is showing
   public readonly grabReleaseCueVisibleProperty: TReadOnlyProperty<boolean>;
 
-  // Whether the keyboard drag arrow is showing
-  public readonly isKeyboardDragArrowVisibleProperty: TReadOnlyProperty<boolean>;
+  // Whether the keyboard sort arrow cue is showing
+  public readonly keyboardSortArrowCueVisibleProperty: TReadOnlyProperty<boolean>;
 
   // Whether the keyboard is currently focused on a sim component
   public readonly isKeyboardFocusedProperty = new BooleanProperty( false );
@@ -70,18 +70,18 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   // TODO: MS!!! Is this used? https://github.com/phetsims/scenery-phet/issues/815
   public readonly hasKeyboardSelectedDifferentGroupItemProperty = new BooleanProperty( false );
 
-  // Whether the hand drag icon is currently showing on the group item area
-  public readonly isDragIndicatorVisibleProperty: TProperty<boolean>;
+  // Whether the hand sort icon is currently showing on the group item area
+  public readonly sortIndicatorCueVisibleProperty: TProperty<boolean>;
 
-  // The value on the number line for the group item that the drag indicator is currently over
-  public readonly dragIndicatorValueProperty: Property<number | null>;
+  // The value for group item that the sort indicator is set to; null when there are no group items to sort.
+  public readonly sortIndicatorValueProperty: Property<number | null>;
 
-  // Whether a group item has ever been dragged to a new value in the current scene // TODO: MS!!! "in the current scene" is likely incorrect. https://github.com/phetsims/scenery-phet/issues/815
-  public readonly hasGroupItemBeenDraggedProperty: Property<boolean>;
+  // Whether any group item has ever been sorted to a new value.
+  public readonly hasGroupItemBeenSortedProperty: Property<boolean>;
 
   // TODO: extend EnabledComponent? This is just a CAV studio thing right now soccerBallsEnabledProperty. https://github.com/phetsims/scenery-phet/issues/815
   // TODO: if disabled, should we be able to change selection in group (without grabbing one). https://github.com/phetsims/scenery-phet/issues/815
-  public constructor( public readonly dragEnabledProperty: TReadOnlyProperty<boolean>, providedOptions: GroupSortInteractionModelOptions ) {
+  public constructor( public readonly sortEnabledProperty: TReadOnlyProperty<boolean>, providedOptions: GroupSortInteractionModelOptions ) {
 
     const options = optionize<GroupSortInteractionModelOptions, SelfOptions, ParentOptions>()( {
       tandem: Tandem.OPTIONAL
@@ -89,21 +89,21 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
 
     // TODO: migration rules when moving to groupSortInteractionModel, https://github.com/phetsims/scenery-phet/issues/815
     // TODO: MS!!! Can you tell me why these are stateful, but the other group sort interaction ones aren't? For example,
-    //       the drag indicator position is, but the focused group item isn't? https://github.com/phetsims/scenery-phet/issues/815
-    this.hasGroupItemBeenDraggedProperty = new BooleanProperty( false, {
-      tandem: options.tandem.createTandem( 'hasGroupItemBeenDraggedProperty' ),
+    //       the sort indicator position is, but the focused group item isn't? https://github.com/phetsims/scenery-phet/issues/815
+    this.hasGroupItemBeenSortedProperty = new BooleanProperty( false, {
+      tandem: options.tandem.createTandem( 'hasGroupItemBeenSortedProperty' ),
       phetioFeatured: false
     } );
 
-    this.isDragIndicatorVisibleProperty = new BooleanProperty( false, {
-      tandem: options.tandem.createTandem( 'isDragIndicatorVisibleProperty' ),
+    this.sortIndicatorCueVisibleProperty = new BooleanProperty( false, {
+      tandem: options.tandem.createTandem( 'sortIndicatorCueVisibleProperty' ),
       phetioReadOnly: true,
       phetioFeatured: false
     } );
 
     // Cannot take a range, since it is nullable
-    this.dragIndicatorValueProperty = new Property<number | null>( null, {
-      tandem: options.tandem.createTandem( 'dragIndicatorValueProperty' ),
+    this.sortIndicatorValueProperty = new Property<number | null>( null, {
+      tandem: options.tandem.createTandem( 'sortIndicatorValueProperty' ),
       phetioValueType: NullableIO( NumberIO ),
       phetioFeatured: false,
       phetioReadOnly: true,
@@ -119,7 +119,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
       return focusedGroupItem !== null && !hasGrabbedBall && hasKeyboardFocus;
     } );
 
-    this.isKeyboardDragArrowVisibleProperty = new DerivedProperty( [
+    this.keyboardSortArrowCueVisibleProperty = new DerivedProperty( [
       this.focusedGroupItemProperty,
       this.isGroupItemKeyboardGrabbedProperty,
       this.isKeyboardFocusedProperty,
@@ -128,24 +128,23 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
       focusedGroupItem !== null && isGroupItemKeyboardGrabbed && isKeyboardFocused && !hasKeyboardSortedGroupItem );
   }
 
-
   /**
    * TODO: doc https://github.com/phetsims/scenery-phet/issues/815
    */
-  public updateDragIndicator( sceneModel: Pick<SoccerSceneModel, 'getActiveSoccerBalls' | 'getSortedStackedObjects'>, soccerBallCount: number, maxKicks: number ): void {
+  public updateSortIndicator( sceneModel: Pick<SoccerSceneModel, 'getActiveSoccerBalls' | 'getSortedStackedObjects'>, soccerBallCount: number, maxKicks: number ): void {
 
-    //  if an object was moved, objects are not input enabled, or the max number of balls haven't been kicked out
-    //  don't show the dragIndicatorArrowNode
-    this.isDragIndicatorVisibleProperty.value = !this.hasGroupItemBeenDraggedProperty.value &&
-                                                !this.isKeyboardFocusedProperty.value &&
-                                                soccerBallCount === maxKicks &&
-                                                this.dragEnabledProperty.value &&
-                                                _.every( sceneModel?.getActiveSoccerBalls(), soccerBall => soccerBall.valueProperty.value !== null );
+    //  if an object was sorted, objects are not input enabled, or the max number of balls haven't been kicked out
+    //  don't show the sortIndicatorArrowNode
+    this.sortIndicatorCueVisibleProperty.value = !this.hasGroupItemBeenSortedProperty.value &&
+                                                 !this.isKeyboardFocusedProperty.value &&
+                                                 soccerBallCount === maxKicks &&
+                                                 this.sortEnabledProperty.value &&
+                                                 _.every( sceneModel?.getActiveSoccerBalls(), soccerBall => soccerBall.valueProperty.value !== null );
 
     const reversedBalls = sceneModel.getActiveSoccerBalls().filter( soccerBall => soccerBall.valueProperty.value !== null ).reverse();
 
-    // Show the drag indicator over the most recently landed ball
-    this.dragIndicatorValueProperty.value = reversedBalls.length > 0 ? reversedBalls[ 0 ].valueProperty.value : null;
+    // Show the sort indicator over the most recently landed ball
+    this.sortIndicatorValueProperty.value = reversedBalls.length > 0 ? reversedBalls[ 0 ].valueProperty.value : null;
   }
 
 
@@ -162,7 +161,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
     this.isKeyboardFocusedProperty.reset();
   }
 
-  // TODO: MS!!!! handle reset for dragIndicator entities? None were reset before this refactor https://github.com/phetsims/scenery-phet/issues/815
+  // TODO: MS!!!! handle reset for sortIndicator entities? None were reset before this refactor https://github.com/phetsims/scenery-phet/issues/815
   public reset(): void {
     this.resetInteractionState();
 
