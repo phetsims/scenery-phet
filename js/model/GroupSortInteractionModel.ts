@@ -13,7 +13,6 @@ import soccerCommon from '../soccerCommon.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import Property from '../../../axon/js/Property.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import SoccerBall from './SoccerBall.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
@@ -22,19 +21,29 @@ import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import TProperty from '../../../axon/js/TProperty.js';
 import SoccerSceneModel from './SoccerSceneModel.js';
+import Vector2 from '../../../dot/js/Vector2.js';
+import { SoccerBallPhase } from './SoccerBallPhase.js';
+import TEmitter from '../../../axon/js/TEmitter.js';
 
 type SelfOptions = EmptySelfOptions;
+
+// TODO: Remove me? https://github.com/phetsims/scenery-phet/issues/815
+export type ItemModelType = {
+  valueProperty: TProperty<number | null>;
+  positionProperty: TProperty<Vector2>;
+  soccerBallPhaseProperty: TProperty<SoccerBallPhase>;
+  toneEmitter: TEmitter<[ number ]>;
+};
 
 type ParentOptions = Pick<PhetioObjectOptions, 'tandem'>;
 
 // TODO: "Soccer ball" -> "group item" https://github.com/phetsims/scenery-phet/issues/815
 export type GroupSortInteractionModelOptions = SelfOptions & ParentOptions;
 
-// TODO: Of type ItemModel https://github.com/phetsims/scenery-phet/issues/815
-export default class GroupSortInteractionModel {
+export default class GroupSortInteractionModel<ItemModel extends ItemModelType> {
 
   // The ItemModel that is receiving the highlight focus within the group highlight.
-  public readonly focusedGroupItemProperty = new Property<SoccerBall | null>( null );
+  public readonly focusedGroupItemProperty = new Property<ItemModel | null>( null );
 
   // Whether a group item is being grabbed via keyboard interaction
   public readonly isGroupItemKeyboardGrabbedProperty = new Property( false );
@@ -136,7 +145,7 @@ export default class GroupSortInteractionModel {
   }
 
 
-  public moveToFocus( focusedSoccerBall: SoccerBall | null ): void {
+  public moveToFocus( focusedSoccerBall: ItemModel | null ): void {
     // TODO: needed for CAV, elsewhere too? https://github.com/phetsims/scenery-phet/issues/815
   }
 
