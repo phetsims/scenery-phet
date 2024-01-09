@@ -91,9 +91,11 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
       focus: () => {
         const topSoccerBalls = sceneModel.getTopSoccerBalls();
         if ( focusedGroupItemProperty.value === null && topSoccerBalls.length > 0 ) {
-          if ( sortIndicatorValueProperty.value !== null ) {
-            const sortIndicatorStack = sceneModel.getStackAtValue( sortIndicatorValueProperty.value,
+          const sortIndicatorValue = sortIndicatorValueProperty.value;
+          if ( sortIndicatorValue !== null ) {
+            const sortIndicatorStack = sceneModel.getStackAtValue( sortIndicatorValue,
               soccerBall => soccerBall.soccerBallPhaseProperty.value === SoccerBallPhase.STACKED );
+            assert && assert( sortIndicatorStack.length > 0, `must have a stack length at the sortIndicator value: ${sortIndicatorValue}` );
             focusedGroupItemProperty.value = sortIndicatorStack[ sortIndicatorStack.length - 1 ];
           }
           else {
@@ -101,6 +103,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
           }
 
         }
+        // TODO: should this be true even if focusedGroupItemProperty.value is null? https://github.com/phetsims/scenery-phet/issues/815
         isKeyboardFocusedProperty.value = true;
 
         // When the group receives keyboard focus, make sure that the focused ball is displayed
@@ -114,6 +117,12 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
         isKeyboardFocusedProperty.value = false;
       },
       over: () => {
+        // TODO: this is awkward. In this situation:
+        //     1. tab to populated node, the keyboard grab cue is shown.
+        //     2. Move the mouse over a soccer ball, the keyboard grab cue goes away.
+        //     3. Press an arrow key to change focus to another in the group, the keyboard grab cue does not show up.
+        //        I bet it still thinks that isKeyboardFocusedProperty is false (!!!!)
+        //     https://github.com/phetsims/scenery-phet/issues/815
         isKeyboardFocusedProperty.value = false;
       }
     } );
