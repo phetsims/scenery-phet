@@ -47,7 +47,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     const isKeyboardFocusedProperty = this.groupSortInteractionModel.isKeyboardFocusedProperty;
     const isGroupItemKeyboardGrabbedProperty = this.groupSortInteractionModel.isGroupItemKeyboardGrabbedProperty;
     const hasKeyboardGrabbedGroupItemProperty = this.groupSortInteractionModel.hasKeyboardGrabbedGroupItemProperty;
-    const groupItemHasBeenDraggedProperty = this.groupSortInteractionModel.groupItemHasBeenDraggedProperty;
+    const hasGroupItemBeenDraggedProperty = this.groupSortInteractionModel.hasGroupItemBeenDraggedProperty;
     const dragIndicatorValueProperty = this.groupSortInteractionModel.dragIndicatorValueProperty;
 
     sceneModel.soccerBalls.forEach( soccerBall => {
@@ -57,7 +57,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
         // It's simpler to have the listener here because in the model or drag listener, there is rounding/snapping
         // And we only want to hide the indicator of the user dragged the ball a full tick mark
         if ( value !== null && oldValue !== null ) {
-          groupItemHasBeenDraggedProperty.value = true;
+          hasGroupItemBeenDraggedProperty.value = true;
         }
       } );
     } );
