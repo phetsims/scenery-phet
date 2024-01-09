@@ -34,7 +34,7 @@ export type GroupSortInteractionModelOptions = SelfOptions & ParentOptions;
 export default class GroupSortInteractionModel {
 
   // The soccerBall that is receiving highlight focus in the backLayerSoccerBallLayer group highlight
-  public readonly focusedSoccerBallProperty = new Property<SoccerBall | null>( null );
+  public readonly focusedGroupItemProperty = new Property<SoccerBall | null>( null );
 
   // Whether a soccer ball is being grabbed via keyboard interaction
   public readonly isSoccerBallKeyboardGrabbedProperty = new Property( false );
@@ -100,14 +100,14 @@ export default class GroupSortInteractionModel {
     } );
 
     // TODO: Rename to "cue" https://github.com/phetsims/scenery-phet/issues/815
-    this.isGrabReleaseVisibleProperty = new DerivedProperty( [ this.focusedSoccerBallProperty, this.hasKeyboardGrabbedBallProperty, this.isKeyboardFocusedProperty ],
+    this.isGrabReleaseVisibleProperty = new DerivedProperty( [ this.focusedGroupItemProperty, this.hasKeyboardGrabbedBallProperty, this.isKeyboardFocusedProperty ],
       ( focusedSoccerBall, hasGrabbedBall, hasKeyboardFocus ) => {
         return focusedSoccerBall !== null && !hasGrabbedBall && hasKeyboardFocus;
       } );
 
     // TODO: inline, and likely don't need to make an option for this grabCondition. https://github.com/phetsims/scenery-phet/issues/815
     const createDerivedProperty = ( conditionProperty: TReadOnlyProperty<boolean>, grabCondition: ( isSoccerBallKeyboardGrabbed: boolean ) => boolean ) => new DerivedProperty(
-      [ this.focusedSoccerBallProperty, this.isSoccerBallKeyboardGrabbedProperty, this.isKeyboardFocusedProperty, conditionProperty ],
+      [ this.focusedGroupItemProperty, this.isSoccerBallKeyboardGrabbedProperty, this.isKeyboardFocusedProperty, conditionProperty ],
       ( focusedBall, isSoccerBallKeyboardGrabbed, isKeyboardFocused, condition ) =>
         focusedBall !== null && grabCondition( isSoccerBallKeyboardGrabbed ) && isKeyboardFocused && !condition );
 
@@ -143,7 +143,7 @@ export default class GroupSortInteractionModel {
    * Reset the interaction without changing the cueing logic.
    */
   public resetInteractionState(): void {
-    this.focusedSoccerBallProperty.reset();
+    this.focusedGroupItemProperty.reset();
     this.isSoccerBallKeyboardGrabbedProperty.reset();
     this.isKeyboardFocusedProperty.reset();
   }
@@ -160,7 +160,7 @@ export default class GroupSortInteractionModel {
   }
 
   public clearFocus(): void {
-    this.focusedSoccerBallProperty.value = null;
+    this.focusedGroupItemProperty.value = null;
   }
 }
 
