@@ -38,8 +38,8 @@ export default class GroupSortInteractionView {
     const isKeyboardFocusedProperty = this.groupSortInteractionModel.isKeyboardFocusedProperty;
     const isSoccerBallKeyboardGrabbedProperty = this.groupSortInteractionModel.isSoccerBallKeyboardGrabbedProperty;
     const hasKeyboardGrabbedBallProperty = this.groupSortInteractionModel.hasKeyboardGrabbedBallProperty;
-    const soccerBallHasBeenDraggedProperty = this.groupSortInteractionModel.dragIndicatorModel.soccerBallHasBeenDraggedProperty;
-    const dragIndicatorValueProperty = this.groupSortInteractionModel.dragIndicatorModel.valueProperty;
+    const soccerBallHasBeenDraggedProperty = this.groupSortInteractionModel.soccerBallHasBeenDraggedProperty;
+    const dragIndicatorValueProperty = this.groupSortInteractionModel.dragIndicatorValueProperty;
 
     sceneModel.soccerBalls.forEach( soccerBall => {
       soccerBall.valueProperty.link( ( value, oldValue ) => {
