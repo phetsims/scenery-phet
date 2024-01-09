@@ -1,7 +1,12 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * TODO! https://github.com/phetsims/scenery-phet/issues/815
+ * The view of the Group Sort Interaction. This type handles adding the controller for the selection, grab, and sort
+ * interaction for keyboard. It also handles the group and individual focus highlights.
+ *
+ * TODO: Dispose? https://github.com/phetsims/scenery-phet/issues/815
+ * @author Michael Kauzmann (PhET Interactive Simulations)
+ * @author Marla Schulz (PhET Interactive Simulations)
  */
 
 import { animatedPanZoomSingleton, HighlightFromNode, HighlightPath, KeyboardListener, Node } from '../../../scenery/js/imports.js';
@@ -31,15 +36,14 @@ type SceneModel<ItemModel> = {
 
 export default class GroupSortInteractionView<ItemModel extends ItemModelType, ItemView extends ItemViewType<ItemModel>> {
 
-  // TODO: rename, this is the group focus highlight (kinda?) https://github.com/phetsims/scenery-phet/issues/815
-  private readonly focusHighlightPath: HighlightPath;
+  private readonly groupFocusHighlightPath: HighlightPath;
 
   public constructor(
     private readonly groupSortInteractionModel: GroupSortInteractionModel<ItemModel>,
+    primaryFocusedNode: Node,
     public readonly sceneModel: SceneModel<ItemModel>, // TODO: Think hard about the best interface for this, https://github.com/phetsims/scenery-phet/issues/815
     soccerBallMap: Map<ItemModel, ItemView>,
     keyboardDragArrowNode: Node,
-    primaryFocusedNode: Node,
     public readonly modelViewTransform: ModelViewTransform2,
     physicalRange: Range ) {
 
@@ -186,7 +190,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
               moveFocusByDelta( delta, topBallNodes );
             }
             else if ( isGroupItemKeyboardGrabbedProperty.value ) {
-              this.groupSortInteractionModel.hasKeyboardMovedGroupItemProperty.value = true;
+              this.groupSortInteractionModel.hasKeyboardSortedGroupItemProperty.value = true;
 
               const delta = [ 'arrowLeft', 'a', 'arrowDown', 's' ].includes( keysPressed ) ? -1 : 1;
               const soccerBall = focusedGroupItemProperty.value;
@@ -227,7 +231,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
                                                soccerBall.valueProperty.value;
               if ( typeof soccerBall.valueProperty.value === 'number' ) {
                 soccerBall.toneEmitter.emit( soccerBall.valueProperty.value );
-                this.groupSortInteractionModel.hasKeyboardMovedGroupItemProperty.value = true;
+                this.groupSortInteractionModel.hasKeyboardSortedGroupItemProperty.value = true;
               }
             }
           }
@@ -241,13 +245,13 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     } );
 
     // Set the outer group focus region to surround the entire area where group items are located.
-    this.focusHighlightPath = new HighlightPath( null, {
+    this.groupFocusHighlightPath = new HighlightPath( null, {
       outerStroke: HighlightPath.OUTER_LIGHT_GROUP_FOCUS_COLOR,
       innerStroke: HighlightPath.INNER_LIGHT_GROUP_FOCUS_COLOR,
       outerLineWidth: HighlightPath.GROUP_OUTER_LINE_WIDTH,
       innerLineWidth: HighlightPath.GROUP_INNER_LINE_WIDTH
     } );
-    primaryFocusedNode.setGroupFocusHighlight( this.focusHighlightPath );
+    primaryFocusedNode.setGroupFocusHighlight( this.groupFocusHighlightPath );
     primaryFocusedNode.addInputListener( keyboardListener );
 
     // TODO: move to the model and use use resetInteractionState(), see about https://github.com/phetsims/scenery-phet/issues/815
@@ -267,12 +271,29 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
   public setGroupFocusHighlightTop( top: number ): void {
     const margin = 4; // Distance below the accordion box
     const shapeForLeftRightBottom = this.modelViewTransform.modelToViewShape( Shape.rect( 0.5, 0, 15, 6 ) ).transformed( Matrix3.translation( 0, 37 ) );
-    this.focusHighlightPath.shape = Shape.rect(
+    this.groupFocusHighlightPath.shape = Shape.rect(
       shapeForLeftRightBottom.bounds.x,
       top + margin,
       shapeForLeftRightBottom.bounds.width,
       shapeForLeftRightBottom.bounds.bottom - top - margin
     );
+  }
+
+  /**
+   * Creator factory, similar to PhetioObject.create(). This is most useful if you don't need to keep the instance of
+   * your GroupSortInteractionView.
+   */
+  public create<ItemModel extends ItemModelType, ItemView extends ItemViewType<ItemModel>>(
+    groupSortInteractionModel: GroupSortInteractionModel<ItemModel>,
+    primaryFocusedNode: Node,
+    sceneModel: SceneModel<ItemModel>,
+    soccerBallMap: Map<ItemModel, ItemView>,
+    keyboardDragArrowNode: Node,
+    modelViewTransform: ModelViewTransform2,
+    physicalRange: Range ): GroupSortInteractionView<ItemModel, ItemView> {
+
+    return new GroupSortInteractionView<ItemModel, ItemView>( groupSortInteractionModel, primaryFocusedNode,
+      sceneModel, soccerBallMap, keyboardDragArrowNode, modelViewTransform, physicalRange );
   }
 }
 
