@@ -64,7 +64,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   public readonly hasKeyboardMovedGroupItemProperty = new BooleanProperty( false );
 
   // Whether the user has changed the selected group item with the keyboard controls
-  // TODO: Is this used? https://github.com/phetsims/scenery-phet/issues/815
+  // TODO: MS!!! Is this used? https://github.com/phetsims/scenery-phet/issues/815
   public readonly hasKeyboardSelectedDifferentGroupItemProperty = new BooleanProperty( false );
 
   // Whether the hand drag icon is currently showing on the group item area
@@ -73,8 +73,8 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   // The value on the number line for the group item that the drag indicator is currently over
   public readonly dragIndicatorValueProperty: Property<number | null>;
 
-  // Whether a group item has ever been dragged to a new value in the current scene // TODO: "in the current scene" is likely incorrect. https://github.com/phetsims/scenery-phet/issues/815
-  public readonly groupItemHasBeenDraggedProperty: Property<boolean>;
+  // Whether a group item has ever been dragged to a new value in the current scene // TODO: MS!!! "in the current scene" is likely incorrect. https://github.com/phetsims/scenery-phet/issues/815
+  public readonly hasGroupItemBeenDraggedProperty: Property<boolean>;
 
   // TODO: extend EnabledComponent? This is just a CAV studio thing right now soccerBallsEnabledProperty. https://github.com/phetsims/scenery-phet/issues/815
   // TODO: if disabled, should we be able to change selection in group (without grabbing one). https://github.com/phetsims/scenery-phet/issues/815
@@ -85,11 +85,10 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
     }, providedOptions );
 
     // TODO: migration rules when moving to groupSortInteractionModel, https://github.com/phetsims/scenery-phet/issues/815
-    // TODO: Rename to hasSoccerBallBeenDraggedProperty https://github.com/phetsims/scenery-phet/issues/815
     // TODO: MS!!! Can you tell me why these are stateful, but the other group sort interaction ones aren't? For example,
     //       the drag indicator position is, but the focused group item isn't? https://github.com/phetsims/scenery-phet/issues/815
-    this.groupItemHasBeenDraggedProperty = new BooleanProperty( false, {
-      tandem: options.tandem.createTandem( 'groupItemHasBeenDraggedProperty' ),
+    this.hasGroupItemBeenDraggedProperty = new BooleanProperty( false, {
+      tandem: options.tandem.createTandem( 'hasGroupItemBeenDraggedProperty' ),
       phetioFeatured: false
     } );
 
@@ -134,7 +133,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
 
     //  if an object was moved, objects are not input enabled, or the max number of balls haven't been kicked out
     //  don't show the dragIndicatorArrowNode
-    this.isDragIndicatorVisibleProperty.value = !this.groupItemHasBeenDraggedProperty.value &&
+    this.isDragIndicatorVisibleProperty.value = !this.hasGroupItemBeenDraggedProperty.value &&
                                                 !this.isKeyboardFocusedProperty.value &&
                                                 soccerBallCount === maxKicks &&
                                                 this.dragEnabledProperty.value &&
@@ -168,7 +167,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
     this.hasKeyboardGrabbedGroupItemProperty.reset();
     this.hasKeyboardSelectedDifferentGroupItemProperty.reset();
     this.hasKeyboardMovedGroupItemProperty.reset();
-    this.groupItemHasBeenDraggedProperty.reset(); // TODO: reset this? https://github.com/phetsims/scenery-phet/issues/815
+    this.hasGroupItemBeenDraggedProperty.reset(); // TODO: reset this? https://github.com/phetsims/scenery-phet/issues/815
   }
 
   public clearFocus(): void {
