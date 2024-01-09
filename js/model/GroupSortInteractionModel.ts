@@ -5,6 +5,9 @@
  *
  * In general, there is just one instance of this per model, and not per scene. This is because if someone can
  * successfully grab and drag in one scene, then that data should transfer to the next scene.
+ *
+ * TODO: Dispose? https://github.com/phetsims/scenery-phet/issues/815
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  *
  */
@@ -60,8 +63,8 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   // Properties that switch to true when the specified action has occurred once.
   public readonly hasKeyboardGrabbedGroupItemProperty = new BooleanProperty( false );
 
-  // Whether a group item has been moved with the keyboard controls
-  public readonly hasKeyboardMovedGroupItemProperty = new BooleanProperty( false );
+  // Whether a group item has been sorted with keyboard input.
+  public readonly hasKeyboardSortedGroupItemProperty = new BooleanProperty( false );
 
   // Whether the user has changed the selected group item with the keyboard controls
   // TODO: MS!!! Is this used? https://github.com/phetsims/scenery-phet/issues/815
@@ -120,9 +123,9 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
       this.focusedGroupItemProperty,
       this.isGroupItemKeyboardGrabbedProperty,
       this.isKeyboardFocusedProperty,
-      this.hasKeyboardMovedGroupItemProperty
-    ], ( focusedGroupItem, isGroupItemKeyboardGrabbed, isKeyboardFocused, hasKeyboardMovedGroupItem ) =>
-      focusedGroupItem !== null && isGroupItemKeyboardGrabbed && isKeyboardFocused && !hasKeyboardMovedGroupItem );
+      this.hasKeyboardSortedGroupItemProperty
+    ], ( focusedGroupItem, isGroupItemKeyboardGrabbed, isKeyboardFocused, hasKeyboardSortedGroupItem ) =>
+      focusedGroupItem !== null && isGroupItemKeyboardGrabbed && isKeyboardFocused && !hasKeyboardSortedGroupItem );
   }
 
 
@@ -159,15 +162,13 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
     this.isKeyboardFocusedProperty.reset();
   }
 
-  // TODO: handle reset for dragIndicator entities. https://github.com/phetsims/scenery-phet/issues/815
+  // TODO: MS!!!! handle reset for dragIndicator entities? None were reset before this refactor https://github.com/phetsims/scenery-phet/issues/815
   public reset(): void {
     this.resetInteractionState();
 
-    // TODO: is it ok for this to be after isKeyboardFocusedProperty? https://github.com/phetsims/scenery-phet/issues/815
     this.hasKeyboardGrabbedGroupItemProperty.reset();
     this.hasKeyboardSelectedDifferentGroupItemProperty.reset();
-    this.hasKeyboardMovedGroupItemProperty.reset();
-    this.hasGroupItemBeenDraggedProperty.reset(); // TODO: reset this? https://github.com/phetsims/scenery-phet/issues/815
+    this.hasKeyboardSortedGroupItemProperty.reset();
   }
 
   public clearFocus(): void {
