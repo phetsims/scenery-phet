@@ -36,9 +36,9 @@ export default class GroupSortInteractionView {
 
     const focusedGroupItemProperty = this.groupSortInteractionModel.focusedGroupItemProperty;
     const isKeyboardFocusedProperty = this.groupSortInteractionModel.isKeyboardFocusedProperty;
-    const isSoccerBallKeyboardGrabbedProperty = this.groupSortInteractionModel.isSoccerBallKeyboardGrabbedProperty;
-    const hasKeyboardGrabbedBallProperty = this.groupSortInteractionModel.hasKeyboardGrabbedBallProperty;
-    const soccerBallHasBeenDraggedProperty = this.groupSortInteractionModel.soccerBallHasBeenDraggedProperty;
+    const isGroupItemKeyboardGrabbedProperty = this.groupSortInteractionModel.isGroupItemKeyboardGrabbedProperty;
+    const hasKeyboardGrabbedGroupItemProperty = this.groupSortInteractionModel.hasKeyboardGrabbedGroupItemProperty;
+    const groupItemHasBeenDraggedProperty = this.groupSortInteractionModel.groupItemHasBeenDraggedProperty;
     const dragIndicatorValueProperty = this.groupSortInteractionModel.dragIndicatorValueProperty;
 
     sceneModel.soccerBalls.forEach( soccerBall => {
@@ -48,7 +48,7 @@ export default class GroupSortInteractionView {
         // It's simpler to have the listener here because in the model or drag listener, there is rounding/snapping
         // And we only want to hide the indicator of the user dragged the ball a full tick mark
         if ( value !== null && oldValue !== null ) {
-          soccerBallHasBeenDraggedProperty.value = true;
+          groupItemHasBeenDraggedProperty.value = true;
         }
       } );
     } );
@@ -96,7 +96,7 @@ export default class GroupSortInteractionView {
         }
       },
       blur: () => {
-        isSoccerBallKeyboardGrabbedProperty.value = false;
+        isGroupItemKeyboardGrabbedProperty.value = false;
         isKeyboardFocusedProperty.value = false;
       },
       over: () => {
@@ -106,7 +106,7 @@ export default class GroupSortInteractionView {
 
     Multilink.multilink( [
         focusedGroupItemProperty,
-        isSoccerBallKeyboardGrabbedProperty,
+        isGroupItemKeyboardGrabbedProperty,
         dragIndicatorValueProperty
       ],
       ( focusedSoccerBall, isSoccerBallGrabbed, dragIndicatorValue ) => {
@@ -169,14 +169,14 @@ export default class GroupSortInteractionView {
         // Select a soccer ball
         if ( focusedGroupItemProperty.value !== null ) {
           if ( ( [ 'arrowRight', 'arrowLeft', 'a', 'd', 'arrowUp', 'arrowDown', 'w', 's' ].includes( keysPressed ) ) ) {
-            if ( [ 'arrowRight', 'arrowLeft', 'arrowUp', 'arrowDown' ].includes( keysPressed ) && !isSoccerBallKeyboardGrabbedProperty.value ) {
-              this.groupSortInteractionModel.hasKeyboardSelectedDifferentBallProperty.value = true;
+            if ( [ 'arrowRight', 'arrowLeft', 'arrowUp', 'arrowDown' ].includes( keysPressed ) && !isGroupItemKeyboardGrabbedProperty.value ) {
+              this.groupSortInteractionModel.hasKeyboardSelectedDifferentGroupItemProperty.value = true;
 
               const delta = [ 'arrowRight', 'arrowUp' ].includes( keysPressed ) ? 1 : -1;
               moveFocusByDelta( delta, topBallNodes );
             }
-            else if ( isSoccerBallKeyboardGrabbedProperty.value ) {
-              this.groupSortInteractionModel.hasKeyboardMovedBallProperty.value = true;
+            else if ( isGroupItemKeyboardGrabbedProperty.value ) {
+              this.groupSortInteractionModel.hasKeyboardMovedGroupItemProperty.value = true;
 
               const delta = [ 'arrowLeft', 'a', 'arrowDown', 's' ].includes( keysPressed ) ? -1 : 1;
               const soccerBall = focusedGroupItemProperty.value;
@@ -184,18 +184,18 @@ export default class GroupSortInteractionView {
               soccerBall.toneEmitter.emit( soccerBall.valueProperty.value );
             }
           }
-          else if ( [ 'home', 'end' ].includes( keysPressed ) && !isSoccerBallKeyboardGrabbedProperty.value ) {
+          else if ( [ 'home', 'end' ].includes( keysPressed ) && !isGroupItemKeyboardGrabbedProperty.value ) {
             const delta = keysPressed === 'home' ? -physicalRange.max : physicalRange.max;
             moveFocusByDelta( delta, topBallNodes );
           }
           else if ( keysPressed === 'enter' || keysPressed === 'space' ) {
-            isSoccerBallKeyboardGrabbedProperty.value = !isSoccerBallKeyboardGrabbedProperty.value;
-            hasKeyboardGrabbedBallProperty.value = true;
+            isGroupItemKeyboardGrabbedProperty.value = !isGroupItemKeyboardGrabbedProperty.value;
+            hasKeyboardGrabbedGroupItemProperty.value = true;
           }
-          else if ( isSoccerBallKeyboardGrabbedProperty.value ) {
+          else if ( isGroupItemKeyboardGrabbedProperty.value ) {
 
             if ( keysPressed === 'escape' ) {
-              isSoccerBallKeyboardGrabbedProperty.value = false;
+              isGroupItemKeyboardGrabbedProperty.value = false;
             }
             else {
               const soccerBall = focusedGroupItemProperty.value;
@@ -217,7 +217,7 @@ export default class GroupSortInteractionView {
                                                soccerBall.valueProperty.value;
               if ( typeof soccerBall.valueProperty.value === 'number' ) {
                 soccerBall.toneEmitter.emit( soccerBall.valueProperty.value );
-                this.groupSortInteractionModel.hasKeyboardMovedBallProperty.value = true;
+                this.groupSortInteractionModel.hasKeyboardMovedGroupItemProperty.value = true;
               }
             }
           }
@@ -230,7 +230,7 @@ export default class GroupSortInteractionView {
       }
     } );
 
-    // Set the outer group focus region to cover the entire area where soccer balls may land, translate lower so it also includes the number line and labels
+    // Set the outer group focus region to surround the entire area where group items are located.
     this.focusHighlightPath = new HighlightPath( null, {
       outerStroke: HighlightPath.OUTER_LIGHT_GROUP_FOCUS_COLOR,
       innerStroke: HighlightPath.INNER_LIGHT_GROUP_FOCUS_COLOR,
@@ -243,15 +243,16 @@ export default class GroupSortInteractionView {
     // TODO: move to the model and use use resetInteractionState(), see about https://github.com/phetsims/scenery-phet/issues/815
     sceneModel.preClearDataEmitter.addListener( () => {
       focusedGroupItemProperty.reset();
-      isSoccerBallKeyboardGrabbedProperty.reset();
+      isGroupItemKeyboardGrabbedProperty.reset();
       isKeyboardFocusedProperty.reset();
       }
     );
   }
 
   /**
+   * // TODO: subtype? https://github.com/phetsims/scenery-phet/issues/815
    * The group focus region for the soccer ball area is supposed to be just below the accordion box, and adjust when the
-   * accordion box expands and collapses.
+   * accordion box expands and collapses. Translate lower so it also includes the number line and labels
    */
   public setGroupFocusHighlightTop( top: number ): void {
     const margin = 4; // Distance below the accordion box
