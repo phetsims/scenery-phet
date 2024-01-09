@@ -43,7 +43,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     primaryFocusedNode: Node,
     public readonly sceneModel: SceneModel<ItemModel>, // TODO: Think hard about the best interface for this, https://github.com/phetsims/scenery-phet/issues/815
     soccerBallMap: Map<ItemModel, ItemView>,
-    keyboardDragArrowNode: Node,
+    keyboardSortArrowCueNode: Node,
     public readonly modelViewTransform: ModelViewTransform2,
     physicalRange: Range ) {
 
@@ -51,8 +51,8 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     const isKeyboardFocusedProperty = this.groupSortInteractionModel.isKeyboardFocusedProperty;
     const isGroupItemKeyboardGrabbedProperty = this.groupSortInteractionModel.isGroupItemKeyboardGrabbedProperty;
     const hasKeyboardGrabbedGroupItemProperty = this.groupSortInteractionModel.hasKeyboardGrabbedGroupItemProperty;
-    const hasGroupItemBeenDraggedProperty = this.groupSortInteractionModel.hasGroupItemBeenDraggedProperty;
-    const dragIndicatorValueProperty = this.groupSortInteractionModel.dragIndicatorValueProperty;
+    const hasGroupItemBeenSortedProperty = this.groupSortInteractionModel.hasGroupItemBeenSortedProperty;
+    const sortIndicatorValueProperty = this.groupSortInteractionModel.sortIndicatorValueProperty;
 
     sceneModel.soccerBalls.forEach( soccerBall => {
       soccerBall.valueProperty.link( ( value, oldValue ) => {
@@ -61,7 +61,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
         // It's simpler to have the listener here because in the model or drag listener, there is rounding/snapping
         // And we only want to hide the indicator of the user dragged the ball a full tick mark
         if ( value !== null && oldValue !== null ) {
-          hasGroupItemBeenDraggedProperty.value = true;
+          hasGroupItemBeenSortedProperty.value = true;
         }
       } );
     } );
@@ -91,10 +91,10 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
       focus: () => {
         const topSoccerBalls = sceneModel.getTopSoccerBalls();
         if ( focusedGroupItemProperty.value === null && topSoccerBalls.length > 0 ) {
-          if ( dragIndicatorValueProperty.value !== null ) {
-            const dragIndicatorStack = sceneModel.getStackAtValue( dragIndicatorValueProperty.value,
+          if ( sortIndicatorValueProperty.value !== null ) {
+            const sortIndicatorStack = sceneModel.getStackAtValue( sortIndicatorValueProperty.value,
               soccerBall => soccerBall.soccerBallPhaseProperty.value === SoccerBallPhase.STACKED );
-            focusedGroupItemProperty.value = dragIndicatorStack[ dragIndicatorStack.length - 1 ];
+            focusedGroupItemProperty.value = sortIndicatorStack[ sortIndicatorStack.length - 1 ];
           }
           else {
             focusedGroupItemProperty.value = topSoccerBalls[ 0 ];
@@ -121,9 +121,9 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     Multilink.multilink( [
         focusedGroupItemProperty,
         isGroupItemKeyboardGrabbedProperty,
-        dragIndicatorValueProperty
+        sortIndicatorValueProperty
       ],
-      ( focusedSoccerBall, isSoccerBallGrabbed, dragIndicatorValue ) => {
+      ( focusedSoccerBall, isSoccerBallGrabbed, sortIndicatorValue ) => {
         if ( focusedSoccerBall ) {
 
           const focusForSelectedBall = new HighlightFromNode( soccerBallMap.get( focusedSoccerBall )!, { dashed: isSoccerBallGrabbed } );
@@ -133,11 +133,11 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
           primaryFocusedNode.setFocusHighlight( 'invisible' );
         }
 
-        // The selection arrow is shown over the same ball as the mouse drag indicator ball
-        if ( dragIndicatorValue !== null ) {
+        // The selection arrow is shown over the same ball as the mouse sort indicator ball
+        if ( sortIndicatorValue !== null ) {
 
           // If a soccer ball has focus, that takes precedence for displaying the indicators
-          const valueToShow = focusedSoccerBall ? focusedSoccerBall.valueProperty.value! : dragIndicatorValue;
+          const valueToShow = focusedSoccerBall ? focusedSoccerBall.valueProperty.value! : sortIndicatorValue;
           const stack = this.sceneModel.getStackAtValue( valueToShow );
 
           if ( stack.length > 0 ) {
@@ -147,8 +147,8 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
             const topBall = stack[ stack.length - 1 ];
             const position = topBall.positionProperty.value;
 
-            keyboardDragArrowNode.centerBottom = modelViewTransform.modelToViewPosition( position ).plusXY( 0, arrowOffset );
-            keyboardDragArrowNode.moveToFront();
+            keyboardSortArrowCueNode.centerBottom = modelViewTransform.modelToViewPosition( position ).plusXY( 0, arrowOffset );
+            keyboardSortArrowCueNode.moveToFront();
           }
         }
       }
@@ -288,12 +288,12 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     primaryFocusedNode: Node,
     sceneModel: SceneModel<ItemModel>,
     soccerBallMap: Map<ItemModel, ItemView>,
-    keyboardDragArrowNode: Node,
+    keyboardSortArrowCueNode: Node,
     modelViewTransform: ModelViewTransform2,
     physicalRange: Range ): GroupSortInteractionView<ItemModel, ItemView> {
 
     return new GroupSortInteractionView<ItemModel, ItemView>( groupSortInteractionModel, primaryFocusedNode,
-      sceneModel, soccerBallMap, keyboardDragArrowNode, modelViewTransform, physicalRange );
+      sceneModel, soccerBallMap, keyboardSortArrowCueNode, modelViewTransform, physicalRange );
   }
 }
 
