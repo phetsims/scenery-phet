@@ -33,11 +33,11 @@ export type GroupSortInteractionModelOptions = SelfOptions & ParentOptions;
 // TODO: Of type ItemModel https://github.com/phetsims/scenery-phet/issues/815
 export default class GroupSortInteractionModel {
 
-  // The soccerBall that is receiving highlight focus in the backLayerSoccerBallLayer group highlight
+  // The ItemModel that is receiving the highlight focus within the group highlight.
   public readonly focusedGroupItemProperty = new Property<SoccerBall | null>( null );
 
-  // Whether a soccer ball is being grabbed via keyboard interaction
-  public readonly isSoccerBallKeyboardGrabbedProperty = new Property( false );
+  // Whether a group item is being grabbed via keyboard interaction
+  public readonly isGroupItemKeyboardGrabbedProperty = new Property( false );
 
   // Whether the 'Press SPACE to Grab or Release' dialog is showing
   public readonly isGrabReleaseVisibleProperty: TReadOnlyProperty<boolean>;
@@ -49,22 +49,23 @@ export default class GroupSortInteractionModel {
   public readonly isKeyboardFocusedProperty = new BooleanProperty( false );
 
   // Properties that switch to true when the specified action has occurred once.
-  public readonly hasKeyboardGrabbedBallProperty = new BooleanProperty( false );
+  public readonly hasKeyboardGrabbedGroupItemProperty = new BooleanProperty( false );
 
-  // Whether a soccer ball has been moved with the keyboard controls
-  public readonly hasKeyboardMovedBallProperty = new BooleanProperty( false );
+  // Whether a group item has been moved with the keyboard controls
+  public readonly hasKeyboardMovedGroupItemProperty = new BooleanProperty( false );
 
-  // Whether the user has changed the selected soccer ball with the keyboard controls
-  public readonly hasKeyboardSelectedDifferentBallProperty = new BooleanProperty( false );
+  // Whether the user has changed the selected group item with the keyboard controls
+  // TODO: Is this used? https://github.com/phetsims/scenery-phet/issues/815
+  public readonly hasKeyboardSelectedDifferentGroupItemProperty = new BooleanProperty( false );
 
-  // Whether the hand drag icon is currently showing on the soccer ball area
+  // Whether the hand drag icon is currently showing on the group item area
   public readonly isDragIndicatorVisibleProperty: TProperty<boolean>;
 
-  // The value on the number line for the soccer ball that the drag indicator is currently over
+  // The value on the number line for the group item that the drag indicator is currently over
   public readonly dragIndicatorValueProperty: Property<number | null>;
 
-  // Whether a soccer ball has ever been dragged to a new value in the current scene // TODO: "in the current scene" is likely incorrect. https://github.com/phetsims/scenery-phet/issues/815
-  public readonly soccerBallHasBeenDraggedProperty: Property<boolean>;
+  // Whether a group item has ever been dragged to a new value in the current scene // TODO: "in the current scene" is likely incorrect. https://github.com/phetsims/scenery-phet/issues/815
+  public readonly groupItemHasBeenDraggedProperty: Property<boolean>;
 
   // TODO: extend EnabledComponent? This is just a CAV studio thing right now soccerBallsEnabledProperty. https://github.com/phetsims/scenery-phet/issues/815
   // TODO: if disabled, should we be able to change selection in group (without grabbing one). https://github.com/phetsims/scenery-phet/issues/815
@@ -77,9 +78,9 @@ export default class GroupSortInteractionModel {
     // TODO: migration rules when moving to groupSortInteractionModel, https://github.com/phetsims/scenery-phet/issues/815
     // TODO: Rename to hasSoccerBallBeenDraggedProperty https://github.com/phetsims/scenery-phet/issues/815
     // TODO: MS!!! Can you tell me why these are stateful, but the other group sort interaction ones aren't? For example,
-    //       the drag indicator position is, but the focused soccer ball isn't? https://github.com/phetsims/scenery-phet/issues/815
-    this.soccerBallHasBeenDraggedProperty = new BooleanProperty( false, {
-      tandem: options.tandem.createTandem( 'soccerBallHasBeenDraggedProperty' ),
+    //       the drag indicator position is, but the focused group item isn't? https://github.com/phetsims/scenery-phet/issues/815
+    this.groupItemHasBeenDraggedProperty = new BooleanProperty( false, {
+      tandem: options.tandem.createTandem( 'groupItemHasBeenDraggedProperty' ),
       phetioFeatured: false
     } );
 
@@ -95,23 +96,23 @@ export default class GroupSortInteractionModel {
       phetioValueType: NullableIO( NumberIO ),
       phetioFeatured: false,
       phetioReadOnly: true,
-      // TODO: this seems weird to call a hand. MS!!! https://github.com/phetsims/scenery-phet/issues/815
-      phetioDocumentation: 'Sets the location of the hand/arrow on the number line. If one or more soccer balls exist at that location, the indicator appears on the topmost ball.'
+      // TODO: this seems weird to call a hand. Also "ball", MS!!! https://github.com/phetsims/scenery-phet/issues/815
+      phetioDocumentation: 'Sets the location of the hand/arrow on the number line. If one or more group items exist at that location, the indicator appears on the topmost ball.'
     } );
 
     // TODO: Rename to "cue" https://github.com/phetsims/scenery-phet/issues/815
-    this.isGrabReleaseVisibleProperty = new DerivedProperty( [ this.focusedGroupItemProperty, this.hasKeyboardGrabbedBallProperty, this.isKeyboardFocusedProperty ],
-      ( focusedSoccerBall, hasGrabbedBall, hasKeyboardFocus ) => {
-        return focusedSoccerBall !== null && !hasGrabbedBall && hasKeyboardFocus;
+    this.isGrabReleaseVisibleProperty = new DerivedProperty( [ this.focusedGroupItemProperty, this.hasKeyboardGrabbedGroupItemProperty, this.isKeyboardFocusedProperty ],
+      ( focusedGroupItem, hasGrabbedBall, hasKeyboardFocus ) => {
+        return focusedGroupItem !== null && !hasGrabbedBall && hasKeyboardFocus;
       } );
 
     // TODO: inline, and likely don't need to make an option for this grabCondition. https://github.com/phetsims/scenery-phet/issues/815
     const createDerivedProperty = ( conditionProperty: TReadOnlyProperty<boolean>, grabCondition: ( isSoccerBallKeyboardGrabbed: boolean ) => boolean ) => new DerivedProperty(
-      [ this.focusedGroupItemProperty, this.isSoccerBallKeyboardGrabbedProperty, this.isKeyboardFocusedProperty, conditionProperty ],
+      [ this.focusedGroupItemProperty, this.isGroupItemKeyboardGrabbedProperty, this.isKeyboardFocusedProperty, conditionProperty ],
       ( focusedBall, isSoccerBallKeyboardGrabbed, isKeyboardFocused, condition ) =>
         focusedBall !== null && grabCondition( isSoccerBallKeyboardGrabbed ) && isKeyboardFocused && !condition );
 
-    this.isKeyboardDragArrowVisibleProperty = createDerivedProperty( this.hasKeyboardMovedBallProperty, isSoccerBallKeyboardGrabbed => isSoccerBallKeyboardGrabbed );
+    this.isKeyboardDragArrowVisibleProperty = createDerivedProperty( this.hasKeyboardMovedGroupItemProperty, isSoccerBallKeyboardGrabbed => isSoccerBallKeyboardGrabbed );
   }
 
 
@@ -122,7 +123,7 @@ export default class GroupSortInteractionModel {
 
     //  if an object was moved, objects are not input enabled, or the max number of balls haven't been kicked out
     //  don't show the dragIndicatorArrowNode
-    this.isDragIndicatorVisibleProperty.value = !this.soccerBallHasBeenDraggedProperty.value &&
+    this.isDragIndicatorVisibleProperty.value = !this.groupItemHasBeenDraggedProperty.value &&
                                                 !this.isKeyboardFocusedProperty.value &&
                                                 soccerBallCount === maxKicks &&
                                                 this.dragEnabledProperty.value &&
@@ -144,7 +145,7 @@ export default class GroupSortInteractionModel {
    */
   public resetInteractionState(): void {
     this.focusedGroupItemProperty.reset();
-    this.isSoccerBallKeyboardGrabbedProperty.reset();
+    this.isGroupItemKeyboardGrabbedProperty.reset();
     this.isKeyboardFocusedProperty.reset();
   }
 
@@ -153,10 +154,10 @@ export default class GroupSortInteractionModel {
     this.resetInteractionState();
 
     // TODO: is it ok for this to be after isKeyboardFocusedProperty? https://github.com/phetsims/scenery-phet/issues/815
-    this.hasKeyboardGrabbedBallProperty.reset();
-    this.hasKeyboardSelectedDifferentBallProperty.reset();
-    this.hasKeyboardMovedBallProperty.reset();
-    this.soccerBallHasBeenDraggedProperty.reset(); // TODO: reset this? https://github.com/phetsims/scenery-phet/issues/815
+    this.hasKeyboardGrabbedGroupItemProperty.reset();
+    this.hasKeyboardSelectedDifferentGroupItemProperty.reset();
+    this.hasKeyboardMovedGroupItemProperty.reset();
+    this.groupItemHasBeenDraggedProperty.reset(); // TODO: reset this? https://github.com/phetsims/scenery-phet/issues/815
   }
 
   public clearFocus(): void {
