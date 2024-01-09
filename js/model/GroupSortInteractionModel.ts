@@ -49,7 +49,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   public readonly isGroupItemKeyboardGrabbedProperty = new Property( false );
 
   // Whether the 'Press SPACE to Grab or Release' dialog is showing
-  public readonly isGrabReleaseVisibleProperty: TReadOnlyProperty<boolean>;
+  public readonly grabReleaseCueVisibleProperty: TReadOnlyProperty<boolean>;
 
   // Whether the keyboard drag arrow is showing
   public readonly isKeyboardDragArrowVisibleProperty: TReadOnlyProperty<boolean>;
@@ -109,19 +109,21 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
       phetioDocumentation: 'Sets the location of the hand/arrow on the number line. If one or more group items exist at that location, the indicator appears on the topmost ball.'
     } );
 
-    // TODO: Rename to "cue" https://github.com/phetsims/scenery-phet/issues/815
-    this.isGrabReleaseVisibleProperty = new DerivedProperty( [ this.focusedGroupItemProperty, this.hasKeyboardGrabbedGroupItemProperty, this.isKeyboardFocusedProperty ],
-      ( focusedGroupItem, hasGrabbedBall, hasKeyboardFocus ) => {
-        return focusedGroupItem !== null && !hasGrabbedBall && hasKeyboardFocus;
-      } );
+    this.grabReleaseCueVisibleProperty = new DerivedProperty( [
+      this.focusedGroupItemProperty,
+      this.hasKeyboardGrabbedGroupItemProperty,
+      this.isKeyboardFocusedProperty
+    ], ( focusedGroupItem, hasGrabbedBall, hasKeyboardFocus ) => {
+      return focusedGroupItem !== null && !hasGrabbedBall && hasKeyboardFocus;
+    } );
 
-    this.isKeyboardDragArrowVisibleProperty = new DerivedProperty(
-      [ this.focusedGroupItemProperty,
-        this.isGroupItemKeyboardGrabbedProperty,
-        this.isKeyboardFocusedProperty,
-        this.hasKeyboardMovedGroupItemProperty
-      ], ( focusedGroupItem, isGroupItemKeyboardGrabbed, isKeyboardFocused, hasKeyboardMovedGroupItem ) =>
-        focusedGroupItem !== null && isGroupItemKeyboardGrabbed && isKeyboardFocused && !hasKeyboardMovedGroupItem );
+    this.isKeyboardDragArrowVisibleProperty = new DerivedProperty( [
+      this.focusedGroupItemProperty,
+      this.isGroupItemKeyboardGrabbedProperty,
+      this.isKeyboardFocusedProperty,
+      this.hasKeyboardMovedGroupItemProperty
+    ], ( focusedGroupItem, isGroupItemKeyboardGrabbed, isKeyboardFocused, hasKeyboardMovedGroupItem ) =>
+      focusedGroupItem !== null && isGroupItemKeyboardGrabbed && isKeyboardFocused && !hasKeyboardMovedGroupItem );
   }
 
 
