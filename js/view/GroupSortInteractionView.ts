@@ -228,6 +228,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
               if ( typeof soccerBall.valueProperty.value === 'number' ) {
                 soccerBall.toneEmitter.emit( soccerBall.valueProperty.value );
                 this.groupSortInteractionModel.hasKeyboardSortedGroupItemProperty.value = true;
+                this.groupSortInteractionModel.hasGroupItemBeenSortedProperty.value = true;
               }
             }
           }
