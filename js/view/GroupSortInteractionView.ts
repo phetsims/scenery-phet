@@ -23,6 +23,7 @@ import GroupSortInteractionModel, { ItemModelType } from '../model/GroupSortInte
 import TEmitter from '../../../axon/js/TEmitter.js';
 import Emitter from '../../../axon/js/Emitter.js';
 import { Shape } from '../../../kite/js/imports.js';
+import optionize from '../../../phet-core/js/optionize.js';
 
 type ItemViewType<ItemModel> = {
   soccerBall: ItemModel;
@@ -35,6 +36,13 @@ type SceneModel<ItemModel> = {
   getStackAtValue( value: number, filter?: ( item: ItemModel ) => boolean ): ItemModel[];
   preClearDataEmitter: TEmitter;
 };
+type SelfOptions<ItemModel extends ItemModelType, ItemView extends ItemViewType<ItemModel>> = {
+
+  // Get a list of the available item nodes that can be selected, grabbed, and sorted at this time.
+  getSortableItemNodes: () => ItemView[];
+};
+
+export type GroupSortInteractionViewOptions<ItemModel extends ItemModelType, ItemView extends ItemViewType<ItemModel>> = SelfOptions<ItemModel, ItemView>;
 
 export default class GroupSortInteractionView<ItemModel extends ItemModelType, ItemView extends ItemViewType<ItemModel>> {
 
@@ -50,7 +58,9 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     public readonly sceneModel: SceneModel<ItemModel>, // TODO: Think hard about the best interface for this, https://github.com/phetsims/scenery-phet/issues/815
     soccerBallMap: Map<ItemModel, ItemView>,
     keyboardSortArrowCueNode: Node, // TODO: remove me https://github.com/phetsims/scenery-phet/issues/815
-    physicalRange: Range ) {
+    physicalRange: Range, providedOptions: GroupSortInteractionViewOptions<ItemModel, ItemView> ) {
+
+    const options = optionize<GroupSortInteractionViewOptions<ItemModel, ItemView>>()( {}, providedOptions );
 
     const focusedGroupItemProperty = this.groupSortInteractionModel.focusedGroupItemProperty;
     const isKeyboardFocusedProperty = this.groupSortInteractionModel.isKeyboardFocusedProperty;
@@ -142,7 +152,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
 
     // Move the focus highlight to a different soccer ball based on the provided delta.
     // TODO: Probably a hook, https://github.com/phetsims/scenery-phet/issues/815
-    const moveFocusByDelta = ( delta: number, topBallNodes: ItemView[] ) => {
+    const moveFocusByDelta = ( delta: number ) => {
 
       if ( focusedGroupItemProperty.value === null ) {
 
@@ -150,6 +160,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
         return;
       }
 
+      const topBallNodes = options.getSortableItemNodes();
       const numberOfTopSoccerBalls = topBallNodes.length;
 
       // We are deciding not to wrap the value around the ends of the range because the grabbed soccer ball
@@ -163,8 +174,6 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
       fireOnHold: true,
       keys: [ 'd', 'arrowRight', 'a', 'arrowLeft', 'arrowUp', 'arrowDown', 'w', 's', 'enter', 'space', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'home', 'end', 'escape', 'pageUp', 'pageDown' ],
       callback: ( event, keysPressed ) => {
-        // TODO: like a getFocusable group items hook? https://github.com/phetsims/scenery-phet/issues/815
-        const topBallNodes = sceneModel.getTopSoccerBalls().map( soccerBall => soccerBallMap.get( soccerBall )! );
 
         // Select a soccer ball
         if ( focusedGroupItemProperty.value !== null ) {
@@ -173,7 +182,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
               this.groupSortInteractionModel.hasKeyboardSelectedDifferentGroupItemProperty.value = true;
 
               const delta = [ 'arrowRight', 'arrowUp' ].includes( keysPressed ) ? 1 : -1;
-              moveFocusByDelta( delta, topBallNodes );
+              moveFocusByDelta( delta );
             }
             else if ( isGroupItemKeyboardGrabbedProperty.value ) {
               this.groupSortInteractionModel.hasKeyboardSortedGroupItemProperty.value = true;
@@ -187,7 +196,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
           }
           else if ( [ 'home', 'end' ].includes( keysPressed ) && !isGroupItemKeyboardGrabbedProperty.value ) {
             const delta = keysPressed === 'home' ? -physicalRange.max : physicalRange.max;
-            moveFocusByDelta( delta, topBallNodes );
+            moveFocusByDelta( delta );
           }
           else if ( keysPressed === 'enter' || keysPressed === 'space' ) {
             isGroupItemKeyboardGrabbedProperty.value = !isGroupItemKeyboardGrabbedProperty.value;
@@ -262,10 +271,10 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     sceneModel: SceneModel<ItemModel>,
     soccerBallMap: Map<ItemModel, ItemView>,
     keyboardSortArrowCueNode: Node,
-    physicalRange: Range ): GroupSortInteractionView<ItemModel, ItemView> {
+    physicalRange: Range, providedOptions: GroupSortInteractionViewOptions<ItemModel, ItemView> ): GroupSortInteractionView<ItemModel, ItemView> {
 
     return new GroupSortInteractionView<ItemModel, ItemView>( groupSortInteractionModel, primaryFocusedNode,
-      sceneModel, soccerBallMap, keyboardSortArrowCueNode, physicalRange );
+      sceneModel, soccerBallMap, keyboardSortArrowCueNode, physicalRange, providedOptions );
   }
 }
 
