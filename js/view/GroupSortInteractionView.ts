@@ -31,7 +31,6 @@ type ItemViewType<ItemModel> = {
 // TODO: Remove this? https://github.com/phetsims/scenery-phet/issues/815
 type SceneModel<ItemModel> = {
   getTopSoccerBalls(): ItemModel[];
-  soccerBalls: ItemModel[];
   stackChangedEmitter: TEmitter<[ ItemModel[] ]>;
   getStackAtValue( value: number, filter?: ( item: ItemModel ) => boolean ): ItemModel[];
   preClearDataEmitter: TEmitter;
@@ -57,20 +56,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     const isKeyboardFocusedProperty = this.groupSortInteractionModel.isKeyboardFocusedProperty;
     const isGroupItemKeyboardGrabbedProperty = this.groupSortInteractionModel.isGroupItemKeyboardGrabbedProperty;
     const hasKeyboardGrabbedGroupItemProperty = this.groupSortInteractionModel.hasKeyboardGrabbedGroupItemProperty;
-    const hasGroupItemBeenSortedProperty = this.groupSortInteractionModel.hasGroupItemBeenSortedProperty;
     const sortIndicatorValueProperty = this.groupSortInteractionModel.sortIndicatorValueProperty;
-
-    sceneModel.soccerBalls.forEach( soccerBall => {
-      soccerBall.valueProperty.link( ( value, oldValue ) => {
-
-        // If the value changed from numeric to numeric, it must have been by user dragging it.
-        // It's simpler to have the listener here because in the model or drag listener, there is rounding/snapping
-        // And we only want to hide the indicator of the user dragged the ball a full tick mark
-        if ( value !== null && oldValue !== null ) {
-          hasGroupItemBeenSortedProperty.value = true;
-        }
-      } );
-    } );
 
     // Update pointer areas and soccer ball focus (for keyboard and interactive highlight) when topmost ball changes
     sceneModel.stackChangedEmitter.addListener( () => {
@@ -191,6 +177,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
             }
             else if ( isGroupItemKeyboardGrabbedProperty.value ) {
               this.groupSortInteractionModel.hasKeyboardSortedGroupItemProperty.value = true;
+              this.groupSortInteractionModel.hasGroupItemBeenSortedProperty.value = true;
 
               const delta = [ 'arrowLeft', 'a', 'arrowDown', 's' ].includes( keysPressed ) ? -1 : 1;
               const soccerBall = focusedGroupItemProperty.value;
