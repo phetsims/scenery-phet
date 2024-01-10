@@ -64,7 +64,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   // Whether the 'Press SPACE to Grab or Release' dialog is showing
   public readonly grabReleaseCueVisibleProperty: TReadOnlyProperty<boolean>;
 
-  // Whether the keyboard sort arrow cue is showing
+  // Whether the keyboard sort icon cue is showing // TODO: Not specific to "arrow" https://github.com/phetsims/scenery-phet/issues/815
   public readonly keyboardSortArrowCueVisibleProperty: TReadOnlyProperty<boolean>;
 
   // Whether the keyboard is currently focused on a sim component
@@ -80,10 +80,18 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   // TODO: MS!!! Is this used? https://github.com/phetsims/scenery-phet/issues/815
   public readonly hasKeyboardSelectedDifferentGroupItemProperty = new BooleanProperty( false );
 
-  // Whether the hand sort icon is currently showing on the group item area
+  // Whether the mouse/touch sort icon cue is currently showing on the group item area
   public readonly sortIndicatorCueVisibleProperty: TProperty<boolean>;
 
   // The value for group item that the sort indicator is set to; null when there are no group items to sort.
+  /*
+    TODO: Delete and inline with focusedGroupItem.valueProperty? https://github.com/phetsims/scenery-phet/issues/815
+    MS and MK talked. YES!!!
+    potential reasons?
+        interactive highlighting controls focusGroupItemProperty also? No this isn't true, that is separate.
+        the hand when you kick out all balls, that can ALWAYS match the focused group item Property
+        Make sure to test interativeHighlighting + keyboard + mousetouch.
+   */
   public readonly sortIndicatorValueProperty: Property<number | null>; // TODO: should this be parametrized to support Vector2 also? https://github.com/phetsims/scenery-phet/issues/815
 
   // Whether any group item has ever been sorted to a new value, even if not by the group sort interaction. For best results,
@@ -170,6 +178,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   public reset(): void {
     this.resetInteractionState();
 
+    this.hasGroupItemBeenSortedProperty.reset();
     this.hasKeyboardGrabbedGroupItemProperty.reset();
     this.hasKeyboardSelectedDifferentGroupItemProperty.reset();
     this.hasKeyboardSortedGroupItemProperty.reset();
