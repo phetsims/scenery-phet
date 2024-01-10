@@ -11,6 +11,7 @@
  * - call updateSortIndicator() manually (see CAV)
  * - Handle your own GrabReleaseCueNode (grabReleaseCueVisibleProperty as its visibleProperty)
  * - handle your own sort indicator cue node (see registerUpdateSortIndicatorNode())
+ * - hasGroupItemBeenSortedProperty set to true on mouse/touch sorting interactions.
  *
  *
  * TODO: Dispose? Yes, once it isn't in soccer common anymore https://github.com/phetsims/scenery-phet/issues/815
@@ -85,7 +86,8 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   // The value for group item that the sort indicator is set to; null when there are no group items to sort.
   public readonly sortIndicatorValueProperty: Property<number | null>; // TODO: should this be parametrized to support Vector2 also? https://github.com/phetsims/scenery-phet/issues/815
 
-  // Whether any group item has ever been sorted to a new value.
+  // Whether any group item has ever been sorted to a new value, even if not by the group sort interaction. For best results,
+  // set this to true from other interactions too (like mouse/touch).
   public readonly hasGroupItemBeenSortedProperty: Property<boolean>;
 
   // TODO: extend EnabledComponent? This is just a CAV studio thing right now soccerBallsEnabledProperty. https://github.com/phetsims/scenery-phet/issues/815
