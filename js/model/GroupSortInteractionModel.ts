@@ -9,8 +9,11 @@
  * To implement:
  * - use with GroupSortInteractionView
  * - call updateSortIndicator() manually (see CAV)
+ * - Handle your own GrabReleaseCueNode (grabReleaseCueVisibleProperty as its visibleProperty)
+ * - handle your own sort indicator cue node (see registerUpdateSortIndicatorNode())
  *
- * TODO: Dispose? https://github.com/phetsims/scenery-phet/issues/815
+ *
+ * TODO: Dispose? Yes, once it isn't in soccer common anymore https://github.com/phetsims/scenery-phet/issues/815
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  *
