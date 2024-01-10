@@ -12,14 +12,13 @@
 import { animatedPanZoomSingleton, HighlightFromNode, HighlightPath, KeyboardListener, Node } from '../../../scenery/js/imports.js';
 import { SoccerBallPhase } from '../model/SoccerBallPhase.js';
 import soccerCommon from '../soccerCommon.js';
-import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
-import { Shape } from '../../../kite/js/imports.js';
 import Range from '../../../dot/js/Range.js';
 import Utils from '../../../dot/js/Utils.js';
 import Multilink from '../../../axon/js/Multilink.js';
-import Matrix3 from '../../../dot/js/Matrix3.js';
 import GroupSortInteractionModel, { ItemModelType } from '../model/GroupSortInteractionModel.js';
 import TEmitter from '../../../axon/js/TEmitter.js';
+import Emitter from '../../../axon/js/Emitter.js';
+import { Shape } from '../../../kite/js/imports.js';
 
 type ItemViewType<ItemModel> = {
   soccerBall: ItemModel;
@@ -36,15 +35,15 @@ type SceneModel<ItemModel> = {
 
 export default class GroupSortInteractionView<ItemModel extends ItemModelType, ItemView extends ItemViewType<ItemModel>> {
 
-  private readonly groupFocusHighlightPath: HighlightPath;
+  protected readonly groupFocusHighlightPath: HighlightPath;
+  public readonly positionKeyboardSortArrowCueNodeEmitter = new Emitter();
 
   public constructor(
-    private readonly groupSortInteractionModel: GroupSortInteractionModel<ItemModel>,
+    protected readonly groupSortInteractionModel: GroupSortInteractionModel<ItemModel>,
     primaryFocusedNode: Node,
     public readonly sceneModel: SceneModel<ItemModel>, // TODO: Think hard about the best interface for this, https://github.com/phetsims/scenery-phet/issues/815
     soccerBallMap: Map<ItemModel, ItemView>,
     keyboardSortArrowCueNode: Node,
-    public readonly modelViewTransform: ModelViewTransform2,
     physicalRange: Range ) {
 
     const focusedGroupItemProperty = this.groupSortInteractionModel.focusedGroupItemProperty;
@@ -142,23 +141,8 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
           primaryFocusedNode.setFocusHighlight( 'invisible' );
         }
 
-        // The selection arrow is shown over the same ball as the mouse sort indicator ball
         if ( sortIndicatorValue !== null ) {
-
-          // If a soccer ball has focus, that takes precedence for displaying the indicators
-          const valueToShow = focusedSoccerBall ? focusedSoccerBall.valueProperty.value! : sortIndicatorValue;
-          const stack = this.sceneModel.getStackAtValue( valueToShow );
-
-          if ( stack.length > 0 ) {
-
-            const arrowOffset = -18;
-
-            const topBall = stack[ stack.length - 1 ];
-            const position = topBall.positionProperty.value;
-
-            keyboardSortArrowCueNode.centerBottom = modelViewTransform.modelToViewPosition( position ).plusXY( 0, arrowOffset );
-            keyboardSortArrowCueNode.moveToFront();
-          }
+          this.positionKeyboardSortArrowCueNodeEmitter.emit();
         }
       }
     );
@@ -254,7 +238,10 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     } );
 
     // Set the outer group focus region to surround the entire area where group items are located.
-    this.groupFocusHighlightPath = new HighlightPath( null, {
+    // TODO: what is the best default group highlight shape? https://github.com/phetsims/scenery-phet/issues/815
+    const defaultGroupShape = primaryFocusedNode.bounds.isFinite() ? Shape.bounds( primaryFocusedNode.bounds ) : null;
+
+    this.groupFocusHighlightPath = new HighlightPath( defaultGroupShape, {
       outerStroke: HighlightPath.OUTER_LIGHT_GROUP_FOCUS_COLOR,
       innerStroke: HighlightPath.INNER_LIGHT_GROUP_FOCUS_COLOR,
       outerLineWidth: HighlightPath.GROUP_OUTER_LINE_WIDTH,
@@ -273,22 +260,6 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
   }
 
   /**
-   * // TODO: subtype? https://github.com/phetsims/scenery-phet/issues/815
-   * The group focus region for the soccer ball area is supposed to be just below the accordion box, and adjust when the
-   * accordion box expands and collapses. Translate lower so it also includes the number line and labels
-   */
-  public setGroupFocusHighlightTop( top: number ): void {
-    const margin = 4; // Distance below the accordion box
-    const shapeForLeftRightBottom = this.modelViewTransform.modelToViewShape( Shape.rect( 0.5, 0, 15, 6 ) ).transformed( Matrix3.translation( 0, 37 ) );
-    this.groupFocusHighlightPath.shape = Shape.rect(
-      shapeForLeftRightBottom.bounds.x,
-      top + margin,
-      shapeForLeftRightBottom.bounds.width,
-      shapeForLeftRightBottom.bounds.bottom - top - margin
-    );
-  }
-
-  /**
    * Creator factory, similar to PhetioObject.create(). This is most useful if you don't need to keep the instance of
    * your GroupSortInteractionView.
    */
@@ -298,11 +269,10 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     sceneModel: SceneModel<ItemModel>,
     soccerBallMap: Map<ItemModel, ItemView>,
     keyboardSortArrowCueNode: Node,
-    modelViewTransform: ModelViewTransform2,
     physicalRange: Range ): GroupSortInteractionView<ItemModel, ItemView> {
 
     return new GroupSortInteractionView<ItemModel, ItemView>( groupSortInteractionModel, primaryFocusedNode,
-      sceneModel, soccerBallMap, keyboardSortArrowCueNode, modelViewTransform, physicalRange );
+      sceneModel, soccerBallMap, keyboardSortArrowCueNode, physicalRange );
   }
 }
 
