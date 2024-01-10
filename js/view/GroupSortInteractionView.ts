@@ -37,6 +37,7 @@ type SceneModel<ItemModel> = {
 };
 type SelfOptions<ItemModel extends ItemModelType> = {
   getNextFocusedGroupItem: ( delta: number ) => ItemModel;
+  sortingRange: Range;
 };
 
 export type GroupSortInteractionViewOptions<ItemModel extends ItemModelType> = SelfOptions<ItemModel>;
@@ -53,9 +54,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     protected readonly groupSortInteractionModel: GroupSortInteractionModel<ItemModel>,
     primaryFocusedNode: Node,
     public readonly sceneModel: SceneModel<ItemModel>, // TODO: Think hard about the best interface for this, https://github.com/phetsims/scenery-phet/issues/815
-    soccerBallMap: Map<ItemModel, ItemView>,
-    keyboardSortArrowCueNode: Node, // TODO: remove me https://github.com/phetsims/scenery-phet/issues/815
-    physicalRange: Range, providedOptions: GroupSortInteractionViewOptions<ItemModel> ) {
+    soccerBallMap: Map<ItemModel, ItemView>, providedOptions: GroupSortInteractionViewOptions<ItemModel> ) {
 
     const options = optionize<GroupSortInteractionViewOptions<ItemModel>>()( {}, providedOptions );
 
@@ -170,7 +169,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     //  Consider adding as a static function. See https://github.com/phetsims/scenery-phet/issues/815
     const getDeltaForKey = ( key: string ): number | null => {
 
-      const fullRange = physicalRange.getLength();
+      const fullRange = options.sortingRange.getLength();
       return key === 'home' ? -fullRange :
              key === 'end' ? fullRange :
 
@@ -233,7 +232,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
             }
 
             assert && assert( newValue !== null, 'We should have a value for the ball by the end of the listener.' );
-            groupItem.valueProperty.value = physicalRange.constrainValue( newValue! );
+            groupItem.valueProperty.value = options.sortingRange.constrainValue( newValue! );
             groupItem.toneEmitter.emit( groupItem.valueProperty.value );
 
             this.groupSortInteractionModel.hasKeyboardSortedGroupItemProperty.value = true;
@@ -293,10 +292,10 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     sceneModel: SceneModel<ItemModel>,
     soccerBallMap: Map<ItemModel, ItemView>,
     keyboardSortArrowCueNode: Node,
-    physicalRange: Range, providedOptions: GroupSortInteractionViewOptions<ItemModel> ): GroupSortInteractionView<ItemModel, ItemView> {
+    providedOptions: GroupSortInteractionViewOptions<ItemModel> ): GroupSortInteractionView<ItemModel, ItemView> {
 
     return new GroupSortInteractionView<ItemModel, ItemView>( groupSortInteractionModel, primaryFocusedNode,
-      sceneModel, soccerBallMap, keyboardSortArrowCueNode, physicalRange, providedOptions );
+      sceneModel, soccerBallMap, providedOptions );
   }
 }
 
