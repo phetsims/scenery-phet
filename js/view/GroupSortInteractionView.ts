@@ -4,6 +4,10 @@
  * The view of the Group Sort Interaction. This type handles adding the controller for the selection, grab, and sort
  * interaction for keyboard. It also handles the group and individual focus highlights.
  *
+ * Recipe book:
+ * - use groupFocusHighlightPath.shape to set the group highlight dynamically
+ * - use positionKeyboardSortArrowCueNodeEmitter to update the position of the sort cue.
+ *
  * TODO: Dispose? https://github.com/phetsims/scenery-phet/issues/815
  * @author Michael Kauzmann (PhET Interactive Simulations)
  * @author Marla Schulz (PhET Interactive Simulations)
@@ -35,7 +39,10 @@ type SceneModel<ItemModel> = {
 
 export default class GroupSortInteractionView<ItemModel extends ItemModelType, ItemView extends ItemViewType<ItemModel>> {
 
+  // Update group highlight dynamically by setting the `shape` of this path.
   protected readonly groupFocusHighlightPath: HighlightPath;
+
+  // TODO: use of "keyboard" maybe isn't needed. It is the cue node for this interaction (which is based on keyboard). https://github.com/phetsims/scenery-phet/issues/815
   public readonly positionKeyboardSortArrowCueNodeEmitter = new Emitter();
 
   public constructor(
@@ -43,7 +50,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     primaryFocusedNode: Node,
     public readonly sceneModel: SceneModel<ItemModel>, // TODO: Think hard about the best interface for this, https://github.com/phetsims/scenery-phet/issues/815
     soccerBallMap: Map<ItemModel, ItemView>,
-    keyboardSortArrowCueNode: Node,
+    keyboardSortArrowCueNode: Node, // TODO: remove me https://github.com/phetsims/scenery-phet/issues/815
     physicalRange: Range ) {
 
     const focusedGroupItemProperty = this.groupSortInteractionModel.focusedGroupItemProperty;
@@ -238,8 +245,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     } );
 
     // Set the outer group focus region to surround the entire area where group items are located.
-    // TODO: what is the best default group highlight shape? https://github.com/phetsims/scenery-phet/issues/815
-    const defaultGroupShape = primaryFocusedNode.bounds.isFinite() ? Shape.bounds( primaryFocusedNode.bounds ) : null;
+    const defaultGroupShape = primaryFocusedNode.bounds.isFinite() ? Shape.bounds( primaryFocusedNode.visibleBounds ) : null;
 
     this.groupFocusHighlightPath = new HighlightPath( defaultGroupShape, {
       outerStroke: HighlightPath.OUTER_LIGHT_GROUP_FOCUS_COLOR,
