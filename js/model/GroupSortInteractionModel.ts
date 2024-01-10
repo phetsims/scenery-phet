@@ -79,7 +79,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   public readonly sortIndicatorCueVisibleProperty: TProperty<boolean>;
 
   // The value for group item that the sort indicator is set to; null when there are no group items to sort.
-  public readonly sortIndicatorValueProperty: Property<number | null>;
+  public readonly sortIndicatorValueProperty: Property<number | null>; // TODO: should this be parametrized to support Vector2 also? https://github.com/phetsims/scenery-phet/issues/815
 
   // Whether any group item has ever been sorted to a new value.
   public readonly hasGroupItemBeenSortedProperty: Property<boolean>;
@@ -171,6 +171,13 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
 
   public clearFocus(): void {
     this.focusedGroupItemProperty.value = null;
+  }
+
+  // Register your closure responsible for updating the sort-indicator node.
+  public registerUpdateSortIndicatorNode( updateSortIndicatorNode: () => void ): void {
+    this.sortIndicatorCueVisibleProperty.link( updateSortIndicatorNode );
+    this.sortIndicatorValueProperty.link( updateSortIndicatorNode );
+    this.focusedGroupItemProperty.link( updateSortIndicatorNode );
   }
 }
 
