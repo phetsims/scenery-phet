@@ -37,6 +37,7 @@ import TEmitter from '../../../axon/js/TEmitter.js';
 type SelfOptions = EmptySelfOptions;
 
 // TODO: Remove me? https://github.com/phetsims/scenery-phet/issues/815
+// TODO: same parametric type for number as the sortIndicatorValue. https://github.com/phetsims/scenery-phet/issues/815
 export type ItemModelType = {
   valueProperty: TProperty<number | null>;
   positionProperty: TProperty<Vector2>;
