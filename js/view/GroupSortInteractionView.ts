@@ -156,7 +156,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
 
           // Do the "Grab/release" action to switch to sorting or selecting
           if ( keysPressed === 'enter' || keysPressed === 'space' ) {
-            isGroupItemKeyboardGrabbedProperty.value = !isGroupItemKeyboardGrabbedProperty.value;
+            isGroupItemKeyboardGrabbedProperty.toggle();
             hasKeyboardGrabbedGroupItemProperty.value = true;
           }
           else if ( isGroupItemKeyboardGrabbedProperty.value && keysPressed === 'escape' ) {
