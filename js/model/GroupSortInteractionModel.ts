@@ -59,7 +59,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   } );
 
   // Whether a group item is being grabbed via keyboard interaction
-  public readonly isGroupItemKeyboardGrabbedProperty = new Property( false );
+  public readonly isGroupItemKeyboardGrabbedProperty = new BooleanProperty( false );
 
   // Whether the 'Press SPACE to Grab or Release' dialog is showing
   public readonly grabReleaseCueVisibleProperty: TReadOnlyProperty<boolean>;
