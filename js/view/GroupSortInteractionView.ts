@@ -170,73 +170,116 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
       focusedGroupItemProperty.value = topBallNodes[ nextIndex ].soccerBall;
     };
 
-    const keyboardListener = new KeyboardListener( {
+    // A KeyboardListener that changes the "sorting" vs "selecting" state of the interaction.
+    const grabReleaseKeyboardListener = new KeyboardListener( {
       fireOnHold: true,
-      keys: [ 'd', 'arrowRight', 'a', 'arrowLeft', 'arrowUp', 'arrowDown', 'w', 's', 'enter', 'space', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'home', 'end', 'escape', 'pageUp', 'pageDown' ],
+      keys: [ 'enter', 'space', 'escape' ],
       callback: ( event, keysPressed ) => {
 
-        // Select a soccer ball
         if ( focusedGroupItemProperty.value !== null ) {
-          if ( ( [ 'arrowRight', 'arrowLeft', 'a', 'd', 'arrowUp', 'arrowDown', 'w', 's' ].includes( keysPressed ) ) ) {
-            if ( [ 'arrowRight', 'arrowLeft', 'arrowUp', 'arrowDown' ].includes( keysPressed ) && !isGroupItemKeyboardGrabbedProperty.value ) {
-              this.groupSortInteractionModel.hasKeyboardSelectedDifferentGroupItemProperty.value = true;
 
-              const delta = [ 'arrowRight', 'arrowUp' ].includes( keysPressed ) ? 1 : -1;
-              moveFocusByDelta( delta );
-            }
-            else if ( isGroupItemKeyboardGrabbedProperty.value ) {
-              this.groupSortInteractionModel.hasKeyboardSortedGroupItemProperty.value = true;
-              this.groupSortInteractionModel.hasGroupItemBeenSortedProperty.value = true;
-
-              const delta = [ 'arrowLeft', 'a', 'arrowDown', 's' ].includes( keysPressed ) ? -1 : 1;
-              const soccerBall = focusedGroupItemProperty.value;
-              soccerBall.valueProperty.value = physicalRange.constrainValue( soccerBall.valueProperty.value! + delta );
-              soccerBall.toneEmitter.emit( soccerBall.valueProperty.value );
-            }
-          }
-          else if ( [ 'home', 'end' ].includes( keysPressed ) && !isGroupItemKeyboardGrabbedProperty.value ) {
-            const delta = keysPressed === 'home' ? -physicalRange.max : physicalRange.max;
-            moveFocusByDelta( delta );
-          }
-          else if ( keysPressed === 'enter' || keysPressed === 'space' ) {
+          // Do the "Grab/release" action to switch to sorting or selecting
+          if ( keysPressed === 'enter' || keysPressed === 'space' ) {
             isGroupItemKeyboardGrabbedProperty.value = !isGroupItemKeyboardGrabbedProperty.value;
             hasKeyboardGrabbedGroupItemProperty.value = true;
           }
-          else if ( isGroupItemKeyboardGrabbedProperty.value ) {
+          else if ( isGroupItemKeyboardGrabbedProperty.value && keysPressed === 'escape' ) {
+            isGroupItemKeyboardGrabbedProperty.value = false;
+          }
+        }
+      }
+    } );
 
-            if ( keysPressed === 'escape' ) {
-              isGroupItemKeyboardGrabbedProperty.value = false;
+    // TODO: Should this function live somewhere else? If on the prototype it could be overridden - No, simpler is better.
+    //  Consider adding as a static function. See https://github.com/phetsims/scenery-phet/issues/815
+    const getDeltaForKey = ( key: string ): number | null => {
+
+      const fullRange = physicalRange.getLength();
+      return key === 'home' ? -fullRange :
+             key === 'end' ? fullRange :
+
+               // TODO: Generalize to the range https://github.com/phetsims/scenery-phet/issues/815
+             key === 'pageDown' ? -3 :
+             key === 'pageUp' ? 3 :
+
+               // TODO: https://github.com/phetsims/scenery-phet/issues/815 - Instead of hard coding to 1, these
+               //    should use keyboardStep options (copy the API from AccessibleValueHandler)
+             [ 'arrowLeft', 'a', 'arrowDown', 's' ].includes( key ) ? -1 :
+             [ 'arrowRight', 'd', 'arrowUp', 'w' ].includes( key ) ? 1 :
+             null;
+    };
+
+    const keyboardListener = new KeyboardListener( {
+      fireOnHold: true,
+
+      // TODO: See https://github.com/phetsims/scenery-phet/issues/815 - Conditionally add teh number keys, based on
+      //    option numberKeyMapper,
+      keys: [ 'd', 'arrowRight', 'a', 'arrowLeft', 'arrowUp', 'arrowDown', 'w', 's', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'home', 'end', 'pageUp', 'pageDown' ],
+      callback: ( event, keysPressed ) => {
+
+        if ( focusedGroupItemProperty.value !== null ) {
+
+          const groupItem = focusedGroupItemProperty.value;
+          assert && assert( groupItem.valueProperty.value !== null, 'We should have a ball when responding to input?' );
+
+          // Sorting an item
+          if ( isGroupItemKeyboardGrabbedProperty.value ) {
+            let newValue: number | null = null;
+
+            // For these keys, the item will move by a particular delta
+            if ( [ 'arrowRight', 'arrowLeft', 'a', 'd', 'arrowUp', 'arrowDown', 'w', 's', 'pageDown', 'pageUp', 'home', 'end' ].includes( keysPressed ) ) {
+
+              const delta = getDeltaForKey( keysPressed )!;
+              newValue = groupItem.valueProperty.value! + delta;
             }
             else {
-              const soccerBall = focusedGroupItemProperty.value;
-              soccerBall.valueProperty.value = keysPressed === 'home' ? physicalRange.min :
-                                               keysPressed === 'end' ? physicalRange.max :
-                                               keysPressed === '1' ? 1 :
-                                               keysPressed === '2' ? 2 :
-                                               keysPressed === '3' ? 3 :
-                                               keysPressed === '4' ? 4 :
-                                               keysPressed === '5' ? 5 :
-                                               keysPressed === '6' ? 6 :
-                                               keysPressed === '7' ? 7 :
-                                               keysPressed === '8' ? 8 :
-                                               keysPressed === '9' ? 9 :
-                                               keysPressed === '0' ? 10 :
-                                                 // TODO: Generalize to the range https://github.com/phetsims/scenery-phet/issues/815
-                                               keysPressed === 'pageDown' ? Math.max( soccerBall.valueProperty.value! - 3, physicalRange.min ) :
-                                               keysPressed === 'pageUp' ? Math.min( soccerBall.valueProperty.value! + 3, physicalRange.max ) :
-                                               soccerBall.valueProperty.value;
-              if ( typeof soccerBall.valueProperty.value === 'number' ) {
-                soccerBall.toneEmitter.emit( soccerBall.valueProperty.value );
-                this.groupSortInteractionModel.hasKeyboardSortedGroupItemProperty.value = true;
-                this.groupSortInteractionModel.hasGroupItemBeenSortedProperty.value = true;
-              }
+
+              // An option like numberKeyMapper - when present, add number keys to the KeyboardListener and
+              // call the callback here - it returns the value as a number from the number key pressed.
+              // Usage could look like this:
+              //               if ( options.numberKeyMapper && options.numberKeyMapper( keysPressed ) ) {
+              //                 newValue = options.numberKeyMapper( keysPressed );
+              //               }
+              // TODO: Implement the above? - See https://github.com/phetsims/scenery-phet/issues/815
+
+              // For the remaining keys in this listener, the value will be set to a specific value
+              newValue = keysPressed === '1' ? 1 :
+                         keysPressed === '2' ? 2 :
+                         keysPressed === '3' ? 3 :
+                         keysPressed === '4' ? 4 :
+                         keysPressed === '5' ? 5 :
+                         keysPressed === '6' ? 6 :
+                         keysPressed === '7' ? 7 :
+                         keysPressed === '8' ? 8 :
+                         keysPressed === '9' ? 9 :
+                         keysPressed === '0' ? 10 :
+                         groupItem.valueProperty.value;
+            }
+
+            assert && assert( newValue !== null, 'We should have a value for the ball by the end of the listener.' );
+            groupItem.valueProperty.value = physicalRange.constrainValue( newValue! );
+            groupItem.toneEmitter.emit( groupItem.valueProperty.value );
+
+            this.groupSortInteractionModel.hasKeyboardSortedGroupItemProperty.value = true;
+            this.groupSortInteractionModel.hasGroupItemBeenSortedProperty.value = true;
+          }
+          else {
+
+            // selecting an item
+            // TODO: This changes the behavior because now the WASD, page up/page down keys work
+            //   for the selection too - they don't on published version (Note that home and end DO work on published
+            //   version for selection), https://github.com/phetsims/scenery-phet/issues/815
+            const delta = getDeltaForKey( keysPressed );
+            if ( delta !== null ) {
+              this.groupSortInteractionModel.hasKeyboardSelectedDifferentGroupItemProperty.value = true;
+              moveFocusByDelta( delta );
             }
           }
 
           // When using keyboard input, make sure that the "focused" ball is still displayed by panning to keep it
           // in view. `panToCenter` is false because centering the ball in the screen is too much movement.
-          // TODO: Oh boy, https://github.com/phetsims/scenery-phet/issues/815
-          animatedPanZoomSingleton.listener.panToNode( soccerBallMap.get( focusedGroupItemProperty.value )!, false );
+          // TODO: Oh boy, https://github.com/phetsims/scenery-phet/issues/815 - need a general map for this
+          animatedPanZoomSingleton.listener.panToNode( soccerBallMap.get( groupItem )!, false );
         }
       }
     } );
@@ -252,6 +295,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     } );
     primaryFocusedNode.setGroupFocusHighlight( this.groupFocusHighlightPath );
     primaryFocusedNode.addInputListener( keyboardListener );
+    primaryFocusedNode.addInputListener( grabReleaseKeyboardListener );
 
     // TODO: move to the model and use use resetInteractionState(), see about https://github.com/phetsims/scenery-phet/issues/815
     sceneModel.preClearDataEmitter.addListener( () => {
