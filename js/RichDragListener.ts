@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2024, University of Colorado Boulder
 /**
  * RichDragListener extends DragListener to integrate the drag and drop sound clips.
  *
