@@ -86,7 +86,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
 
   // TODO: extend EnabledComponent? This is just a CAV studio thing right now soccerBallsEnabledProperty. https://github.com/phetsims/scenery-phet/issues/815
   // TODO: if disabled, should we be able to change selection in group (without grabbing one). https://github.com/phetsims/scenery-phet/issues/815
-  public constructor( public readonly sortEnabledProperty: TReadOnlyProperty<boolean>, providedOptions: GroupSortInteractionModelOptions ) {
+  public constructor( public readonly sortEnabledProperty: TReadOnlyProperty<boolean>, providedOptions?: GroupSortInteractionModelOptions ) {
 
     const options = optionize<GroupSortInteractionModelOptions, SelfOptions, ParentOptions>()( {
       tandem: Tandem.OPTIONAL
@@ -144,7 +144,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   public moveSortIndicatorToFocusedGroupItem(): void {
     const focusedGroupItem = this.focusedGroupItemProperty.value;
     if ( focusedGroupItem !== null ) {
-      console.log( focusedGroupItem );
+
       // If there is an already focused group item, i.e. a group item that has been selected or tabbed to via the keyboard,
       // that takes precedence for indication.
       this.sortIndicatorValueProperty.value = focusedGroupItem.valueProperty.value;
