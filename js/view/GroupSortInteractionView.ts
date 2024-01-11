@@ -111,7 +111,6 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
 
         // When the group receives keyboard focus, make sure that the focused ball is displayed
         if ( focusedGroupItemProperty.value !== null ) {
-          // TODO: awkward, https://github.com/phetsims/scenery-phet/issues/815
           animatedPanZoomSingleton.listener.panToNode( options.getNodeFromModelItem( focusedGroupItemProperty.value ), true );
         }
       },
@@ -260,7 +259,6 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
 
           // When using keyboard input, make sure that the "focused" ball is still displayed by panning to keep it
           // in view. `panToCenter` is false because centering the ball in the screen is too much movement.
-          // TODO: Oh boy, https://github.com/phetsims/scenery-phet/issues/815 - need a general map for this
           animatedPanZoomSingleton.listener.panToNode( options.getNodeFromModelItem( groupItem ), false );
         }
       }
