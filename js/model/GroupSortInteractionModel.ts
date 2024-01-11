@@ -5,13 +5,13 @@
  * Model type for the "group sort" interaction. This interaction behaves as such:
  * - Alt input treats the entire group as a single entity.
  * - Focusing on the group highlights a "selected" group item. The interaction starts in "selection" mode.
- * - Interaction keys change the "selection" (focus) of a group item to grab (see note below)
+ * - Interaction keys change the "selection" (focus) of a group item to grab (see note below). Focus highlight is solid.
  * - Space/enter are used to "grab" the selection, turning the interaction into "sorting" mode. Pressing again goes back
- *   to "selection" mode.
+ *   to "selection" mode. In sorting mode, the focus highlight is dashed.
  * - Interaction keys in "sorting" mode sort the group item.
  *
  * NOTE: "focus" in this interaction is called "selection" as to not overload the term. This is because the
- * "focused" group item is stored and changed even when it doesn't have browser focus on it. See focusedGroupItemProperty.
+ * "focused" group item is stored and changed even when it doesn't have browser focus on it. See selectedGroupItemProperty.
  *
  * Class Overview:
  * This class Holds model information about the state of the group sort interaction. This includes specifics about
@@ -63,14 +63,15 @@ export type GroupSortInteractionModelOptions = SelfOptions & ParentOptions;
 
 export default class GroupSortInteractionModel<ItemModel extends ItemModelType> {
 
-  // The ItemModel that is receiving the highlight focus within the group highlight. Feel free to dynamically change
-  // this value to update the realtime selection of the group sort interaction.
-  // TODO: rename to "selectedGroupItemProperty"? https://github.com/phetsims/scenery-phet/issues/815
-  public readonly focusedGroupItemProperty = new Property<ItemModel | null>( null, {
+  // The group item that is the selected/focused/sorted. If null, then there is nothing to sort (no items?), and the
+  // interaction will no-op. Feel free to dynamically change this value to update the realtime selection of the
+  // group sort interaction.
+  public readonly selectedGroupItemProperty = new Property<ItemModel | null>( null, {
     isValidValue: x => !!x || x === null
   } );
 
-  // Whether a group item is being grabbed via keyboard interaction
+  // Whether a group item is being grabbed via keyboard interaction. When true, the focus highlight will display as
+  // dashed instead of solid.
   public readonly isGroupItemKeyboardGrabbedProperty = new BooleanProperty( false );
 
   // Whether the 'Press SPACE to Grab or Release' dialog is showing
@@ -100,8 +101,8 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
     TODO: Delete and inline with focusedGroupItem.valueProperty? https://github.com/phetsims/scenery-phet/issues/815
     MS and MK talked. YES!!!
     potential reasons?
-        interactive highlighting controls focusGroupItemProperty also? No this isn't true, that is separate.
-        the hand when you kick out all balls, that can ALWAYS match the focused group item Property
+        interactive highlighting controls selectedGroupItemProperty also? No this isn't true, that is separate.
+        the hand when you kick out all balls, that can ALWAYS match the selected group item Property
         Make sure to test interativeHighlighting + keyboard + mousetouch.
    */
   public readonly sortIndicatorValueProperty: Property<number | null>; // TODO: should this be parametrized to support Vector2 also? https://github.com/phetsims/scenery-phet/issues/815
@@ -120,7 +121,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
 
     // TODO: migration rules when moving to groupSortInteractionModel, https://github.com/phetsims/scenery-phet/issues/815
     // TODO: MS!!! Can you tell me why these are stateful, but the other group sort interaction ones aren't? For example,
-    //       the sort indicator position is, but the focused group item isn't? https://github.com/phetsims/scenery-phet/issues/815
+    //       the sort indicator position is, but the selected group item isn't? https://github.com/phetsims/scenery-phet/issues/815
     this.hasGroupItemBeenSortedProperty = new BooleanProperty( false, {
       tandem: options.tandem.createTandem( 'hasGroupItemBeenSortedProperty' ),
       phetioFeatured: false
@@ -143,37 +144,37 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
     } );
 
     this.grabReleaseCueVisibleProperty = new DerivedProperty( [
-      this.focusedGroupItemProperty,
+      this.selectedGroupItemProperty,
       this.hasKeyboardGrabbedGroupItemProperty,
       this.isKeyboardFocusedProperty
-    ], ( focusedGroupItem, hasGrabbedBall, hasKeyboardFocus ) => {
-      return focusedGroupItem !== null && !hasGrabbedBall && hasKeyboardFocus;
+    ], ( selectedGroupItem, hasGrabbedBall, hasKeyboardFocus ) => {
+      return selectedGroupItem !== null && !hasGrabbedBall && hasKeyboardFocus;
     } );
 
     this.keyboardSortArrowCueVisibleProperty = new DerivedProperty( [
-      this.focusedGroupItemProperty,
+      this.selectedGroupItemProperty,
       this.isGroupItemKeyboardGrabbedProperty,
       this.isKeyboardFocusedProperty,
       this.hasKeyboardSortedGroupItemProperty
-    ], ( focusedGroupItem, isGroupItemKeyboardGrabbed, isKeyboardFocused, hasKeyboardSortedGroupItem ) =>
-      focusedGroupItem !== null && isGroupItemKeyboardGrabbed && isKeyboardFocused && !hasKeyboardSortedGroupItem );
+    ], ( selectedGroupItem, isGroupItemKeyboardGrabbed, isKeyboardFocused, hasKeyboardSortedGroupItem ) =>
+      selectedGroupItem !== null && isGroupItemKeyboardGrabbed && isKeyboardFocused && !hasKeyboardSortedGroupItem );
   }
 
   /**
    * Apply a heuristic to set the sort indicator value
    */
   public updateSortIndicator(): void {
-    this.moveSortIndicatorToFocusedGroupItem();
+    this.moveSortIndicatorToSelectedGroupItem();
   }
 
-  // No op if there is no stored focusedGroupItem.
-  public moveSortIndicatorToFocusedGroupItem(): void {
-    const focusedGroupItem = this.focusedGroupItemProperty.value;
-    if ( focusedGroupItem !== null ) {
+  // No op if there is no stored selectedGroupItem.
+  public moveSortIndicatorToSelectedGroupItem(): void {
+    const selectedGroupItem = this.selectedGroupItemProperty.value;
+    if ( selectedGroupItem !== null ) {
 
-      // If there is an already focused group item, i.e. a group item that has been selected or tabbed to via the keyboard,
+      // If there is an already selected group item, i.e. a group item that has been selected or tabbed to via the keyboard,
       // that takes precedence for indication.
-      this.sortIndicatorValueProperty.value = focusedGroupItem.valueProperty.value;
+      this.sortIndicatorValueProperty.value = selectedGroupItem.valueProperty.value;
     }
   }
 
@@ -182,7 +183,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
    * switching between scenes.
    */
   public resetInteractionState(): void {
-    this.focusedGroupItemProperty.reset();
+    this.selectedGroupItemProperty.reset();
     this.isGroupItemKeyboardGrabbedProperty.reset();
     this.isKeyboardFocusedProperty.reset();
   }
@@ -198,14 +199,14 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   }
 
   public clearFocus(): void {
-    this.focusedGroupItemProperty.value = null;
+    this.selectedGroupItemProperty.value = null;
   }
 
   // Register your closure responsible for updating the sort-indicator node.
   public registerUpdateSortIndicatorNode( updateSortIndicatorNode: () => void ): void {
     this.sortIndicatorCueVisibleProperty.link( updateSortIndicatorNode );
     this.sortIndicatorValueProperty.link( updateSortIndicatorNode );
-    this.focusedGroupItemProperty.link( updateSortIndicatorNode );
+    this.selectedGroupItemProperty.link( updateSortIndicatorNode );
   }
 }
 
