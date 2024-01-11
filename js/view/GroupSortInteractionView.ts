@@ -26,10 +26,7 @@ import optionize from '../../../phet-core/js/optionize.js';
 type GetItemNodeFromModel<ItemModel extends ItemModelType, ItemNode extends Node> = ( model: ItemModel ) => ItemNode;
 
 // TODO: Remove this? https://github.com/phetsims/scenery-phet/issues/815
-type SceneModel<ItemModel> = {
-  getTopSoccerBalls(): ItemModel[];
-  stackChangedEmitter: TEmitter<[ ItemModel[] ]>;
-  getStackAtValue( value: number, filter?: ( item: ItemModel ) => boolean ): ItemModel[];
+type SceneModel = {
   preClearDataEmitter: TEmitter;
 };
 type SelfOptions<ItemModel extends ItemModelType, ItemNode extends Node> = {
@@ -67,7 +64,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
   public constructor(
     protected readonly groupSortInteractionModel: GroupSortInteractionModel<ItemModel>,
     primaryFocusedNode: Node,
-    public readonly sceneModel: SceneModel<ItemModel>, // TODO: Think hard about the best interface for this, https://github.com/phetsims/scenery-phet/issues/815
+    sceneModel: SceneModel,
     providedOptions: GroupSortInteractionViewOptions<ItemModel, ItemNode> ) {
 
     const options = optionize<GroupSortInteractionViewOptions<ItemModel, ItemNode>>()( {
@@ -80,27 +77,6 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     const isGroupItemKeyboardGrabbedProperty = this.groupSortInteractionModel.isGroupItemKeyboardGrabbedProperty;
     const hasKeyboardGrabbedGroupItemProperty = this.groupSortInteractionModel.hasKeyboardGrabbedGroupItemProperty;
     const sortIndicatorValueProperty = this.groupSortInteractionModel.sortIndicatorValueProperty;
-
-    // Update pointer areas and soccer ball focus (for keyboard and interactive highlight) when topmost ball changes
-    sceneModel.stackChangedEmitter.addListener( () => {
-      const focusedGroupItem = focusedGroupItemProperty.value;
-
-      // When a user is focused on the backLayerSoccerBallLayer, but no balls have landed yet, we want to ensure that
-      // a focusedSoccerBall gets assigned once the ball lands.
-      // TODO: Hard to generalize, perhaps with a hook like "update focus please" https://github.com/phetsims/scenery-phet/issues/815
-      const topSoccerBalls = sceneModel.getTopSoccerBalls();
-      if ( focusedGroupItem === null && topSoccerBalls.length > 0 && primaryFocusedNode.focused ) {
-        focusedGroupItemProperty.value = topSoccerBalls[ 0 ];
-      }
-
-      // Anytime a stack changes and the focusedSoccerBall is assigned, we want to make sure the focusedSoccerBall
-      // stays on top.
-      if ( focusedGroupItem !== null ) {
-        assert && assert( focusedGroupItem.valueProperty.value !== null, 'The valueProperty of the focusedSoccerBall should not be null.' );
-        const focusedStack = sceneModel.getStackAtValue( focusedGroupItem.valueProperty.value! );
-        focusedGroupItemProperty.value = focusedStack[ focusedStack.length - 1 ];
-      }
-    } );
 
     primaryFocusedNode.addInputListener( {
       focus: () => {
@@ -282,7 +258,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
   public create<ItemModel extends ItemModelType, ItemNode extends Node>(
     groupSortInteractionModel: GroupSortInteractionModel<ItemModel>,
     primaryFocusedNode: Node,
-    sceneModel: SceneModel<ItemModel>,
+    sceneModel: SceneModel,
     providedOptions: GroupSortInteractionViewOptions<ItemModel, ItemNode> ): GroupSortInteractionView<ItemModel, ItemNode> {
 
     return new GroupSortInteractionView<ItemModel, ItemNode>( groupSortInteractionModel, primaryFocusedNode,
