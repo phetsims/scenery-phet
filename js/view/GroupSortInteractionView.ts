@@ -249,7 +249,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
    * Creator factory, similar to PhetioObject.create(). This is most useful if you don't need to keep the instance of
    * your GroupSortInteractionView.
    */
-  public create<ItemModel extends ItemModelType, ItemNode extends Node>(
+  public static create<ItemModel extends ItemModelType, ItemNode extends Node>(
     groupSortInteractionModel: GroupSortInteractionModel<ItemModel>,
     primaryFocusedNode: Node,
     providedOptions: GroupSortInteractionViewOptions<ItemModel, ItemNode> ): GroupSortInteractionView<ItemModel, ItemNode> {
