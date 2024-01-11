@@ -24,9 +24,7 @@ import Emitter from '../../../axon/js/Emitter.js';
 import { Shape } from '../../../kite/js/imports.js';
 import optionize from '../../../phet-core/js/optionize.js';
 
-type ItemViewType<ItemModel> = {
-  soccerBall: ItemModel;
-} & Node;
+type GetItemNodeFromModel<ItemModel extends ItemModelType, ItemNode extends Node> = ( model: ItemModel ) => ItemNode;
 
 // TODO: Remove this? https://github.com/phetsims/scenery-phet/issues/815
 type SceneModel<ItemModel> = {
@@ -35,14 +33,21 @@ type SceneModel<ItemModel> = {
   getStackAtValue( value: number, filter?: ( item: ItemModel ) => boolean ): ItemModel[];
   preClearDataEmitter: TEmitter;
 };
-type SelfOptions<ItemModel extends ItemModelType> = {
+type SelfOptions<ItemModel extends ItemModelType, ItemNode extends Node> = {
+
+  // Given the delta (difference from currentValue to new value), return the corresponding group item model.
   getNextFocusedGroupItem: ( delta: number ) => ItemModel;
+
+  // Given a model item, return the corresponding node.
+  getNodeFromModelItem: GetItemNodeFromModel<ItemModel, ItemNode>;
+
+  // The available range for storing. This is the acceptable range for the ItemModel.valueProperty.
   sortingRange: Range;
 };
 
-export type GroupSortInteractionViewOptions<ItemModel extends ItemModelType> = SelfOptions<ItemModel>;
+export type GroupSortInteractionViewOptions<ItemModel extends ItemModelType, ItemNode extends Node> = SelfOptions<ItemModel, ItemNode>;
 
-export default class GroupSortInteractionView<ItemModel extends ItemModelType, ItemView extends ItemViewType<ItemModel>> {
+export default class GroupSortInteractionView<ItemModel extends ItemModelType, ItemNode extends Node> {
 
   // Update group highlight dynamically by setting the `shape` of this path.
   protected readonly groupFocusHighlightPath: HighlightPath;
@@ -54,9 +59,9 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     protected readonly groupSortInteractionModel: GroupSortInteractionModel<ItemModel>,
     primaryFocusedNode: Node,
     public readonly sceneModel: SceneModel<ItemModel>, // TODO: Think hard about the best interface for this, https://github.com/phetsims/scenery-phet/issues/815
-    soccerBallMap: Map<ItemModel, ItemView>, providedOptions: GroupSortInteractionViewOptions<ItemModel> ) {
+    providedOptions: GroupSortInteractionViewOptions<ItemModel, ItemNode> ) {
 
-    const options = optionize<GroupSortInteractionViewOptions<ItemModel>>()( {}, providedOptions );
+    const options = optionize<GroupSortInteractionViewOptions<ItemModel, ItemNode>>()( {}, providedOptions );
 
     const focusedGroupItemProperty = this.groupSortInteractionModel.focusedGroupItemProperty;
     const isKeyboardFocusedProperty = this.groupSortInteractionModel.isKeyboardFocusedProperty;
@@ -107,7 +112,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
         // When the group receives keyboard focus, make sure that the focused ball is displayed
         if ( focusedGroupItemProperty.value !== null ) {
           // TODO: awkward, https://github.com/phetsims/scenery-phet/issues/815
-          animatedPanZoomSingleton.listener.panToNode( soccerBallMap.get( focusedGroupItemProperty.value )!, true );
+          animatedPanZoomSingleton.listener.panToNode( options.getNodeFromModelItem( focusedGroupItemProperty.value ), true );
         }
       },
       blur: () => {
@@ -133,7 +138,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
       ( focusedSoccerBall, isSoccerBallGrabbed, sortIndicatorValue ) => {
         if ( focusedSoccerBall ) {
 
-          const focusForSelectedBall = new HighlightFromNode( soccerBallMap.get( focusedSoccerBall )!, { dashed: isSoccerBallGrabbed } );
+          const focusForSelectedBall = new HighlightFromNode( options.getNodeFromModelItem( focusedSoccerBall ), { dashed: isSoccerBallGrabbed } );
           primaryFocusedNode.setFocusHighlight( focusForSelectedBall );
         }
         else {
@@ -205,6 +210,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
             if ( [ 'arrowRight', 'arrowLeft', 'a', 'd', 'arrowUp', 'arrowDown', 'w', 's', 'pageDown', 'pageUp', 'home', 'end' ].includes( keysPressed ) ) {
 
               const delta = getDeltaForKey( keysPressed )!;
+              assert && assert( delta !== null );
               newValue = groupItem.valueProperty.value! + delta;
             }
             else {
@@ -255,7 +261,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
           // When using keyboard input, make sure that the "focused" ball is still displayed by panning to keep it
           // in view. `panToCenter` is false because centering the ball in the screen is too much movement.
           // TODO: Oh boy, https://github.com/phetsims/scenery-phet/issues/815 - need a general map for this
-          animatedPanZoomSingleton.listener.panToNode( soccerBallMap.get( groupItem )!, false );
+          animatedPanZoomSingleton.listener.panToNode( options.getNodeFromModelItem( groupItem ), false );
         }
       }
     } );
@@ -286,16 +292,14 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
    * Creator factory, similar to PhetioObject.create(). This is most useful if you don't need to keep the instance of
    * your GroupSortInteractionView.
    */
-  public create<ItemModel extends ItemModelType, ItemView extends ItemViewType<ItemModel>>(
+  public create<ItemModel extends ItemModelType, ItemNode extends Node>(
     groupSortInteractionModel: GroupSortInteractionModel<ItemModel>,
     primaryFocusedNode: Node,
     sceneModel: SceneModel<ItemModel>,
-    soccerBallMap: Map<ItemModel, ItemView>,
-    keyboardSortArrowCueNode: Node,
-    providedOptions: GroupSortInteractionViewOptions<ItemModel> ): GroupSortInteractionView<ItemModel, ItemView> {
+    providedOptions: GroupSortInteractionViewOptions<ItemModel, ItemNode> ): GroupSortInteractionView<ItemModel, ItemNode> {
 
-    return new GroupSortInteractionView<ItemModel, ItemView>( groupSortInteractionModel, primaryFocusedNode,
-      sceneModel, soccerBallMap, providedOptions );
+    return new GroupSortInteractionView<ItemModel, ItemNode>( groupSortInteractionModel, primaryFocusedNode,
+      sceneModel, providedOptions );
   }
 }
 
