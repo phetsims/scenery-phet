@@ -18,17 +18,12 @@ import soccerCommon from '../soccerCommon.js';
 import Range from '../../../dot/js/Range.js';
 import Multilink from '../../../axon/js/Multilink.js';
 import GroupSortInteractionModel, { ItemModelType } from '../model/GroupSortInteractionModel.js';
-import TEmitter from '../../../axon/js/TEmitter.js';
 import Emitter from '../../../axon/js/Emitter.js';
 import { Shape } from '../../../kite/js/imports.js';
 import optionize from '../../../phet-core/js/optionize.js';
 
 type GetItemNodeFromModel<ItemModel extends ItemModelType, ItemNode extends Node> = ( model: ItemModel ) => ItemNode;
 
-// TODO: Remove this? https://github.com/phetsims/scenery-phet/issues/815
-type SceneModel = {
-  preClearDataEmitter: TEmitter;
-};
 type SelfOptions<ItemModel extends ItemModelType, ItemNode extends Node> = {
 
   // Given the delta (difference from currentValue to new value), return the corresponding group item model.
@@ -64,7 +59,6 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
   public constructor(
     protected readonly groupSortInteractionModel: GroupSortInteractionModel<ItemModel>,
     primaryFocusedNode: Node,
-    sceneModel: SceneModel,
     providedOptions: GroupSortInteractionViewOptions<ItemModel, ItemNode> ) {
 
     const options = optionize<GroupSortInteractionViewOptions<ItemModel, ItemNode>>()( {
@@ -217,7 +211,6 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
             const delta = getDeltaForKey( keysPressed );
             if ( delta !== null ) {
               this.groupSortInteractionModel.hasKeyboardSelectedDifferentGroupItemProperty.value = true;
-
               focusedGroupItemProperty.value = options.getNextFocusedGroupItem( delta );
             }
           }
@@ -241,14 +234,6 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     primaryFocusedNode.setGroupFocusHighlight( this.groupFocusHighlightPath );
     primaryFocusedNode.addInputListener( keyboardListener );
     primaryFocusedNode.addInputListener( grabReleaseKeyboardListener );
-
-    // TODO: move to the model and use use resetInteractionState(), see about https://github.com/phetsims/scenery-phet/issues/815
-    sceneModel.preClearDataEmitter.addListener( () => {
-        focusedGroupItemProperty.reset();
-        isGroupItemKeyboardGrabbedProperty.reset();
-        isKeyboardFocusedProperty.reset();
-      }
-    );
   }
 
   /**
@@ -258,11 +243,9 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
   public create<ItemModel extends ItemModelType, ItemNode extends Node>(
     groupSortInteractionModel: GroupSortInteractionModel<ItemModel>,
     primaryFocusedNode: Node,
-    sceneModel: SceneModel,
     providedOptions: GroupSortInteractionViewOptions<ItemModel, ItemNode> ): GroupSortInteractionView<ItemModel, ItemNode> {
 
-    return new GroupSortInteractionView<ItemModel, ItemNode>( groupSortInteractionModel, primaryFocusedNode,
-      sceneModel, providedOptions );
+    return new GroupSortInteractionView<ItemModel, ItemNode>( groupSortInteractionModel, primaryFocusedNode, providedOptions );
   }
 }
 
