@@ -21,6 +21,8 @@
  * In general, there is just one instance of this per model, and not per scene. This is because if someone can
  * successfully grab and sort in one scene, then that data should transfer to the next scene.
  *
+ * This implementation relies on the model elements to be sorted to have a valueProperty that gets the value set to it.
+ *
  * Implementation steps (these steps apply to the model and view):
  * - use with GroupSortInteractionView
  * - call updateSortIndicator() manually (see CAV)
@@ -51,8 +53,6 @@ import TProperty from '../../../axon/js/TProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 
-// TODO: Remove me? https://github.com/phetsims/scenery-phet/issues/815
-// TODO: same parametric type for number as the sortIndicatorValue. https://github.com/phetsims/scenery-phet/issues/815
 export type ItemModelType = {
   valueProperty: TProperty<number | null>;
 };
