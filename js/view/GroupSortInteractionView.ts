@@ -22,6 +22,8 @@ import GroupSortInteractionModel, { ItemModelType } from '../model/GroupSortInte
 import Emitter from '../../../axon/js/Emitter.js';
 import { Shape } from '../../../kite/js/imports.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import InteractiveCueArrowNode from './InteractiveCueArrowNode.js';
 
 
 type SelfOptions<ItemModel extends ItemModelType, ItemNode extends Node> = {
@@ -243,6 +245,24 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     primaryFocusedNode.setGroupFocusHighlight( this.groupFocusHighlightPath );
     primaryFocusedNode.addInputListener( keyboardListener );
     primaryFocusedNode.addInputListener( grabReleaseKeyboardListener );
+  }
+
+  /**
+   * Use InteractiveCueArrowNode to create a Node for the sorting cue.
+   */
+  public static createSortCueNode( visibleProperty: TReadOnlyProperty<boolean>, scale = 1 ): InteractiveCueArrowNode {
+    return new InteractiveCueArrowNode( {
+      doubleHead: true,
+      dashWidth: 3.5 * scale,
+      dashHeight: 2.8 * scale,
+      numberOfDashes: 3,
+      spacing: 2 * scale,
+      triangleNodeOptions: {
+        triangleWidth: 12 * scale,
+        triangleHeight: 11 * scale
+      },
+      visibleProperty: visibleProperty
+    } );
   }
 
   /**
