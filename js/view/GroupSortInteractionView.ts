@@ -96,7 +96,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
       over: () => {
         // TODO: this is awkward. In this situation:
         //     1. tab to populated node, the keyboard grab cue is shown.
-        //     2. Move the mouse over a soccer ball, the keyboard grab cue goes away.
+        //     2. Move the mouse over a group item, the keyboard grab cue goes away.
         //     3. Press an arrow key to change focus to another in the group, the keyboard grab cue does not show up.
         //        I bet it still thinks that isKeyboardFocusedProperty is false (!!!!)
         //     https://github.com/phetsims/scenery-phet/issues/815
