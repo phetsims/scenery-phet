@@ -232,7 +232,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
             groupItem.valueProperty.value = options.sortingRange.constrainValue( newValue );
 
             // TODO: fire this even if the value didn't change? Yes likely, for the sound https://github.com/phetsims/scenery-phet/issues/815
-            groupItem.toneEmitter.emit( oldValue );
+            groupItem.toneEmitter.emit( groupItem.valueProperty.value );
             this.groupSortInteractionModel.hasKeyboardSortedGroupItemProperty.value = true;
             this.groupSortInteractionModel.hasGroupItemBeenSortedProperty.value = true;
           }
