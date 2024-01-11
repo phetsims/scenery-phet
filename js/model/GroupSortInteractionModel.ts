@@ -31,9 +31,7 @@ import NullableIO from '../../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import TProperty from '../../../axon/js/TProperty.js';
-import Vector2 from '../../../dot/js/Vector2.js';
 import { SoccerBallPhase } from './SoccerBallPhase.js';
-import TEmitter from '../../../axon/js/TEmitter.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -41,9 +39,7 @@ type SelfOptions = EmptySelfOptions;
 // TODO: same parametric type for number as the sortIndicatorValue. https://github.com/phetsims/scenery-phet/issues/815
 export type ItemModelType = {
   valueProperty: TProperty<number | null>;
-  positionProperty: TProperty<Vector2>;
   soccerBallPhaseProperty: TProperty<SoccerBallPhase>;
-  toneEmitter: TEmitter<[ number ]>;
 };
 
 type ParentOptions = Pick<PhetioObjectOptions, 'tandem'>;
