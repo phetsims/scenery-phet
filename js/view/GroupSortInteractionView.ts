@@ -14,7 +14,6 @@
  */
 
 import { animatedPanZoomSingleton, HighlightFromNode, HighlightPath, KeyboardListener, Node } from '../../../scenery/js/imports.js';
-import { SoccerBallPhase } from '../model/SoccerBallPhase.js';
 import soccerCommon from '../soccerCommon.js';
 import Range from '../../../dot/js/Range.js';
 import Multilink from '../../../axon/js/Multilink.js';
@@ -37,6 +36,9 @@ type SelfOptions<ItemModel extends ItemModelType, ItemNode extends Node> = {
 
   // Given the delta (difference from currentValue to new value), return the corresponding group item model.
   getNextFocusedGroupItem: ( delta: number ) => ItemModel;
+
+  // On focus, determine the best choice for the item to focus, only called if focusedGroupItemProperty is null.
+  getGroupItemToFocus: ( () => ItemModel | null );
 
   // Given a model item, return the corresponding node.
   getNodeFromModelItem: GetItemNodeFromModel<ItemModel, ItemNode>;
@@ -102,20 +104,11 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
 
     primaryFocusedNode.addInputListener( {
       focus: () => {
-        const topSoccerBalls = sceneModel.getTopSoccerBalls();
-        if ( focusedGroupItemProperty.value === null && topSoccerBalls.length > 0 ) {
-          const sortIndicatorValue = sortIndicatorValueProperty.value;
-          if ( sortIndicatorValue !== null ) {
-            const sortIndicatorStack = sceneModel.getStackAtValue( sortIndicatorValue,
-              soccerBall => soccerBall.soccerBallPhaseProperty.value === SoccerBallPhase.STACKED );
-            assert && assert( sortIndicatorStack.length > 0, `must have a stack length at the sortIndicator value: ${sortIndicatorValue}` );
-            focusedGroupItemProperty.value = sortIndicatorStack[ sortIndicatorStack.length - 1 ];
-          }
-          else {
-            focusedGroupItemProperty.value = topSoccerBalls[ 0 ];
-          }
 
+        if ( focusedGroupItemProperty.value === null ) {
+          focusedGroupItemProperty.value = options.getGroupItemToFocus();
         }
+
         // TODO: should this be true even if focusedGroupItemProperty.value is null? https://github.com/phetsims/scenery-phet/issues/815
         isKeyboardFocusedProperty.value = true;
 
