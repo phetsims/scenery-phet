@@ -43,6 +43,10 @@ type SelfOptions<ItemModel extends ItemModelType, ItemNode extends Node> = {
 
   // The available range for storing. This is the acceptable range for the ItemModel.valueProperty.
   sortingRange: Range;
+
+  // If provided, listen to the number keys as well. Provide the value that the number key maps to. A direct value,
+  // not a delta. If set to null, then number keys will not be listened to for this interaction
+  numberKeyMapper?: ( ( pressedKeys: string ) => ( number | null ) ) | null;
 };
 
 export type GroupSortInteractionViewOptions<ItemModel extends ItemModelType, ItemNode extends Node> = SelfOptions<ItemModel, ItemNode>;
@@ -61,7 +65,9 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     public readonly sceneModel: SceneModel<ItemModel>, // TODO: Think hard about the best interface for this, https://github.com/phetsims/scenery-phet/issues/815
     providedOptions: GroupSortInteractionViewOptions<ItemModel, ItemNode> ) {
 
-    const options = optionize<GroupSortInteractionViewOptions<ItemModel, ItemNode>>()( {}, providedOptions );
+    const options = optionize<GroupSortInteractionViewOptions<ItemModel, ItemNode>>()( {
+      numberKeyMapper: null
+    }, providedOptions );
 
     const focusedGroupItemProperty = this.groupSortInteractionModel.focusedGroupItemProperty;
     const isKeyboardFocusedProperty = this.groupSortInteractionModel.isKeyboardFocusedProperty;
@@ -188,6 +194,8 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
              null;
     };
 
+    // TODO: adding a modifier key means the arrow keys don't work. https://github.com/phetsims/scenery-phet/issues/815
+    // TODO: should we add a "shift+arrow keys" for a larger or smaller step size than the default? https://github.com/phetsims/scenery-phet/issues/815
     const keyboardListener = new KeyboardListener( {
       fireOnHold: true,
 
@@ -199,47 +207,32 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
         if ( focusedGroupItemProperty.value !== null ) {
 
           const groupItem = focusedGroupItemProperty.value;
-          assert && assert( groupItem.valueProperty.value !== null, 'We should have a ball when responding to input?' );
+          const oldValue = groupItem.valueProperty.value!;
+          assert && assert( oldValue !== null, 'We should have a ball when responding to input?' );
 
           // Sorting an item
           if ( isGroupItemKeyboardGrabbedProperty.value ) {
-            let newValue: number | null = null;
+            let newValue: number = oldValue;
 
             // For these keys, the item will move by a particular delta
             if ( [ 'arrowRight', 'arrowLeft', 'a', 'd', 'arrowUp', 'arrowDown', 'w', 's', 'pageDown', 'pageUp', 'home', 'end' ].includes( keysPressed ) ) {
 
               const delta = getDeltaForKey( keysPressed )!;
               assert && assert( delta !== null );
-              newValue = groupItem.valueProperty.value! + delta;
+              newValue = oldValue + delta;
             }
-            else {
-
-              // An option like numberKeyMapper - when present, add number keys to the KeyboardListener and
-              // call the callback here - it returns the value as a number from the number key pressed.
-              // Usage could look like this:
-              //               if ( options.numberKeyMapper && options.numberKeyMapper( keysPressed ) ) {
-              //                 newValue = options.numberKeyMapper( keysPressed );
-              //               }
-              // TODO: Implement the above? - See https://github.com/phetsims/scenery-phet/issues/815
-
-              // For the remaining keys in this listener, the value will be set to a specific value
-              newValue = keysPressed === '1' ? 1 :
-                         keysPressed === '2' ? 2 :
-                         keysPressed === '3' ? 3 :
-                         keysPressed === '4' ? 4 :
-                         keysPressed === '5' ? 5 :
-                         keysPressed === '6' ? 6 :
-                         keysPressed === '7' ? 7 :
-                         keysPressed === '8' ? 8 :
-                         keysPressed === '9' ? 9 :
-                         keysPressed === '0' ? 10 :
-                         groupItem.valueProperty.value;
+            else if ( options.numberKeyMapper && isSingleDigit( keysPressed ) ) {
+              const mappedValue = options.numberKeyMapper( keysPressed );
+              if ( mappedValue ) {
+                newValue = mappedValue;
+              }
             }
 
             assert && assert( newValue !== null, 'We should have a value for the ball by the end of the listener.' );
-            groupItem.valueProperty.value = options.sortingRange.constrainValue( newValue! );
-            groupItem.toneEmitter.emit( groupItem.valueProperty.value );
+            groupItem.valueProperty.value = options.sortingRange.constrainValue( newValue );
 
+            // TODO: fire this even if the value didn't change? Yes likely, for the sound https://github.com/phetsims/scenery-phet/issues/815
+            groupItem.toneEmitter.emit( oldValue );
             this.groupSortInteractionModel.hasKeyboardSortedGroupItemProperty.value = true;
             this.groupSortInteractionModel.hasGroupItemBeenSortedProperty.value = true;
           }
@@ -300,5 +293,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
       sceneModel, providedOptions );
   }
 }
+
+function isSingleDigit( key: string ): boolean { return /^\d$/.test( key );}
 
 soccerCommon.register( 'GroupSortInteractionView', GroupSortInteractionView );
