@@ -1,12 +1,13 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * The view of the Group Sort Interaction. This type handles adding the controller for the selection, grab, and sort
- * interaction for keyboard. It also handles the group and individual focus highlights.
+ * This doc assumes you have read the doc in GroupSortInteractionModel. Read that first as it explains the "group sort
+ * interaction" more generally.
  *
- * Recipe book:
- * - use groupFocusHighlightPath.shape to set the group highlight dynamically
- * - use positionKeyboardSortArrowCueNodeEmitter to update the position of the sort cue.
+ * The view of the "Group Sort Interaction." This type handles adding the controller for selecting, grabbing, and sorting
+ * in the interaction for (keyboard). It also handles the individual and group focus highlights.
+ *
+ * This class can be used per scene, but the model is best used per screen.
  *
  * TODO: Dispose? https://github.com/phetsims/scenery-phet/issues/815
  * @author Michael Kauzmann (PhET Interactive Simulations)
