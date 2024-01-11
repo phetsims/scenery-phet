@@ -28,11 +28,12 @@ import InteractiveCueArrowNode from './InteractiveCueArrowNode.js';
 
 type SelfOptions<ItemModel extends ItemModelType, ItemNode extends Node> = {
 
-  // Given the delta (difference from currentValue to new value), return the corresponding group item model.
-  getNextFocusedGroupItem: ( delta: number ) => ItemModel;
+  // Given the delta (difference from currentValue to new value), return the corresponding group item model to be active.
+  getNextSelectedGroupItem: ( delta: number ) => ItemModel;
 
-  // On focus, determine the best choice for the item to focus, only called if focusedGroupItemProperty is null.
-  getGroupItemToFocus: ( () => ItemModel | null );
+  // Called on the focus() event (the start of the interaction), determine the best choice for the item to first select.
+  // Only called if selectedGroupItemProperty is null (no selection already).
+  getGroupItemToSelect: ( () => ItemModel | null );
 
   // Given a model item, return the corresponding node. Support 'null' as a way to support multiple scenes. If you
   // return null, it means that the provided itemModel is not associated with this view, and shouldn't be handled.
@@ -69,7 +70,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
       onSort: _.noop
     }, providedOptions );
 
-    const focusedGroupItemProperty = this.groupSortInteractionModel.focusedGroupItemProperty;
+    const selectedGroupItemProperty = this.groupSortInteractionModel.selectedGroupItemProperty;
     const isKeyboardFocusedProperty = this.groupSortInteractionModel.isKeyboardFocusedProperty;
     const isGroupItemKeyboardGrabbedProperty = this.groupSortInteractionModel.isGroupItemKeyboardGrabbedProperty;
     const hasKeyboardGrabbedGroupItemProperty = this.groupSortInteractionModel.hasKeyboardGrabbedGroupItemProperty;
@@ -78,16 +79,16 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     primaryFocusedNode.addInputListener( {
       focus: () => {
 
-        if ( focusedGroupItemProperty.value === null ) {
-          focusedGroupItemProperty.value = options.getGroupItemToFocus();
+        if ( selectedGroupItemProperty.value === null ) {
+          selectedGroupItemProperty.value = options.getGroupItemToSelect();
         }
 
-        // TODO: should this be true even if focusedGroupItemProperty.value is null? https://github.com/phetsims/scenery-phet/issues/815
+        // TODO: should this be true even if selectedGroupItemProperty.value is null? https://github.com/phetsims/scenery-phet/issues/815
         isKeyboardFocusedProperty.value = true;
 
-        // When the group receives keyboard focus, make sure that the focused ball is displayed
-        if ( focusedGroupItemProperty.value !== null ) {
-          const node = options.getNodeFromModelItem( focusedGroupItemProperty.value );
+        // When the group receives keyboard focus, make sure that the selected group item is displayed
+        if ( selectedGroupItemProperty.value !== null ) {
+          const node = options.getNodeFromModelItem( selectedGroupItemProperty.value );
           node && animatedPanZoomSingleton.listener.panToNode( node, true );
         }
       },
@@ -107,19 +108,19 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     } );
 
     Multilink.multilink( [
-        focusedGroupItemProperty,
+        selectedGroupItemProperty,
         isGroupItemKeyboardGrabbedProperty,
         sortIndicatorValueProperty
       ],
-      ( focusedSoccerBall, isSoccerBallGrabbed, sortIndicatorValue ) => {
+      ( selectedGroupItem, isGroupItemGrabbed, sortIndicatorValue ) => {
         let focusHighlightSet = false;
-        if ( focusedSoccerBall ) {
-          const node = options.getNodeFromModelItem( focusedSoccerBall );
+        if ( selectedGroupItem ) {
+          const node = options.getNodeFromModelItem( selectedGroupItem );
           if ( node ) {
-            const focusForSelectedBall = new HighlightFromNode( node, { dashed: isSoccerBallGrabbed } );
+            const focusForSelectedGroupItem = new HighlightFromNode( node, { dashed: isGroupItemGrabbed } );
 
             // If available, set to the focused selection for this scene.
-            primaryFocusedNode.setFocusHighlight( focusForSelectedBall );
+            primaryFocusedNode.setFocusHighlight( focusForSelectedGroupItem );
             focusHighlightSet = true;
           }
         }
@@ -138,7 +139,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
       fireOnHold: true,
       keys: [ 'enter', 'space', 'escape' ],
       callback: ( event, keysPressed ) => {
-        if ( focusedGroupItemProperty.value !== null ) {
+        if ( selectedGroupItemProperty.value !== null ) {
 
           // Do the "Grab/release" action to switch to sorting or selecting
           if ( keysPressed === 'enter' || keysPressed === 'space' ) {
@@ -181,11 +182,11 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
       keys: [ 'd', 'arrowRight', 'a', 'arrowLeft', 'arrowUp', 'arrowDown', 'w', 's', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'home', 'end', 'pageUp', 'pageDown' ],
       callback: ( event, keysPressed ) => {
 
-        if ( focusedGroupItemProperty.value !== null ) {
+        if ( selectedGroupItemProperty.value !== null ) {
 
-          const groupItem = focusedGroupItemProperty.value;
+          const groupItem = selectedGroupItemProperty.value;
           const oldValue = groupItem.valueProperty.value!;
-          assert && assert( oldValue !== null, 'We should have a ball when responding to input?' );
+          assert && assert( oldValue !== null, 'We should have a group item when responding to input?' );
 
           // Sorting an item
           if ( isGroupItemKeyboardGrabbedProperty.value ) {
@@ -205,7 +206,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
               }
             }
 
-            assert && assert( newValue !== null, 'We should have a value for the ball by the end of the listener.' );
+            assert && assert( newValue !== null, 'We should have a value for the group item by the end of the listener.' );
             groupItem.valueProperty.value = options.sortingRange.constrainValue( newValue );
 
             // TODO: fire this even if the value didn't change? Yes likely, for the sound https://github.com/phetsims/scenery-phet/issues/815
@@ -221,21 +222,21 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
             const delta = getDeltaForKey( keysPressed );
             if ( delta !== null ) {
               this.groupSortInteractionModel.hasKeyboardSelectedDifferentGroupItemProperty.value = true;
-              focusedGroupItemProperty.value = options.getNextFocusedGroupItem( delta );
+              selectedGroupItemProperty.value = options.getNextSelectedGroupItem( delta );
             }
           }
 
-          // When using keyboard input, make sure that the "focused" ball is still displayed by panning to keep it
-          // in view. `panToCenter` is false because centering the ball in the screen is too much movement.
+          // When using keyboard input, make sure that the selected group item is still displayed by panning to keep it
+          // in view. `panToCenter` is false because centering the group item in the screen is too much movement.
           const node = options.getNodeFromModelItem( groupItem );
           node && animatedPanZoomSingleton.listener.panToNode( node, false );
         }
       }
     } );
 
-    // Set the outer group focus region to surround the entire area where group items are located.
     const defaultGroupShape = primaryFocusedNode.bounds.isFinite() ? Shape.bounds( primaryFocusedNode.visibleBounds ) : null;
 
+    // Set the outer group focus highlight to surround the entire area where group items are located.
     this.groupFocusHighlightPath = new HighlightPath( defaultGroupShape, {
       outerStroke: HighlightPath.OUTER_LIGHT_GROUP_FOCUS_COLOR,
       innerStroke: HighlightPath.INNER_LIGHT_GROUP_FOCUS_COLOR,
