@@ -22,7 +22,6 @@ import Emitter from '../../../axon/js/Emitter.js';
 import { Shape } from '../../../kite/js/imports.js';
 import optionize from '../../../phet-core/js/optionize.js';
 
-type GetItemNodeFromModel<ItemModel extends ItemModelType, ItemNode extends Node> = ( model: ItemModel ) => ItemNode;
 
 type SelfOptions<ItemModel extends ItemModelType, ItemNode extends Node> = {
 
@@ -32,8 +31,9 @@ type SelfOptions<ItemModel extends ItemModelType, ItemNode extends Node> = {
   // On focus, determine the best choice for the item to focus, only called if focusedGroupItemProperty is null.
   getGroupItemToFocus: ( () => ItemModel | null );
 
-  // Given a model item, return the corresponding node.
-  getNodeFromModelItem: GetItemNodeFromModel<ItemModel, ItemNode>;
+  // Given a model item, return the corresponding node. Support 'null' as a way to support multiple scenes. If you
+  // return null, it means that the provided itemModel is not associated with this view, and shouldn't be handled.
+  getNodeFromModelItem: ( model: ItemModel ) => ItemNode | null;
 
   // The available range for storing. This is the acceptable range for the ItemModel.valueProperty.
   sortingRange: Range;
@@ -84,7 +84,8 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
 
         // When the group receives keyboard focus, make sure that the focused ball is displayed
         if ( focusedGroupItemProperty.value !== null ) {
-          animatedPanZoomSingleton.listener.panToNode( options.getNodeFromModelItem( focusedGroupItemProperty.value ), true );
+          const node = options.getNodeFromModelItem( focusedGroupItemProperty.value );
+          node && animatedPanZoomSingleton.listener.panToNode( node, true );
         }
       },
       blur: () => {
@@ -108,14 +109,20 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
         sortIndicatorValueProperty
       ],
       ( focusedSoccerBall, isSoccerBallGrabbed, sortIndicatorValue ) => {
+        let focusHighlightSet = false;
         if ( focusedSoccerBall ) {
+          const node = options.getNodeFromModelItem( focusedSoccerBall );
+          if ( node ) {
+            const focusForSelectedBall = new HighlightFromNode( node, { dashed: isSoccerBallGrabbed } );
 
-          const focusForSelectedBall = new HighlightFromNode( options.getNodeFromModelItem( focusedSoccerBall ), { dashed: isSoccerBallGrabbed } );
-          primaryFocusedNode.setFocusHighlight( focusForSelectedBall );
+            // If available, set to the focused selection for this scene.
+            primaryFocusedNode.setFocusHighlight( focusForSelectedBall );
+            focusHighlightSet = true;
+          }
         }
-        else {
-          primaryFocusedNode.setFocusHighlight( 'invisible' );
-        }
+
+        // If not set above, then actively hide it.
+        !focusHighlightSet && primaryFocusedNode.setFocusHighlight( 'invisible' );
 
         if ( sortIndicatorValue !== null ) {
           this.positionKeyboardSortArrowCueNodeEmitter.emit();
@@ -217,7 +224,8 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
 
           // When using keyboard input, make sure that the "focused" ball is still displayed by panning to keep it
           // in view. `panToCenter` is false because centering the ball in the screen is too much movement.
-          animatedPanZoomSingleton.listener.panToNode( options.getNodeFromModelItem( groupItem ), false );
+          const node = options.getNodeFromModelItem( groupItem );
+          node && animatedPanZoomSingleton.listener.panToNode( node, false );
         }
       }
     } );
