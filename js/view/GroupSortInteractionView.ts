@@ -44,6 +44,9 @@ type SelfOptions<ItemModel extends ItemModelType, ItemNode extends Node> = {
   // The available range for storing. This is the acceptable range for the ItemModel.valueProperty.
   sortingRange: Range;
 
+  // Called when a group item is sorted. Note that this may not have changed its value.
+  onSort?: ( groupItem: ItemModel, oldValue: number ) => void;
+
   // If provided, listen to the number keys as well. Provide the value that the number key maps to. A direct value,
   // not a delta. If set to null, then number keys will not be listened to for this interaction
   numberKeyMapper?: ( ( pressedKeys: string ) => ( number | null ) ) | null;
@@ -66,7 +69,8 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     providedOptions: GroupSortInteractionViewOptions<ItemModel, ItemNode> ) {
 
     const options = optionize<GroupSortInteractionViewOptions<ItemModel, ItemNode>>()( {
-      numberKeyMapper: null
+      numberKeyMapper: null,
+      onSort: _.noop
     }, providedOptions );
 
     const focusedGroupItemProperty = this.groupSortInteractionModel.focusedGroupItemProperty;
@@ -232,14 +236,13 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
             groupItem.valueProperty.value = options.sortingRange.constrainValue( newValue );
 
             // TODO: fire this even if the value didn't change? Yes likely, for the sound https://github.com/phetsims/scenery-phet/issues/815
-            groupItem.toneEmitter.emit( groupItem.valueProperty.value );
+            options.onSort( groupItem, oldValue );
             this.groupSortInteractionModel.hasKeyboardSortedGroupItemProperty.value = true;
             this.groupSortInteractionModel.hasGroupItemBeenSortedProperty.value = true;
           }
           else {
 
-            // selecting an item
-            // TODO: This changes the behavior because now the WASD, page up/page down keys work
+            // TODO: DESIGN!!! This changes the behavior because now the WASD, page up/page down keys work
             //   for the selection too - they don't on published version (Note that home and end DO work on published
             //   version for selection), https://github.com/phetsims/scenery-phet/issues/815
             const delta = getDeltaForKey( keysPressed );
