@@ -47,7 +47,9 @@ export type GroupSortInteractionModelOptions = SelfOptions & ParentOptions;
 
 export default class GroupSortInteractionModel<ItemModel extends ItemModelType> {
 
-  // The ItemModel that is receiving the highlight focus within the group highlight.
+  // The ItemModel that is receiving the highlight focus within the group highlight. Feel free to dynamically change
+  // this value to update the realtime selection of the group sort interaction.
+  // TODO: rename to "selectedGroupItemProperty"? https://github.com/phetsims/scenery-phet/issues/815
   public readonly focusedGroupItemProperty = new Property<ItemModel | null>( null, {
     isValidValue: x => !!x || x === null
   } );
