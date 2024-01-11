@@ -59,7 +59,6 @@ export type ItemModelType = {
 
 type ParentOptions = Pick<PhetioObjectOptions, 'tandem'>;
 
-// TODO: "Soccer ball" -> "group item" https://github.com/phetsims/scenery-phet/issues/815
 export type GroupSortInteractionModelOptions = SelfOptions & ParentOptions;
 
 export default class GroupSortInteractionModel<ItemModel extends ItemModelType> {
