@@ -130,6 +130,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
         //     2. Move the mouse over a group item, the keyboard grab cue goes away.
         //     3. Press an arrow key to change focus to another in the group, the keyboard grab cue does not show up.
         //        I bet it still thinks that isKeyboardFocusedProperty is false (!!!!)
+        //     4. It is even worse than the above now that we got rid of sortIndicatorValue, because this triggers a change in selection in CAVGroupSortInteractionModel
         //     https://github.com/phetsims/scenery-phet/issues/815
         isKeyboardFocusedProperty.value = false;
       }
