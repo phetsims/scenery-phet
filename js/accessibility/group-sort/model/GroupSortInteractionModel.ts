@@ -33,14 +33,12 @@
  * - use GroupSortInteractionView.groupFocusHighlightPath.shape to set the group highlight dynamically
  * - use positionSortCueNodeEmitter to update the position of the sort cue.
  *
- * TODO: Dispose? Yes, once it isn't in soccer common anymore https://github.com/phetsims/scenery-phet/issues/815
- *
  * @author Michael Kauzmann (PhET Interactive Simulations)
- *
+ * @author Marla Schulz (PhET Interactive Simulations)
  */
 
 import sceneryPhet from '../../../sceneryPhet.js';
-import optionize, { EmptySelfOptions } from '../../../../../phet-core/js/optionize.js';
+import optionize from '../../../../../phet-core/js/optionize.js';
 import Property from '../../../../../axon/js/Property.js';
 import Tandem from '../../../../../tandem/js/Tandem.js';
 import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
@@ -50,18 +48,19 @@ import NullableIO from '../../../../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../../../../tandem/js/types/NumberIO.js';
 import { PhetioObjectOptions } from '../../../../../tandem/js/PhetioObject.js';
 import TProperty from '../../../../../axon/js/TProperty.js';
+import Disposable, { DisposableOptions } from '../../../../../axon/js/Disposable.js';
 
-type SelfOptions = EmptySelfOptions;
+type SelfOptions = Pick<PhetioObjectOptions, 'tandem'>;
 
 export type ItemModelType = {
   valueProperty: TProperty<number | null>;
 };
 
-type ParentOptions = Pick<PhetioObjectOptions, 'tandem'>;
+type ParentOptions = DisposableOptions;
 
 export type GroupSortInteractionModelOptions = SelfOptions & ParentOptions;
 
-export default class GroupSortInteractionModel<ItemModel extends ItemModelType> {
+export default class GroupSortInteractionModel<ItemModel extends ItemModelType> extends Disposable {
 
   // The group item that is the selected/focused/sorted. If null, then there is nothing to sort (no items?), and the
   // interaction will no-op. Feel free to dynamically change this value to update the realtime selection of the
@@ -118,6 +117,8 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
     const options = optionize<GroupSortInteractionModelOptions, SelfOptions, ParentOptions>()( {
       tandem: Tandem.REQUIRED
     }, providedOptions );
+
+    super( options );
 
     // TODO: Redo the PhET-iO Design, (including "ball" documentation) https://github.com/phetsims/scenery-phet/issues/815
     this.hasGroupItemBeenSortedProperty = new BooleanProperty( false, {
@@ -204,6 +205,27 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
     this.mouseSortCueVisibleProperty.link( updateSortIndicatorNode );
     this.sortIndicatorValueProperty.link( updateSortIndicatorNode );
     this.selectedGroupItemProperty.link( updateSortIndicatorNode );
+
+    this.disposeEmitter.addListener( () => {
+      this.mouseSortCueVisibleProperty.unlink( updateSortIndicatorNode );
+      this.sortIndicatorValueProperty.unlink( updateSortIndicatorNode );
+      this.selectedGroupItemProperty.unlink( updateSortIndicatorNode );
+    } );
+  }
+
+  public dispose(): void {
+    this.selectedGroupItemProperty.dispose();
+    this.isGroupItemKeyboardGrabbedProperty.dispose();
+    this.grabReleaseCueVisibleProperty.dispose();
+    this.keyboardSortCueVisibleProperty.dispose();
+    this.isKeyboardFocusedProperty.dispose();
+    this.hasKeyboardGrabbedGroupItemProperty.dispose();
+    this.hasKeyboardSortedGroupItemProperty.dispose();
+    this.hasKeyboardSelectedDifferentGroupItemProperty.dispose();
+    this.mouseSortCueVisibleProperty.dispose();
+    this.sortIndicatorValueProperty.dispose();
+    this.hasGroupItemBeenSortedProperty.dispose();
+    super.dispose();
   }
 }
 
