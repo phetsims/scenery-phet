@@ -57,7 +57,10 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
   // Update group highlight dynamically by setting the `shape` of this path.
   protected readonly groupFocusHighlightPath: HighlightPath;
 
+  // Emitted when the sorting cue should be repositioned. Most likely because the selection has changed.
   public readonly positionSortCueNodeEmitter = new Emitter();
+
+  private readonly sortingRange: Range;
 
   public constructor(
     protected readonly groupSortInteractionModel: GroupSortInteractionModel<ItemModel>,
@@ -73,6 +76,8 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     }, providedOptions );
 
     super( options );
+
+    this.sortingRange = options.sortingRange;
 
     const selectedGroupItemProperty = this.groupSortInteractionModel.selectedGroupItemProperty;
     const isKeyboardFocusedProperty = this.groupSortInteractionModel.isKeyboardFocusedProperty;
@@ -101,7 +106,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
         isKeyboardFocusedProperty.value = false;
       },
       over: () => {
-        // TODO: this is awkward. In this situation:
+        // TODO: MS!!!! this is awkward. In this situation:
         //     1. tab to populated node, the keyboard grab cue is shown.
         //     2. Move the mouse over a group item, the keyboard grab cue goes away.
         //     3. Press an arrow key to change focus to another in the group, the keyboard grab cue does not show up.
@@ -158,25 +163,6 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
       }
     } );
 
-    // TODO: Should this function live somewhere else? If on the prototype it could be overridden - No, simpler is better.
-    //  Consider adding as a static function. See https://github.com/phetsims/scenery-phet/issues/815
-    const getDeltaForKey = ( key: string ): number | null => {
-
-      const fullRange = options.sortingRange.getLength();
-      return key === 'home' ? -fullRange :
-             key === 'end' ? fullRange :
-
-               // TODO: Generalize to the range https://github.com/phetsims/scenery-phet/issues/815
-             key === 'pageDown' ? -3 :
-             key === 'pageUp' ? 3 :
-
-               // TODO: https://github.com/phetsims/scenery-phet/issues/815 - Instead of hard coding to 1, these
-               //    should use keyboardStep options (copy the API from AccessibleValueHandler)
-             [ 'arrowLeft', 'a', 'arrowDown', 's' ].includes( key ) ? -1 :
-             [ 'arrowRight', 'd', 'arrowUp', 'w' ].includes( key ) ? 1 :
-             null;
-    };
-
     // TODO: DESIGN!!! adding a modifier key means the arrow keys don't work. https://github.com/phetsims/scenery-phet/issues/815
     // TODO: DESIGN!!! should we add a "shift+arrow keys" for a larger or smaller step size than the default? https://github.com/phetsims/scenery-phet/issues/815
     const keyboardListener = new KeyboardListener( {
@@ -200,7 +186,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
             // For these keys, the item will move by a particular delta
             if ( [ 'arrowRight', 'arrowLeft', 'a', 'd', 'arrowUp', 'arrowDown', 'w', 's', 'pageDown', 'pageUp', 'home', 'end' ].includes( keysPressed ) ) {
 
-              const delta = getDeltaForKey( keysPressed )!;
+              const delta = GroupSortInteractionView.getDeltaForKey( keysPressed )!;
               assert && assert( delta !== null );
               newValue = oldValue + delta;
             }
@@ -224,7 +210,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
             // TODO: DESIGN!!! This changes the behavior because now the WASD, page up/page down keys work
             //   for the selection too - they don't on published version (Note that home and end DO work on published
             //   version for selection), https://github.com/phetsims/scenery-phet/issues/815
-            const delta = getDeltaForKey( keysPressed );
+            const delta = GroupSortInteractionView.getDeltaForKey( keysPressed );
             if ( delta !== null ) {
               this.groupSortInteractionModel.hasKeyboardSelectedDifferentGroupItemProperty.value = true;
               selectedGroupItemProperty.value = options.getNextSelectedGroupItem( delta );
@@ -262,6 +248,22 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
       keyboardListener.dispose();
       grabReleaseKeyboardListener.dispose;
     } );
+  }
+
+  private static getDeltaForKey( key: string ): number | null {
+    const fullRange = this.sortingRange.getLength();
+    return key === 'home' ? -fullRange :
+           key === 'end' ? fullRange :
+
+             // TODO: Generalize to the range https://github.com/phetsims/scenery-phet/issues/815
+           key === 'pageDown' ? -3 :
+           key === 'pageUp' ? 3 :
+
+             // TODO: https://github.com/phetsims/scenery-phet/issues/815 - Instead of hard coding to 1, these
+             //    should use keyboardStep options (copy the API from AccessibleValueHandler)
+           [ 'arrowLeft', 'a', 'arrowDown', 's' ].includes( key ) ? -1 :
+           [ 'arrowRight', 'd', 'arrowUp', 'w' ].includes( key ) ? 1 :
+           null;
   }
 
   public dispose(): void {
