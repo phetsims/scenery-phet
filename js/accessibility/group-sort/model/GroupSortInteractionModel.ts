@@ -51,17 +51,15 @@ import { PhetioObjectOptions } from '../../../../../tandem/js/PhetioObject.js';
 import TProperty from '../../../../../axon/js/TProperty.js';
 import EnabledComponent, { EnabledComponentOptions } from '../../../../../axon/js/EnabledComponent.js';
 
-type SelfOptions = Pick<PhetioObjectOptions, 'tandem'>;
-
-export type ItemModelType = {
-  valueProperty: TProperty<number | null>;
-};
+type SelfOptions<ItemModel> = {
+  getValueProperty: ( itemModel: ItemModel ) => TProperty<number | null>;
+} & Pick<PhetioObjectOptions, 'tandem'>;
 
 type ParentOptions = EnabledComponentOptions;
 
-export type GroupSortInteractionModelOptions = SelfOptions & ParentOptions;
+export type GroupSortInteractionModelOptions<ItemModel> = SelfOptions<ItemModel> & ParentOptions;
 
-export default class GroupSortInteractionModel<ItemModel extends ItemModelType> extends EnabledComponent {
+export default class GroupSortInteractionModel<ItemModel> extends EnabledComponent {
 
   // The group item that is the selected/focused/sorted. If null, then there is nothing to sort (no items?), and the
   // interaction will no-op. Feel free to dynamically change this value to update the realtime selection of the
@@ -99,15 +97,19 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   // Whether any group item has ever been sorted to a new value, even if not by the group sort interaction. For best results,
   // set this to true from other interactions too (like mouse/touch).
   public readonly hasGroupItemBeenSortedProperty: Property<boolean>;
+  public readonly getValueProperty: ( itemModel: ItemModel ) => TProperty<number | null>;
 
   // TODO: DESIGN!!! if disabled, should we be able to change selection in group (without grabbing one). https://github.com/phetsims/scenery-phet/issues/815
-  public constructor( providedOptions?: GroupSortInteractionModelOptions ) {
+  public constructor( providedOptions?: GroupSortInteractionModelOptions<ItemModel> ) {
 
-    const options = optionize<GroupSortInteractionModelOptions, SelfOptions, ParentOptions>()( {
+    const options = optionize<GroupSortInteractionModelOptions<ItemModel>, SelfOptions<ItemModel>, ParentOptions>()( {
       tandem: Tandem.REQUIRED
     }, providedOptions );
 
     super( options );
+
+    this.getValueProperty = options.getValueProperty;
+
     // TODO: MS!! It would be nice to turn on this assertion, but we can't because of reorganizeStack not respecting the top most soccer ball. https://github.com/phetsims/scenery-phet/issues/815
     // assert && this.selectedGroupItemProperty.lazyLink( () => {
     // assert && assert( !this.isGroupItemKeyboardGrabbedProperty.value, 'should not change selection when sorting' );

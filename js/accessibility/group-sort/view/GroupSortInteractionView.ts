@@ -17,7 +17,7 @@ import { animatedPanZoomSingleton, HighlightFromNode, HighlightPath, KeyboardLis
 import sceneryPhet from '../../../sceneryPhet.js';
 import Range from '../../../../../dot/js/Range.js';
 import Multilink from '../../../../../axon/js/Multilink.js';
-import GroupSortInteractionModel, { ItemModelType } from '../model/GroupSortInteractionModel.js';
+import GroupSortInteractionModel from '../model/GroupSortInteractionModel.js';
 import Emitter from '../../../../../axon/js/Emitter.js';
 import { Shape } from '../../../../../kite/js/imports.js';
 import optionize, { combineOptions } from '../../../../../phet-core/js/optionize.js';
@@ -25,8 +25,9 @@ import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import SortCueArrowNode from './SortCueArrowNode.js';
 import Disposable, { DisposableOptions } from '../../../../../axon/js/Disposable.js';
 import GrabReleaseCueNode, { GrabReleaseCueNodeOptions } from '../../nodes/GrabReleaseCueNode.js';
+import TProperty from '../../../../../axon/js/TProperty.js';
 
-type SelfOptions<ItemModel extends ItemModelType, ItemNode extends Node> = {
+type SelfOptions<ItemModel, ItemNode extends Node> = {
 
   // Given the delta (difference from currentValue to new value), return the corresponding group item model to be active.
   getNextSelectedGroupItem: ( delta: number ) => ItemModel;
@@ -39,7 +40,7 @@ type SelfOptions<ItemModel extends ItemModelType, ItemNode extends Node> = {
   // return null, it means that the provided itemModel is not associated with this view, and shouldn't be handled.
   getNodeFromModelItem: ( model: ItemModel ) => ItemNode | null;
 
-  // The available range for storing. This is the acceptable range for the ItemModel.valueProperty.
+  // The available range for storing. This is the acceptable range for the valueProperty of ItemModel (see getValueProperty()).
   sortingRange: Range;
 
   // Called when a group item is sorted. Note that this may not have changed its value.
@@ -60,9 +61,9 @@ type SelfOptions<ItemModel extends ItemModelType, ItemNode extends Node> = {
 const sortingKeys = [ 'arrowRight', 'arrowLeft', 'a', 'd', 'arrowUp', 'arrowDown', 'w', 's', 'pageDown', 'pageUp', 'home', 'end' ] as const;
 
 type ParentOptions = DisposableOptions;
-export type GroupSortInteractionViewOptions<ItemModel extends ItemModelType, ItemNode extends Node> = SelfOptions<ItemModel, ItemNode> & ParentOptions;
+export type GroupSortInteractionViewOptions<ItemModel, ItemNode extends Node> = SelfOptions<ItemModel, ItemNode> & ParentOptions;
 
-export default class GroupSortInteractionView<ItemModel extends ItemModelType, ItemNode extends Node> extends Disposable {
+export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> extends Disposable {
 
   // Update group highlight dynamically by setting the `shape` of this path.
   protected readonly groupFocusHighlightPath: HighlightPath;
@@ -202,7 +203,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
         if ( selectedGroupItemProperty.value !== null ) {
 
           const groupItem = selectedGroupItemProperty.value;
-          const oldValue = groupItem.valueProperty.value!;
+          const oldValue = this.getValueProperty( groupItem ).value!;
           assert && assert( oldValue !== null, 'We should have a group item when responding to input?' );
 
           // Sorting an item
@@ -243,7 +244,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
                isSingleDigit( keysPressed ) ) {
 
             const groupItem = selectedGroupItemProperty.value;
-            const oldValue = groupItem.valueProperty.value!;
+            const oldValue = this.getValueProperty( groupItem ).value!;
             assert && assert( oldValue !== null, 'We should have a group item when responding to input?' );
             assert && assert( isSingleDigit( keysPressed ), 'sanity check on numbers for keyboard listener' );
 
@@ -288,6 +289,11 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     } );
   }
 
+  // Helper function for accessing this part of the model easier
+  public getValueProperty( groupItem: ItemModel ): TProperty<number | null> {
+    return this.groupSortInteractionModel.getValueProperty( groupItem );
+  }
+
   // By "change" we mean sort or selection.
   private onGroupItemChange( newGroupItem: ItemModel ): void {
     // When using keyboard input, make sure that the selected group item is still displayed by panning to keep it
@@ -299,7 +305,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
   private onSortedValue( groupItem: ItemModel, value: number, oldValue: number ): void {
     assert && assert( value !== null, 'We should have a value for the group item by the end of the listener.' );
 
-    groupItem.valueProperty.value = this.sortingRange.constrainValue( value );
+    this.getValueProperty( groupItem ).value = this.sortingRange.constrainValue( value );
 
     // TODO: DESIGN!!! fire this even if the value didn't change? Yes likely, for the sound https://github.com/phetsims/scenery-phet/issues/815
     this.onSort( groupItem, oldValue );
@@ -353,7 +359,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
    * Creator factory, similar to PhetioObject.create(). This is most useful if you don't need to keep the instance of
    * your GroupSortInteractionView.
    */
-  public static create<ItemModel extends ItemModelType, ItemNode extends Node>(
+  public static create<ItemModel, ItemNode extends Node>(
     groupSortInteractionModel: GroupSortInteractionModel<ItemModel>,
     primaryFocusedNode: Node,
     providedOptions: GroupSortInteractionViewOptions<ItemModel, ItemNode> ): GroupSortInteractionView<ItemModel, ItemNode> {
