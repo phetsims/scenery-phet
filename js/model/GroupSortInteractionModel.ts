@@ -31,7 +31,7 @@
  * - hasGroupItemBeenSortedProperty set to true also on mouse/touch sorting interactions.
  * - Set up well for one model per screen to be used with one view per scene.
  * - use GroupSortInteractionView.groupFocusHighlightPath.shape to set the group highlight dynamically
- * - use positionKeyboardSortArrowCueNodeEmitter to update the position of the sort cue.
+ * - use positionSortCueNodeEmitter to update the position of the sort cue.
  *
  * TODO: Dispose? Yes, once it isn't in soccer common anymore https://github.com/phetsims/scenery-phet/issues/815
  *
@@ -77,7 +77,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   // Whether the 'Press SPACE to Grab or Release' dialog is showing
   public readonly grabReleaseCueVisibleProperty: TReadOnlyProperty<boolean>;
 
-  // Whether the keyboard sort icon cue is showing // TODO: Not specific to "arrow" https://github.com/phetsims/scenery-phet/issues/815
+  // Whether the keyboard sort icon cue is showing
   public readonly keyboardSortCueVisibleProperty: TReadOnlyProperty<boolean>;
 
   // Whether the keyboard is currently focused on a sim component
