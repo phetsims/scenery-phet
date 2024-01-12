@@ -27,7 +27,7 @@
  * - use with GroupSortInteractionView
  * - call updateSortIndicator() manually (see CAV)
  * - Handle your own GrabReleaseCueNode (grabReleaseCueVisibleProperty as its visibleProperty)
- * - Handle your own sort indicator cue node (see registerUpdateSortIndicatorNode())
+ * - Handle your own "sort indicator cue node" (see registerUpdateSortIndicatorNode())
  * - hasGroupItemBeenSortedProperty set to true also on mouse/touch sorting interactions.
  * - Set up well for one model per screen to be used with one view per scene.
  * - use GroupSortInteractionView.groupFocusHighlightPath.shape to set the group highlight dynamically
@@ -78,7 +78,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   public readonly grabReleaseCueVisibleProperty: TReadOnlyProperty<boolean>;
 
   // Whether the keyboard sort icon cue is showing // TODO: Not specific to "arrow" https://github.com/phetsims/scenery-phet/issues/815
-  public readonly keyboardSortArrowCueVisibleProperty: TReadOnlyProperty<boolean>;
+  public readonly keyboardSortCueVisibleProperty: TReadOnlyProperty<boolean>;
 
   // Whether the keyboard is currently focused on a sim component
   public readonly isKeyboardFocusedProperty = new BooleanProperty( false );
@@ -94,7 +94,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   public readonly hasKeyboardSelectedDifferentGroupItemProperty = new BooleanProperty( false );
 
   // Whether the mouse/touch sort icon cue is currently showing on the group item area
-  public readonly sortIndicatorCueVisibleProperty: Property<boolean>;
+  public readonly mouseSortCueVisibleProperty: Property<boolean>;
 
   // The value for group item that the sort indicator is set to; null when there are no group items to sort.
   /*
@@ -125,8 +125,8 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
       phetioFeatured: false
     } );
 
-    this.sortIndicatorCueVisibleProperty = new BooleanProperty( false, {
-      tandem: options.tandem.createTandem( 'sortIndicatorCueVisibleProperty' ),
+    this.mouseSortCueVisibleProperty = new BooleanProperty( false, {
+      tandem: options.tandem.createTandem( 'mouseSortCueVisibleProperty' ),
       phetioReadOnly: true,
       phetioFeatured: false
     } );
@@ -148,7 +148,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
       return selectedGroupItem !== null && !hasGrabbedBall && hasKeyboardFocus;
     } );
 
-    this.keyboardSortArrowCueVisibleProperty = new DerivedProperty( [
+    this.keyboardSortCueVisibleProperty = new DerivedProperty( [
       this.selectedGroupItemProperty,
       this.isGroupItemKeyboardGrabbedProperty,
       this.isKeyboardFocusedProperty,
@@ -192,7 +192,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
     this.hasKeyboardGrabbedGroupItemProperty.reset();
     this.hasKeyboardSelectedDifferentGroupItemProperty.reset();
     this.hasKeyboardSortedGroupItemProperty.reset();
-    this.sortIndicatorCueVisibleProperty.reset();
+    this.mouseSortCueVisibleProperty.reset();
   }
 
   public clearFocus(): void {
@@ -201,7 +201,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
 
   // Register your closure responsible for updating the sort-indicator node.
   public registerUpdateSortIndicatorNode( updateSortIndicatorNode: () => void ): void {
-    this.sortIndicatorCueVisibleProperty.link( updateSortIndicatorNode );
+    this.mouseSortCueVisibleProperty.link( updateSortIndicatorNode );
     this.sortIndicatorValueProperty.link( updateSortIndicatorNode );
     this.selectedGroupItemProperty.link( updateSortIndicatorNode );
   }
