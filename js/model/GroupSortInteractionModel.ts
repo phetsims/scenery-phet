@@ -116,7 +116,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   public constructor( public readonly sortEnabledProperty: TReadOnlyProperty<boolean>, providedOptions?: GroupSortInteractionModelOptions ) {
 
     const options = optionize<GroupSortInteractionModelOptions, SelfOptions, ParentOptions>()( {
-      tandem: Tandem.OPTIONAL
+      tandem: Tandem.REQUIRED
     }, providedOptions );
 
     // TODO: migration rules when moving to groupSortInteractionModel, https://github.com/phetsims/scenery-phet/issues/815
