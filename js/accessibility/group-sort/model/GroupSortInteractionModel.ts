@@ -109,7 +109,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
 
     super( options );
 
-    // TODO: Redo the PhET-iO Design, (including "ball" documentation) https://github.com/phetsims/scenery-phet/issues/815
+    // TODO: DESIGN! Redo the PhET-iO Design, (including "ball" documentation) https://github.com/phetsims/scenery-phet/issues/815
     this.hasGroupItemBeenSortedProperty = new BooleanProperty( false, {
       tandem: options.tandem.createTandem( 'hasGroupItemBeenSortedProperty' ),
       phetioFeatured: false

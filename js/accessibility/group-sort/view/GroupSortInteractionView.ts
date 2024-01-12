@@ -20,10 +20,11 @@ import Multilink from '../../../../../axon/js/Multilink.js';
 import GroupSortInteractionModel, { ItemModelType } from '../model/GroupSortInteractionModel.js';
 import Emitter from '../../../../../axon/js/Emitter.js';
 import { Shape } from '../../../../../kite/js/imports.js';
-import optionize from '../../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import SortCueArrowNode from './SortCueArrowNode.js';
 import Disposable, { DisposableOptions } from '../../../../../axon/js/Disposable.js';
+import GrabReleaseCueNode, { GrabReleaseCueNodeOptions } from '../../nodes/GrabReleaseCueNode.js';
 
 type SelfOptions<ItemModel extends ItemModelType, ItemNode extends Node> = {
 
@@ -293,6 +294,13 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     this.groupFocusHighlightPath.dispose();
     this.positionSortCueNodeEmitter.dispose();
     super.dispose();
+  }
+
+  // Required visibleProperty so you don't forget to wire it up with GroupSortInteractionModel
+  public static createGrabReleaseCueNode( visibleProperty: TReadOnlyProperty<boolean>, providedOptions?: GrabReleaseCueNodeOptions ): Node {
+    return new GrabReleaseCueNode( combineOptions<GrabReleaseCueNodeOptions>( {
+      visibleProperty: visibleProperty
+    }, providedOptions ) );
   }
 
   /**
