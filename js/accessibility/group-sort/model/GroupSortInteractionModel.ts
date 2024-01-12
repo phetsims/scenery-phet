@@ -30,6 +30,7 @@
  * - Handle your own GrabReleaseCueNode (grabReleaseCueVisibleProperty as its visibleProperty)
  * - Handle your own "sort indicator cue node" (see registerUpdateSortIndicatorNode())
  * - hasGroupItemBeenSortedProperty set to true also on mouse/touch sorting interactions.
+ * - mouseSortCueVisibleProperty should be set by client, taking into consideration: `!this.hasGroupItemBeenSortedProperty.value && !this.isKeyboardFocusedProperty.value`
  * - Set up well for one model per screen to be used with one view per scene.
  * - use GroupSortInteractionView.groupFocusHighlightPath.shape to set the group highlight dynamically
  * - use positionSortCueNodeEmitter to update the position of the sort cue.
