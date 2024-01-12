@@ -57,6 +57,8 @@ type SelfOptions<ItemModel extends ItemModelType, ItemNode extends Node> = {
   // shiftSortStep?: number;
 };
 
+const sortingKeys = [ 'arrowRight', 'arrowLeft', 'a', 'd', 'arrowUp', 'arrowDown', 'w', 's', 'pageDown', 'pageUp', 'home', 'end' ] as const;
+
 type ParentOptions = DisposableOptions;
 export type GroupSortInteractionViewOptions<ItemModel extends ItemModelType, ItemNode extends Node> = SelfOptions<ItemModel, ItemNode> & ParentOptions;
 
@@ -68,6 +70,8 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
   // Emitted when the sorting cue should be repositioned. Most likely because the selection has changed.
   public readonly positionSortCueNodeEmitter = new Emitter();
 
+  private readonly getNodeFromModelItem: ( model: ItemModel ) => ItemNode | null;
+  private readonly onSort: ( groupItem: ItemModel, oldValue: number ) => void;
   private readonly sortingRange: Range;
   private readonly sortStep: number;
   private readonly pageSortStep: number;
@@ -89,6 +93,8 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
 
     super( options );
 
+    this.getNodeFromModelItem = options.getNodeFromModelItem;
+    this.onSort = options.onSort;
     this.sortingRange = options.sortingRange;
     this.sortStep = options.sortStep;
     this.pageSortStep = options.pageSortStep;
@@ -128,7 +134,6 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
         isKeyboardFocusedProperty.value = false;
       }
     };
-    primaryFocusedNode.addInputListener( focusListener );
 
     const updateFocusHighlight = new Multilink( [
         selectedGroupItemProperty,
@@ -188,12 +193,9 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
 
     // TODO: DESIGN!!! adding a modifier key means the arrow keys don't work. https://github.com/phetsims/scenery-phet/issues/815
     // TODO: DESIGN!!! should we add a "shift+arrow keys" for a larger or smaller step size than the default? https://github.com/phetsims/scenery-phet/issues/815
-    const keyboardListener = new KeyboardListener( {
+    const deltaKeyboardListener = new KeyboardListener( {
       fireOnHold: true,
-
-      // TODO: See https://github.com/phetsims/scenery-phet/issues/815 - Conditionally add teh number keys, based on
-      //    option numberKeyMapper,
-      keys: [ 'd', 'arrowRight', 'a', 'arrowLeft', 'arrowUp', 'arrowDown', 'w', 's', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'home', 'end', 'pageUp', 'pageDown' ],
+      keys: [ 'd', 'arrowRight', 'a', 'arrowLeft', 'arrowUp', 'arrowDown', 'w', 's', 'home', 'end', 'pageUp', 'pageDown' ],
       callback: ( event, keysPressed ) => {
 
         if ( selectedGroupItemProperty.value !== null ) {
@@ -206,31 +208,12 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
           if ( isGroupItemKeyboardGrabbedProperty.value ) {
 
             // Don't do any sorting when disabled
-            if ( this.groupSortInteractionModel.enabled ) {
-
-              let newValue: number = oldValue;
-
-              // For these keys, the item will move by a particular delta
-              if ( [ 'arrowRight', 'arrowLeft', 'a', 'd', 'arrowUp', 'arrowDown', 'w', 's', 'pageDown', 'pageUp', 'home', 'end' ].includes( keysPressed ) ) {
-
-                const delta = this.getDeltaForKey( keysPressed )!;
-                assert && assert( delta !== null );
-                newValue = oldValue + delta;
-              }
-              else if ( options.numberKeyMapper && isSingleDigit( keysPressed ) ) {
-                const mappedValue = options.numberKeyMapper( keysPressed );
-                if ( mappedValue ) {
-                  newValue = mappedValue;
-                }
-              }
-
-              assert && assert( newValue !== null, 'We should have a value for the group item by the end of the listener.' );
-              groupItem.valueProperty.value = options.sortingRange.constrainValue( newValue );
-
-              // TODO: DESIGN!!! fire this even if the value didn't change? Yes likely, for the sound https://github.com/phetsims/scenery-phet/issues/815
-              options.onSort( groupItem, oldValue );
-              this.groupSortInteractionModel.hasKeyboardSortedGroupItemProperty.value = true;
-              this.groupSortInteractionModel.hasGroupItemBeenSortedProperty.value = true;
+            // For these keys, the item will move by a particular delta
+            if ( this.groupSortInteractionModel.enabled && sortingKeys.includes( keysPressed ) ) {
+              const delta = this.getDeltaForKey( keysPressed )!;
+              assert && assert( delta !== null, 'should be a supported key' );
+              const newValue = oldValue + delta;
+              this.onSortedValue( groupItem, newValue, oldValue );
             }
           }
           else {
@@ -245,14 +228,38 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
               selectedGroupItemProperty.value = options.getNextSelectedGroupItem( delta );
             }
           }
-
-          // When using keyboard input, make sure that the selected group item is still displayed by panning to keep it
-          // in view. `panToCenter` is false because centering the group item in the screen is too much movement.
-          const node = options.getNodeFromModelItem( groupItem );
-          node && animatedPanZoomSingleton.listener.panToNode( node, false );
+          this.onGroupItemChange( groupItem );
         }
       }
     } );
+
+    if ( options.numberKeyMapper ) {
+      const numbersKeyboardListener = new KeyboardListener( {
+        fireOnHold: true,
+        keys: [ '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' ],
+        callback: ( event, keysPressed ) => {
+          if ( selectedGroupItemProperty.value !== null && isGroupItemKeyboardGrabbedProperty.value &&
+               isSingleDigit( keysPressed ) ) {
+
+            const groupItem = selectedGroupItemProperty.value;
+            const oldValue = groupItem.valueProperty.value!;
+            assert && assert( oldValue !== null, 'We should have a group item when responding to input?' );
+            assert && assert( isSingleDigit( keysPressed ), 'sanity check on numbers for keyboard listener' );
+
+            const mappedValue = options.numberKeyMapper!( keysPressed );
+            if ( mappedValue ) {
+              this.onSortedValue( groupItem, mappedValue, oldValue );
+              this.onGroupItemChange( groupItem );
+            }
+          }
+        }
+      } );
+      primaryFocusedNode.addInputListener( numbersKeyboardListener );
+      this.disposeEmitter.addListener( () => {
+        primaryFocusedNode.removeInputListener( numbersKeyboardListener );
+        numbersKeyboardListener.dispose();
+      } );
+    }
 
     const defaultGroupShape = primaryFocusedNode.bounds.isFinite() ? Shape.bounds( primaryFocusedNode.visibleBounds ) : null;
 
@@ -264,19 +271,39 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
       innerLineWidth: HighlightPath.GROUP_INNER_LINE_WIDTH
     } );
     primaryFocusedNode.setGroupFocusHighlight( this.groupFocusHighlightPath );
-    primaryFocusedNode.addInputListener( keyboardListener );
+    primaryFocusedNode.addInputListener( focusListener );
     primaryFocusedNode.addInputListener( grabReleaseKeyboardListener );
+    primaryFocusedNode.addInputListener( deltaKeyboardListener );
 
     this.disposeEmitter.addListener( () => {
       primaryFocusedNode.setGroupFocusHighlight( false );
       primaryFocusedNode.setFocusHighlight( null );
+      primaryFocusedNode.removeInputListener( deltaKeyboardListener );
       primaryFocusedNode.removeInputListener( grabReleaseKeyboardListener );
-      primaryFocusedNode.removeInputListener( keyboardListener );
       primaryFocusedNode.removeInputListener( focusListener );
       updateFocusHighlight.dispose();
-      keyboardListener.dispose();
+      deltaKeyboardListener.dispose();
       grabReleaseKeyboardListener.dispose;
     } );
+  }
+
+  // By "change" we mean sort or selection.
+  private onGroupItemChange( newGroupItem: ItemModel ): void {
+    // When using keyboard input, make sure that the selected group item is still displayed by panning to keep it
+    // in view. `panToCenter` is false because centering the group item in the screen is too much movement.
+    const node = this.getNodeFromModelItem( newGroupItem );
+    node && animatedPanZoomSingleton.listener.panToNode( node, false );
+  }
+
+  private onSortedValue( groupItem: ItemModel, value: number, oldValue: number ): void {
+    assert && assert( value !== null, 'We should have a value for the group item by the end of the listener.' );
+
+    groupItem.valueProperty.value = this.sortingRange.constrainValue( value );
+
+    // TODO: DESIGN!!! fire this even if the value didn't change? Yes likely, for the sound https://github.com/phetsims/scenery-phet/issues/815
+    this.onSort( groupItem, oldValue );
+    this.groupSortInteractionModel.hasKeyboardSortedGroupItemProperty.value = true;
+    this.groupSortInteractionModel.hasGroupItemBeenSortedProperty.value = true;
   }
 
   private getDeltaForKey( key: string ): number | null {
