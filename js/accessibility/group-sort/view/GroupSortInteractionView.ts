@@ -9,7 +9,6 @@
  *
  * This class can be used per scene, but the model is best used per screen.
  *
- * TODO: Dispose? yes, once out of soccer-sommon https://github.com/phetsims/scenery-phet/issues/815
  * @author Michael Kauzmann (PhET Interactive Simulations)
  * @author Marla Schulz (PhET Interactive Simulations)
  */
@@ -24,7 +23,7 @@ import { Shape } from '../../../../../kite/js/imports.js';
 import optionize from '../../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import SortCueArrowNode from './SortCueArrowNode.js';
-
+import Disposable, { DisposableOptions } from '../../../../../axon/js/Disposable.js';
 
 type SelfOptions<ItemModel extends ItemModelType, ItemNode extends Node> = {
 
@@ -50,9 +49,10 @@ type SelfOptions<ItemModel extends ItemModelType, ItemNode extends Node> = {
   numberKeyMapper?: ( ( pressedKeys: string ) => ( number | null ) ) | null;
 };
 
-export type GroupSortInteractionViewOptions<ItemModel extends ItemModelType, ItemNode extends Node> = SelfOptions<ItemModel, ItemNode>;
+type ParentOptions = DisposableOptions;
+export type GroupSortInteractionViewOptions<ItemModel extends ItemModelType, ItemNode extends Node> = SelfOptions<ItemModel, ItemNode> & ParentOptions;
 
-export default class GroupSortInteractionView<ItemModel extends ItemModelType, ItemNode extends Node> {
+export default class GroupSortInteractionView<ItemModel extends ItemModelType, ItemNode extends Node> extends Disposable {
 
   // Update group highlight dynamically by setting the `shape` of this path.
   protected readonly groupFocusHighlightPath: HighlightPath;
@@ -64,10 +64,15 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     primaryFocusedNode: Node,
     providedOptions: GroupSortInteractionViewOptions<ItemModel, ItemNode> ) {
 
-    const options = optionize<GroupSortInteractionViewOptions<ItemModel, ItemNode>>()( {
+    const options = optionize<
+      GroupSortInteractionViewOptions<ItemModel, ItemNode>,
+      SelfOptions<ItemModel, ItemNode>,
+      ParentOptions>()( {
       numberKeyMapper: null,
       onSort: _.noop
     }, providedOptions );
+
+    super( options );
 
     const selectedGroupItemProperty = this.groupSortInteractionModel.selectedGroupItemProperty;
     const isKeyboardFocusedProperty = this.groupSortInteractionModel.isKeyboardFocusedProperty;
@@ -75,7 +80,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     const hasKeyboardGrabbedGroupItemProperty = this.groupSortInteractionModel.hasKeyboardGrabbedGroupItemProperty;
     const sortIndicatorValueProperty = this.groupSortInteractionModel.sortIndicatorValueProperty;
 
-    primaryFocusedNode.addInputListener( {
+    const focusListener = {
       focus: () => {
 
         if ( selectedGroupItemProperty.value === null ) {
@@ -104,9 +109,10 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
         //     https://github.com/phetsims/scenery-phet/issues/815
         isKeyboardFocusedProperty.value = false;
       }
-    } );
+    };
+    primaryFocusedNode.addInputListener( focusListener );
 
-    Multilink.multilink( [
+    const updateFocusHighlight = new Multilink( [
         selectedGroupItemProperty,
         isGroupItemKeyboardGrabbedProperty,
         sortIndicatorValueProperty
@@ -245,6 +251,23 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     primaryFocusedNode.setGroupFocusHighlight( this.groupFocusHighlightPath );
     primaryFocusedNode.addInputListener( keyboardListener );
     primaryFocusedNode.addInputListener( grabReleaseKeyboardListener );
+
+    this.disposeEmitter.addListener( () => {
+      primaryFocusedNode.setGroupFocusHighlight( false );
+      primaryFocusedNode.setFocusHighlight( null );
+      primaryFocusedNode.removeInputListener( grabReleaseKeyboardListener );
+      primaryFocusedNode.removeInputListener( keyboardListener );
+      primaryFocusedNode.removeInputListener( focusListener );
+      updateFocusHighlight.dispose();
+      keyboardListener.dispose();
+      grabReleaseKeyboardListener.dispose;
+    } );
+  }
+
+  public dispose(): void {
+    this.groupFocusHighlightPath.dispose();
+    this.positionSortCueNodeEmitter.dispose();
+    super.dispose();
   }
 
   /**
