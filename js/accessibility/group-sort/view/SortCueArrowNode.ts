@@ -1,10 +1,10 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * Creates a dashed arrow use for the drag indicator in the ball play area and the cards play area.
+ * Creates a double-headed, dashed arrow used to cue sorting in the "group sort" interaction.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
+ * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
 import { HBox, HBoxOptions, Node, Rectangle } from '../../../../../scenery/js/imports.js';
@@ -21,13 +21,13 @@ type SelfOptions = {
   triangleNodeOptions?: TriangleNodeOptions;
 };
 
-type InteractiveCueArrowNodeOptions = SelfOptions & StrictOmit<HBoxOptions, 'children'>;
+type SortCueArrowNodeOptions = SelfOptions & StrictOmit<HBoxOptions, 'children'>;
 
-export default class InteractiveCueArrowNode extends HBox {
+export default class SortCueArrowNode extends HBox {
 
-  public constructor( providedOptions: InteractiveCueArrowNodeOptions ) {
+  public constructor( providedOptions: SortCueArrowNodeOptions ) {
 
-    const options = optionize<InteractiveCueArrowNodeOptions, SelfOptions, HBoxOptions>()( {
+    const options = optionize<SortCueArrowNodeOptions, SelfOptions, HBoxOptions>()( {
       dashHeight: 2,
       dashWidth: 2,
       triangleNodeOptions: {},
@@ -66,4 +66,4 @@ export default class InteractiveCueArrowNode extends HBox {
   }
 }
 
-sceneryPhet.register( 'InteractiveCueArrowNode', InteractiveCueArrowNode );
+sceneryPhet.register( 'SortCueArrowNode', SortCueArrowNode );
