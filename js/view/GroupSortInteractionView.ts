@@ -15,7 +15,7 @@
  */
 
 import { animatedPanZoomSingleton, HighlightFromNode, HighlightPath, KeyboardListener, Node } from '../../../scenery/js/imports.js';
-import soccerCommon from '../soccerCommon.js';
+import sceneryPhet from '../sceneryPhet.js';
 import Range from '../../../dot/js/Range.js';
 import Multilink from '../../../axon/js/Multilink.js';
 import GroupSortInteractionModel, { ItemModelType } from '../model/GroupSortInteractionModel.js';
@@ -280,4 +280,4 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
 
 function isSingleDigit( key: string ): boolean { return /^\d$/.test( key );}
 
-soccerCommon.register( 'GroupSortInteractionView', GroupSortInteractionView );
+sceneryPhet.register( 'GroupSortInteractionView', GroupSortInteractionView );

@@ -39,7 +39,7 @@
  *
  */
 
-import soccerCommon from '../soccerCommon.js';
+import sceneryPhet from '../sceneryPhet.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import Property from '../../../axon/js/Property.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -207,4 +207,4 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   }
 }
 
-soccerCommon.register( 'GroupSortInteractionModel', GroupSortInteractionModel );
+sceneryPhet.register( 'GroupSortInteractionModel', GroupSortInteractionModel );

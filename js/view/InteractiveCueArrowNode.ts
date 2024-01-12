@@ -11,7 +11,7 @@ import { HBox, HBoxOptions, Node, Rectangle } from '../../../scenery/js/imports.
 import TriangleNode, { TriangleNodeOptions } from '../../../scenery-phet/js/TriangleNode.js';
 import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import soccerCommon from '../soccerCommon.js';
+import sceneryPhet from '../sceneryPhet.js';
 
 type SelfOptions = {
   numberOfDashes: number;
@@ -66,4 +66,4 @@ export default class InteractiveCueArrowNode extends HBox {
   }
 }
 
-soccerCommon.register( 'InteractiveCueArrowNode', InteractiveCueArrowNode );
+sceneryPhet.register( 'InteractiveCueArrowNode', InteractiveCueArrowNode );
