@@ -9,7 +9,7 @@
  *
  * This class can be used per scene, but the model is best used per screen.
  *
- * TODO: Dispose? https://github.com/phetsims/scenery-phet/issues/815
+ * TODO: Dispose? yes, once out of soccer-sommon https://github.com/phetsims/scenery-phet/issues/815
  * @author Michael Kauzmann (PhET Interactive Simulations)
  * @author Marla Schulz (PhET Interactive Simulations)
  */
@@ -57,8 +57,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
   // Update group highlight dynamically by setting the `shape` of this path.
   protected readonly groupFocusHighlightPath: HighlightPath;
 
-  // TODO: use of "keyboard" maybe isn't needed. It is the cue node for this interaction (which is based on keyboard). https://github.com/phetsims/scenery-phet/issues/815
-  public readonly positionKeyboardSortArrowCueNodeEmitter = new Emitter();
+  public readonly positionSortCueNodeEmitter = new Emitter();
 
   public constructor(
     protected readonly groupSortInteractionModel: GroupSortInteractionModel<ItemModel>,
@@ -83,8 +82,8 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
           selectedGroupItemProperty.value = options.getGroupItemToSelect();
         }
 
-        // TODO: should this be true even if selectedGroupItemProperty.value is null? https://github.com/phetsims/scenery-phet/issues/815
-        isKeyboardFocusedProperty.value = true;
+        // It's possible that getGroupItemToSelect's heuristic said that there is nothing to focus here
+        isKeyboardFocusedProperty.value = selectedGroupItemProperty.value !== null;
 
         // When the group receives keyboard focus, make sure that the selected group item is displayed
         if ( selectedGroupItemProperty.value !== null ) {
@@ -129,7 +128,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
         !focusHighlightSet && primaryFocusedNode.setFocusHighlight( 'invisible' );
 
         if ( sortIndicatorValue !== null ) {
-          this.positionKeyboardSortArrowCueNodeEmitter.emit();
+          this.positionSortCueNodeEmitter.emit();
         }
       }
     );
@@ -172,8 +171,8 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
              null;
     };
 
-    // TODO: adding a modifier key means the arrow keys don't work. https://github.com/phetsims/scenery-phet/issues/815
-    // TODO: should we add a "shift+arrow keys" for a larger or smaller step size than the default? https://github.com/phetsims/scenery-phet/issues/815
+    // TODO: DESIGN!!! adding a modifier key means the arrow keys don't work. https://github.com/phetsims/scenery-phet/issues/815
+    // TODO: DESIGN!!! should we add a "shift+arrow keys" for a larger or smaller step size than the default? https://github.com/phetsims/scenery-phet/issues/815
     const keyboardListener = new KeyboardListener( {
       fireOnHold: true,
 
@@ -209,7 +208,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
             assert && assert( newValue !== null, 'We should have a value for the group item by the end of the listener.' );
             groupItem.valueProperty.value = options.sortingRange.constrainValue( newValue );
 
-            // TODO: fire this even if the value didn't change? Yes likely, for the sound https://github.com/phetsims/scenery-phet/issues/815
+            // TODO: DESIGN!!! fire this even if the value didn't change? Yes likely, for the sound https://github.com/phetsims/scenery-phet/issues/815
             options.onSort( groupItem, oldValue );
             this.groupSortInteractionModel.hasKeyboardSortedGroupItemProperty.value = true;
             this.groupSortInteractionModel.hasGroupItemBeenSortedProperty.value = true;
