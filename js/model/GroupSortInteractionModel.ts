@@ -105,7 +105,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
         the hand when you kick out all balls, that can ALWAYS match the selected group item Property
         Make sure to test interativeHighlighting + keyboard + mousetouch.
    */
-  public readonly sortIndicatorValueProperty: Property<number | null>; // TODO: should this be parametrized to support Vector2 also? https://github.com/phetsims/scenery-phet/issues/815
+  public readonly sortIndicatorValueProperty: Property<number | null>;
 
   // Whether any group item has ever been sorted to a new value, even if not by the group sort interaction. For best results,
   // set this to true from other interactions too (like mouse/touch).
