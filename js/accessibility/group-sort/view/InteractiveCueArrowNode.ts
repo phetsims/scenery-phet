@@ -7,11 +7,11 @@
  *
  */
 
-import { HBox, HBoxOptions, Node, Rectangle } from '../../../scenery/js/imports.js';
-import TriangleNode, { TriangleNodeOptions } from '../../../scenery-phet/js/TriangleNode.js';
-import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import sceneryPhet from '../sceneryPhet.js';
+import { HBox, HBoxOptions, Node, Rectangle } from '../../../../../scenery/js/imports.js';
+import TriangleNode, { TriangleNodeOptions } from '../../../TriangleNode.js';
+import optionize, { combineOptions } from '../../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../../phet-core/js/types/StrictOmit.js';
+import sceneryPhet from '../../../sceneryPhet.js';
 
 type SelfOptions = {
   numberOfDashes: number;

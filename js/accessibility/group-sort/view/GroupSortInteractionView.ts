@@ -14,15 +14,15 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import { animatedPanZoomSingleton, HighlightFromNode, HighlightPath, KeyboardListener, Node } from '../../../scenery/js/imports.js';
-import sceneryPhet from '../sceneryPhet.js';
-import Range from '../../../dot/js/Range.js';
-import Multilink from '../../../axon/js/Multilink.js';
+import { animatedPanZoomSingleton, HighlightFromNode, HighlightPath, KeyboardListener, Node } from '../../../../../scenery/js/imports.js';
+import sceneryPhet from '../../../sceneryPhet.js';
+import Range from '../../../../../dot/js/Range.js';
+import Multilink from '../../../../../axon/js/Multilink.js';
 import GroupSortInteractionModel, { ItemModelType } from '../model/GroupSortInteractionModel.js';
-import Emitter from '../../../axon/js/Emitter.js';
-import { Shape } from '../../../kite/js/imports.js';
-import optionize from '../../../phet-core/js/optionize.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import Emitter from '../../../../../axon/js/Emitter.js';
+import { Shape } from '../../../../../kite/js/imports.js';
+import optionize from '../../../../../phet-core/js/optionize.js';
+import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import InteractiveCueArrowNode from './InteractiveCueArrowNode.js';
 
 

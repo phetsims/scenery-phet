@@ -39,17 +39,17 @@
  *
  */
 
-import sceneryPhet from '../sceneryPhet.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import Property from '../../../axon/js/Property.js';
-import Tandem from '../../../tandem/js/Tandem.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import BooleanProperty from '../../../axon/js/BooleanProperty.js';
-import DerivedProperty from '../../../axon/js/DerivedProperty.js';
-import NullableIO from '../../../tandem/js/types/NullableIO.js';
-import NumberIO from '../../../tandem/js/types/NumberIO.js';
-import { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
-import TProperty from '../../../axon/js/TProperty.js';
+import sceneryPhet from '../../../sceneryPhet.js';
+import optionize, { EmptySelfOptions } from '../../../../../phet-core/js/optionize.js';
+import Property from '../../../../../axon/js/Property.js';
+import Tandem from '../../../../../tandem/js/Tandem.js';
+import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
+import BooleanProperty from '../../../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
+import NullableIO from '../../../../../tandem/js/types/NullableIO.js';
+import NumberIO from '../../../../../tandem/js/types/NumberIO.js';
+import { PhetioObjectOptions } from '../../../../../tandem/js/PhetioObject.js';
+import TProperty from '../../../../../axon/js/TProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 
