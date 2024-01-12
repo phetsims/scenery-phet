@@ -25,7 +25,8 @@
  *
  * Implementation steps (these steps apply to the model and view):
  * - use with GroupSortInteractionView
- * - call updateSortIndicator() manually (see CAV)
+ * - reset selectedGroupItemProperty with a sim-specific heuristic when the underlying model needs to update the best
+ *     first selection. (Also see GroupSortInteractionView.getGroupItemToSelect for a hook to apply this on group focus).
  * - Handle your own GrabReleaseCueNode (grabReleaseCueVisibleProperty as its visibleProperty)
  * - Handle your own "sort indicator cue node" (see registerUpdateSortIndicatorNode())
  * - hasGroupItemBeenSortedProperty set to true also on mouse/touch sorting interactions.
@@ -45,8 +46,6 @@ import Tandem from '../../../../../tandem/js/Tandem.js';
 import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import BooleanProperty from '../../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
-import NullableIO from '../../../../../tandem/js/types/NullableIO.js';
-import NumberIO from '../../../../../tandem/js/types/NumberIO.js';
 import { PhetioObjectOptions } from '../../../../../tandem/js/PhetioObject.js';
 import TProperty from '../../../../../axon/js/TProperty.js';
 import EnabledComponent, { EnabledComponentOptions } from '../../../../../axon/js/EnabledComponent.js';
@@ -96,17 +95,6 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   // Whether the mouse/touch sort icon cue is currently showing on the group item area
   public readonly mouseSortCueVisibleProperty: Property<boolean>;
 
-  // The value for group item that the sort indicator is set to; null when there are no group items to sort.
-  /*
-    TODO: Delete and inline with focusedGroupItem.valueProperty? https://github.com/phetsims/scenery-phet/issues/815
-    MS and MK talked. YES!!!
-    potential reasons?
-        interactive highlighting controls selectedGroupItemProperty also? No this isn't true, that is separate.
-        the hand when you kick out all balls, that can ALWAYS match the selected group item Property
-        Make sure to test interativeHighlighting + keyboard + mousetouch.
-   */
-  public readonly sortIndicatorValueProperty: Property<number | null>;
-
   // Whether any group item has ever been sorted to a new value, even if not by the group sort interaction. For best results,
   // set this to true from other interactions too (like mouse/touch).
   public readonly hasGroupItemBeenSortedProperty: Property<boolean>;
@@ -132,15 +120,6 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
       phetioFeatured: false
     } );
 
-    // Cannot take a range, since it is nullable
-    this.sortIndicatorValueProperty = new Property<number | null>( null, {
-      tandem: options.tandem.createTandem( 'sortIndicatorValueProperty' ),
-      phetioValueType: NullableIO( NumberIO ),
-      phetioFeatured: false,
-      phetioReadOnly: true,
-      phetioDocumentation: 'Sets the location of the hand/arrow on the number line. If one or more group items exist at that location, the indicator appears on the topmost ball.'
-    } );
-
     this.grabReleaseCueVisibleProperty = new DerivedProperty( [
       this.selectedGroupItemProperty,
       this.hasKeyboardGrabbedGroupItemProperty,
@@ -157,24 +136,6 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
       this.hasKeyboardSortedGroupItemProperty
     ], ( selectedGroupItem, isGroupItemKeyboardGrabbed, isKeyboardFocused, hasKeyboardSortedGroupItem ) =>
       selectedGroupItem !== null && isGroupItemKeyboardGrabbed && isKeyboardFocused && !hasKeyboardSortedGroupItem );
-  }
-
-  /**
-   * Apply a heuristic to set the sort indicator value
-   */
-  public updateSortIndicator(): void {
-    this.moveSortIndicatorToSelectedGroupItem();
-  }
-
-  // No op if there is no stored selectedGroupItem.
-  public moveSortIndicatorToSelectedGroupItem(): void {
-    const selectedGroupItem = this.selectedGroupItemProperty.value;
-    if ( selectedGroupItem !== null ) {
-
-      // If there is an already selected group item, i.e. a group item that has been selected or tabbed to via the keyboard,
-      // that takes precedence for indication.
-      this.sortIndicatorValueProperty.value = selectedGroupItem.valueProperty.value;
-    }
   }
 
   /**
@@ -197,19 +158,17 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
     this.mouseSortCueVisibleProperty.reset();
   }
 
-  public clearFocus(): void {
+  public clearSelection(): void {
     this.selectedGroupItemProperty.value = null;
   }
 
   // Register your closure responsible for updating the sort-indicator node.
   public registerUpdateSortIndicatorNode( updateSortIndicatorNode: () => void ): void {
     this.mouseSortCueVisibleProperty.link( updateSortIndicatorNode );
-    this.sortIndicatorValueProperty.link( updateSortIndicatorNode );
     this.selectedGroupItemProperty.link( updateSortIndicatorNode );
 
     this.disposeEmitter.addListener( () => {
       this.mouseSortCueVisibleProperty.unlink( updateSortIndicatorNode );
-      this.sortIndicatorValueProperty.unlink( updateSortIndicatorNode );
       this.selectedGroupItemProperty.unlink( updateSortIndicatorNode );
     } );
   }
@@ -224,7 +183,6 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
     this.hasKeyboardSortedGroupItemProperty.dispose();
     this.hasKeyboardSelectedDifferentGroupItemProperty.dispose();
     this.mouseSortCueVisibleProperty.dispose();
-    this.sortIndicatorValueProperty.dispose();
     this.hasGroupItemBeenSortedProperty.dispose();
     super.dispose();
   }

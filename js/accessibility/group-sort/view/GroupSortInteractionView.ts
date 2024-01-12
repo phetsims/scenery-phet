@@ -96,17 +96,16 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     const isKeyboardFocusedProperty = this.groupSortInteractionModel.isKeyboardFocusedProperty;
     const isGroupItemKeyboardGrabbedProperty = this.groupSortInteractionModel.isGroupItemKeyboardGrabbedProperty;
     const hasKeyboardGrabbedGroupItemProperty = this.groupSortInteractionModel.hasKeyboardGrabbedGroupItemProperty;
-    const sortIndicatorValueProperty = this.groupSortInteractionModel.sortIndicatorValueProperty;
 
     const focusListener = {
       focus: () => {
 
+        // It's possible that getGroupItemToSelect's heuristic said that there is nothing to focus here
         if ( selectedGroupItemProperty.value === null ) {
           selectedGroupItemProperty.value = options.getGroupItemToSelect();
         }
 
-        // It's possible that getGroupItemToSelect's heuristic said that there is nothing to focus here
-        isKeyboardFocusedProperty.value = selectedGroupItemProperty.value !== null;
+        isKeyboardFocusedProperty.value = true;
 
         // When the group receives keyboard focus, make sure that the selected group item is displayed
         if ( selectedGroupItemProperty.value !== null ) {
@@ -132,10 +131,9 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
 
     const updateFocusHighlight = new Multilink( [
         selectedGroupItemProperty,
-        isGroupItemKeyboardGrabbedProperty,
-        sortIndicatorValueProperty
+        isGroupItemKeyboardGrabbedProperty
       ],
-      ( selectedGroupItem, isGroupItemGrabbed, sortIndicatorValue ) => {
+      ( selectedGroupItem, isGroupItemGrabbed ) => {
         let focusHighlightSet = false;
         if ( selectedGroupItem ) {
           const node = options.getNodeFromModelItem( selectedGroupItem );
@@ -151,7 +149,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
         // If not set above, then actively hide it.
         !focusHighlightSet && primaryFocusedNode.setFocusHighlight( 'invisible' );
 
-        if ( sortIndicatorValue !== null ) {
+        if ( selectedGroupItem !== null ) {
           this.positionSortCueNodeEmitter.emit();
         }
       }
