@@ -157,12 +157,23 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
       }
     );
 
+    // "release" into selection mode when disabled
+    const enabledListener = ( enabled: boolean ) => {
+      if ( !enabled ) {
+        hasKeyboardGrabbedGroupItemProperty.value = false;
+      }
+    };
+    this.groupSortInteractionModel.enabledProperty.link( enabledListener );
+    this.disposeEmitter.addListener( () => {
+      this.groupSortInteractionModel.enabledProperty.unlink( enabledListener );
+    } );
+
     // A KeyboardListener that changes the "sorting" vs "selecting" state of the interaction.
     const grabReleaseKeyboardListener = new KeyboardListener( {
       fireOnHold: true,
       keys: [ 'enter', 'space', 'escape' ],
       callback: ( event, keysPressed ) => {
-        if ( selectedGroupItemProperty.value !== null ) {
+        if ( this.groupSortInteractionModel.enabled && selectedGroupItemProperty.value !== null ) {
 
           // Do the "Grab/release" action to switch to sorting or selecting
           if ( keysPressed === 'enter' || keysPressed === 'space' ) {
@@ -194,31 +205,37 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
 
           // Sorting an item
           if ( isGroupItemKeyboardGrabbedProperty.value ) {
-            let newValue: number = oldValue;
 
-            // For these keys, the item will move by a particular delta
-            if ( [ 'arrowRight', 'arrowLeft', 'a', 'd', 'arrowUp', 'arrowDown', 'w', 's', 'pageDown', 'pageUp', 'home', 'end' ].includes( keysPressed ) ) {
+            // Don't do any sorting when disabled
+            if ( this.groupSortInteractionModel.enabled ) {
 
-              const delta = this.getDeltaForKey( keysPressed )!;
-              assert && assert( delta !== null );
-              newValue = oldValue + delta;
-            }
-            else if ( options.numberKeyMapper && isSingleDigit( keysPressed ) ) {
-              const mappedValue = options.numberKeyMapper( keysPressed );
-              if ( mappedValue ) {
-                newValue = mappedValue;
+              let newValue: number = oldValue;
+
+              // For these keys, the item will move by a particular delta
+              if ( [ 'arrowRight', 'arrowLeft', 'a', 'd', 'arrowUp', 'arrowDown', 'w', 's', 'pageDown', 'pageUp', 'home', 'end' ].includes( keysPressed ) ) {
+
+                const delta = this.getDeltaForKey( keysPressed )!;
+                assert && assert( delta !== null );
+                newValue = oldValue + delta;
               }
+              else if ( options.numberKeyMapper && isSingleDigit( keysPressed ) ) {
+                const mappedValue = options.numberKeyMapper( keysPressed );
+                if ( mappedValue ) {
+                  newValue = mappedValue;
+                }
+              }
+
+              assert && assert( newValue !== null, 'We should have a value for the group item by the end of the listener.' );
+              groupItem.valueProperty.value = options.sortingRange.constrainValue( newValue );
+
+              // TODO: DESIGN!!! fire this even if the value didn't change? Yes likely, for the sound https://github.com/phetsims/scenery-phet/issues/815
+              options.onSort( groupItem, oldValue );
+              this.groupSortInteractionModel.hasKeyboardSortedGroupItemProperty.value = true;
+              this.groupSortInteractionModel.hasGroupItemBeenSortedProperty.value = true;
             }
-
-            assert && assert( newValue !== null, 'We should have a value for the group item by the end of the listener.' );
-            groupItem.valueProperty.value = options.sortingRange.constrainValue( newValue );
-
-            // TODO: DESIGN!!! fire this even if the value didn't change? Yes likely, for the sound https://github.com/phetsims/scenery-phet/issues/815
-            options.onSort( groupItem, oldValue );
-            this.groupSortInteractionModel.hasKeyboardSortedGroupItemProperty.value = true;
-            this.groupSortInteractionModel.hasGroupItemBeenSortedProperty.value = true;
           }
           else {
+            // Selecting an item
 
             // TODO: DESIGN!!! This changes the behavior because now the WASD, page up/page down keys work
             //   for the selection too - they don't on published version (Note that home and end DO work on published

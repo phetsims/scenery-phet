@@ -32,6 +32,7 @@
  * - Set up well for one model per screen to be used with one view per scene.
  * - use GroupSortInteractionView.groupFocusHighlightPath.shape to set the group highlight dynamically
  * - use positionSortCueNodeEmitter to update the position of the sort cue.
+ * - use enabledProperty to control if sorting is enabled. Note that focus and selection are always available (for keyboard tab order consistency) // TODO: DESIGN! Right? https://github.com/phetsims/scenery-phet/issues/815
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  * @author Marla Schulz (PhET Interactive Simulations)
@@ -48,7 +49,7 @@ import NullableIO from '../../../../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../../../../tandem/js/types/NumberIO.js';
 import { PhetioObjectOptions } from '../../../../../tandem/js/PhetioObject.js';
 import TProperty from '../../../../../axon/js/TProperty.js';
-import Disposable, { DisposableOptions } from '../../../../../axon/js/Disposable.js';
+import EnabledComponent, { EnabledComponentOptions } from '../../../../../axon/js/EnabledComponent.js';
 
 type SelfOptions = Pick<PhetioObjectOptions, 'tandem'>;
 
@@ -56,11 +57,11 @@ export type ItemModelType = {
   valueProperty: TProperty<number | null>;
 };
 
-type ParentOptions = DisposableOptions;
+type ParentOptions = EnabledComponentOptions;
 
 export type GroupSortInteractionModelOptions = SelfOptions & ParentOptions;
 
-export default class GroupSortInteractionModel<ItemModel extends ItemModelType> extends Disposable {
+export default class GroupSortInteractionModel<ItemModel extends ItemModelType> extends EnabledComponent {
 
   // The group item that is the selected/focused/sorted. If null, then there is nothing to sort (no items?), and the
   // interaction will no-op. Feel free to dynamically change this value to update the realtime selection of the
@@ -110,9 +111,8 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   // set this to true from other interactions too (like mouse/touch).
   public readonly hasGroupItemBeenSortedProperty: Property<boolean>;
 
-  // TODO: extend EnabledComponent? This is just a CAV studio thing right now soccerBallsEnabledProperty. https://github.com/phetsims/scenery-phet/issues/815
-  // TODO: if disabled, should we be able to change selection in group (without grabbing one). https://github.com/phetsims/scenery-phet/issues/815
-  public constructor( public readonly sortEnabledProperty: TReadOnlyProperty<boolean>, providedOptions?: GroupSortInteractionModelOptions ) {
+  // TODO: DESIGN!!! if disabled, should we be able to change selection in group (without grabbing one). https://github.com/phetsims/scenery-phet/issues/815
+  public constructor( providedOptions?: GroupSortInteractionModelOptions ) {
 
     const options = optionize<GroupSortInteractionModelOptions, SelfOptions, ParentOptions>()( {
       tandem: Tandem.REQUIRED
@@ -144,9 +144,10 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
     this.grabReleaseCueVisibleProperty = new DerivedProperty( [
       this.selectedGroupItemProperty,
       this.hasKeyboardGrabbedGroupItemProperty,
-      this.isKeyboardFocusedProperty
-    ], ( selectedGroupItem, hasGrabbedBall, hasKeyboardFocus ) => {
-      return selectedGroupItem !== null && !hasGrabbedBall && hasKeyboardFocus;
+      this.isKeyboardFocusedProperty,
+      this.enabledProperty
+    ], ( selectedGroupItem, hasGrabbedBall, hasKeyboardFocus, enabled ) => {
+      return selectedGroupItem !== null && !hasGrabbedBall && hasKeyboardFocus && enabled;
     } );
 
     this.keyboardSortCueVisibleProperty = new DerivedProperty( [
