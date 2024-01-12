@@ -47,6 +47,13 @@ type SelfOptions<ItemModel extends ItemModelType, ItemNode extends Node> = {
   // If provided, listen to the number keys as well. Provide the value that the number key maps to. A direct value,
   // not a delta. If set to null, then number keys will not be listened to for this interaction
   numberKeyMapper?: ( ( pressedKeys: string ) => ( number | null ) ) | null;
+
+  // The value-change delta step size when selecting/sorting the group items. This basic step is applied when using arrow keys or WASD
+  sortStep?: number;
+  pageSortStep?: number;
+
+  // TODO: Design!! Add this? https://github.com/phetsims/scenery-phet/issues/815
+  // shiftSortStep?: number;
 };
 
 type ParentOptions = DisposableOptions;
@@ -61,6 +68,8 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
   public readonly positionSortCueNodeEmitter = new Emitter();
 
   private readonly sortingRange: Range;
+  private readonly sortStep: number;
+  private readonly pageSortStep: number;
 
   public constructor(
     protected readonly groupSortInteractionModel: GroupSortInteractionModel<ItemModel>,
@@ -72,12 +81,16 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
       SelfOptions<ItemModel, ItemNode>,
       ParentOptions>()( {
       numberKeyMapper: null,
-      onSort: _.noop
+      onSort: _.noop,
+      sortStep: 1,
+      pageSortStep: Math.ceil( providedOptions.sortingRange.getLength() / 5 )
     }, providedOptions );
 
     super( options );
 
     this.sortingRange = options.sortingRange;
+    this.sortStep = options.sortStep;
+    this.pageSortStep = options.pageSortStep;
 
     const selectedGroupItemProperty = this.groupSortInteractionModel.selectedGroupItemProperty;
     const isKeyboardFocusedProperty = this.groupSortInteractionModel.isKeyboardFocusedProperty;
@@ -254,15 +267,10 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     const fullRange = this.sortingRange.getLength();
     return key === 'home' ? -fullRange :
            key === 'end' ? fullRange :
-
-             // TODO: Generalize to the range https://github.com/phetsims/scenery-phet/issues/815
-           key === 'pageDown' ? -3 :
-           key === 'pageUp' ? 3 :
-
-             // TODO: https://github.com/phetsims/scenery-phet/issues/815 - Instead of hard coding to 1, these
-             //    should use keyboardStep options (copy the API from AccessibleValueHandler)
-           [ 'arrowLeft', 'a', 'arrowDown', 's' ].includes( key ) ? -1 :
-           [ 'arrowRight', 'd', 'arrowUp', 'w' ].includes( key ) ? 1 :
+           key === 'pageDown' ? -this.pageSortStep :
+           key === 'pageUp' ? this.pageSortStep :
+           [ 'arrowLeft', 'a', 'arrowDown', 's' ].includes( key ) ? -this.sortStep :
+           [ 'arrowRight', 'd', 'arrowUp', 'w' ].includes( key ) ? this.sortStep :
            null;
   }
 
