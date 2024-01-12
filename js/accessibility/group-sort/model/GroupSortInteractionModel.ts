@@ -213,7 +213,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
     } );
   }
 
-  public dispose(): void {
+  public override dispose(): void {
     this.selectedGroupItemProperty.dispose();
     this.isGroupItemKeyboardGrabbedProperty.dispose();
     this.grabReleaseCueVisibleProperty.dispose();

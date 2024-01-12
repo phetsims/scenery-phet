@@ -186,7 +186,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
             // For these keys, the item will move by a particular delta
             if ( [ 'arrowRight', 'arrowLeft', 'a', 'd', 'arrowUp', 'arrowDown', 'w', 's', 'pageDown', 'pageUp', 'home', 'end' ].includes( keysPressed ) ) {
 
-              const delta = GroupSortInteractionView.getDeltaForKey( keysPressed )!;
+              const delta = this.getDeltaForKey( keysPressed )!;
               assert && assert( delta !== null );
               newValue = oldValue + delta;
             }
@@ -210,7 +210,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
             // TODO: DESIGN!!! This changes the behavior because now the WASD, page up/page down keys work
             //   for the selection too - they don't on published version (Note that home and end DO work on published
             //   version for selection), https://github.com/phetsims/scenery-phet/issues/815
-            const delta = GroupSortInteractionView.getDeltaForKey( keysPressed );
+            const delta = this.getDeltaForKey( keysPressed );
             if ( delta !== null ) {
               this.groupSortInteractionModel.hasKeyboardSelectedDifferentGroupItemProperty.value = true;
               selectedGroupItemProperty.value = options.getNextSelectedGroupItem( delta );
@@ -250,7 +250,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
     } );
   }
 
-  private static getDeltaForKey( key: string ): number | null {
+  private getDeltaForKey( key: string ): number | null {
     const fullRange = this.sortingRange.getLength();
     return key === 'home' ? -fullRange :
            key === 'end' ? fullRange :
@@ -266,7 +266,7 @@ export default class GroupSortInteractionView<ItemModel extends ItemModelType, I
            null;
   }
 
-  public dispose(): void {
+  public override dispose(): void {
     this.groupFocusHighlightPath.dispose();
     this.positionSortCueNodeEmitter.dispose();
     super.dispose();
