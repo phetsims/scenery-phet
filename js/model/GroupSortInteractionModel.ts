@@ -94,7 +94,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
   public readonly hasKeyboardSelectedDifferentGroupItemProperty = new BooleanProperty( false );
 
   // Whether the mouse/touch sort icon cue is currently showing on the group item area
-  public readonly sortIndicatorCueVisibleProperty: TProperty<boolean>;
+  public readonly sortIndicatorCueVisibleProperty: Property<boolean>;
 
   // The value for group item that the sort indicator is set to; null when there are no group items to sort.
   /*
@@ -119,9 +119,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
       tandem: Tandem.REQUIRED
     }, providedOptions );
 
-    // TODO: migration rules when moving to groupSortInteractionModel, https://github.com/phetsims/scenery-phet/issues/815
-    // TODO: MS!!! Can you tell me why these are stateful, but the other group sort interaction ones aren't? For example,
-    //       the sort indicator position is, but the selected group item isn't? https://github.com/phetsims/scenery-phet/issues/815
+    // TODO: Redo the PhET-iO Design, (including "ball" documentation) https://github.com/phetsims/scenery-phet/issues/815
     this.hasGroupItemBeenSortedProperty = new BooleanProperty( false, {
       tandem: options.tandem.createTandem( 'hasGroupItemBeenSortedProperty' ),
       phetioFeatured: false
@@ -139,7 +137,6 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
       phetioValueType: NullableIO( NumberIO ),
       phetioFeatured: false,
       phetioReadOnly: true,
-      // TODO: this seems weird to call a hand. Also "ball", MS!!! https://github.com/phetsims/scenery-phet/issues/815
       phetioDocumentation: 'Sets the location of the hand/arrow on the number line. If one or more group items exist at that location, the indicator appears on the topmost ball.'
     } );
 
@@ -188,7 +185,6 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
     this.isKeyboardFocusedProperty.reset();
   }
 
-  // TODO: MS!!!! handle reset for sortIndicator entities? None were reset before this refactor https://github.com/phetsims/scenery-phet/issues/815
   public reset(): void {
     this.resetInteractionState();
 
@@ -196,6 +192,7 @@ export default class GroupSortInteractionModel<ItemModel extends ItemModelType> 
     this.hasKeyboardGrabbedGroupItemProperty.reset();
     this.hasKeyboardSelectedDifferentGroupItemProperty.reset();
     this.hasKeyboardSortedGroupItemProperty.reset();
+    this.sortIndicatorCueVisibleProperty.reset();
   }
 
   public clearFocus(): void {
