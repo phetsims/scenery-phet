@@ -20,8 +20,8 @@ import sceneryPhet from './sceneryPhet.js';
 type SelfOptions = {
   bulbImageScale?: number;
   lightRaysNodeOptions?: LightRaysNodeOptions;
-  lightBulbOffImageElement?: ImageableImage;
-  lightBulbOnImageElement?: ImageableImage;
+  lightBulbOnImage?: ImageableImage;
+  lightBulbOffImage?: ImageableImage;
 };
 export type LightBulbNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
@@ -40,17 +40,17 @@ export default class LightBulbNode extends Node {
 
     const options = optionize<LightBulbNodeOptions, StrictOmit<SelfOptions, 'lightRaysNodeOptions'>, NodeOptions>()( {
       bulbImageScale: 0.33,
-      lightBulbOffImageElement: lightBulbOff_png,
-      lightBulbOnImageElement: lightBulbOn_png
+      lightBulbOnImage: lightBulbOn_png,
+      lightBulbOffImage: lightBulbOff_png
     }, providedOptions );
 
-    const onNode = new Image( options.lightBulbOnImageElement, {
+    const onNode = new Image( options.lightBulbOnImage, {
       scale: options.bulbImageScale,
       centerX: 0,
       bottom: 0
     } );
 
-    const offNode = new Image( options.lightBulbOffImageElement, {
+    const offNode = new Image( options.lightBulbOffImage, {
       scale: options.bulbImageScale,
       centerX: onNode.centerX,
       bottom: onNode.bottom
