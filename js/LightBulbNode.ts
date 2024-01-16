@@ -11,7 +11,7 @@ import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Image, Node, NodeOptions } from '../../scenery/js/imports.js';
+import { Image, ImageableImage, Node, NodeOptions } from '../../scenery/js/imports.js';
 import lightBulbOff_png from '../mipmaps/lightBulbOff_png.js';
 import lightBulbOn_png from '../mipmaps/lightBulbOn_png.js';
 import LightRaysNode, { LightRaysNodeOptions } from './LightRaysNode.js';
@@ -20,6 +20,8 @@ import sceneryPhet from './sceneryPhet.js';
 type SelfOptions = {
   bulbImageScale?: number;
   lightRaysNodeOptions?: LightRaysNodeOptions;
+  lightBulbOffImageElement?: ImageableImage;
+  lightBulbOnImageElement?: ImageableImage;
 };
 export type LightBulbNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
@@ -37,16 +39,18 @@ export default class LightBulbNode extends Node {
   public constructor( brightnessProperty: TReadOnlyProperty<number>, providedOptions?: LightBulbNodeOptions ) {
 
     const options = optionize<LightBulbNodeOptions, StrictOmit<SelfOptions, 'lightRaysNodeOptions'>, NodeOptions>()( {
-      bulbImageScale: 0.33
+      bulbImageScale: 0.33,
+      lightBulbOffImageElement: lightBulbOff_png,
+      lightBulbOnImageElement: lightBulbOn_png
     }, providedOptions );
 
-    const onNode = new Image( lightBulbOn_png, {
+    const onNode = new Image( options.lightBulbOnImageElement, {
       scale: options.bulbImageScale,
       centerX: 0,
       bottom: 0
     } );
 
-    const offNode = new Image( lightBulbOff_png, {
+    const offNode = new Image( options.lightBulbOffImageElement, {
       scale: options.bulbImageScale,
       centerX: onNode.centerX,
       bottom: onNode.bottom
