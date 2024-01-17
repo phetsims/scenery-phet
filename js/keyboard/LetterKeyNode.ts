@@ -46,6 +46,10 @@ export default class LetterKeyNode extends TextKeyNode {
     return new LetterKeyNode( SceneryPhetStrings.key.dStringProperty, providedOptions );
   }
 
+  public static l( providedOptions?: LetterKeyNodeOptions ): KeyNode {
+    return new LetterKeyNode( SceneryPhetStrings.key.lStringProperty, providedOptions );
+  }
+
   public static r( providedOptions?: LetterKeyNodeOptions ): KeyNode {
     return new LetterKeyNode( SceneryPhetStrings.key.rStringProperty, providedOptions );
   }
