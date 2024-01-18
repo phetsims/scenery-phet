@@ -96,6 +96,8 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
 
   // Whether any group item has ever been sorted to a new value, even if not by the group sort interaction. For best results,
   // set this to true from other interactions too (like mouse/touch).
+  // TODO: DESIGN?!?!? this should be derived, and a new Property for just mouse created. Basically how important is
+  //        it to have a mouse drag indicator after successful keyboard sort (but no successful mouse) https://github.com/phetsims/scenery-phet/issues/815
   public readonly hasGroupItemBeenSortedProperty: Property<boolean>;
   public readonly getValueProperty: ( itemModel: ItemModel ) => TProperty<number | null>;
 
@@ -132,8 +134,8 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
       this.hasKeyboardGrabbedGroupItemProperty,
       this.isKeyboardFocusedProperty,
       this.enabledProperty
-    ], ( selectedGroupItem, hasGrabbedBall, hasKeyboardFocus, enabled ) => {
-      return selectedGroupItem !== null && !hasGrabbedBall && hasKeyboardFocus && enabled;
+    ], ( selectedGroupItem, hasGrabbedGroupItem, hasKeyboardFocus, enabled ) => {
+      return selectedGroupItem !== null && !hasGrabbedGroupItem && hasKeyboardFocus && enabled;
     } );
 
     this.keyboardSortCueVisibleProperty = new DerivedProperty( [
@@ -170,11 +172,16 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
   }
 
   // Register your closure responsible for updating the sort-indicator node.
+  // TODO: what else may want to trigger mouse sort cue update? https://github.com/phetsims/scenery-phet/issues/815
   public registerUpdateSortIndicatorNode( updateSortIndicatorNode: () => void ): void {
     this.mouseSortCueVisibleProperty.link( updateSortIndicatorNode );
     this.selectedGroupItemProperty.link( updateSortIndicatorNode );
+    this.hasGroupItemBeenSortedProperty.link( updateSortIndicatorNode );
+    this.isKeyboardFocusedProperty.link( updateSortIndicatorNode );
 
     this.disposeEmitter.addListener( () => {
+      this.isKeyboardFocusedProperty.unlink( updateSortIndicatorNode );
+      this.hasGroupItemBeenSortedProperty.unlink( updateSortIndicatorNode );
       this.mouseSortCueVisibleProperty.unlink( updateSortIndicatorNode );
       this.selectedGroupItemProperty.unlink( updateSortIndicatorNode );
     } );

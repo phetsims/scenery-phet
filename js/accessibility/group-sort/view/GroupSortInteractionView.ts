@@ -43,8 +43,18 @@ type SelfOptions<ItemModel, ItemNode extends Node> = {
   // The available range for storing. This is the acceptable range for the valueProperty of ItemModel (see getValueProperty()).
   sortingRange: Range;
 
+  // Do the sort operation, allowing for custom actions, defaults to just updating the valueProperty of the selected
+  // group item to the new value.
+  sortGroupItem?: ( groupItem: ItemModel, newValue: number ) => void;
+
   // Called when a group item is sorted. Note that this may not have changed its value.
   onSort?: ( groupItem: ItemModel, oldValue: number ) => void;
+
+  // When the selected group item is grabbed (into "sorting" mode).
+  onGrab?: ( groupItem: ItemModel ) => void;
+
+  // When the selected group item is released (back into "selecting" mode).
+  onRelease?: ( groupItem: ItemModel ) => void;
 
   // If provided, listen to the number keys as well. Provide the value that the number key maps to. A direct value,
   // not a delta. If set to null, then number keys will not be listened to for this interaction
@@ -66,12 +76,13 @@ export type GroupSortInteractionViewOptions<ItemModel, ItemNode extends Node> = 
 export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> extends Disposable {
 
   // Update group highlight dynamically by setting the `shape` of this path.
-  protected readonly groupFocusHighlightPath: HighlightPath;
+  public readonly groupFocusHighlightPath: HighlightPath;
 
   // Emitted when the sorting cue should be repositioned. Most likely because the selection has changed.
   public readonly positionSortCueNodeEmitter = new Emitter();
 
   private readonly getNodeFromModelItem: ( model: ItemModel ) => ItemNode | null;
+  private readonly sortGroupItem: ( groupItem: ItemModel, newValue: number ) => void;
   private readonly onSort: ( groupItem: ItemModel, oldValue: number ) => void;
   private readonly sortingRange: Range;
   private readonly sortStep: number;
@@ -88,13 +99,19 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
       ParentOptions>()( {
       numberKeyMapper: null,
       onSort: _.noop,
+      onGrab: _.noop,
+      onRelease: _.noop,
       sortStep: 1,
-      pageSortStep: Math.ceil( providedOptions.sortingRange.getLength() / 5 )
+      pageSortStep: Math.ceil( providedOptions.sortingRange.getLength() / 5 ),
+      sortGroupItem: ( groupItem, newValue ) => {
+        this.getValueProperty( groupItem ).value = newValue;
+      }
     }, providedOptions );
 
     super( options );
 
     this.getNodeFromModelItem = options.getNodeFromModelItem;
+    this.sortGroupItem = options.sortGroupItem;
     this.onSort = options.onSort;
     this.sortingRange = options.sortingRange;
     this.sortStep = options.sortStep;
@@ -104,6 +121,22 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
     const isKeyboardFocusedProperty = this.groupSortInteractionModel.isKeyboardFocusedProperty;
     const isGroupItemKeyboardGrabbedProperty = this.groupSortInteractionModel.isGroupItemKeyboardGrabbedProperty;
     const hasKeyboardGrabbedGroupItemProperty = this.groupSortInteractionModel.hasKeyboardGrabbedGroupItemProperty;
+
+    const grabbedPropertyListener = ( grabbed: boolean ) => {
+      const selectedGroupItem = selectedGroupItemProperty.value;
+      if ( selectedGroupItem ) {
+        if ( grabbed ) {
+          options.onGrab( selectedGroupItem );
+        }
+        else {
+          options.onRelease( selectedGroupItem );
+        }
+      }
+    };
+    isGroupItemKeyboardGrabbedProperty.lazyLink( grabbedPropertyListener );
+    this.disposeEmitter.addListener( () => {
+      isGroupItemKeyboardGrabbedProperty.unlink( grabbedPropertyListener );
+    } );
 
     const focusListener = {
       focus: () => {
@@ -125,6 +158,8 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
         isGroupItemKeyboardGrabbedProperty.value = false;
         isKeyboardFocusedProperty.value = false;
       },
+
+      // TODO: this isn't part of InteractiveCardContainer? https://github.com/phetsims/scenery-phet/issues/815
       over: () => {
         // TODO: MS!!!! this is awkward. In this situation:
         //     1. tab to populated node, the keyboard grab cue is shown.
@@ -203,7 +238,8 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
         if ( selectedGroupItemProperty.value !== null ) {
 
           const groupItem = selectedGroupItemProperty.value;
-          const oldValue = this.getValueProperty( groupItem ).value!;
+          const valueProperty = this.getValueProperty( groupItem );
+          const oldValue = valueProperty.value!;
           assert && assert( oldValue !== null, 'We should have a group item when responding to input?' );
 
           // Sorting an item
@@ -224,10 +260,12 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
             // TODO: DESIGN!!! This changes the behavior because now the WASD, page up/page down keys work
             //   for the selection too - they don't on published version (Note that home and end DO work on published
             //   version for selection), https://github.com/phetsims/scenery-phet/issues/815
-            const delta = this.getDeltaForKey( keysPressed );
-            if ( delta !== null ) {
+            const unclampedDelta = this.getDeltaForKey( keysPressed );
+            if ( unclampedDelta !== null ) {
               this.groupSortInteractionModel.hasKeyboardSelectedDifferentGroupItemProperty.value = true;
-              selectedGroupItemProperty.value = options.getNextSelectedGroupItem( delta );
+
+              const clampedDelta = this.sortingRange.clampDelta( oldValue, unclampedDelta );
+              selectedGroupItemProperty.value = options.getNextSelectedGroupItem( clampedDelta );
             }
           }
           this.onGroupItemChange( groupItem );
@@ -263,7 +301,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
       } );
     }
 
-    const defaultGroupShape = primaryFocusedNode.bounds.isFinite() ? Shape.bounds( primaryFocusedNode.visibleBounds ) : null;
+    const defaultGroupShape = primaryFocusedNode.visibleBounds.isFinite() ? Shape.bounds( primaryFocusedNode.visibleBounds ) : null;
 
     // Set the outer group focus highlight to surround the entire area where group items are located.
     this.groupFocusHighlightPath = new HighlightPath( defaultGroupShape, {
@@ -305,7 +343,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
   private onSortedValue( groupItem: ItemModel, value: number, oldValue: number ): void {
     assert && assert( value !== null, 'We should have a value for the group item by the end of the listener.' );
 
-    this.getValueProperty( groupItem ).value = this.sortingRange.constrainValue( value );
+    this.sortGroupItem( groupItem, this.sortingRange.constrainValue( value ) );
 
     // TODO: DESIGN!!! fire this even if the value didn't change? Yes likely, for the sound https://github.com/phetsims/scenery-phet/issues/815
     this.onSort( groupItem, oldValue );
@@ -313,6 +351,10 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
     this.groupSortInteractionModel.hasGroupItemBeenSortedProperty.value = true;
   }
 
+  /**
+   * Get the delta to change the value given what key was pressed. The returned delta may not result in a value in range,
+   * please constrain value from range or provide your own defensive measures to this delta.
+   */
   private getDeltaForKey( key: string ): number | null {
     const fullRange = this.sortingRange.getLength();
     return key === 'home' ? -fullRange :
