@@ -43,8 +43,7 @@ class DragBoundsProperty extends DerivedProperty {
       );
     }, {
       // Don't make spurious changes, we often won't be changing
-      valueComparisonStrategy: 'equalsFunction',
-      strictAxonDependencies: false //TODO https://github.com/phetsims/axon/issues/441
+      valueComparisonStrategy: 'equalsFunction'
     } );
   }
 }
