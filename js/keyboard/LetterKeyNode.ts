@@ -1,4 +1,4 @@
-// Copyright 2017-2023, University of Colorado Boulder
+// Copyright 2017-2024, University of Colorado Boulder
 
 /**
  * LetterKeyNode is a TextKeyNode with layout and spacing defaults that look best for a single letter. A letter key is
