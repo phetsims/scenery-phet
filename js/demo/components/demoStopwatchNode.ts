@@ -14,6 +14,7 @@ import StopwatchNode from '../../StopwatchNode.js';
 import { SunDemoOptions } from '../../../../sun/js/demo/DemosScreenView.js';
 import stepTimer from '../../../../axon/js/stepTimer.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 
 export default function demoStopwatchNode( layoutBounds: Bounds2, providedOptions: SunDemoOptions ): Node {
 
@@ -58,7 +59,10 @@ export default function demoStopwatchNode( layoutBounds: Bounds2, providedOption
         numberOfDecimalPlaces: numberOfDecimalPlaces,
         units: unitsProperty.value
       } ),
-      numberFormatterDependencies: [ unitsProperty ]
+      numberFormatterDependencies: [
+        SceneryPhetStrings.stopwatchValueUnitsPatternStringProperty, // used by StopwatchNode.createRichTextNumberFormatter
+        unitsProperty
+      ]
     },
     scale: 2,
     tandem: tandem.createTandem( 'customStopwatchNode' )
