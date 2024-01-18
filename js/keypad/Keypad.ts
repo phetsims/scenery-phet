@@ -8,9 +8,9 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
-import optionize from '../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
 import type { OneKeyStroke } from '../../../scenery/js/imports.js';
-import { Font, KeyboardListener, Node, NodeOptions, Text, TPaint } from '../../../scenery/js/imports.js';
+import { Font, KeyboardListener, KeyboardListenerOptions, Node, NodeOptions, Text, TPaint } from '../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import BackspaceIcon from '../BackspaceIcon.js';
@@ -22,6 +22,7 @@ import NumberAccumulator, { NumberAccumulatorOptions } from './NumberAccumulator
 import AbstractKeyAccumulator from './AbstractKeyAccumulator.js';
 import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 
 // constants
 const DEFAULT_BUTTON_WIDTH = 35;
@@ -66,6 +67,8 @@ type SelfOptions = {
 
   // Options passed to NumberAccumulator, ignored if options.accumulator is provided
   accumulatorOptions?: NumberAccumulatorOptions | null;
+
+  keyboardListenerOptions?: StrictOmit<KeyboardListenerOptions<OneKeyStroke[]>, 'callback' | 'keys'>;
 };
 
 export type KeypadOptions = SelfOptions & NodeOptions;
@@ -109,7 +112,8 @@ class Keypad extends Node {
       tandemNameSuffix: 'Keypad',
       tagName: 'div',
       ariaLabel: 'Keypad',
-      focusable: true
+      focusable: true,
+      keyboardListenerOptions: {}
     }, providedOptions );
 
     super();
@@ -196,7 +200,7 @@ class Keypad extends Node {
       }
     }
 
-    const keyboardListener = new KeyboardListener( {
+    const keyboardListener = new KeyboardListener( combineOptions<KeyboardListenerOptions<OneKeyStroke[]>>( options.keyboardListenerOptions, {
 
       // @ts-expect-error - TypeScript doesn't know that keyboardKeys has keys of type OneKeyStroke. Type assertion
       // works but is incompatible with eslint.
@@ -205,7 +209,8 @@ class Keypad extends Node {
         const keyObject = keyboardKeys[ keysPressed ];
         this.keyAccumulator.handleKeyPressed( keyObject!.identifier );
       }
-    } );
+    } ) );
+
     this.addInputListener( keyboardListener );
     this.disposeEmitter.addListener( () => keyboardListener.dispose() );
 
