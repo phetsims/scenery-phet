@@ -392,13 +392,19 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
   }
 
   /**
-   * Creates a custom value for options.numberDisplayOptions.numberFormatter, passed to NumberDisplay.
+   * Creates a custom value for options.numberDisplayOptions.numberFormatter, passed to NumberDisplay. When using
+   * this method, you will also need to use NumberDisplayOptions.numberFormatterDependencies, to tell NumberDisplay
+   * about the dependencies herein. See https://github.com/phetsims/scenery-phet/issues/781.
+   * This will typically be something like:
    *
-   * TODO https://github.com/phetsims/scenery-phet/issues/781
-   * Because this is called by NumberDisplay when its valueProperty changes, there's no way to make
-   * this API update immediately when options.valueUnitsPattern or options.units changes. The NumberDisplay
-   * will not show changes to those strings until the value changes. If this is a problem, we'll need to
-   * come up with a new API for updating the NumberDisplay when associated StringProperties change.
+   * numberFormatter: StopwatchNode.createRichTextNumberFormatter( {
+   *   units: unitsProperty,
+   *   ...
+   * } ),
+   * numberFormatterDependencies: [
+   *   SceneryPhetStrings.stopwatchValueUnitsPatternStringProperty, // used by StopwatchNode.createRichTextNumberFormatter
+   *   unitsProperty
+   * ],
    */
   public static createRichTextNumberFormatter( providedOptions?: FormatterOptions ): ( time: number ) => string {
 
