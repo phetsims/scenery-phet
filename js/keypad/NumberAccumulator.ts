@@ -78,13 +78,13 @@ class NumberAccumulator extends AbstractKeyAccumulator {
       tandem: options.tandem.createTandem( 'stringProperty' ) // eslint-disable-line bad-sim-text
     } );
 
-    this.valueProperty = new DerivedProperty( [ this.stringProperty ], stringValue => {
-      return this.stringToInteger( stringValue );
-    }, {
-      tandem: options.tandem.createTandem( 'valueProperty' ),
-      phetioValueType: NullableIO( NumberIO ),
-      strictAxonDependencies: false //TODO https://github.com/phetsims/axon/issues/441
-    } );
+    this.valueProperty = new DerivedProperty(
+      // this.accumulatedKeysProperty is used by this.stringToInteger
+      [ this.stringProperty, this.accumulatedKeysProperty ],
+      ( stringValue, accumulatedKeys ) => this.stringToInteger( stringValue ), {
+        tandem: options.tandem.createTandem( 'valueProperty' ),
+        phetioValueType: NullableIO( NumberIO )
+      } );
   }
 
   /**
