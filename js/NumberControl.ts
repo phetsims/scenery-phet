@@ -20,6 +20,7 @@ import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
+import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { AlignBox, extendsWidthSizable, Font, HBox, isWidthSizable, Node, NodeOptions, PaintColorProperty, Text, TextOptions, VBox, WidthSizable } from '../../scenery/js/imports.js';
 import ArrowButton, { ArrowButtonOptions } from '../../sun/js/buttons/ArrowButton.js';
@@ -43,6 +44,7 @@ const SPECIFIC_COMPONENT_CALLBACK_OPTIONS = [
   'rightStart',
   'rightEnd'
 ];
+const POINTER_AREA_OPTION_NAMES = [ 'touchAreaXDilation', 'touchAreaYDilation', 'mouseAreaXDilation', 'mouseAreaYDilation' ] as const;
 
 // This is a marker to indicate that we should create the actual default sound player.
 const DEFAULT_SOUND = new ValueChangeSoundPlayer( new Range( 0, 1 ) );
@@ -372,6 +374,12 @@ export default class NumberControl extends WidthSizable( Node ) {
       options.sliderOptions.enabledRangeProperty = options.enabledRangeProperty;
     }
 
+    // Arrow button pointer areas need to be asymmetrical, see https://github.com/phetsims/scenery-phet/issues/489.
+    // Get the pointer area options related to ArrowButton so that we can handle pointer areas here.
+    // And do not propagate those options to ArrowButton instances.
+    const arrowButtonPointerAreaOptions = _.pick( options.arrowButtonOptions, POINTER_AREA_OPTION_NAMES ) as PickRequired<ArrowButtonOptions, typeof POINTER_AREA_OPTION_NAMES[number]>;
+    options.arrowButtonOptions = _.omit( options.arrowButtonOptions, POINTER_AREA_OPTION_NAMES );
+
     // pdom - for alternative input, the number control is accessed entirely through slider interaction and these
     // arrow buttons are not tab navigable
     assert && assert( options.arrowButtonOptions.tagName === undefined,
@@ -432,11 +440,6 @@ export default class NumberControl extends WidthSizable( Node ) {
 
     if ( options.includeArrowButtons ) {
 
-      const touchAreaXDilation = options.arrowButtonOptions.touchAreaXDilation!;
-      const mouseAreaXDilation = options.arrowButtonOptions.mouseAreaXDilation!;
-      assert && assert( touchAreaXDilation !== undefined && mouseAreaXDilation !== undefined,
-        'Should be defined, since we have defaults above' );
-
       decrementButton = new ArrowButton( 'left', () => {
         const oldValue = numberProperty.get();
         let newValue = numberProperty.get() - options.delta;
@@ -449,9 +452,7 @@ export default class NumberControl extends WidthSizable( Node ) {
         soundPlayer: nullSoundPlayer,
         startCallback: options.arrowButtonOptions.leftStart,
         endCallback: options.arrowButtonOptions.leftEnd,
-        tandem: options.tandem.createTandem( 'decrementButton' ),
-        touchAreaXShift: -touchAreaXDilation,
-        mouseAreaXShift: -mouseAreaXDilation
+        tandem: options.tandem.createTandem( 'decrementButton' )
       }, options.arrowButtonOptions ) );
 
       incrementButton = new ArrowButton( 'right', () => {
@@ -466,9 +467,7 @@ export default class NumberControl extends WidthSizable( Node ) {
         soundPlayer: nullSoundPlayer,
         startCallback: options.arrowButtonOptions.rightStart,
         endCallback: options.arrowButtonOptions.rightEnd,
-        tandem: options.tandem.createTandem( 'incrementButton' ),
-        touchAreaXShift: touchAreaXDilation,
-        mouseAreaXShift: mouseAreaXDilation
+        tandem: options.tandem.createTandem( 'incrementButton' )
       }, options.arrowButtonOptions ) );
 
       // By default, scale the ArrowButtons to have the same height as the NumberDisplay, but ignoring
@@ -489,6 +488,22 @@ export default class NumberControl extends WidthSizable( Node ) {
         decrementButton.setScaleMagnitude( arrowButtonsScale );
         incrementButton.setScaleMagnitude( arrowButtonsScale );
       }
+
+      // arrow button touchAreas, asymmetrical, see https://github.com/phetsims/scenery-phet/issues/489
+      decrementButton.touchArea = decrementButton.localBounds
+        .dilatedXY( arrowButtonPointerAreaOptions.touchAreaXDilation, arrowButtonPointerAreaOptions.touchAreaYDilation )
+        .shiftedX( -arrowButtonPointerAreaOptions.touchAreaXDilation );
+      incrementButton.touchArea = incrementButton.localBounds
+        .dilatedXY( arrowButtonPointerAreaOptions.touchAreaXDilation, arrowButtonPointerAreaOptions.touchAreaYDilation )
+        .shiftedX( arrowButtonPointerAreaOptions.touchAreaXDilation );
+
+      // arrow button mouseAreas, asymmetrical, see https://github.com/phetsims/scenery-phet/issues/489
+      decrementButton.mouseArea = decrementButton.localBounds
+        .dilatedXY( arrowButtonPointerAreaOptions.mouseAreaXDilation, arrowButtonPointerAreaOptions.mouseAreaYDilation )
+        .shiftedX( -arrowButtonPointerAreaOptions.mouseAreaXDilation );
+      incrementButton.mouseArea = incrementButton.localBounds
+        .dilatedXY( arrowButtonPointerAreaOptions.mouseAreaXDilation, arrowButtonPointerAreaOptions.mouseAreaYDilation )
+        .shiftedX( arrowButtonPointerAreaOptions.mouseAreaXDilation );
 
       // Disable the arrow buttons if the slider currently has focus
       arrowEnabledListener = () => {
