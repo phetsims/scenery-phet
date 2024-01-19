@@ -16,6 +16,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 
 export default function demoNumberDisplay( layoutBounds: Bounds2 ): Node {
 
@@ -44,6 +45,7 @@ export default function demoNumberDisplay( layoutBounds: Bounds2 ): Node {
   } );
   const numberDisplayTimeRich = new NumberDisplay( property, range, {
     numberFormatter: StopwatchNode.RICH_TEXT_MINUTES_AND_SECONDS,
+    numberFormatterDependencies: [ SceneryPhetStrings.stopwatchValueUnitsPatternStringProperty ],
     useRichText: true,
     align: 'center'
   } );
@@ -53,6 +55,7 @@ export default function demoNumberDisplay( layoutBounds: Bounds2 ): Node {
     numberFormatter: StopwatchNode.createRichTextNumberFormatter( {
       units: 'hours'
     } ),
+    numberFormatterDependencies: [ SceneryPhetStrings.stopwatchValueUnitsPatternStringProperty ],
     useRichText: true,
     align: 'center'
   } );
