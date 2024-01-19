@@ -112,9 +112,10 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
 
     this.getValueProperty = options.getValueProperty;
 
-    // TODO: MS!! It would be nice to turn on this assertion, but we can't because of reorganizeStack not respecting the top most soccer ball. https://github.com/phetsims/scenery-phet/issues/815
+    // TODO: Turn this on! But we can't until reorganizeStack respects the selection first. https://github.com/phetsims/scenery-phet/issues/815
+    // TODO: New issue for the above please in soccer-common, https://github.com/phetsims/scenery-phet/issues/815
     // assert && this.selectedGroupItemProperty.lazyLink( () => {
-    // assert && assert( !this.isGroupItemKeyboardGrabbedProperty.value, 'should not change selection when sorting' );
+    //   assert && assert( !this.isGroupItemKeyboardGrabbedProperty.value, 'should not change selection when sorting' );
     // } );
 
     // TODO: DESIGN! Redo the PhET-iO Design, (including "ball" documentation) https://github.com/phetsims/scenery-phet/issues/815
