@@ -63,11 +63,15 @@ type SelfOptions<ItemModel, ItemNode extends Node> = {
   // The value-change delta step size when selecting/sorting the group items. This basic step is applied when using arrow keys or WASD
   sortStep?: number;
   pageSortStep?: number;
-  // TODO: MK!! Add this. https://github.com/phetsims/scenery-phet/issues/815
-  // shiftSortStep?: number;
+  shiftSortStep?: number;
 };
 
-const sortingKeys = [ 'arrowRight', 'arrowLeft', 'a', 'd', 'arrowUp', 'arrowDown', 'w', 's', 'pageDown', 'pageUp', 'home', 'end' ] as const;
+const sortingKeys = [
+  'd', 'arrowRight', 'a', 'arrowLeft', 'arrowUp', 'arrowDown', 'w', 's', // default-step sort
+  'shift+d', 'shift+arrowRight', 'shift+a', 'shift+arrowLeft', 'shift+arrowUp', 'shift+arrowDown', 'shift+w', 'shift+s', // shift-step sort
+  'pageUp', 'pageDown', // page-step sort
+  'home', 'end' // min/max
+] as const;
 
 type ParentOptions = DisposableOptions;
 export type GroupSortInteractionViewOptions<ItemModel, ItemNode extends Node> = SelfOptions<ItemModel, ItemNode> & ParentOptions;
@@ -85,6 +89,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
   private readonly onSort: ( groupItem: ItemModel, oldValue: number ) => void;
   private readonly sortingRange: Range;
   private readonly sortStep: number;
+  private readonly shiftSortStep: number;
   private readonly pageSortStep: number;
 
   public constructor(
@@ -101,6 +106,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
       onGrab: _.noop,
       onRelease: _.noop,
       sortStep: 1,
+      shiftSortStep: 2,
       pageSortStep: Math.ceil( providedOptions.sortingRange.getLength() / 5 ),
       sortGroupItem: ( groupItem, newValue ) => {
         this.getValueProperty( groupItem ).value = newValue;
@@ -114,6 +120,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
     this.onSort = options.onSort;
     this.sortingRange = options.sortingRange;
     this.sortStep = options.sortStep;
+    this.shiftSortStep = options.shiftSortStep;
     this.pageSortStep = options.pageSortStep;
 
     const selectedGroupItemProperty = this.groupSortInteractionModel.selectedGroupItemProperty;
@@ -230,7 +237,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
     // TODO: DESIGN!!! adding a modifier key means the arrow keys don't work. https://github.com/phetsims/scenery-phet/issues/815
     const deltaKeyboardListener = new KeyboardListener( {
       fireOnHold: true,
-      keys: [ 'd', 'arrowRight', 'a', 'arrowLeft', 'arrowUp', 'arrowDown', 'w', 's', 'home', 'end', 'pageUp', 'pageDown' ],
+      keys: sortingKeys,
       callback: ( event, keysPressed ) => {
 
         if ( selectedGroupItemProperty.value !== null ) {
@@ -357,6 +364,8 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
            key === 'pageUp' ? this.pageSortStep :
            [ 'arrowLeft', 'a', 'arrowDown', 's' ].includes( key ) ? -this.sortStep :
            [ 'arrowRight', 'd', 'arrowUp', 'w' ].includes( key ) ? this.sortStep :
+           [ 'shift+arrowLeft', 'shift+a', 'shift+arrowDown', 'shift+s' ].includes( key ) ? -this.shiftSortStep :
+           [ 'shift+arrowRight', 'shift+d', 'shift+arrowUp', 'shift+w' ].includes( key ) ? this.shiftSortStep :
            null;
   }
 
