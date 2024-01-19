@@ -112,8 +112,7 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
 
     this.getValueProperty = options.getValueProperty;
 
-    // TODO: Turn this on! But we can't until reorganizeStack respects the selection first. https://github.com/phetsims/scenery-phet/issues/815
-    // TODO: New issue for the above please in soccer-common, https://github.com/phetsims/scenery-phet/issues/815
+    // TODO: Turn this on! But we can't until reorganizeStack respects the selection first. https://github.com/phetsims/soccer-common/issues/7
     // assert && this.selectedGroupItemProperty.lazyLink( () => {
     //   assert && assert( !this.isGroupItemKeyboardGrabbedProperty.value, 'should not change selection when sorting' );
     // } );
