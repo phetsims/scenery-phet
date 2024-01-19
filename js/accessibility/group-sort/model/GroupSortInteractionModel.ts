@@ -87,9 +87,9 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
   // Whether a group item has been sorted with keyboard input.
   public readonly hasKeyboardSortedGroupItemProperty = new BooleanProperty( false );
 
-  // Whether the user has changed the selected group item with the keyboard controls
-  // TODO: MS!!! Is this used? https://github.com/phetsims/scenery-phet/issues/815
-  public readonly hasKeyboardSelectedDifferentGroupItemProperty = new BooleanProperty( false );
+  // Whether the user has changed the selected group item with the keyboard controls. Note, this will not be true until
+  // the selection changes from the default upon focus.
+  public readonly hasKeyboardSelectedGroupItemProperty = new BooleanProperty( false );
 
   // Whether the mouse/touch sort icon cue is currently showing on the group item area
   public readonly mouseSortCueVisibleProperty: Property<boolean>;
@@ -162,7 +162,7 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
 
     this.hasGroupItemBeenSortedProperty.reset();
     this.hasKeyboardGrabbedGroupItemProperty.reset();
-    this.hasKeyboardSelectedDifferentGroupItemProperty.reset();
+    this.hasKeyboardSelectedGroupItemProperty.reset();
     this.hasKeyboardSortedGroupItemProperty.reset();
     this.mouseSortCueVisibleProperty.reset();
   }
@@ -195,7 +195,7 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
     this.isKeyboardFocusedProperty.dispose();
     this.hasKeyboardGrabbedGroupItemProperty.dispose();
     this.hasKeyboardSortedGroupItemProperty.dispose();
-    this.hasKeyboardSelectedDifferentGroupItemProperty.dispose();
+    this.hasKeyboardSelectedGroupItemProperty.dispose();
     this.mouseSortCueVisibleProperty.dispose();
     this.hasGroupItemBeenSortedProperty.dispose();
     super.dispose();

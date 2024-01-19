@@ -262,7 +262,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
             //   version for selection), https://github.com/phetsims/scenery-phet/issues/815
             const unclampedDelta = this.getDeltaForKey( keysPressed );
             if ( unclampedDelta !== null ) {
-              this.groupSortInteractionModel.hasKeyboardSelectedDifferentGroupItemProperty.value = true;
+              this.groupSortInteractionModel.hasKeyboardSelectedGroupItemProperty.value = true;
 
               const clampedDelta = this.sortingRange.clampDelta( oldValue, unclampedDelta );
               selectedGroupItemProperty.value = options.getNextSelectedGroupItem( clampedDelta );
