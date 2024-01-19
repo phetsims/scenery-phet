@@ -63,8 +63,7 @@ type SelfOptions<ItemModel, ItemNode extends Node> = {
   // The value-change delta step size when selecting/sorting the group items. This basic step is applied when using arrow keys or WASD
   sortStep?: number;
   pageSortStep?: number;
-
-  // TODO: Design!! Add this? https://github.com/phetsims/scenery-phet/issues/815
+  // TODO: MK!! Add this. https://github.com/phetsims/scenery-phet/issues/815
   // shiftSortStep?: number;
 };
 
@@ -158,16 +157,16 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
         isGroupItemKeyboardGrabbedProperty.value = false;
         isKeyboardFocusedProperty.value = false;
       },
-
-      // TODO: this isn't part of InteractiveCardContainer? https://github.com/phetsims/scenery-phet/issues/815
       over: () => {
-        // TODO: MS!!!! this is awkward. In this situation:
+        // TODO: MK! Review this one. In this situation:
         //     1. tab to populated node, the keyboard grab cue is shown.
         //     2. Move the mouse over a group item, the keyboard grab cue goes away.
         //     3. Press an arrow key to change focus to another in the group, the keyboard grab cue does not show up.
         //        I bet it still thinks that isKeyboardFocusedProperty is false (!!!!)
         //     4. It is even worse than the above now that we got rid of sortIndicatorValue, because this triggers a change in selection in CAVGroupSortInteractionModel
         //     https://github.com/phetsims/scenery-phet/issues/815
+        // When you mouse over while focused, the highlights are hidden, and so update the state (even though we are
+        // still technically keyboard focused). This will assist in showing the mouse cue, https://github.com/phetsims/center-and-variability/issues/406
         isKeyboardFocusedProperty.value = false;
       }
     };
@@ -229,7 +228,6 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
     } );
 
     // TODO: DESIGN!!! adding a modifier key means the arrow keys don't work. https://github.com/phetsims/scenery-phet/issues/815
-    // TODO: DESIGN!!! should we add a "shift+arrow keys" for a larger or smaller step size than the default? https://github.com/phetsims/scenery-phet/issues/815
     const deltaKeyboardListener = new KeyboardListener( {
       fireOnHold: true,
       keys: [ 'd', 'arrowRight', 'a', 'arrowLeft', 'arrowUp', 'arrowDown', 'w', 's', 'home', 'end', 'pageUp', 'pageDown' ],
@@ -256,10 +254,6 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
           }
           else {
             // Selecting an item
-
-            // TODO: DESIGN!!! This changes the behavior because now the WASD, page up/page down keys work
-            //   for the selection too - they don't on published version (Note that home and end DO work on published
-            //   version for selection), https://github.com/phetsims/scenery-phet/issues/815
             const unclampedDelta = this.getDeltaForKey( keysPressed );
             if ( unclampedDelta !== null ) {
               this.groupSortInteractionModel.hasKeyboardSelectedGroupItemProperty.value = true;
