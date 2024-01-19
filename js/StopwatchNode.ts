@@ -402,7 +402,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
    *   ...
    * } ),
    * numberFormatterDependencies: [
-   *   SceneryPhetStrings.stopwatchValueUnitsPatternStringProperty, // used by StopwatchNode.createRichTextNumberFormatter
+   *   SceneryPhetStrings.stopwatchValueUnitsPatternStringProperty,
    *   unitsProperty
    * ],
    */
