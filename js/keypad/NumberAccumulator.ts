@@ -83,7 +83,7 @@ class NumberAccumulator extends AbstractKeyAccumulator {
     }, {
       tandem: options.tandem.createTandem( 'valueProperty' ),
       phetioValueType: NullableIO( NumberIO ),
-      strictAxonDependencies: false //TODO https://github.com/phetsims/scenery-phet/issues/831
+      strictAxonDependencies: false //TODO https://github.com/phetsims/axon/issues/441
     } );
   }
 
