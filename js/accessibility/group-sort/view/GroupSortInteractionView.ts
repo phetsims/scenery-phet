@@ -29,8 +29,8 @@ import TProperty from '../../../../../axon/js/TProperty.js';
 
 type SelfOptions<ItemModel, ItemNode extends Node> = {
 
-  // Given the delta (difference from currentValue to new value), return the corresponding group item model to be active.
-  getNextSelectedGroupItem: ( delta: number ) => ItemModel;
+  // Given the delta (difference from currentValue to new value), return the corresponding next group item model to be selected.
+  getNextSelectedGroupItem: ( delta: number, currentlySelectedGroupItem: ItemModel ) => ItemModel;
 
   // Called on the focus() event (the start of the interaction), determine the best choice for the item to first select.
   // Only called if selectedGroupItemProperty is null (no selection already).
@@ -266,7 +266,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
               this.groupSortInteractionModel.hasKeyboardSelectedGroupItemProperty.value = true;
 
               const clampedDelta = this.sortingRange.clampDelta( oldValue, unclampedDelta );
-              selectedGroupItemProperty.value = options.getNextSelectedGroupItem( clampedDelta );
+              selectedGroupItemProperty.value = options.getNextSelectedGroupItem( clampedDelta, groupItem );
             }
           }
           this.onGroupItemChange( groupItem );
