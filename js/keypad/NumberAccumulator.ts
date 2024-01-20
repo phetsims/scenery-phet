@@ -79,11 +79,15 @@ class NumberAccumulator extends AbstractKeyAccumulator {
     } );
 
     this.valueProperty = new DerivedProperty(
+
+      // Use the accumulated keys rather than the string as a dependency since it avoids issues with dependencies,
+      // see https://github.com/phetsims/scenery-phet/issues/833.
       [ this.accumulatedKeysProperty ],
       accumulatedKeys => {
         const stringValue = this.keysToString( accumulatedKeys );
         return this.stringToInteger( stringValue );
-      }, {
+      },
+      {
         tandem: options.tandem.createTandem( 'valueProperty' ),
         phetioValueType: NullableIO( NumberIO )
       }
