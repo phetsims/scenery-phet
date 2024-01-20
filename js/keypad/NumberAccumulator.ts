@@ -79,12 +79,15 @@ class NumberAccumulator extends AbstractKeyAccumulator {
     } );
 
     this.valueProperty = new DerivedProperty(
-      // this.accumulatedKeysProperty is used by this.stringToInteger
-      [ this.stringProperty, this.accumulatedKeysProperty ],
-      ( stringValue, accumulatedKeys ) => this.stringToInteger( stringValue ), {
+      [ this.accumulatedKeysProperty ],
+      accumulatedKeys => {
+        const stringValue = this.keysToString( accumulatedKeys );
+        return this.stringToInteger( stringValue );
+      }, {
         tandem: options.tandem.createTandem( 'valueProperty' ),
         phetioValueType: NullableIO( NumberIO )
-      } );
+      }
+    );
   }
 
   /**
