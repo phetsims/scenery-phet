@@ -34,7 +34,7 @@
  * - Set up well for one model per screen to be used with one view per scene.
  * - use GroupSortInteractionView.groupFocusHighlightPath.shape to set the group highlight dynamically
  * - use positionSortCueNodeEmitter to update the position of the sort cue.
- * - use enabledProperty to control if sorting is enabled. Note that focus and selection are always available (for keyboard tab order consistency) // TODO: DESIGN! Right? https://github.com/phetsims/scenery-phet/issues/815
+ * - use enabledProperty to control if sorting is enabled. Note that focus and selection are always available (for keyboard tab order consistency)
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  * @author Marla Schulz (PhET Interactive Simulations)
@@ -92,6 +92,12 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
   public readonly hasKeyboardSelectedGroupItemProperty = new BooleanProperty( false );
 
   // Whether the mouse/touch sort icon cue is currently showing on the group item area
+  // TODO: MS and JB! Does this make sense to live inside of GroupSortInteractionModel? https://github.com/phetsims/mean-share-and-balance/issues/141
+  //       Questions:
+  //                  1. Do we wish this was a DerivedProperty somehow?
+  //                  2. We need to update this value based on sim logic AND hard coded group sort logic (like https://github.com/phetsims/center-and-variability/blob/9f7cb63a4538b8bf6fae80ea4f04b0add9528a30/js/median/model/InteractiveCardContainerModel.ts#L109-L110)
+  //                  3. We need to manually call registerUpdateSortIndicatorNode() in addition to any other spots that update the mouse sort cue.
+  //                  4. Noting here that we don't have any code in group sort about creating the mouse cue Node itself (just to visibleProperty)
   public readonly mouseSortCueVisibleProperty: Property<boolean>;
 
   // Whether any group item has ever been sorted to a new value, even if not by the group sort interaction. For best results,
@@ -171,7 +177,8 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
     this.selectedGroupItemProperty.value = null;
   }
 
-  // Register your closure responsible for updating the sort-indicator node.
+  // Register your closure responsible for updating the sort-indicator node. This should be called with a callback that
+  // updates mouseSortCueVisibleProperty() and maybe does other things.
   // TODO: what else may want to trigger mouse sort cue update? https://github.com/phetsims/scenery-phet/issues/815
   public registerUpdateSortIndicatorNode( updateSortIndicatorNode: () => void ): void {
     this.mouseSortCueVisibleProperty.link( updateSortIndicatorNode );
