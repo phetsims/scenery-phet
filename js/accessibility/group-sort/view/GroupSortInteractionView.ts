@@ -41,6 +41,10 @@ type SelfOptions<ItemModel, ItemNode extends Node> = {
   // return null, it means that the provided itemModel is not associated with this view, and shouldn't be handled.
   getNodeFromModelItem: ( model: ItemModel ) => ItemNode | null;
 
+  // Given a model item, return the corresponding focus highlight node. Defaults to the implementation of getNodeFromModelItem.
+  // Return null if no highlight should be shown for the selection (not recommended).
+  getHighlightNodeFromModelItem?: ( model: ItemModel ) => Node | null;
+
   // The available range for storing. This is the acceptable range for the valueProperty of ItemModel (see getValueProperty()).
   sortingRange: Range;
 
@@ -121,6 +125,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
       sortGroupItem: ( groupItem, newValue ) => {
         this.getValueProperty( groupItem ).value = newValue;
       },
+      getHighlightNodeFromModelItem: providedOptions.getNodeFromModelItem,
       grabReleaseCueOptions: {}
     }, providedOptions );
 
@@ -196,9 +201,8 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
       ( selectedGroupItem, isGroupItemGrabbed ) => {
         let focusHighlightSet = false;
         if ( selectedGroupItem ) {
-          const node = options.getNodeFromModelItem( selectedGroupItem );
+          const node = options.getHighlightNodeFromModelItem( selectedGroupItem );
           if ( node ) {
-            // TODO: we don't want the node here, but an encapsulation to get the node for the Highlight. https://github.com/phetsims/center-and-variability/issues/605
             const focusForSelectedGroupItem = new HighlightFromNode( node, { dashed: isGroupItemGrabbed } );
 
             // If available, set to the focused selection for this scene.
