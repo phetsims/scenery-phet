@@ -46,7 +46,7 @@ type SelfOptions<ItemModel, ItemNode extends Node> = {
   getHighlightNodeFromModelItem?: ( model: ItemModel ) => Node | null;
 
   // The available range for storing. This is the acceptable range for the valueProperty of ItemModel (see getValueProperty()).
-  sortingRange: Range;
+  sortingRangeProperty: TReadOnlyProperty<Range>;
 
   // Do the sort operation, allowing for custom actions, defaults to just updating the valueProperty of the selected
   // group item to the new value.
@@ -101,7 +101,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
   private readonly getNodeFromModelItem: ( model: ItemModel ) => ItemNode | null;
   private readonly sortGroupItem: ( groupItem: ItemModel, newValue: number ) => void;
   private readonly onSort: ( groupItem: ItemModel, oldValue: number ) => void;
-  private readonly sortingRange: Range;
+  private readonly sortingRangeProperty: TReadOnlyProperty<Range>;
   private readonly sortStep: number;
   private readonly shiftSortStep: number;
   private readonly pageSortStep: number;
@@ -121,7 +121,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
       onRelease: _.noop,
       sortStep: 1,
       shiftSortStep: 2,
-      pageSortStep: Math.ceil( providedOptions.sortingRange.getLength() / 5 ),
+      pageSortStep: Math.ceil( providedOptions.sortingRangeProperty.value.getLength() / 5 ),
       sortGroupItem: ( groupItem, newValue ) => {
         this.getValueProperty( groupItem ).value = newValue;
       },
@@ -134,7 +134,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
     this.getNodeFromModelItem = options.getNodeFromModelItem;
     this.sortGroupItem = options.sortGroupItem;
     this.onSort = options.onSort;
-    this.sortingRange = options.sortingRange;
+    this.sortingRangeProperty = options.sortingRangeProperty;
     this.sortStep = options.sortStep;
     this.shiftSortStep = options.shiftSortStep;
     this.pageSortStep = options.pageSortStep;
@@ -280,7 +280,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
             if ( unclampedDelta !== null ) {
               this.groupSortInteractionModel.hasKeyboardSelectedGroupItemProperty.value = true;
 
-              const clampedDelta = this.sortingRange.clampDelta( oldValue, unclampedDelta );
+              const clampedDelta = this.sortingRangeProperty.value.clampDelta( oldValue, unclampedDelta );
               selectedGroupItemProperty.value = options.getNextSelectedGroupItem( clampedDelta, groupItem );
             }
           }
@@ -365,7 +365,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
   private onSortedValue( groupItem: ItemModel, value: number, oldValue: number ): void {
     assert && assert( value !== null, 'We should have a value for the group item by the end of the listener.' );
 
-    this.sortGroupItem( groupItem, this.sortingRange.constrainValue( value ) );
+    this.sortGroupItem( groupItem, this.sortingRangeProperty.value.constrainValue( value ) );
     this.onSort( groupItem, oldValue );
     this.groupSortInteractionModel.hasKeyboardSortedGroupItemProperty.value = true;
     this.groupSortInteractionModel.hasGroupItemBeenSortedProperty.value = true;
@@ -376,7 +376,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
    * please constrain value from range or provide your own defensive measures to this delta.
    */
   private getDeltaForKey( key: string ): number | null {
-    const fullRange = this.sortingRange.getLength();
+    const fullRange = this.sortingRangeProperty.value.getLength();
     return key === 'home' ? -fullRange :
            key === 'end' ? fullRange :
            key === 'pageDown' ? -this.pageSortStep :
