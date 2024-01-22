@@ -13,7 +13,7 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import { animatedPanZoomSingleton, HighlightFromNode, HighlightPath, KeyboardListener, Node } from '../../../../../scenery/js/imports.js';
+import { animatedPanZoomSingleton, HighlightFromNode, HighlightPath, KeyboardListener, Node, Path } from '../../../../../scenery/js/imports.js';
 import sceneryPhet from '../../../sceneryPhet.js';
 import Range from '../../../../../dot/js/Range.js';
 import Multilink from '../../../../../axon/js/Multilink.js';
@@ -26,6 +26,7 @@ import SortCueArrowNode from './SortCueArrowNode.js';
 import Disposable, { DisposableOptions } from '../../../../../axon/js/Disposable.js';
 import GrabReleaseCueNode, { GrabReleaseCueNodeOptions } from '../../nodes/GrabReleaseCueNode.js';
 import TProperty from '../../../../../axon/js/TProperty.js';
+import StrictOmit from '../../../../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions<ItemModel, ItemNode extends Node> = {
 
@@ -66,6 +67,10 @@ type SelfOptions<ItemModel, ItemNode extends Node> = {
   sortStep?: number;
   pageSortStep?: number;
   shiftSortStep?: number;
+
+  // To be passed to the grab/release cue node (which is added to the group focus highlight). The visibleProperty is
+  // always GroupSortInteractionModel.grabReleaseCueVisibleProperty
+  grabReleaseCueOptions?: Partial<StrictOmit<GrabReleaseCueNodeOptions, 'visibleProperty'>>;
 };
 
 const sortingKeys = [
@@ -81,7 +86,10 @@ export type GroupSortInteractionViewOptions<ItemModel, ItemNode extends Node> = 
 export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> extends Disposable {
 
   // Update group highlight dynamically by setting the `shape` of this path.
-  public readonly groupFocusHighlightPath: HighlightPath;
+  public readonly groupSortGroupFocusHighlightPath: Path;
+
+  // The cue node for grab/release.
+  public readonly grabReleaseCueNode: Node;
 
   // Emitted when the sorting cue should be repositioned. Most likely because the selection has changed.
   public readonly positionSortCueNodeEmitter = new Emitter();
@@ -112,7 +120,8 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
       pageSortStep: Math.ceil( providedOptions.sortingRange.getLength() / 5 ),
       sortGroupItem: ( groupItem, newValue ) => {
         this.getValueProperty( groupItem ).value = newValue;
-      }
+      },
+      grabReleaseCueOptions: {}
     }, providedOptions );
 
     super( options );
@@ -307,13 +316,19 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
     const defaultGroupShape = primaryFocusedNode.visibleBounds.isFinite() ? Shape.bounds( primaryFocusedNode.visibleBounds ) : null;
 
     // Set the outer group focus highlight to surround the entire area where group items are located.
-    this.groupFocusHighlightPath = new HighlightPath( defaultGroupShape, {
+    this.groupSortGroupFocusHighlightPath = new HighlightPath( defaultGroupShape, {
       outerStroke: HighlightPath.OUTER_LIGHT_GROUP_FOCUS_COLOR,
       innerStroke: HighlightPath.INNER_LIGHT_GROUP_FOCUS_COLOR,
       outerLineWidth: HighlightPath.GROUP_OUTER_LINE_WIDTH,
       innerLineWidth: HighlightPath.GROUP_INNER_LINE_WIDTH
     } );
-    primaryFocusedNode.setGroupFocusHighlight( this.groupFocusHighlightPath );
+
+    this.grabReleaseCueNode = new GrabReleaseCueNode( combineOptions<GrabReleaseCueNodeOptions>( {
+      visibleProperty: this.groupSortInteractionModel.grabReleaseCueVisibleProperty
+    }, options.grabReleaseCueOptions ) );
+    this.groupSortGroupFocusHighlightPath.addChild( this.grabReleaseCueNode );
+
+    primaryFocusedNode.setGroupFocusHighlight( this.groupSortGroupFocusHighlightPath );
     primaryFocusedNode.addInputListener( focusListener );
     primaryFocusedNode.addInputListener( grabReleaseKeyboardListener );
     primaryFocusedNode.addInputListener( deltaKeyboardListener );
@@ -370,16 +385,10 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
   }
 
   public override dispose(): void {
-    this.groupFocusHighlightPath.dispose();
+    this.groupSortGroupFocusHighlightPath.dispose();
+    this.grabReleaseCueNode.dispose();
     this.positionSortCueNodeEmitter.dispose();
     super.dispose();
-  }
-
-  // Required visibleProperty so you don't forget to wire it up with GroupSortInteractionModel
-  public static createGrabReleaseCueNode( visibleProperty: TReadOnlyProperty<boolean>, providedOptions?: GrabReleaseCueNodeOptions ): Node {
-    return new GrabReleaseCueNode( combineOptions<GrabReleaseCueNodeOptions>( {
-      visibleProperty: visibleProperty
-    }, providedOptions ) );
   }
 
   /**

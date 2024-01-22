@@ -19,7 +19,8 @@
  * such that hint cues don't need to be displayed anymore.
  *
  * In general, there is just one instance of this per model, and not per scene. This is because if someone can
- * successfully grab and sort in one scene, then that data should transfer to the next scene.
+ * successfully grab and sort in one scene, then that learned understanding about the interaction should transfer to
+ * the next scene.
  *
  * This implementation relies on the model elements to be sorted to have a valueProperty that gets the value set to it.
  *
@@ -27,12 +28,12 @@
  * - use with GroupSortInteractionView
  * - reset selectedGroupItemProperty with a sim-specific heuristic when the underlying model needs to update the best
  *     first selection. (Also see GroupSortInteractionView.getGroupItemToSelect for a hook to apply this on group focus).
- * - Handle your own GrabReleaseCueNode (grabReleaseCueVisibleProperty as its visibleProperty)
+ * - the grab/release cue is created for you, and can be repositioned by accessing from your GroupSortInteractionView instance.
  * - Handle your own "sort indicator cue node" (see registerUpdateSortCueNode())
  * - hasGroupItemBeenSortedProperty set to true also on mouse/touch sorting interactions.
  * - mouseSortCueVisibleProperty should be set by client, taking into consideration: `!this.hasGroupItemBeenSortedProperty.value && !this.isKeyboardFocusedProperty.value`
  * - Set up well for one model per screen to be used with one view per scene.
- * - use GroupSortInteractionView.groupFocusHighlightPath.shape to set the group highlight dynamically
+ * - use GroupSortInteractionView.groupSortGroupFocusHighlightPath.shape to set the group highlight dynamically
  * - use positionSortCueNodeEmitter to update the position of the sort cue.
  * - use enabledProperty to control if sorting is enabled. Note that focus and selection are always available (for keyboard tab order consistency)
  *
