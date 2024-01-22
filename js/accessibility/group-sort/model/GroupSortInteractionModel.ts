@@ -28,7 +28,7 @@
  * - reset selectedGroupItemProperty with a sim-specific heuristic when the underlying model needs to update the best
  *     first selection. (Also see GroupSortInteractionView.getGroupItemToSelect for a hook to apply this on group focus).
  * - Handle your own GrabReleaseCueNode (grabReleaseCueVisibleProperty as its visibleProperty)
- * - Handle your own "sort indicator cue node" (see registerUpdateSortIndicatorNode())
+ * - Handle your own "sort indicator cue node" (see registerUpdateSortCueNode())
  * - hasGroupItemBeenSortedProperty set to true also on mouse/touch sorting interactions.
  * - mouseSortCueVisibleProperty should be set by client, taking into consideration: `!this.hasGroupItemBeenSortedProperty.value && !this.isKeyboardFocusedProperty.value`
  * - Set up well for one model per screen to be used with one view per scene.
@@ -96,18 +96,19 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
   //       Questions:
   //                  1. Do we wish this was a DerivedProperty somehow?
   //                  2. We need to update this value based on sim logic AND hard coded group sort logic (like https://github.com/phetsims/center-and-variability/blob/9f7cb63a4538b8bf6fae80ea4f04b0add9528a30/js/median/model/InteractiveCardContainerModel.ts#L109-L110)
-  //                  3. We need to manually call registerUpdateSortIndicatorNode() in addition to any other spots that update the mouse sort cue.
+  //                  3. We need to manually call registerUpdateSortCueNode() in addition to any other spots that update the mouse sort cue.
   //                  4. Noting here that we don't have any code in group sort about creating the mouse cue Node itself (just to visibleProperty)
   public readonly mouseSortCueVisibleProperty: Property<boolean>;
 
-  // Whether any group item has ever been sorted to a new value, even if not by the group sort interaction. For best results,
-  // set this to true from other interactions too (like mouse/touch).
-  // TODO: DESIGN?!?!? this should be derived, and a new Property for just mouse created. Basically how important is
-  //        it to have a mouse drag indicator after successful keyboard sort (but no successful mouse) https://github.com/phetsims/scenery-phet/issues/815
+  // Whether any group item has yet been sorted to a new value, even if not by the "group sort" interaction. For
+  // best results, set this to true from other interactions too (like mouse/touch). This Property should be used to
+  // control the mouseSortCueVisibleProperty. The mouse sort cue does not need to be shown if a keyboard sort has
+  // occurred (because now the user knows that the group items are sortable). Thus, we don't need a Property to keep
+  // track of if we have sorted ONLY from mouse input.
   public readonly hasGroupItemBeenSortedProperty: Property<boolean>;
+
   public readonly getValueProperty: ( itemModel: ItemModel ) => TProperty<number | null>;
 
-  // TODO: DESIGN!!! if disabled, should we be able to change selection in group (without grabbing one). https://github.com/phetsims/scenery-phet/issues/815
   public constructor( providedOptions?: GroupSortInteractionModelOptions<ItemModel> ) {
 
     const options = optionize<GroupSortInteractionModelOptions<ItemModel>, SelfOptions<ItemModel>, ParentOptions>()( {
@@ -179,8 +180,7 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
 
   // Register your closure responsible for updating the sort-indicator node. This should be called with a callback that
   // updates mouseSortCueVisibleProperty() and maybe does other things.
-  // TODO: what else may want to trigger mouse sort cue update? https://github.com/phetsims/scenery-phet/issues/815
-  public registerUpdateSortIndicatorNode( updateSortIndicatorNode: () => void ): void {
+  public registerUpdateSortCueNode( updateSortIndicatorNode: () => void ): void {
     this.mouseSortCueVisibleProperty.link( updateSortIndicatorNode );
     this.selectedGroupItemProperty.link( updateSortIndicatorNode );
     this.hasGroupItemBeenSortedProperty.link( updateSortIndicatorNode );
