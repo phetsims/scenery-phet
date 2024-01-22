@@ -47,7 +47,9 @@ type SelfOptions<ItemModel, ItemNode extends Node> = {
   // group item to the new value.
   sortGroupItem?: ( groupItem: ItemModel, newValue: number ) => void;
 
-  // Called when a group item is sorted. Note that this may not have changed its value.
+  // Called when a group item is sorted. Note that sorting may not have changed its value (like if at the boundary
+  // trying to move past the range).
+  // TODO: TS! Sound emitted even when the value didn't change (precedent: RAP/CAV: sound without change, GLF/WI(slider): sound only on change,   // TODO: TS! Sound emitted even when the value didn't change (precendent: RAP/CAV: sound without change, GLF/WI(slider): sound only on change) https://github.com/phetsims/scenery-phet/issues/815
   onSort?: ( groupItem: ItemModel, oldValue: number ) => void;
 
   // When the selected group item is grabbed (into "sorting" mode).
@@ -234,7 +236,6 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
       }
     } );
 
-    // TODO: DESIGN!!! adding a modifier key means the arrow keys don't work. https://github.com/phetsims/scenery-phet/issues/815
     const deltaKeyboardListener = new KeyboardListener( {
       fireOnHold: true,
       keys: sortingKeys,
@@ -345,8 +346,6 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
     assert && assert( value !== null, 'We should have a value for the group item by the end of the listener.' );
 
     this.sortGroupItem( groupItem, this.sortingRange.constrainValue( value ) );
-
-    // TODO: DESIGN!!! fire this even if the value didn't change? Yes likely, for the sound https://github.com/phetsims/scenery-phet/issues/815
     this.onSort( groupItem, oldValue );
     this.groupSortInteractionModel.hasKeyboardSortedGroupItemProperty.value = true;
     this.groupSortInteractionModel.hasGroupItemBeenSortedProperty.value = true;
