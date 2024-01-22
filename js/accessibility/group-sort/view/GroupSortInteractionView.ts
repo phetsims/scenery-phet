@@ -33,8 +33,8 @@ type SelfOptions<ItemModel, ItemNode extends Node> = {
   // Given the delta (difference from currentValue to new value), return the corresponding next group item model to be selected.
   getNextSelectedGroupItem: ( delta: number, currentlySelectedGroupItem: ItemModel ) => ItemModel;
 
-  // Called on the focus() event (the start of the interaction), determine the best choice for the item to first select.
-  // Only called if selectedGroupItemProperty is null (no selection already).
+  // If GroupSort doesn't know what the selection should be, this function is called to set the default or best guess.
+  // Return null to not supply a selection (no focus).
   getGroupItemToSelect: ( () => ItemModel | null );
 
   // Given a model item, return the corresponding node. Support 'null' as a way to support multiple scenes. If you
@@ -156,8 +156,21 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
       }
     };
     isGroupItemKeyboardGrabbedProperty.lazyLink( grabbedPropertyListener );
+
+    // If the new range doesn't include the current selection, reset back to the default heuristic.
+    const rangeListener = ( newRange: Range ) => {
+      const selectedGroupItem = this.groupSortInteractionModel.selectedGroupItemProperty.value;
+      if ( selectedGroupItem ) {
+        const currentValue = this.groupSortInteractionModel.getValueProperty( selectedGroupItem ).value;
+        if ( currentValue && !newRange.contains( currentValue ) ) {
+          this.groupSortInteractionModel.selectedGroupItemProperty.value = options.getGroupItemToSelect();
+        }
+      }
+    };
+    options.sortingRangeProperty.lazyLink( rangeListener );
     this.disposeEmitter.addListener( () => {
       isGroupItemKeyboardGrabbedProperty.unlink( grabbedPropertyListener );
+      options.sortingRangeProperty.unlink( rangeListener );
     } );
 
     const focusListener = {
