@@ -189,6 +189,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
         if ( selectedGroupItem ) {
           const node = options.getNodeFromModelItem( selectedGroupItem );
           if ( node ) {
+            // TODO: we don't want the node here, but an encapsulation to get the node for the Highlight. https://github.com/phetsims/center-and-variability/issues/605
             const focusForSelectedGroupItem = new HighlightFromNode( node, { dashed: isGroupItemGrabbed } );
 
             // If available, set to the focused selection for this scene.
