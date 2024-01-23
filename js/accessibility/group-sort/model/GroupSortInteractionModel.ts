@@ -36,6 +36,7 @@
  * - use GroupSortInteractionView.groupSortGroupFocusHighlightPath.shape to set the group highlight dynamically
  * - use positionSortCueNodeEmitter to update the position of the sort cue.
  * - use enabledProperty to control if sorting is enabled. Note that focus and selection are always available (for keyboard tab order consistency)
+ * - Note that if GroupSortInteractionModel is PhET-iO instrumented, ItemModel must be a PhetioObject
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  * @author Marla Schulz (PhET Interactive Simulations)
@@ -48,9 +49,12 @@ import Tandem from '../../../../../tandem/js/Tandem.js';
 import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import BooleanProperty from '../../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
-import { PhetioObjectOptions } from '../../../../../tandem/js/PhetioObject.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../../tandem/js/PhetioObject.js';
 import TProperty from '../../../../../axon/js/TProperty.js';
 import EnabledComponent, { EnabledComponentOptions } from '../../../../../axon/js/EnabledComponent.js';
+import IOType from '../../../../../tandem/js/types/IOType.js';
+import ReferenceIO from '../../../../../tandem/js/types/ReferenceIO.js';
+import NullableIO from '../../../../../tandem/js/types/NullableIO.js';
 
 type SelfOptions<ItemModel> = {
   getValueProperty: ( itemModel: ItemModel ) => TProperty<number | null>;
@@ -65,9 +69,7 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
   // The group item that is the selected/focused/sorted. If null, then there is nothing to sort (no items?), and the
   // interaction will no-op. Feel free to dynamically change this value to update the realtime selection of the
   // group sort interaction.
-  public readonly selectedGroupItemProperty = new Property<ItemModel | null>( null, {
-    isValidValue: x => !!x || x === null
-  } );
+  public readonly selectedGroupItemProperty: Property<ItemModel | null>;
 
   // Whether a group item is being grabbed via keyboard interaction. When true, the focus highlight will display as
   // dashed instead of solid.
@@ -119,16 +121,29 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
     super( options );
 
     this.getValueProperty = options.getValueProperty;
+    this.selectedGroupItemProperty = new Property<ItemModel | null>( null, {
+      isValidValue: x => !!x || x === null,
+      tandem: options.tandem.createTandem( 'selectedGroupItemProperty' ),
+      phetioValueType: NullableIO( ReferenceIO( IOType.ObjectIO ) ),
+      phetioDocumentation: 'Tracks the current selection for the interaction. Null means there is no selection.'
+    } );
 
-    // TODO: Turn this on! But we can't until reorganizeStack respects the selection first. https://github.com/phetsims/soccer-common/issues/7
-    // assert && this.selectedGroupItemProperty.lazyLink( () => {
-    //   assert && assert( !this.isGroupItemKeyboardGrabbedProperty.value, 'should not change selection when sorting' );
-    // } );
+    assert && this.selectedGroupItemProperty.lazyLink( selectedGroupItem => {
+      // TODO: Turn this on! But we can't until reorganizeStack respects the selection first. https://github.com/phetsims/soccer-common/issues/7
+      // assert && assert( !this.isGroupItemKeyboardGrabbedProperty.value, 'should not change selection when sorting' );
+
+      // If we are PhET-iO instrumented, so should the selection.
+      if ( Tandem.VALIDATION && selectedGroupItem && options.tandem.supplied ) {
+        assert && assert( selectedGroupItem instanceof PhetioObject && selectedGroupItem.isPhetioInstrumented(),
+          'instrumented GroupSortInteractionModels require its group items to be instrumented.' );
+      }
+    } );
 
     // TODO: PhET-iO DESIGN! Redo the PhET-iO Design, (including "ball" documentation) https://github.com/phetsims/scenery-phet/issues/835
     this.hasGroupItemBeenSortedProperty = new BooleanProperty( false, {
       tandem: options.tandem.createTandem( 'hasGroupItemBeenSortedProperty' ),
-      phetioFeatured: false
+      phetioFeatured: false,
+      phetioDocumentation: 'If any sorting has been done in this interaction. This controls is the cue Nodes for sorting are displayed.'
     } );
 
     this.mouseSortCueVisibleProperty = new BooleanProperty( false, {
