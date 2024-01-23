@@ -125,7 +125,7 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
     //   assert && assert( !this.isGroupItemKeyboardGrabbedProperty.value, 'should not change selection when sorting' );
     // } );
 
-    // TODO: PhET-iO DESIGN! Redo the PhET-iO Design, (including "ball" documentation) https://github.com/phetsims/scenery-phet/issues/815
+    // TODO: PhET-iO DESIGN! Redo the PhET-iO Design, (including "ball" documentation) https://github.com/phetsims/scenery-phet/issues/835
     this.hasGroupItemBeenSortedProperty = new BooleanProperty( false, {
       tandem: options.tandem.createTandem( 'hasGroupItemBeenSortedProperty' ),
       phetioFeatured: false
