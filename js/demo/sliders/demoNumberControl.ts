@@ -14,6 +14,7 @@ import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import { HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
+import Orientation from '../../../../phet-core/js/Orientation.js';
 
 export default function demoNumberControl( layoutBounds: Bounds2 ): Node {
 
@@ -75,13 +76,42 @@ export default function demoNumberControl( layoutBounds: Bounds2 ): Node {
       }
     }, numberControlOptions ) );
 
+  const verticalNumberControl = new NumberControl( 'Weight', weightProperty, weightRange,
+    combineOptions<NumberControlOptions>( {
+      sliderOptions: {
+        orientation: Orientation.VERTICAL
+      },
+      layoutFunction: ( titleNode, numberDisplay, slider, leftArrowButton, rightArrowButton ) => {
+        assert && assert( leftArrowButton && rightArrowButton );
+        return new VBox( {
+          spacing: 8,
+          resize: false,
+          align: 'center',
+          children: [
+            titleNode,
+            new HBox( {
+              children: [ leftArrowButton!, numberDisplay, rightArrowButton! ],
+              spacing: 4
+            } ),
+            slider
+          ]
+        } );
+      }
+    }, numberControlOptions ) );
+
   // Checkbox that will disable all NumberControls
   const enabledCheckbox = new Checkbox( enabledProperty, new Text( 'enabled', { font: new PhetFont( 20 ) } ) );
 
-  return new VBox( {
+  const vBox = new VBox( {
     spacing: 30,
     resize: false, // prevent sliders from causing a resize when thumb is at min or max
-    children: [ numberControl1, numberControl2, numberControl3, numberControl4, enabledCheckbox ],
+    children: [ numberControl1, numberControl2, numberControl3, numberControl4, enabledCheckbox ]
+  } );
+
+  return new HBox( {
+    spacing: 30,
+    resize: false,
+    children: [ verticalNumberControl, vBox ],
     center: layoutBounds.center
   } );
 }

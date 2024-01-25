@@ -1,11 +1,11 @@
 // Copyright 2015-2024, University of Colorado Boulder
 
 /**
- * Control for changing a Property of type {number}.
- * Consists of a labeled value, slider and arrow buttons.
+ * NumberControl is a control for changing a Property<number>, with flexible layout. It consists of a labeled value,
+ * slider, and arrow buttons.
  *
- * Number Control provides accessible content exclusively through the slider, please pass accessibility related
- * customizations through options to the slider.
+ * NumberControl provides accessible content exclusively through the Slider. Please pass accessibility related
+ * customizations to the Slider through options.sliderOptions.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -33,6 +33,7 @@ import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import PhetioProperty from '../../axon/js/PhetioProperty.js';
+import Orientation from '../../phet-core/js/Orientation.js';
 
 // constants
 const SPECIFIC_COMPONENT_CALLBACK_OPTIONS = [
@@ -46,6 +47,9 @@ const SPECIFIC_COMPONENT_CALLBACK_OPTIONS = [
 
 // This is a marker to indicate that we should create the actual default sound player.
 const DEFAULT_SOUND = new ValueChangeSoundPlayer( new Range( 0, 1 ) );
+
+const DEFAULT_HSLIDER_TRACK_SIZE = new Dimension2( 180, 3 );
+const DEFAULT_HSLIDER_THUMB_SIZE = new Dimension2( 17, 34 );
 
 export type LayoutFunction = ( titleNode: Node, numberDisplay: NumberDisplay, slider: Slider, decrementButton: ArrowButton | null, incrementButton: ArrowButton | null ) => Node;
 
@@ -317,8 +321,9 @@ export default class NumberControl extends WidthSizable( Node ) {
         }
       },
 
-      // Options propagated to HSlider
+      // Options propagated to Slider
       sliderOptions: {
+        orientation: Orientation.HORIZONTAL,
         startDrag: initialOptions.startCallback, // called when dragging starts on the slider
         endDrag: initialOptions.endCallback, // called when dragging ends on the slider
 
@@ -386,14 +391,14 @@ export default class NumberControl extends WidthSizable( Node ) {
     // Slider options for track (if not specified as trackNode)
     if ( !options.sliderOptions.trackNode ) {
       options.sliderOptions = combineOptions<NumberControlSliderOptions>( {
-        trackSize: new Dimension2( 180, 3 )
+        trackSize: ( options.sliderOptions.orientation === Orientation.HORIZONTAL ) ? DEFAULT_HSLIDER_TRACK_SIZE : DEFAULT_HSLIDER_TRACK_SIZE.swapped()
       }, options.sliderOptions );
     }
 
     // Slider options for thumb (if n ot specified as thumbNode)
     if ( !options.sliderOptions.thumbNode ) {
       options.sliderOptions = combineOptions<NumberControlSliderOptions>( {
-        thumbSize: new Dimension2( 17, 34 ),
+        thumbSize: ( options.sliderOptions.orientation === Orientation.HORIZONTAL ) ? DEFAULT_HSLIDER_THUMB_SIZE : DEFAULT_HSLIDER_THUMB_SIZE.swapped(),
         thumbTouchAreaXDilation: 6
       }, options.sliderOptions );
     }
@@ -423,7 +428,7 @@ export default class NumberControl extends WidthSizable( Node ) {
 
     const numberDisplay = new NumberDisplay( numberProperty, numberRange, options.numberDisplayOptions );
 
-    this.slider = new HSlider( numberProperty, numberRange, options.sliderOptions );
+    this.slider = new Slider( numberProperty, numberRange, options.sliderOptions );
 
     // set below, see options.includeArrowButtons
     let decrementButton: ArrowButton | null = null;
