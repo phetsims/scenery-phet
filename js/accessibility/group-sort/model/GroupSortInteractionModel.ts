@@ -121,6 +121,7 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
     super( options );
 
     this.getValueProperty = options.getValueProperty;
+
     this.selectedGroupItemProperty = new Property<ItemModel | null>( null, {
       isValidValue: x => !!x || x === null,
       tandem: options.tandem.createTandem( 'selectedGroupItemProperty' ),
@@ -143,7 +144,7 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
     this.hasGroupItemBeenSortedProperty = new BooleanProperty( false, {
       tandem: options.tandem.createTandem( 'hasGroupItemBeenSortedProperty' ),
       phetioFeatured: false,
-      phetioDocumentation: 'If any sorting has been done in this interaction. This controls is the cue Nodes for sorting are displayed.'
+      phetioDocumentation: 'If any sorting has been done in this interaction. This controls if the cue Nodes for sorting are displayed.'
     } );
 
     this.mouseSortCueVisibleProperty = new BooleanProperty( false, {
