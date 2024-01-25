@@ -381,7 +381,6 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
     this.sortGroupItem( groupItem, this.sortingRangeProperty.value.constrainValue( value ) );
     this.onSort( groupItem, oldValue );
     this.groupSortInteractionModel.hasKeyboardSortedGroupItemProperty.value = true;
-    this.groupSortInteractionModel.hasGroupItemBeenSortedProperty.value = true;
   }
 
   /**
