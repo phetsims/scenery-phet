@@ -34,7 +34,7 @@
  * - the grab/release cue is created for you, and can be repositioned by accessing from your GroupSortInteractionView instance.
  * - Handle your own "sort indicator cue node" (see registerUpdateSortCueNode())
  * - use setMouseSortedGroupItem( true ) on mouse/touch sorting interactions to make sure that the mouse sort cue visibility is correct.
- * - mouseSortCueVisibleProperty should be set by client, taking into consideration: `!this.hasGroupItemBeenSortedProperty.value && !this.isKeyboardFocusedProperty.value`
+ * - mouseSortCueVisibleProperty should be set by client, using mouseSortCueShouldBeVisible() in addition to any sim-specific logic required.
  * - Set up well for one model per screen to be used with one view per scene.
  * - use GroupSortInteractionView.groupSortGroupFocusHighlightPath.shape to set the group highlight dynamically
  * - use positionSortCueNodeEmitter to update the position of the sort cue.
@@ -100,10 +100,10 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
   // Whether the mouse/touch sort icon cue is currently showing on the group item area
   // TODO: MS and JB! Does this make sense to live inside of GroupSortInteractionModel? https://github.com/phetsims/mean-share-and-balance/issues/141
   //       Questions:
-  //                  1. Do we wish this was a DerivedProperty somehow?
-  //                  2. We need to update this value based on sim logic AND hard coded group sort logic (like https://github.com/phetsims/center-and-variability/blob/9f7cb63a4538b8bf6fae80ea4f04b0add9528a30/js/median/model/InteractiveCardContainerModel.ts#L109-L110)
+  //                  1. Do we wish this was a DerivedProperty somehow? (MK thinks probably not)
+  //                  2. We need to update this value based on sim logic AND hard coded group sort logic (like mouseSortCueShouldBeVisible())
   //                  3. We need to manually call registerUpdateSortCueNode() in addition to any other spots that update the mouse sort cue.
-  //                  4. Noting here that we don't have any code in group sort about creating the mouse cue Node itself (just to visibleProperty)
+  //                  4. Noting here that we don't have any code in group sort about creating the mouse cue Node itself (just the visibleProperty and if it should be shown from our perspective)
   public readonly mouseSortCueVisibleProperty = new BooleanProperty( false );
 
   // A PhET-iO specific Property for opting out of showing the visual mouse cue. This is not reset, and is used to
@@ -188,6 +188,14 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
   // listen to hasGroupItemBeenSortedProperty (like to set the mouseSortCueVisibleProperty).
   public setMouseSortedGroupItem( sortedByMouse: boolean ): void {
     this.hasMouseSortedGroupItemProperty.value = sortedByMouse;
+  }
+
+  // Given the knowledge that GroupSortInteractionModel has, should the mouse sort cue be visible? This most often
+  // isn't the complete boolean, since there will be sim-specific knowledge that contributes to the final visibility
+  // of the Node. TODO: add this.enabledProperty into this like is done for soccer-common? https://github.com/phetsims/mean-share-and-balance/issues/141
+  public mouseSortCueShouldBeVisible(): boolean {
+    return !this.hasGroupItemBeenSortedProperty.value &&
+           !this.isKeyboardFocusedProperty.value;
   }
 
   /**
