@@ -125,7 +125,8 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
   public constructor( providedOptions?: GroupSortInteractionModelOptions<ItemModel> ) {
 
     const options = optionize<GroupSortInteractionModelOptions<ItemModel>, SelfOptions<ItemModel>, ParentOptions>()( {
-      tandem: Tandem.REQUIRED
+      tandem: Tandem.REQUIRED,
+      phetioEnabledPropertyInstrumented: false // enabledProperty doesn't need to be in PhET-iO
     }, providedOptions );
 
     super( options );
@@ -195,7 +196,8 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
   // of the Node. TODO: add this.enabledProperty into this like is done for soccer-common? https://github.com/phetsims/mean-share-and-balance/issues/141
   public mouseSortCueShouldBeVisible(): boolean {
     return !this.hasGroupItemBeenSortedProperty.value &&
-           !this.isKeyboardFocusedProperty.value;
+           !this.isKeyboardFocusedProperty.value &&
+           this.enabled;
   }
 
   /**
@@ -227,6 +229,8 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
   // updates mouseSortCueVisibleProperty() and maybe does other things.
   public registerUpdateSortCueNode( updateSortIndicatorNode: () => void ): void {
     this.mouseSortCueVisibleProperty.link( updateSortIndicatorNode );
+    this.showMouseCueProperty.link( updateSortIndicatorNode );
+    this.enabledProperty.link( updateSortIndicatorNode );
     this.selectedGroupItemProperty.link( updateSortIndicatorNode );
     this.hasGroupItemBeenSortedProperty.link( updateSortIndicatorNode );
     this.isKeyboardFocusedProperty.link( updateSortIndicatorNode );
@@ -235,6 +239,8 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
       this.isKeyboardFocusedProperty.unlink( updateSortIndicatorNode );
       this.hasGroupItemBeenSortedProperty.unlink( updateSortIndicatorNode );
       this.mouseSortCueVisibleProperty.unlink( updateSortIndicatorNode );
+      this.enabledProperty.unlink( updateSortIndicatorNode );
+      this.showMouseCueProperty.unlink( updateSortIndicatorNode );
       this.selectedGroupItemProperty.unlink( updateSortIndicatorNode );
     } );
   }
