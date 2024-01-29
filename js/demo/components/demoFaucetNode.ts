@@ -17,6 +17,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Panel from '../../../../sun/js/Panel.js';
+import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 
 const MAX_FLOW_RATE = 1;
 const FONT = new PhetFont( 14 );
@@ -55,9 +56,16 @@ export default function demoFaucetNode( layoutBounds: Bounds2 ): Node {
     closeOnRelease: false
   } );
 
+  const panel5 = new FaucetDemoPanel( panelNumber++, MAX_FLOW_RATE, {
+    tapToDispenseEnabled: true,
+    closeOnRelease: true,
+    reverseAlternativeInput: true
+  } );
+
   const panelsBox = new HBox( {
-    children: [ panel1, panel2, panel3, panel4 ],
+    children: [ panel1, panel2, panel3, panel4, panel5 ],
     spacing: 15,
+    maxWidth: layoutBounds.width - 20,
     resize: false
   } );
 
@@ -71,7 +79,7 @@ export default function demoFaucetNode( layoutBounds: Bounds2 ): Node {
 
 class FaucetDemoPanel extends Panel {
 
-  public constructor( panelNumber: number, maxFlowRate: number, faucetNodeOptions: PickRequired<FaucetNodeOptions, 'tapToDispenseEnabled' | 'closeOnRelease'> ) {
+  public constructor( panelNumber: number, maxFlowRate: number, faucetNodeOptions: PickRequired<FaucetNodeOptions, 'tapToDispenseEnabled' | 'closeOnRelease'> & PickOptional<FaucetNodeOptions, 'reverseAlternativeInput'> ) {
 
     const titleText = new Text( `Example ${panelNumber}`, {
       font: new PhetFont( {
@@ -99,6 +107,10 @@ class FaucetDemoPanel extends Panel {
         }
       }, faucetNodeOptions ) );
 
+    if ( faucetNodeOptions.reverseAlternativeInput ) {
+      faucetNode.setScaleMagnitude( -0.7, 0.7 );
+    }
+
     const flowRateStringProperty = new DerivedProperty( [ flowRateProperty ],
       flowRate => `flowRate=${Utils.toFixed( flowRate, 2 )}` );
     const flowRateDisplay = new Text( flowRateStringProperty, {
@@ -111,7 +123,7 @@ class FaucetDemoPanel extends Panel {
     } );
 
     const content = new VBox( {
-      align: 'left',
+      align: faucetNodeOptions.reverseAlternativeInput ? 'right' : 'left',
       spacing: 10,
       children: [
         titleText,

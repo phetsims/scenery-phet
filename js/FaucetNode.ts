@@ -26,7 +26,7 @@ import stepTimer from '../../axon/js/stepTimer.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import LinearFunction from '../../dot/js/LinearFunction.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import { Circle, DragListener, Image, InteractiveHighlighting, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
+import { Circle, DragListener, GroupHighlightPath, HighlightPath, Image, InteractiveHighlighting, KeyboardListener, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
 import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
@@ -46,6 +46,9 @@ import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { TimerListener } from '../../axon/js/Timer.js';
+import AccessibleSlider, { AccessibleSliderOptions } from '../../sun/js/accessibility/AccessibleSlider.js';
+import { Shape } from '../../kite/js/imports.js';
+import WithOptional from '../../phet-core/js/types/WithOptional.js';
 
 // constants
 const DEBUG_ORIGIN = false; // when true, draws a red dot at the origin (bottom-center of the spout)
@@ -57,6 +60,7 @@ const SHOOTER_MAX_X_OFFSET = 66; // x-offset of shooter's full-on position in fa
 const SHOOTER_Y_OFFSET = 16; // y-offset of shooter's centerY in faucetTrack_png
 const SHOOTER_WINDOW_BOUNDS = new Bounds2( 10, 10, 90, 25 ); // bounds of the window in faucetBody_png, through which you see the shooter handle
 const TRACK_Y_OFFSET = 15; // offset of the track's bottom from the top of faucetBody_png
+const HIGHLIGHT_DILATION = 5; // dilation of the highlight around the shooter components
 
 type SelfOptions = {
   horizontalPipeLength?: number; // distance between left edge of horizontal pipe and spout's center
@@ -73,17 +77,18 @@ type SelfOptions = {
   // options for the nested type ShooterNode
   shooterOptions?: ShooterNodeOptions;
 };
-type ParentOptions = NodeOptions;
-export type FaucetNodeOptions = SelfOptions & ParentOptions;
+type ParentOptions = AccessibleSliderOptions & NodeOptions;
 
-export default class FaucetNode extends Node {
+export type FaucetNodeOptions = SelfOptions & StrictOmit<ParentOptions, 'interactiveHighlightEnabled' | 'enabledRangeProperty' | 'valueProperty'>;
+
+export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
 
   private readonly disposeFaucetNode: () => void;
 
   public constructor( maxFlowRate: number, flowRateProperty: Property<number>,
                       enabledProperty: TReadOnlyProperty<boolean>, providedOptions?: FaucetNodeOptions ) {
 
-    const options = optionize<FaucetNodeOptions, StrictOmit<SelfOptions, 'shooterOptions'>, ParentOptions>()( {
+    const options = optionize<FaucetNodeOptions, StrictOmit<SelfOptions, 'shooterOptions'>, WithOptional<ParentOptions, 'valueProperty'>>()( {
 
       // SelfOptions
       horizontalPipeLength: SPOUT_OUTPUT_CENTER_X,
@@ -95,9 +100,17 @@ export default class FaucetNode extends Node {
       interactiveProperty: new Property( true ),
       rasterizeHorizontalPipeNode: false,
 
+      // AccessibleSliderOptions
+      enabledRangeProperty: new phet.axon.Property( new phet.dot.Range( 0, maxFlowRate ) ),
+      valueProperty: flowRateProperty,
+
       // ParentOptions
       scale: 1,
       enabledProperty: enabledProperty,
+
+      // AccessibleSlider is composed with InteractiveHighlighting, but the InteractiveHighlight should surround
+      // the shooter so it is disabled for the faucet and
+      interactiveHighlightEnabled: false,
 
       // phet-io
       tandem: Tandem.REQUIRED,
@@ -273,8 +286,46 @@ export default class FaucetNode extends Node {
     } );
     shooterNode.addInputListener( dragListener );
 
+    // Keyboard support for tap-to-dispense and setting the flow rate to zero.
+    const keyboardListener = new KeyboardListener( {
+      keys: [ 'enter', 'space', '0' ],
+      callback: ( event, keysPressed ) => {
+        if ( options.tapToDispenseEnabled && [ 'enter', 'space' ].includes( keysPressed ) ) {
+
+          // stop the previous timeout before running a new dispense
+          if ( tapToDispenseIsRunning ) {
+            endTapToDispense();
+          }
+
+          tapToDispenseIsArmed = true;
+          startTapToDispense();
+        }
+
+        if ( keysPressed === '0' ) {
+          flowRateProperty.set( 0 );
+        }
+      }
+    } );
+    this.addInputListener( keyboardListener );
+
+    // if close on release is true, the faucet should turn off when focus moves somewhere else
+    if ( options.closeOnRelease ) {
+      this.addInputListener( {
+        blur: () => {
+          flowRateProperty.set( 0 );
+        }
+      } );
+    }
+
+    // The highlights surround the interactive part of the ShooterNode.
+    const localHighlightBounds = this.globalToLocalBounds( shooterNode.localToGlobalBounds( shooterNode.focusHighlightBounds ) );
+    const localGroupHighlightBounds = this.globalToLocalBounds( shooterNode.localToGlobalBounds( shooterNode.groupFocusHighlightBounds ) );
+    this.focusHighlight = new HighlightPath( Shape.bounds( localHighlightBounds ) );
+    this.groupFocusHighlight = new GroupHighlightPath( Shape.bounds( localGroupHighlightBounds ) );
+
     const flowRateObserver = ( flowRate: number ) => {
       shooterNode.left = bodyNode.left + offsetToFlowRate.inverse( flowRate );
+      ( this.focusHighlight as HighlightPath ).right = shooterNode.right + HIGHLIGHT_DILATION;
     };
     flowRateProperty.link( flowRateObserver );
 
@@ -317,6 +368,7 @@ export default class FaucetNode extends Node {
 
       // Subcomponents
       dragListener.dispose();
+      keyboardListener.dispose();
       shooterNode.dispose();
     };
 
@@ -354,6 +406,12 @@ type ShooterNodeOptions = ShooterNodeSelfOptions; // no NodeOptions are included
 class ShooterNode extends InteractiveHighlighting( Node ) {
 
   private readonly disposeShooterNode: () => void;
+
+  // Custom bounds that define highlight shapes for the ShooterNode. The FaucetNode uses these as its own
+  // highlight to indicate that the Shooter is the interactive part. But the highlights themselves are set
+  // on the FaucetNode because that is the component that is focusable.
+  public readonly focusHighlightBounds: Bounds2;
+  public readonly groupFocusHighlightBounds: Bounds2;
 
   public constructor( enabledProperty: TReadOnlyProperty<boolean>, providedOptions?: ShooterNodeOptions ) {
 
@@ -406,6 +464,21 @@ class ShooterNode extends InteractiveHighlighting( Node ) {
     knobNode.left = flangeNode.right - 8; // a bit of overlap makes this look better
     knobNode.centerY = flangeNode.centerY;
     knobDisabledNode.translation = knobNode.translation;
+
+    // custom focus highlights that are relative to components of this Node
+    this.focusHighlightBounds = new Bounds2( flangeNode.left, knobNode.top, knobNode.right, knobNode.bottom ).dilated( HIGHLIGHT_DILATION );
+
+    // the group focus highlight bounds surrounds the whole shooter and extends out to show the range of the knob
+    this.groupFocusHighlightBounds = new Bounds2(
+      shaftNode.left,
+      knobNode.top - HIGHLIGHT_DILATION * 2,
+      knobNode.right + shaftNode.width / 2 + 15,
+      knobNode.bottom + HIGHLIGHT_DILATION * 2
+    );
+
+    // This ShooterNode receives input to activate the Interactive Highlight, so this highlight is set on the
+    // ShooterNode even though focus highlights are set on the parent FaucetNode.
+    this.interactiveHighlight = new HighlightPath( Shape.bounds( this.focusHighlightBounds ) );
 
     const enabledObserver = ( enabled: boolean ) => {
       // the entire shooter is draggable, but encourage dragging by the knob by changing its cursor
