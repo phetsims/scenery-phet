@@ -41,8 +41,8 @@ export type MeasuringTapeUnits = {
   multiplier: number;
 };
 
-// motion when using a keyboard, in view coordinates per second
-const KEYBOARD_DRAG_VELOCITY = 600;
+// Drag speed with the keyboard, in view coordinates per second
+const KEYBOARD_DRAG_SPEED = 600;
 
 type SelfOptions = {
 
@@ -85,10 +85,10 @@ type SelfOptions = {
   phetioReadoutStringPropertyInstrumented?: boolean; // whether to instrument readoutStringProperty for PhET-iO
   phetioFeaturedMeasuredDistanceProperty?: boolean; // phetioFeatured value for measuredDistanceProperty
   keyboardDragListenerOptions?: {
-    baseDragVelocity?: number;
-    baseShiftDragVelocity?: number;
-    tipDragVelocity?: number;
-    tipShiftDragVelocity?: number;
+    baseDragSpeed?: number;
+    baseShiftDragSpeed?: number;
+    tipDragSpeed?: number;
+    tipShiftDragSpeed?: number;
   };
 };
 
@@ -176,10 +176,10 @@ class MeasuringTapeNode extends Node {
       phetioReadoutStringPropertyInstrumented: true,
       phetioFeaturedMeasuredDistanceProperty: false,
       keyboardDragListenerOptions: {
-        baseDragVelocity: KEYBOARD_DRAG_VELOCITY,
-        baseShiftDragVelocity: KEYBOARD_DRAG_VELOCITY / 2,
-        tipDragVelocity: KEYBOARD_DRAG_VELOCITY,
-        tipShiftDragVelocity: 150
+        baseDragSpeed: KEYBOARD_DRAG_SPEED,
+        baseShiftDragSpeed: KEYBOARD_DRAG_SPEED / 2,
+        tipDragSpeed: KEYBOARD_DRAG_SPEED,
+        tipShiftDragSpeed: 150
       }
     }, providedOptions );
 
@@ -395,8 +395,8 @@ class MeasuringTapeNode extends Node {
         positionProperty: this.basePositionProperty,
         transform: this.modelViewTransformProperty,
         dragBoundsProperty: this.dragBoundsProperty,
-        dragVelocity: options.keyboardDragListenerOptions.baseDragVelocity,
-        shiftDragVelocity: options.keyboardDragListenerOptions.baseShiftDragVelocity,
+        dragSpeed: options.keyboardDragListenerOptions.baseDragSpeed,
+        shiftDragSpeed: options.keyboardDragListenerOptions.baseShiftDragSpeed,
         start: baseStart,
         drag: handleTipOnBaseDrag,
         end: baseEnd
@@ -443,8 +443,8 @@ class MeasuringTapeNode extends Node {
         positionProperty: this.tipPositionProperty,
         dragBoundsProperty: options.isTipDragBounded ? this.dragBoundsProperty : null,
         transform: this.modelViewTransformProperty,
-        dragVelocity: options.keyboardDragListenerOptions.tipDragVelocity,
-        shiftDragVelocity: options.keyboardDragListenerOptions.tipShiftDragVelocity,
+        dragSpeed: options.keyboardDragListenerOptions.tipDragSpeed,
+        shiftDragSpeed: options.keyboardDragListenerOptions.tipShiftDragSpeed,
         start: () => {
           this.moveToFront();
           this._isTipUserControlledProperty.value = true;
