@@ -9,6 +9,7 @@
 import FaucetNode, { FaucetNodeOptions } from '../../FaucetNode.js';
 import PhetFont from '../../PhetFont.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Range from '../../../../dot/js/Range.js';
 import { HBox, Node, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
 import Property from '../../../../axon/js/Property.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
@@ -18,8 +19,10 @@ import Utils from '../../../../dot/js/Utils.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Panel from '../../../../sun/js/Panel.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
-const MAX_FLOW_RATE = 1;
+const MAX_FLOW_RATE = 10;
+const FAUCET_NODE_SCALE = 0.7;
 const FONT = new PhetFont( 14 );
 
 export default function demoFaucetNode( layoutBounds: Bounds2 ): Node {
@@ -36,30 +39,30 @@ export default function demoFaucetNode( layoutBounds: Bounds2 ): Node {
   // discussion in https://github.com/phetsims/scenery-phet/issues/773.
   let panelNumber = 1;
 
-  const panel1 = new FaucetDemoPanel( panelNumber++, MAX_FLOW_RATE, {
+  const panel1 = new FaucetDemoPanel( panelNumber++, {
     tapToDispenseEnabled: true,
     closeOnRelease: true
   } );
 
-  const panel2 = new FaucetDemoPanel( panelNumber++, MAX_FLOW_RATE, {
+  const panel2 = new FaucetDemoPanel( panelNumber++, {
     tapToDispenseEnabled: true,
     closeOnRelease: false
   } );
 
-  const panel3 = new FaucetDemoPanel( panelNumber++, MAX_FLOW_RATE, {
+  const panel3 = new FaucetDemoPanel( panelNumber++, {
     tapToDispenseEnabled: false,
     closeOnRelease: true
   } );
 
-  const panel4 = new FaucetDemoPanel( panelNumber++, MAX_FLOW_RATE, {
+  const panel4 = new FaucetDemoPanel( panelNumber++, {
     tapToDispenseEnabled: false,
     closeOnRelease: false
   } );
 
-  const panel5 = new FaucetDemoPanel( panelNumber++, MAX_FLOW_RATE, {
+  const panel5 = new FaucetDemoPanel( panelNumber++, {
     tapToDispenseEnabled: true,
     closeOnRelease: true,
-    reverseAlternativeInput: true
+    reverseAlternativeInput: true // Dragging the faucet shooter to the left will increase the flow rate.
   } );
 
   const panelsBox = new HBox( {
@@ -77,9 +80,12 @@ export default function demoFaucetNode( layoutBounds: Bounds2 ): Node {
   } );
 }
 
+type FaucetDemoPanelOptions = PickRequired<FaucetNodeOptions, 'tapToDispenseEnabled' | 'closeOnRelease'> &
+  PickOptional<FaucetNodeOptions, 'reverseAlternativeInput'>;
+
 class FaucetDemoPanel extends Panel {
 
-  public constructor( panelNumber: number, maxFlowRate: number, faucetNodeOptions: PickRequired<FaucetNodeOptions, 'tapToDispenseEnabled' | 'closeOnRelease'> & PickOptional<FaucetNodeOptions, 'reverseAlternativeInput'> ) {
+  public constructor( panelNumber: number, faucetNodeOptions: FaucetDemoPanelOptions ) {
 
     const titleText = new Text( `Example ${panelNumber}`, {
       font: new PhetFont( {
@@ -95,24 +101,30 @@ class FaucetDemoPanel extends Panel {
         font: FONT
       } );
 
-    const flowRateProperty = new Property( 0 );
+    const flowRateProperty = new NumberProperty( 0, {
+      range: new Range( 0, MAX_FLOW_RATE )
+    } );
     const faucetEnabledProperty = new Property( true );
 
-    const faucetNode = new FaucetNode( maxFlowRate, flowRateProperty, faucetEnabledProperty,
+    const faucetNode = new FaucetNode( MAX_FLOW_RATE, flowRateProperty, faucetEnabledProperty,
       combineOptions<FaucetNodeOptions>( {
-        scale: 0.70,
+        scale: FAUCET_NODE_SCALE,
         shooterOptions: {
           touchAreaXDilation: 37,
           touchAreaYDilation: 60
-        }
+        },
+        keyboardStep: 1,
+        shiftKeyboardStep: 0.1,
+        pageKeyboardStep: 2
       }, faucetNodeOptions ) );
 
+    // Make the faucet face left.
     if ( faucetNodeOptions.reverseAlternativeInput ) {
-      faucetNode.setScaleMagnitude( -0.7, 0.7 );
+      faucetNode.setScaleMagnitude( -FAUCET_NODE_SCALE, FAUCET_NODE_SCALE );
     }
 
     const flowRateStringProperty = new DerivedProperty( [ flowRateProperty ],
-      flowRate => `flowRate=${Utils.toFixed( flowRate, 2 )}` );
+      flowRate => `flowRate=${Utils.toFixed( flowRate, 1 )}` );
     const flowRateDisplay = new Text( flowRateStringProperty, {
       font: FONT
     } );
