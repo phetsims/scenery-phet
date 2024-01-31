@@ -54,7 +54,6 @@ type SelfOptions<ItemModel, ItemNode extends Node> = {
 
   // Called when a group item is sorted. Note that sorting may not have changed its value (like if at the boundary
   // trying to move past the range).
-  // TODO: TS! Sound emitted even when the value didn't change (precedent: RAP/CAV: sound without change, GLF/WI(slider): sound only on change,   // TODO: TS! Sound emitted even when the value didn't change (precedent: RAP/CAV: sound without change, GLF/WI(slider): sound only on change) https://github.com/phetsims/scenery-phet/issues/815
   onSort?: ( groupItem: ItemModel, oldValue: number ) => void;
 
   // When the selected group item is grabbed (into "sorting" mode).
