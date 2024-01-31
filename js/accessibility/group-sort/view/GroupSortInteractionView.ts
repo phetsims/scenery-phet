@@ -106,7 +106,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
   private readonly pageSortStep: number;
 
   public constructor(
-    protected readonly groupSortInteractionModel: GroupSortInteractionModel<ItemModel>,
+    protected readonly model: GroupSortInteractionModel<ItemModel>,
     primaryFocusedNode: Node,
     providedOptions: GroupSortInteractionViewOptions<ItemModel, ItemNode> ) {
 
@@ -138,10 +138,10 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
     this.shiftSortStep = options.shiftSortStep;
     this.pageSortStep = options.pageSortStep;
 
-    const selectedGroupItemProperty = this.groupSortInteractionModel.selectedGroupItemProperty;
-    const isKeyboardFocusedProperty = this.groupSortInteractionModel.isKeyboardFocusedProperty;
-    const isGroupItemKeyboardGrabbedProperty = this.groupSortInteractionModel.isGroupItemKeyboardGrabbedProperty;
-    const hasKeyboardGrabbedGroupItemProperty = this.groupSortInteractionModel.hasKeyboardGrabbedGroupItemProperty;
+    const selectedGroupItemProperty = this.model.selectedGroupItemProperty;
+    const isKeyboardFocusedProperty = this.model.isKeyboardFocusedProperty;
+    const isGroupItemKeyboardGrabbedProperty = this.model.isGroupItemKeyboardGrabbedProperty;
+    const hasKeyboardGrabbedGroupItemProperty = this.model.hasKeyboardGrabbedGroupItemProperty;
 
     const grabbedPropertyListener = ( grabbed: boolean ) => {
       const selectedGroupItem = selectedGroupItemProperty.value;
@@ -158,11 +158,11 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
 
     // If the new range doesn't include the current selection, reset back to the default heuristic.
     const rangeListener = ( newRange: Range ) => {
-      const selectedGroupItem = this.groupSortInteractionModel.selectedGroupItemProperty.value;
+      const selectedGroupItem = this.model.selectedGroupItemProperty.value;
       if ( selectedGroupItem ) {
-        const currentValue = this.groupSortInteractionModel.getValueProperty( selectedGroupItem ).value;
+        const currentValue = this.model.getValueProperty( selectedGroupItem ).value;
         if ( currentValue && !newRange.contains( currentValue ) ) {
-          this.groupSortInteractionModel.selectedGroupItemProperty.value = options.getGroupItemToSelect();
+          this.model.selectedGroupItemProperty.value = options.getGroupItemToSelect();
         }
       }
     };
@@ -232,9 +232,9 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
         hasKeyboardGrabbedGroupItemProperty.value = false;
       }
     };
-    this.groupSortInteractionModel.enabledProperty.link( enabledListener );
+    this.model.enabledProperty.link( enabledListener );
     this.disposeEmitter.addListener( () => {
-      this.groupSortInteractionModel.enabledProperty.unlink( enabledListener );
+      this.model.enabledProperty.unlink( enabledListener );
     } );
 
     // A KeyboardListener that changes the "sorting" vs "selecting" state of the interaction.
@@ -242,7 +242,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
       fireOnHold: true,
       keys: [ 'enter', 'space', 'escape' ],
       callback: ( event, keysPressed ) => {
-        if ( this.groupSortInteractionModel.enabled && selectedGroupItemProperty.value !== null ) {
+        if ( this.model.enabled && selectedGroupItemProperty.value !== null ) {
 
           // Do the "Grab/release" action to switch to sorting or selecting
           if ( keysPressed === 'enter' || keysPressed === 'space' ) {
@@ -276,7 +276,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
 
             // Don't do any sorting when disabled
             // For these keys, the item will move by a particular delta
-            if ( this.groupSortInteractionModel.enabled && sortingKeys.includes( keysPressed ) ) {
+            if ( this.model.enabled && sortingKeys.includes( keysPressed ) ) {
               const delta = this.getDeltaForKey( keysPressed )!;
               assert && assert( delta !== null, 'should be a supported key' );
               const newValue = oldValue + delta;
@@ -287,7 +287,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
             // Selecting an item
             const unclampedDelta = this.getDeltaForKey( keysPressed );
             if ( unclampedDelta !== null ) {
-              this.groupSortInteractionModel.hasKeyboardSelectedGroupItemProperty.value = true;
+              this.model.hasKeyboardSelectedGroupItemProperty.value = true;
 
               const clampedDelta = this.sortingRangeProperty.value.clampDelta( oldValue, unclampedDelta );
               selectedGroupItemProperty.value = options.getNextSelectedGroupItem( clampedDelta, groupItem );
@@ -337,7 +337,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
     } );
 
     this.grabReleaseCueNode = new GrabReleaseCueNode( combineOptions<GrabReleaseCueNodeOptions>( {
-      visibleProperty: this.groupSortInteractionModel.grabReleaseCueVisibleProperty
+      visibleProperty: this.model.grabReleaseCueVisibleProperty
     }, options.grabReleaseCueOptions ) );
     this.groupSortGroupFocusHighlightPath.addChild( this.grabReleaseCueNode );
 
@@ -360,7 +360,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
 
   // Helper function for accessing this part of the model easier
   public getValueProperty( groupItem: ItemModel ): TProperty<number | null> {
-    return this.groupSortInteractionModel.getValueProperty( groupItem );
+    return this.model.getValueProperty( groupItem );
   }
 
   // By "change" we mean sort or selection.
@@ -371,7 +371,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
     node && animatedPanZoomSingleton.listener.panToNode( node, false );
 
     // Reset to true from keyboard input, in case mouse/touch input set to false during the keyboard interaction.
-    this.groupSortInteractionModel.isKeyboardFocusedProperty.value = true;
+    this.model.isKeyboardFocusedProperty.value = true;
   }
 
   private onSortedValue( groupItem: ItemModel, value: number, oldValue: number ): void {
@@ -379,7 +379,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
 
     this.sortGroupItem( groupItem, this.sortingRangeProperty.value.constrainValue( value ) );
     this.onSort( groupItem, oldValue );
-    this.groupSortInteractionModel.hasKeyboardSortedGroupItemProperty.value = true;
+    this.model.hasKeyboardSortedGroupItemProperty.value = true;
   }
 
   /**
@@ -429,11 +429,11 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
    * your GroupSortInteractionView.
    */
   public static create<ItemModel, ItemNode extends Node>(
-    groupSortInteractionModel: GroupSortInteractionModel<ItemModel>,
+    model: GroupSortInteractionModel<ItemModel>,
     primaryFocusedNode: Node,
     providedOptions: GroupSortInteractionViewOptions<ItemModel, ItemNode> ): GroupSortInteractionView<ItemModel, ItemNode> {
 
-    return new GroupSortInteractionView<ItemModel, ItemNode>( groupSortInteractionModel, primaryFocusedNode, providedOptions );
+    return new GroupSortInteractionView<ItemModel, ItemNode>( model, primaryFocusedNode, providedOptions );
   }
 }
 
