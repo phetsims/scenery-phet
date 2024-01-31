@@ -63,6 +63,9 @@ type SelfOptions = {
   // Passed to their respective buttons
   playPauseButtonOptions?: BooleanRectangularToggleButtonOptions;
   resetButtonOptions?: RectangularPushButtonOptions;
+
+  // Additional controls to show below the play/pause/rewind buttons in that VBox
+  otherControls?: Node[];
 };
 
 type ParentOptions = InteractiveHighlightingOptions & NodeOptions;
@@ -166,6 +169,8 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       // highlight will only be visible if the component is interactive (provide dragBoundsProperty)
       interactiveHighlightEnabled: false,
 
+      otherControls: [],
+
       // Tandem is required to make sure the buttons are instrumented
       tandem: Tandem.REQUIRED,
       phetioFeatured: true
@@ -227,7 +232,8 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
         new HBox( {
           spacing: options.xSpacing,
           children: [ resetButton, playPauseButton ]
-        } )
+        } ),
+        ...options.otherControls
       ]
     } );
 
