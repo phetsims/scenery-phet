@@ -193,13 +193,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
         isKeyboardFocusedProperty.value = false;
       },
       over: () => {
-        // TODO: MK! Review this one. In this situation:
-        //     1. tab to populated node, the keyboard grab cue is shown.
-        //     2. Move the mouse over a group item, the keyboard grab cue goes away.
-        //     3. Press an arrow key to change focus to another in the group, the keyboard grab cue does not show up.
-        //        I bet it still thinks that isKeyboardFocusedProperty is false (!!!!)
-        //     4. It is even worse than the above now that we got rid of sortIndicatorValue, because this triggers a change in selection in CAVGroupSortInteractionModel
-        //     https://github.com/phetsims/scenery-phet/issues/815
+
         // When you mouse over while focused, the highlights are hidden, and so update the state (even though we are
         // still technically keyboard focused). This will assist in showing the mouse cue, https://github.com/phetsims/center-and-variability/issues/406
         isKeyboardFocusedProperty.value = false;
@@ -258,6 +252,9 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
           else if ( isGroupItemKeyboardGrabbedProperty.value && keysPressed === 'escape' ) {
             isGroupItemKeyboardGrabbedProperty.value = false;
           }
+
+          // Reset to true from keyboard input, in case mouse/touch input set to false during the keyboard interaction.
+          isKeyboardFocusedProperty.value = true;
         }
       }
     } );
@@ -372,6 +369,9 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
     // in view. `panToCenter` is false because centering the group item in the screen is too much movement.
     const node = this.getNodeFromModelItem( newGroupItem );
     node && animatedPanZoomSingleton.listener.panToNode( node, false );
+
+    // Reset to true from keyboard input, in case mouse/touch input set to false during the keyboard interaction.
+    this.groupSortInteractionModel.isKeyboardFocusedProperty.value = true;
   }
 
   private onSortedValue( groupItem: ItemModel, value: number, oldValue: number ): void {
