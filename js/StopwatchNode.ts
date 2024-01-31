@@ -158,6 +158,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
         cornerRadius: 4,
         xMargin: 4,
         yMargin: 2,
+        maxWidth: 150, // please override as necessary
         pickable: false // allow dragging by the number display
       },
       dragBoundsProperty: null,
@@ -239,13 +240,24 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
 
     // Background panel ----------------------------------------------------------------------------
 
-    const backgroundNode = new ShadedRectangle( new Bounds2( 0, 0,
-      contents.width + 2 * options.xMargin, contents.height + 2 * options.yMargin ), {
-      baseColor: options.backgroundBaseColor,
-      tagName: 'div',
-      focusable: true
+    const backgroundNode = new Node();
+
+    contents.boundsProperty.link( () => {
+      const bounds = new Bounds2(
+        -options.xMargin,
+        -options.yMargin,
+        contents.width + options.xMargin,
+        contents.height + options.yMargin
+      );
+
+      backgroundNode.children = [
+        new ShadedRectangle( bounds, {
+          baseColor: options.backgroundBaseColor,
+          tagName: 'div',
+          focusable: true
+        } )
+      ];
     } );
-    contents.center = backgroundNode.center;
 
     options.children = [ backgroundNode, contents ];
 
