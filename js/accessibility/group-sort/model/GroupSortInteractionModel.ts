@@ -3,43 +3,46 @@
 /**
  * "Group Sort Interaction" overview:
  * Model type for the "group sort" interaction. This interaction behaves as such:
- * - Alt input treats the entire group as a single entity.
- * - Focusing on the group highlights a "selected" group item. The interaction starts in "selection" mode.
- * - Interaction keys change the "selection" (focus) of a group item to grab (see note below). Focus highlight is solid.
- * - Space/enter are used to "grab" the selection, turning the interaction into "sorting" mode. Pressing again goes back
- *   to "selection" mode. In sorting mode, the focus highlight is dashed.
- * - Interaction keys in "sorting" mode sort the group item.
+ * - Alt input treats the entire group as a single entity. Instead of using scenery focus control, it is handled internally.
+ * - Focusing on the group highlights a "selected" group item. The interaction starts in "selection" state.
+ * - Interaction keys change the "selection" (focus) of a group item. Focus highlight around the selected item is solid.
+ * - The selected item is grabbable (see note below).
+ * - Space/enter are used to "grab" the selection, turning the interaction state to "sorting" state. Pressing again
+ *   toggles back to "selection" state. In sorting state, the focus highlight is dashed.
+ * - Interaction keys in "sorting" state sort the group item, which changes the value of that group item.
  *
  * NOTE: "focus" in this interaction is called "selection" as to not overload the term. This is because the
  * "focused" group item is stored and changed even when it doesn't have browser focus on it. See selectedGroupItemProperty.
  *
  * Class Overview:
  * This class holds model information about the state of the group sort interaction. This includes specifics about
- * whether the interaction is in "selection" or "sorting" mode. Also about if the interaction has "successfully" occurred
- * such that hint cues don't need to be displayed anymore. All group sort instances thus far have been accompanied by
- * mouse/touch input as well. Though this goes beyond the scope of group sort to implement, there are mouse-specific
- * Properties here in the model that help sync group sort state/cueing with the visual cueing too. Please follow
- * instructions to make sure those are used appropriately.
+ * whether the interaction is in "selection" or "sorting" state. Also about if portions of the interaction have
+ * "successfully" occurred such that hint cues don't need to be displayed anymore.
  *
+ * A note about mouse input:
+ * All group sort instances thus far have been accompanied by mouse/touch input as well. Though this goes beyond the
+ * scope of group sort to implement, there are mouse-specific Properties here in the model that help sync group
+ * sort state/cueing with the visual cueing too. Please follow instructions below to make sure those are used
+ * appropriately.
+ *
+ * A note about using with scenes:
  * In general, there is just one instance of this per model, and not per scene. This is because if someone can
  * successfully grab and sort in one scene, then that learned understanding about the interaction should transfer to
  * the next scene.
  *
- * This implementation relies on the model elements to be sorted to have a valueProperty that gets the value set to it.
- *
  * Implementation steps (these steps apply to the model and view):
  * - use with GroupSortInteractionView
  * - reset selectedGroupItemProperty with a sim-specific heuristic when the underlying model needs to update the best
- *     first selection. (Also see GroupSortInteractionView.getGroupItemToSelect for a hook to apply this on group focus).
+ *   first selection. (Also see GroupSortInteractionView.getGroupItemToSelect for a hook to apply this on group focus).
  * - the grab/release cue is created for you, and can be repositioned by accessing from your GroupSortInteractionView instance.
- * - Handle your own "sort indicator cue node" (see registerUpdateSortCueNode())
+ * - Handle your own keyboard and mouse "sort indicator cue node" (see registerUpdateSortCueNode())
  * - use setMouseSortedGroupItem( true ) on mouse/touch sorting interactions to make sure that the mouse sort cue visibility is correct.
  * - mouseSortCueVisibleProperty should be set by client, using mouseSortCueShouldBeVisible() in addition to any sim-specific logic required.
- * - Set up well for one model per screen to be used with one view per scene.
+ * - It is best to use one model per screen and one view per scene.
  * - use GroupSortInteractionView.groupSortGroupFocusHighlightPath.shape to set the group highlight dynamically
- * - use positionSortCueNodeEmitter to update the position of the sort cue.
+ * - use positionSortCueNodeEmitter to update the position of the sort cue for the keyboard interaction.
  * - use enabledProperty to control if sorting is enabled. Note that focus and selection are always available (for keyboard tab order consistency)
- * - Note that if GroupSortInteractionModel is PhET-iO instrumented, ItemModel must be a PhetioObject
+ * - Note that if GroupSortInteractionModel is PhET-iO instrumented, ItemModel must be a PhetioObject.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  * @author Marla Schulz (PhET Interactive Simulations)
@@ -60,6 +63,8 @@ import ReferenceIO from '../../../../../tandem/js/types/ReferenceIO.js';
 import NullableIO from '../../../../../tandem/js/types/NullableIO.js';
 
 type SelfOptions<ItemModel> = {
+
+  // A function that returns the Property that has the value for a group item set to it.
   getValueProperty: ( itemModel: ItemModel ) => TProperty<number | null>;
 } & Pick<PhetioObjectOptions, 'tandem'>;
 
@@ -221,6 +226,7 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
     this.mouseSortCueVisibleProperty.reset();
   }
 
+  // Clear the selection state for the interaction (setting to null)
   public clearSelection(): void {
     this.selectedGroupItemProperty.value = null;
   }

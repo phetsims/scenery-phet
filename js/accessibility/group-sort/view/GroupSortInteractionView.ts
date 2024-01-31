@@ -30,11 +30,11 @@ import StrictOmit from '../../../../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions<ItemModel, ItemNode extends Node> = {
 
-  // Given the delta (difference from currentValue to new value), return the corresponding next group item model to be selected.
+  // Given the delta (difference from current value to new value), return the corresponding next group item model to be selected.
   getNextSelectedGroupItem: ( delta: number, currentlySelectedGroupItem: ItemModel ) => ItemModel;
 
-  // If GroupSort doesn't know what the selection should be, this function is called to set the default or best guess.
-  // Return null to not supply a selection (no focus).
+  // If GroupSortInteraction doesn't know what the selection should be, this function is called to set the default or
+  // best guess selection. Return null to not supply a selection (no focus).
   getGroupItemToSelect: ( () => ItemModel | null );
 
   // Given a model item, return the corresponding node. Support 'null' as a way to support multiple scenes. If you
@@ -45,37 +45,39 @@ type SelfOptions<ItemModel, ItemNode extends Node> = {
   // Return null if no highlight should be shown for the selection (not recommended).
   getHighlightNodeFromModelItem?: ( model: ItemModel ) => Node | null;
 
-  // The available range for storing. This is the acceptable range for the valueProperty of ItemModel (see getValueProperty()).
+  // The available range for storing. This is the acceptable range for the valueProperty of ItemModel (see model.getValueProperty()).
   sortingRangeProperty: TReadOnlyProperty<Range>;
 
   // Do the sort operation, allowing for custom actions, defaults to just updating the valueProperty of the selected
   // group item to the new value.
   sortGroupItem?: ( groupItem: ItemModel, newValue: number ) => void;
 
-  // Called when a group item is sorted. Note that sorting may not have changed its value (like if at the boundary
+  // Callback called after a group item is sorted. Note that sorting may not have changed its value (like if at the boundary
   // trying to move past the range).
   onSort?: ( groupItem: ItemModel, oldValue: number ) => void;
 
-  // When the selected group item is grabbed (into "sorting" mode).
+  // When the selected group item has been grabbed (into "sorting" state).
   onGrab?: ( groupItem: ItemModel ) => void;
 
-  // When the selected group item is released (back into "selecting" mode).
+  // When the selected group item is released (back into "selecting" state).
   onRelease?: ( groupItem: ItemModel ) => void;
 
-  // If provided, listen to the number keys as well. Provide the value that the number key maps to. A direct value,
-  // not a delta. If set to null, then number keys will not be listened to for this interaction
+  // If provided, listen to the number keys as well to sort the selected group item. Provide the value that the
+  // number key maps to. A direct value, not a delta. If the function returns null, then no action takes place for the
+  // input. If the option is set to null, then number keys will not be listened to for this interaction.
   numberKeyMapper?: ( ( pressedKeys: string ) => ( number | null ) ) | null;
 
-  // The value-change delta step size when selecting/sorting the group items. This basic step is applied when using arrow keys or WASD
-  sortStep?: number;
-  pageSortStep?: number;
-  shiftSortStep?: number;
+  // The value-change delta step size when selecting/sorting the group items.
+  sortStep?: number;   // arrow keys or WASD
+  pageSortStep?: number; // page-up/down keys
+  shiftSortStep?: number; // shift+arrow keys or shift+WASD
 
   // To be passed to the grab/release cue node (which is added to the group focus highlight). The visibleProperty is
   // always GroupSortInteractionModel.grabReleaseCueVisibleProperty
   grabReleaseCueOptions?: Partial<StrictOmit<GrabReleaseCueNodeOptions, 'visibleProperty'>>;
 };
 
+// A list of all keys that are listened to, except those covered by the numberKeyMapper
 const sortingKeys = [
   'd', 'arrowRight', 'a', 'arrowLeft', 'arrowUp', 'arrowDown', 'w', 's', // default-step sort
   'shift+d', 'shift+arrowRight', 'shift+a', 'shift+arrowLeft', 'shift+arrowUp', 'shift+arrowDown', 'shift+w', 'shift+s', // shift-step sort
@@ -226,7 +228,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
       }
     );
 
-    // "release" into selection mode when disabled
+    // "release" into selecting state when disabled
     const enabledListener = ( enabled: boolean ) => {
       if ( !enabled ) {
         hasKeyboardGrabbedGroupItemProperty.value = false;
@@ -374,6 +376,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
     this.model.isKeyboardFocusedProperty.value = true;
   }
 
+  // Conduct the sorting of a value
   private onSortedValue( groupItem: ItemModel, value: number, oldValue: number ): void {
     assert && assert( value !== null, 'We should have a value for the group item by the end of the listener.' );
 
@@ -407,7 +410,8 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
   }
 
   /**
-   * Use SortCueArrowNode to create a Node for the sorting cue.
+   * Use SortCueArrowNode to create a Node for the keyboard sorting cue. Can also be used as the mouse/touch cue
+   * Node if desired.
    */
   public static createSortCueNode( visibleProperty: TReadOnlyProperty<boolean>, scale = 1 ): SortCueArrowNode {
     return new SortCueArrowNode( {
