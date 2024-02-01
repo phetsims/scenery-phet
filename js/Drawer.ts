@@ -56,7 +56,7 @@ type SelfOptions = {
   // animation
   animationEnabled?: boolean; // is animation enabled when opening/closing the drawer?
   animationDuration?: number; // duration of animation (drawer opening and closing) in seconds
-  stepEmitter?: TEmitter<[ number ]> | TinyEmitter<[ number ]> | null; // see Animation options.stepEmitter
+  stepEmitter?: TEmitter<[ number ]> | TinyEmitter<[ number ]> | null; // see Animation options.clock
 };
 
 export type DrawerOptions = SelfOptions & StrictOmit<NodeOptions, 'children' | 'clipArea'>;
