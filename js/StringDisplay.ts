@@ -4,8 +4,8 @@
  * StringDisplay displays the value of a string or TReadOnlyProperty<string> on a background. The background can
  * be a fixed size, or it can dynamically size itself to fit the displayed string.
  *
- * This is a nice alternative to NumberDisplay, when the thing you're displaying is not a number, or when there
- * is a more complicated formatting that more-cleanly implemented with a TReadOnlyProperty<string>.
+ * StringDisplay is a nice alternative to NumberDisplay, when the thing you're displaying is not a number,
+ * or when formatting is more-cleanly implemented using a TReadOnlyProperty<string>.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
