@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2024, University of Colorado Boulder
 
 /**
  * StringDisplay displays the value of a string or TReadOnlyProperty<string> on a background. The background can
