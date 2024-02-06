@@ -1,8 +1,7 @@
 // Copyright 2022-2023, University of Colorado Boulder
 
 /**
- * KeypadDialog is a Dialog sub-type that handles the creation and management of a Keypad for the 'collision lab'
- * simulation. It is present on all screens.
+ * KeypadDialog is a Dialog sub-type that handles the creation and management of a Keypad.
  *
  * The KeypadDialog is shown when requested through the beginEdit() method, which occurs when the user presses on a
  * BallValuesPanelNumberDisplay, to allow the user to manipulate a Ball Property. Edits must be within a specified
