@@ -15,7 +15,11 @@ import release_mp3 from '../../tambo/sounds/release_mp3.js';
 import soundManager from '../../tambo/js/soundManager.js';
 
 type SelfOptions = {
-  dragClipOptions: SoundClipOptions;
+  dragClipOptions?: SoundClipOptions | null;
+};
+
+const DEFAULT_DRAG_CLIP_OPTIONS: SoundClipOptions = {
+  initialOutputLevel: 0.4
 };
 
 export type RichDragListenerOptions = SelfOptions & DragListenerOptions<IntentionalAny>;
@@ -24,7 +28,7 @@ export default class RichDragListener extends DragListener {
   public constructor( providedOptions: RichDragListenerOptions ) {
 
     // Create sound clips.
-    const dragClipOptions = providedOptions.dragClipOptions ? providedOptions.dragClipOptions : {};
+    const dragClipOptions = providedOptions.dragClipOptions ? providedOptions.dragClipOptions : DEFAULT_DRAG_CLIP_OPTIONS;
     const grabClip = new SoundClip( grab_mp3, dragClipOptions );
     const releaseClip = new SoundClip( release_mp3, dragClipOptions );
 
@@ -34,13 +38,16 @@ export default class RichDragListener extends DragListener {
 
     const options = optionize<RichDragListenerOptions, SelfOptions, DragListenerOptions<IntentionalAny>>()( {
 
+      // TODO: https://github.com/phetsims/scenery/issues/1592 how to merge providedOptions.start()
       start: () => {
         grabClip.play();
       },
 
       end: () => {
         releaseClip.play();
-      }
+      },
+
+      dragClipOptions: null
 
     }, providedOptions );
 
