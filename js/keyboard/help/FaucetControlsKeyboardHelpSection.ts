@@ -1,7 +1,7 @@
 // Copyright 2022-2024, University of Colorado Boulder
 
 /**
- * FaucetControlsKeyboardHelpContent is the keyboard-help section that describes how to interact with FaucetNode.
+ * FaucetControlsKeyboardHelpSection is the keyboard-help section that describes how to interact with FaucetNode.
  * See https://github.com/phetsims/scenery-phet/issues/839 for design history.
  *
  * @author Chris Malley (PixelZoom, Inc.)
@@ -29,13 +29,13 @@ type SelfOptions = {
   tapToDispenseEnabled?: boolean; // Set this to true if any faucet in your sim has FaucetNodeOptions.tapToDispenseEnabled: true
 };
 
-type FaucetControlsKeyboardHelpContentOptions = SelfOptions & KeyboardHelpSectionOptions;
+type FaucetControlsKeyboardHelpSectionOptions = SelfOptions & KeyboardHelpSectionOptions;
 
-export default class FaucetControlsKeyboardHelpContent extends KeyboardHelpSection {
+export default class FaucetControlsKeyboardHelpSection extends KeyboardHelpSection {
 
-  public constructor( providedOptions?: FaucetControlsKeyboardHelpContentOptions ) {
+  public constructor( providedOptions?: FaucetControlsKeyboardHelpSectionOptions ) {
 
-    const options = optionize<FaucetControlsKeyboardHelpContentOptions, SelfOptions, KeyboardHelpSectionOptions>()( {
+    const options = optionize<FaucetControlsKeyboardHelpSectionOptions, SelfOptions, KeyboardHelpSectionOptions>()( {
 
       // SelfOptions
       tapToDispenseEnabled: false
@@ -80,4 +80,4 @@ export default class FaucetControlsKeyboardHelpContent extends KeyboardHelpSecti
   }
 }
 
-sceneryPhet.register( 'FaucetControlsKeyboardHelpContent', FaucetControlsKeyboardHelpContent );
+sceneryPhet.register( 'FaucetControlsKeyboardHelpSection', FaucetControlsKeyboardHelpSection );
