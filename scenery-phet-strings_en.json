@@ -263,6 +263,27 @@
   "speed.slow": {
     "value": "Slow"
   },
+  "keyboardHelpDialog.faucetControls.faucetControls": {
+    "value": "Faucet Controls"
+  },
+  "keyboardHelpDialog.faucetControls.adjustFaucetFlow": {
+    "value": "Adjust faucet flow"
+  },
+  "keyboardHelpDialog.faucetControls.adjustInSmallerSteps": {
+    "value": "Adjust in smaller steps"
+  },
+  "keyboardHelpDialog.faucetControls.adjustInLargerSteps": {
+    "value": "Adjust in larger steps"
+  },
+  "keyboardHelpDialog.faucetControls.closeFaucet": {
+    "value": "Close faucet"
+  },
+  "keyboardHelpDialog.faucetControls.openFaucetFully": {
+    "value": "Open faucet fully"
+  },
+  "keyboardHelpDialog.faucetControls.openFaucetBriefly": {
+    "value": "Open faucet briefly"
+  },
   "keyboardHelpDialog.timingControls.timingControls": {
     "value": "Timing Controls"
   },

@@ -108,6 +108,15 @@ type StringsType = {
     'moveDraggableItemsStringProperty': LocalizedStringProperty;
     'moveStringProperty': LocalizedStringProperty;
     'moveSlowerStringProperty': LocalizedStringProperty;
+    'faucetControls': {
+      'faucetControlsStringProperty': LocalizedStringProperty;
+      'adjustFaucetFlowStringProperty': LocalizedStringProperty;
+      'adjustInSmallerStepsStringProperty': LocalizedStringProperty;
+      'adjustInLargerStepsStringProperty': LocalizedStringProperty;
+      'closeFaucetStringProperty': LocalizedStringProperty;
+      'openFaucetFullyStringProperty': LocalizedStringProperty;
+      'openFaucetBrieflyStringProperty': LocalizedStringProperty;
+    };
     'timingControls': {
       'timingControlsStringProperty': LocalizedStringProperty;
       'pauseOrPlayActionStringProperty': LocalizedStringProperty;
