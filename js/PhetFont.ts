@@ -44,44 +44,6 @@ export default class PhetFont extends Font {
 
     options.family = [
       options.family,
-
-      // A sans-serif backup that should be web-safe
-      'Arial',
-
-      // Backups for other scripts for macOS Safari (since we are getting issues, see
-      // https://github.com/phetsims/website-meteor/issues/656) somewhat modeled on
-      // https://github.com/alacritty/alacritty/issues/45#issuecomment-301343001 or
-      // https://www.figma.com/blog/when-fonts-fall/
-      // NOTE: This is SVG-specific, does not happen in Canvas.
-      '"Bangla MN"', // actually solves locale=bn on macOS Safari
-      '"Bangla Sangam MN"',
-      'Ayuthaya', // actually solves locale=th on macOS Safari
-      '"Devanagari MT"', // actually solves locale=hi on macOS Safari
-      'Kailasa',
-      '"PingFang SC"',
-      '"PingFang TC"',
-      '"Hiragino Sans"',
-      '"Hiragino Sans GB"',
-      '"Apple SD Gothic Neo"',
-      '"PingFang HK"',
-      '"Kohinoor Bangla"',
-      '"Kohinoor Devanagari"',
-      '"Gujarati Sangam MN"',
-      '"Gurmukhi MN"',
-      '"Kannada Sangam MN"',
-      '"Khmer Sangam MN"',
-      '"Lao Sangam MN"',
-      '"Malayalam Sangam MN"',
-      '"Myanmar Sangam MN"',
-      '"Oriya Sangam MN"',
-      '"Sinhala Sangam MN"',
-      '"Tamil Sangam MN"',
-      '"Kohinoor Telugu"',
-      'Mshtakan',
-      '"Euphemia UCAS"',
-      '"Plantagenet Cherokee"',
-      '"Apple Color Emoji"',
-      '"Tiro Devangari Hindi"',
       'sans-serif'
     ].join( ', ' );
 
