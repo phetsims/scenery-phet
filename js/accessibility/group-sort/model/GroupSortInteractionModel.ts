@@ -64,8 +64,8 @@ import NullableIO from '../../../../../tandem/js/types/NullableIO.js';
 
 type SelfOptions<ItemModel> = {
 
-  // A function that returns the Property that has the value for a group item set to it.
-  getValueProperty: ( itemModel: ItemModel ) => TProperty<number | null>;
+  // A function that returns the "value" for a group item set to it. The value is where the item should be sorted. Null means that it isn't part of this interaction (different scene/not active/etc).
+  getGroupItemValue: ( itemModel: ItemModel ) => number | null;
 } & Pick<PhetioObjectOptions, 'tandem'>;
 
 type ParentOptions = EnabledComponentOptions;
@@ -125,7 +125,7 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
   // if a keyboard sort has occurred (because now the user knows that the group items are sortable).
   public readonly hasGroupItemBeenSortedProperty: TReadOnlyProperty<boolean>;
 
-  public readonly getValueProperty: ( itemModel: ItemModel ) => TProperty<number | null>;
+  public readonly getGroupItemValue: ( itemModel: ItemModel ) => number | null;
 
   public constructor( providedOptions?: GroupSortInteractionModelOptions<ItemModel> ) {
 
@@ -136,7 +136,7 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
 
     super( options );
 
-    this.getValueProperty = options.getValueProperty;
+    this.getGroupItemValue = options.getGroupItemValue;
 
     this.selectedGroupItemProperty = new Property<ItemModel | null>( null, {
       isValidValue: x => !!x || x === null,

@@ -25,7 +25,6 @@ import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import SortCueArrowNode from './SortCueArrowNode.js';
 import Disposable, { DisposableOptions } from '../../../../../axon/js/Disposable.js';
 import GrabReleaseCueNode, { GrabReleaseCueNodeOptions } from '../../nodes/GrabReleaseCueNode.js';
-import TProperty from '../../../../../axon/js/TProperty.js';
 import StrictOmit from '../../../../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions<ItemModel, ItemNode extends Node> = {
@@ -45,12 +44,12 @@ type SelfOptions<ItemModel, ItemNode extends Node> = {
   // Return null if no highlight should be shown for the selection (not recommended).
   getHighlightNodeFromModelItem?: ( model: ItemModel ) => Node | null;
 
-  // The available range for storing. This is the acceptable range for the valueProperty of ItemModel (see model.getValueProperty()).
+  // The available range for storing. This is the acceptable range for the valueProperty of ItemModel (see model.getGroupItemValue()).
   sortingRangeProperty: TReadOnlyProperty<Range>;
 
-  // Do the sort operation, allowing for custom actions, defaults to just updating the valueProperty of the selected
-  // group item to the new value.
-  sortGroupItem?: ( groupItem: ItemModel, newValue: number ) => void;
+  // Do the sort operation, allowing for custom actions, must be implemented by all implementation, but likely just
+  // should default to updating the "valueProperty" of the selected group item to the new value that is provided.
+  sortGroupItem: ( groupItem: ItemModel, newValue: number ) => void;
 
   // Callback called after a group item is sorted. Note that sorting may not have changed its value (like if at the boundary
   // trying to move past the range).
@@ -123,9 +122,6 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
       sortStep: 1,
       shiftSortStep: 2,
       pageSortStep: Math.ceil( providedOptions.sortingRangeProperty.value.getLength() / 5 ),
-      sortGroupItem: ( groupItem, newValue ) => {
-        this.getValueProperty( groupItem ).value = newValue;
-      },
       getHighlightNodeFromModelItem: providedOptions.getNodeFromModelItem,
       grabReleaseCueOptions: {}
     }, providedOptions );
@@ -162,7 +158,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
     const rangeListener = ( newRange: Range ) => {
       const selectedGroupItem = this.model.selectedGroupItemProperty.value;
       if ( selectedGroupItem ) {
-        const currentValue = this.model.getValueProperty( selectedGroupItem ).value;
+        const currentValue = this.model.getGroupItemValue( selectedGroupItem );
         if ( currentValue && !newRange.contains( currentValue ) ) {
           this.model.selectedGroupItemProperty.value = options.getGroupItemToSelect();
         }
@@ -269,8 +265,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
         if ( selectedGroupItemProperty.value !== null ) {
 
           const groupItem = selectedGroupItemProperty.value;
-          const valueProperty = this.getValueProperty( groupItem );
-          const oldValue = valueProperty.value!;
+          const oldValue = this.model.getGroupItemValue( groupItem )!;
           assert && assert( oldValue !== null, 'We should have a group item when responding to input?' );
 
           // Sorting an item
@@ -309,7 +304,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
                isSingleDigit( keysPressed ) ) {
 
             const groupItem = selectedGroupItemProperty.value;
-            const oldValue = this.getValueProperty( groupItem ).value!;
+            const oldValue = this.model.getGroupItemValue( groupItem )!;
             assert && assert( oldValue !== null, 'We should have a group item when responding to input?' );
             assert && assert( isSingleDigit( keysPressed ), 'sanity check on numbers for keyboard listener' );
 
@@ -358,11 +353,6 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
       deltaKeyboardListener.dispose();
       grabReleaseKeyboardListener.dispose;
     } );
-  }
-
-  // Helper function for accessing this part of the model easier
-  public getValueProperty( groupItem: ItemModel ): TProperty<number | null> {
-    return this.model.getValueProperty( groupItem );
   }
 
   // By "change" we mean sort or selection.
