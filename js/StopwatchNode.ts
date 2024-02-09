@@ -64,6 +64,8 @@ type SelfOptions = {
   playPauseButtonOptions?: BooleanRectangularToggleButtonOptions;
   resetButtonOptions?: RectangularPushButtonOptions;
 
+  includePlayPauseResetButtons?: boolean;
+
   // Additional controls to show below the play/pause/rewind buttons in that VBox
   otherControls?: Node[];
 };
@@ -172,6 +174,8 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
 
       otherControls: [],
 
+      includePlayPauseResetButtons: true,
+
       // Tandem is required to make sure the buttons are instrumented
       tandem: Tandem.REQUIRED,
       phetioFeatured: true
@@ -183,57 +187,81 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
 
     const numberDisplay = new NumberDisplay( stopwatch.timeProperty, options.numberDisplayRange, options.numberDisplayOptions );
 
-    // Buttons ----------------------------------------------------------------------------
+    let playPauseResetButtonContainer: Node | null = null;
+    let disposePlayPauseResetButtons: ( () => void ) | null = null;
+    if ( options.includePlayPauseResetButtons ) {
 
-    const resetPath = new Path( new UTurnArrowShape( options.iconHeight ), {
-      fill: options.iconFill
-    } );
+      // Buttons ----------------------------------------------------------------------------
 
-    const playIconHeight = resetPath.height;
-    const playIconWidth = 0.8 * playIconHeight;
-    const playPath = new Path( new PlayIconShape( playIconWidth, playIconHeight ), {
-      fill: options.iconFill
-    } );
+      const resetPath = new Path( new UTurnArrowShape( options.iconHeight ), {
+        fill: options.iconFill
+      } );
 
-    const pausePath = new Path( new PauseIconShape( 0.75 * playIconWidth, playIconHeight ), {
-      fill: options.iconFill
-    } );
+      const playIconHeight = resetPath.height;
+      const playIconWidth = 0.8 * playIconHeight;
+      const playPath = new Path( new PlayIconShape( playIconWidth, playIconHeight ), {
+        fill: options.iconFill
+      } );
 
-    const playPauseButton = new BooleanRectangularToggleButton( stopwatch.isRunningProperty, pausePath, playPath,
-      combineOptions<BooleanRectangularToggleButtonOptions>( {
-        baseColor: options.buttonBaseColor,
+      const pausePath = new Path( new PauseIconShape( 0.75 * playIconWidth, playIconHeight ), {
+        fill: options.iconFill
+      } );
+
+      const playPauseButton = new BooleanRectangularToggleButton( stopwatch.isRunningProperty, pausePath, playPath,
+        combineOptions<BooleanRectangularToggleButtonOptions>( {
+          baseColor: options.buttonBaseColor,
+          touchAreaXDilation: 5,
+          touchAreaXShift: 5,
+          touchAreaYDilation: 8,
+          tandem: options.tandem.createTandem( 'playPauseButton' ),
+          phetioVisiblePropertyInstrumented: false,
+          phetioEnabledPropertyInstrumented: false
+        }, options.playPauseButtonOptions ) );
+
+      const resetButton = new RectangularPushButton( combineOptions<RectangularPushButtonOptions>( {
+        listener: () => {
+          stopwatch.isRunningProperty.set( false );
+          stopwatch.timeProperty.set( 0 );
+        },
         touchAreaXDilation: 5,
-        touchAreaXShift: 5,
+        touchAreaXShift: -5,
         touchAreaYDilation: 8,
-        tandem: options.tandem.createTandem( 'playPauseButton' ),
+        content: resetPath,
+        baseColor: options.buttonBaseColor,
+        soundPlayer: options.resetButtonSoundPlayer,
+        tandem: options.tandem.createTandem( 'resetButton' ),
         phetioVisiblePropertyInstrumented: false,
         phetioEnabledPropertyInstrumented: false
-      }, options.playPauseButtonOptions ) );
+      }, options.resetButtonOptions ) );
 
-    const resetButton = new RectangularPushButton( combineOptions<RectangularPushButtonOptions>( {
-      listener: () => {
-        stopwatch.isRunningProperty.set( false );
-        stopwatch.timeProperty.set( 0 );
-      },
-      touchAreaXDilation: 5,
-      touchAreaXShift: -5,
-      touchAreaYDilation: 8,
-      content: resetPath,
-      baseColor: options.buttonBaseColor,
-      soundPlayer: options.resetButtonSoundPlayer,
-      tandem: options.tandem.createTandem( 'resetButton' ),
-      phetioVisiblePropertyInstrumented: false,
-      phetioEnabledPropertyInstrumented: false
-    }, options.resetButtonOptions ) );
+      playPauseResetButtonContainer = new HBox( {
+        spacing: options.xSpacing,
+        children: [ resetButton, playPauseButton ]
+      } );
+
+      // Disable the reset button when time is zero, and enable the play/pause button when not at the max time
+      const timeListener = ( time: number ) => {
+        resetButton.enabled = ( time > 0 );
+        playPauseButton.enabled = ( time < stopwatch.timeProperty.range.max );
+      };
+      stopwatch.timeProperty.link( timeListener );
+
+      disposePlayPauseResetButtons = () => {
+        stopwatch.timeProperty.unlink( timeListener );
+        resetButton.dispose();
+        playPauseButton.dispose();
+      };
+    }
 
     const contents = new VBox( {
       spacing: options.ySpacing,
       children: [
         numberDisplay,
-        new HBox( {
-          spacing: options.xSpacing,
-          children: [ resetButton, playPauseButton ]
-        } ),
+
+        // Include the play/pause and reset buttons if specified in the options
+        ...( playPauseResetButtonContainer ? [ playPauseResetButtonContainer ] : [] ),
+
+        // Include any additional controls as specified
         ...options.otherControls
       ]
     } );
@@ -262,13 +290,6 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
     options.children = [ backgroundNode, contents ];
 
     super( options );
-
-    // Disable the reset button when time is zero, and enable the play/pause button when not at the max time
-    const timeListener = ( time: number ) => {
-      resetButton.enabled = ( time > 0 );
-      playPauseButton.enabled = ( time < stopwatch.timeProperty.range.max );
-    };
-    stopwatch.timeProperty.link( timeListener );
 
     // Put a red dot at the origin, for debugging layout.
     if ( phet.chipper.queryParameters.dev ) {
@@ -361,12 +382,9 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
 
     this.disposeStopwatchNode = () => {
       stopwatch.isVisibleProperty.unlink( stopwatchVisibleListener );
-      stopwatch.timeProperty.unlink( timeListener );
       stopwatch.positionProperty.unlink( stopwatchPositionListener );
 
       numberDisplay.dispose();
-      resetButton.dispose();
-      playPauseButton.dispose();
 
       if ( this.dragListener ) {
         backgroundNode.removeInputListener( this.dragListener );
@@ -378,6 +396,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       }
 
       adjustedDragBoundsProperty && adjustedDragBoundsProperty.dispose();
+      disposePlayPauseResetButtons && disposePlayPauseResetButtons();
     };
 
     this.numberDisplay = numberDisplay;
