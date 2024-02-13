@@ -23,6 +23,7 @@ import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
+import Vector2 from '../../dot/js/Vector2.js';
 
 // constants
 const DEFAULT_FONT = new PhetFont( 20 );
@@ -267,7 +268,12 @@ export default class NumberDisplay extends Node {
       backgroundNode.rectHeight = ( options.useFullHeight ? originalTextHeight : demoText.height ) + 2 * options.yMargin;
     } );
 
-    options.children = [ backgroundNode, valueText ];
+    // Avoid infinite loops like https://github.com/phetsims/axon/issues/447 by applying the maxWidth to a different Node
+    // than the one that is used for layout.
+    const valueTextContainer = new Node( {
+      children: [ valueText ]
+    } );
+    options.children = [ backgroundNode, valueTextContainer ];
 
     super();
 
@@ -275,25 +281,25 @@ export default class NumberDisplay extends Node {
     this.valueText = valueText;
     this.backgroundNode = backgroundNode;
 
-    // Align the value in the background.
-    ManualConstraint.create( this, [ valueText, backgroundNode ], ( valueTextProxy, backgroundNodeProxy ) => {
+// Align the value in the background.
+    ManualConstraint.create( this, [ valueTextContainer, backgroundNode ], ( valueTextContainerProxy, backgroundNodeProxy ) => {
 
       // Alignment depends on whether we have a non-null value.
       const align = ( numberProperty.value === null ) ? options.noValueAlign : options.align;
 
+      // vertical alignment
+      const centerY = backgroundNodeProxy.centerY;
+
       // horizontal alignment
       if ( align === 'center' ) {
-        valueTextProxy.centerX = backgroundNodeProxy.centerX;
+        valueTextContainerProxy.center = new Vector2( backgroundNodeProxy.centerX, centerY );
       }
       else if ( align === 'left' ) {
-        valueTextProxy.left = backgroundNodeProxy.left + options.xMargin;
+        valueTextContainerProxy.leftCenter = new Vector2( backgroundNodeProxy.left + options.xMargin, centerY );
       }
       else { // right
-        valueTextProxy.right = backgroundNodeProxy.right - options.xMargin;
+        valueTextContainerProxy.rightCenter = new Vector2( backgroundNodeProxy.right - options.xMargin, centerY );
       }
-
-      // vertical alignment
-      valueTextProxy.centerY = backgroundNodeProxy.centerY;
     } );
 
     this.mutate( options );
