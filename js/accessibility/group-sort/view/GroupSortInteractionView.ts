@@ -13,7 +13,7 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import { animatedPanZoomSingleton, HighlightFromNode, HighlightPath, KeyboardListener, Node, Path } from '../../../../../scenery/js/imports.js';
+import { animatedPanZoomSingleton, HighlightFromNode, HighlightPath, InteractiveHighlightingNode, KeyboardListener, Node, Path } from '../../../../../scenery/js/imports.js';
 import sceneryPhet from '../../../sceneryPhet.js';
 import Range from '../../../../../dot/js/Range.js';
 import Multilink from '../../../../../axon/js/Multilink.js';
@@ -197,6 +197,34 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
         isKeyboardFocusedProperty.value = false;
       }
     };
+
+    // When interactive highlights become active on the group, interaction with a mouse has begun while using
+    // Interactive Highlighting. When that happens, clear the selection to prevent focus highlight flickering/thrashing.
+    // See https://github.com/phetsims/center-and-variability/issues/557 and https://github.com/phetsims/scenery-phet/issues/815
+    if ( ( primaryFocusedNode as InteractiveHighlightingNode ).isInteractiveHighlighting ) {
+      const asHighlightingNodeAlias = primaryFocusedNode as InteractiveHighlightingNode;
+      const interactiveHighlightingActiveListener = ( active: boolean ) => {
+        if ( active ) {
+          if ( model.selectedGroupItemProperty.value !== null ) {
+
+            // Release the selection if grabbed
+            model.isGroupItemKeyboardGrabbedProperty.value = false;
+
+            // Clear the selection so that there isn't potential for flickering in between input modalities
+            model.selectedGroupItemProperty.value = null;
+          }
+
+          // This controls the visibility of interaction cues (keyboard vs mouse), so we need to clear it when
+          // switching interaction modes.
+          isKeyboardFocusedProperty.value = false;
+        }
+      };
+      asHighlightingNodeAlias.isInteractiveHighlightActiveProperty.lazyLink( interactiveHighlightingActiveListener );
+
+      this.disposeEmitter.addListener( () => {
+        asHighlightingNodeAlias.isInteractiveHighlightActiveProperty.unlink( interactiveHighlightingActiveListener );
+      } );
+    }
 
     const updateFocusHighlight = new Multilink( [
         selectedGroupItemProperty,
