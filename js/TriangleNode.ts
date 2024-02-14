@@ -24,7 +24,7 @@ export type TriangleNodeOptions = SelfOptions & StrictOmit<PathOptions, 'rotatio
 
 export default class TriangleNode extends Path {
 
-  public constructor( providedOptions: TriangleNodeOptions ) {
+  public constructor( providedOptions?: TriangleNodeOptions ) {
 
     const options = optionize<TriangleNodeOptions, SelfOptions, PathOptions>()( {
       pointDirection: 'up',
