@@ -1,6 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 /**
- * RichDragListener extends DragListener to integrate the drag and drop sound clips.
+ * RichDragListener extends DragListener to integrate PhET-specific designed features that should be broadly
+ * applied to DragListener instances in phetsims. This includes the grab and release sound clips.
  *
  * @author Agustín Vallejo
  */
@@ -15,6 +16,12 @@ import release_mp3 from '../../tambo/sounds/release_mp3.js';
 import soundManager from '../../tambo/js/soundManager.js';
 
 type SelfOptions = {
+
+  // If false, grab/release sounds will not be added by the RichDragListener instance. Note that adding these sounds
+  // involves overwriting provided start/end callbacks.
+  addGrabReleaseSounds?: boolean;
+
+  // Provided to the grab and release SoundClip instances. Ignored if addGrabReleaseSounds:false
   dragClipOptions?: SoundClipOptions | null;
 };
 
@@ -27,29 +34,35 @@ export type RichDragListenerOptions = SelfOptions & DragListenerOptions<Intentio
 export default class RichDragListener extends DragListener {
   public constructor( providedOptions: RichDragListenerOptions ) {
 
-    // Create sound clips.
-    const dragClipOptions = providedOptions.dragClipOptions ? providedOptions.dragClipOptions : DEFAULT_DRAG_CLIP_OPTIONS;
-    const grabClip = new SoundClip( grab_mp3, dragClipOptions );
-    const releaseClip = new SoundClip( release_mp3, dragClipOptions );
-
-    // Add the sound clips to the soundManager.
-    soundManager.addSoundGenerator( grabClip );
-    soundManager.addSoundGenerator( releaseClip );
-
     const options = optionize<RichDragListenerOptions, SelfOptions, DragListenerOptions<IntentionalAny>>()( {
-
-      // TODO: https://github.com/phetsims/scenery/issues/1592 how to merge providedOptions.start()
-      start: () => {
-        grabClip.play();
-      },
-
-      end: () => {
-        releaseClip.play();
-      },
-
+      addGrabReleaseSounds: true,
       dragClipOptions: null
 
     }, providedOptions );
+
+    if ( options.addGrabReleaseSounds ) {
+
+      // Create sound clips.
+      const dragClipOptions = providedOptions.dragClipOptions ? providedOptions.dragClipOptions : DEFAULT_DRAG_CLIP_OPTIONS;
+      const grabClip = new SoundClip( grab_mp3, dragClipOptions );
+      const releaseClip = new SoundClip( release_mp3, dragClipOptions );
+
+      const previousStart = options.start;
+      options.start = ( ...args ) => {
+        previousStart && previousStart( ...args );
+        grabClip.play();
+      };
+
+      const previousEnd = options.end;
+      options.end = ( ...args ) => {
+        previousEnd && previousEnd( ...args );
+        releaseClip.play();
+      };
+
+      // Add the sound clips to the soundManager.
+      soundManager.addSoundGenerator( grabClip );
+      soundManager.addSoundGenerator( releaseClip );
+    }
 
     super( options );
   }
