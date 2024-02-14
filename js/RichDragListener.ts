@@ -10,7 +10,7 @@ import sun from './sun.js';
 import { DragListener, DragListenerOptions } from '../../scenery/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
 import SoundClip, { SoundClipOptions } from '../../tambo/js/sound-generators/SoundClip.js';
-import grab2_mp3 from '../../tambo/sounds/grab2_mp3.js';
+import grab_mp3 from '../../tambo/sounds/grab_mp3.js';
 import release_mp3 from '../../tambo/sounds/release_mp3.js';
 import soundManager from '../../tambo/js/soundManager.js';
 
@@ -43,7 +43,7 @@ export default class RichDragListener extends DragListener {
 
       // Create sound clips.
       const dragClipOptions = providedOptions.dragClipOptions ? providedOptions.dragClipOptions : DEFAULT_DRAG_CLIP_OPTIONS;
-      const grabClip = new SoundClip( grab2_mp3, dragClipOptions );
+      const grabClip = new SoundClip( grab_mp3, dragClipOptions );
       const releaseClip = new SoundClip( release_mp3, dragClipOptions );
 
       const previousStart = options.start;
