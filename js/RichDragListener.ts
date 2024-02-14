@@ -28,12 +28,12 @@ const DEFAULT_DRAG_CLIP_OPTIONS: SoundClipOptions = {
   initialOutputLevel: 0.4
 };
 
-export type RichDragListenerOptions = SelfOptions & DragListenerOptions<IntentionalAny>;
+export type RichDragListenerOptions = SelfOptions & DragListenerOptions<RichDragListener>;
 
 export default class RichDragListener extends DragListener {
   public constructor( providedOptions: RichDragListenerOptions ) {
 
-    const options = optionize<RichDragListenerOptions, SelfOptions, DragListenerOptions<IntentionalAny>>()( {
+    const options = optionize<RichDragListenerOptions, SelfOptions, DragListenerOptions<RichDragListener>>()( {
       addGrabReleaseSounds: true,
       dragClipOptions: null
 
