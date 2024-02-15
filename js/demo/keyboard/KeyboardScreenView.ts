@@ -29,7 +29,7 @@ export default class KeyboardScreenView extends DemosScreenView {
       // nothing for now
     }, providedOptions );
 
-    // To add a demo, add an entry here of type SunDemo.
+    // To add a demo, add an entry here of type DemoItemData.
     const demos = [
       { label: 'BasicActionsKeyboardHelpSection', createNode: demoBasicActionsKeyboardHelpSection },
       { label: 'ComboBoxKeyboardHelpSection', createNode: demoComboBoxKeyboardHelpSection },

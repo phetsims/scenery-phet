@@ -30,7 +30,7 @@ export default class SlidersScreenView extends DemosScreenView {
       selectedDemoLabel: sceneryPhetQueryParameters.slider
     }, providedOptions );
 
-    // To add a demo, add an entry here of type SunDemo.
+    // To add a demo, add an entry here of type DemoItemData.
     const demos = [
       { label: 'NumberControl', createNode: demoNumberControl },
       { label: 'WavelengthNumberControl', createNode: demoWavelengthNumberControl },

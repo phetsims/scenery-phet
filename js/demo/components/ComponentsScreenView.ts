@@ -63,7 +63,7 @@ export default class ComponentsScreenView extends DemosScreenView {
       selectedDemoLabel: sceneryPhetQueryParameters.component
     }, providedOptions );
 
-    // To add a demo, add an entry here of type SunDemo.
+    // To add a demo, add an entry here of type DemoItemData.
     const demos = [
       { label: 'ArrowNode', createNode: demoArrowNode },
       { label: 'BeakerNode', createNode: demoBeakerNode },
