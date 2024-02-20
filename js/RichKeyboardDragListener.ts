@@ -52,15 +52,13 @@ export default class RichKeyboardDragListener extends KeyboardDragListener {
       grabSound: grab_mp3,
       releaseSound: release_mp3,
       grabSoundClipOptions: DEFAULT_DRAG_CLIP_OPTIONS,
-      releaseSoundClipOptions: DEFAULT_DRAG_CLIP_OPTIONS,
-
-      // KeyboardDragListenerOptions
-      //TODO https://github.com/phetsims/scenery/issues/1592 dispose of SoundClips, soundManager.removeSoundGenerator
-      isDisposable: false
+      releaseSoundClipOptions: DEFAULT_DRAG_CLIP_OPTIONS
     }, providedOptions );
 
+    // Create the grab SoundClip and wire it into the start function for the drag cycle.
+    let grabClip: SoundClip;
     if ( options.grabSound ) {
-      const grabClip = new SoundClip( options.grabSound, options.grabSoundClipOptions );
+      grabClip = new SoundClip( options.grabSound, options.grabSoundClipOptions );
       soundManager.addSoundGenerator( grabClip );
 
       const previousStart = options.start;
@@ -70,8 +68,10 @@ export default class RichKeyboardDragListener extends KeyboardDragListener {
       };
     }
 
+    // Create the release SoundClip and wire it into the end function for the drag cycle.
+    let releaseClip: SoundClip;
     if ( options.releaseSound ) {
-      const releaseClip = new SoundClip( options.releaseSound, options.releaseSoundClipOptions );
+      releaseClip = new SoundClip( options.releaseSound, options.releaseSoundClipOptions );
       soundManager.addSoundGenerator( releaseClip );
 
       const previousEnd = options.end;
@@ -82,6 +82,19 @@ export default class RichKeyboardDragListener extends KeyboardDragListener {
     }
 
     super( options );
+
+    // Clean up SoundClips when this RichKeyboardDragListener is disposed.
+    this.disposeEmitter.addListener( () => {
+      if ( grabClip ) {
+        grabClip.dispose();
+        soundManager.removeSoundGenerator( grabClip );
+      }
+
+      if ( releaseClip ) {
+        releaseClip.dispose();
+        soundManager.removeSoundGenerator( releaseClip );
+      }
+    } );
   }
 }
 
