@@ -58,10 +58,13 @@ export default class RichDragListener extends DragListener {
       isDisposable: false
     }, providedOptions );
 
+    super( options );
+
     let grabClip: SoundClip;
     if ( options.grabSound ) {
       grabClip = new SoundClip( options.grabSound, options.grabSoundClipOptions );
       soundManager.addSoundGenerator( grabClip );
+      this.disposeEmitter.addListener( () => soundManager.removeSoundGenerator( grabClip ) );
 
       const previousStart = options.start;
       options.start = ( ...args ) => {
@@ -74,6 +77,7 @@ export default class RichDragListener extends DragListener {
     if ( options.releaseSound ) {
       releaseClip = new SoundClip( options.releaseSound, options.releaseSoundClipOptions );
       soundManager.addSoundGenerator( releaseClip );
+      this.disposeEmitter.addListener( () => soundManager.removeSoundGenerator( releaseClip ) );
 
       const previousEnd = options.end;
       options.end = ( ...args ) => {
@@ -81,8 +85,6 @@ export default class RichDragListener extends DragListener {
         releaseClip.play();
       };
     }
-
-    super( options );
   }
 }
 
