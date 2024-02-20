@@ -51,20 +51,15 @@ export default class RichDragListener extends DragListener {
       grabSound: grab_mp3,
       releaseSound: release_mp3,
       grabSoundClipOptions: DEFAULT_DRAG_CLIP_OPTIONS,
-      releaseSoundClipOptions: DEFAULT_DRAG_CLIP_OPTIONS,
-
-      // DragListenerOptions
-      //TODO https://github.com/phetsims/scenery/issues/1592 dispose of SoundClips, soundManager.removeSoundGenerator
-      isDisposable: false
+      releaseSoundClipOptions: DEFAULT_DRAG_CLIP_OPTIONS
     }, providedOptions );
 
-    super( options );
-
+    // Create the grab SoundClip and wire it into the start function for the drag cycle.
     let grabClip: SoundClip;
     if ( options.grabSound ) {
+
       grabClip = new SoundClip( options.grabSound, options.grabSoundClipOptions );
       soundManager.addSoundGenerator( grabClip );
-      this.disposeEmitter.addListener( () => soundManager.removeSoundGenerator( grabClip ) );
 
       const previousStart = options.start;
       options.start = ( ...args ) => {
@@ -73,11 +68,12 @@ export default class RichDragListener extends DragListener {
       };
     }
 
+    // Create the release SoundClip and wire it into the end function for the drag cycle.
     let releaseClip: SoundClip;
     if ( options.releaseSound ) {
+
       releaseClip = new SoundClip( options.releaseSound, options.releaseSoundClipOptions );
       soundManager.addSoundGenerator( releaseClip );
-      this.disposeEmitter.addListener( () => soundManager.removeSoundGenerator( releaseClip ) );
 
       const previousEnd = options.end;
       options.end = ( ...args ) => {
@@ -85,6 +81,21 @@ export default class RichDragListener extends DragListener {
         releaseClip.play();
       };
     }
+
+    super( options );
+
+    // Clean up SoundClips when this RichDragListener is disposed.
+    this.disposeEmitter.addListener( () => {
+      if ( grabClip ) {
+        grabClip.dispose();
+        soundManager.removeSoundGenerator( grabClip );
+      }
+
+      if ( releaseClip ) {
+        releaseClip.dispose();
+        soundManager.removeSoundGenerator( releaseClip );
+      }
+    } );
   }
 }
 
