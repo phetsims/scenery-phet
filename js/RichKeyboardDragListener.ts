@@ -7,8 +7,9 @@
  * broadly applied to DragListener instances in PhET sims.
  *
  * For grab and release sounds, responsibilities include:
- * - creating the SoundClips
- * - registering the SoundClips with soundManager
+ * - provide default sound files
+ * - create SoundClips and register with soundManager
+ * - dispose of SoundClips and deregister with soundManager
  *
  * @author Agustín Vallejo
  * @author Michael Kauzmann
