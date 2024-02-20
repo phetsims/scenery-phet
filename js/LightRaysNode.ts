@@ -105,14 +105,17 @@ export default class LightRaysNode extends Path {
     const shape = new Shape();
 
     // rays fill part of a circle, incrementing clockwise
-    for ( let i = 0, x1, x2, y1, y2; i < this.maxRays; i++ ) {
+    for ( let i = 0, x1, x2, y1, y2, cosAngle, sinAngle; i < this.maxRays; i++ ) {
       if ( i < numberOfRays ) {
 
+        cosAngle = Math.cos( angle );
+        sinAngle = Math.sin( angle );
+
         // determine the end points of the ray
-        x1 = Math.cos( angle ) * this.bulbRadius;
-        y1 = Math.sin( angle ) * this.bulbRadius;
-        x2 = Math.cos( angle ) * ( this.bulbRadius + rayLength );
-        y2 = Math.sin( angle ) * ( this.bulbRadius + rayLength );
+        x1 = cosAngle * this.bulbRadius;
+        y1 = sinAngle * this.bulbRadius;
+        x2 = cosAngle * ( this.bulbRadius + rayLength );
+        y2 = sinAngle * ( this.bulbRadius + rayLength );
 
         shape.moveTo( x1, y1 ).lineTo( x2, y2 );
 
