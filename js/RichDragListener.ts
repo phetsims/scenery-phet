@@ -1,12 +1,13 @@
 // Copyright 2024, University of Colorado Boulder
 
+//TODO https://github.com/phetsims/scenery/issues/1592 Move to scenery-phet
 /**
  * RichDragListener extends DragListener to integrate PhET-specific designed features that should be broadly
  * applied to DragListener instances in PhET sims.
  *
  * For grab and release sounds, responsibilities include:
  * - creating the SoundClips
- * - registering SoundClips with soundManager
+ * - registering the SoundClips with soundManager
  *
  * @author Agustín Vallejo
  * @author Michael Kauzmann
@@ -32,7 +33,7 @@ type SelfOptions = {
   grabSound?: WrappedAudioBuffer | null;
   releaseSound?: WrappedAudioBuffer | null;
 
-  // Provided to the default grab and release SoundClip instances. Ignored for provided grabSound or releaseSound.
+  // Passed to the grab and release SoundClip instances.
   grabSoundClipOptions?: SoundClipOptions;
   releaseSoundClipOptions?: SoundClipOptions;
 };
