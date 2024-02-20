@@ -3,8 +3,8 @@
 //TODO https://github.com/phetsims/scenery/issues/1592 RichKeyboardDragListener and RichDragListener.js are identical except for the string 'Keyboard'.
 //TODO https://github.com/phetsims/scenery/issues/1592 Move to scenery-phet
 /**
- * RichKeyboardDragListener extends KeyboardDragListener to integrate PhET-specific designed features that should be
- * broadly applied to DragListener instances in PhET sims. This includes grab and release sounds.
+ * RichKeyboardDragListener extends KeyboardDragListener to integrate PhET-specific features that should be
+ * broadly applied to DragListener instances in PhET sims.
  *
  * For grab and release sounds, responsibilities include:
  * - creating the SoundClips
