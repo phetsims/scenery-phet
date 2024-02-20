@@ -2,8 +2,8 @@
 
 //TODO https://github.com/phetsims/scenery/issues/1592 Move to scenery-phet
 /**
- * RichDragListener extends DragListener to integrate PhET-specific designed features that should be broadly
- * applied to DragListener instances in PhET sims.
+ * RichDragListener extends DragListener to integrate PhET-specific features that should be broadly applied to
+ * DragListener instances in PhET sims.
  *
  * For grab and release sounds, responsibilities include:
  * - creating the SoundClips
