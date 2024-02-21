@@ -1,6 +1,6 @@
 // Copyright 2024, University of Colorado Boulder
 
-//TODO https://github.com/phetsims/scenery/issues/1592 RichKeyboardDragListener and RichDragListener.js are identical except for the string 'Keyboard'.
+//TODO https://github.com/phetsims/scenery/issues/1614 RichKeyboardDragListener and RichDragListener.js are identical except for the string 'Keyboard'.
 //TODO https://github.com/phetsims/scenery/issues/1592 Move to scenery-phet
 /**
  * RichKeyboardDragListener extends KeyboardDragListener to integrate PhET-specific features that should be
