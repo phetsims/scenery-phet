@@ -42,6 +42,15 @@ class MixedFractionNode extends HBox {
       denominatorFill: 'black',
       separatorFill: 'black',
 
+      // {number} - Font size for the whole number.
+      wholeNumberFontSize: 50,
+
+      // {number} - Font size for the fractional part (i.e. the numerator and denominator).
+      fractionFontSize: 30,
+
+      // {number} - line width of the vinculum
+      vinculumLineWidth: 2,
+
       // {number} - How far past the numbers' bounds that the vinculum should extend.
       vinculumExtension: 0,
 
@@ -51,15 +60,15 @@ class MixedFractionNode extends HBox {
 
     // @private {Text}
     this.wholeText = new Text( '1', {
-      font: new PhetFont( 50 ),
+      font: new PhetFont( options.wholeNumberFontSize ),
       fill: options.wholeFill
     } );
     this.numeratorText = new Text( '1', {
-      font: new PhetFont( 30 ),
+      font: new PhetFont( options.fractionFontSize ),
       fill: options.numeratorFill
     } );
     this.denominatorText = new Text( '1', {
-      font: new PhetFont( 30 ),
+      font: new PhetFont( options.fractionFontSize ),
       fill: options.denominatorFill
     } );
 
@@ -84,7 +93,7 @@ class MixedFractionNode extends HBox {
     // @private {Line}
     this.vinculumNode = new Line( 0, 0, 10, 0, {
       stroke: options.separatorFill,
-      lineWidth: 2,
+      lineWidth: options.vinculumLineWidth,
       lineCap: options.vinculumLineCap
     } );
 
