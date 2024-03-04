@@ -64,9 +64,11 @@ type SelfOptions = {
   playPauseButtonOptions?: BooleanRectangularToggleButtonOptions;
   resetButtonOptions?: RectangularPushButtonOptions;
 
+  // See https://github.com/phetsims/scenery-phet/issues/843
   includePlayPauseResetButtons?: boolean;
 
-  // Additional controls to show below the play/pause/rewind buttons in that VBox
+  // Additional controls to show below the play/pause/rewind buttons in that VBox.
+  // See https://github.com/phetsims/scenery-phet/issues/843
   otherControls?: Node[];
 };
 
