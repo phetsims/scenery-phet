@@ -1,9 +1,11 @@
 // Copyright 2013-2024, University of Colorado Boulder
 
 /**
- * Node that represents a support column with a flat top in the view.
+ * Node that represents a support column with a flat top. An example use case can be seen in Balancing Act,
+ * and the default values represent the design decisions made for that sim.
  *
  * @author John Blanco
+ * @author Marla Schulz (PhET Interactive Simulations)
  */
 
 import { LinearGradient, Node, NodeOptions, Path, Rectangle, TPaint } from '../../scenery/js/imports.js';
