@@ -4,62 +4,67 @@
  * Node that represents a support column with a flat top. An example use case can be seen in Balancing Act,
  * and the default values represent the design decisions made for that sim.
  *
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
 import { LinearGradient, Node, NodeOptions, Path, Rectangle, TPaint } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
-import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
 import { Shape } from '../../kite/js/imports.js';
 import { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { optionize } from '../../phet-core/js/imports.js';
 
 type SelfOptions = {
-  columnFill?: TPaint;
-  columnSupportFill?: TPaint;
+  columnFill?: TPaint | null;
+  columnSupportFill?: TPaint | null;
   stroke?: TPaint;
+  columnWidth: number;
+  columnHeight: number;
   supportWidth?: number;
   supportHeight?: number;
 };
 type LevelSupportColumnNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
+const COLUMN_SUPPORT_CORNER_RADIUS = 3;
+
 class LevelSupportColumnNode extends Node {
 
-  public constructor( modelViewTransform: ModelViewTransform2, levelSupportColumn: Shape, providedOptions: LevelSupportColumnNodeOptions ) {
+  public constructor( providedOptions: LevelSupportColumnNodeOptions ) {
 
-    // Create and add the main body of the column.
-    const transformedColumnShape = modelViewTransform.modelToViewShape( levelSupportColumn );
-
-    // Create and add the column support.
-    const supportWidth = transformedColumnShape.bounds.width * 1.3; // Empirically determined.
-    const supportHeight = transformedColumnShape.bounds.height * 0.15; // Empirically determined.
+    const defaultSupportWidth = providedOptions.columnWidth * 1.3; // Empirically determined.
+    const defaultSupportHeight = providedOptions.columnHeight * 0.15; // Empirically determined.
 
     const options = optionize<LevelSupportColumnNodeOptions, SelfOptions, NodeOptions>()( {
-      columnFill: GET_COLUMN_BODY_GRADIENT( transformedColumnShape ),
-      columnSupportFill: GET_COLUMN_SUPPORT_GRADIENT( transformedColumnShape, supportWidth ),
+      columnFill: null,
+      columnSupportFill: null,
       stroke: 'black',
-      supportWidth: supportWidth,
-      supportHeight: supportHeight
+      supportWidth: defaultSupportWidth,
+      supportHeight: defaultSupportHeight
     }, providedOptions );
 
-    const columnNode = new Path( transformedColumnShape,
+    const columnShape = Shape.rect( 0, 0, options.columnWidth, options.columnHeight );
+
+    const columnFill = options.columnFill || GET_COLUMN_BODY_GRADIENT( columnShape );
+    const columnSupportFill = options.columnFill || GET_COLUMN_SUPPORT_GRADIENT( columnShape, options.supportWidth );
+
+    const columnNode = new Path( columnShape,
       {
-        fill: options.columnFill,
+        fill: columnFill,
         stroke: options.stroke,
         lineWidth: 1
       } );
 
+    // Create and add the column support.
     const columnSupportNode = new Rectangle(
-      transformedColumnShape.bounds.centerX - options.supportWidth / 2,
-      transformedColumnShape.bounds.maxY - options.supportHeight,
+      columnShape.bounds.centerX - options.supportWidth / 2,
+      columnShape.bounds.maxY - options.supportHeight,
       options.supportWidth,
       options.supportHeight,
-      3,
-      3,
+      COLUMN_SUPPORT_CORNER_RADIUS,
+      COLUMN_SUPPORT_CORNER_RADIUS,
       {
-        fill: options.columnSupportFill,
+        fill: columnSupportFill,
         stroke: options.stroke,
         lineWidth: 1
       } );
@@ -70,17 +75,13 @@ class LevelSupportColumnNode extends Node {
 
     super( superOptions );
   }
-
-  public static createLevelSupportColumnShape( width: number, height: number, centerX: number ): Shape {
-    return Shape.rect( centerX - width / 2, 0, width, height );
-  }
 }
 
 // Helper functions to create the Linear Gradient for the support columns.
-export const GET_COLUMN_BODY_GRADIENT = ( transformedColumnShape: Shape ): LinearGradient =>
+export const GET_COLUMN_BODY_GRADIENT = ( columnNode: Shape ): LinearGradient =>
   new LinearGradient(
-    transformedColumnShape.bounds.minX, 0,
-    transformedColumnShape.bounds.maxX, 0
+    columnNode.bounds.minX, 0,
+    columnNode.bounds.maxX, 0
   )
     .addColorStop( 0, '#BFBEBF' )
     .addColorStop( 0.15, '#BFBEBF' )
@@ -91,10 +92,10 @@ export const GET_COLUMN_BODY_GRADIENT = ( transformedColumnShape: Shape ): Linea
     .addColorStop( 0.81, '#979696' )
     .addColorStop( 1, '#979696' );
 
-export const GET_COLUMN_SUPPORT_GRADIENT = ( transformedColumnShape: Shape, supportWidth: number ): LinearGradient =>
+export const GET_COLUMN_SUPPORT_GRADIENT = ( columnNode: Shape, supportWidth: number ): LinearGradient =>
   new LinearGradient(
-    transformedColumnShape.bounds.centerX - supportWidth / 2, 0,
-    transformedColumnShape.bounds.centerX + supportWidth / 2, 0
+    columnNode.bounds.centerX - supportWidth / 2, 0,
+    columnNode.bounds.centerX + supportWidth / 2, 0
   )
     .addColorStop( 0, '#BFBEBF' )
     .addColorStop( 0.15, '#BFBEBF' )
