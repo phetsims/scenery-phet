@@ -70,6 +70,10 @@ class LevelSupportColumnNode extends Node {
 
     super( superOptions );
   }
+
+  public static createLevelSupportColumnShape( width: number, height: number, centerX: number ): Shape {
+    return Shape.rect( centerX - width / 2, 0, width, height );
+  }
 }
 
 // Helper functions to create the Linear Gradient for the support columns.
