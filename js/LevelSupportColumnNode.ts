@@ -11,9 +11,8 @@
 import { LinearGradient, Node, NodeOptions, Path, Rectangle, TPaint } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 import { Shape } from '../../kite/js/imports.js';
-import { combineOptions } from '../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { optionize } from '../../phet-core/js/imports.js';
 
 type SelfOptions = {
   columnFill?: TPaint | null;
