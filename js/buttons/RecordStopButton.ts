@@ -48,7 +48,7 @@ export default class RecordStopButton extends BooleanRoundToggleButton {
     super( recordingProperty, stopIcon, recordIcon, options );
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'RecordStopButton', this );
+    assert && phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'RecordStopButton', this );
   }
 }
 

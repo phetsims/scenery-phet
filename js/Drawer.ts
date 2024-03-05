@@ -255,7 +255,7 @@ export default class Drawer extends Node {
     };
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'Drawer', this );
+    assert && phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'Drawer', this );
   }
 
   public override dispose(): void {

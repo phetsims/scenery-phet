@@ -363,7 +363,7 @@ export default class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
     this.mutate( boundsRequiredOptionKeys );
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'SpectrumSlider', this );
+    assert && phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'SpectrumSlider', this );
   }
 
   public override dispose(): void {

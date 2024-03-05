@@ -162,7 +162,7 @@ class NumberKeypad extends Node {
     this.mutate( options );
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'NumberKeypad', this );
+    assert && phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'NumberKeypad', this );
   }
 
   get clearOnNextKeyPress() { return this.getClearOnNextKeyPress(); }

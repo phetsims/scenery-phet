@@ -325,7 +325,7 @@ export default class ParametricSpringNode extends Node {
     }
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ParametricSpringNode', this );
+    assert && phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ParametricSpringNode', this );
   }
 
   public reset(): void {

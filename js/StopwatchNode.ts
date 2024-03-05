@@ -404,7 +404,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
     this.numberDisplay = numberDisplay;
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'StopwatchNode', this );
+    assert && phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'StopwatchNode', this );
   }
 
   public override dispose(): void {

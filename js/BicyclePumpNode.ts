@@ -314,7 +314,7 @@ export default class BicyclePumpNode extends Node {
     }
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-    assert && phet.chipper.queryParameters.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'BicyclePumpNode', this );
+    assert && phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'BicyclePumpNode', this );
 
     this.disposeBicyclePumpNode = () => {
       this.handleDragListener.dispose(); // to unregister tandem
