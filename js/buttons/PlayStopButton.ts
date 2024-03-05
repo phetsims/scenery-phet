@@ -1,4 +1,4 @@
-// Copyright 2021-2022, University of Colorado Boulder
+// Copyright 2021-2024, University of Colorado Boulder
 
 /**
  * Button for starting/stopping some behavior. Unlike the PlayPauseButton, this indicates that play will re-start
