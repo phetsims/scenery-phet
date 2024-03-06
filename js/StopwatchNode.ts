@@ -467,10 +467,12 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       const centiseconds = StopwatchNode.getDecimalPlaces( time, options.numberOfDecimalPlaces );
       const units = ( typeof options.units === 'string' ) ? options.units : options.units.value;
 
+      const fontSize = `${options.smallNumberFont}px`;
+
       // Single quotes around CSS style so the double-quotes in the CSS font family work. Himalaya doesn't like &quot;
       // See https://github.com/phetsims/collision-lab/issues/140.
       return StringUtils.fillIn( options.valueUnitsPattern, {
-        value: `<span style='font-size: ${options.bigNumberFont}px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${minutesAndSeconds}</span><span style='font-size: ${options.smallNumberFont}px;font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${centiseconds}</span>`,
+        value: `<span style='font-size: ${options.bigNumberFont}px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${minutesAndSeconds}</span><span style='font-size: ${fontSize};font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${centiseconds}</span>`,
         units: `<span style='font-size: ${options.unitsFont}px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${units}</span>`
       } );
     };
