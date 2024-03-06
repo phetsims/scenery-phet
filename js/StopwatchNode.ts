@@ -177,6 +177,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       otherControls: [],
 
       includePlayPauseResetButtons: true,
+      visibleProperty: stopwatch.isVisibleProperty,
 
       // Tandem is required to make sure the buttons are instrumented
       tandem: Tandem.REQUIRED,
@@ -299,7 +300,6 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
     }
 
     const stopwatchVisibleListener = ( visible: boolean ) => {
-      this.visible = visible;
       if ( visible ) {
         this.moveToFront();
       }
