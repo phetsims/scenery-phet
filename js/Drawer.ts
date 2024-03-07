@@ -10,12 +10,11 @@ import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import Property from '../../axon/js/Property.js';
 import stepTimer from '../../axon/js/stepTimer.js';
-import TinyEmitter from '../../axon/js/TinyEmitter.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { TColor, Node, NodeOptions, Path, PressListener, Rectangle } from '../../scenery/js/imports.js';
+import { Node, NodeOptions, Path, PressListener, Rectangle, TColor } from '../../scenery/js/imports.js';
 import Animation from '../../twixt/js/Animation.js';
 import Easing from '../../twixt/js/Easing.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -56,7 +55,7 @@ type SelfOptions = {
   // animation
   animationEnabled?: boolean; // is animation enabled when opening/closing the drawer?
   animationDuration?: number; // duration of animation (drawer opening and closing) in seconds
-  stepEmitter?: TReadOnlyEmitter<[ number ]> | TinyEmitter<[ number ]> | null; // see Animation options.stepEmitter
+  stepEmitter?: TReadOnlyEmitter<[ number ]> | null; // see Animation options.stepEmitter
 };
 
 export type DrawerOptions = SelfOptions & StrictOmit<NodeOptions, 'children' | 'clipArea'>;
