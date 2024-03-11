@@ -9,11 +9,10 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import DemosScreenView, { DemosScreenViewOptions } from '../../../../sun/js/demo/DemosScreenView.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import sceneryPhetQueryParameters from '../../sceneryPhetQueryParameters.js';
 import demoNumberControl from './demoNumberControl.js';
 import demoSliderWithSpectrum from './demoSliderWithSpectrum.js';
 import demoWavelengthNumberControl from './demoWavelengthNumberControl.js';
@@ -24,11 +23,7 @@ type SlidersScreenViewOptions = SelfOptions & PickRequired<DemosScreenViewOption
 
 export default class SlidersScreenView extends DemosScreenView {
 
-  public constructor( providedOptions: SlidersScreenViewOptions ) {
-
-    const options = optionize<SlidersScreenViewOptions, SelfOptions, DemosScreenViewOptions>()( {
-      selectedDemoLabel: sceneryPhetQueryParameters.slider
-    }, providedOptions );
+  public constructor( options: SlidersScreenViewOptions ) {
 
     // To add a demo, add an entry here of type DemoItemData.
     const demos = [

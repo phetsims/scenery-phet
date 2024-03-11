@@ -16,18 +16,6 @@ const sceneryPhetQueryParameters = QueryStringMachine.getAll( {
     defaultValue: 'white'
   },
 
-  // initial selection on the Sliders screen, values are the same as the labels on combo box items
-  slider: {
-    type: 'string',
-    defaultValue: null
-  },
-
-  // initial selection on the Components screen, values are the same as the labels on combo box items
-  component: {
-    type: 'string',
-    defaultValue: null
-  },
-
   // Should be a CSS font-family compatible string, see https://developer.mozilla.org/en-US/docs/Web/CSS/font-family
   fontFamily: {
     type: 'string',

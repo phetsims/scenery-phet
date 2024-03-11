@@ -9,11 +9,10 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import DemosScreenView, { DemosScreenViewOptions } from '../../../../sun/js/demo/DemosScreenView.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import sceneryPhetQueryParameters from '../../sceneryPhetQueryParameters.js';
 import demoArrowNode from './demoArrowNode.js';
 import demoBeakerNode from './demoBeakerNode.js';
 import demoBicyclePumpNode from './demoBicyclePumpNode.js';
@@ -57,11 +56,7 @@ type ComponentsScreenViewOptions = SelfOptions & PickRequired<DemosScreenViewOpt
 
 export default class ComponentsScreenView extends DemosScreenView {
 
-  public constructor( providedOptions: ComponentsScreenViewOptions ) {
-
-    const options = optionize<ComponentsScreenViewOptions, SelfOptions, DemosScreenViewOptions>()( {
-      selectedDemoLabel: sceneryPhetQueryParameters.component
-    }, providedOptions );
+  public constructor( options: ComponentsScreenViewOptions ) {
 
     // To add a demo, add an entry here of type DemoItemData.
     const demos = [
