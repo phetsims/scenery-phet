@@ -5,6 +5,8 @@
  * Based on the value of solutionLevelProperty, it fills the beaker with solution from the bottom up.
  * The Beaker and solution use flat style shading and highlights to provide pseudo-3D dimension.
  *
+ * This node expects the provided solutionLevelProperty that maps between 0 (empty) and 1 (full).
+ *
  * @author Marla Schulz <marla.schulz@colorado.edu>
  */
 
