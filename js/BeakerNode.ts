@@ -1,4 +1,4 @@
-// Copyright 2018-2023, University of Colorado Boulder
+// Copyright 2018-2024, University of Colorado Boulder
 
 /**
  * BeakerNode draws a pseudo-3D cylindrical beaker, with optional tick marks, containing a solution.
