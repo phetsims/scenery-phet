@@ -22,7 +22,6 @@ import { Circle, DragListener, DragListenerOptions, HBox, InteractiveHighlightin
 import BooleanRectangularToggleButton, { BooleanRectangularToggleButtonOptions } from '../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import DragBoundsProperty from './DragBoundsProperty.js';
 import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import PauseIconShape from './PauseIconShape.js';
 import PhetFont from './PhetFont.js';
@@ -35,6 +34,7 @@ import UTurnArrowShape from './UTurnArrowShape.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import TSoundPlayer from '../../tambo/js/TSoundPlayer.js';
 import pushButtonSoundPlayer from '../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
 
 type SelfOptions = {
 
@@ -318,14 +318,31 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
     this.dragListener = null;
     this.keyboardDragListener = null;
 
-    let adjustedDragBoundsProperty: DragBoundsProperty | null = null;
+    let adjustedDragBoundsProperty: TReadOnlyProperty<Bounds2> | null = null;
     if ( options.dragBoundsProperty ) {
 
       // interactive highlights - adding a DragListener to make this interactive, enable highlights for mouse and touch
       this.interactiveHighlightEnabled = true;
 
-      // drag bounds, adjusted to keep this entire Node inside visible bounds
-      adjustedDragBoundsProperty = new DragBoundsProperty( this, options.dragBoundsProperty );
+      // Adjustment to keep the entire StopwatchNode inside the drag bounds.
+      adjustedDragBoundsProperty = new DerivedProperty(
+        [ this.boundsProperty, options.dragBoundsProperty ],
+        ( thisBounds, dragBounds ) => {
+
+          // Get the origin in the parent coordinate frame, to determine our bounds offsets in that coordinate frame.
+          // This way we'll properly handle scaling/rotation/etc.
+          const targetOriginInParentCoordinates = this.localToParentPoint( Vector2.ZERO );
+
+          return new Bounds2(
+            dragBounds.minX - ( thisBounds.minX - targetOriginInParentCoordinates.x ),
+            dragBounds.minY - ( thisBounds.minY - targetOriginInParentCoordinates.y ),
+            dragBounds.maxX - ( thisBounds.maxX - targetOriginInParentCoordinates.x ),
+            dragBounds.maxY - ( thisBounds.maxY - targetOriginInParentCoordinates.y )
+          );
+        }, {
+          valueComparisonStrategy: 'equalsFunction', // Don't make spurious changes, we often won't be changing.
+          strictAxonDependencies: false // see https://github.com/phetsims/scenery-phet/issues/832
+        } );
 
       // interrupt user interactions when the visible bounds changes, such as a device orientation change or window resize
       options.dragBoundsProperty.link( () => this.interruptSubtreeInput() );
