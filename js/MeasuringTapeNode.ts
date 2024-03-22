@@ -35,8 +35,8 @@ import SceneryPhetStrings from './SceneryPhetStrings.js';
 import TProperty from '../../axon/js/TProperty.js';
 import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import RichKeyboardDragListener, { RichKeyboardDragListenerOptions } from '../../sun/js/RichKeyboardDragListener.js';
-import RichDragListener, { RichDragListenerOptions } from '../../sun/js/RichDragListener.js';
+import RichKeyboardDragListener, { RichKeyboardDragListenerOptions } from '../../scenery-phet/js/RichKeyboardDragListener.js';
+import RichDragListener, { RichDragListenerOptions } from '../../scenery-phet/js/RichDragListener.js';
 
 export type MeasuringTapeUnits = {
   name: string;

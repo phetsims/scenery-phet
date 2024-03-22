@@ -35,8 +35,8 @@ import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import TSoundPlayer from '../../tambo/js/TSoundPlayer.js';
 import pushButtonSoundPlayer from '../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import RichDragListener, { RichDragListenerOptions } from '../../sun/js/RichDragListener.js';
-import RichKeyboardDragListener, { RichKeyboardDragListenerOptions } from '../../sun/js/RichKeyboardDragListener.js';
+import RichDragListener, { RichDragListenerOptions } from '../../scenery-phet/js/RichDragListener.js';
+import RichKeyboardDragListener, { RichKeyboardDragListenerOptions } from '../../scenery-phet/js/RichKeyboardDragListener.js';
 
 type SelfOptions = {
 
