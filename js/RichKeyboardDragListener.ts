@@ -1,6 +1,5 @@
 // Copyright 2024, University of Colorado Boulder
 
-//TODO https://github.com/phetsims/scenery/issues/1614 RichKeyboardDragListener and RichDragListener.js are identical except for the string 'Keyboard'.
 /**
  * RichKeyboardDragListener extends KeyboardDragListener to integrate PhET-specific features that should be
  * broadly applied to DragListener instances in PhET sims.
@@ -9,6 +8,10 @@
  * - provide default sound files
  * - create SoundClips and register them with soundManager
  * - dispose of SoundClips and deregister them with soundManager
+ *
+ * TODO: What about the shared sound player called grabSoundPlayer() https://github.com/phetsims/scenery/issues/1592
+ * TODO: https://github.com/phetsims/scenery/issues/1614 RichKeyboardDragListener and RichDragListener.js are identical except for the string 'Keyboard'.
+ * TODO: soundManagerOptions: { categoryName: 'user-interface' } are used by grabSoundPlayer. Should we have this in our defaults?
  *
  * @author Agustín Vallejo
  * @author Michael Kauzmann
