@@ -50,6 +50,7 @@ import demoStopwatchNode from './demoStopwatchNode.js';
 import demoThermometerNode from './demoThermometerNode.js';
 import demoTimeControlNode from './demoTimeControlNode.js';
 import demoWireNode from './demoWireNode.js';
+import demoRichDragListeners from './demoRichDragListeners.js';
 
 type SelfOptions = EmptySelfOptions;
 type ComponentsScreenViewOptions = SelfOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;
@@ -86,6 +87,7 @@ export default class ComponentsScreenView extends DemosScreenView {
       { label: 'PaperAirplaneNode', createNode: demoPaperAirplaneNode },
       { label: 'ParametricSpringNode', createNode: demoParametricSpringNode },
       { label: 'ProbeNode', createNode: demoProbeNode },
+      { label: 'RichDragListeners', createNode: demoRichDragListeners },
       { label: 'RichText', createNode: demoRichText },
       { label: 'RulerNode', createNode: demoRulerNode },
       { label: 'ScientificNotationNode', createNode: demoScientificNotationNode },
