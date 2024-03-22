@@ -22,11 +22,11 @@ import Vector2 from '../../dot/js/Vector2.js';
 import Vector2Property from '../../dot/js/Vector2Property.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
-import { Circle, DragListener, Font, Image, InteractiveHighlightingNode, KeyboardDragListener, Line, Node, NodeOptions, NodeTranslationOptions, Path, PressListenerEvent, Rectangle, TColor, Text } from '../../scenery/js/imports.js';
+import { Circle, DragListener, Font, Image, InteractiveHighlightingNode, Line, Node, NodeOptions, NodeTranslationOptions, Path, PressListenerEvent, Rectangle, TColor, Text } from '../../scenery/js/imports.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
 import measuringTape_png from '../images/measuringTape_png.js';
 import PhetFont from './PhetFont.js';
@@ -35,6 +35,8 @@ import SceneryPhetStrings from './SceneryPhetStrings.js';
 import TProperty from '../../axon/js/TProperty.js';
 import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import RichKeyboardDragListener, { RichKeyboardDragListenerOptions } from '../../sun/js/RichKeyboardDragListener.js';
+import RichDragListener, { RichDragListenerOptions } from '../../sun/js/RichDragListener.js';
 
 export type MeasuringTapeUnits = {
   name: string;
@@ -84,12 +86,10 @@ type SelfOptions = {
   baseDragEnded?: () => void; // called when the base drag ends, for testing whether it has dropped into the toolbox
   phetioReadoutStringPropertyInstrumented?: boolean; // whether to instrument readoutStringProperty for PhET-iO
   phetioFeaturedMeasuredDistanceProperty?: boolean; // phetioFeatured value for measuredDistanceProperty
-  keyboardDragListenerOptions?: {
-    baseDragSpeed?: number;
-    baseShiftDragSpeed?: number;
-    tipDragSpeed?: number;
-    tipShiftDragSpeed?: number;
-  };
+  baseDragListenerOptions?: RichDragListenerOptions;
+  tipDragListenerOptions?: RichDragListenerOptions;
+  baseKeyboardDragListenerOptions?: RichKeyboardDragListenerOptions;
+  tipKeyboardDragListenerOptions?: RichKeyboardDragListenerOptions;
 };
 
 /**
@@ -175,11 +175,15 @@ class MeasuringTapeNode extends Node {
       baseDragEnded: _.noop, // called when the base drag ends, for testing whether it has dropped into the toolbox
       phetioReadoutStringPropertyInstrumented: true,
       phetioFeaturedMeasuredDistanceProperty: false,
-      keyboardDragListenerOptions: {
-        baseDragSpeed: KEYBOARD_DRAG_SPEED,
-        baseShiftDragSpeed: KEYBOARD_DRAG_SPEED / 2,
-        tipDragSpeed: KEYBOARD_DRAG_SPEED,
-        tipShiftDragSpeed: 150
+      baseDragListenerOptions: {},
+      baseKeyboardDragListenerOptions: {
+        dragSpeed: KEYBOARD_DRAG_SPEED,
+        shiftDragSpeed: KEYBOARD_DRAG_SPEED / 2
+      },
+      tipDragListenerOptions: {},
+      tipKeyboardDragListenerOptions: {
+        dragSpeed: KEYBOARD_DRAG_SPEED,
+        shiftDragSpeed: 150
       }
     }, providedOptions );
 
@@ -364,7 +368,7 @@ class MeasuringTapeNode extends Node {
       };
 
       // Drag listener for base
-      this.baseDragListener = new DragListener( {
+      this.baseDragListener = new RichDragListener( combineOptions<RichDragListenerOptions>( {
         tandem: options.tandem?.createTandem( 'baseDragListener' ),
         start: event => {
           baseStart();
@@ -385,22 +389,19 @@ class MeasuringTapeNode extends Node {
           handleTipOnBaseDrag( translationDelta );
         },
         end: baseEnd
-      } );
+      }, options.baseDragListenerOptions ) );
       this.baseImage.addInputListener( this.baseDragListener );
 
       // Drag listener for base
-      const baseKeyboardDragListener = new KeyboardDragListener( {
+      const baseKeyboardDragListener = new RichKeyboardDragListener( combineOptions<RichKeyboardDragListenerOptions>( {
         tandem: options.tandem?.createTandem( 'baseKeyboardDragListener' ),
         positionProperty: this.basePositionProperty,
         transform: this.modelViewTransformProperty,
         dragBoundsProperty: this.dragBoundsProperty,
-        dragSpeed: options.keyboardDragListenerOptions.baseDragSpeed,
-        shiftDragSpeed: options.keyboardDragListenerOptions.baseShiftDragSpeed,
         start: baseStart,
         drag: handleTipOnBaseDrag,
         end: baseEnd
-      } );
-
+      }, options.baseKeyboardDragListenerOptions ) );
       this.baseImage.addInputListener( baseKeyboardDragListener );
 
       const tipEnd = () => {
@@ -410,7 +411,7 @@ class MeasuringTapeNode extends Node {
       let tipStartOffset: Vector2;
 
       // Drag listener for tip
-      const tipDragListener = new DragListener( {
+      const tipDragListener = new RichDragListener( combineOptions<RichDragListenerOptions>( {
         tandem: options.tandem?.createTandem( 'tipDragListener' ),
 
         start: event => {
@@ -434,22 +435,20 @@ class MeasuringTapeNode extends Node {
         },
 
         end: tipEnd
-      } );
+      }, options.tipDragListenerOptions ) );
       tip.addInputListener( tipDragListener );
 
-      const tipKeyboardDragListener = new KeyboardDragListener( {
+      const tipKeyboardDragListener = new RichKeyboardDragListener( combineOptions<RichKeyboardDragListenerOptions>( {
         tandem: options.tandem?.createTandem( 'tipKeyboardDragListener' ),
         positionProperty: this.tipPositionProperty,
         dragBoundsProperty: options.isTipDragBounded ? this.dragBoundsProperty : null,
         transform: this.modelViewTransformProperty,
-        dragSpeed: options.keyboardDragListenerOptions.tipDragSpeed,
-        shiftDragSpeed: options.keyboardDragListenerOptions.tipShiftDragSpeed,
         start: () => {
           this.moveToFront();
           this._isTipUserControlledProperty.value = true;
         },
         end: tipEnd
-      } );
+      }, options.tipKeyboardDragListenerOptions ) );
       tip.addInputListener( tipKeyboardDragListener );
 
       // If this Node becomes invisible, interrupt user interaction.
