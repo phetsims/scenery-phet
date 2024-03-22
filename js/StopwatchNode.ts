@@ -35,7 +35,7 @@ import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import TSoundPlayer from '../../tambo/js/TSoundPlayer.js';
 import pushButtonSoundPlayer from '../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import RichDragListener, { RichDragListenerOptions } from '../../scenery-phet/js/RichDragListener.js';
+import RichDragListener, { PressedRichDragListener, RichDragListenerOptions } from '../../scenery-phet/js/RichDragListener.js';
 import RichKeyboardDragListener, { RichKeyboardDragListenerOptions } from '../../scenery-phet/js/RichKeyboardDragListener.js';
 
 type SelfOptions = {
@@ -366,7 +366,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
 
       // Add moveToFront to any start function that the client provided.
       const optionsStart = dragListenerOptions.start!;
-      dragListenerOptions.start = ( event: PressListenerEvent, listener: RichDragListener ) => {
+      dragListenerOptions.start = ( event: PressListenerEvent, listener: PressedRichDragListener ) => {
         this.moveToFront();
         optionsStart( event, listener );
       };
