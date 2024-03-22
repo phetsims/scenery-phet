@@ -1,7 +1,6 @@
 // Copyright 2024, University of Colorado Boulder
 
 //TODO https://github.com/phetsims/scenery/issues/1614 RichKeyboardDragListener and RichDragListener.js are identical except for the string 'Keyboard'.
-//TODO https://github.com/phetsims/scenery/issues/1592 Move to scenery-phet
 /**
  * RichKeyboardDragListener extends KeyboardDragListener to integrate PhET-specific features that should be
  * broadly applied to DragListener instances in PhET sims.
@@ -16,7 +15,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import sun from './sun.js';
+import sceneryPhet from './sceneryPhet.js';
 import { KeyboardDragListener, KeyboardDragListenerOptions } from '../../scenery/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
 import SoundClip, { SoundClipOptions } from '../../tambo/js/sound-generators/SoundClip.js';
@@ -98,4 +97,4 @@ export default class RichKeyboardDragListener extends KeyboardDragListener {
   }
 }
 
-sun.register( 'RichKeyboardDragListener', RichKeyboardDragListener );
+sceneryPhet.register( 'RichKeyboardDragListener', RichKeyboardDragListener );
