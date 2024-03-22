@@ -15,7 +15,7 @@
  */
 
 import sceneryPhet from './sceneryPhet.js';
-import { DragListener, DragListenerOptions } from '../../scenery/js/imports.js';
+import { DragListener, DragListenerOptions, PressedDragListener } from '../../scenery/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
 import SoundClip, { SoundClipOptions } from '../../tambo/js/sound-generators/SoundClip.js';
 import grab_mp3 from '../../tambo/sounds/grab_mp3.js';
@@ -38,13 +38,16 @@ type SelfOptions = {
   releaseSoundClipOptions?: SoundClipOptions;
 };
 
-export type RichDragListenerOptions = SelfOptions & DragListenerOptions<RichDragListener>;
+// Pattern followed from DragListenerOptions.
+export type PressedRichDragListener = RichDragListener & PressedDragListener;
+
+export type RichDragListenerOptions<Listener extends PressedRichDragListener> = SelfOptions & DragListenerOptions<Listener>;
 
 export default class RichDragListener extends DragListener {
 
-  public constructor( providedOptions: RichDragListenerOptions ) {
+  public constructor( providedOptions: RichDragListenerOptions<PressedRichDragListener> ) {
 
-    const options = optionize<RichDragListenerOptions, SelfOptions, DragListenerOptions<RichDragListener>>()( {
+    const options = optionize<RichDragListenerOptions<PressedRichDragListener>, SelfOptions, DragListenerOptions<PressedRichDragListener>>()( {
 
       // SelfOptions
       grabSound: grab_mp3,
