@@ -18,7 +18,7 @@ import Vector2 from '../../dot/js/Vector2.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
-import { Circle, DragListener, DragListenerOptions, HBox, InteractiveHighlighting, InteractiveHighlightingOptions, KeyboardDragListener, KeyboardDragListenerOptions, Node, NodeOptions, Path, PressedDragListener, PressListenerEvent, TColor, VBox } from '../../scenery/js/imports.js';
+import { Circle, DragListener, HBox, InteractiveHighlighting, InteractiveHighlightingOptions, KeyboardDragListener, KeyboardDragListenerOptions, Node, NodeOptions, Path, PressListenerEvent, TColor, VBox } from '../../scenery/js/imports.js';
 import BooleanRectangularToggleButton, { BooleanRectangularToggleButtonOptions } from '../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -35,6 +35,8 @@ import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import TSoundPlayer from '../../tambo/js/TSoundPlayer.js';
 import pushButtonSoundPlayer from '../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import RichDragListener, { RichDragListenerOptions } from '../../sun/js/RichDragListener.js';
+import RichKeyboardDragListener, { RichKeyboardDragListenerOptions } from '../../sun/js/RichKeyboardDragListener.js';
 
 type SelfOptions = {
 
@@ -57,8 +59,8 @@ type SelfOptions = {
   dragBoundsProperty?: Property<Bounds2> | null;
 
   // options propagated to the DragListener
-  dragListenerOptions?: DragListenerOptions<PressedDragListener>;
-  keyboardDragListenerOptions?: KeyboardDragListenerOptions;
+  dragListenerOptions?: RichDragListenerOptions;
+  keyboardDragListenerOptions?: RichKeyboardDragListenerOptions;
 
   // Passed to their respective buttons
   playPauseButtonOptions?: BooleanRectangularToggleButtonOptions;
@@ -355,7 +357,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       } );
 
       // dragging, added to background so that other UI components get input events on touch devices
-      const dragListenerOptions = combineOptions<DragListenerOptions<PressedDragListener>>( {
+      const dragListenerOptions = combineOptions<RichDragListenerOptions>( {
         targetNode: this,
         positionProperty: stopwatch.positionProperty,
         dragBoundsProperty: adjustedDragBoundsProperty,
@@ -364,14 +366,14 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
 
       // Add moveToFront to any start function that the client provided.
       const optionsStart = dragListenerOptions.start!;
-      dragListenerOptions.start = ( event: PressListenerEvent, listener: PressedDragListener ) => {
+      dragListenerOptions.start = ( event: PressListenerEvent, listener: RichDragListener ) => {
         this.moveToFront();
         optionsStart( event, listener );
       };
 
       // Dragging, added to background so that other UI components get input events on touch devices.
       // If added to 'this', touchSnag will lock out listeners for other UI components.
-      this.dragListener = new DragListener( dragListenerOptions );
+      this.dragListener = new RichDragListener( dragListenerOptions );
       backgroundNode.addInputListener( this.dragListener );
 
       const keyboardDragListenerOptions = combineOptions<KeyboardDragListenerOptions>( {
@@ -380,7 +382,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
         tandem: options.tandem.createTandem( 'keyboardDragListener' )
       }, options.keyboardDragListenerOptions );
 
-      this.keyboardDragListener = new KeyboardDragListener( keyboardDragListenerOptions );
+      this.keyboardDragListener = new RichKeyboardDragListener( keyboardDragListenerOptions );
       this.addInputListener( this.keyboardDragListener );
 
       // The group focus highlight makes it clear the stopwatch is highlighted even if the children are focused
