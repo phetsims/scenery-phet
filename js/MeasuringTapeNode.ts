@@ -86,6 +86,8 @@ type SelfOptions = {
   baseDragEnded?: () => void; // called when the base drag ends, for testing whether it has dropped into the toolbox
   phetioReadoutStringPropertyInstrumented?: boolean; // whether to instrument readoutStringProperty for PhET-iO
   phetioFeaturedMeasuredDistanceProperty?: boolean; // phetioFeatured value for measuredDistanceProperty
+
+  // Options passed to the drag listeners for the base and tip.
   baseDragListenerOptions?: RichDragListenerOptions;
   tipDragListenerOptions?: RichDragListenerOptions;
   baseKeyboardDragListenerOptions?: RichKeyboardDragListenerOptions;
@@ -135,7 +137,7 @@ class MeasuringTapeNode extends Node {
     const ownsBasePositionProperty = !providedOptions?.basePositionProperty;
     const ownsTipPositionProperty = !providedOptions?.tipPositionProperty;
 
-    const options = optionize<MeasuringTapeNodeOptions, SelfOptions, NodeOptions>()( {
+    const options = optionize<MeasuringTapeNodeOptions, StrictOmit<SelfOptions, 'baseDragListenerOptions' | 'tipDragListenerOptions'>, NodeOptions>()( {
 
       // base Position in model coordinate reference frame (rightBottom position of the measuring tape image)
       basePositionProperty: new Vector2Property( new Vector2( 0, 0 ) ),
@@ -175,12 +177,10 @@ class MeasuringTapeNode extends Node {
       baseDragEnded: _.noop, // called when the base drag ends, for testing whether it has dropped into the toolbox
       phetioReadoutStringPropertyInstrumented: true,
       phetioFeaturedMeasuredDistanceProperty: false,
-      baseDragListenerOptions: {},
       baseKeyboardDragListenerOptions: {
         dragSpeed: KEYBOARD_DRAG_SPEED,
         shiftDragSpeed: KEYBOARD_DRAG_SPEED / 2
       },
-      tipDragListenerOptions: {},
       tipKeyboardDragListenerOptions: {
         dragSpeed: KEYBOARD_DRAG_SPEED,
         shiftDragSpeed: 150
