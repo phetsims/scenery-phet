@@ -20,7 +20,7 @@ import optionize from '../../phet-core/js/optionize.js';
 import SoundClip, { SoundClipOptions } from '../../tambo/js/sound-generators/SoundClip.js';
 import grab_mp3 from '../../tambo/sounds/grab_mp3.js';
 import release_mp3 from '../../tambo/sounds/release_mp3.js';
-import soundManager from '../../tambo/js/soundManager.js';
+import soundManager, { SoundGeneratorAddOptions } from '../../tambo/js/soundManager.js';
 import WrappedAudioBuffer from '../../tambo/js/WrappedAudioBuffer.js';
 
 const DEFAULT_DRAG_CLIP_OPTIONS: SoundClipOptions = {
@@ -36,6 +36,10 @@ type SelfOptions = {
   // Passed to the grab and release SoundClip instances.
   grabSoundClipOptions?: SoundClipOptions;
   releaseSoundClipOptions?: SoundClipOptions;
+
+  // addSoundGeneratorOptions
+  grabSoundGeneratorAddOptions?: SoundGeneratorAddOptions;
+  releaseSoundGeneratorAddOptions?: SoundGeneratorAddOptions;
 };
 
 // Pattern followed from DragListenerOptions.
@@ -53,7 +57,9 @@ export default class RichDragListener extends DragListener {
       grabSound: grab_mp3,
       releaseSound: release_mp3,
       grabSoundClipOptions: DEFAULT_DRAG_CLIP_OPTIONS,
-      releaseSoundClipOptions: DEFAULT_DRAG_CLIP_OPTIONS
+      releaseSoundClipOptions: DEFAULT_DRAG_CLIP_OPTIONS,
+      grabSoundGeneratorAddOptions: {},
+      releaseSoundGeneratorAddOptions: {}
     }, providedOptions );
 
     // Create the grab SoundClip and wire it into the start function for the drag cycle.
@@ -61,7 +67,7 @@ export default class RichDragListener extends DragListener {
     if ( options.grabSound ) {
 
       grabClip = new SoundClip( options.grabSound, options.grabSoundClipOptions );
-      soundManager.addSoundGenerator( grabClip );
+      soundManager.addSoundGenerator( grabClip, options.grabSoundGeneratorAddOptions );
 
       const previousStart = options.start;
       options.start = ( ...args ) => {
@@ -75,7 +81,7 @@ export default class RichDragListener extends DragListener {
     if ( options.releaseSound ) {
 
       releaseClip = new SoundClip( options.releaseSound, options.releaseSoundClipOptions );
-      soundManager.addSoundGenerator( releaseClip );
+      soundManager.addSoundGenerator( releaseClip, options.releaseSoundGeneratorAddOptions );
 
       const previousEnd = options.end;
       options.end = ( ...args ) => {
