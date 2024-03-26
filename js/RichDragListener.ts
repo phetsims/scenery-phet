@@ -26,6 +26,7 @@ import WrappedAudioBuffer from '../../tambo/js/WrappedAudioBuffer.js';
 const DEFAULT_DRAG_CLIP_OPTIONS: SoundClipOptions = {
   initialOutputLevel: 0.4
 };
+const DEFAULT_ADD_SOUND_GENERATOR_OPTIONS: SoundGeneratorAddOptions = { categoryName: 'user-interface' };
 
 type SelfOptions = {
 
@@ -58,8 +59,8 @@ export default class RichDragListener extends DragListener {
       releaseSound: release_mp3,
       grabSoundClipOptions: DEFAULT_DRAG_CLIP_OPTIONS,
       releaseSoundClipOptions: DEFAULT_DRAG_CLIP_OPTIONS,
-      grabSoundGeneratorAddOptions: {},
-      releaseSoundGeneratorAddOptions: {}
+      grabSoundGeneratorAddOptions: DEFAULT_ADD_SOUND_GENERATOR_OPTIONS,
+      releaseSoundGeneratorAddOptions: DEFAULT_ADD_SOUND_GENERATOR_OPTIONS
     }, providedOptions );
 
     // Create the grab SoundClip and wire it into the start function for the drag cycle.
