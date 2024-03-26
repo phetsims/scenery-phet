@@ -58,7 +58,7 @@ type SelfOptions = {
   // If provided, the stopwatch is draggable within the bounds. If null, the stopwatch is not draggable.
   dragBoundsProperty?: Property<Bounds2> | null;
 
-  // options propagated to the DragListener
+  // options propagated to the drag listeners
   dragListenerOptions?: RichDragListenerOptions;
   keyboardDragListenerOptions?: RichKeyboardDragListenerOptions;
 
