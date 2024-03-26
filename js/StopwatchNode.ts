@@ -18,7 +18,7 @@ import Vector2 from '../../dot/js/Vector2.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
-import { Circle, DragListener, HBox, InteractiveHighlighting, InteractiveHighlightingOptions, KeyboardDragListener, KeyboardDragListenerOptions, Node, NodeOptions, Path, PressListenerEvent, TColor, VBox } from '../../scenery/js/imports.js';
+import { Circle, DragListener, HBox, InteractiveHighlighting, InteractiveHighlightingOptions, KeyboardDragListener, Node, NodeOptions, Path, PressListenerEvent, TColor, VBox } from '../../scenery/js/imports.js';
 import BooleanRectangularToggleButton, { BooleanRectangularToggleButtonOptions } from '../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -376,7 +376,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       this.dragListener = new RichDragListener( dragListenerOptions );
       backgroundNode.addInputListener( this.dragListener );
 
-      const keyboardDragListenerOptions = combineOptions<KeyboardDragListenerOptions>( {
+      const keyboardDragListenerOptions = combineOptions<RichKeyboardDragListenerOptions>( {
         positionProperty: stopwatch.positionProperty,
         dragBoundsProperty: adjustedDragBoundsProperty,
         tandem: options.tandem.createTandem( 'keyboardDragListener' )
