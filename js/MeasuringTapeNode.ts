@@ -179,11 +179,11 @@ class MeasuringTapeNode extends Node {
       phetioFeaturedMeasuredDistanceProperty: false,
       baseKeyboardDragListenerOptions: {
         dragSpeed: KEYBOARD_DRAG_SPEED,
-        shiftDragSpeed: KEYBOARD_DRAG_SPEED / 2
+        shiftDragSpeed: KEYBOARD_DRAG_SPEED / 4
       },
       tipKeyboardDragListenerOptions: {
         dragSpeed: KEYBOARD_DRAG_SPEED,
-        shiftDragSpeed: 150
+        shiftDragSpeed: KEYBOARD_DRAG_SPEED / 4
       }
     }, providedOptions );
 
