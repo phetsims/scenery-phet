@@ -11,7 +11,7 @@ import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
-import { Node, Path, PathOptions, Rectangle } from '../../scenery/js/imports.js';
+import { Node, Path, PathOptions, Rectangle, RectangleOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 import SpectrumNode, { SpectrumNodeOptions } from './SpectrumNode.js';
 
@@ -19,6 +19,8 @@ type SelfOptions = {
   width?: number;
   height?: number;
   cursorHeight?: number;
+  cursorWidth?: number;
+  windowCursorOptions?: RectangleOptions;
 } & PickOptional<SpectrumNodeOptions, 'valueToColor'>;
 
 export type SpectrumSliderThumbOptions = SelfOptions & PathOptions;
@@ -36,12 +38,21 @@ export default class SpectrumSliderThumb extends Path {
       width: 35,
       height: 45,
       valueToColor: SpectrumNode.DEFAULT_VALUE_TO_COLOR,
+
+      // WindowCursorOptions
       cursorHeight: 30,
+      cursorWidth: 3,
+      windowCursorOptions: {
+        bottom: 0,
+        centerX: 0,
+        stroke: 'black'
+      },
 
       // PathOptions
       fill: 'black',
       stroke: 'black',
       lineWidth: 1
+
     }, providedOptions );
 
     const width = options.width;
@@ -80,11 +91,7 @@ export default class SpectrumSliderThumb extends Path {
     super( handleShape, options );
 
     // Cursor window that appears over the slider track
-    this.windowCursor = new Rectangle( 0, 0, 3, options.cursorHeight, 2, 2, {
-      bottom: 0,
-      centerX: 0,
-      stroke: 'black'
-    } );
+    this.windowCursor = new Rectangle( 0, 0, options.cursorWidth, options.cursorHeight, 2, 2, options.windowCursorOptions );
     this.addChild( this.windowCursor );
 
     const listener = ( value: number ) => this.setFill( options.valueToColor( value ) );
