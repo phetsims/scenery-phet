@@ -12,7 +12,7 @@
 
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
-import { Node, NodeOptions, Rectangle, RectangleOptions, RichText, RichTextOptions } from '../../scenery/js/imports.js';
+import { Node, NodeOptions, Rectangle, RectangleOptions, RichText, RichTextOptions, Text, TextOptions } from '../../scenery/js/imports.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -38,8 +38,11 @@ type SelfOptions = {
   // Options passed to the background Rectangle
   rectangleOptions?: RectangleOptions;
 
+  // true = use RichText, false = use Text
+  useRichText?: boolean;
+
   // Options passed to the RichText that displays the string
-  richTextOptions?: StrictOmit<RichTextOptions, 'maxWidth' | 'maxHeight'>;
+  textOptions?: StrictOmit<TextOptions | RichTextOptions, 'maxWidth' | 'maxHeight'>;
 };
 
 export type StringDisplayOptions = SelfOptions & NodeOptions;
@@ -50,13 +53,14 @@ export default class StringDisplay extends Node {
 
   public constructor( string: TReadOnlyProperty<string> | string, providedOptions?: StringDisplayOptions ) {
 
-    const options = optionize<StringDisplayOptions, StrictOmit<SelfOptions, 'size' | 'richTextOptions' | 'rectangleOptions'>, NodeOptions>()( {
+    const options = optionize<StringDisplayOptions, StrictOmit<SelfOptions, 'size' | 'textOptions' | 'rectangleOptions'>, NodeOptions>()( {
 
       // SelfOptions
       xMargin: 2,
       yMargin: 2,
       alignX: 'right',
-      alignY: 'center'
+      alignY: 'center',
+      useRichText: false
     }, providedOptions );
 
     // If size was not specified, background will be sized to fit the text by text.boundsProperty listener.
@@ -72,10 +76,11 @@ export default class StringDisplay extends Node {
     // If size was specified, text will be scale to fit the background.
     const textMaxWidth = ( options.size ) ? options.size.width - ( 2 * options.xMargin ) : null;
     const textMaxHeight = ( options.size ) ? options.size.height - ( 2 * options.yMargin ) : null;
-    const text = new RichText( string, combineOptions<RichTextOptions>( {
+    const textOptions = combineOptions<RichTextOptions>( {
       maxWidth: textMaxWidth,
       maxHeight: textMaxHeight
-    }, options.richTextOptions ) );
+    }, options.textOptions );
+    const text = ( options.useRichText ) ? new RichText( string, textOptions ) : new Text( string, textOptions );
 
     text.boundsProperty.link( textBounds => {
 
