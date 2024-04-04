@@ -47,7 +47,8 @@ export default class FineCoarseSpinner extends Node {
       tandem: Tandem.REQUIRED,
       tandemNameSuffix: 'Spinner',
       phetioFeatured: true,
-      phetioEnabledPropertyInstrumented: true
+      phetioEnabledPropertyInstrumented: true,
+      groupFocusHighlight: true
     }, providedOptions );
 
     const range = numberProperty.range;
