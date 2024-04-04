@@ -77,7 +77,7 @@ type SelfOptions = {
   handleMouseAreaXDilation?: number;
   handleMouseAreaYDilation?: number;
 
-  dragListenerOptions?: HandleDragListenerOptions;
+  dragListenerOptions?: PumpHandleDragListenerOptions;
 
   // cursor for the pump handle when it's enabled
   handleCursor?: 'ns-resize';
@@ -96,7 +96,7 @@ export default class BicyclePumpNode extends Node {
   private readonly pumpHandleNode: Node;
 
   // DragListener for the pump handle
-  private readonly handleDragListener: HandleDragListener;
+  private readonly handleDragListener: PumpHandleDragListener;
 
   private readonly disposeBicyclePumpNode: () => void;
 
@@ -287,9 +287,9 @@ export default class BicyclePumpNode extends Node {
     const maxHandleYOffset = this.pumpHandleNode.centerY;
     const minHandleYOffset = maxHandleYOffset + ( -PUMP_SHAFT_HEIGHT_PROPORTION * pumpBodyHeight );
 
-    this.handleDragListener = new HandleDragListener( numberProperty, rangeProperty, this.nodeEnabledProperty,
+    this.handleDragListener = new PumpHandleDragListener( numberProperty, rangeProperty, this.nodeEnabledProperty,
       options.injectionEnabledProperty, minHandleYOffset, maxHandleYOffset, this.pumpHandleNode, this.pumpShaftNode,
-      combineOptions<HandleDragListenerOptions>( {
+      combineOptions<PumpHandleDragListenerOptions>( {
         tandem: options.tandem.createTandem( 'handleDragListener' )
       }, options.dragListenerOptions )
     );
@@ -488,7 +488,7 @@ function createConeNode( pumpBodyWidth: number, height: number, fill: TColor ): 
 }
 
 /**
- * Create the handle of the pump. This is the node that the user will interact with in order to use the pump.
+ * HandleNode is the pump's handle.
  */
 class PumpHandleNode extends Path {
   public constructor( fill: TColor ) {
@@ -629,7 +629,11 @@ class PumpHandleNode extends Path {
   }
 }
 
-type HandleDragListenerSelfOptions = {
+/**
+ * PumpHandleDragListener is the drag listener for the pump's handle.
+ */
+
+type PumpHandleDragListenerSelfOptions = {
 
   // {number} number of particles released by the pump during one pumping action
   numberOfParticlesPerPumpAction?: number;
@@ -638,12 +642,9 @@ type HandleDragListenerSelfOptions = {
   addParticlesOneAtATime?: boolean;
 };
 
-type HandleDragListenerOptions = HandleDragListenerSelfOptions & StrictOmit<DragListenerOptions<PressedDragListener>, 'drag'>;
+type PumpHandleDragListenerOptions = PumpHandleDragListenerSelfOptions & StrictOmit<DragListenerOptions<PressedDragListener>, 'drag'>;
 
-/**
- * Drag listener for the pump's handle.
- */
-class HandleDragListener extends DragListener {
+class PumpHandleDragListener extends DragListener {
 
   private lastHandlePosition: number | null;
 
@@ -655,14 +656,14 @@ class HandleDragListener extends DragListener {
                       maxHandleYOffset: number,
                       pumpHandleNode: Node,
                       pumpShaftNode: Node,
-                      providedOptions?: HandleDragListenerOptions
+                      providedOptions?: PumpHandleDragListenerOptions
   ) {
 
     assert && assert( maxHandleYOffset > minHandleYOffset, 'bogus offsets' );
 
-    const options = optionize<HandleDragListenerOptions, HandleDragListenerSelfOptions, DragListenerOptions<PressedDragListener>>()( {
+    const options = optionize<PumpHandleDragListenerOptions, PumpHandleDragListenerSelfOptions, DragListenerOptions<PressedDragListener>>()( {
 
-      // HandleDragListenerSelfOptions
+      // PumpHandleDragListenerSelfOptions
       numberOfParticlesPerPumpAction: 10,
       addParticlesOneAtATime: true
     }, providedOptions );
