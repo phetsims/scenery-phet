@@ -48,7 +48,7 @@ export default class FineCoarseSpinner extends Node {
       tandemNameSuffix: 'Spinner',
       phetioFeatured: true,
       phetioEnabledPropertyInstrumented: true,
-      groupFocusHighlight: true
+      groupFocusHighlight: true // see https://github.com/phetsims/scenery-phet/issues/794
     }, providedOptions );
 
     const range = numberProperty.range;
