@@ -1,7 +1,7 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * MoveDraggableItemsKeyboardHelpSection is the keyboard-help section that describes 2-d draggable items.
+ * MoveDraggableItemsKeyboardHelpSection is the keyboard-help section that describes how to move items in 2D.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -12,36 +12,28 @@ import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 
-/**
- * MoveDraggableItemsKeyboardHelpSection is the keyboard-help section that describes 2-d draggable items.
- *
- */
-class MoveDraggableItemsKeyboardHelpSection extends KeyboardHelpSection {
+export default class MoveDraggableItemsKeyboardHelpSection extends KeyboardHelpSection {
 
   public constructor() {
 
-    // arrows or WASD
-    const wasdOrArrowsIcon = KeyboardHelpIconFactory.arrowOrWasdKeysRowIcon();
-    const normalRow = KeyboardHelpSectionRow.labelWithIcon( SceneryPhetStrings.keyboardHelpDialog.moveStringProperty,
-      wasdOrArrowsIcon, {
+    // Move
+    const moveRow = KeyboardHelpSectionRow.labelWithIcon(
+      SceneryPhetStrings.keyboardHelpDialog.moveStringProperty,
+      KeyboardHelpIconFactory.arrowOrWasdKeysRowIcon(), {
         labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.draggableItems.moveDescriptionStringProperty
       } );
 
-    // Shift+arrows or Shift+WASD
-    const arrowKeysIcon = KeyboardHelpIconFactory.arrowKeysRowIcon();
-    const wasdKeysIcon = KeyboardHelpIconFactory.wasdRowIcon();
-    const shiftPlusWasdKeysIcon = KeyboardHelpIconFactory.shiftPlusIcon( wasdKeysIcon );
-    const shiftPluArrowKeysIcon = KeyboardHelpIconFactory.shiftPlusIcon( arrowKeysIcon );
-    const slowerRow = KeyboardHelpSectionRow.labelWithIconList( SceneryPhetStrings.keyboardHelpDialog.moveSlowerStringProperty, [
-      shiftPluArrowKeysIcon,
-      shiftPlusWasdKeysIcon
-    ], {
-      labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.draggableItems.moveSlowerDescriptionStringProperty
-    } );
+    // Move slower
+    const moveSlowerRow = KeyboardHelpSectionRow.labelWithIconList(
+      SceneryPhetStrings.keyboardHelpDialog.moveSlowerStringProperty, [
+        KeyboardHelpIconFactory.shiftPlusIcon( KeyboardHelpIconFactory.arrowKeysRowIcon() ),
+        KeyboardHelpIconFactory.shiftPlusIcon( KeyboardHelpIconFactory.wasdRowIcon() )
+      ], {
+        labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.draggableItems.moveSlowerDescriptionStringProperty
+      } );
 
-    super( SceneryPhetStrings.keyboardHelpDialog.moveDraggableItemsStringProperty, [ normalRow, slowerRow ] );
+    super( SceneryPhetStrings.keyboardHelpDialog.moveDraggableItemsStringProperty, [ moveRow, moveSlowerRow ] );
   }
 }
 
 sceneryPhet.register( 'MoveDraggableItemsKeyboardHelpSection', MoveDraggableItemsKeyboardHelpSection );
-export default MoveDraggableItemsKeyboardHelpSection;
