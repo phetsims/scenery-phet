@@ -407,7 +407,7 @@ class Thumb extends Path {
       .arc( -0.5 * width + radius, 0.3 * height + heightOffset, radius, Math.PI, Math.PI + angle );
 
     // Save the coordinates for the point above the left side arc, for use on the other side.
-    const sideArcPoint = shape.getLastPoint()!;
+    const sideArcPoint = shape.getLastPoint();
     assert && assert( sideArcPoint );
 
     shape.lineTo( 0, 0 )
