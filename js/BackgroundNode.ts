@@ -11,6 +11,7 @@ import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { Node, NodeOptions, Rectangle, RectangleOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
+import Bounds2 from '../../dot/js/Bounds2.js';
 
 type SelfOptions = {
   xMargin?: number; // set the x margin between the Node content and background edge
@@ -50,10 +51,17 @@ export default class BackgroundNode extends Node {
     const wrapperNode = new Node( { children: [ node ] } );
 
     // Size the background rectangle to fit the Node.
-    node.boundsProperty.link( bounds => {
+    const boundsListener = ( bounds: Bounds2 ) => {
       if ( !bounds.isEmpty() ) {
         this.background.setRect( 0, 0, node.width + 2 * options.xMargin, node.height + 2 * options.yMargin );
         wrapperNode.center = this.background.center;
+      }
+    };
+    node.boundsProperty.link( boundsListener );
+
+    this.disposeEmitter.addListener( () => {
+      if ( node.boundsProperty.hasListener( boundsListener ) ) {
+        node.boundsProperty.unlink( boundsListener );
       }
     } );
 
