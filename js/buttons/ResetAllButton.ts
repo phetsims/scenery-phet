@@ -57,7 +57,7 @@ export default class ResetAllButton extends ResetButton {
       // previous PhET-iO state, if applicable.
       phetioRestoreScreenStateOnReset: true,
 
-      // Fine tuned in https://github.com/phetsims/tasks/issues/985 and should not be overridden lightly
+      // Fine tuned in https://github.com/phetsims/tasks/issues/985 and should not be overridden lightly.
       touchAreaDilation: 5.2,
       baseColor: PhetColorScheme.RESET_ALL_BUTTON_BASE_COLOR,
       arrowColor: 'white',
@@ -83,15 +83,15 @@ export default class ResetAllButton extends ResetButton {
 
     super( options );
 
-    // a11y - when reset all button is fired, disable alerts so that there isn't an excessive stream of alerts
-    // while many Properties are reset. When callbacks are ended for reset all, enable alerts again and announce an
-    // alert that everything was reset.
+    // a11y - When reset all button is fired, disable alerts so that there isn't an excessive stream of alerts while
+    // many Properties are reset. When callbacks are ended for reset all, enable alerts again and announce an alert that
+    // everything was reset.
     const resetUtterance = new ActivationUtterance( { alert: SceneryPhetStrings.a11y.resetAll.alertStringProperty } );
     let voicingEnabledOnFire = voicingUtteranceQueue.enabled;
     const ariaEnabledOnFirePerUtteranceQueueMap = new Map(); // Keep track of the enabled of each connected description UtteranceQueue
     this.pushButtonModel.isFiringProperty.lazyLink( ( isFiring: boolean ) => {
 
-      // Handle voicingUtteranceQueue
+      // Handle voicingUtteranceQueue.
       if ( isFiring ) {
         voicingEnabledOnFire = voicingUtteranceQueue.enabled;
         voicingUtteranceQueue.enabled = false;
@@ -99,26 +99,25 @@ export default class ResetAllButton extends ResetButton {
       }
       else {
 
-        // every ResetAllButton has the option to reset to the last PhET-iO state if desired.
+        // Every ResetAllButton has the option to reset to the last PhET-iO state if desired.
         if ( Tandem.PHET_IO_ENABLED && options.phetioRestoreScreenStateOnReset &&
 
-             // even though this is Tandem.REQUIRED, still be graceful if not yet instrumented
+             // Even though this is Tandem.REQUIRED, still be graceful if not yet instrumented.
              this.isPhetioInstrumented() ) {
           phet.phetio.phetioEngine.phetioStateEngine.restoreStateForScreen( options.tandem );
         }
 
-        // restore the enabled state to each utteranceQueue after resetting
+        // Restore the enabled state to each utteranceQueue after resetting.
         voicingUtteranceQueue.enabled = voicingEnabledOnFire;
         this.voicingSpeakFullResponse();
-
       }
 
-      // Handle each connected description UtteranceQueue
+      // Handle each connected description UtteranceQueue.
       this.forEachUtteranceQueue( utteranceQueue => {
 
         if ( isFiring ) {
 
-          // mute and clear the utteranceQueue
+          // Mute and clear the utteranceQueue.
           ariaEnabledOnFirePerUtteranceQueueMap.set( utteranceQueue, utteranceQueue.enabled );
           utteranceQueue.enabled = false;
           utteranceQueue.clear();
