@@ -38,16 +38,6 @@ export default class ResetAllButton extends ResetButton {
 
   public constructor( providedOptions?: ResetAllButtonOptions ) {
 
-    // Wrap the provided listener in a new function that sets and clears the isResettingAllProperty flag.
-    if ( providedOptions && providedOptions.listener ) {
-      const originalListener = providedOptions.listener;
-      providedOptions.listener = () => {
-        isResettingAllProperty.value = true;
-        originalListener();
-        isResettingAllProperty.value = false;
-      };
-    }
-
     const options = optionize<ResetAllButtonOptions, SelfOptions, ResetButtonOptions>()( {
 
       // ResetAllButtonOptions
@@ -139,9 +129,16 @@ export default class ResetAllButton extends ResetButton {
     } );
     this.addInputListener( keyboardListener );
 
+    // Add a listener that will set and clear the static flag that signals when a reset all is in progress.
+    const flagSettingListener = ( isFiring : boolean ) => {
+      isResettingAllProperty.value = isFiring;
+    };
+    this.pushButtonModel.isFiringProperty.lazyLink( flagSettingListener );
+
     this.disposeResetAllButton = () => {
       this.removeInputListener( keyboardListener );
       ariaEnabledOnFirePerUtteranceQueueMap.clear();
+      this.pushButtonModel.isFiringProperty.unlink( flagSettingListener );
     };
   }
 
@@ -150,6 +147,8 @@ export default class ResetAllButton extends ResetButton {
     super.dispose();
   }
 
+  // A flag that is true whenever any "reset all" is in progress.  This is often useful for muting sounds that shouldn't
+  // be triggered by model value changes that occur due to a reset.
   public static isResettingAllProperty: TReadOnlyProperty<boolean> = isResettingAllProperty;
 }
 
