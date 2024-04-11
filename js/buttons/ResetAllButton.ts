@@ -4,7 +4,7 @@
  * Reset All button, typically used to reset everything ('reset all') on a Screen.
  * Extends ResetButton, adding things that are specific to 'reset all'.
  *
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
@@ -19,6 +19,8 @@ import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetConstants from '../SceneryPhetConstants.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
 import ResetButton, { ResetButtonOptions } from './ResetButton.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import TinyProperty from '../../../axon/js/TinyProperty.js';
 
 const MARGIN_COEFFICIENT = 5 / SceneryPhetConstants.DEFAULT_BUTTON_RADIUS;
 
@@ -28,11 +30,23 @@ type SelfOptions = {
 
 export type ResetAllButtonOptions = SelfOptions & StrictOmit<ResetButtonOptions, 'xMargin' | 'yMargin'>;
 
+const isResettingAllProperty = new TinyProperty( false );
+
 export default class ResetAllButton extends ResetButton {
 
   private readonly disposeResetAllButton: () => void;
 
   public constructor( providedOptions?: ResetAllButtonOptions ) {
+
+    // Wrap the provided listener in a new function that sets and clears the isResettingAllProperty flag.
+    if ( providedOptions && providedOptions.listener ) {
+      const originalListener = providedOptions.listener;
+      providedOptions.listener = () => {
+        isResettingAllProperty.value = true;
+        originalListener();
+        isResettingAllProperty.value = false;
+      };
+    }
 
     const options = optionize<ResetAllButtonOptions, SelfOptions, ResetButtonOptions>()( {
 
@@ -136,6 +150,8 @@ export default class ResetAllButton extends ResetButton {
     this.disposeResetAllButton();
     super.dispose();
   }
+
+  public static isResettingAllProperty: TReadOnlyProperty<boolean> = isResettingAllProperty;
 }
 
 sceneryPhet.register( 'ResetAllButton', ResetAllButton );
