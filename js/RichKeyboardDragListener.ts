@@ -81,7 +81,7 @@ export default class RichKeyboardDragListener extends KeyboardDragListener {
       const previousEnd = options.end;
       options.end = ( ...args ) => {
         previousEnd && previousEnd( ...args );
-        releaseClip.play();
+        !this.interrupted && releaseClip.play();
       };
     }
 
