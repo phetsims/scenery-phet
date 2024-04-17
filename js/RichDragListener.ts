@@ -87,7 +87,7 @@ export default class RichDragListener extends DragListener {
       const previousEnd = options.end;
       options.end = ( ...args ) => {
         previousEnd && previousEnd( ...args );
-        releaseClip.play();
+        !this.interrupted && releaseClip.play();
       };
     }
 
