@@ -19,10 +19,13 @@ import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
-import { Circle, DragListener, DragListenerOptions, TColor, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, PressedDragListener, PressListenerEvent, Rectangle, SceneryConstants } from '../../scenery/js/imports.js';
+import { Circle, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, PressListenerEvent, Rectangle, SceneryConstants, TColor } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
 import SegmentedBarGraphNode from './SegmentedBarGraphNode.js';
+import PickRequired from '../../phet-core/js/types/PickRequired.js';
+import RichDragListener, { RichDragListenerOptions } from './RichDragListener.js';
+import RichKeyboardDragListener, { RichKeyboardDragListenerOptions } from './RichKeyboardDragListener.js';
 
 // The follow constants define the size and positions of the various components of the pump as proportions of the
 // overall width and height of the node.
@@ -77,10 +80,18 @@ type SelfOptions = {
   handleMouseAreaXDilation?: number;
   handleMouseAreaYDilation?: number;
 
-  dragListenerOptions?: PumpHandleDragListenerOptions;
+  // Options passed to the drag listeners.
+  dragListenerOptions?: StrictOmit<RichDragListenerOptions, 'drag' | 'tandem'>;
+  keyboardDragListenerOptions?: StrictOmit<RichKeyboardDragListenerOptions, 'drag' | 'keyboardDragDirection' | 'tandem'>;
 
   // cursor for the pump handle when it's enabled
   handleCursor?: 'ns-resize';
+
+  // Number of particles released by the pump during one pumping action.
+  numberOfParticlesPerPumpAction?: number;
+
+  // If false, particles are added as a batch at the end of each pumping motion.
+  addParticlesOneAtATime?: boolean;
 };
 
 export type BicyclePumpNodeOptions = SelfOptions & NodeOptions;
@@ -95,21 +106,24 @@ export default class BicyclePumpNode extends Node {
   private readonly pumpShaftNode: Node;
   private readonly pumpHandleNode: Node;
 
-  // DragListener for the pump handle
-  private readonly handleDragListener: PumpHandleDragListener;
+  private readonly dragListener: RichDragListener;
+  private readonly keyboardDragListener: RichKeyboardDragListener;
+
+  // dragListener and keyboardDragListener delegate handling of the drag to dragDelegate.
+  private readonly dragDelegate: DragDelegate;
 
   private readonly disposeBicyclePumpNode: () => void;
 
   /**
    * @param numberProperty - number of particles in the simulation
    * @param rangeProperty - allowed range
-   * @param providedOptions
+   * @param [providedOptions]
    */
   public constructor( numberProperty: TProperty<number>,
                       rangeProperty: TReadOnlyProperty<Range>,
                       providedOptions?: BicyclePumpNodeOptions ) {
 
-    const options = optionize<BicyclePumpNodeOptions, SelfOptions, NodeOptions>()( {
+    const options = optionize<BicyclePumpNodeOptions, StrictOmit<SelfOptions, 'dragListenerOptions' | 'keyboardDragListenerOptions'>, NodeOptions>()( {
 
       // SelfOptions
       width: 200,
@@ -130,8 +144,9 @@ export default class BicyclePumpNode extends Node {
       handleTouchAreaYDilation: 15,
       handleMouseAreaXDilation: 0,
       handleMouseAreaYDilation: 0,
-      dragListenerOptions: {},
       handleCursor: 'ns-resize',
+      numberOfParticlesPerPumpAction: 10,
+      addParticlesOneAtATime: true,
 
       // NodeOptions
       tandem: Tandem.REQUIRED,
@@ -287,13 +302,40 @@ export default class BicyclePumpNode extends Node {
     const maxHandleYOffset = this.pumpHandleNode.centerY;
     const minHandleYOffset = maxHandleYOffset + ( -PUMP_SHAFT_HEIGHT_PROPORTION * pumpBodyHeight );
 
-    this.handleDragListener = new PumpHandleDragListener( numberProperty, rangeProperty, this.nodeEnabledProperty,
-      options.injectionEnabledProperty, minHandleYOffset, maxHandleYOffset, this.pumpHandleNode, this.pumpShaftNode,
-      combineOptions<PumpHandleDragListenerOptions>( {
-        tandem: options.tandem.createTandem( 'handleDragListener' )
-      }, options.dragListenerOptions )
-    );
-    this.pumpHandleNode.addInputListener( this.handleDragListener );
+    this.dragDelegate = new DragDelegate( numberProperty, rangeProperty, this.nodeEnabledProperty,
+      options.injectionEnabledProperty, minHandleYOffset, maxHandleYOffset, this.pumpHandleNode, this.pumpShaftNode, {
+        numberOfParticlesPerPumpAction: options.numberOfParticlesPerPumpAction,
+        addParticlesOneAtATime: options.addParticlesOneAtATime
+      } );
+
+    // Drag the pump handle using mouse/touch.
+    this.dragListener = new RichDragListener( combineOptions<RichDragListenerOptions>( {
+      drag: ( event: PressListenerEvent ) => {
+
+        // Update the handle position based on the user's pointer position.
+        const dragPositionY = this.pumpHandleNode.globalToParentPoint( event.pointer.point ).y;
+        const handlePosition = Utils.clamp( dragPositionY, minHandleYOffset, maxHandleYOffset );
+        this.dragDelegate.handleDrag( handlePosition );
+      },
+      tandem: options.tandem.createTandem( 'dragListener' )
+    }, options.dragListenerOptions ) );
+    this.pumpHandleNode.addInputListener( this.dragListener );
+
+    // Drag the pump handle using the keyboard.
+    const viewRange = maxHandleYOffset - minHandleYOffset;
+    this.keyboardDragListener = new RichKeyboardDragListener( combineOptions<RichKeyboardDragListenerOptions>( {
+      keyboardDragDirection: 'upDown',
+      moveOnHoldDelay: 750,
+      moveOnHoldInterval: 200,
+      dragDelta: viewRange / 10,
+      shiftDragDelta: viewRange / 20,
+      drag: ( vectorDelta: Vector2 ) => {
+        const handlePosition = Utils.clamp( this.pumpHandleNode.centerY + vectorDelta.y, minHandleYOffset, maxHandleYOffset );
+        this.dragDelegate.handleDrag( handlePosition );
+      },
+      tandem: options.tandem.createTandem( 'keyboardDragListener' )
+    }, options.keyboardDragListenerOptions ) );
+    this.pumpHandleNode.addInputListener( this.keyboardDragListener );
 
     // add the pieces with the correct layering
     this.addChild( pumpBaseNode );
@@ -318,8 +360,12 @@ export default class BicyclePumpNode extends Node {
     assert && phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'BicyclePumpNode', this );
 
     this.disposeBicyclePumpNode = () => {
-      this.handleDragListener.dispose(); // to unregister tandem
 
+      // Drag listeners are registered with PhET-iO, so they need to be disposed.
+      this.dragListener.dispose();
+      this.keyboardDragListener.dispose();
+
+      // Clean up nodeEnabledProperty appropriately, depending on whether we created it, or it was provided to us.
       if ( ownsEnabledProperty ) {
         this.nodeEnabledProperty.dispose();
       }
@@ -330,7 +376,7 @@ export default class BicyclePumpNode extends Node {
   }
 
   /**
-   * Sets handle and shaft to their initial position
+   * Sets handle and shaft to their initial position.
    */
   private setPumpHandleToInitialPosition(): void {
     this.pumpHandleNode.bottom = this.pumpBodyNode.top - 18; // empirically determined
@@ -339,7 +385,7 @@ export default class BicyclePumpNode extends Node {
 
   public reset(): void {
     this.setPumpHandleToInitialPosition();
-    this.handleDragListener.reset();
+    this.dragDelegate.reset();
   }
 
   public override dispose(): void {
@@ -488,7 +534,7 @@ function createConeNode( pumpBodyWidth: number, height: number, fill: TColor ): 
 }
 
 /**
- * HandleNode is the pump's handle.
+ * PumpHandleNode is the pump's handle.
  */
 class PumpHandleNode extends Path {
   public constructor( fill: TColor ) {
@@ -630,22 +676,25 @@ class PumpHandleNode extends Path {
 }
 
 /**
- * PumpHandleDragListener is the drag listener for the pump's handle.
+ * DragDelegate handles the drag action for the pump handle. The RichDragListener and RichKeyboardDragListener instances
+ * in BicyclePumpNode delegate to an instance of this class.
  */
 
-type PumpHandleDragListenerSelfOptions = {
+type DragDelegateSelfOptions = PickRequired<BicyclePumpNodeOptions, 'numberOfParticlesPerPumpAction' | 'addParticlesOneAtATime'>;
 
-  // {number} number of particles released by the pump during one pumping action
-  numberOfParticlesPerPumpAction?: number;
+type DragDelegateOptions = DragDelegateSelfOptions;
 
-  // {boolean} if false, particles are added as a batch at the end of each pumping motion
-  addParticlesOneAtATime?: boolean;
-};
+class DragDelegate {
 
-type PumpHandleDragListenerOptions = PumpHandleDragListenerSelfOptions & StrictOmit<DragListenerOptions<PressedDragListener>, 'drag'>;
-
-class PumpHandleDragListener extends DragListener {
-
+  private readonly numberProperty: TProperty<number>;
+  private readonly rangeProperty: TReadOnlyProperty<Range>;
+  private readonly nodeEnabledProperty: TReadOnlyProperty<boolean>;
+  private readonly injectionEnabledProperty: TReadOnlyProperty<boolean>;
+  private readonly pumpHandleNode: Node;
+  private readonly pumpShaftNode: Node;
+  private readonly addParticlesOneAtATime: boolean;
+  private readonly pumpingDistanceRequiredToAddParticle: number;
+  private pumpingDistanceAccumulation: number;
   private lastHandlePosition: number | null;
 
   public constructor( numberProperty: TProperty<number>,
@@ -656,79 +705,81 @@ class PumpHandleDragListener extends DragListener {
                       maxHandleYOffset: number,
                       pumpHandleNode: Node,
                       pumpShaftNode: Node,
-                      providedOptions?: PumpHandleDragListenerOptions
+                      providedOptions: DragDelegateOptions
   ) {
 
     assert && assert( maxHandleYOffset > minHandleYOffset, 'bogus offsets' );
 
-    const options = optionize<PumpHandleDragListenerOptions, PumpHandleDragListenerSelfOptions, DragListenerOptions<PressedDragListener>>()( {
+    const options = providedOptions;
 
-      // PumpHandleDragListenerSelfOptions
-      numberOfParticlesPerPumpAction: 10,
-      addParticlesOneAtATime: true
-    }, providedOptions );
+    this.numberProperty = numberProperty;
+    this.rangeProperty = rangeProperty;
+    this.nodeEnabledProperty = nodeEnabledProperty;
+    this.injectionEnabledProperty = injectionEnabledProperty;
+    this.pumpHandleNode = pumpHandleNode;
+    this.pumpShaftNode = pumpShaftNode;
+    this.addParticlesOneAtATime = options.addParticlesOneAtATime;
 
-    let pumpingDistanceAccumulation = 0;
+    this.pumpingDistanceAccumulation = 0;
+    this.lastHandlePosition = null;
 
     // How far the pump shaft needs to travel before the pump releases a particle.
     // The subtracted constant was empirically determined to ensure that numberOfParticlesPerPumpAction is correct.
-    const pumpingDistanceRequiredToAddParticle =
+    this.pumpingDistanceRequiredToAddParticle =
       ( maxHandleYOffset - minHandleYOffset ) / options.numberOfParticlesPerPumpAction - 0.01;
-
-    options.drag = ( event: PressListenerEvent ) => {
-
-      // update the handle and shaft position based on the user's pointer position
-      const dragPositionY = pumpHandleNode.globalToParentPoint( event.pointer.point ).y;
-      const handlePosition = Utils.clamp( dragPositionY, minHandleYOffset, maxHandleYOffset );
-      pumpHandleNode.centerY = handlePosition;
-      pumpShaftNode.top = pumpHandleNode.bottom;
-
-      let numberOfBatchParticles = 0; // number of particles to add all at once
-
-      if ( this.lastHandlePosition !== null ) {
-        const travelDistance = handlePosition - this.lastHandlePosition;
-        if ( travelDistance > 0 ) {
-
-          // This motion is in the downward direction, so add its distance to the pumping distance.
-          pumpingDistanceAccumulation += travelDistance;
-          while ( pumpingDistanceAccumulation >= pumpingDistanceRequiredToAddParticle ) {
-
-            // add a particle
-            if ( nodeEnabledProperty.value && injectionEnabledProperty.value &&
-                 numberProperty.value + numberOfBatchParticles < rangeProperty.value.max ) {
-              if ( options.addParticlesOneAtATime ) {
-                numberProperty.value++;
-              }
-              else {
-                numberOfBatchParticles++;
-              }
-            }
-            pumpingDistanceAccumulation -= pumpingDistanceRequiredToAddParticle;
-          }
-        }
-        else {
-          pumpingDistanceAccumulation = 0;
-        }
-      }
-
-      // Add particles in one batch.
-      if ( !options.addParticlesOneAtATime ) {
-        numberProperty.value += numberOfBatchParticles;
-      }
-      else {
-        assert && assert( numberOfBatchParticles === 0, 'unexpected batched particles' );
-      }
-
-      this.lastHandlePosition = handlePosition;
-    };
-
-    super( options );
-
-    this.lastHandlePosition = null;
   }
 
   public reset(): void {
+    this.pumpingDistanceAccumulation = 0;
     this.lastHandlePosition = null;
+  }
+
+  /**
+   * Handles a drag of the pump handle. RichDragListener and RichKeyboardDragListener instances in BicyclePumpNode
+   * should call this method from their options.drag function.
+   */
+  public handleDrag( newHandlePosition: number ): void {
+
+    this.pumpHandleNode.centerY = newHandlePosition;
+    this.pumpShaftNode.top = this.pumpHandleNode.bottom;
+
+    let numberOfBatchParticles = 0; // number of particles to add all at once
+
+    if ( this.lastHandlePosition !== null ) {
+      const travelDistance = newHandlePosition - this.lastHandlePosition;
+      if ( travelDistance > 0 ) {
+
+        // This motion is in the downward direction, so add its distance to the pumping distance.
+        this.pumpingDistanceAccumulation += travelDistance;
+        while ( this.pumpingDistanceAccumulation >= this.pumpingDistanceRequiredToAddParticle ) {
+
+          // add a particle
+          if ( this.nodeEnabledProperty.value && this.injectionEnabledProperty.value &&
+               this.numberProperty.value + numberOfBatchParticles < this.rangeProperty.value.max ) {
+            if ( this.addParticlesOneAtATime ) {
+              this.numberProperty.value++;
+            }
+            else {
+              numberOfBatchParticles++;
+            }
+          }
+          this.pumpingDistanceAccumulation -= this.pumpingDistanceRequiredToAddParticle;
+        }
+      }
+      else {
+        this.pumpingDistanceAccumulation = 0;
+      }
+    }
+
+    // Add particles in one batch.
+    if ( !this.addParticlesOneAtATime ) {
+      this.numberProperty.value += numberOfBatchParticles;
+    }
+    else {
+      assert && assert( numberOfBatchParticles === 0, 'unexpected batched particles' );
+    }
+
+    this.lastHandlePosition = newHandlePosition;
   }
 }
 
