@@ -228,25 +228,25 @@
     "value": "Choose a {{thingTitle}}"
   },
   "keyboardHelpDialog.comboBox.headingString": {
-    "value": "Pop open menu"
+    "value": "Pop Up Menu"
   },
   "keyboardHelpDialog.comboBox.popUpListPattern": {
-    "value": "1. Pop up list of {{thingPlural}}"
+    "value": "1. Show {{thingPlural}}"
   },
   "keyboardHelpDialog.comboBox.moveThroughPattern": {
     "value": "2. Move through {{thingPlural}}"
   },
   "keyboardHelpDialog.comboBox.chooseNewPattern": {
-    "value": "3. Choose new {{thingSingular}}"
+    "value": "3. Change {{thingSingular}}"
   },
   "keyboardHelpDialog.comboBox.closeWithoutChanging": {
-    "value": "4. Close list without changing"
+    "value": "4. Close without changing"
   },
   "keyboardHelpDialog.comboBox.options": {
-    "value": "options"
+    "value": "choices"
   },
   "keyboardHelpDialog.comboBox.option": {
-    "value": "option"
+    "value": "choice"
   },
   "keyboardHelpDialog.moveDraggableItems": {
     "value": "Move Draggable Items"
@@ -461,16 +461,16 @@
       },
       "comboBox": {
         "popUpListPatternDescription": {
-          "value": "Pop up list of {{thingPlural}} with Space or Enter keys."
+          "value": "Show {{thingPlural}} with Space or Enter keys."
         },
         "moveThroughPatternDescription": {
           "value": "Move through {{thingPlural}} with Up and Down arrow keys."
         },
         "chooseNewPatternDescription": {
-          "value": " Choose new {{thingSingular}} with Enter key."
+          "value": "Change {{thingSingular}} with Enter key."
         },
         "closeWithoutChangingDescription": {
-          "value": " Close list without changing with Escape key."
+          "value": " Close without changing with Escape key."
         }
       },
       "draggableItems": {
