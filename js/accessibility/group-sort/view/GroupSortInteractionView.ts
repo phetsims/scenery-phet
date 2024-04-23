@@ -47,6 +47,8 @@ type SelfOptions<ItemModel, ItemNode extends Node> = {
   // The available range for storing. This is the acceptable range for the valueProperty of ItemModel (see model.getGroupItemValue()).
   sortingRangeProperty: TReadOnlyProperty<Range>;
 
+  sortingRangeListener?: ( range: Range ) => void;
+
   // Do the sort operation, allowing for custom actions, must be implemented by all implementation, but likely just
   // should default to updating the "valueProperty" of the selected group item to the new value that is provided.
   sortGroupItem: ( groupItem: ItemModel, newValue: number ) => void;
@@ -123,6 +125,15 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
       shiftSortStep: 2,
       pageSortStep: Math.ceil( providedOptions.sortingRangeProperty.value.getLength() / 5 ),
       getHighlightNodeFromModelItem: providedOptions.getNodeFromModelItem,
+      sortingRangeListener: ( newRange: Range ) => {
+        const selectedGroupItem = model.selectedGroupItemProperty.value;
+        if ( selectedGroupItem ) {
+          const currentValue = model.getGroupItemValue( selectedGroupItem );
+          if ( currentValue && !newRange.contains( currentValue ) ) {
+            model.selectedGroupItemProperty.value = providedOptions.getGroupItemToSelect();
+          }
+        }
+      },
       grabReleaseCueOptions: {}
     }, providedOptions );
 
@@ -155,19 +166,10 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
     isGroupItemKeyboardGrabbedProperty.lazyLink( grabbedPropertyListener );
 
     // If the new range doesn't include the current selection, reset back to the default heuristic.
-    const rangeListener = ( newRange: Range ) => {
-      const selectedGroupItem = this.model.selectedGroupItemProperty.value;
-      if ( selectedGroupItem ) {
-        const currentValue = this.model.getGroupItemValue( selectedGroupItem );
-        if ( currentValue && !newRange.contains( currentValue ) ) {
-          this.model.selectedGroupItemProperty.value = options.getGroupItemToSelect();
-        }
-      }
-    };
-    options.sortingRangeProperty.lazyLink( rangeListener );
+    options.sortingRangeProperty.lazyLink( options.sortingRangeListener );
     this.disposeEmitter.addListener( () => {
       isGroupItemKeyboardGrabbedProperty.unlink( grabbedPropertyListener );
-      options.sortingRangeProperty.unlink( rangeListener );
+      options.sortingRangeProperty.unlink( options.sortingRangeListener );
     } );
 
     const focusListener = {
