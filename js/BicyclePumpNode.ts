@@ -284,7 +284,6 @@ export default class BicyclePumpNode extends Node {
       this.pumpHandleNode.localBounds.dilatedXY( options.handleTouchAreaXDilation, options.handleTouchAreaYDilation );
     this.pumpHandleNode.mouseArea =
       this.pumpHandleNode.localBounds.dilatedXY( options.handleMouseAreaXDilation, options.handleMouseAreaYDilation );
-    //TODO https://github.com/phetsims/scenery-phet/issues/848 scale causes the focus highlight to also be scaled.
     this.pumpHandleNode.scale( pumpHandleHeight / this.pumpHandleNode.height );
     this.setPumpHandleToInitialPosition();
 
