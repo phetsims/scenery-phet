@@ -322,15 +322,10 @@ export default class BicyclePumpNode extends Node {
     this.pumpHandleNode.addInputListener( this.dragListener );
 
     // Drag the pump handle using the keyboard.
-    const viewRange = maxHandleYOffset - minHandleYOffset;
     this.keyboardDragListener = new RichKeyboardDragListener( combineOptions<RichKeyboardDragListenerOptions>( {
       keyboardDragDirection: 'upDown',
-      moveOnHoldDelay: 750,
-      moveOnHoldInterval: 200,
-
-      //TODO https://github.com/phetsims/scenery-phet/issues/848 This feels jerky. Would dragSpeed/shiftDragSpeed be better?
-      dragDelta: viewRange / 10,
-      shiftDragDelta: viewRange / 20,
+      dragSpeed: 200,
+      shiftDragSpeed: 50,
       drag: ( vectorDelta: Vector2 ) => {
         const handlePosition = Utils.clamp( this.pumpHandleNode.centerY + vectorDelta.y, minHandleYOffset, maxHandleYOffset );
         this.dragDelegate.handleDrag( handlePosition );
