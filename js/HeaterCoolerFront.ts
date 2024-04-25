@@ -17,7 +17,7 @@ import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
-import { Color, Font, TColor, LinearGradient, Node, NodeOptions, Path, Text } from '../../scenery/js/imports.js';
+import { Color, Font, LinearGradient, Node, NodeOptions, Path, TColor, Text } from '../../scenery/js/imports.js';
 import { SliderOptions } from '../../sun/js/Slider.js';
 import VSlider from '../../sun/js/VSlider.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -184,8 +184,12 @@ export default class HeaterCoolerFront extends Node {
       thumbFill: options.thumbFill,
       thumbSize: options.thumbSize,
       thumbFillHighlighted: options.thumbFillHighlighted,
-      endDrag: () => {
-        if ( this.snapToZeroProperty.value || sliderIsCloseToZero() ) {
+      endDrag: event => {
+
+        // This only happens for mouse/touch events because it is a poor user experience to reset back to zero
+        // every time a key is released. For keyboard input, it is reset to zero when the slider loses focus.
+        const isFromPDOM = event && event.isFromPDOM();
+        if ( !isFromPDOM && this.snapToZeroProperty.value || sliderIsCloseToZero() ) {
           setSliderToZero();
         }
       },
@@ -193,6 +197,11 @@ export default class HeaterCoolerFront extends Node {
       right: stoveBody.right - DEFAULT_WIDTH / 8,
       tandem: options.tandem.createTandem( 'slider' )
     }, options.sliderOptions ) );
+
+    // Set the slider back to zero when it loses focus.
+    this.slider.addInputListener( {
+      blur: setSliderToZero
+    } );
 
     // Create the tick labels.
     const labelOptions = {
