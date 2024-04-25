@@ -230,18 +230,18 @@ export default class ConductivityTesterNode extends Node {
     // Keyboard drag listener for probes, see https://github.com/phetsims/acid-base-solutions/issues/208
     const probeKeyboardDragListener = new KeyboardDragListener( combineOptions<KeyboardDragListenerOptions>( {
       transform: options.modelViewTransform,
-      drag: vectorDelta => {
+      drag: ( event, listener ) => {
 
         // probes move together
         const y = positionProperty.value.y;
 
-        const yPositiveProbe = positiveProbePositionProperty.value.y + vectorDelta.y;
+        const yPositiveProbe = positiveProbePositionProperty.value.y + listener.vectorDelta.y;
         const yPositiveProbeConstrained = options.probeDragYRange ?
                                           Utils.clamp( yPositiveProbe, y + options.probeDragYRange.min, y + options.probeDragYRange.max ) :
                                           yPositiveProbe;
         positiveProbePositionProperty.value = new Vector2( positiveProbePositionProperty.value.x, yPositiveProbeConstrained );
 
-        const yNegativeProbe = negativeProbePositionProperty.value.y + vectorDelta.y;
+        const yNegativeProbe = negativeProbePositionProperty.value.y + listener.vectorDelta.y;
         const yNegativeProbeConstrained = options.probeDragYRange ?
                                           Utils.clamp( yNegativeProbe, y + options.probeDragYRange.min, y + options.probeDragYRange.max ) :
                                           yNegativeProbe;

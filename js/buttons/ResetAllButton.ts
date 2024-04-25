@@ -119,15 +119,13 @@ export default class ResetAllButton extends ResetButton {
       } );
     } );
 
-    const keyboardListener = new KeyboardListener( {
+    const keyboardListener = KeyboardListener.createGlobal( this, {
       keys: [ 'alt+r' ],
-      callback: () => this.pdomClick(),
-      global: true,
+      fire: () => this.pdomClick(),
 
       // fires on up because the listener will often call interruptSubtreeInput (interrupting this keyboard listener)
-      listenerFireTrigger: 'up'
+      fireOnDown: false
     } );
-    this.addInputListener( keyboardListener );
 
     // Add a listener that will set and clear the static flag that signals when a reset all is in progress.
     const flagSettingListener = ( isFiring : boolean ) => {
@@ -136,7 +134,7 @@ export default class ResetAllButton extends ResetButton {
     this.pushButtonModel.isFiringProperty.lazyLink( flagSettingListener );
 
     this.disposeResetAllButton = () => {
-      this.removeInputListener( keyboardListener );
+      keyboardListener.dispose();
       ariaEnabledOnFirePerUtteranceQueueMap.clear();
       this.pushButtonModel.isFiringProperty.unlink( flagSettingListener );
     };

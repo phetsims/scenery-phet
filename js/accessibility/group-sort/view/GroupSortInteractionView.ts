@@ -269,7 +269,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
     const grabReleaseKeyboardListener = new KeyboardListener( {
       fireOnHold: true,
       keys: [ 'enter', 'space', 'escape' ],
-      callback: ( event, keysPressed ) => {
+      fire: ( event, keysPressed ) => {
         if ( this.model.enabled && selectedGroupItemProperty.value !== null ) {
 
           // Do the "Grab/release" action to switch to sorting or selecting
@@ -290,7 +290,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
     const deltaKeyboardListener = new KeyboardListener( {
       fireOnHold: true,
       keys: sortingKeys,
-      callback: ( event, keysPressed ) => {
+      fire: ( event, keysPressed ) => {
 
         if ( selectedGroupItemProperty.value !== null ) {
 
@@ -329,7 +329,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
       const numbersKeyboardListener = new KeyboardListener( {
         fireOnHold: true,
         keys: [ '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' ],
-        callback: ( event, keysPressed ) => {
+        fire: ( event, keysPressed ) => {
           if ( selectedGroupItemProperty.value !== null && isGroupItemKeyboardGrabbedProperty.value &&
                isSingleDigit( keysPressed ) ) {
 

@@ -289,7 +289,7 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
     // Keyboard support for tap-to-dispense and setting the flow rate to zero.
     const keyboardListener = new KeyboardListener( {
       keys: [ 'enter', 'space', '0' ],
-      callback: ( event, keysPressed ) => {
+      fire: ( event, keysPressed ) => {
         if ( options.tapToDispenseEnabled && [ 'enter', 'space' ].includes( keysPressed ) ) {
 
           // stop the previous timeout before running a new dispense

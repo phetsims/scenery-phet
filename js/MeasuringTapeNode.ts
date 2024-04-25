@@ -399,7 +399,7 @@ class MeasuringTapeNode extends Node {
         transform: this.modelViewTransformProperty,
         dragBoundsProperty: this.dragBoundsProperty,
         start: baseStart,
-        drag: handleTipOnBaseDrag,
+        drag: ( event, listener ) => { handleTipOnBaseDrag( listener.vectorDelta ); },
         end: baseEnd
       }, options.baseKeyboardDragListenerOptions ) );
       this.baseImage.addInputListener( baseKeyboardDragListener );

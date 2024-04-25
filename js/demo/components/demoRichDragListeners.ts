@@ -52,8 +52,8 @@ export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
 
   richKeyboardDragListenerRectangle.addInputListener( new RichKeyboardDragListener( {
     dragBoundsProperty: dragBoundsProperty,
-    drag: delta => {
-      richKeyboardDragListenerRectangle.translate( delta );
+    drag: ( event, listener ) => {
+      richKeyboardDragListenerRectangle.translate( listener.vectorDelta );
     }
   } ) );
 

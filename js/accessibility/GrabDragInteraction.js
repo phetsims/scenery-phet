@@ -56,7 +56,7 @@ import assertHasProperties from '../../../phet-core/js/assertHasProperties.js';
 import getGlobal from '../../../phet-core/js/getGlobal.js';
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { HighlightFromNode, HighlightPath, KeyboardListener, KeyboardUtils, Node, PDOMPeer, PressListener, Voicing } from '../../../scenery/js/imports.js';
+import { HighlightFromNode, HighlightPath, KeyboardListener, Node, PDOMPeer, PressListener, Voicing } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AriaLiveAnnouncer from '../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import ResponsePacket from '../../../utterance-queue/js/ResponsePacket.js';
@@ -484,28 +484,28 @@ class GrabDragInteraction extends EnabledComponent {
     // @private - keep track of all listeners to swap out grab/drag functionalities
     this.listenersForGrabState = options.listenersForGrabState.concat( grabButtonListener );
 
-    const dragDivListener = new KeyboardListener( {
-      keys: [ 'enter', 'space', 'escape' ],
-      listenerFireTrigger: 'both',
-      callback: ( event, keysPressed, listener ) => {
-        if ( listener.keysDown && keysPressed === 'enter' ) {
+    const dragDivDownListener = new KeyboardListener( {
+      keys: [ 'enter' ],
+      fire: () => {
 
-          // set a guard to make sure the key press from enter doesn't fire future listeners, therefore
-          // "clicking" the grab button also on this key press.
-          guardKeyPressFromDraggable = true;
-          this.releaseDraggable();
-        }
-        else if ( !listener.keysDown && keysPressed === 'space' || keysPressed === 'escape' ) {
+        // set a guard to make sure the key press from enter doesn't fire future listeners, therefore
+        // "clicking" the grab button also on this key press.
+        guardKeyPressFromDraggable = true;
+        this.releaseDraggable();
+      }
+    } );
 
-          // Release  on keyup of spacebar so that we don't pick up the draggable again when we release the spacebar
-          // and trigger a click event - escape could be added to either keyup or keydown listeners
-          if ( KeyboardUtils.isAnyKeyEvent( event.domEvent, [ KeyboardUtils.KEY_SPACE, KeyboardUtils.KEY_ESCAPE ] ) ) {
-            this.releaseDraggable();
-          }
+    const dragDivUpListener = new KeyboardListener( {
+      keys: [ 'space', 'escape' ],
+      fireOnDown: false,
+      fire: () => {
 
-          // if successfully dragged, then make the cue node invisible
-          this.updateVisibilityForCues();
-        }
+        // Release on keyup for spacebar so that we don't pick up the draggable again when we release the spacebar
+        // and trigger a click event - escape could be added to either keyup or keydown listeners
+        this.releaseDraggable();
+
+        // if successfully dragged, then make the cue node invisible
+        this.updateVisibilityForCues();
       },
 
       // release when focus is lost
@@ -516,7 +516,11 @@ class GrabDragInteraction extends EnabledComponent {
     } );
 
     // @private
-    this.listenersForDragState = options.listenersForDragState.concat( [ dragDivListener, keyboardDragListener ] );
+    this.listenersForDragState = options.listenersForDragState.concat( [
+      dragDivDownListener,
+      dragDivUpListener,
+      keyboardDragListener
+    ] );
 
     // @private - from non-PDOM pointer events, change representations in the PDOM - necessary for accessible tech that
     // uses pointer events like iOS VoiceOver. The above listeners manage input from the PDOM.
@@ -573,7 +577,8 @@ class GrabDragInteraction extends EnabledComponent {
         this.removeInputListeners( this.listenersForDragState );
       }
 
-      dragDivListener.dispose();
+      dragDivDownListener.dispose();
+      dragDivUpListener.dispose();
 
       this.grabFocusHighlight.highlightChangedEmitter.removeListener( onFocusHighlightChange );
       this.grabInteractiveHighlight.highlightChangedEmitter.removeListener( onInteractiveHighlightChange );

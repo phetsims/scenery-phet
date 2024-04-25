@@ -8,9 +8,9 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
-import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
-import type { OneKeyStroke } from '../../../scenery/js/imports.js';
-import { Font, KeyboardListener, KeyboardListenerOptions, Node, NodeOptions, Text, TPaint } from '../../../scenery/js/imports.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import type { KeyboardListenerOptions, OneKeyStroke } from '../../../scenery/js/imports.js';
+import { Font, KeyboardListener, Node, NodeOptions, Text, TPaint } from '../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import BackspaceIcon from '../BackspaceIcon.js';
@@ -22,7 +22,6 @@ import NumberAccumulator, { NumberAccumulatorOptions } from './NumberAccumulator
 import AbstractKeyAccumulator from './AbstractKeyAccumulator.js';
 import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 
 // constants
 const DEFAULT_BUTTON_WIDTH = 35;
@@ -68,7 +67,10 @@ type SelfOptions = {
   // Options passed to NumberAccumulator, ignored if options.accumulator is provided
   accumulatorOptions?: NumberAccumulatorOptions | null;
 
-  keyboardListenerOptions?: StrictOmit<KeyboardListenerOptions<OneKeyStroke[]>, 'callback' | 'keys'>;
+  // If true, the KeyboardListener for this KeyPad will be "global" and key presses will control the Keypad regardless
+  // of where focus is in the document. Only have one Keypad at a time that can receive global keyboard input
+  // (an assertion will be thrown).
+  useGlobalKeyboardListener?: boolean;
 };
 
 export type KeypadOptions = SelfOptions & NodeOptions;
@@ -113,7 +115,7 @@ class Keypad extends Node {
       tagName: 'div',
       ariaLabel: 'Keypad',
       focusable: true,
-      keyboardListenerOptions: {}
+      useGlobalKeyboardListener: false
     }, providedOptions );
 
     super();
@@ -200,18 +202,26 @@ class Keypad extends Node {
       }
     }
 
-    const keyboardListener = new KeyboardListener( combineOptions<KeyboardListenerOptions<OneKeyStroke[]>>( options.keyboardListenerOptions, {
+    const keyboardListenerOptions: KeyboardListenerOptions<OneKeyStroke[]> = {
 
       // @ts-expect-error - TypeScript doesn't know that keyboardKeys has keys of type OneKeyStroke. Type assertion
       // works but is incompatible with eslint.
       keys: Object.keys( keyboardKeys ),
-      callback: ( sceneryEvent, keysPressed ) => {
+      fire: ( sceneryEvent, keysPressed ) => {
         const keyObject = keyboardKeys[ keysPressed ];
         this.keyAccumulator.handleKeyPressed( keyObject!.identifier );
       }
-    } ) );
+    };
 
-    this.addInputListener( keyboardListener );
+    let keyboardListener: KeyboardListener<OneKeyStroke[]>;
+    if ( options.useGlobalKeyboardListener ) {
+      keyboardListener = KeyboardListener.createGlobal( this, keyboardListenerOptions );
+    }
+    else {
+      keyboardListener = new KeyboardListener( keyboardListenerOptions );
+      this.addInputListener( keyboardListener );
+    }
+
     this.disposeEmitter.addListener( () => keyboardListener.dispose() );
 
     this.stringProperty.link( string => {

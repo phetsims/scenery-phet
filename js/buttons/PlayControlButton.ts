@@ -9,7 +9,7 @@
 
 import Property from '../../../axon/js/Property.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { Circle, KeyboardListener, Node, Path, PDOMValueType } from '../../../scenery/js/imports.js';
+import { Circle, KeyboardListener, Node, OneKeyStroke, Path, PDOMValueType } from '../../../scenery/js/imports.js';
 import BooleanRoundToggleButton, { BooleanRoundToggleButtonOptions } from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
 import TSoundPlayer from '../../../tambo/js/TSoundPlayer.js';
 import pauseSoundPlayer from '../../../tambo/js/shared-sound-players/pauseSoundPlayer.js';
@@ -113,20 +113,17 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
     isPlayingProperty.link( isPlayingListener );
 
     // a listener that toggles the isPlayingProperty with hotkey Alt+K, regardless of where focus is in the document
-    const keys = [ 'alt+k' ] as const;
-    let globalKeyboardListener: KeyboardListener<typeof keys> | null = null;
+    let globalKeyboardListener: KeyboardListener<OneKeyStroke[]> | null = null;
     if ( options.includeGlobalHotkey && phet.chipper.queryParameters.supportsInteractiveDescription ) {
-      globalKeyboardListener = new KeyboardListener( {
-        keys: keys,
-        global: true,
-        listenerFireTrigger: 'up',
-        callback: () => {
+      globalKeyboardListener = KeyboardListener.createGlobal( this, {
+        keys: [ 'alt+k' ] as const,
+        fireOnDown: false,
+        fire: () => {
           isPlayingProperty.set( !isPlayingProperty.get() );
           const soundPlayer = isPlayingProperty.get() ? options.valueOnSoundPlayer : options.valueOffSoundPlayer;
           if ( soundPlayer ) { soundPlayer.play(); }
         }
       } );
-      this.addInputListener( globalKeyboardListener );
     }
 
     this.disposePlayStopButton = () => {
@@ -134,7 +131,6 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
         isPlayingProperty.unlink( isPlayingListener );
       }
       if ( globalKeyboardListener ) {
-        this.removeInputListener( globalKeyboardListener );
         globalKeyboardListener.dispose();
       }
     };

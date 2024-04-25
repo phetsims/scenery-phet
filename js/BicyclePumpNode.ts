@@ -325,8 +325,8 @@ export default class BicyclePumpNode extends Node {
       keyboardDragDirection: 'upDown',
       dragSpeed: 200,
       shiftDragSpeed: 50,
-      drag: ( vectorDelta: Vector2 ) => {
-        const handlePosition = Utils.clamp( this.pumpHandleNode.centerY + vectorDelta.y, minHandleYOffset, maxHandleYOffset );
+      drag: ( event, listener ) => {
+        const handlePosition = Utils.clamp( this.pumpHandleNode.centerY + listener.vectorDelta.y, minHandleYOffset, maxHandleYOffset );
         this.dragDelegate.handleDrag( handlePosition );
       },
       tandem: options.tandem.createTandem( 'keyboardDragListener' )
