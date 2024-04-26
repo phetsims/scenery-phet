@@ -1,4 +1,4 @@
-// Copyright 2014-2023, University of Colorado Boulder
+// Copyright 2014-2024, University of Colorado Boulder
 
 /**
  * A round toggle button that displays some custom icon when playing and a triangular "Play" icon when not playing.
