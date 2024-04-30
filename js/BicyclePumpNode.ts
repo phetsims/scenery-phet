@@ -150,7 +150,8 @@ export default class BicyclePumpNode extends Node {
 
       // NodeOptions
       tandem: Tandem.REQUIRED,
-      tandemNameSuffix: 'PumpNode'
+      tandemNameSuffix: 'PumpNode',
+      phetioInputEnabledPropertyInstrumented: true
     }, providedOptions );
 
     const width = options.width;
