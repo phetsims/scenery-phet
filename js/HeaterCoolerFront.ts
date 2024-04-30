@@ -9,7 +9,7 @@
  *
  */
 
-import BooleanProperty from '../../axon/js/BooleanProperty.js';
+import BooleanProperty, { BooleanPropertyOptions } from '../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
 import Property from '../../axon/js/Property.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
@@ -61,6 +61,9 @@ type SelfOptions = {
   heaterCoolerBack?: HeaterCoolerBack | null;
 
   sliderOptions?: SliderOptions;
+
+  // Passed to snapToZeroProperty
+  snapToZeroPropertyOptions?: BooleanPropertyOptions;
 
   // HeaterCoolerFront is sometimes instrumented as a parent component, and is sometimes a sub-compoent to
   // HeaterCoolerNode.js. This option provides the ability to limit the number of intermediate Nodes in the
@@ -119,6 +122,10 @@ export default class HeaterCoolerFront extends Node {
         majorTickLength: 15,
         minorTickLength: 12
       },
+      snapToZeroPropertyOptions: {
+        phetioDocumentation: 'whether the slider will snap to the off position when released',
+        phetioFeatured: true
+      },
       phetioInstrument: true,
 
       // NodeOptions
@@ -152,11 +159,9 @@ export default class HeaterCoolerFront extends Node {
         .addColorStop( 1, stoveBaseColor.darkerColor( 0.5 ) )
     } );
 
-    this.snapToZeroProperty = new BooleanProperty( options.snapToZero, {
-      tandem: options.tandem.createTandem( 'snapToZeroProperty' ),
-      phetioDocumentation: 'whether the slider will snap to the off position when released',
-      phetioFeatured: true
-    } );
+    this.snapToZeroProperty = new BooleanProperty( options.snapToZero, combineOptions<BooleanPropertyOptions>( {
+      tandem: options.tandem.createTandem( 'snapToZeroProperty' )
+    }, options.snapToZeroPropertyOptions ) );
 
     const sliderRange = new Range( options.coolEnabled ? -1 : 0, options.heatEnabled ? 1 : 0 );
 
