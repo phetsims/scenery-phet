@@ -228,7 +228,7 @@
     "value": "Choose a {{thingTitle}}"
   },
   "keyboardHelpDialog.comboBox.headingString": {
-    "value": "Pop Up Menu"
+    "value": "Change Choice"
   },
   "keyboardHelpDialog.comboBox.popUpListPattern": {
     "value": "1. Show {{thingPlural}}"
