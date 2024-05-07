@@ -71,6 +71,9 @@ type SelfOptions<ItemModel> = {
   // A function that returns the "value" for a group item set to it. The value is where the item should be sorted.
   // Null means that it isn't part of this interaction (different scene/not active/etc).
   getGroupItemValue: ( itemModel: ItemModel ) => number | null;
+
+  // Define the startup value of the mouseSortCue. False by default.
+  mouseSortCueVisibleAtStart?: boolean;
 } & Pick<PhetioObjectOptions, 'tandem'>;
 
 type ParentOptions = EnabledComponentOptions;
@@ -110,7 +113,7 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
   // Whether the mouse/touch sort icon cue is currently showing on the group item area.
   // Client should set this Property as well as use it for their mouse sort cue node.
   // Client should manually register callbacks to update the visual cue with registerUpdateSortCueNode().
-  public readonly mouseSortCueVisibleProperty = new BooleanProperty( false );
+  public readonly mouseSortCueVisibleProperty: Property<boolean>;
 
   // A PhET-iO specific Property for opting out of showing the visual mouse cue. This is not reset, and is used to
   // calculate the visibility of the mouse cue. If true, it doesn't mean that the cue is visible, but that it is possible
@@ -131,7 +134,8 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
   public constructor( providedOptions?: GroupSortInteractionModelOptions<ItemModel> ) {
     const options = optionize<GroupSortInteractionModelOptions<ItemModel>, SelfOptions<ItemModel>, ParentOptions>()( {
       tandem: Tandem.REQUIRED,
-      phetioEnabledPropertyInstrumented: false
+      phetioEnabledPropertyInstrumented: false,
+      mouseSortCueVisibleAtStart: false
     }, providedOptions );
 
     super( options );
@@ -156,6 +160,8 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
           'instrumented GroupSortInteractionModels require its group items to be instrumented.' );
       }
     } );
+
+    this.mouseSortCueVisibleProperty = new Property( options.mouseSortCueVisibleAtStart );
 
     this.showMouseCueProperty = new BooleanProperty( true, {
       tandem: options.tandem.createTandem( 'showMouseCueProperty' ),
