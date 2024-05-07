@@ -73,7 +73,7 @@ type SelfOptions<ItemModel> = {
   getGroupItemValue: ( itemModel: ItemModel ) => number | null;
 
   // Define the startup value of the mouseSortCue. False by default.
-  mouseSortCueVisibleAtStart?: boolean;
+  initialMouseSortCueVisible?: boolean;
 } & Pick<PhetioObjectOptions, 'tandem'>;
 
 type ParentOptions = EnabledComponentOptions;
@@ -135,7 +135,7 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
     const options = optionize<GroupSortInteractionModelOptions<ItemModel>, SelfOptions<ItemModel>, ParentOptions>()( {
       tandem: Tandem.REQUIRED,
       phetioEnabledPropertyInstrumented: false,
-      mouseSortCueVisibleAtStart: false
+      initialMouseSortCueVisible: false
     }, providedOptions );
 
     super( options );
@@ -161,7 +161,7 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
       }
     } );
 
-    this.mouseSortCueVisibleProperty = new Property( options.mouseSortCueVisibleAtStart );
+    this.mouseSortCueVisibleProperty = new Property( options.initialMouseSortCueVisible );
 
     this.showMouseCueProperty = new BooleanProperty( true, {
       tandem: options.tandem.createTandem( 'showMouseCueProperty' ),
