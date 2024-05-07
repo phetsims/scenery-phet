@@ -137,6 +137,9 @@
   "keyboardHelpDialog.adjustSlider": {
     "value": "Adjust slider"
   },
+  "keyboardHelpDialog.spinnerControls": {
+    "value": "Spinner Controls"
+  },
   "keyboardHelpDialog.adjustInSmallerSteps": {
     "value": "Adjust in smaller steps"
   },
@@ -154,6 +157,9 @@
   },
   "keyboardHelpDialog.slider": {
     "value": "slider"
+  },
+  "keyboardHelpDialog.spinner": {
+    "value": "spinner"
   },
   "keyboardHelpDialog.verbSliderPattern": {
     "value": "{{verb}} {{slider}}"

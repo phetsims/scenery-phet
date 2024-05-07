@@ -59,9 +59,11 @@ type SelfOptions = {
   maximumStringProperty?: TReadOnlyProperty<string>;
   minimumStringProperty?: TReadOnlyProperty<string>;
 
-  // This option determines whether this keyboard help section will have the
-  // "Adjust in Smaller Steps" row. The row includes the string and key icons.
+  // Determines whether this keyboard help section will have the "Adjust in Smaller Steps" row.
   includeSmallerStepsRow?: boolean;
+
+  // Determines whether this keyboard help section will have the "Adjust in Larger Steps" row.
+  includeLargerStepsRow?: boolean;
 };
 
 export type SliderControlsKeyboardHelpSectionOptions = SelfOptions & KeyboardHelpSectionOptions;
@@ -91,7 +93,8 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
       adjustInSmallerStepsStringProperty: SceneryPhetStrings.keyboardHelpDialog.adjustInSmallerStepsStringProperty,
       adjustInLargerStepsStringProperty: SceneryPhetStrings.keyboardHelpDialog.adjustInLargerStepsStringProperty,
 
-      includeSmallerStepsRow: true
+      includeSmallerStepsRow: true,
+      includeLargerStepsRow: true
     }, providedOptions );
 
     let adjustSliderStringProperty = options.adjustSliderStringProperty;
@@ -216,7 +219,13 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
     } );
 
     // assemble final content for KeyboardHelpSection
-    const content = [ adjustSliderRow, ...( options.includeSmallerStepsRow ? [ adjustSliderInSmallerStepsRow ] : [] ), adjustInLargerStepsRow, jumpToMinimumRow, jumpToMaximumRow ];
+    const content = [
+      adjustSliderRow,
+      ...( options.includeSmallerStepsRow ? [ adjustSliderInSmallerStepsRow ] : [] ),
+      ...( options.includeLargerStepsRow ? [ adjustInLargerStepsRow ] : [] ),
+      jumpToMinimumRow,
+      jumpToMaximumRow
+    ];
 
     super( options.headingStringProperty, content, options );
   }
