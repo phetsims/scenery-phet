@@ -30,6 +30,10 @@
  * successfully grab and sort in one scene, then that learned understanding about the interaction should transfer to
  * the next scene.
  *
+ * A note about PhET-iO:
+ * Properties that handle visual cue states are not PhET-iO instrumented, because they are considered transient.
+ * See showMouseCueProperty for the extent of PhET-iO customization.
+ *
  * Implementation steps (these steps apply to the model and view):
  * - use with GroupSortInteractionView
  * - reset selectedGroupItemProperty with a sim-specific heuristic when the underlying model needs to update the best
@@ -64,7 +68,8 @@ import NullableIO from '../../../../../tandem/js/types/NullableIO.js';
 
 type SelfOptions<ItemModel> = {
 
-  // A function that returns the "value" for a group item set to it. The value is where the item should be sorted. Null means that it isn't part of this interaction (different scene/not active/etc).
+  // A function that returns the "value" for a group item set to it. The value is where the item should be sorted.
+  // Null means that it isn't part of this interaction (different scene/not active/etc).
   getGroupItemValue: ( itemModel: ItemModel ) => number | null;
 } & Pick<PhetioObjectOptions, 'tandem'>;
 
@@ -102,13 +107,9 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
   // the selection changes from the default upon focus.
   public readonly hasKeyboardSelectedGroupItemProperty = new BooleanProperty( false );
 
-  // Whether the mouse/touch sort icon cue is currently showing on the group item area
-  // TODO: MS and JB! Does this make sense to live inside of GroupSortInteractionModel? https://github.com/phetsims/mean-share-and-balance/issues/141
-  //       Questions:
-  //                  1. Do we wish this was a DerivedProperty somehow? (MK thinks probably not)
-  //                  2. We need to update this value based on sim logic AND hard coded group sort logic (like mouseSortCueShouldBeVisible())
-  //                  3. We need to manually call registerUpdateSortCueNode() in addition to any other spots that update the mouse sort cue.
-  //                  4. Noting here that we don't have any code in group sort about creating the mouse cue Node itself (just the visibleProperty and if it should be shown from our perspective)
+  // Whether the mouse/touch sort icon cue is currently showing on the group item area.
+  // Client should set this Property as well as use it for their mouse sort cue node.
+  // Client should manually register callbacks to update the visual cue with registerUpdateSortCueNode().
   public readonly mouseSortCueVisibleProperty = new BooleanProperty( false );
 
   // A PhET-iO specific Property for opting out of showing the visual mouse cue. This is not reset, and is used to
@@ -128,10 +129,9 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
   public readonly getGroupItemValue: ( itemModel: ItemModel ) => number | null;
 
   public constructor( providedOptions?: GroupSortInteractionModelOptions<ItemModel> ) {
-
     const options = optionize<GroupSortInteractionModelOptions<ItemModel>, SelfOptions<ItemModel>, ParentOptions>()( {
       tandem: Tandem.REQUIRED,
-      phetioEnabledPropertyInstrumented: false // enabledProperty doesn't need to be in PhET-iO
+      phetioEnabledPropertyInstrumented: false
     }, providedOptions );
 
     super( options );
@@ -232,7 +232,8 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
   }
 
   // Register your closure responsible for updating the sort-indicator node. This should be called with a callback that
-  // updates mouseSortCueVisibleProperty() and maybe does other things.
+  // updates mouseSortCueVisibleProperty and maybe does other things. You will likely need to call this update function
+  // for sim specific usages as well.
   public registerUpdateSortCueNode( updateSortIndicatorNode: () => void ): void {
     this.mouseSortCueVisibleProperty.link( updateSortIndicatorNode );
     this.showMouseCueProperty.link( updateSortIndicatorNode );
@@ -240,8 +241,12 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
     this.selectedGroupItemProperty.link( updateSortIndicatorNode );
     this.hasGroupItemBeenSortedProperty.link( updateSortIndicatorNode );
     this.isKeyboardFocusedProperty.link( updateSortIndicatorNode );
+    Tandem.PHET_IO_ENABLED && phet.phetio.phetioEngine
+      .phetioStateEngine.stateSetEmitter.addListener( updateSortIndicatorNode );
 
     this.disposeEmitter.addListener( () => {
+      Tandem.PHET_IO_ENABLED && phet.phetio.phetioEngine
+        .phetioStateEngine.stateSetEmitter.removeListener( updateSortIndicatorNode );
       this.isKeyboardFocusedProperty.unlink( updateSortIndicatorNode );
       this.hasGroupItemBeenSortedProperty.unlink( updateSortIndicatorNode );
       this.mouseSortCueVisibleProperty.unlink( updateSortIndicatorNode );
