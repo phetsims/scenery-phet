@@ -17,7 +17,7 @@ import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
-import { Color, Font, LinearGradient, Node, NodeOptions, Path, TColor, Text } from '../../scenery/js/imports.js';
+import { Color, Font, KeyboardListener, LinearGradient, Node, NodeOptions, Path, TColor, Text } from '../../scenery/js/imports.js';
 import { SliderOptions } from '../../sun/js/Slider.js';
 import VSlider from '../../sun/js/VSlider.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -208,6 +208,13 @@ export default class HeaterCoolerFront extends Node {
       blur: setSliderToZero
     } );
 
+    // A shortcut to easily return the value to zero when using the keyboard.
+    const keyboardListener = new KeyboardListener( {
+      keys: [ '0' ],
+      fire: setSliderToZero
+    } );
+    this.slider.addInputListener( keyboardListener );
+
     // Create the tick labels.
     const labelOptions = {
       font: options.labelFont,
@@ -255,6 +262,7 @@ export default class HeaterCoolerFront extends Node {
     this.disposeHeaterCoolerFront = () => {
       heatTickText && heatTickText.dispose();
       coolTickText && coolTickText.dispose();
+      keyboardListener.dispose();
     };
   }
 
