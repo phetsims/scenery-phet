@@ -204,7 +204,7 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
 
   // Given the knowledge that GroupSortInteractionModel has, should the mouse sort cue be visible? This most often
   // isn't the complete boolean, since there will be sim-specific knowledge that contributes to the final visibility
-  // of the Node. TODO: add this.enabledProperty into this like is done for soccer-common? https://github.com/phetsims/mean-share-and-balance/issues/141
+  // of the Node.
   public mouseSortCueShouldBeVisible(): boolean {
     return !this.hasGroupItemBeenSortedProperty.value &&
            !this.isKeyboardFocusedProperty.value &&
