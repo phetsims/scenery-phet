@@ -66,12 +66,14 @@ type StringsType = {
   'keyboardHelpDialog': {
     'sliderControlsStringProperty': LocalizedStringProperty;
     'adjustSliderStringProperty': LocalizedStringProperty;
+    'spinnerControlsStringProperty': LocalizedStringProperty;
     'adjustInSmallerStepsStringProperty': LocalizedStringProperty;
     'adjustInLargerStepsStringProperty': LocalizedStringProperty;
     'jumpToMinimumStringProperty': LocalizedStringProperty;
     'jumpToMaximumStringProperty': LocalizedStringProperty;
     'adjustStringProperty': LocalizedStringProperty;
     'sliderStringProperty': LocalizedStringProperty;
+    'spinnerStringProperty': LocalizedStringProperty;
     'verbSliderPatternStringProperty': LocalizedStringProperty;
     'verbInSmallerStepsPatternStringProperty': LocalizedStringProperty;
     'verbInLargerStepsPatternStringProperty': LocalizedStringProperty;
