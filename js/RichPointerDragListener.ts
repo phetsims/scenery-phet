@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * RichDragListener extends DragListener to integrate PhET-specific features that should be broadly applied to
+ * RichPointerDragListener extends DragListener to integrate PhET-specific features that should be broadly applied to
  * DragListener instances in PhET sims.
  *
  * For grab and release sounds, responsibilities include:
@@ -44,15 +44,15 @@ type SelfOptions = {
 };
 
 // Pattern followed from DragListenerOptions.
-export type PressedRichDragListener = RichPointerDragListener & PressedDragListener;
+export type PressedRichPointerDragListener = RichPointerDragListener & PressedDragListener;
 
-export type RichDragListenerOptions<Listener extends PressedRichDragListener = PressedRichDragListener> = SelfOptions & DragListenerOptions<Listener>;
+export type RichPointerDragListenerOptions<Listener extends PressedRichPointerDragListener = PressedRichPointerDragListener> = SelfOptions & DragListenerOptions<Listener>;
 
 export default class RichPointerDragListener extends DragListener {
 
-  public constructor( providedOptions: RichDragListenerOptions ) {
+  public constructor( providedOptions: RichPointerDragListenerOptions ) {
 
-    const options = optionize<RichDragListenerOptions, SelfOptions, DragListenerOptions<PressedRichDragListener>>()( {
+    const options = optionize<RichPointerDragListenerOptions, SelfOptions, DragListenerOptions<PressedRichPointerDragListener>>()( {
 
       // SelfOptions
       grabSound: grab_mp3,
@@ -93,7 +93,7 @@ export default class RichPointerDragListener extends DragListener {
 
     super( options );
 
-    // Clean up SoundClips when this RichDragListener is disposed.
+    // Clean up SoundClips when this RichPointerDragListener is disposed.
     this.disposeEmitter.addListener( () => {
       if ( grabClip ) {
         grabClip.dispose();
@@ -108,4 +108,4 @@ export default class RichPointerDragListener extends DragListener {
   }
 }
 
-sceneryPhet.register( 'RichDragListener', RichPointerDragListener );
+sceneryPhet.register( 'RichPointerDragListener', RichPointerDragListener );
