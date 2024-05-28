@@ -44,11 +44,11 @@ type SelfOptions = {
 };
 
 // Pattern followed from DragListenerOptions.
-export type PressedRichDragListener = RichPointerDragListener & PressedDragListener;
+export type PressedRichDragListener = RichDragListener & PressedDragListener;
 
 export type RichDragListenerOptions<Listener extends PressedRichDragListener = PressedRichDragListener> = SelfOptions & DragListenerOptions<Listener>;
 
-export default class RichPointerDragListener extends DragListener {
+export default class RichDragListener extends DragListener {
 
   public constructor( providedOptions: RichDragListenerOptions ) {
 
@@ -108,4 +108,4 @@ export default class RichPointerDragListener extends DragListener {
   }
 }
 
-sceneryPhet.register( 'RichDragListener', RichPointerDragListener );
+sceneryPhet.register( 'RichDragListener', RichDragListener );
