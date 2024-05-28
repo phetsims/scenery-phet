@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * Demo for RichDragListener and RichKeyboardDragListener
+ * Demo for RichPointerDragListener and RichKeyboardDragListener
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  * @author Agustín Vallejo (PhET Interactive Simulations)
@@ -9,7 +9,7 @@
 
 import { Circle, Node, Rectangle, RichText } from '../../../../scenery/js/imports.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import RichDragListener from '../../RichDragListener.js';
+import RichPointerDragListener from '../../RichPointerDragListener.js';
 import TinyProperty from '../../../../axon/js/TinyProperty.js';
 import RichKeyboardDragListener from '../../RichKeyboardDragListener.js';
 import PhetFont from '../../PhetFont.js';
@@ -31,7 +31,7 @@ export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
   richDragListenerCircle.addChild( innerCircleMessage );
   const dragBoundsProperty = new TinyProperty( layoutBounds.shifted( layoutBounds.center.times( -1 ) ).eroded( RADIUS ) );
 
-  richDragListenerCircle.addInputListener( new RichDragListener( {
+  richDragListenerCircle.addInputListener( new RichPointerDragListener( {
     dragBoundsProperty: dragBoundsProperty,
     translateNode: true,
     targetNode: richDragListenerCircle
