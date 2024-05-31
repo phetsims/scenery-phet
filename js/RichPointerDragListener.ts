@@ -22,11 +22,7 @@ import grab_mp3 from '../../tambo/sounds/grab_mp3.js';
 import release_mp3 from '../../tambo/sounds/release_mp3.js';
 import soundManager, { SoundGeneratorAddOptions } from '../../tambo/js/soundManager.js';
 import WrappedAudioBuffer from '../../tambo/js/WrappedAudioBuffer.js';
-
-const DEFAULT_DRAG_CLIP_OPTIONS: SoundClipOptions = {
-  initialOutputLevel: 0.4
-};
-const DEFAULT_ADD_SOUND_GENERATOR_OPTIONS: SoundGeneratorAddOptions = { categoryName: 'user-interface' };
+import SceneryPhetConstants from './SceneryPhetConstants.js';
 
 type SelfOptions = {
 
@@ -57,10 +53,10 @@ export default class RichPointerDragListener extends DragListener {
       // SelfOptions
       grabSound: grab_mp3,
       releaseSound: release_mp3,
-      grabSoundClipOptions: DEFAULT_DRAG_CLIP_OPTIONS,
-      releaseSoundClipOptions: DEFAULT_DRAG_CLIP_OPTIONS,
-      grabSoundGeneratorAddOptions: DEFAULT_ADD_SOUND_GENERATOR_OPTIONS,
-      releaseSoundGeneratorAddOptions: DEFAULT_ADD_SOUND_GENERATOR_OPTIONS
+      grabSoundClipOptions: SceneryPhetConstants.DEFAULT_DRAG_CLIP_OPTIONS,
+      releaseSoundClipOptions: SceneryPhetConstants.DEFAULT_DRAG_CLIP_OPTIONS,
+      grabSoundGeneratorAddOptions: SceneryPhetConstants.DEFAULT_GRAB_SOUND_GENERATOR_ADD_OPTIONS,
+      releaseSoundGeneratorAddOptions: SceneryPhetConstants.DEFAULT_GRAB_SOUND_GENERATOR_ADD_OPTIONS
     }, providedOptions );
 
     // Create the grab SoundClip and wire it into the start function for the drag cycle.
