@@ -41,14 +41,15 @@ export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
   richPointerDragListenerCircle.addChild( innerCircleMessage );
   richPointerDragListenerCircle.addInputListener( new RichPointerDragListener( {
     dragBoundsProperty: dragBoundsProperty,
-    translateNode: true,
-    targetNode: richPointerDragListenerCircle
+    drag: ( event, listener ) => {
+      richPointerDragListenerCircle.translate( listener.modelDelta );
+    }
   } ) );
 
   //---------------------------------------------------------------------------------
   // RichKeyboardDragListener
   //---------------------------------------------------------------------------------
-  const richKeyboardDragListenerRectangle = new Rectangle( RADIUS * 2, -RADIUS / 2, RADIUS * 3, RADIUS, {
+  const richKeyboardDragListenerRectangle = new Rectangle( -RADIUS * 3 / 2, -RADIUS / 2, RADIUS * 3, RADIUS, {
     fill: 'blue',
     tagName: 'div',
     focusable: true
@@ -61,9 +62,9 @@ export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
   richKeyboardDragListenerRectangle.addChild( innerRectangleMessage );
   richKeyboardDragListenerRectangle.addInputListener( new RichKeyboardDragListener( {
     dragBoundsProperty: dragBoundsProperty,
-    drag: ( event, listener ) => {
-      richKeyboardDragListenerRectangle.translate( listener.vectorDelta );
-    }
+    translateNode: true,
+    dragSpeed: RADIUS * 5,
+    shiftDragSpeed: RADIUS
   } ) );
 
   //---------------------------------------------------------------------------------
