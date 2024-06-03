@@ -6,6 +6,9 @@
  *
  * Be sure to dispose of this listener when it is no longer needed.
  *
+ * Options that are common to both listeners are provided directly to this listener. Options that are specific to
+ * a particular listener can be provided through the richPointerDragListenerOptions or richKeyboardDragListenerOptions.
+ *
  * Typical PhET usage will use a position Property in a model coordinate frame and look like this:
  *
  *     // A focusable Node that can be dragged with pointer or keyboard.

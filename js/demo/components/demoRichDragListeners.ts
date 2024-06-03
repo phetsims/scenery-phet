@@ -95,7 +95,8 @@ export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
     dragBoundsProperty: dragBoundsProperty,
     translateNode: true,
     richKeyboardDragListenerOptions: {
-      dragSpeed: RADIUS * 5
+      dragSpeed: RADIUS * 5,
+      shiftDragSpeed: RADIUS
     },
     start: ( event, listener ) => {
       if ( event.isFromPDOM() ) {
