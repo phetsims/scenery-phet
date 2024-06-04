@@ -24,6 +24,8 @@
  *
  *     draggableNode.addInputListener( richDragListener );
  *
+ * This listener works by implementing TInputListener and forwarding input events to the specific listeners. This is
+ * how we support adding this listener through the scenery input listener API.
  * @author Jesse Greenberg
  */
 
@@ -43,6 +45,7 @@ import grab_mp3 from '../../tambo/sounds/grab_mp3.js';
 import release_mp3 from '../../tambo/sounds/release_mp3.js';
 import SceneryPhetConstants from './SceneryPhetConstants.js';
 import sceneryPhet from './sceneryPhet.js';
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
 
 type SelfOptions = {
 
@@ -108,6 +111,13 @@ export type RichDragListenerOptions = SelfOptions;
 export default class RichDragListener implements TInputListener {
   private readonly richPointerDragListener: RichPointerDragListener;
   private readonly richKeyboardDragListener: RichKeyboardDragListener;
+
+  // True if the listener is currently pressed (RichPointerDragListener OR RichKeyboardDragListener).
+  public readonly isPressedProperty: TReadOnlyProperty<boolean>;
+
+  // Properties for each of the pressed states of the RichPointerDragListener and RichKeyboardDragListener.
+  public readonly keyboardListenerPressedProperty: TReadOnlyProperty<boolean>;
+  public readonly pointerListenerPressedProperty: TReadOnlyProperty<boolean>;
 
   // Implements TInputListener
   public readonly hotkeys: Hotkey[];
@@ -230,6 +240,10 @@ export default class RichDragListener implements TInputListener {
     // The hotkeys from the keyboard listener are assigned to this listener so that they are activated for Nodes
     // where this listener is added.
     this.hotkeys = this.richKeyboardDragListener.hotkeys;
+
+    this.isPressedProperty = DerivedProperty.or( [ this.richPointerDragListener.isPressedProperty, this.richKeyboardDragListener.isPressedProperty ] );
+    this.keyboardListenerPressedProperty = this.richKeyboardDragListener.isPressedProperty;
+    this.pointerListenerPressedProperty = this.richPointerDragListener.isPressedProperty;
   }
 
   public get isPressed(): boolean {
@@ -237,6 +251,8 @@ export default class RichDragListener implements TInputListener {
   }
 
   public dispose(): void {
+    this.isPressedProperty.dispose();
+
     this.richPointerDragListener.dispose();
     this.richKeyboardDragListener.dispose();
   }
