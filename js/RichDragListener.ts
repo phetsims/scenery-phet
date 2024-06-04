@@ -26,6 +26,7 @@
  *
  * This listener works by implementing TInputListener and forwarding input events to the specific listeners. This is
  * how we support adding this listener through the scenery input listener API.
+ *
  * @author Jesse Greenberg
  */
 
@@ -271,9 +272,6 @@ export default class RichDragListener implements TInputListener {
    * ********************************************************************
    * Forward to the KeyboardListener
    * ********************************************************************
-   */
-  /**
-   * Forward the keydown event to the KeyboardDragListener.
    */
   public keydown( event: SceneryEvent<KeyboardEvent> ): void {
     this.richKeyboardDragListener.keydown( event );
