@@ -189,8 +189,8 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
         }
       },
       blur: () => {
-        isGroupItemKeyboardGrabbedProperty.value = false;
         isKeyboardFocusedProperty.value = false;
+        isGroupItemKeyboardGrabbedProperty.value = false;
       },
       over: () => {
 
