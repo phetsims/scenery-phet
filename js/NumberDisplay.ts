@@ -55,7 +55,7 @@ type SelfOptions = {
   numberFormatter?: ( ( n: number ) => string ) | null;
 
   // If your numberFormatter depends on other Properties, you must specify them so that the text will update when those
-  // dependencies change. You can test for missing dependencies with ?strictAxonDependencies=true
+  // dependencies change.
   numberFormatterDependencies?: TReadOnlyProperty<unknown>[];
 
   useRichText?: boolean;

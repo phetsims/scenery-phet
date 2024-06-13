@@ -342,8 +342,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
             dragBounds.maxY - ( thisBounds.maxY - targetOriginInParentCoordinates.y )
           );
         }, {
-          valueComparisonStrategy: 'equalsFunction', // Don't make spurious changes, we often won't be changing.
-          strictAxonDependencies: false // see https://github.com/phetsims/scenery-phet/issues/832
+          valueComparisonStrategy: 'equalsFunction' // Don't make spurious changes, we often won't be changing.
         } );
 
       // interrupt user interactions when the visible bounds changes, such as a device orientation change or window resize
