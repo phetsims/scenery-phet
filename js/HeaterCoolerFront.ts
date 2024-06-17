@@ -205,7 +205,7 @@ export default class HeaterCoolerFront extends Node {
 
     // Set the slider back to zero when it loses focus.
     this.slider.addInputListener( {
-      blur: setSliderToZero
+      blur: () => { this.snapToZeroProperty.value && setSliderToZero(); }
     } );
 
     // A shortcut to easily return the value to zero when using the keyboard.
