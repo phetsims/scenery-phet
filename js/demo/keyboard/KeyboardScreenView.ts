@@ -36,7 +36,7 @@ export default class KeyboardScreenView extends DemosScreenView {
       { label: 'BasicActionsKeyboardHelpSection', createNode: demoBasicActionsKeyboardHelpSection },
       { label: 'ComboBoxKeyboardHelpSection', createNode: demoComboBoxKeyboardHelpSection },
       { label: 'FaucetControlsKeyboardHelpSection', createNode: demoFaucetControlsKeyboardHelpSection },
-      { label: 'HeaterCoolerControlsKeyboardHelpSection', createNode: demoHeaterCoolerControlsKeyboardHelpSection },
+      { label: 'HeatCoolControlsKeyboardHelpSection', createNode: demoHeaterCoolerControlsKeyboardHelpSection },
       { label: 'KeyboardHelpIconFactory', createNode: demoKeyboardHelpIconFactory },
       { label: 'KeyboardHelpSection', createNode: demoKeyboardHelpSection },
       { label: 'KeyNode', createNode: demoKeyNode },

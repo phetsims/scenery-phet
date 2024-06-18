@@ -1,17 +1,17 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * Demo for HeaterCoolerControlsKeyboardHelpSection.
+ * Demo for HeatCoolControlsKeyboardHelpSection.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { Node } from '../../../../scenery/js/imports.js';
-import HeaterCoolerControlsKeyboardHelpSection from '../../keyboard/help/HeaterCoolerControlsKeyboardHelpSection.js';
+import HeatCoolControlsKeyboardHelpSection from '../../keyboard/help/HeatCoolControlsKeyboardHelpSection.js';
 
 export default function demoHeaterCoolerControlsKeyboardHelpSection( layoutBounds: Bounds2 ): Node {
-  const section = new HeaterCoolerControlsKeyboardHelpSection();
+  const section = new HeatCoolControlsKeyboardHelpSection();
   section.center = layoutBounds.center;
   return section;
 }

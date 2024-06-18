@@ -17,7 +17,7 @@ type SelfOptions = EmptySelfOptions;
 type ParentOptions = SliderControlsKeyboardHelpSectionOptions;
 export type HeaterCoolerControlsKeyboardHelpSectionOptions = SelfOptions & ParentOptions;
 
-export default class HeaterCoolerControlsKeyboardHelpSection extends SliderControlsKeyboardHelpSection {
+export default class HeatCoolControlsKeyboardHelpSection extends SliderControlsKeyboardHelpSection {
   public constructor( providedOptions?: HeaterCoolerControlsKeyboardHelpSectionOptions ) {
 
     const offIcon = new NumberKeyNode( 0 );
@@ -39,4 +39,4 @@ export default class HeaterCoolerControlsKeyboardHelpSection extends SliderContr
   }
 }
 
-sceneryPhet.register( 'HeaterCoolerControlsKeyboardHelpSection', HeaterCoolerControlsKeyboardHelpSection );
+sceneryPhet.register( 'HeatCoolControlsKeyboardHelpSection', HeatCoolControlsKeyboardHelpSection );
