@@ -33,7 +33,7 @@ type SelfOptions = {
 type ParentOptions = KeyboardHelpSectionOptions;
 export type TimeControlKeyboardHelpSectionOptions = SelfOptions & ParentOptions;
 
-class TimeControlKeyboardHelpSection extends KeyboardHelpSection {
+class TimingControlsKeyboardHelpSection extends KeyboardHelpSection {
   public constructor( providedOptions?: TimeControlKeyboardHelpSectionOptions ) {
     const options = optionize<TimeControlKeyboardHelpSectionOptions, SelfOptions, ParentOptions>()( {
       headingString: timingControlsStringProperty,
@@ -49,5 +49,5 @@ class TimeControlKeyboardHelpSection extends KeyboardHelpSection {
   }
 }
 
-sceneryPhet.register( 'TimeControlKeyboardHelpSection', TimeControlKeyboardHelpSection );
-export default TimeControlKeyboardHelpSection;
+sceneryPhet.register( 'TimingControlsKeyboardHelpSection', TimingControlsKeyboardHelpSection );
+export default TimingControlsKeyboardHelpSection;
