@@ -19,6 +19,7 @@ import demoKeyboardHelpIconFactory from './demoKeyboardHelpIconFactory.js';
 import demoFaucetControlsKeyboardHelpSection from './demoFaucetControlsKeyboardHelpSection.js';
 import demoSpinnerControlsKeyboardHelpSection from './demoSpinnerControlsKeyboardHelpSection.js';
 import demoHeatCoolControlsKeyboardHelpSection from './demoHeatCoolControlsKeyboardHelpSection.js';
+import demoGrabReleaseKeyboardHelpSection from './demoGrabReleaseKeyboardHelpSection.js';
 
 type SelfOptions = EmptySelfOptions;
 type KeyboardScreenViewOptions = SelfOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;
@@ -41,7 +42,8 @@ export default class KeyboardScreenView extends DemosScreenView {
       { label: 'KeyboardHelpSection', createNode: demoKeyboardHelpSection },
       { label: 'KeyNode', createNode: demoKeyNode },
       { label: 'SpinnerControlsKeyboardHelpSection', createNode: demoSpinnerControlsKeyboardHelpSection },
-      { label: 'SliderControlsKeyboardHelpSection', createNode: demoSliderControlsKeyboardHelpSection }
+      { label: 'SliderControlsKeyboardHelpSection', createNode: demoSliderControlsKeyboardHelpSection },
+      { label: 'GrabReleaseKeyboardHelpSection', createNode: demoGrabReleaseKeyboardHelpSection }
     ];
 
     super( demos, options );
