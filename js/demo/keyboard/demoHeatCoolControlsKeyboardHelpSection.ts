@@ -10,7 +10,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import HeatCoolControlsKeyboardHelpSection from '../../keyboard/help/HeatCoolControlsKeyboardHelpSection.js';
 
-export default function demoHeaterCoolerControlsKeyboardHelpSection( layoutBounds: Bounds2 ): Node {
+export default function demoHeatCoolControlsKeyboardHelpSection( layoutBounds: Bounds2 ): Node {
   const section = new HeatCoolControlsKeyboardHelpSection();
   section.center = layoutBounds.center;
   return section;

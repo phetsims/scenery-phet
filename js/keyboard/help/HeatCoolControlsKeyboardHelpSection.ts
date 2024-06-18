@@ -15,15 +15,15 @@ import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 
 type SelfOptions = EmptySelfOptions;
 type ParentOptions = SliderControlsKeyboardHelpSectionOptions;
-export type HeaterCoolerControlsKeyboardHelpSectionOptions = SelfOptions & ParentOptions;
+export type HeatCoolControlsKeyboardHelpSectionOptions = SelfOptions & ParentOptions;
 
 export default class HeatCoolControlsKeyboardHelpSection extends SliderControlsKeyboardHelpSection {
-  public constructor( providedOptions?: HeaterCoolerControlsKeyboardHelpSectionOptions ) {
+  public constructor( providedOptions?: HeatCoolControlsKeyboardHelpSectionOptions ) {
 
     const offIcon = new NumberKeyNode( 0 );
     const offStringRow = KeyboardHelpSectionRow.labelWithIcon( SceneryPhetStrings.keyboardHelpDialog.heatCoolOffStringProperty, offIcon );
 
-    const options = optionize<HeaterCoolerControlsKeyboardHelpSectionOptions, SelfOptions, ParentOptions>()( {
+    const options = optionize<HeatCoolControlsKeyboardHelpSectionOptions, SelfOptions, ParentOptions>()( {
       arrowKeyIconDisplay: ArrowKeyIconDisplay.UP_DOWN,
 
       headingStringProperty: SceneryPhetStrings.keyboardHelpDialog.heatCoolControlsStringProperty,
