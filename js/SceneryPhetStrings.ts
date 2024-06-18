@@ -74,6 +74,10 @@ type StringsType = {
     'adjustStringProperty': LocalizedStringProperty;
     'sliderStringProperty': LocalizedStringProperty;
     'spinnerStringProperty': LocalizedStringProperty;
+    'heatCoolControlsStringProperty': LocalizedStringProperty;
+    'maximumHeatStringProperty': LocalizedStringProperty;
+    'maximumCoolStringProperty': LocalizedStringProperty;
+    'heatCoolOffStringProperty': LocalizedStringProperty;
     'verbSliderPatternStringProperty': LocalizedStringProperty;
     'verbInSmallerStepsPatternStringProperty': LocalizedStringProperty;
     'verbInLargerStepsPatternStringProperty': LocalizedStringProperty;

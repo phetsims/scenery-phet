@@ -161,6 +161,18 @@
   "keyboardHelpDialog.spinner": {
     "value": "spinner"
   },
+  "keyboardHelpDialog.heatCoolControls": {
+    "value": "Heat/Cool Controls"
+  },
+  "keyboardHelpDialog.maximumHeat": {
+    "value": "Maximum heat"
+  },
+  "keyboardHelpDialog.maximumCool": {
+    "value": "Maximum cool"
+  },
+  "keyboardHelpDialog.heatCoolOff": {
+    "value": "Off"
+  },
   "keyboardHelpDialog.verbSliderPattern": {
     "value": "{{verb}} {{slider}}"
   },

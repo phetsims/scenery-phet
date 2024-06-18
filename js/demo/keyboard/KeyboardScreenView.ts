@@ -18,6 +18,7 @@ import demoKeyboardHelpSection from './demoKeyboardHelpSection.js';
 import demoKeyboardHelpIconFactory from './demoKeyboardHelpIconFactory.js';
 import demoFaucetControlsKeyboardHelpSection from './demoFaucetControlsKeyboardHelpSection.js';
 import demoSpinnerControlsKeyboardHelpSection from './demoSpinnerControlsKeyboardHelpSection.js';
+import demoHeaterCoolerControlsKeyboardHelpSection from './demoHeaterCoolerControlsKeyboardHelpSection.js';
 
 type SelfOptions = EmptySelfOptions;
 type KeyboardScreenViewOptions = SelfOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;
@@ -35,6 +36,7 @@ export default class KeyboardScreenView extends DemosScreenView {
       { label: 'BasicActionsKeyboardHelpSection', createNode: demoBasicActionsKeyboardHelpSection },
       { label: 'ComboBoxKeyboardHelpSection', createNode: demoComboBoxKeyboardHelpSection },
       { label: 'FaucetControlsKeyboardHelpSection', createNode: demoFaucetControlsKeyboardHelpSection },
+      { label: 'HeaterCoolerControlsKeyboardHelpSection', createNode: demoHeaterCoolerControlsKeyboardHelpSection },
       { label: 'KeyboardHelpIconFactory', createNode: demoKeyboardHelpIconFactory },
       { label: 'KeyboardHelpSection', createNode: demoKeyboardHelpSection },
       { label: 'KeyNode', createNode: demoKeyNode },

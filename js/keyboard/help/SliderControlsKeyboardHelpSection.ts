@@ -22,7 +22,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import assertMutuallyExclusiveOptions from '../../../../phet-core/js/assertMutuallyExclusiveOptions.js';
 
 // Configurations of arrow keys that can be displayed for 'Move between items in a group'
-class ArrowKeyIconDisplay extends EnumerationValue {
+export class ArrowKeyIconDisplay extends EnumerationValue {
   public static readonly UP_DOWN = new ArrowKeyIconDisplay();
   public static readonly LEFT_RIGHT = new ArrowKeyIconDisplay();
   public static readonly BOTH = new ArrowKeyIconDisplay();
@@ -56,14 +56,24 @@ type SelfOptions = {
   sliderStringProperty?: TReadOnlyProperty<string>;
 
   // Strings for extremities to support shortcuts like "jump to maximum" (renaming "maximum" if desired.
+  // @deprecated - use jumpToMaximumStringProperty and jumpToMinimumStringProperty instead.
   maximumStringProperty?: TReadOnlyProperty<string>;
   minimumStringProperty?: TReadOnlyProperty<string>;
+
+  // Custom strings for the full 'Jump to Minimum' and 'Jump to Maximum' rows. Mutually exclusive with
+  // minimumStringProperty and maximumStringProperty.
+  jumpToMaximumStringProperty?: TReadOnlyProperty<string>;
+  jumpToMinimumStringProperty?: TReadOnlyProperty<string>;
 
   // Determines whether this keyboard help section will have the "Adjust in Smaller Steps" row.
   includeSmallerStepsRow?: boolean;
 
   // Determines whether this keyboard help section will have the "Adjust in Larger Steps" row.
   includeLargerStepsRow?: boolean;
+
+  // Sometimes a slider has custom key commands. Provide additional rows for those commands and they will be added
+  // below default slider controls content.
+  additionalRows?: KeyboardHelpSectionRow[];
 };
 
 export type SliderControlsKeyboardHelpSectionOptions = SelfOptions & KeyboardHelpSectionOptions;
@@ -80,6 +90,12 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
       [ 'verbStringProperty', 'sliderStringProperty' ],
       [ 'adjustSliderStringProperty', 'adjustInSmallerStepsStringProperty', 'adjustInLargerStepsStringProperty' ] );
 
+    assert && assertMutuallyExclusiveOptions( providedOptions, [ 'maximumStringProperty' ], [ 'jumpToMaximumStringProperty' ] );
+    assert && assertMutuallyExclusiveOptions( providedOptions, [ 'minimumStringProperty' ], [ 'jumpToMinimumStringProperty' ] );
+
+    const ownsMaximumStringProperty = providedOptions && 'maximumStringProperty' in providedOptions;
+    const ownsMinimumStringProperty = providedOptions && 'minimumStringProperty' in providedOptions;
+
     const options = optionize<SliderControlsKeyboardHelpSectionOptions, SelfOptions, KeyboardHelpSectionOptions>()( {
       arrowKeyIconDisplay: ArrowKeyIconDisplay.BOTH,
       headingStringProperty: SceneryPhetStrings.keyboardHelpDialog.sliderControlsStringProperty,
@@ -88,13 +104,16 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
       sliderStringProperty: SceneryPhetStrings.keyboardHelpDialog.sliderStringProperty,
       maximumStringProperty: SceneryPhetStrings.keyboardHelpDialog.maximumStringProperty,
       minimumStringProperty: SceneryPhetStrings.keyboardHelpDialog.minimumStringProperty,
+      jumpToMaximumStringProperty: SceneryPhetStrings.keyboardHelpDialog.jumpToMaximumStringProperty,
+      jumpToMinimumStringProperty: SceneryPhetStrings.keyboardHelpDialog.jumpToMinimumStringProperty,
 
       adjustSliderStringProperty: SceneryPhetStrings.keyboardHelpDialog.adjustSliderStringProperty,
       adjustInSmallerStepsStringProperty: SceneryPhetStrings.keyboardHelpDialog.adjustInSmallerStepsStringProperty,
       adjustInLargerStepsStringProperty: SceneryPhetStrings.keyboardHelpDialog.adjustInLargerStepsStringProperty,
 
       includeSmallerStepsRow: true,
-      includeLargerStepsRow: true
+      includeLargerStepsRow: true,
+      additionalRows: []
     }, providedOptions );
 
     let adjustSliderStringProperty = options.adjustSliderStringProperty;
@@ -148,12 +167,20 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
       verb: options.verbStringProperty
     }, { tandem: Tandem.OPT_OUT } );
 
-    const jumpToMinimumStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.jumpToMinimumPatternStringProperty, {
-      minimum: options.minimumStringProperty
-    }, { tandem: Tandem.OPT_OUT } );
-    const jumpToMaximumStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.jumpToMaximumPatternStringProperty, {
-      maximum: options.maximumStringProperty
-    }, { tandem: Tandem.OPT_OUT } );
+
+    let jumpToMinimumStringProperty = options.jumpToMinimumStringProperty;
+    if ( ownsMinimumStringProperty ) {
+      jumpToMinimumStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.jumpToMinimumPatternStringProperty, {
+        minimum: options.minimumStringProperty
+      }, { tandem: Tandem.OPT_OUT } );
+    }
+
+    let jumpToMaximumStringProperty = options.jumpToMaximumStringProperty;
+    if ( ownsMaximumStringProperty ) {
+      jumpToMaximumStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.jumpToMaximumPatternStringProperty, {
+        maximum: options.maximumStringProperty
+      }, { tandem: Tandem.OPT_OUT } );
+    }
     const jumpToMinimumDescriptionStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.jumpToMinimumDescriptionPatternStringProperty, {
       minimum: options.minimumStringProperty
     }, { tandem: Tandem.OPT_OUT } );
@@ -224,7 +251,8 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
       ...( options.includeSmallerStepsRow ? [ adjustSliderInSmallerStepsRow ] : [] ),
       ...( options.includeLargerStepsRow ? [ adjustInLargerStepsRow ] : [] ),
       jumpToMinimumRow,
-      jumpToMaximumRow
+      jumpToMaximumRow,
+      ...options.additionalRows
     ];
 
     super( options.headingStringProperty, content, options );
