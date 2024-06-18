@@ -31,11 +31,11 @@ type SelfOptions = {
   pauseOrPlayActionDescriptionString?: string | TReadOnlyProperty<string>;
 };
 type ParentOptions = KeyboardHelpSectionOptions;
-export type TimeControlKeyboardHelpSectionOptions = SelfOptions & ParentOptions;
+export type TimingControlKeyboardHelpSectionOptions = SelfOptions & ParentOptions;
 
 class TimingControlsKeyboardHelpSection extends KeyboardHelpSection {
-  public constructor( providedOptions?: TimeControlKeyboardHelpSectionOptions ) {
-    const options = optionize<TimeControlKeyboardHelpSectionOptions, SelfOptions, ParentOptions>()( {
+  public constructor( providedOptions?: TimingControlKeyboardHelpSectionOptions ) {
+    const options = optionize<TimingControlKeyboardHelpSectionOptions, SelfOptions, ParentOptions>()( {
       headingString: timingControlsStringProperty,
       pauseOrPlayActionString: pauseOrPlayActionStringProperty,
       pauseOrPlayActionDescriptionString: pauseOrPlayActionDescriptionStringProperty
