@@ -17,7 +17,7 @@
  *       focusable: true
  *     } );
  *
- *     const richDragListener = new RichDragListener( {
+ *     const richDragListener = new SoundRichDragListener( {
  *       positionProperty: someObject.positionProperty,
  *       transform: modelViewTransform
  *     } );
@@ -109,7 +109,7 @@ type SelfOptions = {
 
 export type RichDragListenerOptions = SelfOptions;
 
-export default class RichDragListener implements TInputListener {
+export default class SoundRichDragListener implements TInputListener {
   private readonly richPointerDragListener: RichPointerDragListener;
   private readonly richKeyboardDragListener: RichKeyboardDragListener;
 
@@ -351,4 +351,4 @@ export default class RichDragListener implements TInputListener {
   }
 }
 
-sceneryPhet.register( 'RichDragListener', RichDragListener );
+sceneryPhet.register( 'SoundRichDragListener', SoundRichDragListener );

@@ -14,7 +14,7 @@ import TinyProperty from '../../../../axon/js/TinyProperty.js';
 import RichKeyboardDragListener from '../../RichKeyboardDragListener.js';
 import PhetFont from '../../PhetFont.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import RichDragListener from '../../RichDragListener.js';
+import SoundRichDragListener from '../../SoundRichDragListener.js';
 
 export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
   const RADIUS = 75;
@@ -68,7 +68,7 @@ export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
   } ) );
 
   //---------------------------------------------------------------------------------
-  // RichDragListener
+  // SoundRichDragListener
   //---------------------------------------------------------------------------------
   const richDragListenerEllipse = new Path( Shape.ellipse( 0, 0, RADIUS * 2, RADIUS, 0 ), {
     fill: 'green',
@@ -92,7 +92,7 @@ export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
   };
 
   richDragListenerEllipse.addChild( innerEllipseMessage );
-  richDragListenerEllipse.addInputListener( new RichDragListener( {
+  richDragListenerEllipse.addInputListener( new SoundRichDragListener( {
     dragBoundsProperty: dragBoundsProperty,
     translateNode: true,
     richKeyboardDragListenerOptions: {
