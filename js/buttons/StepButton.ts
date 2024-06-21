@@ -78,6 +78,7 @@ export default class StepButton extends RoundPushButton {
     options.content = new HBox( {
       children: [ barPath, trianglePath ],
       spacing: BAR_WIDTH,
+      sizable: false,
       rotation: ( options.direction === 'forward' ) ? 0 : Math.PI
     } );
 
