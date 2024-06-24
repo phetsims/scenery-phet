@@ -95,7 +95,7 @@ export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
   richDragListenerEllipse.addInputListener( new SoundRichDragListener( {
     dragBoundsProperty: dragBoundsProperty,
     translateNode: true,
-    richKeyboardDragListenerOptions: {
+    keyboardDragListenerOptions: {
       dragSpeed: RADIUS * 5,
       shiftDragSpeed: RADIUS
     },
