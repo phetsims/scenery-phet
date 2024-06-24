@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * RichKeyboardDragListener extends KeyboardDragListener to integrate PhET-specific features that should be
+ * SoundKeyboardDragListener extends KeyboardDragListener to integrate PhET-specific features that should be
  * broadly applied to DragListener instances in PhET sims.
  *
  * For grab and release sounds, responsibilities include:
@@ -19,10 +19,10 @@ import sceneryPhet from './sceneryPhet.js';
 import { KeyboardDragListener, KeyboardDragListenerOptions } from '../../scenery/js/imports.js';
 import SoundRichDragListener, { RichDragListenerSoundOptions } from './SoundRichDragListener.js';
 
-export type RichKeyboardDragListenerOptions = KeyboardDragListenerOptions & RichDragListenerSoundOptions;
+export type SoundKeyboardDragListenerOptions = KeyboardDragListenerOptions & RichDragListenerSoundOptions;
 
-export default class RichKeyboardDragListener extends KeyboardDragListener {
-  public constructor( providedOptions: RichKeyboardDragListenerOptions ) {
+export default class SoundKeyboardDragListener extends KeyboardDragListener {
+  public constructor( providedOptions: SoundKeyboardDragListenerOptions ) {
 
     // Apply the sound options to the drag listener, wrapping start/end callbacks with functions that will
     // play sounds on grab and release.
@@ -39,4 +39,4 @@ export default class RichKeyboardDragListener extends KeyboardDragListener {
   }
 }
 
-sceneryPhet.register( 'RichKeyboardDragListener', RichKeyboardDragListener );
+sceneryPhet.register( 'SoundKeyboardDragListener', SoundKeyboardDragListener );

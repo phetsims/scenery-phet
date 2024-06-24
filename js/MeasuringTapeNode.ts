@@ -35,7 +35,7 @@ import SceneryPhetStrings from './SceneryPhetStrings.js';
 import TProperty from '../../axon/js/TProperty.js';
 import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import RichKeyboardDragListener, { RichKeyboardDragListenerOptions } from '../../scenery-phet/js/RichKeyboardDragListener.js';
+import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from './SoundKeyboardDragListener.js';
 import SoundDragListener, { SoundDragListenerOptions } from './SoundDragListener.js';
 
 export type MeasuringTapeUnits = {
@@ -90,8 +90,8 @@ type SelfOptions = {
   // Options passed to the drag listeners for the base and tip.
   baseDragListenerOptions?: SoundDragListenerOptions;
   tipDragListenerOptions?: SoundDragListenerOptions;
-  baseKeyboardDragListenerOptions?: RichKeyboardDragListenerOptions;
-  tipKeyboardDragListenerOptions?: RichKeyboardDragListenerOptions;
+  baseKeyboardDragListenerOptions?: SoundKeyboardDragListenerOptions;
+  tipKeyboardDragListenerOptions?: SoundKeyboardDragListenerOptions;
 };
 
 /**
@@ -393,7 +393,7 @@ class MeasuringTapeNode extends Node {
       this.baseImage.addInputListener( this.baseDragListener );
 
       // Drag listener for base
-      const baseKeyboardDragListener = new RichKeyboardDragListener( combineOptions<RichKeyboardDragListenerOptions>( {
+      const baseKeyboardDragListener = new SoundKeyboardDragListener( combineOptions<SoundKeyboardDragListenerOptions>( {
         tandem: options.tandem?.createTandem( 'baseKeyboardDragListener' ),
         positionProperty: this.basePositionProperty,
         transform: this.modelViewTransformProperty,
@@ -438,7 +438,7 @@ class MeasuringTapeNode extends Node {
       }, options.tipDragListenerOptions ) );
       tip.addInputListener( tipDragListener );
 
-      const tipKeyboardDragListener = new RichKeyboardDragListener( combineOptions<RichKeyboardDragListenerOptions>( {
+      const tipKeyboardDragListener = new SoundKeyboardDragListener( combineOptions<SoundKeyboardDragListenerOptions>( {
         tandem: options.tandem?.createTandem( 'tipKeyboardDragListener' ),
         positionProperty: this.tipPositionProperty,
         dragBoundsProperty: options.isTipDragBounded ? this.dragBoundsProperty : null,

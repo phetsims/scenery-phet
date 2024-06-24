@@ -1,6 +1,6 @@
 // Copyright 2024, University of Colorado Boulder
 /**
- * Demo for SoundDragListener and RichKeyboardDragListener
+ * Demo for SoundDragListener and SoundKeyboardDragListener
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  * @author Agustín Vallejo (PhET Interactive Simulations)
@@ -11,7 +11,7 @@ import { Circle, Node, Path, Rectangle, RichText } from '../../../../scenery/js/
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import SoundDragListener from '../../SoundDragListener.js';
 import TinyProperty from '../../../../axon/js/TinyProperty.js';
-import RichKeyboardDragListener from '../../RichKeyboardDragListener.js';
+import SoundKeyboardDragListener from '../../SoundKeyboardDragListener.js';
 import PhetFont from '../../PhetFont.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import SoundRichDragListener from '../../SoundRichDragListener.js';
@@ -47,9 +47,9 @@ export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
   } ) );
 
   //---------------------------------------------------------------------------------
-  // RichKeyboardDragListener
+  // SoundKeyboardDragListener
   //---------------------------------------------------------------------------------
-  const richKeyboardDragListenerRectangle = new Rectangle( -RADIUS * 3 / 2, -RADIUS / 2, RADIUS * 3, RADIUS, {
+  const soundKeyboardDragListenerRectangle = new Rectangle( -RADIUS * 3 / 2, -RADIUS / 2, RADIUS * 3, RADIUS, {
     fill: 'blue',
     tagName: 'div',
     focusable: true
@@ -57,10 +57,10 @@ export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
   const innerRectangleMessage = new RichText( 'Tab and keyboard-drag me!', {
     font: new PhetFont( 15 ),
     fill: 'white',
-    center: richKeyboardDragListenerRectangle.center
+    center: soundKeyboardDragListenerRectangle.center
   } );
-  richKeyboardDragListenerRectangle.addChild( innerRectangleMessage );
-  richKeyboardDragListenerRectangle.addInputListener( new RichKeyboardDragListener( {
+  soundKeyboardDragListenerRectangle.addChild( innerRectangleMessage );
+  soundKeyboardDragListenerRectangle.addInputListener( new SoundKeyboardDragListener( {
     dragBoundsProperty: dragBoundsProperty,
     translateNode: true,
     dragSpeed: RADIUS * 5,
@@ -121,7 +121,7 @@ export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
     children: [
       dragArea,
       soundDragistenerCircle,
-      richKeyboardDragListenerRectangle,
+      soundKeyboardDragListenerRectangle,
       richDragListenerEllipse,
       richDragListenerStateText
     ]
@@ -130,7 +130,7 @@ export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
   // initial positions
   dragArea.center = layoutBounds.center;
   soundDragistenerCircle.center = layoutBounds.center.plusXY( -RADIUS, -RADIUS );
-  richKeyboardDragListenerRectangle.center = layoutBounds.center.plusXY( RADIUS, -RADIUS );
+  soundKeyboardDragListenerRectangle.center = layoutBounds.center.plusXY( RADIUS, -RADIUS );
   richDragListenerEllipse.center = layoutBounds.center.plusXY( 0, RADIUS );
   updateStateText( 'Ready to drag...' );
 

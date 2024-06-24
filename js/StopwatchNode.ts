@@ -36,7 +36,7 @@ import TSoundPlayer from '../../tambo/js/TSoundPlayer.js';
 import pushButtonSoundPlayer from '../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import SoundDragListener, { PressedSoundDragListener, SoundDragListenerOptions } from './SoundDragListener.js';
-import RichKeyboardDragListener, { RichKeyboardDragListenerOptions } from '../../scenery-phet/js/RichKeyboardDragListener.js';
+import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from './SoundKeyboardDragListener.js';
 
 type SelfOptions = {
 
@@ -60,7 +60,7 @@ type SelfOptions = {
 
   // options propagated to the drag listeners
   dragListenerOptions?: SoundDragListenerOptions;
-  keyboardDragListenerOptions?: RichKeyboardDragListenerOptions;
+  keyboardDragListenerOptions?: SoundKeyboardDragListenerOptions;
 
   // Passed to their respective buttons
   playPauseButtonOptions?: BooleanRectangularToggleButtonOptions;
@@ -375,13 +375,13 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       this.dragListener = new SoundDragListener( dragListenerOptions );
       backgroundNode.addInputListener( this.dragListener );
 
-      const keyboardDragListenerOptions = combineOptions<RichKeyboardDragListenerOptions>( {
+      const keyboardDragListenerOptions = combineOptions<SoundKeyboardDragListenerOptions>( {
         positionProperty: stopwatch.positionProperty,
         dragBoundsProperty: adjustedDragBoundsProperty,
         tandem: options.tandem.createTandem( 'keyboardDragListener' )
       }, options.keyboardDragListenerOptions );
 
-      this.keyboardDragListener = new RichKeyboardDragListener( keyboardDragListenerOptions );
+      this.keyboardDragListener = new SoundKeyboardDragListener( keyboardDragListenerOptions );
       this.addInputListener( this.keyboardDragListener );
 
       // The group focus highlight makes it clear the stopwatch is highlighted even if the children are focused

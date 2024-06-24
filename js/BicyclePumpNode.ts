@@ -25,7 +25,7 @@ import sceneryPhet from './sceneryPhet.js';
 import SegmentedBarGraphNode from './SegmentedBarGraphNode.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import SoundDragListener, { SoundDragListenerOptions } from './SoundDragListener.js';
-import RichKeyboardDragListener, { RichKeyboardDragListenerOptions } from './RichKeyboardDragListener.js';
+import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from './SoundKeyboardDragListener.js';
 
 // The follow constants define the size and positions of the various components of the pump as proportions of the
 // overall width and height of the node.
@@ -82,7 +82,7 @@ type SelfOptions = {
 
   // Options passed to the drag listeners.
   dragListenerOptions?: StrictOmit<SoundDragListenerOptions, 'drag' | 'tandem'>;
-  keyboardDragListenerOptions?: StrictOmit<RichKeyboardDragListenerOptions, 'drag' | 'keyboardDragDirection' | 'tandem'>;
+  keyboardDragListenerOptions?: StrictOmit<SoundKeyboardDragListenerOptions, 'drag' | 'keyboardDragDirection' | 'tandem'>;
 
   // cursor for the pump handle when it's enabled
   handleCursor?: 'ns-resize';
@@ -107,7 +107,7 @@ export default class BicyclePumpNode extends Node {
   private readonly pumpHandleNode: Node;
 
   private readonly dragListener: SoundDragListener;
-  private readonly keyboardDragListener: RichKeyboardDragListener;
+  private readonly keyboardDragListener: SoundKeyboardDragListener;
 
   // dragListener and keyboardDragListener delegate handling of the drag to dragDelegate.
   private readonly dragDelegate: DragDelegate;
@@ -322,7 +322,7 @@ export default class BicyclePumpNode extends Node {
     this.pumpHandleNode.addInputListener( this.dragListener );
 
     // Drag the pump handle using the keyboard.
-    this.keyboardDragListener = new RichKeyboardDragListener( combineOptions<RichKeyboardDragListenerOptions>( {
+    this.keyboardDragListener = new SoundKeyboardDragListener( combineOptions<SoundKeyboardDragListenerOptions>( {
       keyboardDragDirection: 'upDown',
       dragSpeed: 200,
       shiftDragSpeed: 50,
@@ -673,7 +673,7 @@ class PumpHandleNode extends Path {
 }
 
 /**
- * DragDelegate handles the drag action for the pump handle. The SoundDragListener and RichKeyboardDragListener
+ * DragDelegate handles the drag action for the pump handle. The SoundDragListener and SoundKeyboardDragListener
  * instances in BicyclePumpNode delegate to an instance of this class.
  */
 
@@ -732,7 +732,7 @@ class DragDelegate {
   }
 
   /**
-   * Handles a drag of the pump handle. SoundDragListener and RichKeyboardDragListener instances in
+   * Handles a drag of the pump handle. SoundDragListener and SoundKeyboardDragListener instances in
    * BicyclePumpNode should call this method from their options.drag function.
    */
   public handleDrag( newHandlePosition: number ): void {
