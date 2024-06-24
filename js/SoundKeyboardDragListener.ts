@@ -1,8 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * SoundKeyboardDragListener extends KeyboardDragListener to integrate PhET-specific features that should be
- * broadly applied to DragListener instances in PhET sims.
+ * SoundKeyboardDragListener extends KeyboardDragListener to integrate PhET-specific sounds for grab and release.
  *
  * For grab and release sounds, responsibilities include:
  * - provide default sound files
