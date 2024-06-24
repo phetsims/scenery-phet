@@ -35,7 +35,7 @@ import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import TSoundPlayer from '../../tambo/js/TSoundPlayer.js';
 import pushButtonSoundPlayer from '../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import RichPointerDragListener, { PressedRichPointerDragListener, RichPointerDragListenerOptions } from './RichPointerDragListener.js';
+import SoundDragListener, { PressedSoundDragListener, SoundDragListenerOptions } from './SoundDragListener.js';
 import RichKeyboardDragListener, { RichKeyboardDragListenerOptions } from '../../scenery-phet/js/RichKeyboardDragListener.js';
 
 type SelfOptions = {
@@ -59,7 +59,7 @@ type SelfOptions = {
   dragBoundsProperty?: Property<Bounds2> | null;
 
   // options propagated to the drag listeners
-  dragListenerOptions?: RichPointerDragListenerOptions;
+  dragListenerOptions?: SoundDragListenerOptions;
   keyboardDragListenerOptions?: RichKeyboardDragListenerOptions;
 
   // Passed to their respective buttons
@@ -356,7 +356,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       } );
 
       // dragging, added to background so that other UI components get input events on touch devices
-      const dragListenerOptions = combineOptions<RichPointerDragListenerOptions>( {
+      const dragListenerOptions = combineOptions<SoundDragListenerOptions>( {
         targetNode: this,
         positionProperty: stopwatch.positionProperty,
         dragBoundsProperty: adjustedDragBoundsProperty,
@@ -365,14 +365,14 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
 
       // Add moveToFront to any start function that the client provided.
       const optionsStart = dragListenerOptions.start!;
-      dragListenerOptions.start = ( event: PressListenerEvent, listener: PressedRichPointerDragListener ) => {
+      dragListenerOptions.start = ( event: PressListenerEvent, listener: PressedSoundDragListener ) => {
         this.moveToFront();
         optionsStart( event, listener );
       };
 
       // Dragging, added to background so that other UI components get input events on touch devices.
       // If added to 'this', touchSnag will lock out listeners for other UI components.
-      this.dragListener = new RichPointerDragListener( dragListenerOptions );
+      this.dragListener = new SoundDragListener( dragListenerOptions );
       backgroundNode.addInputListener( this.dragListener );
 
       const keyboardDragListenerOptions = combineOptions<RichKeyboardDragListenerOptions>( {

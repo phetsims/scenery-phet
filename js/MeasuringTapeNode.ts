@@ -36,7 +36,7 @@ import TProperty from '../../axon/js/TProperty.js';
 import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import RichKeyboardDragListener, { RichKeyboardDragListenerOptions } from '../../scenery-phet/js/RichKeyboardDragListener.js';
-import RichPointerDragListener, { RichPointerDragListenerOptions } from './RichPointerDragListener.js';
+import SoundDragListener, { SoundDragListenerOptions } from './SoundDragListener.js';
 
 export type MeasuringTapeUnits = {
   name: string;
@@ -88,8 +88,8 @@ type SelfOptions = {
   phetioFeaturedMeasuredDistanceProperty?: boolean; // phetioFeatured value for measuredDistanceProperty
 
   // Options passed to the drag listeners for the base and tip.
-  baseDragListenerOptions?: RichPointerDragListenerOptions;
-  tipDragListenerOptions?: RichPointerDragListenerOptions;
+  baseDragListenerOptions?: SoundDragListenerOptions;
+  tipDragListenerOptions?: SoundDragListenerOptions;
   baseKeyboardDragListenerOptions?: RichKeyboardDragListenerOptions;
   tipKeyboardDragListenerOptions?: RichKeyboardDragListenerOptions;
 };
@@ -368,7 +368,7 @@ class MeasuringTapeNode extends Node {
       };
 
       // Drag listener for base
-      this.baseDragListener = new RichPointerDragListener( combineOptions<RichPointerDragListenerOptions>( {
+      this.baseDragListener = new SoundDragListener( combineOptions<SoundDragListenerOptions>( {
         tandem: options.tandem?.createTandem( 'baseDragListener' ),
         start: event => {
           baseStart();
@@ -411,7 +411,7 @@ class MeasuringTapeNode extends Node {
       let tipStartOffset: Vector2;
 
       // Drag listener for tip
-      const tipDragListener = new RichPointerDragListener( combineOptions<RichPointerDragListenerOptions>( {
+      const tipDragListener = new SoundDragListener( combineOptions<SoundDragListenerOptions>( {
         tandem: options.tandem?.createTandem( 'tipDragListener' ),
 
         start: event => {

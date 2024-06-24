@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * RichPointerDragListener extends DragListener to integrate PhET-specific features that should be broadly applied to
+ * SoundDragListener extends DragListener to integrate PhET-specific features that should be broadly applied to
  * DragListener instances in PhET sims.
  *
  * For grab and release sounds, responsibilities include:
@@ -20,12 +20,12 @@ import { DragListener, DragListenerOptions, PressedDragListener } from '../../sc
 import SoundRichDragListener, { RichDragListenerSoundOptions } from './SoundRichDragListener.js';
 
 // Pattern followed from DragListenerOptions.
-export type PressedRichPointerDragListener = RichPointerDragListener & PressedDragListener;
+export type PressedSoundDragListener = SoundDragListener & PressedDragListener;
 
-export type RichPointerDragListenerOptions<Listener extends PressedRichPointerDragListener = PressedRichPointerDragListener> = DragListenerOptions<Listener> & RichDragListenerSoundOptions;
+export type SoundDragListenerOptions<Listener extends PressedSoundDragListener = PressedSoundDragListener> = DragListenerOptions<Listener> & RichDragListenerSoundOptions;
 
-export default class RichPointerDragListener extends DragListener {
-  public constructor( providedOptions: RichPointerDragListenerOptions ) {
+export default class SoundDragListener extends DragListener {
+  public constructor( providedOptions: SoundDragListenerOptions ) {
 
     // Apply the sound options to the drag listener, wrapping start/end callbacks, wrapping start/end callbacks with
     // functions that will play sounds on grab and release.
@@ -41,4 +41,4 @@ export default class RichPointerDragListener extends DragListener {
   }
 }
 
-sceneryPhet.register( 'RichPointerDragListener', RichPointerDragListener );
+sceneryPhet.register( 'SoundDragListener', SoundDragListener );

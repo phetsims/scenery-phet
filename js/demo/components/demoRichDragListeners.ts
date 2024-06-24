@@ -1,6 +1,6 @@
 // Copyright 2024, University of Colorado Boulder
 /**
- * Demo for RichPointerDragListener and RichKeyboardDragListener
+ * Demo for SoundDragListener and RichKeyboardDragListener
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  * @author Agustín Vallejo (PhET Interactive Simulations)
@@ -9,7 +9,7 @@
 
 import { Circle, Node, Path, Rectangle, RichText } from '../../../../scenery/js/imports.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import RichPointerDragListener from '../../RichPointerDragListener.js';
+import SoundDragListener from '../../SoundDragListener.js';
 import TinyProperty from '../../../../axon/js/TinyProperty.js';
 import RichKeyboardDragListener from '../../RichKeyboardDragListener.js';
 import PhetFont from '../../PhetFont.js';
@@ -27,22 +27,22 @@ export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
   } );
 
   //---------------------------------------------------------------------------------
-  // RichPointerDragListener
+  // SoundDragListener
   //---------------------------------------------------------------------------------
-  const richPointerDragListenerCircle = new Circle( RADIUS, {
+  const soundDragistenerCircle = new Circle( RADIUS, {
     fill: 'red',
     cursor: 'pointer'
   } );
   const innerCircleMessage = new RichText( 'Mouse-drag me!', {
     font: new PhetFont( 15 ),
     fill: 'white',
-    center: richPointerDragListenerCircle.center
+    center: soundDragistenerCircle.center
   } );
-  richPointerDragListenerCircle.addChild( innerCircleMessage );
-  richPointerDragListenerCircle.addInputListener( new RichPointerDragListener( {
+  soundDragistenerCircle.addChild( innerCircleMessage );
+  soundDragistenerCircle.addInputListener( new SoundDragListener( {
     dragBoundsProperty: dragBoundsProperty,
     drag: ( event, listener ) => {
-      richPointerDragListenerCircle.translate( listener.modelDelta );
+      soundDragistenerCircle.translate( listener.modelDelta );
     }
   } ) );
 
@@ -120,7 +120,7 @@ export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
   const content = new Node( {
     children: [
       dragArea,
-      richPointerDragListenerCircle,
+      soundDragistenerCircle,
       richKeyboardDragListenerRectangle,
       richDragListenerEllipse,
       richDragListenerStateText
@@ -129,7 +129,7 @@ export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
 
   // initial positions
   dragArea.center = layoutBounds.center;
-  richPointerDragListenerCircle.center = layoutBounds.center.plusXY( -RADIUS, -RADIUS );
+  soundDragistenerCircle.center = layoutBounds.center.plusXY( -RADIUS, -RADIUS );
   richKeyboardDragListenerRectangle.center = layoutBounds.center.plusXY( RADIUS, -RADIUS );
   richDragListenerEllipse.center = layoutBounds.center.plusXY( 0, RADIUS );
   updateStateText( 'Ready to drag...' );
