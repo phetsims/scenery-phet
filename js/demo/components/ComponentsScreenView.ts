@@ -23,17 +23,14 @@ import demoConductivityTesterNode from './demoConductivityTesterNode.js';
 import demoDrawer from './demoDrawer.js';
 import demoEyeDropperNode from './demoEyeDropperNode.js';
 import demoFaucetNode from './demoFaucetNode.js';
-import demoFlowBox from './demoFlowBox.js';
 import demoFormulaNode from './demoFormulaNode.js';
 import demoGaugeNode from './demoGaugeNode.js';
 import demoGrabDragInteraction from './demoGrabDragInteraction.js';
-import demoGridBox from './demoGridBox.js';
 import demoHandleNode from './demoHandleNode.js';
 import demoHeaterCoolerNode from './demoHeaterCoolerNode.js';
 import demoKeypad from './demoKeypad.js';
 import demoLaserPointerNode from './demoLaserPointerNode.js';
 import demoLineArrowNode from './demoLineArrowNode.js';
-import demoManualConstraint from './demoManualConstraint.js';
 import demoMeasuringTapeNode from './demoMeasuringTapeNode.js';
 import demoNumberDisplay from './demoNumberDisplay.js';
 import demoPaperAirplaneNode from './demoPaperAirplaneNode.js';
@@ -71,17 +68,14 @@ export default class ComponentsScreenView extends DemosScreenView {
       { label: 'Drawer', createNode: demoDrawer },
       { label: 'EyeDropperNode', createNode: demoEyeDropperNode },
       { label: 'FaucetNode', createNode: demoFaucetNode },
-      { label: 'FlowBox', createNode: demoFlowBox },
       { label: 'FormulaNode', createNode: demoFormulaNode },
       { label: 'GaugeNode', createNode: demoGaugeNode },
-      { label: 'GridBox', createNode: demoGridBox },
       { label: 'GrabDragInteraction', createNode: demoGrabDragInteraction },
       { label: 'HandleNode', createNode: demoHandleNode },
       { label: 'HeaterCoolerNode', createNode: demoHeaterCoolerNode },
       { label: 'Keypad', createNode: demoKeypad },
       { label: 'LaserPointerNode', createNode: demoLaserPointerNode },
       { label: 'LineArrowNode', createNode: demoLineArrowNode },
-      { label: 'ManualConstraint', createNode: demoManualConstraint },
       { label: 'MeasuringTapeNode', createNode: demoMeasuringTapeNode },
       { label: 'NumberDisplay', createNode: demoNumberDisplay },
       { label: 'PaperAirplaneNode', createNode: demoPaperAirplaneNode },
