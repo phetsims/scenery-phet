@@ -49,6 +49,11 @@ export default class FineCoarseSpinner extends AccessibleNumberSpinner( Node, 0 
       valueProperty: numberProperty,
       enabledRangeProperty: numberProperty.rangeProperty,
 
+      // As with NumberSpinner...
+      // The focus highlight surrounds the entire component, but the spinner display is not interactive with
+      // mouse and touch events so this highlight is hidden. Instead, default highlights surround the arrow buttons.
+      interactiveHighlight: 'invisible',
+
       // Instead of changing the value with keyboard step options, the arrow buttons are synthetically
       // pressed in response to keyboard input so that the buttons look pressed.
       keyboardStep: 0,
