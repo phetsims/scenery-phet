@@ -19,7 +19,7 @@ import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
-import { Circle, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, PressListenerEvent, Rectangle, SceneryConstants, TColor } from '../../scenery/js/imports.js';
+import { Circle, InteractiveHighlighting, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, PressListenerEvent, Rectangle, SceneryConstants, TColor } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
 import SegmentedBarGraphNode from './SegmentedBarGraphNode.js';
@@ -533,7 +533,7 @@ function createConeNode( pumpBodyWidth: number, height: number, fill: TColor ): 
 /**
  * PumpHandleNode is the pump's handle.
  */
-class PumpHandleNode extends Path {
+class PumpHandleNode extends InteractiveHighlighting( Path ) {
   public constructor( fill: TColor ) {
 
     // empirically determined constants
