@@ -13,8 +13,8 @@ import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
-import optionize, { optionize3 } from '../../phet-core/js/optionize.js';
-import { TColor, LinearGradient, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
+import { optionize3, OptionizeDefaults } from '../../phet-core/js/optionize.js';
+import { LinearGradient, Node, NodeOptions, Rectangle, TColor } from '../../scenery/js/imports.js';
 import RoundMomentaryButton from '../../sun/js/buttons/RoundMomentaryButton.js';
 import RoundStickyToggleButton from '../../sun/js/buttons/RoundStickyToggleButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -71,7 +71,7 @@ type SelfOptions = {
 
 export type LaserPointerNodeOptions = SelfOptions & NodeOptions;
 
-const DEFAULT_OPTIONS = optionize<LaserPointerNodeOptions, SelfOptions, NodeOptions>()( {
+const DEFAULT_OPTIONS: OptionizeDefaults<SelfOptions, NodeOptions> = {
 
   // nozzle and body options
   bodySize: new Dimension2( 110, 78 ),
@@ -114,7 +114,7 @@ const DEFAULT_OPTIONS = optionize<LaserPointerNodeOptions, SelfOptions, NodeOpti
 
   tandem: Tandem.REQUIRED,
   tandemNameSuffix: [ 'LaserPointerNode', 'LightNode' ]
-} );
+};
 assert && Object.freeze( DEFAULT_OPTIONS );
 
 export default class LaserPointerNode extends Node {
