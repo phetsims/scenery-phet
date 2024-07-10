@@ -150,6 +150,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
       },
       primaryFocusedNodeOptions: {
         tagName: 'div',
+        focusable: true,
         ariaRole: 'application',
         accessibleNameBehavior: GROUP_SORT_ACCESSIBLE_NAME_BEHAVIOR
       },
