@@ -607,6 +607,14 @@
         "value": "Space to Grab or Release."
       }
     },
+    "groupSort": {
+      "sortable": {
+        "value": "sortable"
+      },
+      "navigable": {
+        "value": "navigable"
+      }
+    },
     "voicing": {
       "simSection": {
         "screenSummary": {

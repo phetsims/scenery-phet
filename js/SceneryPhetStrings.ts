@@ -259,6 +259,10 @@ type StringsType = {
       'gestureHelpTextPatternStringProperty': LocalizedStringProperty;
       'spaceToGrabOrReleaseStringProperty': LocalizedStringProperty;
     };
+    'groupSort': {
+      'sortableStringProperty': LocalizedStringProperty;
+      'navigableStringProperty': LocalizedStringProperty;
+    };
     'voicing': {
       'simSection': {
         'screenSummary': {

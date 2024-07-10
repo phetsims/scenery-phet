@@ -13,7 +13,7 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import { animatedPanZoomSingleton, HighlightFromNode, HighlightPath, InteractiveHighlightingNode, KeyboardListener, Node, Path } from '../../../../../scenery/js/imports.js';
+import { animatedPanZoomSingleton, HighlightFromNode, HighlightPath, InteractiveHighlightingNode, KeyboardListener, Node, NodeOptions, ParallelDOMOptions, Path, PDOMValueType } from '../../../../../scenery/js/imports.js';
 import sceneryPhet from '../../../sceneryPhet.js';
 import Range from '../../../../../dot/js/Range.js';
 import Multilink from '../../../../../axon/js/Multilink.js';
@@ -26,6 +26,16 @@ import SortCueArrowNode from './SortCueArrowNode.js';
 import Disposable, { DisposableOptions } from '../../../../../axon/js/Disposable.js';
 import GrabReleaseCueNode, { GrabReleaseCueNodeOptions } from '../../nodes/GrabReleaseCueNode.js';
 import StrictOmit from '../../../../../phet-core/js/types/StrictOmit.js';
+import SceneryPhetStrings from '../../../SceneryPhetStrings.js';
+
+const navigableStringProperty = SceneryPhetStrings.a11y.groupSort.navigableStringProperty;
+const sortableStringProperty = SceneryPhetStrings.a11y.groupSort.sortableStringProperty;
+
+function GROUP_SORT_ACCESSIBLE_NAME_BEHAVIOR( node: Node, options: NodeOptions, accessibleName: PDOMValueType ): NodeOptions {
+  options.ariaLabel = accessibleName; // IMPORTANT! Divs with innerContent aren't recognized with accessibleNames
+  options.innerContent = accessibleName;
+  return options;
+}
 
 type SelfOptions<ItemModel, ItemNode extends Node> = {
 
@@ -76,6 +86,10 @@ type SelfOptions<ItemModel, ItemNode extends Node> = {
   // To be passed to the grab/release cue node (which is added to the group focus highlight). The visibleProperty is
   // always GroupSortInteractionModel.grabReleaseCueVisibleProperty
   grabReleaseCueOptions?: Partial<StrictOmit<GrabReleaseCueNodeOptions, 'visibleProperty'>>;
+
+  // Accessible content provided to the node. This doesn't change from selecting/sorting states. Client is responsible
+  // for setting accessibleName according to grabbed state, see https://github.com/phetsims/scenery-phet/issues/860
+  primaryFocusedNodeOptions?: ParallelDOMOptions;
 };
 
 // A list of all keys that are listened to, except those covered by the numberKeyMapper
@@ -110,7 +124,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
 
   public constructor(
     protected readonly model: GroupSortInteractionModel<ItemModel>,
-    primaryFocusedNode: Node,
+    primaryFocusedNode: Node, // Client is responsible for setting accessibleName and nothing else!
     providedOptions: GroupSortInteractionViewOptions<ItemModel, ItemNode> ) {
 
     const options = optionize<
@@ -134,6 +148,11 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
           }
         }
       },
+      primaryFocusedNodeOptions: {
+        tagName: 'div',
+        ariaRole: 'application',
+        accessibleNameBehavior: GROUP_SORT_ACCESSIBLE_NAME_BEHAVIOR
+      },
       grabReleaseCueOptions: {}
     }, providedOptions );
 
@@ -151,6 +170,9 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
     const isKeyboardFocusedProperty = this.model.isKeyboardFocusedProperty;
     const isGroupItemKeyboardGrabbedProperty = this.model.isGroupItemKeyboardGrabbedProperty;
     const hasKeyboardGrabbedGroupItemProperty = this.model.hasKeyboardGrabbedGroupItemProperty;
+
+    // Provide the general accessible content for the provided Node
+    primaryFocusedNode.mutate( options.primaryFocusedNodeOptions );
 
     const grabbedPropertyListener = ( grabbed: boolean ) => {
       const selectedGroupItem = selectedGroupItemProperty.value;
@@ -372,6 +394,12 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
     primaryFocusedNode.addInputListener( focusListener );
     primaryFocusedNode.addInputListener( grabReleaseKeyboardListener );
     primaryFocusedNode.addInputListener( deltaKeyboardListener );
+
+    Multilink.multilink( [
+      model.isGroupItemKeyboardGrabbedProperty
+    ], isGrabbed => {
+      primaryFocusedNode.setPDOMAttribute( 'aria-roledescription', isGrabbed ? sortableStringProperty : navigableStringProperty );
+    } );
 
     this.disposeEmitter.addListener( () => {
       primaryFocusedNode.setGroupFocusHighlight( false );
