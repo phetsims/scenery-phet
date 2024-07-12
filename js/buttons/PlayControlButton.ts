@@ -12,12 +12,11 @@ import optionize from '../../../phet-core/js/optionize.js';
 import { Circle, KeyboardListener, Node, OneKeyStroke, Path, PDOMValueType } from '../../../scenery/js/imports.js';
 import BooleanRoundToggleButton, { BooleanRoundToggleButtonOptions } from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
 import TSoundPlayer from '../../../tambo/js/TSoundPlayer.js';
-import pauseSoundPlayer from '../../../tambo/js/shared-sound-players/pauseSoundPlayer.js';
-import playSoundPlayer from '../../../tambo/js/shared-sound-players/playSoundPlayer.js';
 import PlayIconShape from '../PlayIconShape.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetConstants from '../SceneryPhetConstants.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
+import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 
 type SelfOptions = {
 
@@ -63,8 +62,8 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
       includeGlobalHotkey: false,
       startPlayingLabel: SceneryPhetStrings.a11y.playControlButton.playStringProperty,
       endPlayingLabel: null,
-      valueOffSoundPlayer: pauseSoundPlayer,
-      valueOnSoundPlayer: playSoundPlayer,
+      valueOffSoundPlayer: sharedSoundPlayers.get( 'pause' ),
+      valueOnSoundPlayer: sharedSoundPlayers.get( 'play' ),
 
       // It's dimensions are calculated dynamically based on radius below to make sure the play and pause buttons are
       // in sync.

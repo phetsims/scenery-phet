@@ -14,9 +14,9 @@ import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegist
 import optionize from '../../../phet-core/js/optionize.js';
 import { HBox, TPaint, Path, Rectangle } from '../../../scenery/js/imports.js';
 import RoundPushButton, { RoundPushButtonOptions } from '../../../sun/js/buttons/RoundPushButton.js';
-import stepForwardSoundPlayer from '../../../tambo/js/shared-sound-players/stepForwardSoundPlayer.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
+import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 
 const DEFAULT_RADIUS = 20;
 const MARGIN_COEFFICIENT = 10.5 / DEFAULT_RADIUS;
@@ -46,7 +46,7 @@ export default class StepButton extends RoundPushButton {
 
       // RoundPushButtonOptions
       fireOnHold: true,
-      soundPlayer: stepForwardSoundPlayer,
+      soundPlayer: sharedSoundPlayers.get( 'stepForward' ),
       innerContent: SceneryPhetStrings.a11y.stepButton.stepForwardStringProperty,
       appendDescription: true
     }, providedOptions );

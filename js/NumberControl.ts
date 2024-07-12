@@ -25,7 +25,7 @@ import { AlignBox, extendsWidthSizable, Font, HBox, isWidthSizable, Node, NodeOp
 import ArrowButton, { ArrowButtonOptions } from '../../sun/js/buttons/ArrowButton.js';
 import HSlider from '../../sun/js/HSlider.js';
 import Slider, { SliderOptions } from '../../sun/js/Slider.js';
-import nullSoundPlayer from '../../tambo/js/shared-sound-players/nullSoundPlayer.js';
+import nullSoundPlayer from '../../tambo/js/nullSoundPlayer.js';
 import ValueChangeSoundPlayer, { ValueChangeSoundPlayerOptions } from '../../tambo/js/sound-generators/ValueChangeSoundPlayer.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';

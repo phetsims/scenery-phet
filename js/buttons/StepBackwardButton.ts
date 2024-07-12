@@ -8,9 +8,9 @@
 
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import stepBackwardSoundPlayer from '../../../tambo/js/shared-sound-players/stepBackwardSoundPlayer.js';
 import sceneryPhet from '../sceneryPhet.js';
 import StepButton, { StepButtonOptions } from './StepButton.js';
+import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -24,7 +24,7 @@ export default class StepBackwardButton extends StepButton {
 
       // StepButtonOptions
       direction: 'backward',
-      soundPlayer: stepBackwardSoundPlayer
+      soundPlayer: sharedSoundPlayers.get( 'stepBackward' )
     }, providedOptions );
 
     super( options );
