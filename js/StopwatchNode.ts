@@ -33,10 +33,10 @@ import Stopwatch from './Stopwatch.js';
 import UTurnArrowShape from './UTurnArrowShape.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import TSoundPlayer from '../../tambo/js/TSoundPlayer.js';
-import pushButtonSoundPlayer from '../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import SoundDragListener, { PressedSoundDragListener, SoundDragListenerOptions } from './SoundDragListener.js';
 import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from './SoundKeyboardDragListener.js';
+import sharedSoundPlayers from '../../tambo/js/sharedSoundPlayers.js';
 
 type SelfOptions = {
 
@@ -144,7 +144,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       iconLineWidth: 1,
       backgroundBaseColor: 'rgb( 80, 130, 230 )',
       buttonBaseColor: '#DFE0E1',
-      resetButtonSoundPlayer: pushButtonSoundPlayer,
+      resetButtonSoundPlayer: sharedSoundPlayers.get( 'pushButton' ),
       xSpacing: 6, // horizontal space between the buttons
       ySpacing: 6, // vertical space between readout and buttons
       xMargin: 8,

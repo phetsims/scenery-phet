@@ -10,7 +10,6 @@
 
 import { KeyboardListener, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import resetAllSoundPlayer from '../../../tambo/js/shared-sound-players/resetAllSoundPlayer.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../utterance-queue/js/ActivationUtterance.js';
@@ -21,6 +20,7 @@ import SceneryPhetStrings from '../SceneryPhetStrings.js';
 import ResetButton, { ResetButtonOptions } from './ResetButton.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import TinyProperty from '../../../axon/js/TinyProperty.js';
+import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 
 const MARGIN_COEFFICIENT = 5 / SceneryPhetConstants.DEFAULT_BUTTON_RADIUS;
 
@@ -58,7 +58,7 @@ export default class ResetAllButton extends ResetButton {
       phetioDocumentation: 'The orange, round button that can be used to restore the initial state',
 
       // sound generation
-      soundPlayer: resetAllSoundPlayer,
+      soundPlayer: sharedSoundPlayers.get( 'resetAll' ),
 
       // pdom
       innerContent: SceneryPhetStrings.a11y.resetAll.labelStringProperty,
