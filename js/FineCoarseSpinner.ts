@@ -12,24 +12,27 @@ import NumberProperty from '../../axon/js/NumberProperty.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
-import { HBox, Node, NodeOptions } from '../../scenery/js/imports.js';
+import { HBox, KeyboardUtils, Node, NodeOptions } from '../../scenery/js/imports.js';
 import ArrowButton, { ArrowButtonOptions } from '../../sun/js/buttons/ArrowButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import sceneryPhet from './sceneryPhet.js';
 import AccessibleNumberSpinner, { AccessibleNumberSpinnerOptions } from '../../sun/js/accessibility/AccessibleNumberSpinner.js';
+import TSoundPlayer from '../../tambo/js/TSoundPlayer.js';
+import sharedSoundPlayers from '../../tambo/js/sharedSoundPlayers.js';
 
 type SelfOptions = {
   deltaFine?: number; // amount to increment/decrement when the 'fine' tweakers are pressed
   deltaCoarse?: number; // amount to increment/decrement when the 'coarse' tweakers are pressed
   spacing?: number; // horizontal space between subcomponents
+  arrowsSoundPlayer?: TSoundPlayer;
   numberDisplayOptions?: StrictOmit<NumberDisplayOptions, 'tandem'>;
-  arrowButtonOptions?: StrictOmit<ArrowButtonOptions, 'numberOfArrows' | 'tandem' | 'focusable'>;
+  arrowButtonOptions?: StrictOmit<ArrowButtonOptions, 'numberOfArrows' | 'tandem' | 'focusable' | 'soundPlayer'>;
 };
 
 type ParentOptions = AccessibleNumberSpinnerOptions & NodeOptions;
 
-export type FineCoarseSpinnerOptions = SelfOptions & StrictOmit<ParentOptions, 'children' | 'valueProperty' | 'enabledRangeProperty' | 'keyboardStep' | 'shiftKeyboardStep' | 'pageKeyboardStep'>;
+export type FineCoarseSpinnerOptions = SelfOptions & StrictOmit<ParentOptions, 'children' | 'valueProperty' | 'enabledRangeProperty' | 'keyboardStep' | 'shiftKeyboardStep' | 'pageKeyboardStep' | 'onInput'>;
 
 export default class FineCoarseSpinner extends AccessibleNumberSpinner( Node, 0 ) {
 
@@ -44,6 +47,7 @@ export default class FineCoarseSpinner extends AccessibleNumberSpinner( Node, 0 
       deltaFine: 1,
       deltaCoarse: 10,
       spacing: 10,
+      arrowsSoundPlayer: sharedSoundPlayers.get( 'pushButton' ),
 
       // AccessibleNumberSpinnerOptions
       valueProperty: numberProperty,
@@ -79,6 +83,7 @@ export default class FineCoarseSpinner extends AccessibleNumberSpinner( Node, 0 
       numberOfArrows: 1,
       arrowWidth: 12, // width of base
       arrowHeight: 14, // from tip to base
+      soundPlayer: options.arrowsSoundPlayer,
 
       // pointer areas
       touchAreaXDilation: 3,
@@ -101,6 +106,7 @@ export default class FineCoarseSpinner extends AccessibleNumberSpinner( Node, 0 
       focusable: false,
       numberOfArrows: 2,
       arrowSpacing: -0.5 * fineButtonArrowHeight, // arrows overlap
+      soundPlayer: options.arrowsSoundPlayer,
 
       // phet-io, as requested in https://github.com/phetsims/sun/issues/575
       enabledPropertyOptions: {
@@ -150,6 +156,23 @@ export default class FineCoarseSpinner extends AccessibleNumberSpinner( Node, 0 
 
     // Wrap in Node to hide HBox API.
     options.children = [ hBox ];
+
+    // Sounds are played when a button is pressed. But for 'home' and 'end' keys, the button is not pressed, so the
+    // sound is played manually.
+    options.onInput = ( ( ( event, oldValue ) => {
+      if ( event.isFromPDOM() ) {
+        const domEvent = event.domEvent;
+
+        // The sound should not play if the value is already at the home or end value.
+        const currentValue = numberProperty.value;
+        if ( KeyboardUtils.isKeyEvent( domEvent, KeyboardUtils.KEY_HOME ) && oldValue !== currentValue ) {
+          options.arrowsSoundPlayer.play();
+        }
+        else if ( KeyboardUtils.isKeyEvent( domEvent, KeyboardUtils.KEY_END ) && oldValue !== currentValue ) {
+          options.arrowsSoundPlayer.play();
+        }
+      }
+    } ) );
 
     super( options );
 
