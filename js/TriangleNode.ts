@@ -20,7 +20,7 @@ type SelfOptions = {
   triangleHeight?: number;
 };
 
-export type TriangleNodeOptions = SelfOptions & StrictOmit<PathOptions, 'rotation'>;
+export type TriangleNodeOptions = SelfOptions & StrictOmit<PathOptions, 'rotation' | 'shape' | 'shapeProperty'>;
 
 export default class TriangleNode extends Path {
 
