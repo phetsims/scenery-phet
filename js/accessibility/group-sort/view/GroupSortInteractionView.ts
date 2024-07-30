@@ -54,12 +54,12 @@ type SelfOptions<ItemModel, ItemNode extends Node> = {
   // Return null if no highlight should be shown for the selection (not recommended).
   getHighlightNodeFromModelItem?: ( model: ItemModel ) => Node | null;
 
-  // The available range for storing. This is the acceptable range for the valueProperty of ItemModel (see model.getGroupItemValue()).
+  // The available range for sorting. This is the acceptable range for the valueProperty of ItemModel (see model.getGroupItemValue()).
   sortingRangeProperty: TReadOnlyProperty<Range>;
 
   sortingRangeListener?: ( range: Range ) => void;
 
-  // Do the sort operation, allowing for custom actions, must be implemented by all implementation, but likely just
+  // Do the sort operation, allowing for custom actions, must be implemented by all implementations, but likely just
   // should default to updating the "valueProperty" of the selected group item to the new value that is provided.
   sortGroupItem: ( groupItem: ItemModel, newValue: number ) => void;
 
