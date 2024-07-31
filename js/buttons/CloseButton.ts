@@ -45,7 +45,7 @@ export default class CloseButton extends RectangularPushButton {
       yMargin: 4, // {number} y margin around the icon
 
       // sound
-      soundPlayer: sharedSoundPlayers.get( 'generalOpen' ),
+      soundPlayer: sharedSoundPlayers.get( 'generalClose' ),
 
       // pdom
       innerContent: SceneryPhetStrings.a11y.closeStringProperty,
