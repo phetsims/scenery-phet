@@ -8,7 +8,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { KeyboardListener, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
+import { HotkeyData, KeyboardListener, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -21,6 +21,9 @@ import ResetButton, { ResetButtonOptions } from './ResetButton.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import TinyProperty from '../../../axon/js/TinyProperty.js';
 import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
+import Property from '../../../axon/js/Property.js';
+import TextKeyNode from '../keyboard/TextKeyNode.js';
+import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 
 const MARGIN_COEFFICIENT = 5 / SceneryPhetConstants.DEFAULT_BUTTON_RADIUS;
 
@@ -120,7 +123,7 @@ export default class ResetAllButton extends ResetButton {
     } );
 
     const keyboardListener = KeyboardListener.createGlobal( this, {
-      keys: [ 'alt+r' ],
+      keyStringProperties: ResetAllButton.RESET_ALL_HOTKEY_DATA.keyStringProperties,
       fire: () => this.pdomClick(),
 
       // fires on up because the listener will often call interruptSubtreeInput (interrupting this keyboard listener)
@@ -128,7 +131,7 @@ export default class ResetAllButton extends ResetButton {
     } );
 
     // Add a listener that will set and clear the static flag that signals when a reset all is in progress.
-    const flagSettingListener = ( isFiring : boolean ) => {
+    const flagSettingListener = ( isFiring: boolean ) => {
       isResettingAllProperty.value = isFiring;
     };
     this.pushButtonModel.isFiringProperty.lazyLink( flagSettingListener );
@@ -148,6 +151,23 @@ export default class ResetAllButton extends ResetButton {
   // A flag that is true whenever any "reset all" is in progress.  This is often useful for muting sounds that shouldn't
   // be triggered by model value changes that occur due to a reset.
   public static isResettingAllProperty: TReadOnlyProperty<boolean> = isResettingAllProperty;
+
+  public static readonly RESET_ALL_HOTKEY_DATA = new HotkeyData( {
+
+    // alt+r
+    keyStringProperties: [ new Property( 'alt+r' ) ],
+
+    // visual label for this Hotkey in the Keyboard Help dialog
+    keyboardHelpDialogLabelStringProperty: SceneryPhetStrings.keyboardHelpDialog.resetAllStringProperty,
+
+    // PDOM description for this Hotkey in the Keyboard Help dialog
+    keyboardHelpDialogPDOMLabelStringProperty: StringUtils.fillIn( SceneryPhetStrings.a11y.keyboardHelpDialog.general.resetAllDescriptionPatternStringProperty, {
+      altOrOption: TextKeyNode.getAltKeyString()
+    } ),
+
+    repoName: sceneryPhet.name,
+    global: true
+  } );
 }
 
 sceneryPhet.register( 'ResetAllButton', ResetAllButton );

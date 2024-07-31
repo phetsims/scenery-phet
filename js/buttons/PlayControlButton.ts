@@ -9,7 +9,7 @@
 
 import Property from '../../../axon/js/Property.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { Circle, KeyboardListener, Node, OneKeyStroke, Path, PDOMValueType } from '../../../scenery/js/imports.js';
+import { Circle, HotkeyData, KeyboardListener, Node, OneKeyStroke, Path, PDOMValueType } from '../../../scenery/js/imports.js';
 import BooleanRoundToggleButton, { BooleanRoundToggleButtonOptions } from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
 import TSoundPlayer from '../../../tambo/js/TSoundPlayer.js';
 import PlayIconShape from '../PlayIconShape.js';
@@ -115,7 +115,7 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
     let globalKeyboardListener: KeyboardListener<OneKeyStroke[]> | null = null;
     if ( options.includeGlobalHotkey && phet.chipper.queryParameters.supportsInteractiveDescription ) {
       globalKeyboardListener = KeyboardListener.createGlobal( this, {
-        keys: [ 'alt+k' ] as const,
+        keyStringProperties: PlayControlButton.TOGGLE_PLAY_HOTKEY_DATA.keyStringProperties,
         fireOnDown: false,
         fire: () => {
           isPlayingProperty.set( !isPlayingProperty.get() );
@@ -139,6 +139,12 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
     this.disposePlayStopButton();
     super.dispose();
   }
+
+  public static readonly TOGGLE_PLAY_HOTKEY_DATA = new HotkeyData( {
+    keyStringProperties: [ new Property( 'alt+k' ) ],
+    keyboardHelpDialogLabelStringProperty: SceneryPhetStrings.keyboardHelpDialog.timingControls.pauseOrPlayActionStringProperty,
+    repoName: sceneryPhet.name
+  } );
 }
 
 sceneryPhet.register( 'PlayControlButton', PlayControlButton );

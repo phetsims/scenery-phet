@@ -17,9 +17,8 @@ import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
-import LetterKeyNode from '../LetterKeyNode.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import NumberKeyNode from '../NumberKeyNode.js';
+import ResetAllButton from '../../buttons/ResetAllButton.js';
 
 type SelfOptions = {
 
@@ -77,16 +76,7 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
       } );
 
     // 'Reset All'
-    const altIcon = TextKeyNode.altOrOption();
-    const rIcon = LetterKeyNode.r();
-    const altPlusRIcon = KeyboardHelpIconFactory.iconPlusIcon( altIcon, rIcon );
-    const resetAllRow = KeyboardHelpSectionRow.labelWithIcon(
-      SceneryPhetStrings.keyboardHelpDialog.resetAllStringProperty, altPlusRIcon, {
-        labelInnerContent: StringUtils.fillIn( SceneryPhetStrings.a11y.keyboardHelpDialog.general.resetAllDescriptionPatternStringProperty, {
-          altOrOption: TextKeyNode.getAltKeyString()
-        } )
-      }
-    );
+    const resetAllRow = KeyboardHelpSectionRow.fromHotkeyData( ResetAllButton.RESET_ALL_HOTKEY_DATA );
 
     // 'Exit a dialog'
     const escapeKeyNode = TextKeyNode.esc();

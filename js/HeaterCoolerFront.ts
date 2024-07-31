@@ -17,7 +17,7 @@ import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
-import { Color, Font, KeyboardListener, LinearGradient, Node, NodeOptions, Path, TColor, Text } from '../../scenery/js/imports.js';
+import { Color, Font, HotkeyData, KeyboardListener, LinearGradient, Node, NodeOptions, Path, TColor, Text } from '../../scenery/js/imports.js';
 import { SliderOptions } from '../../sun/js/Slider.js';
 import VSlider from '../../sun/js/VSlider.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -210,7 +210,7 @@ export default class HeaterCoolerFront extends Node {
 
     // A shortcut to easily return the value to zero when using the keyboard.
     const keyboardListener = new KeyboardListener( {
-      keys: [ '0' ],
+      keyStringProperties: HeaterCoolerFront.SET_TO_ZERO_HOTKEY_DATA.keyStringProperties,
       fire: setSliderToZero
     } );
     this.slider.addInputListener( keyboardListener );
@@ -270,6 +270,12 @@ export default class HeaterCoolerFront extends Node {
     this.disposeHeaterCoolerFront();
     super.dispose();
   }
+
+  public static readonly SET_TO_ZERO_HOTKEY_DATA = new HotkeyData( {
+    keyStringProperties: [ new Property( '0' ) ],
+    repoName: sceneryPhet.name,
+    keyboardHelpDialogLabelStringProperty: SceneryPhetStrings.keyboardHelpDialog.heatCoolOffStringProperty
+  } );
 }
 
 sceneryPhet.register( 'HeaterCoolerFront', HeaterCoolerFront );

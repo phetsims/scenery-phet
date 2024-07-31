@@ -26,7 +26,7 @@ import stepTimer from '../../axon/js/stepTimer.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import LinearFunction from '../../dot/js/LinearFunction.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import { Circle, DragListener, GroupHighlightPath, HighlightPath, Image, InteractiveHighlighting, KeyboardListener, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
+import { Circle, DragListener, GroupHighlightPath, HighlightPath, HotkeyData, Image, InteractiveHighlighting, KeyboardListener, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
 import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
@@ -49,6 +49,7 @@ import { TimerListener } from '../../axon/js/Timer.js';
 import AccessibleSlider, { AccessibleSliderOptions } from '../../sun/js/accessibility/AccessibleSlider.js';
 import { Shape } from '../../kite/js/imports.js';
 import WithOptional from '../../phet-core/js/types/WithOptional.js';
+import SceneryPhetStrings from './SceneryPhetStrings.js';
 
 // constants
 const DEBUG_ORIGIN = false; // when true, draws a red dot at the origin (bottom-center of the spout)
@@ -288,9 +289,12 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
 
     // Keyboard support for tap-to-dispense and setting the flow rate to zero.
     const keyboardListener = new KeyboardListener( {
-      keys: [ 'enter', 'space', '0' ],
+      keyStringProperties: HotkeyData.combineKeyStringProperties( [
+        FaucetNode.CLOSE_FAUCET_HOTKEY_DATA,
+        FaucetNode.TAP_TO_DISPENSE_HOTKEY_DATA
+      ] ),
       fire: ( event, keysPressed ) => {
-        if ( options.tapToDispenseEnabled && [ 'enter', 'space' ].includes( keysPressed ) ) {
+        if ( options.tapToDispenseEnabled && FaucetNode.TAP_TO_DISPENSE_HOTKEY_DATA.hasKeyStroke( keysPressed ) ) {
 
           // stop the previous timeout before running a new dispense
           if ( tapToDispenseIsRunning ) {
@@ -301,7 +305,7 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
           startTapToDispense();
         }
 
-        if ( keysPressed === '0' ) {
+        if ( FaucetNode.CLOSE_FAUCET_HOTKEY_DATA.hasKeyStroke( keysPressed ) ) {
           flowRateProperty.set( 0 );
         }
       }
@@ -380,6 +384,18 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
     this.disposeFaucetNode();
     super.dispose();
   }
+
+  public static readonly CLOSE_FAUCET_HOTKEY_DATA = new HotkeyData( {
+    keyStringProperties: [ new Property( '0' ), new Property( 'home' ) ],
+    repoName: sceneryPhet.name,
+    keyboardHelpDialogLabelStringProperty: SceneryPhetStrings.keyboardHelpDialog.faucetControls.closeFaucetStringProperty
+  } );
+
+  public static readonly TAP_TO_DISPENSE_HOTKEY_DATA = new HotkeyData( {
+    keyStringProperties: [ new Property( 'enter' ), new Property( 'space' ) ],
+    repoName: sceneryPhet.name,
+    binderName: 'Tap to dispense faucet'
+  } );
 
   public static FaucetNodeIO = new IOType( 'FaucetNodeIO', {
     valueType: FaucetNode,

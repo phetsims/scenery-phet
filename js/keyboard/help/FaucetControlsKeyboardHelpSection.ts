@@ -14,14 +14,13 @@ import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 import ArrowKeyNode from '../ArrowKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import TextKeyNode from '../TextKeyNode.js';
-import NumberKeyNode from '../NumberKeyNode.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import FaucetNode from '../../FaucetNode.js';
 
 const headingStringProperty = SceneryPhetStrings.keyboardHelpDialog.faucetControls.faucetControlsStringProperty;
 const adjustFaucetFlowStringProperty = SceneryPhetStrings.keyboardHelpDialog.faucetControls.adjustFaucetFlowStringProperty;
 const adjustInSmallerStepsStringProperty = SceneryPhetStrings.keyboardHelpDialog.faucetControls.adjustInSmallerStepsStringProperty;
 const adjustInLargerStepsStringProperty = SceneryPhetStrings.keyboardHelpDialog.faucetControls.adjustInLargerStepsStringProperty;
-const closeFaucetStringProperty = SceneryPhetStrings.keyboardHelpDialog.faucetControls.closeFaucetStringProperty;
 const openFaucetFullyStringProperty = SceneryPhetStrings.keyboardHelpDialog.faucetControls.openFaucetFullyStringProperty;
 const openFaucetBrieflyStringProperty = SceneryPhetStrings.keyboardHelpDialog.faucetControls.openFaucetBrieflyStringProperty;
 
@@ -55,8 +54,7 @@ export default class FaucetControlsKeyboardHelpSection extends KeyboardHelpSecti
       KeyboardHelpIconFactory.pageUpPageDownRowIcon() );
 
     // Close faucet [Home] or [0]
-    const closeFaucetRow = KeyboardHelpSectionRow.labelWithIcon( closeFaucetStringProperty,
-      KeyboardHelpIconFactory.iconOrIcon( TextKeyNode.home(), new NumberKeyNode( 0 ) ) );
+    const closeFaucetRow = KeyboardHelpSectionRow.fromHotkeyData( FaucetNode.CLOSE_FAUCET_HOTKEY_DATA );
 
     // Open faucet fully [End]
     const openFaucetFullyRow = KeyboardHelpSectionRow.labelWithIcon( openFaucetFullyStringProperty, TextKeyNode.end() );

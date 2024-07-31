@@ -10,7 +10,7 @@
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { HBox, HBoxOptions, Node, Text } from '../../../../scenery/js/imports.js';
+import { HBox, HBoxOptions, HotkeyData, Node, OneKeyStrokeEntry, Text } from '../../../../scenery/js/imports.js';
 import PhetFont from '../../PhetFont.js';
 import PlusNode from '../../PlusNode.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -249,6 +249,39 @@ export default class KeyboardHelpIconFactory {
     const leftArrowKeyNode = new ArrowKeyNode( 'left' );
     const rightArrowKeyNode = new ArrowKeyNode( 'right' );
     return KeyboardHelpIconFactory.iconRow( [ leftArrowKeyNode, rightArrowKeyNode ], providedOptions );
+  }
+
+  public static readonly ENGLISH_KEY_TO_KEY_NODE = new Map<OneKeyStrokeEntry, TextKeyNode>( [
+    [ 'a', new LetterKeyNode( 'A' ) ],
+    [ 'j', new LetterKeyNode( 'J' ) ],
+    [ 'shift', TextKeyNode.shift() ],
+    [ 'alt', TextKeyNode.altOrOption() ],
+    [ 'escape', TextKeyNode.esc() ],
+    [ 'r', new LetterKeyNode( 'R' ) ],
+    [ 's', new LetterKeyNode( 'S' ) ],
+    [ 'l', new LetterKeyNode( 'L' ) ],
+    [ 'c', new LetterKeyNode( 'C' ) ],
+    [ 'h', new LetterKeyNode( 'H' ) ],
+    [ 'w', new LetterKeyNode( 'W' ) ],
+    [ 'j', new LetterKeyNode( 'J' ) ],
+    [ 'n', new LetterKeyNode( 'N' ) ],
+    [ '0', new LetterKeyNode( '0' ) ],
+    [ '1', new LetterKeyNode( '1' ) ],
+    [ '2', new LetterKeyNode( '2' ) ],
+    [ '3', new LetterKeyNode( '3' ) ]
+  ] );
+
+  public static fromHotkeyData( hotkeyData: HotkeyData ): Node {
+    const modifierKeyNodes = hotkeyData.keyDescriptorsProperty.value[ 0 ].modifierKeys.map( modifierKey => {
+      const keyNode = KeyboardHelpIconFactory.ENGLISH_KEY_TO_KEY_NODE.get( modifierKey )!;
+      assert && assert( keyNode, 'modifier key not found in ENGLISH_KEY_TO_KEY_NODE' );
+      return keyNode;
+    } );
+
+    const keyNode = KeyboardHelpIconFactory.ENGLISH_KEY_TO_KEY_NODE.get( hotkeyData.keyDescriptorsProperty.value[ 0 ].key )!;
+    assert && assert( keyNode, 'key not found in ENGLISH_KEY_TO_KEY_NODE' );
+
+    return KeyboardHelpIconFactory.iconPlusIconRow( [ ...modifierKeyNodes, keyNode ] );
   }
 }
 

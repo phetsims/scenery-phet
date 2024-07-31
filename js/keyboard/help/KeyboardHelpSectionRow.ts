@@ -12,7 +12,7 @@
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { AlignBoxOptions, AlignGroup, HBox, Node, PDOMValueType, RichText, RichTextOptions, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { AlignBoxOptions, AlignGroup, HBox, HotkeyData, Node, PDOMValueType, RichText, RichTextOptions, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import { VoicingResponse } from '../../../../utterance-queue/js/ResponsePacket.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -59,6 +59,12 @@ type LabelWithIconOptions = {
 
   // options passed to the AlignBox surrounding the icon
   iconOptions?: StrictOmit<AlignBoxOptions, 'innerContent'>;
+};
+
+type FromHotkeyDataOptions = {
+  icon?: Node | null;
+  labelStringProperty?: TReadOnlyProperty<string> | null;
+  pdomLabelStringProperty?: TReadOnlyProperty<string> | string | null;
 };
 
 type SelfOptions = {
@@ -280,6 +286,30 @@ class KeyboardHelpSectionRow {
     return new KeyboardHelpSectionRow( labelText, labelWithHeightBox, iconsBox, {
       readingBlockContent: options.readingBlockContent || options.labelInnerContent
     } );
+  }
+
+  /**
+   * Create a row for the keyboard help dialog from a HotkeyData object. Optionally override the icons and labels if
+   * you want to customize the row so it is different from the actual key data.
+   */
+  public static fromHotkeyData( hotkeyData: HotkeyData, providedOptions?: FromHotkeyDataOptions ): KeyboardHelpSectionRow {
+    const options = optionize<FromHotkeyDataOptions>()( {
+      icon: null,
+      labelStringProperty: hotkeyData.keyboardHelpDialogLabelStringProperty,
+      pdomLabelStringProperty: hotkeyData.keyboardHelpDialogPDOMLabelStringProperty
+    }, providedOptions );
+
+    // fromHotkeyData is not used in options so that it is only called if necessary
+    const icon = options.icon || KeyboardHelpIconFactory.fromHotkeyData( hotkeyData );
+
+    assert && assert( options.labelStringProperty, 'labelStringProperty must be defined' );
+    return KeyboardHelpSectionRow.labelWithIcon(
+      options.labelStringProperty!,
+      icon,
+      {
+        labelInnerContent: options.pdomLabelStringProperty
+      }
+    );
   }
 }
 
