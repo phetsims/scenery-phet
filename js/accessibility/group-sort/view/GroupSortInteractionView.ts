@@ -220,6 +220,16 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
         // When you mouse over while focused, the highlights are hidden, and so update the state (even though we are
         // still technically keyboard focused). This will assist in showing the mouse cue, https://github.com/phetsims/center-and-variability/issues/406
         isKeyboardFocusedProperty.value = false;
+      },
+      down: () => {
+
+        // When the group is clicked, reset the interaction state to stop keyboard input logic. We only support
+        // one mode of input at a time.
+        model.resetInteractionState();
+
+        // We want to remove focus from this node entirely to prevent the focus highlight from showing up when
+        // there is no selected group item.
+        primaryFocusedNode.blur();
       }
     };
 

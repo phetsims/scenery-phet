@@ -215,8 +215,12 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
    * switching between scenes.
    */
   public resetInteractionState(): void {
-    this.selectedGroupItemProperty.reset();
+
+    // isGroupItemKeyboardGrabbedProperty needs to be reset before the selectedGroupItemProperty, because a
+    // selectedGroupItemProperty listener is relying on an accurate isGroupItemKeyboardGrabbedProperty.value
+    // to fire an assertion.
     this.isGroupItemKeyboardGrabbedProperty.reset();
+    this.selectedGroupItemProperty.reset();
     this.isKeyboardFocusedProperty.reset();
   }
 
