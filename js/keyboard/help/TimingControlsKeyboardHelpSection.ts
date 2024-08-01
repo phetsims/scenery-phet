@@ -26,7 +26,7 @@ type SelfOptions = {
 
   // Visible string that describes the action of pause/play from a key command. You may want sim-specific terminology
   // for this command.
-  pauseOrPlayActionString?: string | TReadOnlyProperty<string>;
+  pauseOrPlayActionStringProperty?: TReadOnlyProperty<string>;
 
   // String for the PDOM (screen readers) that describes the hotkeys for play/pause.
   pauseOrPlayActionDescriptionString?: string | TReadOnlyProperty<string>;
@@ -38,12 +38,13 @@ class TimingControlsKeyboardHelpSection extends KeyboardHelpSection {
   public constructor( providedOptions?: TimingControlKeyboardHelpSectionOptions ) {
     const options = optionize<TimingControlKeyboardHelpSectionOptions, SelfOptions, ParentOptions>()( {
       headingString: timingControlsStringProperty,
-      pauseOrPlayActionString: pauseOrPlayActionStringProperty,
+      pauseOrPlayActionStringProperty: pauseOrPlayActionStringProperty,
       pauseOrPlayActionDescriptionString: pauseOrPlayActionDescriptionStringProperty
     }, providedOptions );
 
 
     const playPauseRow = KeyboardHelpSectionRow.fromHotkeyData( PlayControlButton.TOGGLE_PLAY_HOTKEY_DATA, {
+      labelStringProperty: options.pauseOrPlayActionStringProperty,
       pdomLabelStringProperty: options.pauseOrPlayActionDescriptionString
     } );
 
