@@ -274,7 +274,8 @@ export default class HeaterCoolerFront extends Node {
   public static readonly SET_TO_ZERO_HOTKEY_DATA = new HotkeyData( {
     keyStringProperties: [ new Property( '0' ) ],
     repoName: sceneryPhet.name,
-    keyboardHelpDialogLabelStringProperty: SceneryPhetStrings.keyboardHelpDialog.heatCoolOffStringProperty
+    keyboardHelpDialogLabelStringProperty: SceneryPhetStrings.keyboardHelpDialog.heatCoolOffStringProperty,
+    binderName: 'Turn off heater/cooler'
   } );
 }
 
