@@ -275,6 +275,7 @@ export default class KeyboardHelpIconFactory {
     [ 'h', new LetterKeyNode( 'H' ) ],
     [ 'w', new LetterKeyNode( 'W' ) ],
     [ 'j', new LetterKeyNode( 'J' ) ],
+    [ 'k', new LetterKeyNode( 'K' ) ],
     [ 'n', new LetterKeyNode( 'N' ) ],
     [ '0', new LetterKeyNode( '0' ) ],
     [ '1', new LetterKeyNode( '1' ) ],

@@ -12,6 +12,7 @@ import sceneryPhet from '../../sceneryPhet.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
+import PlayControlButton from '../../buttons/PlayControlButton.js';
 
 // constants
 const timingControlsStringProperty = SceneryPhetStrings.keyboardHelpDialog.timingControls.timingControlsStringProperty;
@@ -41,8 +42,9 @@ class TimingControlsKeyboardHelpSection extends KeyboardHelpSection {
       pauseOrPlayActionDescriptionString: pauseOrPlayActionDescriptionStringProperty
     }, providedOptions );
 
-    const playPauseRow = KeyboardHelpSectionRow.createPlayPauseKeyRow( options.pauseOrPlayActionString, {
-      labelInnerContent: options.pauseOrPlayActionDescriptionString
+
+    const playPauseRow = KeyboardHelpSectionRow.fromHotkeyData( PlayControlButton.TOGGLE_PLAY_HOTKEY_DATA, {
+      pdomLabelStringProperty: options.pauseOrPlayActionDescriptionString
     } );
 
     super( options.headingString, [ playPauseRow ], options );

@@ -17,8 +17,6 @@ import { VoicingResponse } from '../../../../utterance-queue/js/ResponsePacket.j
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
-import LetterKeyNode from '../LetterKeyNode.js';
-import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
 
@@ -62,9 +60,18 @@ type LabelWithIconOptions = {
 };
 
 type FromHotkeyDataOptions = {
+
+  // A custom icon for this row, if you don't want the one from the HotkeyData.
   icon?: Node | null;
+
+  // The visual label for this row, if you don't want the one from the HotkeyData.
   labelStringProperty?: TReadOnlyProperty<string> | null;
+
+  // The label used for the PDOM (screen readers) for this row, if you don't want the one from the HotkeyData.
   pdomLabelStringProperty?: TReadOnlyProperty<string> | string | null;
+
+  // Options for the labelWithIcon produced by this function
+  labelWithIconOptions?: StrictOmit<LabelWithIconOptions, 'labelInnerContent'>;
 };
 
 type SelfOptions = {
@@ -149,73 +156,6 @@ class KeyboardHelpSectionRow {
   }
 
   /**
-   * Creates a row with one or more keys, with keys separated by '+'.
-   * @param keyStrings - each should be a letter key
-   * @param labelString
-   * @param [providedOptions]
-   */
-  public static createKeysRowFromStrings( keyStrings: string[], labelString: string | TReadOnlyProperty<string>,
-                                          providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
-    return KeyboardHelpSectionRow.createKeysRow( keyStrings.map( key => new LetterKeyNode( key ) ), labelString, providedOptions );
-  }
-
-  /**
-   * Creates a row with one or more keys, with keys separated by '+'.
-   */
-  public static createKeysRow( keyIcons: Node[], labelString: string | TReadOnlyProperty<string>,
-                               providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
-    assert && assert( keyIcons.length > 0, 'expected keys' );
-    let keysNode: Node | null = null;
-    for ( let i = 0; i < keyIcons.length; i++ ) {
-      const keyNode = keyIcons[ i ];
-
-      // Continue to "add" more icons to the end of the keysNode with iconPlusIcon until we go through all keyIcons.
-      // If there is only one keyIcon it will just be returned without any '+' icons.
-      keysNode = keysNode ? KeyboardHelpIconFactory.iconPlusIcon( keysNode, keyNode ) : keyNode;
-    }
-
-    assert && assert( keysNode, 'keysNode must be defined since there were more than zero keyIcons.' );
-    return KeyboardHelpSectionRow.labelWithIcon( labelString, keysNode!, providedOptions );
-  }
-
-  /**
-   * Create an entry for the dialog that looks horizontally aligns a letter key with a 'J' key separated by a plus
-   * sign, with a descriptive label. Something like:   * "J + S jumps close to sweater"
-   * @param keyString - the letter name that will come after 'J', note this can be hard coded, no need for i18n.
-   * @param labelString - visual label
-   * @param [providedOptions]
-   */
-  public static createJumpKeyRow( keyString: string, labelString: string | TReadOnlyProperty<string>,
-                                  providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
-    return KeyboardHelpSectionRow.createKeysRowFromStrings( [ 'J', keyString ], labelString, providedOptions );
-  }
-
-  /**
-   * Create a KeyboardHelpSectionRow that describes how to play and pause the sim with the "Alt" + "K" hotkey.
-   */
-  public static createPlayPauseKeyRow( labelString: string | TReadOnlyProperty<string>,
-                                       providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
-    return KeyboardHelpSectionRow.createGlobalHotkeyRow( labelString, SceneryPhetStrings.key.kStringProperty, providedOptions );
-  }
-
-  /**
-   * Create a KeyboardHelpSectionRow that describes how to step forward the sim with the "Alt" + "L" hotkeys.
-   */
-  public static createStepForwardKeyRow( labelString: string | TReadOnlyProperty<string>,
-                                         providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
-    return KeyboardHelpSectionRow.createGlobalHotkeyRow( labelString, SceneryPhetStrings.key.lStringProperty, providedOptions );
-  }
-
-  /**
-   * Create a KeyboardHelpSectionRow that describes how to use a global hotkey. Global hotkeys are triggered with "Alt" plus
-   * some other key, to be provided.
-   */
-  public static createGlobalHotkeyRow( labelString: string | TReadOnlyProperty<string>, keyString: string | TReadOnlyProperty<string>,
-                                       providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
-    return KeyboardHelpSectionRow.createKeysRow( [ TextKeyNode.altOrOption(), new LetterKeyNode( keyString ) ], labelString, providedOptions );
-  }
-
-  /**
    * Create a label with a list of icons. The icons will be vertically aligned, each separated by 'or' text. The
    * label will be vertically centered with the first item in the list of icons. To vertically align the label
    * with the first icon, AlignGroup is used. Finally, an AlignGroup is used to make the label
@@ -296,7 +236,8 @@ class KeyboardHelpSectionRow {
     const options = optionize<FromHotkeyDataOptions>()( {
       icon: null,
       labelStringProperty: hotkeyData.keyboardHelpDialogLabelStringProperty,
-      pdomLabelStringProperty: hotkeyData.keyboardHelpDialogPDOMLabelStringProperty
+      pdomLabelStringProperty: hotkeyData.keyboardHelpDialogPDOMLabelStringProperty,
+      labelWithIconOptions: {}
     }, providedOptions );
 
     // fromHotkeyData is not used in options so that it is only called if necessary
@@ -306,9 +247,9 @@ class KeyboardHelpSectionRow {
     return KeyboardHelpSectionRow.labelWithIcon(
       options.labelStringProperty!,
       icon,
-      {
+      combineOptions<LabelWithIconOptions>( {
         labelInnerContent: options.pdomLabelStringProperty
-      }
+      }, options.labelWithIconOptions )
     );
   }
 }
