@@ -271,6 +271,10 @@ export default class KeyboardHelpIconFactory {
     [ '3', new LetterKeyNode( '3' ) ]
   ] );
 
+  /**
+   * Create an icon Node for a hotkey, based on the provided HotkeyData. Combines key icons with plus icons.
+   * For example, a HotkeyData with 'shift+r' would produce a row with the shift icon, a plus icon, and the r icon.
+   */
   public static fromHotkeyData( hotkeyData: HotkeyData ): Node {
     const modifierKeyNodes = hotkeyData.keyDescriptorsProperty.value[ 0 ].modifierKeys.map( modifierKey => {
       const keyNode = KeyboardHelpIconFactory.ENGLISH_KEY_TO_KEY_NODE.get( modifierKey )!;
