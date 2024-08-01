@@ -14,12 +14,12 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import { HBox } from '../../../../scenery/js/imports.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
-import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import assertMutuallyExclusiveOptions from '../../../../phet-core/js/assertMutuallyExclusiveOptions.js';
+import AccessibleValueHandlerHotkeyDataCollection from '../../../../sun/js/accessibility/AccessibleValueHandlerHotkeyDataCollection.js';
 
 // Configurations of arrow keys that can be displayed for 'Move between items in a group'
 export class ArrowKeyIconDisplay extends EnumerationValue {
@@ -189,10 +189,15 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
     }, { tandem: Tandem.OPT_OUT } );
 
     // 'Move sliders' content
-
-    const leftRightArrowKeysRowIcon = KeyboardHelpIconFactory.leftRightArrowKeysRowIcon();
+    const leftRightArrowKeysRowIcon = KeyboardHelpIconFactory.iconRow( [
+      KeyboardHelpIconFactory.fromHotkeyData( AccessibleValueHandlerHotkeyDataCollection.LEFT_ARROW_HOTKEY_DATA ),
+      KeyboardHelpIconFactory.fromHotkeyData( AccessibleValueHandlerHotkeyDataCollection.RIGHT_ARROW_HOTKEY_DATA )
+    ] );
     const shiftPlusLeftRightIcon = KeyboardHelpIconFactory.shiftPlusIcon( leftRightArrowKeysRowIcon );
-    const upDownArrowKeysRowIcon = KeyboardHelpIconFactory.upDownArrowKeysRowIcon();
+    const upDownArrowKeysRowIcon = KeyboardHelpIconFactory.iconRow( [
+      KeyboardHelpIconFactory.fromHotkeyData( AccessibleValueHandlerHotkeyDataCollection.UP_ARROW_HOTKEY_DATA ),
+      KeyboardHelpIconFactory.fromHotkeyData( AccessibleValueHandlerHotkeyDataCollection.DOWN_ARROW_HOTKEY_DATA )
+    ] );
     const shiftPlusUpDownIcon = KeyboardHelpIconFactory.shiftPlusIcon( upDownArrowKeysRowIcon );
     const leftRightOrUpDownIcon = KeyboardHelpIconFactory.iconOrIcon( leftRightArrowKeysRowIcon, upDownArrowKeysRowIcon );
 
@@ -223,8 +228,8 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
       } );
 
     // 'move in larger steps' content
-    const pageUpKeyNode = TextKeyNode.pageUp();
-    const pageDownKeyNode = TextKeyNode.pageDown();
+    const pageUpKeyNode = KeyboardHelpIconFactory.fromHotkeyData( AccessibleValueHandlerHotkeyDataCollection.PAGE_UP_HOTKEY_DATA );
+    const pageDownKeyNode = KeyboardHelpIconFactory.fromHotkeyData( AccessibleValueHandlerHotkeyDataCollection.PAGE_DOWN_HOTKEY_DATA );
     const pageUpPageDownIcon = new HBox( {
       children: [ pageUpKeyNode, pageDownKeyNode ],
       spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
@@ -234,13 +239,13 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
     } );
 
     // 'move to minimum value' content
-    const homeKeyNode = TextKeyNode.home();
+    const homeKeyNode = KeyboardHelpIconFactory.fromHotkeyData( AccessibleValueHandlerHotkeyDataCollection.HOME_HOTKEY_DATA );
     const jumpToMinimumRow = KeyboardHelpSectionRow.labelWithIcon( jumpToMinimumStringProperty, homeKeyNode, {
       labelInnerContent: jumpToMinimumDescriptionStringProperty
     } );
 
     // 'move to maximum value' content
-    const endKeyNode = TextKeyNode.end();
+    const endKeyNode = KeyboardHelpIconFactory.fromHotkeyData( AccessibleValueHandlerHotkeyDataCollection.END_HOTKEY_DATA );
     const jumpToMaximumRow = KeyboardHelpSectionRow.labelWithIcon( jumpToMaximumStringProperty, endKeyNode, {
       labelInnerContent: jumpToMaximumDescriptionStringProperty
     } );

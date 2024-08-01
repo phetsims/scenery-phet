@@ -251,12 +251,23 @@ export default class KeyboardHelpIconFactory {
     return KeyboardHelpIconFactory.iconRow( [ leftArrowKeyNode, rightArrowKeyNode ], providedOptions );
   }
 
+  /**
+   * Maps English key strings to their corresponding icon nodes.
+   */
   public static readonly ENGLISH_KEY_TO_KEY_NODE = new Map<OneKeyStrokeEntry, TextKeyNode>( [
     [ 'a', new LetterKeyNode( 'A' ) ],
     [ 'j', new LetterKeyNode( 'J' ) ],
     [ 'shift', TextKeyNode.shift() ],
     [ 'alt', TextKeyNode.altOrOption() ],
     [ 'escape', TextKeyNode.esc() ],
+    [ 'arrowLeft', new ArrowKeyNode( 'left' ) ],
+    [ 'arrowRight', new ArrowKeyNode( 'right' ) ],
+    [ 'arrowUp', new ArrowKeyNode( 'up' ) ],
+    [ 'arrowDown', new ArrowKeyNode( 'down' ) ],
+    [ 'pageUp', TextKeyNode.pageUp() ],
+    [ 'pageDown', TextKeyNode.pageDown() ],
+    [ 'home', TextKeyNode.home() ],
+    [ 'end', TextKeyNode.end() ],
     [ 'r', new LetterKeyNode( 'R' ) ],
     [ 's', new LetterKeyNode( 'S' ) ],
     [ 'l', new LetterKeyNode( 'L' ) ],
@@ -287,6 +298,8 @@ export default class KeyboardHelpIconFactory {
 
     return KeyboardHelpIconFactory.iconPlusIconRow( [ ...modifierKeyNodes, keyNode ] );
   }
+
+
 }
 
 assert && assert( Object.keys( KeyboardHelpIconFactory.prototype ).length === 0,
