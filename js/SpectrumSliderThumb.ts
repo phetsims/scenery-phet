@@ -45,7 +45,8 @@ export default class SpectrumSliderThumb extends Path {
       windowCursorOptions: {
         bottom: 0,
         centerX: 0,
-        stroke: 'black'
+        stroke: 'black',
+        cornerRadius: 2
       },
 
       // PathOptions
@@ -91,7 +92,7 @@ export default class SpectrumSliderThumb extends Path {
     super( handleShape, options );
 
     // Cursor window that appears over the slider track
-    this.windowCursor = new Rectangle( 0, 0, options.cursorWidth, options.cursorHeight, 2, 2, options.windowCursorOptions );
+    this.windowCursor = new Rectangle( 0, 0, options.cursorWidth, options.cursorHeight, options.windowCursorOptions );
     this.addChild( this.windowCursor );
 
     const listener = ( value: number ) => this.setFill( options.valueToColor( value ) );
