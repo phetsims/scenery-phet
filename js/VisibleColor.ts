@@ -116,7 +116,8 @@ const VisibleColor = {
 
 /**
  * Creates a table that is used to map wavelength (in nm) to Color.
- * @param reduceIntensityAtExtrema - whether the intensity should be reduced and high and low wavelength
+ * @param reduceIntensityAtExtrema - whether the intensity should be reduced at high and low wavelengths,
+ *   see https://github.com/phetsims/wave-interference/issues/395
  */
 function createColorTable( reduceIntensityAtExtrema: boolean ): Color[] {
 
