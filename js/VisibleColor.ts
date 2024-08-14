@@ -111,6 +111,13 @@ const VisibleColor = {
 
     assert && assert( wavelength !== -1, `no wavelength found for color ${color.toString()}` );
     return wavelength;
+  },
+
+  /**
+   * Is the specified wavelength in the visible spectrum?
+   */
+  isVisibleWavelength( wavelength: number ): boolean {
+    return wavelength >= VisibleColor.MIN_WAVELENGTH && wavelength <= VisibleColor.MAX_WAVELENGTH;
   }
 };
 
