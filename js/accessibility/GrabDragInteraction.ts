@@ -170,7 +170,7 @@ class GrabDragInteraction extends EnabledComponent {
   private readonly grabbableOptions: StateOptions;
   private readonly draggableOptions: StateOptions;
   private readonly dragCueNode: Node | null;
-  private readonly grabCueNode: Node;
+  private readonly grabCueNode: GrabReleaseCueNode;
   private readonly showGrabCueNode: () => boolean;
   private readonly showDragCueNode: () => boolean;
   private readonly onGrabbable: () => void;
@@ -202,7 +202,10 @@ class GrabDragInteraction extends EnabledComponent {
   private readonly onRelease: VoidFunction;
   private readonly onGrab: SceneryListenerFunction;
 
+  private readonly ownsGrabFocusHighlight: boolean;
   private readonly grabFocusHighlight: HighlightPath;
+
+  private readonly ownsGrabInteractiveHighlight: boolean;
   private readonly grabInteractiveHighlight: HighlightPath;
 
   private readonly dragFocusHighlight: HighlightPath;
@@ -426,7 +429,10 @@ class GrabDragInteraction extends EnabledComponent {
     // Take highlights from the node for the grab button interaction. The Interactive Highlights cannot fall back to
     // the default focus highlights because GrabDragInteraction adds "grab cue" Nodes as children
     // to the focus highlights that should not be displayed when using Interactive Highlights.
+    this.ownsGrabFocusHighlight = !node.focusHighlight;
     this.grabFocusHighlight = ( node.focusHighlight as HighlightPath ) || new HighlightFromNode( node );
+
+    this.ownsGrabInteractiveHighlight = !voicingNode.interactiveHighlight;
     this.grabInteractiveHighlight = ( voicingNode.interactiveHighlight as HighlightPath ) || new HighlightFromNode( node );
 
     node.focusHighlight = this.grabFocusHighlight;
@@ -660,7 +666,10 @@ class GrabDragInteraction extends EnabledComponent {
       }
 
       // remove cue references
-      this.grabFocusHighlight.removeChild( this.grabCueNode );
+      this.ownsGrabFocusHighlight && this.grabFocusHighlight.dispose();
+      this.ownsGrabInteractiveHighlight && this.grabInteractiveHighlight.dispose();
+
+      this.grabCueNode.dispose();
       this.dragCueNode && ( this.dragFocusHighlight.focusHighlight as HighlightPath ).removeChild( this.dragCueNode );
     };
   }
