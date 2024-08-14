@@ -7,7 +7,7 @@
  */
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
-import { Circle, Rectangle } from '../../../scenery/js/imports.js';
+import { Circle, Rectangle, TColor } from '../../../scenery/js/imports.js';
 import BooleanRoundToggleButton, { BooleanRoundToggleButtonOptions } from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -16,6 +16,8 @@ import Property from '../../../axon/js/Property.js';
 
 type SelfOptions = {
   radius?: number;
+  recordColor?: TColor;
+  stopColor?: TColor;
 };
 
 export type RecordStopButtonOptions = SelfOptions & BooleanRoundToggleButtonOptions;
@@ -28,6 +30,8 @@ export default class RecordStopButton extends BooleanRoundToggleButton {
 
       // RecordStopButtonOptions
       radius: 30,
+      recordColor: PhetColorScheme.RED_COLORBLIND,
+      stopColor: PhetColorScheme.RED_COLORBLIND,
 
       // BooleanRoundToggleButtonOptions
       xMargin: 16.5,
@@ -36,12 +40,12 @@ export default class RecordStopButton extends BooleanRoundToggleButton {
 
     const squareLength = 0.75 * options.radius;
 
-    // stop icon, a black square
-    const stopIcon = new Rectangle( 0, 0, 0.75 * options.radius, 0.75 * options.radius, { fill: 'black' } );
+    const stopIcon = new Rectangle( 0, 0, 0.75 * options.radius, 0.75 * options.radius, {
+      fill: options.stopColor
+    } );
 
-    // record icon, a red circle
     const recordIcon = new Circle( 0.6 * squareLength, {
-      fill: PhetColorScheme.RED_COLORBLIND,
+      fill: options.recordColor,
       center: stopIcon.center
     } );
 
