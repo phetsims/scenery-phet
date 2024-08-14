@@ -16,8 +16,8 @@ import Property from '../../../axon/js/Property.js';
 
 type SelfOptions = {
   radius?: number;
-  recordColor?: TColor;
-  stopColor?: TColor;
+  recordIconColor?: TColor;
+  stopIconColor?: TColor;
 };
 
 export type RecordStopButtonOptions = SelfOptions & BooleanRoundToggleButtonOptions;
@@ -30,8 +30,8 @@ export default class RecordStopButton extends BooleanRoundToggleButton {
 
       // RecordStopButtonOptions
       radius: 30,
-      recordColor: PhetColorScheme.RED_COLORBLIND,
-      stopColor: PhetColorScheme.RED_COLORBLIND,
+      recordIconColor: PhetColorScheme.RED_COLORBLIND,
+      stopIconColor: PhetColorScheme.RED_COLORBLIND,
 
       // BooleanRoundToggleButtonOptions
       xMargin: 16.5,
@@ -41,11 +41,11 @@ export default class RecordStopButton extends BooleanRoundToggleButton {
     const squareLength = 0.75 * options.radius;
 
     const stopIcon = new Rectangle( 0, 0, 0.75 * options.radius, 0.75 * options.radius, {
-      fill: options.stopColor
+      fill: options.stopIconColor
     } );
 
     const recordIcon = new Circle( 0.6 * squareLength, {
-      fill: options.recordColor,
+      fill: options.recordIconColor,
       center: stopIcon.center
     } );
 
