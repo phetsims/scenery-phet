@@ -690,17 +690,11 @@ class GrabDragInteraction extends EnabledComponent {
     this.grabbable = true;
 
     // To support gesture and mobile screen readers, we change the roledescription, see https://github.com/phetsims/scenery-phet/issues/536
-    if ( this.supportsGestureDescription ) {
-      this.node.setPDOMAttribute( 'aria-roledescription', movableStringProperty );
-    }
-    else if ( this.node.hasPDOMAttribute( 'aria-roledescription' ) ) {
-
-      // By default, the grabbable gets a roledescription to force the AT to say its role. This fixes a bug in VoiceOver
-      // where it fails to update the role after turning back into a grabbable.
-      // See https://github.com/phetsims/scenery-phet/issues/688.
-      // You can override this with onGrabbable() if necessary.
-      this.node.setPDOMAttribute( 'aria-roledescription', buttonStringProperty );
-    }
+    // By default, the grabbable gets a roledescription to force the AT to say its role. This fixes a bug in VoiceOver
+    // where it fails to update the role after turning back into a grabbable.
+    // See https://github.com/phetsims/scenery-phet/issues/688.
+    // You can override this with onGrabbable() if necessary.
+    this.node.setPDOMAttribute( 'aria-roledescription', this.supportsGestureDescription ? movableStringProperty : buttonStringProperty );
 
     if ( this.addAriaDescribedbyPredicate( this.numberOfGrabs ) ) {
 
