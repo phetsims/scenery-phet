@@ -660,15 +660,12 @@ class GrabDragInteraction extends EnabledComponent {
         }
       }
 
-      if ( voicingNode.isVoicing ) {
-        Voicing.unregisterUtteranceToVoicingNode( releasedUtterance, voicingNode );
-        Voicing.unregisterUtteranceToVoicingNode( this.voicingFocusUtterance, voicingNode );
-      }
+      releasedUtterance.dispose();
+      this.voicingFocusUtterance.dispose();
 
       // remove cue references
       this.ownsGrabFocusHighlight && this.grabFocusHighlight.dispose();
       this.ownsGrabInteractiveHighlight && this.grabInteractiveHighlight.dispose();
-
       this.grabCueNode.dispose();
       this.dragCueNode && ( this.dragFocusHighlight.focusHighlight as HighlightPath ).removeChild( this.dragCueNode );
     };
