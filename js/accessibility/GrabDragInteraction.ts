@@ -623,6 +623,8 @@ class GrabDragInteraction extends EnabledComponent {
       this.node.removeInputListener( this.pressListener );
       this.node.inputEnabledProperty.unlink( boundUpdateVisibilityForCues );
 
+      this.node.removePDOMAttribute( 'aria-roledescription' );
+
       // Remove listeners according to what state we are in
       if ( this.grabbable ) {
         this.removeInputListeners( this.listenersForGrabState );
