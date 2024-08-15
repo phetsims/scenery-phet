@@ -633,6 +633,7 @@ class GrabDragInteraction extends EnabledComponent {
 
       dragDivDownListener.dispose();
       dragDivUpListener.dispose();
+      this.pressListener.dispose();
 
       this.grabFocusHighlight.highlightChangedEmitter.removeListener( onFocusHighlightChange );
       this.grabInteractiveHighlight.highlightChangedEmitter.removeListener( onInteractiveHighlightChange );
