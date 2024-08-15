@@ -224,7 +224,8 @@ class GrabDragInteraction extends EnabledComponent {
    */
   public constructor( node: Node, keyboardDragListener: KeyboardDragListener, providedOptions: GrabDragInteractionOptions ) {
 
-    const firstPassOptions = optionize<GrabDragInteractionOptions, SelfOptions, ParentOptions>()( {
+    // Options filled in the second optionize pass are ommitted from the self options of first pass.
+    const firstPassOptions = optionize<GrabDragInteractionOptions, StrictOmit<SelfOptions, 'gestureHelpText' | 'addAriaDescribedbyPredicate'>, ParentOptions>()( {
       objectToGrabString: defaultObjectToGrabStringProperty,
       grabbableAccessibleName: null,
       onGrab: _.noop,
@@ -259,11 +260,7 @@ class GrabDragInteraction extends EnabledComponent {
       },
 
       // {Tandem} - For instrumenting
-      tandem: Tandem.REQUIRED,
-
-      // TODO: See https://github.com/phetsims/scenery-phet/issues/863
-      // @ts-expect-error, see https://github.com/phetsims/scenery-phet/issues/863
-      tandemNameSuffix: 'GrabDragInteraction'
+      tandem: Tandem.REQUIRED
     }, providedOptions );
 
     // a second block for options that use other options, therefore needing the defaults to be filled in
