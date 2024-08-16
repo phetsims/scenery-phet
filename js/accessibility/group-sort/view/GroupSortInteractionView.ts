@@ -46,6 +46,9 @@ type SelfOptions<ItemModel, ItemNode extends Node> = {
   // best guess selection. Return null to not supply a selection (no focus).
   getGroupItemToSelect: ( () => ItemModel | null );
 
+  // Return the enabled state of a group item. If a group item is not enabled it can be selected, but not sorted.
+  isGroupItemEnabled?: ( groupItem: ItemModel ) => boolean;
+
   // Given a model item, return the corresponding node. Support 'null' as a way to support multiple scenes. If you
   // return null, it means that the provided itemModel is not associated with this view, and shouldn't be handled.
   getNodeFromModelItem: ( model: ItemModel ) => ItemNode | null;
@@ -139,6 +142,11 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
       shiftSortStep: 2,
       pageSortStep: Math.ceil( providedOptions.sortingRangeProperty.value.getLength() / 5 ),
       getHighlightNodeFromModelItem: providedOptions.getNodeFromModelItem,
+      isGroupItemEnabled: groupItem => {
+        const itemNode = providedOptions.getNodeFromModelItem( groupItem );
+        assert && assert( itemNode, 'should have a node for the group item' );
+        return itemNode!.enabled;
+      },
       sortingRangeListener: ( newRange: Range ) => {
         const selectedGroupItem = model.selectedGroupItemProperty.value;
         if ( selectedGroupItem ) {
@@ -303,7 +311,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
       fireOnHold: true,
       keys: [ 'enter', 'space', 'escape' ],
       fire: ( event, keysPressed ) => {
-        if ( this.model.enabled && selectedGroupItemProperty.value !== null ) {
+        if ( this.model.enabled && selectedGroupItemProperty.value !== null && options.isGroupItemEnabled( selectedGroupItemProperty.value ) ) {
 
           // Do the "Grab/release" action to switch to sorting or selecting
           if ( keysPressed === 'enter' || keysPressed === 'space' ) {
