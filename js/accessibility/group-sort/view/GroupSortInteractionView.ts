@@ -142,6 +142,8 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
       shiftSortStep: 2,
       pageSortStep: Math.ceil( providedOptions.sortingRangeProperty.value.getLength() / 5 ),
       getHighlightNodeFromModelItem: providedOptions.getNodeFromModelItem,
+
+      // By default, a group item is enabled it if corresponding Node is enabled.
       isGroupItemEnabled: groupItem => {
         const itemNode = providedOptions.getNodeFromModelItem( groupItem );
         assert && assert( itemNode, 'should have a node for the group item' );
@@ -311,6 +313,8 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
       fireOnHold: true,
       keys: [ 'enter', 'space', 'escape' ],
       fire: ( event, keysPressed ) => {
+
+        // Do no grab when the interaction is disabled, if there is no selection, or when the individual group item is disabled
         if ( this.model.enabled && selectedGroupItemProperty.value !== null && options.isGroupItemEnabled( selectedGroupItemProperty.value ) ) {
 
           // Do the "Grab/release" action to switch to sorting or selecting
