@@ -244,7 +244,6 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
   // updates mouseSortCueVisibleProperty and maybe does other things. You will likely need to call this update function
   // for sim specific usages as well.
   public registerUpdateSortCueNode( updateSortIndicatorNode: () => void ): void {
-    this.mouseSortCueVisibleProperty.link( updateSortIndicatorNode );
     this.showMouseCueProperty.link( updateSortIndicatorNode );
     this.enabledProperty.link( updateSortIndicatorNode );
     this.selectedGroupItemProperty.link( updateSortIndicatorNode );
