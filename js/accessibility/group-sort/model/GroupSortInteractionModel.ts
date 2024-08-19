@@ -172,7 +172,7 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
     this.hasGroupItemBeenSortedProperty = new DerivedProperty( [
       this.hasMouseSortedGroupItemProperty,
       this.hasKeyboardSortedGroupItemProperty,
-      this.showMouseCueProperty
+      this.showMouseCueProperty // A bit awkward here, but usages of this Property tend to use it for cue visibility logic, https://github.com/phetsims/scenery-phet/issues/841
     ], ( hasMouseSortedGroupItem, hasKeyboardSortedGroupItem, showMouseCue ) => {
       return hasMouseSortedGroupItem || hasKeyboardSortedGroupItem || !showMouseCue;
     } );
