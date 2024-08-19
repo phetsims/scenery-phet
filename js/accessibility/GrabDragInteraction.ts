@@ -55,7 +55,7 @@ import EnabledComponent, { EnabledComponentOptions } from '../../../axon/js/Enab
 import assertHasProperties from '../../../phet-core/js/assertHasProperties.js';
 import getGlobal from '../../../phet-core/js/getGlobal.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { Association, HighlightFromNode, HighlightPath, InteractiveHighlightingNode, KeyboardDragListener, KeyboardListener, Node, NodeOptions, ParallelDOMOptions, PDOMPeer, PDOMValueType, PressListener, SceneryEvent, SceneryListenerFunction, TInputListener, Voicing, VoicingNode } from '../../../scenery/js/imports.js';
+import { Association, DragListener, HighlightFromNode, HighlightPath, InteractiveHighlightingNode, KeyboardDragListener, KeyboardListener, Node, NodeOptions, ParallelDOMOptions, PDOMPeer, PDOMValueType, SceneryEvent, SceneryListenerFunction, TInputListener, Voicing, VoicingNode } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AriaLiveAnnouncer from '../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import ResponsePacket from '../../../utterance-queue/js/ResponsePacket.js';
@@ -211,9 +211,12 @@ class GrabDragInteraction extends EnabledComponent {
   private readonly dragFocusHighlight: HighlightPath;
   private readonly dragInteractiveHighlight: HighlightPath;
 
-  // From non-PDOM pointer events, change representations in the PDOM - necessary for accessible tech that
-  // uses pointer events like iOS VoiceOver. The above listeners manage input from the PDOM.
-  private readonly pressListener: PressListener;
+  // From non-PDOM pointer events, change state and representations in the PDOM - This is important to update
+  // interactive highlights, because the highlight showing the state can be seen. It is also important for AT that
+  // use pointer events like iOS VoiceOver.
+  // A DragListener is used instead of a PressListener to work with touchSnag.
+  // Note this is NOT the DragListener that implements dragging on the target.
+  private readonly dragListener: DragListener;
 
   private readonly disposeGrabDragInteraction: () => void;
 
@@ -579,7 +582,7 @@ class GrabDragInteraction extends EnabledComponent {
       keyboardDragListener
     ] );
 
-    this.pressListener = new PressListener( {
+    this.dragListener = new DragListener( {
       press: event => {
         if ( !event.isFromPDOM() ) {
           this.turnToDraggable();
@@ -588,7 +591,7 @@ class GrabDragInteraction extends EnabledComponent {
       },
       release: event => {
 
-        // release if PressListener is interrupted, but only if not already
+        // release if interrupted, but only if not already
         // grabbable, which is possible if the GrabDragInteraction has been
         // reset since press
         if ( ( event === null || !event.isFromPDOM() ) && !this.grabbable ) {
@@ -600,9 +603,9 @@ class GrabDragInteraction extends EnabledComponent {
       // whether or not the pointer is already attached
       attach: false,
       enabledProperty: this.enabledProperty,
-      tandem: secondPassOptions.tandem.createTandem( 'pressListener' )
+      tandem: secondPassOptions.tandem.createTandem( 'dragListener' )
     } );
-    this.node.addInputListener( this.pressListener );
+    this.node.addInputListener( this.dragListener );
 
     // Initialize the Node as a grabbable (button) to begin with
     this.turnToGrabbable();
@@ -620,7 +623,7 @@ class GrabDragInteraction extends EnabledComponent {
 
     this.disposeGrabDragInteraction = () => {
 
-      this.node.removeInputListener( this.pressListener );
+      this.node.removeInputListener( this.dragListener );
       this.node.inputEnabledProperty.unlink( boundUpdateVisibilityForCues );
 
       this.node.removePDOMAttribute( 'aria-roledescription' );
@@ -635,7 +638,7 @@ class GrabDragInteraction extends EnabledComponent {
 
       dragDivDownListener.dispose();
       dragDivUpListener.dispose();
-      this.pressListener.dispose();
+      this.dragListener.dispose();
 
       this.grabFocusHighlight.highlightChangedEmitter.removeListener( onFocusHighlightChange );
       this.grabInteractiveHighlight.highlightChangedEmitter.removeListener( onInteractiveHighlightChange );
@@ -823,7 +826,7 @@ class GrabDragInteraction extends EnabledComponent {
    * Node is back in its "grabbable" state.
    */
   public interrupt(): void {
-    this.pressListener.interrupt();
+    this.dragListener.interrupt();
   }
 
   /**
