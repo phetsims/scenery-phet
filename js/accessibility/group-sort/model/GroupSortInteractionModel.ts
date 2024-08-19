@@ -270,6 +270,7 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
     this.grabReleaseCueVisibleProperty.dispose();
     this.keyboardSortCueVisibleProperty.dispose();
     this.isKeyboardFocusedProperty.dispose();
+    this.showMouseCueProperty.dispose();
     this.hasKeyboardGrabbedGroupItemProperty.dispose();
     this.hasKeyboardSortedGroupItemProperty.dispose();
     this.hasKeyboardSelectedGroupItemProperty.dispose();
