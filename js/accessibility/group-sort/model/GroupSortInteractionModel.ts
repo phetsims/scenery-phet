@@ -172,10 +172,9 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
 
     this.hasGroupItemBeenSortedProperty = new DerivedProperty( [
       this.hasMouseSortedGroupItemProperty,
-      this.hasKeyboardSortedGroupItemProperty,
-      this.showMouseCueProperty // A bit awkward here, but usages of this Property tend to use it for cue visibility logic, https://github.com/phetsims/scenery-phet/issues/841
-    ], ( hasMouseSortedGroupItem, hasKeyboardSortedGroupItem, showMouseCue ) => {
-      return hasMouseSortedGroupItem || hasKeyboardSortedGroupItem || !showMouseCue;
+      this.hasKeyboardSortedGroupItemProperty
+    ], ( hasMouseSortedGroupItem, hasKeyboardSortedGroupItem ) => {
+      return hasMouseSortedGroupItem || hasKeyboardSortedGroupItem;
     } );
 
     this.grabReleaseCueVisibleProperty = new DerivedProperty( [
@@ -206,7 +205,8 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
   // isn't the complete boolean, since there will be sim-specific knowledge that contributes to the final visibility
   // of the Node.
   public mouseSortCueShouldBeVisible(): boolean {
-    return !this.hasGroupItemBeenSortedProperty.value &&
+    return this.showMouseCueProperty.value &&
+           !this.hasGroupItemBeenSortedProperty.value &&
            !this.isKeyboardFocusedProperty.value &&
            this.enabled;
   }
