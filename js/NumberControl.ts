@@ -21,7 +21,7 @@ import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { AlignBox, extendsWidthSizable, Font, HBox, isWidthSizable, Node, NodeOptions, PaintColorProperty, Text, TextOptions, VBox, WidthSizable } from '../../scenery/js/imports.js';
+import { AlignBox, assertNoAdditionalChildren, extendsWidthSizable, Font, HBox, isWidthSizable, Node, NodeOptions, PaintColorProperty, Text, TextOptions, VBox, WidthSizable } from '../../scenery/js/imports.js';
 import ArrowButton, { ArrowButtonOptions } from '../../sun/js/buttons/ArrowButton.js';
 import HSlider from '../../sun/js/HSlider.js';
 import Slider, { SliderOptions } from '../../sun/js/Slider.js';
@@ -575,6 +575,9 @@ export default class NumberControl extends WidthSizable( Node ) {
       arrowEnabledListener && numberProperty.unlink( arrowEnabledListener );
       arrowEnabledListener && options.enabledRangeProperty && options.enabledRangeProperty.unlink( arrowEnabledListener );
     };
+
+    // Decorating with additional content is an anti-pattern, see https://github.com/phetsims/sun/issues/860
+    assert && assertNoAdditionalChildren( this );
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'NumberControl', this );

@@ -21,7 +21,7 @@ import StringProperty from '../../../../axon/js/StringProperty.js';
 import TReadOnlyProperty, { isTReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { HBox, Node, ReadingBlock, ReadingBlockOptions, RichText, RichTextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { assertNoAdditionalChildren, HBox, Node, ReadingBlock, ReadingBlockOptions, RichText, RichTextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -155,6 +155,9 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
 
     const readingBlockResponseProperty = this.createReadingBlockResponseProperty();
     this.setReadingBlockNameResponse( readingBlockResponseProperty );
+
+    // Decorating with additional content is an anti-pattern, see https://github.com/phetsims/sun/issues/860
+    assert && assertNoAdditionalChildren( this );
   }
 
   /**
