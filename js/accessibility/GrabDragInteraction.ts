@@ -170,7 +170,9 @@ class GrabDragInteraction extends EnabledComponent {
   private readonly grabbableOptions: StateOptions;
   private readonly draggableOptions: StateOptions;
   private readonly dragCueNode: Node | null;
-  private readonly grabCueNode: GrabReleaseCueNode;
+
+  // public ONLY to position dynamically. Prefer options.grabCueOptions when possible.
+  public readonly grabCueNode: GrabReleaseCueNode;
   private readonly showGrabCueNode: () => boolean;
   private readonly showDragCueNode: () => boolean;
   private readonly onGrabbable: () => void;
