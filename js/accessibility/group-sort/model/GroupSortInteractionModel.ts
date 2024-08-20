@@ -152,11 +152,8 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
 
     assert && this.selectedGroupItemProperty.lazyLink( ( selectedGroupItem, oldSelectedGroupItem ) => {
       if ( this.isGroupItemKeyboardGrabbedProperty.value && selectedGroupItem && oldSelectedGroupItem ) {
-
-        // TODO: This assertion is currently failing downstream of some listeners due to an order dependency between
-        //  this.isGroupItemKeyboardGrabbedProperty and this.isKeyboardFocusedProperty. https://github.com/phetsims/scenery-phet/issues/866
-        // assert && assert( this.getGroupItemValue( selectedGroupItem ) === this.getGroupItemValue( oldSelectedGroupItem ),
-        //   'should not change both the selection and the value when sorting' );
+        assert && assert( this.getGroupItemValue( selectedGroupItem ) === this.getGroupItemValue( oldSelectedGroupItem ),
+          'should not change both the selection and the value when sorting' );
       }
 
       // If we are PhET-iO instrumented, so should the selection.
