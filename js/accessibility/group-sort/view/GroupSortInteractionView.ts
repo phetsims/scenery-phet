@@ -233,10 +233,6 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
       },
       down: () => {
 
-        // When the group is clicked, reset the interaction state to stop keyboard input logic. We only support
-        // one mode of input at a time.
-        model.resetInteractionState();
-
         // We want to remove focus from this node entirely to prevent the focus highlight from showing up when
         // there is no selected group item.
         primaryFocusedNode.blur();
