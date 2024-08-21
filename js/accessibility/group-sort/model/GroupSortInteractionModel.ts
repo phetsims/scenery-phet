@@ -236,6 +236,12 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
     this.hasKeyboardSelectedGroupItemProperty.reset();
     this.hasKeyboardSortedGroupItemProperty.reset();
     this.mouseSortCueVisibleProperty.reset();
+
+    // If a PhET-iO client has set showMouseCueProperty to false, then the mouseSortCueVisibleProperty
+    // needs to respect that.
+    if ( !this.showMouseCueProperty.value ) {
+      this.mouseSortCueVisibleProperty.value = false;
+    }
   }
 
   // Clear the selection state for the interaction (setting to null)
