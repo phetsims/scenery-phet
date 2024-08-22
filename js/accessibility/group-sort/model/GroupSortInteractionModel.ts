@@ -273,6 +273,12 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
     } );
   }
 
+  // Interrupt the group sort interaction
+  public interrupt(): void {
+    this.isKeyboardFocusedProperty.value = false;
+    this.isGroupItemKeyboardGrabbedProperty.value = false;
+  }
+
   public override dispose(): void {
     this.selectedGroupItemProperty.dispose();
     this.isGroupItemKeyboardGrabbedProperty.dispose();
