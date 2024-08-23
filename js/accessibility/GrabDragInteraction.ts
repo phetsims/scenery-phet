@@ -145,6 +145,11 @@ type SelfOptions = {
 
   // Like keyboardHelpText but when supporting gesture interactive description.
   gestureHelpText?: PDOMValueType;
+
+  // When a view is dynamically or lazily created for a persistent model, we may need to indicate that it has previously
+  // been interacted with. Hence, you can pass non-zero values to indicate that the view has been interacted with.
+  numberOfGrabs?: number;
+  numberOfKeyboardGrabs?: number;
 };
 
 type ParentOptions = EnabledComponentOptions;
@@ -187,11 +192,11 @@ class GrabDragInteraction extends EnabledComponent {
   // The number of times the component has been picked up for dragging, regardless
   // of pickup method for things like determining content for "hints" describing the interaction
   // to the user
-  private numberOfGrabs = 0;
+  public numberOfGrabs: number;
 
   // The number of times this component has been picked up with a keyboard specifically to provide hints specific
   // to alternative input.
-  private numberOfKeyboardGrabs = 0;
+  public numberOfKeyboardGrabs: number;
 
   // The aria-describedby association object that will associate "grabbable" with its
   // help text so that it is read automatically when the user finds it. This reference is saved so that
@@ -263,6 +268,9 @@ class GrabDragInteraction extends EnabledComponent {
         phetioReadOnly: true,
         phetioFeatured: false
       },
+
+      numberOfGrabs: 0,
+      numberOfKeyboardGrabs: 0,
 
       // {Tandem} - For instrumenting
       tandem: Tandem.REQUIRED
@@ -362,8 +370,8 @@ class GrabDragInteraction extends EnabledComponent {
     this.onDraggable = secondPassOptions.onDraggable;
     this.addAriaDescribedbyPredicate = secondPassOptions.addAriaDescribedbyPredicate;
     this.supportsGestureDescription = secondPassOptions.supportsGestureDescription;
-    this.numberOfGrabs = 0;
-    this.numberOfKeyboardGrabs = 0;
+    this.numberOfGrabs = secondPassOptions.numberOfGrabs;
+    this.numberOfKeyboardGrabs = secondPassOptions.numberOfKeyboardGrabs;
 
     // set the help text, if provided - it will be associated with aria-describedby when in the "grabbable" state
     this.node.descriptionContent = this.supportsGestureDescription ? secondPassOptions.gestureHelpText : secondPassOptions.keyboardHelpText;
