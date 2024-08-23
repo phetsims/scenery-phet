@@ -161,14 +161,16 @@ type StateOptions = StrictOmit<ParallelDOMOptions, 'descriptionContent' | 'helpT
 
 class GrabDragInteraction extends EnabledComponent {
 
-  // The accessible name for the Node in its 'draggable' state.
+  // The accessible name for the Node in its 'draggable' interactionState.
   private readonly draggableAccessibleName: string | LocalizedStringProperty;
 
-  // The accessible name for the Node in its 'grabbable' state.
+  // The accessible name for the Node in its "grabbable" interactionState.
   private readonly grabbableAccessibleName: string | LocalizedStringProperty;
 
-  // If false, then instead this type is in the draggable interaction state.
-  private grabbable: boolean;
+  // Interaction states that this component interaction can be in:
+  // "grabbable": In the button state where you can interact with the node to grab it.
+  // "draggable": In the state where you can use a keyboard listener to move the object with arrow keys.
+  private interactionState: 'grabbable' | 'draggable';
 
   // Directly from options or parameters.
   private readonly node: Node;
@@ -198,7 +200,7 @@ class GrabDragInteraction extends EnabledComponent {
   // to alternative input.
   public numberOfKeyboardGrabs: number;
 
-  // The aria-describedby association object that will associate "grabbable" with its
+  // The aria-describedby association object that will associate "interactionState" with its
   // help text so that it is read automatically when the user finds it. This reference is saved so that
   // the association can be removed when the node becomes a "draggable".
   private readonly descriptionAssociationObject: Association;
@@ -354,11 +356,11 @@ class GrabDragInteraction extends EnabledComponent {
                                      } ) );
     secondPassOptions.grabbableOptions.innerContent = this.grabbableAccessibleName;
 
-    // Setting the aria-label on the grabbable element fixes a bug with VoiceOver in Safari where the aria role
+    // Setting the aria-label on the interactionState element fixes a bug with VoiceOver in Safari where the aria role
     // from the draggable state is never cleared, see https://github.com/phetsims/scenery-phet/issues/688
     secondPassOptions.grabbableOptions.ariaLabel = this.grabbableAccessibleName;
 
-    this.grabbable = true; // If false, then instead this type is in the draggable interaction state.
+    this.interactionState = 'grabbable';
     this.node = node;
     this.grabbableOptions = secondPassOptions.grabbableOptions;
     this.draggableOptions = secondPassOptions.draggableOptions;
@@ -373,10 +375,10 @@ class GrabDragInteraction extends EnabledComponent {
     this.numberOfGrabs = secondPassOptions.numberOfGrabs;
     this.numberOfKeyboardGrabs = secondPassOptions.numberOfKeyboardGrabs;
 
-    // set the help text, if provided - it will be associated with aria-describedby when in the "grabbable" state
+    // set the help text, if provided - it will be associated with aria-describedby when in the "grabbable" interactionState
     this.node.descriptionContent = this.supportsGestureDescription ? secondPassOptions.gestureHelpText : secondPassOptions.keyboardHelpText;
 
-    // The aria-describedby association object that will associate "grabbable" with its help text so that it is
+    // The aria-describedby association object that will associate "grabbable" interactionState with its help text so that it is
     // read automatically when the user finds it. This reference is saved so that the association can be removed
     // when the node becomes a "draggable"
     this.descriptionAssociationObject = {
@@ -418,8 +420,8 @@ class GrabDragInteraction extends EnabledComponent {
 
       voicingNode.voicingFocusListener = event => {
 
-        // When swapping from grabbable to draggable, the draggable element will be focused, ignore that case here, see https://github.com/phetsims/friction/issues/213
-        this.grabbable && voicingNode.defaultFocusListener();
+        // When swapping from interactionState to draggable, the draggable element will be focused, ignore that case here, see https://github.com/phetsims/friction/issues/213
+        this.interactionState === 'grabbable' && voicingNode.defaultFocusListener();
       };
 
       // These Utterances should only be announced if the Node is globally visible and voicingVisible.
@@ -506,7 +508,7 @@ class GrabDragInteraction extends EnabledComponent {
         // and pick it up immediately again.
         if ( !guardKeyPressFromDraggable ) {
 
-          // blur as a grabbable so that we geta new focus event after we turn into a draggable
+          // blur as a grabbable so that we get a new focus event after we turn into a draggable
           this.node.blur();
 
           this.turnToDraggable();
@@ -601,10 +603,9 @@ class GrabDragInteraction extends EnabledComponent {
       },
       release: event => {
 
-        // release if interrupted, but only if not already
-        // grabbable, which is possible if the GrabDragInteraction has been
-        // reset since press
-        if ( ( event === null || !event.isFromPDOM() ) && !this.grabbable ) {
+        // release if interrupted, but only if not already grabbable, which is possible if the GrabDragInteraction
+        // has been reset since press
+        if ( ( event === null || !event.isFromPDOM() ) && this.interactionState === 'draggable' ) {
           this.releaseDraggable();
         }
       },
@@ -639,7 +640,7 @@ class GrabDragInteraction extends EnabledComponent {
       this.node.removePDOMAttribute( 'aria-roledescription' );
 
       // Remove listeners according to what state we are in
-      if ( this.grabbable ) {
+      if ( this.interactionState === 'grabbable' ) {
         this.removeInputListeners( this.listenersForGrabState );
       }
       else {
@@ -688,7 +689,7 @@ class GrabDragInteraction extends EnabledComponent {
    * Release the draggable
    */
   public releaseDraggable(): void {
-    assert && assert( !this.grabbable, 'cannot set to grabbable if already set that way' );
+    assert && assert( this.interactionState === 'draggable', 'cannot set to interactionState if already set that way' );
     this.turnToGrabbable();
     this.onRelease();
   }
@@ -697,7 +698,7 @@ class GrabDragInteraction extends EnabledComponent {
    * turn the Node into the grabbable (button), swap out listeners too
    */
   public turnToGrabbable(): void {
-    this.grabbable = true;
+    this.interactionState = 'grabbable';
 
     // To support gesture and mobile screen readers, we change the roledescription, see https://github.com/phetsims/scenery-phet/issues/536
     // By default, the grabbable gets a roledescription to force the AT to say its role. This fixes a bug in VoiceOver
@@ -729,7 +730,7 @@ class GrabDragInteraction extends EnabledComponent {
   private turnToDraggable(): void {
     this.numberOfGrabs++;
 
-    this.grabbable = false;
+    this.interactionState = 'draggable';
 
     // by default, the draggable has roledescription of "movable". Can be overwritten in `onDraggable()`
     this.node.setPDOMAttribute( 'aria-roledescription', movableStringProperty );
@@ -777,7 +778,7 @@ class GrabDragInteraction extends EnabledComponent {
   private updateFocusHighlights(): void {
     const voicingNode = this.node as VoicingNode;
 
-    if ( this.grabbable ) {
+    if ( this.interactionState === 'grabbable' ) {
       this.node.focusHighlight = this.grabFocusHighlight;
       voicingNode.isVoicing && voicingNode.setInteractiveHighlight( this.grabInteractiveHighlight );
     }
