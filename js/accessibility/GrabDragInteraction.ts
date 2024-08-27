@@ -55,7 +55,7 @@ import EnabledComponent, { EnabledComponentOptions } from '../../../axon/js/Enab
 import assertHasProperties from '../../../phet-core/js/assertHasProperties.js';
 import getGlobal from '../../../phet-core/js/getGlobal.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { Association, DragListener, HighlightFromNode, HighlightPath, InteractiveHighlightingNode, KeyboardDragListener, KeyboardListener, Node, NodeOptions, ParallelDOMOptions, PDOMPeer, PDOMValueType, SceneryEvent, SceneryListenerFunction, TInputListener, Voicing, VoicingNode } from '../../../scenery/js/imports.js';
+import { Association, DragListener, HighlightFromNode, HighlightPath, InteractiveHighlightingNode, KeyboardDragListener, KeyboardListener, Node, NodeOptions, ParallelDOMOptions, PDOMPeer, PDOMValueType, SceneryEvent, SceneryListenerFunction, SceneryNullableListenerFunction, TInputListener, Voicing, VoicingNode } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AriaLiveAnnouncer from '../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import ResponsePacket from '../../../utterance-queue/js/ResponsePacket.js';
@@ -208,7 +208,7 @@ class GrabDragInteraction extends EnabledComponent {
   // A reusable Utterance for Voicing output from this type.
   private readonly voicingFocusUtterance: Utterance;
 
-  private readonly onRelease: VoidFunction;
+  private readonly onRelease: SceneryNullableListenerFunction;
   private readonly onGrab: SceneryListenerFunction;
 
   private readonly ownsGrabFocusHighlight: boolean;
@@ -564,7 +564,7 @@ class GrabDragInteraction extends EnabledComponent {
         // set a guard to make sure the key press from enter doesn't fire future listeners, therefore
         // "clicking" the grab button also on this key press.
         guardKeyPressFromDraggable = true;
-        this.releaseDraggable();
+        this.releaseDraggable( null );
       }
     } );
 
@@ -575,14 +575,14 @@ class GrabDragInteraction extends EnabledComponent {
 
         // Release on keyup for spacebar so that we don't pick up the draggable again when we release the spacebar
         // and trigger a click event - escape could be added to either keyup or keydown listeners
-        this.releaseDraggable();
+        this.releaseDraggable( null );
 
         // if successfully dragged, then make the cue node invisible
         this.updateVisibilityForCues();
       },
 
       // release when focus is lost
-      blur: () => this.releaseDraggable(),
+      blur: () => this.releaseDraggable( null ),
 
       // if successfully dragged, then make the cue node invisible
       focus: () => this.updateVisibilityForCues()
@@ -606,12 +606,12 @@ class GrabDragInteraction extends EnabledComponent {
         // release if interrupted, but only if not already grabbable, which is possible if the GrabDragInteraction
         // has been reset since press
         if ( ( event === null || !event.isFromPDOM() ) && this.interactionState === 'draggable' ) {
-          this.releaseDraggable();
+          this.releaseDraggable( event );
         }
       },
 
       // this listener shouldn't prevent the behavior of other listeners, and this listener should always fire
-      // whether or not the pointer is already attached
+      // whether the pointer is already attached
       attach: false,
       enabledProperty: this.enabledProperty,
       tandem: secondPassOptions.tandem.createTandem( 'dragListener' )
@@ -688,10 +688,10 @@ class GrabDragInteraction extends EnabledComponent {
   /**
    * Release the draggable
    */
-  public releaseDraggable(): void {
+  public releaseDraggable( event: SceneryEvent | null ): void {
     assert && assert( this.interactionState === 'draggable', 'cannot set to interactionState if already set that way' );
     this.turnToGrabbable();
-    this.onRelease();
+    this.onRelease( event );
   }
 
   /**
