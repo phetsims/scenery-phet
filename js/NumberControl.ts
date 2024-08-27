@@ -126,7 +126,8 @@ export type NumberControlLayoutFunction4Options = {
   // spacing between slider and arrow buttons
   arrowButtonSpacing?: number;
 
-  hasReadoutProperty?: TReadOnlyProperty<boolean> | null;
+  // Provided to the containing Node of the NumberDisplay
+  numberDisplayParentNodeOptions?: StrictOmit<NodeOptions, 'children'>;
 
   // Supports Pendulum Lab's questionText where a question is substituted for the slider
   createBottomContent?: ( ( box: HBox ) => Node ) | null;
@@ -762,7 +763,10 @@ export default class NumberControl extends WidthSizable( Node ) {
 
       // spacing between slider and arrow buttons
       arrowButtonSpacing: 5,
-      hasReadoutProperty: null,
+
+      numberDisplayParentNodeOptions: {
+        excludeInvisibleChildrenFromBounds: true
+      },
 
       layoutInvisibleButtons: false,
 
@@ -801,11 +805,9 @@ export default class NumberControl extends WidthSizable( Node ) {
             spacing: options.sliderPadding,
             children: [
               titleNode,
-              new Node( {
-                children: [ numberDisplay ],
-                visibleProperty: options.hasReadoutProperty || null,
-                excludeInvisibleChildrenFromBounds: true
-              } )
+              new Node( combineOptions<NodeOptions>( {
+                children: [ numberDisplay ]
+              }, options.numberDisplayParentNodeOptions ) )
             ],
             layoutOptions: { stretch: true }
           } ),
