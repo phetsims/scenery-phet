@@ -146,10 +146,7 @@ type SelfOptions = {
   // Like keyboardHelpText but when supporting gesture interactive description.
   gestureHelpText?: PDOMValueType;
 
-  // When a view is dynamically or lazily created for a persistent model, we may need to indicate that it has previously
-  // been interacted with. Hence, you can pass non-zero values to indicate that the view has been interacted with.
-  numberOfGrabs?: number;
-  numberOfKeyboardGrabs?: number;
+  grabDragModel?: GrabDragModel;
 };
 
 type ParentOptions = EnabledComponentOptions;
@@ -191,14 +188,7 @@ class GrabDragInteraction extends EnabledComponent {
   private readonly listenersForGrabState: TInputListener[];
   private readonly listenersForDragState: TInputListener[];
 
-  // The number of times the component has been picked up for dragging, regardless
-  // of pickup method for things like determining content for "hints" describing the interaction
-  // to the user
-  public numberOfGrabs: number;
-
-  // The number of times this component has been picked up with a keyboard specifically to provide hints specific
-  // to alternative input.
-  public numberOfKeyboardGrabs: number;
+  public readonly grabDragModel: GrabDragModel;
 
   // The aria-describedby association object that will associate "interactionState" with its
   // help text so that it is read automatically when the user finds it. This reference is saved so that
@@ -255,7 +245,7 @@ class GrabDragInteraction extends EnabledComponent {
       supportsGestureDescription: getGlobal( 'phet.joist.sim.supportsGestureDescription' ),
       keyboardHelpText: null,
       showGrabCueNode: () => {
-        return this.numberOfKeyboardGrabs < 1 && node.inputEnabled;
+        return this.grabDragModel.numberOfKeyboardGrabs < 1 && node.inputEnabled;
       },
       showDragCueNode: () => {
         return true;
@@ -271,8 +261,7 @@ class GrabDragInteraction extends EnabledComponent {
         phetioFeatured: false
       },
 
-      numberOfGrabs: 0,
-      numberOfKeyboardGrabs: 0,
+      grabDragModel: new GrabDragModel(),
 
       // {Tandem} - For instrumenting
       tandem: Tandem.REQUIRED
@@ -360,6 +349,7 @@ class GrabDragInteraction extends EnabledComponent {
     // from the draggable state is never cleared, see https://github.com/phetsims/scenery-phet/issues/688
     secondPassOptions.grabbableOptions.ariaLabel = this.grabbableAccessibleName;
 
+    this.grabDragModel = secondPassOptions.grabDragModel;
     this.interactionState = 'grabbable';
     this.node = node;
     this.grabbableOptions = secondPassOptions.grabbableOptions;
@@ -372,8 +362,6 @@ class GrabDragInteraction extends EnabledComponent {
     this.onDraggable = secondPassOptions.onDraggable;
     this.addAriaDescribedbyPredicate = secondPassOptions.addAriaDescribedbyPredicate;
     this.supportsGestureDescription = secondPassOptions.supportsGestureDescription;
-    this.numberOfGrabs = secondPassOptions.numberOfGrabs;
-    this.numberOfKeyboardGrabs = secondPassOptions.numberOfKeyboardGrabs;
 
     // set the help text, if provided - it will be associated with aria-describedby when in the "grabbable" interactionState
     this.node.descriptionContent = this.supportsGestureDescription ? secondPassOptions.gestureHelpText : secondPassOptions.keyboardHelpText;
@@ -513,7 +501,7 @@ class GrabDragInteraction extends EnabledComponent {
 
           this.turnToDraggable();
 
-          this.numberOfKeyboardGrabs++;
+          this.grabDragModel.numberOfKeyboardGrabs++;
 
           // focus after the transition
           this.node.focus();
@@ -707,7 +695,7 @@ class GrabDragInteraction extends EnabledComponent {
     // You can override this with onGrabbable() if necessary.
     this.node.setPDOMAttribute( 'aria-roledescription', this.supportsGestureDescription ? movableStringProperty : buttonStringProperty );
 
-    if ( this.addAriaDescribedbyPredicate( this.numberOfGrabs ) ) {
+    if ( this.addAriaDescribedbyPredicate( this.grabDragModel.numberOfGrabs ) ) {
 
       // this node is aria-describedby its own description content, so that the description is read automatically
       // when found by the user
@@ -728,7 +716,7 @@ class GrabDragInteraction extends EnabledComponent {
    * listeners.
    */
   private turnToDraggable(): void {
-    this.numberOfGrabs++;
+    this.grabDragModel.numberOfGrabs++;
 
     this.interactionState = 'draggable';
 
@@ -846,20 +834,37 @@ class GrabDragInteraction extends EnabledComponent {
   public reset(): void {
 
     // reset numberOfGrabs for turnToGrabbable
-    this.numberOfGrabs = 0;
+    this.grabDragModel.reset();
     this.turnToGrabbable();
 
     this.voicingFocusUtterance.reset();
 
-    // turnToGrabbable will increment this, so reset it again
-    this.numberOfGrabs = 0;
-    this.numberOfKeyboardGrabs = 0;
+    // turnToGrabbable will update this, so reset it again
+    this.grabDragModel.reset();
     this.grabCueNode.visible = true;
     if ( this.dragCueNode ) {
       this.dragCueNode.visible = true;
     }
   }
 }
+
+export class GrabDragModel {
+
+  // The number of times the component has been picked up for dragging, regardless
+  // of pickup method for things like determining content for "hints" describing the interaction
+  // to the user
+  public numberOfGrabs = 0;
+
+  // The number of times this component has been picked up with a keyboard specifically to provide hints specific
+  // to alternative input.
+  public numberOfKeyboardGrabs = 0;
+
+  public reset(): void {
+    this.numberOfGrabs = 0;
+    this.numberOfKeyboardGrabs = 0;
+  }
+}
+
 
 sceneryPhet.register( 'GrabDragInteraction', GrabDragInteraction );
 export default GrabDragInteraction;
