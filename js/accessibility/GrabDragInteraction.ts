@@ -695,6 +695,8 @@ class GrabDragInteraction extends EnabledComponent {
   /**
    * TODO: This is only called by GrabDragInteraction at the moment, is it intended for public use? See https://github.com/phetsims/scenery-phet/issues/869
    * turn the Node into the grabbable (button), swap out listeners too
+   *
+   * TODO: Should this be named "release"? See https://github.com/phetsims/scenery-phet/issues/869 How does it differ from releaseDraggable?
    */
   public turnToGrabbable(): void {
     this.grabDragModel.interactionState = 'grabbable';
@@ -730,6 +732,8 @@ class GrabDragInteraction extends EnabledComponent {
     this.grabDragModel.grabDragCueModel.numberOfGrabs++;
 
     this.grabDragModel.interactionState = 'draggable';
+
+    // TODO: Should the remainder of this function be a callback that is triggered when the state changes to draggable? See https://github.com/phetsims/scenery-phet/issues/869
 
     // by default, the draggable has roledescription of "movable". Can be overwritten in `onDraggable()`
     this.node.setPDOMAttribute( 'aria-roledescription', movableStringProperty );
