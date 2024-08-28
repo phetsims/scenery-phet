@@ -14,7 +14,6 @@ import GrabDragInteraction from './GrabDragInteraction.js';
 const thingString = 'thing';
 const movableString = 'movable';
 
-
 QUnit.module( 'GrabDragInteraction' );
 
 QUnit.test( 'GrabDragInteraction defaults', assert => {
@@ -51,13 +50,13 @@ QUnit.test( 'GrabDragInteraction defaults', assert => {
     // GrabDragInteraction requires the page to be active to behave corectly, otherwise focus/blur events do not
     // fire. See https://github.com/phetsims/aqua/issues/134.
     if ( document.hasFocus() ) {
-      assert.ok( interaction.grabbable, 'default to grabbable' );
-      assert.ok( a.tagName.toUpperCase() === 'BUTTON', 'grabbable defaults to button' );
+      assert.ok( interaction[ 'grabDragModel' ].interactionState === 'grabbable', 'default to grabbable' );
+      assert.ok( a.tagName!.toUpperCase() === 'BUTTON', 'grabbable defaults to button' );
       assert.ok( a.ariaRole === null, 'no role for grabbable' );
-      assert.ok( a.ariaLabel.indexOf( thingString ) >= 0, 'ariaLabel should include thing string for grabbable' );
+      assert.ok( a.ariaLabel!.includes( thingString ), 'ariaLabel should include thing string for grabbable' );
 
-      const aElement = a.pdomInstances[ 0 ].peer.primarySibling;
-      assert.ok( aElement.tagName === 'BUTTON', 'grabbable defaults to button html element.' );
+      const aElement = a.pdomInstances[ 0 ].peer!.primarySibling;
+      assert.ok( aElement!.tagName === 'BUTTON', 'grabbable defaults to button html element.' );
     }
     else {
       console.warn( 'Cannot complete tests because document does not have focus.' );
@@ -66,18 +65,17 @@ QUnit.test( 'GrabDragInteraction defaults', assert => {
 
   testDefaultGrabbable();
 
-  a.pdomInstances[ 0 ].peer.primarySibling.click();
-
+  a.pdomInstances[ 0 ].peer!.primarySibling!.click();
 
   const testDefaultDraggable = () => {
 
-    assert.ok( !interaction.grabbable, 'should be draggable after click draggable' );
-    assert.ok( a.tagName.toUpperCase() === 'DIV', 'draggable defaults to div' );
+    assert.ok( interaction[ 'grabDragModel' ].interactionState === 'draggable', 'should be draggable after click draggable' );
+    assert.ok( a.tagName!.toUpperCase() === 'DIV', 'draggable defaults to div' );
     assert.ok( a.ariaRole === 'application', 'draggable gets application role' );
-    assert.ok( a.ariaLabel.indexOf( thingString ) >= 0, 'ariaLabel should include thing string' );
+    assert.ok( a.ariaLabel!.includes( thingString ), 'ariaLabel should include thing string' );
     assert.ok( a.ariaLabel === a.innerContent, 'ariaLabel should include thing string' );
 
-    const aElement = a.pdomInstances[ 0 ].peer.primarySibling;
+    const aElement = a.pdomInstances[ 0 ].peer!.primarySibling!;
     assert.ok( aElement.tagName === 'DIV', 'draggable defaults to div html element.' );
     assert.ok( aElement.getAttribute( 'aria-roledescription' ) === movableString, 'aria role description should describe that it is movable by default' );
     assert.ok( aElement.innerHTML === a.ariaLabel, 'element innerHTML should be same as model label' );
@@ -86,7 +84,7 @@ QUnit.test( 'GrabDragInteraction defaults', assert => {
 
   testDefaultDraggable();
 
-  a.pdomInstances[ 0 ].peer.primarySibling.blur();
+  a.pdomInstances[ 0 ].peer!.primarySibling!.blur();
 
   testDefaultGrabbable();
 
