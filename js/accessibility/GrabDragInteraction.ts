@@ -50,7 +50,7 @@
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
-
+// TODO: Should we use aria-grabbed = true? See https://github.com/phetsims/scenery-phet/issues/869
 import EnabledComponent, { EnabledComponentOptions } from '../../../axon/js/EnabledComponent.js';
 import assertHasProperties from '../../../phet-core/js/assertHasProperties.js';
 import getGlobal from '../../../phet-core/js/getGlobal.js';
@@ -89,12 +89,12 @@ type SelfOptions = {
   // Called when the node is "released" (when the draggable is "let go"); draggable -> button
   onRelease?: () => void;
 
-  // Similar to onRelease, but called whenever the interaction state is set to "grab". Useful for adding
+  // Similar to onRelease, but called whenever the interaction state is set to "grabbable". Useful for adding
   // accessible content for the interaction state in a way that can't be achieved with options, like setting
   // pdom attributes.
   onGrabbable?: () => void;
 
-  // Similar to onGrab, but called whenever the interaction state is set to "drag". Useful for adding
+  // Similar to onGrab, but called whenever the interaction state is set to "draggable". Useful for adding
   // accessible content for the interaction state in a way that can't be achieved with options, like setting
   // pdom attributes.
   onDraggable?: () => void;
@@ -173,16 +173,24 @@ class GrabDragInteraction extends EnabledComponent {
 
   // public ONLY to position dynamically. Prefer options.grabCueOptions when possible.
   public readonly grabCueNode: GrabReleaseCueNode;
+
+  // TODO: These should be Property instances, or DerivedProperty instances, which would alleviate our need to be careful about calling updateVisibilityForCues at the right times, see https://github.com/phetsims/scenery-phet/issues/869
   private readonly showGrabCueNode: () => boolean;
   private readonly showDragCueNode: () => boolean;
+
   private readonly onGrabbable: () => void;
   private readonly onDraggable: () => void;
+
+  // This one is better as a predicate since we need to control its call timing
+  // TODO https://github.com/phetsims/scenery-phet/issues/869 give a better name that sounds like a predicate and not like an "add" action
   private readonly addAriaDescribedbyPredicate: ( numberOfGrabs: number ) => boolean;
+
   private readonly supportsGestureDescription: boolean;
 
   // Keep track of all listeners to swap out grab/drag functionalities
-  private readonly listenersForGrabState: TInputListener[];
-  private readonly listenersForDragState: TInputListener[];
+  // TODO: Would it be simpler to keep these and other attributes in a constructor closure? See https://github.com/phetsims/scenery-phet/issues/869
+  private readonly listenersForGrabState: TInputListener[]; // TODO: Rename to listenersForGrabbableState. If it is "grabbed" it is "draggable" so that is confusing. See https://github.com/phetsims/scenery-phet/issues/869
+  private readonly listenersForDragState: TInputListener[]; // TODO: Rename to listenersForDraggableState. https://github.com/phetsims/scenery-phet/issues/869
 
   // Model-related state of the current and general info about the interaction.
   private readonly grabDragModel: GrabDragModel;
@@ -198,6 +206,7 @@ class GrabDragInteraction extends EnabledComponent {
   private readonly onRelease: SceneryNullableListenerFunction;
   private readonly onGrab: SceneryListenerFunction;
 
+  // TODO: https://github.com/phetsims/scenery-phet/issues/869 It is complex to have owns vs unowned, can we always own it? Or always not own it?
   private readonly ownsGrabFocusHighlight: boolean;
   private readonly grabFocusHighlight: HighlightPath;
 
@@ -265,6 +274,7 @@ class GrabDragInteraction extends EnabledComponent {
     }, providedOptions );
 
     // a second block for options that use other options, therefore needing the defaults to be filled in
+    // TODO: Rename to options, see https://github.com/phetsims/scenery-phet/issues/869
     const secondPassOptions = optionize<GrabDragInteractionOptions, EmptySelfOptions, GrabDragInteractionOptions>()( {
       gestureHelpText: StringUtils.fillIn( gestureHelpTextPatternStringProperty, {
         objectToGrab: firstPassOptions.objectToGrabString
@@ -283,19 +293,21 @@ class GrabDragInteraction extends EnabledComponent {
     if ( node instanceof InteractiveHighlightingNode && node.interactiveHighlightLayerable ) {
 
       // A Node (HighlightPath) must be used if the highlight is layerable.
-      const nodeInteractiveHighlight = node.interactiveHighlight! as HighlightPath;
+      const nodeInteractiveHighlight = node.interactiveHighlight! as HighlightPath; // TODO: Here and elsewhere, add the cast after the assertion, see https://github.com/phetsims/scenery-phet/issues/869
 
       assert && assert( nodeInteractiveHighlight,
         'An interactive highlight must be set to the Node before construction when using interactiveHighlightLayerable' );
       assert && assert( nodeInteractiveHighlight.parent,
         'if interactiveHighlightLayerable, the highlight must be added to the scene graph before construction' );
     }
+
+    // TODO: Are all of the assertions correct? Are some covered by TS? See https://github.com/phetsims/scenery-phet/issues/869
     if ( node.focusHighlight ) {
-      const nodeFocusHighlight = node.focusHighlight as HighlightPath;
-      assert && assert( nodeFocusHighlight instanceof phet.scenery.HighlightPath,
+      const nodeFocusHighlight = node.focusHighlight as HighlightPath; // TODO: This line is unnecessary, eliminate temporary variable, see https://github.com/phetsims/scenery-phet/issues/869
+      assert && assert( nodeFocusHighlight instanceof phet.scenery.HighlightPath,  // TODO: Load variables from import, not from globals, see https://github.com/phetsims/scenery-phet/issues/869
         'if provided, focusHighlight must be a Path to support highlightChangedEmitter' );
     }
-    if ( node instanceof InteractiveHighlightingNode && node.interactiveHighlight ) {
+    if ( node instanceof InteractiveHighlightingNode && node.interactiveHighlight ) { // TODO: What if InteractiveHighlighting mixes in to something else (and hence we don't have an exact InteractiveHighlightingNode)? see https://github.com/phetsims/scenery-phet/issues/869
       const interactiveHighlight = node.interactiveHighlight as HighlightPath;
       assert && assert( interactiveHighlight instanceof phet.scenery.HighlightPath,
         'if provided, interactiveHighlight must be a Path to support highlightChangedEmitter' );
@@ -394,7 +406,7 @@ class GrabDragInteraction extends EnabledComponent {
       }
     } );
 
-    const voicingNode = node as VoicingNode;
+    const voicingNode = node as VoicingNode; /// TODO: Better way to do this? See https://github.com/phetsims/scenery-phet/issues/869 Maybe in a subclass?
     if ( voicingNode.isVoicing ) {
       assert && assert( voicingNode.voicingFocusListener === voicingNode.defaultFocusListener,
         'GrabDragInteraction sets its own voicingFocusListener.' );
@@ -492,9 +504,10 @@ class GrabDragInteraction extends EnabledComponent {
         // and pick it up immediately again.
         if ( !guardKeyPressFromDraggable ) {
 
-          // blur as a grabbable so that we get a new focus event after we turn into a draggable
+          // blur as a grabbable so that we get a new focus event after we turn into a draggable // TODO: Why do we need a new focus event? See https://github.com/phetsims/scenery-phet/issues/869
           this.node.blur();
 
+          // TODO: Using the same DOM element for grabbing and dragging could be less confusing for screen reader users, and would not require swapping and transferring focus. See https://github.com/phetsims/scenery-phet/issues/869
           this.turnToDraggable();
 
           this.grabDragModel.grabDragCueModel.numberOfKeyboardGrabs++;
@@ -534,13 +547,14 @@ class GrabDragInteraction extends EnabledComponent {
       },
 
       blur: () => {
-        this.grabCueNode.visible = secondPassOptions.showGrabCueNode();
+        this.grabCueNode.visible = secondPassOptions.showGrabCueNode(); // TODO: why still show grabCueNode after blur? Should this be this.updateVisibilityForCues()? See https://github.com/phetsims/scenery-phet/issues/869
       }
     };
 
     // Keep track of all listeners to swap out grab/drag functionalities.
     this.listenersForGrabState = secondPassOptions.listenersForGrabState.concat( grabButtonListener );
 
+    // TODO: is it important/necessary to swap out divs and listeners here? If so, why? Why not just have one listener that knows how to do the right thing based on the current state? See https://github.com/phetsims/scenery-phet/issues/869
     const dragDivDownListener = new KeyboardListener( {
       keys: [ 'enter' ],
       fire: () => {
@@ -670,7 +684,7 @@ class GrabDragInteraction extends EnabledComponent {
   }
 
   /**
-   * Release the draggable
+   * Release the draggable. TODO: Document when it is appropriate for a client to call this from the outside, see https://github.com/phetsims/scenery-phet/issues/869
    */
   public releaseDraggable( event: SceneryEvent | null ): void {
     assert && assert( this.grabDragModel.interactionState === 'draggable', 'cannot set to interactionState if already set that way' );
@@ -679,6 +693,7 @@ class GrabDragInteraction extends EnabledComponent {
   }
 
   /**
+   * TODO: This is only called by GrabDragInteraction at the moment, is it intended for public use? See https://github.com/phetsims/scenery-phet/issues/869
    * turn the Node into the grabbable (button), swap out listeners too
    */
   public turnToGrabbable(): void {
@@ -711,7 +726,7 @@ class GrabDragInteraction extends EnabledComponent {
    * Turn the node into a draggable by updating accessibility representation in the PDOM and changing input
    * listeners.
    */
-  private turnToDraggable(): void {
+  private turnToDraggable(): void {  // TODO: A name like grab() would be clearer than turnToDraggable(), see https://github.com/phetsims/scenery-phet/issues/869
     this.grabDragModel.grabDragCueModel.numberOfGrabs++;
 
     this.grabDragModel.interactionState = 'draggable';
@@ -736,6 +751,7 @@ class GrabDragInteraction extends EnabledComponent {
    * Update the node to switch modalities between being draggable, and grabbable. This function holds code that should
    * be called when switching in either direction.
    */
+  // TODO: Would this be clearer to have immutable listeners that we do not interrupt or swap out, that we deal with the state in the callback? See https://github.com/phetsims/scenery-phet/issues/869
   private baseInteractionUpdate( optionsToMutate: ParallelDOMOptions, listenersToRemove: TInputListener[], listenersToAdd: TInputListener[] ): void {
 
     // interrupt prior input, reset the key state of the drag handler by interrupting the drag. Don't interrupt all
@@ -760,6 +776,8 @@ class GrabDragInteraction extends EnabledComponent {
    * No need to set visibility to true, because that will happen for us by HighlightOverlay on focus.
    */
   private updateFocusHighlights(): void {
+
+    // TODO: If we always cast to VoicingNode, how about a new type like MaybeVoicingNode and pass that in to the constructor, see https://github.com/phetsims/scenery-phet/issues/869
     const voicingNode = this.node as VoicingNode;
 
     if ( this.grabDragModel.interactionState === 'grabbable' ) {
@@ -795,7 +813,6 @@ class GrabDragInteraction extends EnabledComponent {
     }
   }
 
-
   /**
    * Remove all listeners from the node
    */
@@ -822,6 +839,9 @@ class GrabDragInteraction extends EnabledComponent {
    */
   public interrupt(): void {
     this.dragListener.interrupt();
+
+    // TODO: Where is the code that moves this back to 'grabbable'? It is somewhat hidden in the interrupt() method, see https://github.com/phetsims/scenery-phet/issues/869
+    // TODO: Maybe at a minimum add an assertion that we landed in the right state? See https://github.com/phetsims/scenery-phet/issues/869
   }
 
   /**
@@ -844,6 +864,7 @@ class GrabDragInteraction extends EnabledComponent {
   }
 }
 
+// TODO: Move to a separate file, see https://github.com/phetsims/scenery-phet/issues/869
 export class GrabDragCueModel {
 
   // The number of times the component has been picked up for dragging, regardless
@@ -861,6 +882,7 @@ export class GrabDragCueModel {
   }
 }
 
+// TODO: Move to a separate file, see https://github.com/phetsims/scenery-phet/issues/869
 // Private class for organizing the "model" side of the logic for the grab/drag interaction.
 class GrabDragModel {
 
@@ -877,4 +899,6 @@ class GrabDragModel {
 }
 
 sceneryPhet.register( 'GrabDragInteraction', GrabDragInteraction );
+
+// TODO: Export at declaration, see https://github.com/phetsims/scenery-phet/issues/869
 export default GrabDragInteraction;
