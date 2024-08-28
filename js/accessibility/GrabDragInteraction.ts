@@ -893,6 +893,13 @@ class GrabDragModel {
   // Interaction states that this component interaction can be in:
   // "grabbable": In the button state where you can interact with the node to grab it.
   // "draggable": In the state where you can use a keyboard listener to move the object with arrow keys.
+  /**
+   * TODO: Rename to "idle" vs "grabbed"? See https://github.com/phetsims/scenery-phet/issues/869
+   * SR: grabbable vs draggable was initially confusing
+   * MK: Since we want to show the "grabbable" cue when it is grabbable, we should call it grabbable.
+   *     Wouldn't it introduce another layer of confusion to call it "idle" and have to know/figure out that idle means to show the "grabbable" message?
+   * SR: Isn't grabbable a bit of a misnomer since something cannot be grabbed unless it also has focus?
+   */
   public interactionState: 'grabbable' | 'draggable' = 'grabbable';
 
   public constructor( public readonly grabDragCueModel: GrabDragCueModel = new GrabDragCueModel() ) {}
