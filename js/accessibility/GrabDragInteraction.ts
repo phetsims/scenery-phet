@@ -555,6 +555,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     this.listenersForGrabState = secondPassOptions.listenersForGrabState.concat( grabButtonListener );
 
     // TODO: is it important/necessary to swap out divs and listeners here? If so, why? Why not just have one listener that knows how to do the right thing based on the current state? See https://github.com/phetsims/scenery-phet/issues/869
+    // TODO: Or if it is importantant that one is fireOnDown and one is not, why not always have both listeners, but no-op the irrelevant one? See https://github.com/phetsims/scenery-phet/issues/869
     const dragDivDownListener = new KeyboardListener( {
       keys: [ 'enter' ],
       fire: () => {
