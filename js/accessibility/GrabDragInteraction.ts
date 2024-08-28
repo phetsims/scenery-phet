@@ -127,7 +127,7 @@ type SelfOptions = {
   // Add an aria-describedby link between the description sibling and the primary sibling, only when grabbable. By
   // default this should only be done when supporting gesture interactive description before two success grabs. This
   // function is called with one parameters: the number of successful grabs that has occurred thus far.
-  addAriaDescribedbyPredicate?: ( numberOfGrabs: number ) => boolean;
+  shouldAddAriaDescription?: ( numberOfGrabs: number ) => boolean;
 
   // Help text is treated as the same for the grabbable and draggable items, but is different based on if the
   // runtime is supporting gesture interactive description. Even though "technically" there is no way to access the
@@ -181,9 +181,9 @@ export default class GrabDragInteraction extends EnabledComponent {
   private readonly onGrabbable: () => void;
   private readonly onDraggable: () => void;
 
-  // This one is better as a predicate since we need to control its call timing
-  // TODO https://github.com/phetsims/scenery-phet/issues/869 give a better name that sounds like a predicate and not like an "add" action
-  private readonly addAriaDescribedbyPredicate: ( numberOfGrabs: number ) => boolean;
+  // Predicate that determines whether the aria description should be added.
+  // This one is better as a predicate rather than a Property since we need to control its call timing
+  private readonly shouldAddAriaDescription: ( numberOfGrabs: number ) => boolean;
 
   private readonly supportsGestureDescription: boolean;
 
@@ -233,7 +233,7 @@ export default class GrabDragInteraction extends EnabledComponent {
   public constructor( node: Node, keyboardDragListener: KeyboardDragListener, providedOptions: GrabDragInteractionOptions ) {
 
     // Options filled in the second optionize pass are ommitted from the self options of first pass.
-    const firstPassOptions = optionize<GrabDragInteractionOptions, StrictOmit<SelfOptions, 'gestureHelpText' | 'addAriaDescribedbyPredicate'>, ParentOptions>()( {
+    const firstPassOptions = optionize<GrabDragInteractionOptions, StrictOmit<SelfOptions, 'gestureHelpText' | 'shouldAddAriaDescription'>, ParentOptions>()( {
       objectToGrabString: defaultObjectToGrabStringProperty,
       grabbableAccessibleName: null,
       onGrab: _.noop,
@@ -279,7 +279,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       gestureHelpText: StringUtils.fillIn( gestureHelpTextPatternStringProperty, {
         objectToGrab: firstPassOptions.objectToGrabString
       } ),
-      addAriaDescribedbyPredicate: numberOfGrabs => firstPassOptions.supportsGestureDescription && numberOfGrabs < 2
+      shouldAddAriaDescription: numberOfGrabs => firstPassOptions.supportsGestureDescription && numberOfGrabs < 2
     }, firstPassOptions );
 
     if ( node.focusHighlightLayerable ) {
@@ -368,7 +368,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     this.showDragCueNode = secondPassOptions.showDragCueNode;
     this.onGrabbable = secondPassOptions.onGrabbable;
     this.onDraggable = secondPassOptions.onDraggable;
-    this.addAriaDescribedbyPredicate = secondPassOptions.addAriaDescribedbyPredicate;
+    this.shouldAddAriaDescription = secondPassOptions.shouldAddAriaDescription;
     this.supportsGestureDescription = secondPassOptions.supportsGestureDescription;
 
     // set the help text, if provided - it will be associated with aria-describedby when in the "grabbable" interactionState
@@ -708,7 +708,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     // You can override this with onGrabbable() if necessary.
     this.node.setPDOMAttribute( 'aria-roledescription', this.supportsGestureDescription ? movableStringProperty : buttonStringProperty );
 
-    if ( this.addAriaDescribedbyPredicate( this.grabDragModel.grabDragCueModel.numberOfGrabs ) ) {
+    if ( this.shouldAddAriaDescription( this.grabDragModel.grabDragCueModel.numberOfGrabs ) ) {
 
       // this node is aria-describedby its own description content, so that the description is read automatically
       // when found by the user
