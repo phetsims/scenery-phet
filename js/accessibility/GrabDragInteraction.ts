@@ -157,7 +157,7 @@ type GrabDragInteractionOptions = SelfOptions & ParentOptions;
 // of GrabDragInteraction are omitted.
 type StateOptions = StrictOmit<ParallelDOMOptions, 'descriptionContent' | 'helpText' | 'descriptionTagName' | 'accessibleName' | 'innerContent' | 'ariaLabel'>;
 
-class GrabDragInteraction extends EnabledComponent {
+export default class GrabDragInteraction extends EnabledComponent {
 
   // The accessible name for the Node in its 'draggable' interactionState.
   private readonly draggableAccessibleName: string | LocalizedStringProperty;
@@ -910,6 +910,3 @@ class GrabDragModel {
 }
 
 sceneryPhet.register( 'GrabDragInteraction', GrabDragInteraction );
-
-// TODO: Export at declaration, see https://github.com/phetsims/scenery-phet/issues/869
-export default GrabDragInteraction;
