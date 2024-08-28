@@ -146,7 +146,8 @@ type SelfOptions = {
   // Like keyboardHelpText but when supporting gesture interactive description.
   gestureHelpText?: PDOMValueType;
 
-  grabDragModel?: GrabDragModel;
+  // For sharing cueing logic between multiple instance of GrabDragInteraction
+  grabDragCueModel?: GrabDragCueModel;
 };
 
 type ParentOptions = EnabledComponentOptions;
@@ -163,11 +164,6 @@ class GrabDragInteraction extends EnabledComponent {
 
   // The accessible name for the Node in its "grabbable" interactionState.
   private readonly grabbableAccessibleName: string | LocalizedStringProperty;
-
-  // Interaction states that this component interaction can be in:
-  // "grabbable": In the button state where you can interact with the node to grab it.
-  // "draggable": In the state where you can use a keyboard listener to move the object with arrow keys.
-  private interactionState: 'grabbable' | 'draggable';
 
   // Directly from options or parameters.
   private readonly node: Node;
@@ -188,7 +184,8 @@ class GrabDragInteraction extends EnabledComponent {
   private readonly listenersForGrabState: TInputListener[];
   private readonly listenersForDragState: TInputListener[];
 
-  public readonly grabDragModel: GrabDragModel;
+  // Model-related state of the current and general info about the interaction.
+  private readonly grabDragModel: GrabDragModel;
 
   // The aria-describedby association object that will associate "interactionState" with its
   // help text so that it is read automatically when the user finds it. This reference is saved so that
@@ -245,7 +242,7 @@ class GrabDragInteraction extends EnabledComponent {
       supportsGestureDescription: getGlobal( 'phet.joist.sim.supportsGestureDescription' ),
       keyboardHelpText: null,
       showGrabCueNode: () => {
-        return this.grabDragModel.numberOfKeyboardGrabs < 1 && node.inputEnabled;
+        return this.grabDragModel.grabDragCueModel.numberOfKeyboardGrabs < 1 && node.inputEnabled;
       },
       showDragCueNode: () => {
         return true;
@@ -261,7 +258,7 @@ class GrabDragInteraction extends EnabledComponent {
         phetioFeatured: false
       },
 
-      grabDragModel: new GrabDragModel(),
+      grabDragCueModel: new GrabDragCueModel(),
 
       // {Tandem} - For instrumenting
       tandem: Tandem.REQUIRED
@@ -349,8 +346,7 @@ class GrabDragInteraction extends EnabledComponent {
     // from the draggable state is never cleared, see https://github.com/phetsims/scenery-phet/issues/688
     secondPassOptions.grabbableOptions.ariaLabel = this.grabbableAccessibleName;
 
-    this.grabDragModel = secondPassOptions.grabDragModel;
-    this.interactionState = 'grabbable';
+    this.grabDragModel = new GrabDragModel( secondPassOptions.grabDragCueModel );
     this.node = node;
     this.grabbableOptions = secondPassOptions.grabbableOptions;
     this.draggableOptions = secondPassOptions.draggableOptions;
@@ -409,7 +405,7 @@ class GrabDragInteraction extends EnabledComponent {
       voicingNode.voicingFocusListener = event => {
 
         // When swapping from interactionState to draggable, the draggable element will be focused, ignore that case here, see https://github.com/phetsims/friction/issues/213
-        this.interactionState === 'grabbable' && voicingNode.defaultFocusListener();
+        this.grabDragModel.interactionState === 'grabbable' && voicingNode.defaultFocusListener();
       };
 
       // These Utterances should only be announced if the Node is globally visible and voicingVisible.
@@ -501,7 +497,7 @@ class GrabDragInteraction extends EnabledComponent {
 
           this.turnToDraggable();
 
-          this.grabDragModel.numberOfKeyboardGrabs++;
+          this.grabDragModel.grabDragCueModel.numberOfKeyboardGrabs++;
 
           // focus after the transition
           this.node.focus();
@@ -593,7 +589,7 @@ class GrabDragInteraction extends EnabledComponent {
 
         // release if interrupted, but only if not already grabbable, which is possible if the GrabDragInteraction
         // has been reset since press
-        if ( ( event === null || !event.isFromPDOM() ) && this.interactionState === 'draggable' ) {
+        if ( ( event === null || !event.isFromPDOM() ) && this.grabDragModel.interactionState === 'draggable' ) {
           this.releaseDraggable( event );
         }
       },
@@ -628,7 +624,7 @@ class GrabDragInteraction extends EnabledComponent {
       this.node.removePDOMAttribute( 'aria-roledescription' );
 
       // Remove listeners according to what state we are in
-      if ( this.interactionState === 'grabbable' ) {
+      if ( this.grabDragModel.interactionState === 'grabbable' ) {
         this.removeInputListeners( this.listenersForGrabState );
       }
       else {
@@ -677,7 +673,7 @@ class GrabDragInteraction extends EnabledComponent {
    * Release the draggable
    */
   public releaseDraggable( event: SceneryEvent | null ): void {
-    assert && assert( this.interactionState === 'draggable', 'cannot set to interactionState if already set that way' );
+    assert && assert( this.grabDragModel.interactionState === 'draggable', 'cannot set to interactionState if already set that way' );
     this.turnToGrabbable();
     this.onRelease( event );
   }
@@ -686,7 +682,7 @@ class GrabDragInteraction extends EnabledComponent {
    * turn the Node into the grabbable (button), swap out listeners too
    */
   public turnToGrabbable(): void {
-    this.interactionState = 'grabbable';
+    this.grabDragModel.interactionState = 'grabbable';
 
     // To support gesture and mobile screen readers, we change the roledescription, see https://github.com/phetsims/scenery-phet/issues/536
     // By default, the grabbable gets a roledescription to force the AT to say its role. This fixes a bug in VoiceOver
@@ -695,7 +691,7 @@ class GrabDragInteraction extends EnabledComponent {
     // You can override this with onGrabbable() if necessary.
     this.node.setPDOMAttribute( 'aria-roledescription', this.supportsGestureDescription ? movableStringProperty : buttonStringProperty );
 
-    if ( this.addAriaDescribedbyPredicate( this.grabDragModel.numberOfGrabs ) ) {
+    if ( this.addAriaDescribedbyPredicate( this.grabDragModel.grabDragCueModel.numberOfGrabs ) ) {
 
       // this node is aria-describedby its own description content, so that the description is read automatically
       // when found by the user
@@ -716,9 +712,9 @@ class GrabDragInteraction extends EnabledComponent {
    * listeners.
    */
   private turnToDraggable(): void {
-    this.grabDragModel.numberOfGrabs++;
+    this.grabDragModel.grabDragCueModel.numberOfGrabs++;
 
-    this.interactionState = 'draggable';
+    this.grabDragModel.interactionState = 'draggable';
 
     // by default, the draggable has roledescription of "movable". Can be overwritten in `onDraggable()`
     this.node.setPDOMAttribute( 'aria-roledescription', movableStringProperty );
@@ -766,7 +762,7 @@ class GrabDragInteraction extends EnabledComponent {
   private updateFocusHighlights(): void {
     const voicingNode = this.node as VoicingNode;
 
-    if ( this.interactionState === 'grabbable' ) {
+    if ( this.grabDragModel.interactionState === 'grabbable' ) {
       this.node.focusHighlight = this.grabFocusHighlight;
       voicingNode.isVoicing && voicingNode.setInteractiveHighlight( this.grabInteractiveHighlight );
     }
@@ -848,7 +844,7 @@ class GrabDragInteraction extends EnabledComponent {
   }
 }
 
-export class GrabDragModel {
+export class GrabDragCueModel {
 
   // The number of times the component has been picked up for dragging, regardless
   // of pickup method for things like determining content for "hints" describing the interaction
@@ -865,6 +861,20 @@ export class GrabDragModel {
   }
 }
 
+// Private class for organizing the "model" side of the logic for the grab/drag interaction.
+class GrabDragModel {
+
+  // Interaction states that this component interaction can be in:
+  // "grabbable": In the button state where you can interact with the node to grab it.
+  // "draggable": In the state where you can use a keyboard listener to move the object with arrow keys.
+  public interactionState: 'grabbable' | 'draggable' = 'grabbable';
+
+  public constructor( public readonly grabDragCueModel: GrabDragCueModel = new GrabDragCueModel() ) {}
+
+  public reset(): void {
+    this.grabDragCueModel.reset();
+  }
+}
 
 sceneryPhet.register( 'GrabDragInteraction', GrabDragInteraction );
 export default GrabDragInteraction;
