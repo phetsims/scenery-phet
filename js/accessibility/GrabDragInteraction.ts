@@ -874,9 +874,13 @@ export class GrabDragCueModel {
   // to alternative input.
   public numberOfKeyboardGrabs = 0;
 
+  // TODO: added for https://github.com/phetsims/density-buoyancy-common/issues/364, but probably won't pass code review.
+  public shouldShowDragCue = true;
+
   public reset(): void {
     this.numberOfGrabs = 0;
     this.numberOfKeyboardGrabs = 0;
+    this.shouldShowDragCue = true;
   }
 }
 
