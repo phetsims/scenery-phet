@@ -696,6 +696,8 @@ export default class GrabDragInteraction extends EnabledComponent {
    * TODO: Should this be named "release"? See https://github.com/phetsims/scenery-phet/issues/869 How does it differ from releaseDraggable?
    */
   private setGrabbable(): void {
+
+    // TODO: Should we bail early if setting to 'grabbable' when it was already 'grabbable'? Would make it idempotent, which would be clearer, see https://github.com/phetsims/scenery-phet/issues/869
     this.grabDragModel.interactionState = 'grabbable';
 
     // To support gesture and mobile screen readers, we change the roledescription, see https://github.com/phetsims/scenery-phet/issues/536
@@ -726,6 +728,8 @@ export default class GrabDragInteraction extends EnabledComponent {
    * listeners.
    */
   private setDraggable(): void {  // TODO: A name like grab() would be clearer than setDraggable(), see https://github.com/phetsims/scenery-phet/issues/869
+
+    // TODO: Should we bail early if setting to 'draggable' when it was already 'draggable'? Would make it idempotent, which would be clearer, see https://github.com/phetsims/scenery-phet/issues/869
     this.grabDragModel.grabDragCueModel.numberOfGrabs++;
 
     this.grabDragModel.interactionState = 'draggable';
