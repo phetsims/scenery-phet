@@ -569,11 +569,13 @@ export default class GrabDragInteraction extends EnabledComponent {
 
         // set a guard to make sure the key press from enter doesn't fire future listeners, therefore
         // "clicking" the grab button also on this key press.
+        // TODO: Could it be clearer to remove the grabButtonListener, then call releaseDraggable, then add the grabButtonListener back? See https://github.com/phetsims/scenery-phet/issues/869
         guardKeyPressFromDraggable = true;
         this.releaseDraggable( null );
       }
     } );
 
+    // TODO: Why is enter on down but spacebar is on up? Should they be consistent? See https://github.com/phetsims/scenery-phet/issues/869
     const dragDivUpListener = new KeyboardListener( {
       keys: [ 'space', 'escape' ],
       fireOnDown: false,
