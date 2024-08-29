@@ -407,7 +407,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       }
     } );
 
-    const voicingNode = node as VoicingNode; /// TODO: Better way to do this? See https://github.com/phetsims/scenery-phet/issues/869 Maybe in a subclass?
+    const voicingNode = node as VoicingNode; /// TODO: Better way to do this? See https://github.com/phetsims/scenery-phet/issues/869 Maybe in a subclass? Or this.grabDragVoicing = isVoicing ? new GrabDragVoicing( model, options );?
     if ( voicingNode.isVoicing ) {
       assert && assert( voicingNode.voicingFocusListener === voicingNode.defaultFocusListener, 'GrabDragInteraction sets ' +
                                                                                                'its own voicingFocusListener.' );
