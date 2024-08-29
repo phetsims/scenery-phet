@@ -92,11 +92,13 @@ type SelfOptions = {
   // Similar to onRelease, but called whenever the interaction state is set to "grabbable". Useful for adding
   // accessible content for the interaction state in a way that can't be achieved with options, like setting
   // pdom attributes.
+  // TODO: It is very confusing to have both onGrabbable and onRelease, because they are semantically the same thing. https://github.com/phetsims/scenery-phet/issues/869
   onGrabbable?: () => void;
 
   // Similar to onGrab, but called whenever the interaction state is set to "draggable". Useful for adding
   // accessible content for the interaction state in a way that can't be achieved with options, like setting
   // pdom attributes.
+  // TODO: It is very confusing to have both onDraggable and onGrab, because they are semantically the same thing. https://github.com/phetsims/scenery-phet/issues/869
   onDraggable?: () => void;
 
   // PDOM options passed to the grabbable created for the PDOM, filled in with defaults below
