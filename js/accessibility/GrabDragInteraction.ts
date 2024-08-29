@@ -448,6 +448,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     voicingNode.isVoicing && voicingNode.setInteractiveHighlight( this.grabInteractiveHighlight );
 
     // Make the draggable highlights in the spitting image of the node's grabbable highlights.
+    // TODO: What if the grabFocusHighlight shape changes? https://github.com/phetsims/scenery-phet/issues/869
     this.dragFocusHighlight = new HighlightPath( this.grabFocusHighlight.shape, {
       visible: false,
       transformSourceNode: this.grabFocusHighlight.transformSourceNode || node
