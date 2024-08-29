@@ -583,7 +583,7 @@ export default class GrabDragInteraction extends EnabledComponent {
 
         // Release on keyup for spacebar so that we don't pick up the draggable again when we release the spacebar
         // and trigger a click event - escape could be added to either keyup or keydown listeners
-        this.releaseDraggable( null );
+        this.releaseDraggable( null ); // TODO: Why not send along the key event? See https://github.com/phetsims/scenery-phet/issues/869
 
         // if successfully dragged, then make the cue node invisible
         this.updateVisibilityForCues();
