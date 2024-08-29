@@ -189,8 +189,8 @@ export default class GrabDragInteraction extends EnabledComponent {
 
   // Keep track of all listeners to swap out grab/drag functionalities
   // TODO: Would it be simpler to keep these and other attributes in a constructor closure? See https://github.com/phetsims/scenery-phet/issues/869
-  private readonly listenersForGrabState: TInputListener[]; // TODO: Rename to listenersForGrabbableState. If it is "grabbed" it is "draggable" so that is confusing. See https://github.com/phetsims/scenery-phet/issues/869
-  private readonly listenersForDragState: TInputListener[]; // TODO: Rename to listenersForDraggableState. https://github.com/phetsims/scenery-phet/issues/869
+  private readonly listenersWhileGrabbable: TInputListener[];
+  private readonly listenersWhileDraggable: TInputListener[];
 
   // Model-related state of the current and general info about the interaction.
   private readonly grabDragModel: GrabDragModel;
@@ -552,7 +552,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     };
 
     // Keep track of all listeners to swap out grab/drag functionalities.
-    this.listenersForGrabState = secondPassOptions.listenersForGrabState.concat( grabButtonListener );
+    this.listenersWhileGrabbable = secondPassOptions.listenersForGrabState.concat( grabButtonListener );
 
     // TODO: is it important/necessary to swap out divs and listeners here? If so, why? Why not just have one listener that knows how to do the right thing based on the current state? See https://github.com/phetsims/scenery-phet/issues/869
     // TODO: Or if it is importantant that one is fireOnDown and one is not, why not always have both listeners, but no-op the irrelevant one? See https://github.com/phetsims/scenery-phet/issues/869
@@ -587,7 +587,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       focus: () => this.updateVisibilityForCues()
     } );
 
-    this.listenersForDragState = secondPassOptions.listenersForDragState.concat( [
+    this.listenersWhileDraggable = secondPassOptions.listenersForDragState.concat( [
       dragDivDownListener,
       dragDivUpListener,
       keyboardDragListener
@@ -639,11 +639,12 @@ export default class GrabDragInteraction extends EnabledComponent {
       this.node.removePDOMAttribute( 'aria-roledescription' );
 
       // Remove listeners according to what state we are in
+      // TODO: removeInputListeners is graceful, so why not just do both? See https://github.com/phetsims/scenery-phet/issues/869
       if ( this.grabDragModel.interactionState === 'grabbable' ) {
-        this.removeInputListeners( this.listenersForGrabState );
+        this.removeInputListeners( this.listenersWhileGrabbable );
       }
       else {
-        this.removeInputListeners( this.listenersForDragState );
+        this.removeInputListeners( this.listenersWhileDraggable );
       }
 
       dragDivDownListener.dispose();
@@ -712,7 +713,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       this.node.removeAriaDescribedbyAssociation( this.descriptionAssociationObject );
     }
 
-    this.baseInteractionUpdate( this.grabbableOptions, this.listenersForDragState, this.listenersForGrabState );
+    this.baseInteractionUpdate( this.grabbableOptions, this.listenersWhileDraggable, this.listenersWhileGrabbable );
 
     // callback on completion
     this.onGrabbable();
@@ -739,7 +740,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     }
 
     // turn this into a draggable in the node
-    this.baseInteractionUpdate( this.draggableOptions, this.listenersForGrabState, this.listenersForDragState );
+    this.baseInteractionUpdate( this.draggableOptions, this.listenersWhileGrabbable, this.listenersWhileDraggable );
 
     // callback on completion
     this.onDraggable();
