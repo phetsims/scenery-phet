@@ -169,7 +169,7 @@ export default class GrabDragInteraction extends EnabledComponent {
   private readonly node: Node;
   private readonly grabbableOptions: StateOptions;
   private readonly draggableOptions: StateOptions;
-  private readonly dragCueNode: Node | null;
+  private readonly dragCueNode: Node | null; // TODO: It would simplify things to make this always Node (instead of nullable), but it could be an empty Node(), see https://github.com/phetsims/scenery-phet/issues/869
 
   // public ONLY to position dynamically. Prefer options.grabCueOptions when possible.
   public readonly grabCueNode: GrabReleaseCueNode;
