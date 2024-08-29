@@ -303,14 +303,12 @@ export default class GrabDragInteraction extends EnabledComponent {
 
     // TODO: Are all of the assertions correct? Are some covered by TS? See https://github.com/phetsims/scenery-phet/issues/869
     if ( node.focusHighlight ) {
-      const nodeFocusHighlight = node.focusHighlight as HighlightPath; // TODO: This line is unnecessary, eliminate temporary variable, see https://github.com/phetsims/scenery-phet/issues/869
-      assert && assert( nodeFocusHighlight instanceof phet.scenery.HighlightPath,  // TODO: Load variables from import, not from globals, see https://github.com/phetsims/scenery-phet/issues/869
-        'if provided, focusHighlight must be a Path to support highlightChangedEmitter' );
+      assert && assert( node.focusHighlight instanceof HighlightPath, 'if provided, focusHighlight must be a Path to ' +
+                                                                      'support highlightChangedEmitter' );
     }
     if ( node instanceof InteractiveHighlightingNode && node.interactiveHighlight ) { // TODO: What if InteractiveHighlighting mixes in to something else (and hence we don't have an exact InteractiveHighlightingNode)? see https://github.com/phetsims/scenery-phet/issues/869
-      const interactiveHighlight = node.interactiveHighlight as HighlightPath;
-      assert && assert( interactiveHighlight instanceof phet.scenery.HighlightPath,
-        'if provided, interactiveHighlight must be a Path to support highlightChangedEmitter' );
+      assert && assert( node.interactiveHighlight instanceof HighlightPath, 'if provided, interactiveHighlight must be a ' +
+                                                                            'Path to support highlightChangedEmitter' );
     }
 
     assert && assert( secondPassOptions.grabCueOptions.visible === undefined, 'Should not set visibility of the cue node' );
