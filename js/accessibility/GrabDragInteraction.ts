@@ -663,15 +663,8 @@ export default class GrabDragInteraction extends EnabledComponent {
         }
       }
 
-      if ( voicingNode.interactiveHighlightLayerable ) {
-        const highlightParent = this.grabInteractiveHighlight.parent!;
-        assert && assert( highlightParent, 'how can we have interactiveHighlightLayerable with a ' +
-                                           'node that is not in the scene graph?' );
-
-        if ( highlightParent.hasChild( this.dragInteractiveHighlight ) ) {
-          highlightParent.removeChild( this.dragInteractiveHighlight );
-        }
-      }
+      // to support cases of interactiveHighlightLayerable
+      this.dragInteractiveHighlight.detach();
 
       releasedUtterance.dispose();
       this.voicingFocusUtterance.dispose();
@@ -680,7 +673,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       this.ownsGrabFocusHighlight && this.grabFocusHighlight.dispose();
       this.ownsGrabInteractiveHighlight && this.grabInteractiveHighlight.dispose();
       this.grabCueNode.dispose();
-      this.dragCueNode && ( this.dragFocusHighlight.focusHighlight as HighlightPath ).removeChild( this.dragCueNode );
+      this.dragCueNode && this.dragCueNode.detach();
     };
   }
 
