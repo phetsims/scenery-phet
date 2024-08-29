@@ -507,7 +507,7 @@ export default class GrabDragInteraction extends EnabledComponent {
           this.node.blur();
 
           // TODO: Using the same DOM element for grabbing and dragging could be less confusing for screen reader users, and would not require swapping and transferring focus. See https://github.com/phetsims/scenery-phet/issues/869
-          this.turnToDraggable();
+          this.setDraggable();
 
           this.grabDragModel.grabDragCueModel.numberOfKeyboardGrabs++;
 
@@ -595,7 +595,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     this.dragListener = new DragListener( {
       press: event => {
         if ( !event.isFromPDOM() ) {
-          this.turnToDraggable();
+          this.setDraggable();
           this.onGrab( event );
         }
       },
@@ -617,7 +617,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     this.node.addInputListener( this.dragListener );
 
     // Initialize the Node as a grabbable (button) to begin with
-    this.turnToGrabbable();
+    this.setGrabbable();
 
     this.enabledProperty.lazyLink( enabled => {
       !enabled && this.interrupt();
@@ -682,7 +682,7 @@ export default class GrabDragInteraction extends EnabledComponent {
    */
   public releaseDraggable( event: SceneryEvent | null ): void {
     assert && assert( this.grabDragModel.interactionState === 'draggable', 'cannot set to interactionState if already set that way' );
-    this.turnToGrabbable();
+    this.setGrabbable();
     this.onRelease( event );
   }
 
@@ -692,7 +692,7 @@ export default class GrabDragInteraction extends EnabledComponent {
    *
    * TODO: Should this be named "release"? See https://github.com/phetsims/scenery-phet/issues/869 How does it differ from releaseDraggable?
    */
-  public turnToGrabbable(): void {
+  private setGrabbable(): void {
     this.grabDragModel.interactionState = 'grabbable';
 
     // To support gesture and mobile screen readers, we change the roledescription, see https://github.com/phetsims/scenery-phet/issues/536
@@ -722,7 +722,7 @@ export default class GrabDragInteraction extends EnabledComponent {
    * Turn the node into a draggable by updating accessibility representation in the PDOM and changing input
    * listeners.
    */
-  private turnToDraggable(): void {  // TODO: A name like grab() would be clearer than turnToDraggable(), see https://github.com/phetsims/scenery-phet/issues/869
+  private setDraggable(): void {  // TODO: A name like grab() would be clearer than setDraggable(), see https://github.com/phetsims/scenery-phet/issues/869
     this.grabDragModel.grabDragCueModel.numberOfGrabs++;
 
     this.grabDragModel.interactionState = 'draggable';
@@ -847,13 +847,13 @@ export default class GrabDragInteraction extends EnabledComponent {
    */
   public reset(): void {
 
-    // reset numberOfGrabs for turnToGrabbable
+    // reset numberOfGrabs for setGrabbable
     this.grabDragModel.reset();
-    this.turnToGrabbable();
+    this.setGrabbable();
 
     this.voicingFocusUtterance.reset();
 
-    // turnToGrabbable will update this, so reset it again
+    // setGrabbable will update this, so reset it again
     this.grabDragModel.reset();
     this.grabCueNode.visible = true;
     if ( this.dragCueNode ) {
