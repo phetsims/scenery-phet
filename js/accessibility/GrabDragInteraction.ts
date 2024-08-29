@@ -59,7 +59,7 @@ import EnabledComponent, { EnabledComponentOptions } from '../../../axon/js/Enab
 import assertHasProperties from '../../../phet-core/js/assertHasProperties.js';
 import getGlobal from '../../../phet-core/js/getGlobal.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { Association, DragListener, HighlightFromNode, HighlightPath, InteractiveHighlightingNode, KeyboardDragListener, KeyboardListener, Node, NodeOptions, ParallelDOMOptions, PDOMPeer, PDOMValueType, SceneryEvent, SceneryListenerFunction, SceneryNullableListenerFunction, TInputListener, Voicing, VoicingNode } from '../../../scenery/js/imports.js';
+import { Association, DragListener, HighlightFromNode, HighlightPath, InteractiveHighlightingNode, keyboardDraggingKeys, KeyboardDragListener, KeyboardListener, Node, NodeOptions, ParallelDOMOptions, PDOMPeer, PDOMValueType, SceneryEvent, SceneryListenerFunction, SceneryNullableListenerFunction, TInputListener, Voicing, VoicingNode } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AriaLiveAnnouncer from '../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import ResponsePacket from '../../../utterance-queue/js/ResponsePacket.js';
@@ -584,9 +584,6 @@ export default class GrabDragInteraction extends EnabledComponent {
         // Release on keyup for spacebar so that we don't pick up the draggable again when we release the spacebar
         // and trigger a click event - escape could be added to either keyup or keydown listeners
         this.releaseDraggable( null ); // TODO: Why not send along the key event? See https://github.com/phetsims/scenery-phet/issues/869
-
-        // if successfully dragged, then make the cue node invisible
-        this.updateVisibilityForCues();
       },
 
       // release when focus is lost
@@ -596,9 +593,21 @@ export default class GrabDragInteraction extends EnabledComponent {
       focus: () => this.updateVisibilityForCues()
     } );
 
+    // Update the visibility of dragging cues whenever keyboard dragging keys release (keyup), bug fix for https://github.com/phetsims/scenery-phet/issues/868
+    const dragDivDraggedListener = new KeyboardListener( {
+      keys: keyboardDraggingKeys,
+      fireOnDown: false,
+      fire: () => this.updateVisibilityForCues(),
+
+      // These options simulate PressListener's attach:false option, and will ensure this doesn't disrupt other keys
+      override: false,
+      allowOverlap: true
+    } );
+
     this.listenersWhileDraggable = secondPassOptions.listenersForDragState.concat( [
       dragDivDownListener,
       dragDivUpListener,
+      dragDivDraggedListener,
       keyboardDragListener
     ] );
 
