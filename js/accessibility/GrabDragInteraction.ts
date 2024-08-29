@@ -47,10 +47,14 @@
  * NOTE: For PhET-iO instrumentation, GrabDragInteraction.enabledProperty is phetioReadOnly, it makes the most sense
  * to link to whatever Node control's the mouse/touch input and toggle grab drag enabled when that Node's inputEnabled
  * changes. For example see Friction.
+
+ * TODO: Should we use aria-grabbed = true? See https://github.com/phetsims/scenery-phet/issues/869
+ * TODO: Consider a more MVC architectural pattern, this may help us modularize better. For instance, the voicing is
+ *       somewhat orthogonal and could be handled in a separate facet. Having the model be modeProperty = 'grabbable' or 'draggable'
+ *       and listening for changes in that could help address some of the recommendations below.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
-// TODO: Should we use aria-grabbed = true? See https://github.com/phetsims/scenery-phet/issues/869
 import EnabledComponent, { EnabledComponentOptions } from '../../../axon/js/EnabledComponent.js';
 import assertHasProperties from '../../../phet-core/js/assertHasProperties.js';
 import getGlobal from '../../../phet-core/js/getGlobal.js';
