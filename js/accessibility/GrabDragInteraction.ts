@@ -389,6 +389,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     } );
 
     // for both grabbing and dragging, the node with this interaction must be focusable, except when disabled.
+    // TODO: Assert that the node is initially enabled? See https://github.com/phetsims/scenery-phet/issues/869
     this.node.focusable = true;
 
     // "released" alerts are assertive so that a pile up of alerts doesn't happen with rapid movement, see
@@ -406,8 +407,8 @@ export default class GrabDragInteraction extends EnabledComponent {
 
     const voicingNode = node as VoicingNode; /// TODO: Better way to do this? See https://github.com/phetsims/scenery-phet/issues/869 Maybe in a subclass?
     if ( voicingNode.isVoicing ) {
-      assert && assert( voicingNode.voicingFocusListener === voicingNode.defaultFocusListener,
-        'GrabDragInteraction sets its own voicingFocusListener.' );
+      assert && assert( voicingNode.voicingFocusListener === voicingNode.defaultFocusListener, 'GrabDragInteraction sets ' +
+                                                                                               'its own voicingFocusListener.' );
 
       // sanity check on the voicing interface API.
       assertHasProperties( voicingNode, [ 'voicingFocusListener' ] );
@@ -521,8 +522,8 @@ export default class GrabDragInteraction extends EnabledComponent {
           // do it once.
           if ( node.focusHighlightLayerable ) {
             const grabHighlightParent = this.grabFocusHighlight.parent!;
-            assert && assert( grabHighlightParent, 'how can we have focusHighlightLayerable with a ' +
-                                                   'node that is not in the scene graph?' );
+            assert && assert( grabHighlightParent, 'how can we have focusHighlightLayerable with a node that is not ' +
+                                                   'in the scene graph?' );
             // If not yet added, do so now.
             if ( !grabHighlightParent.hasChild( this.dragFocusHighlight ) ) {
               grabHighlightParent.addChild( this.dragFocusHighlight );
@@ -655,8 +656,8 @@ export default class GrabDragInteraction extends EnabledComponent {
       // Remove children if they were added to support layerable highlights
       if ( node.focusHighlightLayerable ) {
         const highlightParent = this.grabFocusHighlight.parent!;
-        assert && assert( highlightParent, 'how can we have focusHighlightLayerable with a ' +
-                                           'node that is not in the scene graph?' );
+        assert && assert( highlightParent, 'how can we have focusHighlightLayerable with a node that is not ' +
+                                           'in the scene graph?' );
         if ( highlightParent.hasChild( this.dragFocusHighlight ) ) {
           highlightParent.removeChild( this.dragFocusHighlight );
         }
