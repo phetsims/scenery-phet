@@ -9,7 +9,7 @@
 
 import Multilink from '../../../../axon/js/Multilink.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import LetterKeyNode from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js';
+import LetterKeyNode, { LetterKeyNodeOptions } from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { HBox, Node, Path, VBox } from '../../../../scenery/js/imports.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
@@ -17,15 +17,22 @@ import PlayAreaMap from '../model/PlayAreaMap.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import BalloonModel from '../model/BalloonModel.js';
 import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Property from '../../../../axon/js/Property.js';
 
 // constants
 const ARROW_HEIGHT = 15; // dimensions for the arrow icons
 const KEY_HEIGHT = 24; // height of the arrow key, larger than default KeyNode height
 const ARROW_WIDTH = 1 / 2 * Math.sqrt( 3 ) * ARROW_HEIGHT; // for equilateral triangle
-const LETTER_KEY_OPTIONS = { font: new PhetFont( 14 ), keyHeight: KEY_HEIGHT };
+const SHADOW_OFFSET = 2;
+const LETTER_KEY_OPTIONS: LetterKeyNodeOptions = {
+  font: new PhetFont( 14 ),
+  keyHeight: KEY_HEIGHT,
+  xShadowOffset: SHADOW_OFFSET,
+  yShadowOffset: SHADOW_OFFSET
+};
 const KEY_ARROW_SPACING = 2;
-const BALLOON_KEY_SPACING = 8;
-const SHADOW_WIDTH = 2;
+const KEY_SPACING = 8;
 
 // possible directions or the directional cues
 const DIRECTION_ANGLES = {
@@ -35,52 +42,40 @@ const DIRECTION_ANGLES = {
   right: Math.PI / 2
 };
 
-class BalloonInteractionCueNode extends Node {
+class WASDCueNode extends Node {
+  protected wNode: Node;
+  protected aNode: Node;
+  protected sNode: Node;
+  protected dNode: Node;
 
-  public constructor( wallIsVisibleProperty: TReadOnlyProperty<boolean>, balloonModel: BalloonModel ) {
+  public constructor( boundsProperty: TReadOnlyProperty<Bounds2> ) {
 
     super();
 
-    // create the help node for the WASD and arrow keys, invisible except for on the initial balloon pick up
-    const directionKeysParent = new Node();
-    this.addChild( directionKeysParent );
+    this.wNode = this.createMovementKeyNode( 'up' );
+    this.aNode = this.createMovementKeyNode( 'left' );
+    this.sNode = this.createMovementKeyNode( 'down' );
+    this.dNode = this.createMovementKeyNode( 'right' );
 
-    const wNode = this.createMovementKeyNode( 'up' );
-    const aNode = this.createMovementKeyNode( 'left' );
-    const sNode = this.createMovementKeyNode( 'down' );
-    const dNode = this.createMovementKeyNode( 'right' );
-
-    directionKeysParent.addChild( wNode );
-    directionKeysParent.addChild( aNode );
-    directionKeysParent.addChild( sNode );
-    directionKeysParent.addChild( dNode );
-
-    // add listeners to update visibility of nodes when position changes and when the wall is made
-    // visible/invisible
-    Multilink.multilink( [ balloonModel.positionProperty, wallIsVisibleProperty ], ( position, visible ) => {
-
-      // get the max x positions depending on if the wall is visible
-      let centerXRightBoundary;
-      if ( visible ) {
-        centerXRightBoundary = PlayAreaMap.X_POSITIONS.AT_WALL;
-      }
-      else {
-        centerXRightBoundary = PlayAreaMap.X_BOUNDARY_POSITIONS.AT_RIGHT_EDGE;
-      }
-
-      const balloonCenter = balloonModel.getCenter();
-      aNode.visible = balloonCenter.x !== PlayAreaMap.X_BOUNDARY_POSITIONS.AT_LEFT_EDGE;
-      sNode.visible = balloonCenter.y !== PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_BOTTOM;
-      dNode.visible = balloonCenter.x !== centerXRightBoundary;
-      wNode.visible = balloonCenter.y !== PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_TOP;
+    const directionKeysParent = new Node( {
+      children: [
+        this.wNode,
+        this.aNode,
+        this.sNode,
+        this.dNode
+      ]
     } );
 
-    // place the direction cues relative to the balloon bounds
-    const balloonBounds = balloonModel.bounds;
-    wNode.centerBottom = balloonBounds.getCenterTop().plusXY( 0, -BALLOON_KEY_SPACING );
-    aNode.rightCenter = balloonBounds.getLeftCenter().plusXY( -BALLOON_KEY_SPACING, 0 );
-    sNode.centerTop = balloonBounds.getCenterBottom().plusXY( 0, BALLOON_KEY_SPACING + SHADOW_WIDTH );
-    dNode.leftCenter = balloonBounds.getRightCenter().plusXY( BALLOON_KEY_SPACING + SHADOW_WIDTH, 0 );
+    this.addChild( directionKeysParent );
+
+    boundsProperty.link( bounds => {
+
+      // place the direction cues relative to the object bounds
+      this.wNode.centerBottom = bounds.getCenterTop().plusXY( 0, -KEY_SPACING );
+      this.aNode.rightCenter = bounds.getLeftCenter().plusXY( -KEY_SPACING, 0 );
+      this.sNode.centerTop = bounds.getCenterBottom().plusXY( 0, KEY_SPACING + SHADOW_OFFSET );
+      this.dNode.leftCenter = bounds.getRightCenter().plusXY( KEY_SPACING + SHADOW_OFFSET, 0 );
+    } );
   }
 
 
@@ -124,6 +119,34 @@ class BalloonInteractionCueNode extends Node {
 
     assert && assert( box!, `No box created for direction ${direction}` );
     return box!;
+  }
+}
+
+class BalloonInteractionCueNode extends WASDCueNode {
+
+  public constructor( wallIsVisibleProperty: TReadOnlyProperty<boolean>, balloonModel: BalloonModel ) {
+
+    super( new Property( balloonModel.bounds ) );
+
+    // add listeners to update visibility of nodes when position changes and when the wall is made
+    // visible/invisible
+    Multilink.multilink( [ balloonModel.positionProperty, wallIsVisibleProperty ], ( position, visible ) => {
+
+      // get the max x positions depending on if the wall is visible
+      let centerXRightBoundary;
+      if ( visible ) {
+        centerXRightBoundary = PlayAreaMap.X_POSITIONS.AT_WALL;
+      }
+      else {
+        centerXRightBoundary = PlayAreaMap.X_BOUNDARY_POSITIONS.AT_RIGHT_EDGE;
+      }
+
+      const balloonCenter = balloonModel.getCenter();
+      this.aNode.visible = balloonCenter.x !== PlayAreaMap.X_BOUNDARY_POSITIONS.AT_LEFT_EDGE;
+      this.sNode.visible = balloonCenter.y !== PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_BOTTOM;
+      this.dNode.visible = balloonCenter.x !== centerXRightBoundary;
+      this.wNode.visible = balloonCenter.y !== PlayAreaMap.Y_BOUNDARY_POSITIONS.AT_TOP;
+    } );
   }
 }
 
