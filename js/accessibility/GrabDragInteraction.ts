@@ -285,8 +285,8 @@ export default class GrabDragInteraction extends EnabledComponent {
     if ( node.focusHighlightLayerable ) {
       const nodeFocusHighlight = node.focusHighlight! as HighlightPath;
 
-      assert && assert( nodeFocusHighlight,
-        'if focusHighlightLayerable, the highlight must be set to the node before constructing the grab/drag interaction.' );
+      assert && assert( nodeFocusHighlight, 'if focusHighlightLayerable, the highlight must be set to the node before ' +
+                                            'constructing the grab/drag interaction.' );
       assert && assert( nodeFocusHighlight.parent, 'if focusHighlightLayerable, the highlight must be added to the ' +
                                                    'scene graph before grab/drag construction.' );
     }
@@ -295,10 +295,10 @@ export default class GrabDragInteraction extends EnabledComponent {
       // A Node (HighlightPath) must be used if the highlight is layerable.
       const nodeInteractiveHighlight = node.interactiveHighlight! as HighlightPath; // TODO: Here and elsewhere, add the cast after the assertion, see https://github.com/phetsims/scenery-phet/issues/869
 
-      assert && assert( nodeInteractiveHighlight,
-        'An interactive highlight must be set to the Node before construction when using interactiveHighlightLayerable' );
-      assert && assert( nodeInteractiveHighlight.parent,
-        'if interactiveHighlightLayerable, the highlight must be added to the scene graph before construction' );
+      assert && assert( nodeInteractiveHighlight, 'An interactive highlight must be set to the Node before construction ' +
+                                                  'when using interactiveHighlightLayerable' );
+      assert && assert( nodeInteractiveHighlight.parent, 'if interactiveHighlightLayerable, the highlight must be added ' +
+                                                         'to the scene graph before construction' );
     }
 
     // TODO: Are all of the assertions correct? Are some covered by TS? See https://github.com/phetsims/scenery-phet/issues/869
