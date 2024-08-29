@@ -9,14 +9,14 @@
 
 import Multilink from '../../../../axon/js/Multilink.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import LetterKeyNode, { LetterKeyNodeOptions } from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import LetterKeyNode, { LetterKeyNodeOptions } from '../../keyboard/LetterKeyNode.js';
+import PhetFont from '../../PhetFont.js';
 import { HBox, Node, Path, VBox } from '../../../../scenery/js/imports.js';
 import balloonsAndStaticElectricity from '../../balloonsAndStaticElectricity.js';
 import PlayAreaMap from '../model/PlayAreaMap.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import BalloonModel from '../model/BalloonModel.js';
-import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
+import TextKeyNode from '../../keyboard/TextKeyNode.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Property from '../../../../axon/js/Property.js';
 
