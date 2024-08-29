@@ -757,7 +757,7 @@ export default class GrabDragInteraction extends EnabledComponent {
    * be called when switching in either direction.
    */
   // TODO: Would this be clearer to have immutable listeners that we do not interrupt or swap out, that we deal with the state in the callback? See https://github.com/phetsims/scenery-phet/issues/869
-  private baseInteractionUpdate( optionsToMutate: ParallelDOMOptions, listenersToRemove: TInputListener[], listenersToAdd: TInputListener[] ): void {
+  private baseInteractionUpdate( nodeOptions: ParallelDOMOptions, listenersToRemove: TInputListener[], listenersToAdd: TInputListener[] ): void {
 
     // interrupt prior input, reset the key state of the drag handler by interrupting the drag. Don't interrupt all
     // input, but instead just those to be removed.
@@ -767,7 +767,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     this.removeInputListeners( listenersToRemove );
 
     // update the PDOM of the node
-    this.node.mutate( optionsToMutate );
+    this.node.mutate( nodeOptions );
     assert && this.enabledProperty.value && assert( this.node.focusable, 'GrabDragInteraction node must remain focusable after mutation' );
 
     this.addInputListeners( listenersToAdd );
