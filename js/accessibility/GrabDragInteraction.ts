@@ -275,7 +275,8 @@ export default class GrabDragInteraction extends EnabledComponent {
 
       grabDragCueModel: new GrabDragCueModel(),
 
-      // {Tandem} - For instrumenting
+      // For instrumenting
+      // TODO: https://github.com/phetsims/scenery-phet/issues/869 is this mainly required for the data stream? Or maybe overinstrumentation?
       tandem: Tandem.REQUIRED
     }, providedOptions );
 
