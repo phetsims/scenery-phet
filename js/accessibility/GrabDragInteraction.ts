@@ -48,10 +48,10 @@
  * to link to whatever Node control's the mouse/touch input and toggle grab drag enabled when that Node's inputEnabled
  * changes. For example see Friction.
 
- * TODO: Should we use aria-grabbed = true? See https://github.com/phetsims/scenery-phet/issues/869
- * TODO: Consider a more MVC architectural pattern, this may help us modularize better. For instance, the voicing is
- *       somewhat orthogonal and could be handled in a separate facet. Having the model be modeProperty = 'grabbable' or 'draggable'
- *       and listening for changes in that could help address some of the recommendations below.
+ * TODO: Can the voicing implementation be a separate component that is composed?
+ * TODO: Having the model be modeProperty = 'grabbable' or 'draggable' and listening for changes in that could help address some of the recommendations below.
+ *        Like interactionStateProperty
+ * TODO: Move into a directory called "grab-drag" https://github.com/phetsims/scenery-phet/issues/869
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
