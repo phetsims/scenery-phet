@@ -104,7 +104,7 @@ type SelfOptions = {
   draggableOptions?: NodeOptions;
 
   // Optional node to cue the drag interaction once successfully updated.
-  dragCueNode?: null | Node;
+  dragCueNode?: Node;
 
   // GrabDragInteraction swaps the PDOM structure for a given node between a grabbable state, and
   // draggable one. We need to keep track of all listeners that need to be attached to each PDOM manifestation.
@@ -163,7 +163,7 @@ export default class GrabDragInteraction extends EnabledComponent {
   private readonly node: Node;
   private readonly grabbableOptions: StateOptions;
   private readonly draggableOptions: StateOptions;
-  private readonly dragCueNode: Node | null; // TODO: It would simplify things to make this always Node (instead of nullable), but it could be an empty Node(), see https://github.com/phetsims/scenery-phet/issues/869
+  private readonly dragCueNode: Node; // TODO: It would simplify things to make this always Node (instead of nullable), but it could be an empty Node(), see https://github.com/phetsims/scenery-phet/issues/869
 
   // public ONLY to position dynamically. Prefer options.grabCueOptions when possible.
   public readonly grabCueNode: GrabReleaseCueNode;
@@ -197,13 +197,14 @@ export default class GrabDragInteraction extends EnabledComponent {
   private readonly onRelease: SceneryNullableListenerFunction;
   private readonly onGrab: SceneryListenerFunction;
 
-  // TODO: https://github.com/phetsims/scenery-phet/issues/869 It is complex to have owns vs unowned, can we always own it? Or always not own it?
+  // TODO: duplicated logic (sometimes incorrectly different, and sometimes correctly different) are sooo confusing, https://github.com/phetsims/scenery-phet/issues/869
   private readonly ownsGrabFocusHighlight: boolean;
   private readonly grabFocusHighlight: HighlightPath;
 
   private readonly ownsGrabInteractiveHighlight: boolean;
   private readonly grabInteractiveHighlight: HighlightPath;
 
+  // TODO: Instead of separate Highlight instances for the draggable state, just mutate the same HighlightPath, https://github.com/phetsims/scenery-phet/issues/869
   private readonly dragFocusHighlight: HighlightPath;
   private readonly dragInteractiveHighlight: HighlightPath;
 
@@ -234,7 +235,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       },
       grabCueOptions: {},
       draggableOptions: {},
-      dragCueNode: null,
+      dragCueNode: new Node(),
       listenersForDragState: [],
       listenersForGrabState: [],
       supportsGestureDescription: getGlobal( 'phet.joist.sim.supportsGestureDescription' ),
@@ -291,23 +292,11 @@ export default class GrabDragInteraction extends EnabledComponent {
                                                          'to the scene graph before construction' );
     }
 
-    // TODO: Are all of the assertions correct? Are some covered by TS? See https://github.com/phetsims/scenery-phet/issues/869
-    if ( node.focusHighlight ) {
-      assert && assert( node.focusHighlight instanceof HighlightPath, 'if provided, focusHighlight must be a Path to ' +
-                                                                      'support highlightChangedEmitter' );
-    }
-    if ( node instanceof InteractiveHighlightingNode && node.interactiveHighlight ) { // TODO: What if InteractiveHighlighting mixes in to something else (and hence we don't have an exact InteractiveHighlightingNode)? see https://github.com/phetsims/scenery-phet/issues/869
-      assert && assert( node.interactiveHighlight instanceof HighlightPath, 'if provided, interactiveHighlight must be a ' +
-                                                                            'Path to support highlightChangedEmitter' );
-    }
-
     assert && assert( secondPassOptions.grabCueOptions.visible === undefined, 'Should not set visibility of the cue node' );
     assert && assert( !secondPassOptions.listenersForDragState.includes( keyboardDragListener ), 'GrabDragInteraction adds the KeyboardDragListener to listenersForDragState' );
-    if ( secondPassOptions.dragCueNode !== null ) {
-      assert && assert( secondPassOptions.dragCueNode instanceof Node );
-      assert && assert( !secondPassOptions.dragCueNode.parent, 'GrabDragInteraction adds dragCueNode to focusHighlight' );
-      assert && assert( secondPassOptions.dragCueNode.visible, 'dragCueNode should be visible to begin with' );
-    }
+
+    assert && assert( !secondPassOptions.dragCueNode.parent, 'GrabDragInteraction adds dragCueNode to focusHighlight' );
+    assert && assert( secondPassOptions.dragCueNode.visible, 'dragCueNode should be visible to begin with' );
 
     super( secondPassOptions );
 
@@ -394,6 +383,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     } );
 
     const voicingNode = node as VoicingNode; /// TODO: Better way to do this? See https://github.com/phetsims/scenery-phet/issues/869 Maybe in a subclass? Or this.grabDragVoicing = isVoicing ? new GrabDragVoicing( model, options );?
+    const interactiveHighlightingNode = node as InteractiveHighlightingNode; /// TODO: Better way to do this? See https://github.com/phetsims/scenery-phet/issues/869 Maybe in a subclass? Or this.grabDragVoicing = isVoicing ? new GrabDragVoicing( model, options );?
     if ( voicingNode.isVoicing ) {
       assert && assert( voicingNode.voicingFocusListener === voicingNode.defaultFocusListener, 'GrabDragInteraction sets ' +
                                                                                                'its own voicingFocusListener.' );
@@ -421,17 +411,28 @@ export default class GrabDragInteraction extends EnabledComponent {
     };
     this.onGrab = secondPassOptions.onGrab;
 
+    if ( node.focusHighlight ) {
+      assert && assert( node.focusHighlight instanceof HighlightPath,
+        'if provided, focusHighlight must be a Path to support highlightChangedEmitter' );
+    }
+    if ( interactiveHighlightingNode.interactiveHighlight ) {
+      assert && assert( interactiveHighlightingNode.interactiveHighlight instanceof HighlightPath,
+        'if provided, interactiveHighlight must be a Path to support highlightChangedEmitter' );
+    }
+
     // Take highlights from the node for the grab button interaction. The Interactive Highlights cannot fall back to
     // the default focus highlights because GrabDragInteraction adds "grab cue" Nodes as children
     // to the focus highlights that should not be displayed when using Interactive Highlights.
     this.ownsGrabFocusHighlight = !node.focusHighlight;
+    // TODO: provide shapeProperty to our instance of HighlightPath instead of sometimes owning it, https://github.com/phetsims/scenery-phet/issues/869
     this.grabFocusHighlight = ( node.focusHighlight as HighlightPath ) || new HighlightFromNode( node );
 
-    this.ownsGrabInteractiveHighlight = !voicingNode.interactiveHighlight;
-    this.grabInteractiveHighlight = ( voicingNode.interactiveHighlight as HighlightPath ) || new HighlightFromNode( node );
+    this.ownsGrabInteractiveHighlight = !interactiveHighlightingNode.interactiveHighlight;
+    // TODO: provide shapeProperty to our instance of HighlightPath instead of sometimes owning it, https://github.com/phetsims/scenery-phet/issues/869
+    this.grabInteractiveHighlight = ( interactiveHighlightingNode.interactiveHighlight as HighlightPath ) || new HighlightFromNode( node );
 
     node.focusHighlight = this.grabFocusHighlight;
-    voicingNode.isVoicing && voicingNode.setInteractiveHighlight( this.grabInteractiveHighlight );
+    interactiveHighlightingNode.isInteractiveHighlighting && interactiveHighlightingNode.setInteractiveHighlight( this.grabInteractiveHighlight );
 
     // Make the draggable highlights in the spitting image of the node's grabbable highlights.
     // TODO: What if the grabFocusHighlight shape changes? https://github.com/phetsims/scenery-phet/issues/869
@@ -439,6 +440,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       visible: false,
       transformSourceNode: this.grabFocusHighlight.transformSourceNode || node
     } );
+    // TODO: What if the grabFocusHighlight shape changes? https://github.com/phetsims/scenery-phet/issues/869
     this.dragInteractiveHighlight = new HighlightPath( this.grabInteractiveHighlight.shape, {
       visible: false,
       transformSourceNode: ( this.grabInteractiveHighlight instanceof HighlightPath && this.grabInteractiveHighlight.transformSourceNode ) ? this.grabInteractiveHighlight.transformSourceNode : node
@@ -450,12 +452,13 @@ export default class GrabDragInteraction extends EnabledComponent {
 
     // if the Node layers its interactive highlights in the scene graph, add the dragInteractiveHighlight in the same
     // way the grabInteractiveHighlight was added
-    if ( voicingNode.interactiveHighlightLayerable ) {
+    if ( interactiveHighlightingNode.interactiveHighlightLayerable ) {
       assert && assert( this.grabInteractiveHighlight.parent, 'A parent is required if the highlight is layerable.' );
       this.grabInteractiveHighlight.parent!.addChild( this.dragInteractiveHighlight );
     }
 
     // if ever we update the node's highlights, then update the grab button's too to keep in syn.
+    // TODO: Can these change if we provide the shapeProperty in the constructor? MK doesn't think so because highlightChangedEmitter is weird. https://github.com/phetsims/scenery-phet/issues/869
     const onFocusHighlightChange = () => {
       this.dragFocusHighlight.setShape( this.grabFocusHighlight.shape );
     };
@@ -467,12 +470,11 @@ export default class GrabDragInteraction extends EnabledComponent {
     this.grabInteractiveHighlight.highlightChangedEmitter.addListener( onInteractiveHighlightChange );
 
     // only the focus highlights have "cue" Nodes so we do not need to do any work here for the Interactive Highlights
-    this.grabCueNode.prependMatrix( node.getMatrix() );
+    const startingMatrix = node.getMatrix();
+    this.grabCueNode.prependMatrix( startingMatrix );
     this.grabFocusHighlight.addChild( this.grabCueNode );
-    if ( this.dragCueNode ) {
-      this.dragCueNode.prependMatrix( node.getMatrix() );
-      this.dragFocusHighlight.addChild( this.dragCueNode );
-    }
+    this.dragCueNode.prependMatrix( startingMatrix );
+    this.dragFocusHighlight.addChild( this.dragCueNode );
 
     // Some key presses can fire the node's click (the grab button) from the same press that fires the keydown from
     // the draggable, so guard against that.
@@ -650,30 +652,18 @@ export default class GrabDragInteraction extends EnabledComponent {
       dragDivUpListener.dispose();
       this.dragListener.dispose();
 
-      this.grabFocusHighlight.highlightChangedEmitter.removeListener( onFocusHighlightChange );
-      this.grabInteractiveHighlight.highlightChangedEmitter.removeListener( onInteractiveHighlightChange );
-
-      // Remove children if they were added to support layerable highlights
-      if ( node.focusHighlightLayerable ) {
-        const highlightParent = this.grabFocusHighlight.parent!;
-        assert && assert( highlightParent, 'how can we have focusHighlightLayerable with a node that is not ' +
-                                           'in the scene graph?' );
-        if ( highlightParent.hasChild( this.dragFocusHighlight ) ) {
-          highlightParent.removeChild( this.dragFocusHighlight );
-        }
-      }
-
-      // to support cases of interactiveHighlightLayerable
-      this.dragInteractiveHighlight.detach();
-
       releasedUtterance.dispose();
       this.voicingFocusUtterance.dispose();
 
-      // remove cue references
+      // Focus and cue disposal
+      this.grabFocusHighlight.highlightChangedEmitter.removeListener( onFocusHighlightChange );
+      this.grabInteractiveHighlight.highlightChangedEmitter.removeListener( onInteractiveHighlightChange );
       this.ownsGrabFocusHighlight && this.grabFocusHighlight.dispose();
       this.ownsGrabInteractiveHighlight && this.grabInteractiveHighlight.dispose();
+      this.dragFocusHighlight.dispose();
+      this.dragInteractiveHighlight.dispose();
       this.grabCueNode.dispose();
-      this.dragCueNode && this.dragCueNode.detach();
+      this.dragCueNode.dispose();
     };
   }
 
@@ -772,16 +762,16 @@ export default class GrabDragInteraction extends EnabledComponent {
    */
   private updateFocusHighlights(): void {
 
-    // TODO: If we always cast to VoicingNode, how about a new type like MaybeVoicingNode and pass that in to the constructor, see https://github.com/phetsims/scenery-phet/issues/869
-    const voicingNode = this.node as VoicingNode;
+    // TODO: If we always cast to InteractiveHighlightingNode, how about a new type like MaybeInteractiveHighlightingNode and pass that in to the constructor, see https://github.com/phetsims/scenery-phet/issues/869
+    const interactiveHighlightingNode = this.node as InteractiveHighlightingNode;
 
     if ( this.grabDragModel.interactionState === 'grabbable' ) {
       this.node.focusHighlight = this.grabFocusHighlight;
-      voicingNode.isVoicing && voicingNode.setInteractiveHighlight( this.grabInteractiveHighlight );
+      interactiveHighlightingNode.isInteractiveHighlighting && interactiveHighlightingNode.setInteractiveHighlight( this.grabInteractiveHighlight );
     }
     else {
       this.node.focusHighlight = this.dragFocusHighlight;
-      voicingNode.isVoicing && voicingNode.setInteractiveHighlight( this.dragInteractiveHighlight );
+      interactiveHighlightingNode.isInteractiveHighlighting && interactiveHighlightingNode.setInteractiveHighlight( this.dragInteractiveHighlight );
     }
   }
 
