@@ -93,18 +93,6 @@ type SelfOptions = {
   // Called when the node is "released" (when the draggable is "let go"); draggable -> button
   onRelease?: () => void;
 
-  // Similar to onRelease, but called whenever the interaction state is set to "grabbable". Useful for adding
-  // accessible content for the interaction state in a way that can't be achieved with options, like setting
-  // pdom attributes.
-  // TODO: It is very confusing to have both onGrabbable and onRelease, because they are semantically the same thing. https://github.com/phetsims/scenery-phet/issues/869
-  onGrabbable?: () => void;
-
-  // Similar to onGrab, but called whenever the interaction state is set to "draggable". Useful for adding
-  // accessible content for the interaction state in a way that can't be achieved with options, like setting
-  // pdom attributes.
-  // TODO: It is very confusing to have both onDraggable and onGrab, because they are semantically the same thing. https://github.com/phetsims/scenery-phet/issues/869
-  onDraggable?: () => void;
-
   // PDOM options passed to the grabbable created for the PDOM, filled in with defaults below
   grabbableOptions?: ParallelDOMOptions;
 
@@ -184,9 +172,6 @@ export default class GrabDragInteraction extends EnabledComponent {
   private readonly showGrabCueNode: () => boolean;
   private readonly showDragCueNode: () => boolean;
 
-  private readonly onGrabbable: () => void;
-  private readonly onDraggable: () => void;
-
   // Predicate that determines whether the aria description should be added.
   // This one is better as a predicate rather than a Property since we need to control its call timing
   private readonly shouldAddAriaDescription: ( numberOfGrabs: number ) => boolean;
@@ -244,8 +229,6 @@ export default class GrabDragInteraction extends EnabledComponent {
       grabbableAccessibleName: null,
       onGrab: _.noop,
       onRelease: _.noop,
-      onGrabbable: _.noop,
-      onDraggable: _.noop,
       grabbableOptions: {
         appendDescription: true // in general, the help text is after the grabbable
       },
@@ -371,8 +354,6 @@ export default class GrabDragInteraction extends EnabledComponent {
     this.grabCueNode = new GrabReleaseCueNode( secondPassOptions.grabCueOptions );
     this.showGrabCueNode = secondPassOptions.showGrabCueNode;
     this.showDragCueNode = secondPassOptions.showDragCueNode;
-    this.onGrabbable = secondPassOptions.onGrabbable;
-    this.onDraggable = secondPassOptions.onDraggable;
     this.shouldAddAriaDescription = secondPassOptions.shouldAddAriaDescription;
     this.supportsGestureDescription = secondPassOptions.supportsGestureDescription;
 
@@ -720,7 +701,6 @@ export default class GrabDragInteraction extends EnabledComponent {
     // By default, the grabbable gets a roledescription to force the AT to say its role. This fixes a bug in VoiceOver
     // where it fails to update the role after turning back into a grabbable.
     // See https://github.com/phetsims/scenery-phet/issues/688.
-    // You can override this with onGrabbable() if necessary.
     this.node.setPDOMAttribute( 'aria-roledescription', this.supportsGestureDescription ? movableStringProperty : buttonStringProperty );
 
     if ( this.shouldAddAriaDescription( this.grabDragModel.grabDragCueModel.numberOfGrabs ) ) {
@@ -734,9 +714,6 @@ export default class GrabDragInteraction extends EnabledComponent {
     }
 
     this.baseInteractionUpdate( this.grabbableOptions, this.listenersWhileDraggable, this.listenersWhileGrabbable );
-
-    // callback on completion
-    this.onGrabbable();
   }
 
   /**
@@ -752,7 +729,7 @@ export default class GrabDragInteraction extends EnabledComponent {
 
     // TODO: Should the remainder of this function be a callback that is triggered when the state changes to draggable? See https://github.com/phetsims/scenery-phet/issues/869
 
-    // by default, the draggable has roledescription of "movable". Can be overwritten in `onDraggable()`
+    // by default, the draggable has roledescription of "movable".
     this.node.setPDOMAttribute( 'aria-roledescription', movableStringProperty );
 
     // This node is aria-describedby its own description content only when grabbable, so that the description is
@@ -763,9 +740,6 @@ export default class GrabDragInteraction extends EnabledComponent {
 
     // turn this into a draggable in the node
     this.baseInteractionUpdate( this.draggableOptions, this.listenersWhileGrabbable, this.listenersWhileDraggable );
-
-    // callback on completion
-    this.onDraggable();
   }
 
   /**
