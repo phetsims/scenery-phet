@@ -109,7 +109,7 @@ export default class KeyNode extends Node {
       lineWidth: options.lineWidth
     } );
 
-    keyIcon.boundsProperty.link( () => {
+    const listener = () => {
 
       // scale down the size of the keyIcon passed in if it is taller than the max height of the icon
       let heightScalar = 1;
@@ -144,7 +144,8 @@ export default class KeyNode extends Node {
       backgroundShadow.setRectBounds( content.bounds.shiftedXY(
         options.xShadowOffset, options.yShadowOffset ) );
       whiteForeground.setRectBounds( content.bounds );
-    } );
+    };
+    keyIcon.boundsProperty.link( listener );
 
     // children of the icon node, including the background shadow, foreground key, and content icon
     options.children = [
@@ -157,6 +158,8 @@ export default class KeyNode extends Node {
     ];
 
     super( options );
+
+    this.disposeEmitter.addListener( () => keyIcon.boundsProperty.unlink( listener ) );
   }
 }
 

@@ -41,19 +41,18 @@ const DIRECTION_ANGLES = {
 };
 
 export default class WASDCueNode extends Node {
-  protected wNode: Node;
-  protected aNode: Node;
-  protected sNode: Node;
-  protected dNode: Node;
+  protected readonly wNode: Node;
+  protected readonly aNode: Node;
+  protected readonly sNode: Node;
+  protected readonly dNode: Node;
 
   public constructor( boundsProperty: TReadOnlyProperty<Bounds2> ) {
-
     super();
 
-    this.wNode = this.createMovementKeyNode( 'up' );
-    this.aNode = this.createMovementKeyNode( 'left' );
-    this.sNode = this.createMovementKeyNode( 'down' );
-    this.dNode = this.createMovementKeyNode( 'right' );
+    this.wNode = WASDCueNode.createMovementKeyNode( 'up' );
+    this.aNode = WASDCueNode.createMovementKeyNode( 'left' );
+    this.sNode = WASDCueNode.createMovementKeyNode( 'down' );
+    this.dNode = WASDCueNode.createMovementKeyNode( 'right' );
 
     const directionKeysParent = new Node( {
       children: [
@@ -66,22 +65,31 @@ export default class WASDCueNode extends Node {
 
     this.addChild( directionKeysParent );
 
-    boundsProperty.link( bounds => {
+    const boundsListener = ( bounds: Bounds2 ) => {
 
       // place the direction cues relative to the object bounds
       this.wNode.centerBottom = bounds.getCenterTop().plusXY( 0, -KEY_SPACING );
       this.aNode.rightCenter = bounds.getLeftCenter().plusXY( -KEY_SPACING, 0 );
       this.sNode.centerTop = bounds.getCenterBottom().plusXY( 0, KEY_SPACING + SHADOW_OFFSET );
       this.dNode.leftCenter = bounds.getRightCenter().plusXY( KEY_SPACING + SHADOW_OFFSET, 0 );
+    };
+    boundsProperty.link( boundsListener );
+
+    this.disposeEmitter.addListener( () => {
+      boundsProperty.unlink( boundsListener );
+
+      this.wNode.dispose();
+      this.aNode.dispose();
+      this.sNode.dispose();
+      this.dNode.dispose();
     } );
   }
-
 
   /**
    * Create a node that looks like a keyboard letter key next to an arrow indicating the direction the balloon
    * would move if that key is pressed.
    */
-  private createMovementKeyNode( direction: 'up' | 'down' | 'left' | 'right' ): Node {
+  private static createMovementKeyNode( direction: 'up' | 'down' | 'left' | 'right' ): Node {
 
     // create the arrow icon
     const arrowShape = new Shape();
@@ -116,6 +124,7 @@ export default class WASDCueNode extends Node {
     }
 
     assert && assert( box!, `No box created for direction ${direction}` );
+    box!.disposeEmitter.addListener( () => keyIcon.dispose() );
     return box!;
   }
 }
