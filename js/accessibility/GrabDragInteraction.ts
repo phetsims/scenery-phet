@@ -124,7 +124,7 @@ type SelfOptions = {
   // listeners that are attached to this.node but aren't in these lists will not be interrupted. The grabbable
   // will blur() when activated from a grabbable to a draggable. The draggable will focus when activated
   // from grabbable.
-  listenersForDragState?: TInputListener[];
+  listenersForDragState?: TInputListener[]; // TODO: rename to be same as instance fields, https://github.com/phetsims/scenery-phet/issues/869
   listenersForGrabState?: TInputListener[];
 
   // If this instance will support specific gesture description behavior.
@@ -595,7 +595,7 @@ export default class GrabDragInteraction extends EnabledComponent {
 
     // Update the visibility of dragging cues whenever keyboard dragging keys release (keyup), bug fix for https://github.com/phetsims/scenery-phet/issues/868
     const dragDivDraggedListener = new KeyboardListener( {
-      keys: keyboardDraggingKeys,
+      keys: keyboardDraggingKeys, // TODO: This doesn't support shift+X controls, https://github.com/phetsims/scenery-phet/issues/868
       fireOnDown: false,
       fire: () => this.updateVisibilityForCues(),
 
