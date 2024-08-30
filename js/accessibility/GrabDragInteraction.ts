@@ -663,7 +663,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       this.dragFocusHighlight.dispose();
       this.dragInteractiveHighlight.dispose();
       this.grabCueNode.dispose();
-      this.dragCueNode.dispose();
+      this.dragCueNode.detach();
     };
   }
 
