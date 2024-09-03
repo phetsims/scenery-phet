@@ -40,9 +40,9 @@
  * result, currently you must correctly position node before the cue Node is created.
  *
  * NOTE: upon "activation" of this type, meaning that the user grabs the object and it turns into a draggable, the
- * wrappedNode is blurred and refocused. This means that the input event "blur()" set in listenersForGrabState will
+ * wrappedNode is blurred and refocused. This means that the input event "blur()" set in listenersWhileGrabbable will
  * not just fire when navigating through the sim, but also upon activation. This weirdness is to make sure that the
- * input event "focus()" is called and supported for within listenersForDragState
+ * input event "focus()" is called and supported for within listenersWhileDraggable
  *
  * NOTE: For PhET-iO instrumentation, GrabDragInteraction.enabledProperty is phetioReadOnly, it makes the most sense
  * to link to whatever Node control's the mouse/touch input and toggle grab drag enabled when that Node's inputEnabled
@@ -111,8 +111,8 @@ type SelfOptions = {
   // listeners that are attached to this.node but aren't in these lists will not be interrupted. The grabbable
   // will blur() when activated from a grabbable to a draggable. The draggable will focus when activated
   // from grabbable.
-  listenersForDragState?: TInputListener[]; // TODO: rename to be same as instance fields, https://github.com/phetsims/scenery-phet/issues/869
-  listenersForGrabState?: TInputListener[];
+  listenersWhileDraggable?: TInputListener[];
+  listenersWhileGrabbable?: TInputListener[];
 
   // If this instance will support specific gesture description behavior.
   supportsGestureDescription?: boolean;
@@ -235,8 +235,8 @@ export default class GrabDragInteraction extends EnabledComponent {
       grabCueOptions: {},
       draggableOptions: {},
       dragCueNode: new Node(),
-      listenersForDragState: [],
-      listenersForGrabState: [],
+      listenersWhileDraggable: [],
+      listenersWhileGrabbable: [],
       supportsGestureDescription: getGlobal( 'phet.joist.sim.supportsGestureDescription' ),
       keyboardHelpText: null,
       showGrabCueNode: () => {
@@ -292,7 +292,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     }
 
     assert && assert( secondPassOptions.grabCueOptions.visible === undefined, 'Should not set visibility of the cue node' );
-    assert && assert( !secondPassOptions.listenersForDragState.includes( keyboardDragListener ), 'GrabDragInteraction adds the KeyboardDragListener to listenersForDragState' );
+    assert && assert( !secondPassOptions.listenersWhileDraggable.includes( keyboardDragListener ), 'GrabDragInteraction adds the KeyboardDragListener to listenersWhileDraggable' );
 
     assert && assert( !secondPassOptions.dragCueNode.parent, 'GrabDragInteraction adds dragCueNode to focusHighlight' );
     assert && assert( secondPassOptions.dragCueNode.visible, 'dragCueNode should be visible to begin with' );
@@ -541,7 +541,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     };
 
     // Keep track of all listeners to swap out grab/drag functionalities.
-    this.listenersWhileGrabbable = secondPassOptions.listenersForGrabState.concat( grabButtonListener );
+    this.listenersWhileGrabbable = secondPassOptions.listenersWhileGrabbable.concat( grabButtonListener );
 
     // TODO: is it important/necessary to swap out divs and listeners here? If so, why? Why not just have one listener that knows how to do the right thing based on the current state? See https://github.com/phetsims/scenery-phet/issues/869
     // TODO: Or if it is importantant that one is fireOnDown and one is not, why not always have both listeners, but no-op the irrelevant one? See https://github.com/phetsims/scenery-phet/issues/869
@@ -586,7 +586,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       allowOverlap: true
     } );
 
-    this.listenersWhileDraggable = secondPassOptions.listenersForDragState.concat( [
+    this.listenersWhileDraggable = secondPassOptions.listenersWhileDraggable.concat( [
       dragDivDownListener,
       dragDivUpListener,
       dragDivDraggedListener,
