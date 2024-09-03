@@ -141,7 +141,8 @@ type SelfOptions = {
   // Like keyboardHelpText but when supporting gesture interactive description.
   gestureHelpText?: PDOMValueType;
 
-  // For sharing cueing logic between multiple instance of GrabDragInteraction
+  // For sharing cueing logic between multiple instance of GrabDragInteraction. Even if provided, GrabDragInteraction
+  // will reset this.
   grabDragCueModel?: GrabDragCueModel;
 };
 
