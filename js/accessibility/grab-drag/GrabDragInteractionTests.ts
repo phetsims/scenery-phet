@@ -6,7 +6,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import { Display, KeyboardDragListener, Node, Rectangle } from '../../../../scenery/js/imports.js';
+import { Circle, Display, KeyboardDragListener, Node, Rectangle } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GrabDragInteraction from './GrabDragInteraction.js';
 
@@ -87,6 +87,49 @@ QUnit.test( 'GrabDragInteraction defaults', assert => {
   a.pdomInstances[ 0 ].peer!.primarySibling!.blur();
 
   testDefaultGrabbable();
+  display.dispose();
+} );
+
+QUnit.test( 'GrabDragInteraction enabled', assert => {
+
+  const rootNode = new Node( { tagName: 'div' } );
+  const display = new Display( rootNode );
+  display.initializeEvents();
+  document.body.appendChild( display.domElement );
+
+  phet = phet || {}; // eslint-disable-line no-global-assign
+  phet.joist = phet.joist || {}; // eslint-disable-line bad-phet-library-text
+  phet.joist.sim = phet.joist.sim || {}; // eslint-disable-line bad-phet-library-text
+
+  const a = new Rectangle( 0, 0, 5, 5 );
+
+  rootNode.addChild( a );
+
+  const keyboardDragListener = new KeyboardDragListener( {
+    tandem: Tandem.ROOT_TEST.createTandem( 'my2KeyboardDragListener' )
+  } );
+
+  const dragCueNode = new Circle( 50 );
+
+  const interaction = new GrabDragInteraction( a, keyboardDragListener, {
+    tandem: Tandem.ROOT_TEST.createTandem( 'my2GrabDragInteraction' ),
+    dragCueNode: dragCueNode,
+    objectToGrabString: thingString
+  } );
+  assert.ok( interaction[ 'grabCueNode' ].visible, 'starts visible' );
+  assert.ok( interaction[ 'dragCueNode' ].visible, 'starts visible' );
+  interaction.enabled = false;
+
+  assert.ok( !interaction[ 'grabCueNode' ].visible, 'enabled hides grab cue node visible' );
+  assert.ok( !interaction[ 'dragCueNode' ].visible, 'enabled hides drag cue node visible' );
+
+  interaction.enabled = true;
+  assert.ok( interaction[ 'grabCueNode' ].visible, 'starts again visible' );
+  assert.ok( interaction[ 'dragCueNode' ].visible, 'starts again visible' );
+
+  a.enabled = false;
+  assert.ok( !interaction[ 'grabCueNode' ].visible, 'node enabled visible' );
+  assert.ok( !interaction[ 'dragCueNode' ].visible, 'node enabled visible' );
 
   display.dispose();
 } );

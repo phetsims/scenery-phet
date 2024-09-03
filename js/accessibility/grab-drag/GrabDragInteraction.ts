@@ -223,6 +223,8 @@ export default class GrabDragInteraction extends EnabledComponent {
    */
   public constructor( node: Node, keyboardDragListener: KeyboardDragListener, providedOptions?: GrabDragInteractionOptions ) {
 
+    const ownsEnabledProperty = !providedOptions || !providedOptions.enabledProperty;
+
     // Options filled in the second optionize pass are ommitted from the self options of first pass.
     const firstPassOptions = optionize<GrabDragInteractionOptions, StrictOmit<SelfOptions, 'gestureHelpText' | 'shouldAddAriaDescription'>, ParentOptions>()( {
       objectToGrabString: defaultObjectToGrabStringProperty,
@@ -281,6 +283,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     options.draggableOptions = combineOptions<ParallelDOMOptions>( {
       tagName: 'div',
       ariaRole: 'application',
+      focusable: true,
 
       // to cancel out grabbable
       containerTagName: null
@@ -292,6 +295,7 @@ export default class GrabDragInteraction extends EnabledComponent {
 
     options.grabbableOptions = combineOptions<ParallelDOMOptions>( {
       containerTagName: 'div',
+      focusable: true,
       ariaRole: null,
       tagName: 'button',
 
@@ -342,10 +346,6 @@ export default class GrabDragInteraction extends EnabledComponent {
         cancelOther: false
       }
     } );
-
-    // for both grabbing and dragging, the node with this interaction must be focusable, except when disabled.
-    // TODO: Assert that the node is initially enabled? See https://github.com/phetsims/scenery-phet/issues/869
-    this.node.focusable = true;
 
     // "released" alerts are assertive so that a pile up of alerts doesn't happen with rapid movement, see
     // https://github.com/phetsims/balloons-and-static-electricity/issues/491
@@ -472,7 +472,7 @@ export default class GrabDragInteraction extends EnabledComponent {
 
         // don't turn to draggable on mobile a11y, it is the wrong gesture - user should press down and hold
         // to initiate a drag
-        if ( this.supportsGestureDescription ) {
+        if ( this.supportsGestureDescription || !this.enabled ) {
           return;
         }
 
@@ -515,16 +515,14 @@ export default class GrabDragInteraction extends EnabledComponent {
       focus: () => {
         this.updateVisibilityForCues();
 
-        if ( voicingNode.isVoicing && this.showGrabCueNode() ) {
+        if ( this.enabled && voicingNode.isVoicing && this.showGrabCueNode() ) {
           const alert = this.voicingFocusUtterance.alert! as ResponsePacket;
           alert.hintResponse = SceneryPhetStrings.a11y.grabDrag.spaceToGrabOrReleaseStringProperty;
           Voicing.alertUtterance( this.voicingFocusUtterance );
         }
       },
 
-      blur: () => {
-        this.grabCueNode.visible = options.showGrabCueNode(); // TODO: why still show grabCueNode after blur? Should this be this.updateVisibilityForCues()? See https://github.com/phetsims/scenery-phet/issues/869
-      }
+      blur: () => this.updateVisibilityForCues()
     };
 
     // Keep track of all listeners to swap out grab/drag functionalities.
@@ -607,32 +605,32 @@ export default class GrabDragInteraction extends EnabledComponent {
     // Initialize the Node as a grabbable (button) to begin with
     this.setGrabbable();
 
+    // TODO: Hey SR! Is it ok that we don't set enabledProperty on listeners that are only set on draggable? https://github.com/phetsims/scenery-phet/issues/869
+    // TODO: Hey SR! Note how we don't pass an inputEnabled to keyboardDragListner OR GrabDragListener, because the good default is to just respect node.inputEnabledProperty. https://github.com/phetsims/scenery-phet/issues/868
     this.enabledProperty.lazyLink( enabled => {
-      !enabled && this.interrupt();
+      if ( !enabled ) {
+        this.interrupt(); // This will trigger state change to grabbable via DragListener.release()
+        assert && assert( this.grabDragModel.interactionState === 'grabbable', 'disabled grabDragInteractions must be in "grabbable" state.' );
+      }
 
-      // Disabled GrabDragInteractions will be unable to be interacted with.
-      this.node.focusable = enabled;
+      this.updateVisibilityForCues();
     } );
 
-    const boundUpdateVisibilityForCues = this.updateVisibilityForCues.bind( this );
+    const inputEnabledListener = ( nodeInputEnabled: boolean ) => { this.enabled = nodeInputEnabled; };
 
-    this.node.inputEnabledProperty.lazyLink( boundUpdateVisibilityForCues );
+    // Use the "owns" pattern here to keep the enabledProperty PhET-iO instrumented based on the super options.
+    ownsEnabledProperty && this.node.inputEnabledProperty.lazyLink( inputEnabledListener );
 
     this.disposeGrabDragInteraction = () => {
 
       this.node.removeInputListener( this.dragListener );
-      this.node.inputEnabledProperty.unlink( boundUpdateVisibilityForCues );
+      ownsEnabledProperty && this.node.inputEnabledProperty.unlink( inputEnabledListener );
 
       this.node.removePDOMAttribute( 'aria-roledescription' );
 
-      // Remove listeners according to what state we are in
-      // TODO: removeInputListeners is graceful, so why not just do both? See https://github.com/phetsims/scenery-phet/issues/869
-      if ( this.grabDragModel.interactionState === 'grabbable' ) {
-        this.removeInputListeners( this.listenersWhileGrabbable );
-      }
-      else {
-        this.removeInputListeners( this.listenersWhileDraggable );
-      }
+      // Remove listeners (gracefully)
+      this.removeInputListeners( this.listenersWhileGrabbable );
+      this.removeInputListeners( this.listenersWhileDraggable );
 
       dragDivDownListener.dispose();
       dragDivUpListener.dispose();
@@ -765,11 +763,8 @@ export default class GrabDragInteraction extends EnabledComponent {
    * Update the visibility of the cues for both grabbable and draggable states.
    */
   private updateVisibilityForCues(): void {
-    if ( this.dragCueNode ) {
-      this.dragCueNode.visible = this.showDragCueNode();
-    }
-
-    this.grabCueNode.visible = this.showGrabCueNode();
+    this.dragCueNode.visible = this.enabled && this.showDragCueNode();
+    this.grabCueNode.visible = this.enabled && this.showGrabCueNode();
   }
 
   /**
@@ -830,10 +825,7 @@ export default class GrabDragInteraction extends EnabledComponent {
 
     // setGrabbable will update this, so reset it again
     this.grabDragModel.reset();
-    this.grabCueNode.visible = true;
-    if ( this.dragCueNode ) {
-      this.dragCueNode.visible = true;
-    }
+    this.updateVisibilityForCues();
   }
 }
 
@@ -860,6 +852,7 @@ export class GrabDragCueModel {
 }
 
 // TODO: Move to a separate file, see https://github.com/phetsims/scenery-phet/issues/869
+// TODO: This should be the EnabledComponent instead of the view, https://github.com/phetsims/scenery-phet/issues/869
 // Private class for organizing the "model" side of the logic for the grab/drag interaction.
 class GrabDragModel {
 
