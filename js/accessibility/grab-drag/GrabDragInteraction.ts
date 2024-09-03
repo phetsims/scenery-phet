@@ -51,6 +51,8 @@
  * TODO: Can the voicing implementation be a separate component that is composed? https://github.com/phetsims/scenery-phet/issues/869
  * TODO: Having the model be modeProperty = 'grabbable' or 'draggable' and listening for changes in that could help address some of the recommendations below.
  *        Like interactionStateProperty https://github.com/phetsims/scenery-phet/issues/869
+ * TODO: Have two classes, one for all the grabbable stuff, and one for the draggable. https://github.com/phetsims/scenery-phet/issues/869
+ *        - have demos for grab/drag, and just grab, and just drag
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -196,14 +198,12 @@ export default class GrabDragInteraction extends EnabledComponent {
   private readonly onRelease: SceneryNullableListenerFunction;
   private readonly onGrab: SceneryListenerFunction;
 
-  // TODO: duplicated logic (sometimes incorrectly different, and sometimes correctly different) are sooo confusing, https://github.com/phetsims/scenery-phet/issues/869
   private readonly ownsGrabFocusHighlight: boolean;
   private readonly grabFocusHighlight: HighlightPath;
 
   private readonly ownsGrabInteractiveHighlight: boolean;
   private readonly grabInteractiveHighlight: HighlightPath;
 
-  // TODO: Instead of separate Highlight instances for the draggable state, just mutate the same HighlightPath, https://github.com/phetsims/scenery-phet/issues/869
   private readonly dragFocusHighlight: HighlightPath;
   private readonly dragInteractiveHighlight: HighlightPath;
 
@@ -221,7 +221,7 @@ export default class GrabDragInteraction extends EnabledComponent {
    * @param keyboardDragListener - added to the Node when it is draggable
    * @param providedOptions
    */
-  public constructor( node: Node, keyboardDragListener: KeyboardDragListener, providedOptions: GrabDragInteractionOptions ) {
+  public constructor( node: Node, keyboardDragListener: KeyboardDragListener, providedOptions?: GrabDragInteractionOptions ) {
 
     // Options filled in the second optionize pass are ommitted from the self options of first pass.
     const firstPassOptions = optionize<GrabDragInteractionOptions, StrictOmit<SelfOptions, 'gestureHelpText' | 'shouldAddAriaDescription'>, ParentOptions>()( {
@@ -258,60 +258,39 @@ export default class GrabDragInteraction extends EnabledComponent {
 
       grabDragCueModel: new GrabDragCueModel(),
 
-      // For instrumenting
-      // TODO: https://github.com/phetsims/scenery-phet/issues/869 is this mainly required for the data stream? Or maybe overinstrumentation?
+      // For instrumenting (DragListener is also Tandem.REQUIRED)
       tandem: Tandem.REQUIRED
     }, providedOptions );
 
     // a second block for options that use other options, therefore needing the defaults to be filled in
-    // TODO: Rename to options, see https://github.com/phetsims/scenery-phet/issues/869
-    const secondPassOptions = optionize<GrabDragInteractionOptions, EmptySelfOptions, GrabDragInteractionOptions>()( {
+    const options = optionize<GrabDragInteractionOptions, EmptySelfOptions, GrabDragInteractionOptions>()( {
       gestureHelpText: StringUtils.fillIn( gestureHelpTextPatternStringProperty, {
         objectToGrab: firstPassOptions.objectToGrabString
       } ),
       shouldAddAriaDescription: numberOfGrabs => firstPassOptions.supportsGestureDescription && numberOfGrabs < 2
     }, firstPassOptions );
 
-    if ( node.focusHighlightLayerable ) {
-      const nodeFocusHighlight = node.focusHighlight! as HighlightPath;
+    assert && assert( options.grabCueOptions.visible === undefined, 'Should not set visibility of the cue node' );
+    assert && assert( !options.listenersWhileDraggable.includes( keyboardDragListener ), 'GrabDragInteraction adds the KeyboardDragListener to listenersWhileDraggable' );
 
-      assert && assert( nodeFocusHighlight, 'if focusHighlightLayerable, the highlight must be set to the node before ' +
-                                            'constructing the grab/drag interaction.' );
-      assert && assert( nodeFocusHighlight.parent, 'if focusHighlightLayerable, the highlight must be added to the ' +
-                                                   'scene graph before grab/drag construction.' );
-    }
-    if ( node instanceof InteractiveHighlightingNode && node.interactiveHighlightLayerable ) {
+    assert && assert( !options.dragCueNode.parent, 'GrabDragInteraction adds dragCueNode to focusHighlight' );
+    assert && assert( options.dragCueNode.visible, 'dragCueNode should be visible to begin with' );
 
-      // A Node (HighlightPath) must be used if the highlight is layerable.
-      const nodeInteractiveHighlight = node.interactiveHighlight! as HighlightPath; // TODO: Here and elsewhere, add the cast after the assertion, see https://github.com/phetsims/scenery-phet/issues/869
+    super( options );
 
-      assert && assert( nodeInteractiveHighlight, 'An interactive highlight must be set to the Node before construction ' +
-                                                  'when using interactiveHighlightLayerable' );
-      assert && assert( nodeInteractiveHighlight.parent, 'if interactiveHighlightLayerable, the highlight must be added ' +
-                                                         'to the scene graph before construction' );
-    }
-
-    assert && assert( secondPassOptions.grabCueOptions.visible === undefined, 'Should not set visibility of the cue node' );
-    assert && assert( !secondPassOptions.listenersWhileDraggable.includes( keyboardDragListener ), 'GrabDragInteraction adds the KeyboardDragListener to listenersWhileDraggable' );
-
-    assert && assert( !secondPassOptions.dragCueNode.parent, 'GrabDragInteraction adds dragCueNode to focusHighlight' );
-    assert && assert( secondPassOptions.dragCueNode.visible, 'dragCueNode should be visible to begin with' );
-
-    super( secondPassOptions );
-
-    secondPassOptions.draggableOptions = combineOptions<ParallelDOMOptions>( {
+    options.draggableOptions = combineOptions<ParallelDOMOptions>( {
       tagName: 'div',
       ariaRole: 'application',
 
       // to cancel out grabbable
       containerTagName: null
-    }, secondPassOptions.draggableOptions );
+    }, options.draggableOptions );
 
-    this.draggableAccessibleName = secondPassOptions.objectToGrabString;
-    secondPassOptions.draggableOptions.innerContent = this.draggableAccessibleName;
-    secondPassOptions.draggableOptions.ariaLabel = this.draggableAccessibleName;
+    this.draggableAccessibleName = options.objectToGrabString;
+    options.draggableOptions.innerContent = this.draggableAccessibleName;
+    options.draggableOptions.ariaLabel = this.draggableAccessibleName;
 
-    secondPassOptions.grabbableOptions = combineOptions<ParallelDOMOptions>( {
+    options.grabbableOptions = combineOptions<ParallelDOMOptions>( {
       containerTagName: 'div',
       ariaRole: null,
       tagName: 'button',
@@ -321,32 +300,32 @@ export default class GrabDragInteraction extends EnabledComponent {
 
       // {string}
       accessibleName: null
-    }, secondPassOptions.grabbableOptions );
+    }, options.grabbableOptions );
 
-    this.grabbableAccessibleName = secondPassOptions.grabbableAccessibleName || // if a provided option
-                                   ( secondPassOptions.supportsGestureDescription ? secondPassOptions.objectToGrabString : // otherwise if supporting gesture
+    this.grabbableAccessibleName = options.grabbableAccessibleName || // if a provided option
+                                   ( options.supportsGestureDescription ? options.objectToGrabString : // otherwise if supporting gesture
                                      StringUtils.fillIn( grabPatternStringStringProperty, { // default case
-                                       objectToGrab: secondPassOptions.objectToGrabString
+                                       objectToGrab: options.objectToGrabString
                                      } ) );
-    secondPassOptions.grabbableOptions.innerContent = this.grabbableAccessibleName;
+    options.grabbableOptions.innerContent = this.grabbableAccessibleName;
 
     // Setting the aria-label on the interactionState element fixes a bug with VoiceOver in Safari where the aria role
     // from the draggable state is never cleared, see https://github.com/phetsims/scenery-phet/issues/688
-    secondPassOptions.grabbableOptions.ariaLabel = this.grabbableAccessibleName;
+    options.grabbableOptions.ariaLabel = this.grabbableAccessibleName;
 
-    this.grabDragModel = new GrabDragModel( secondPassOptions.grabDragCueModel );
+    this.grabDragModel = new GrabDragModel( options.grabDragCueModel );
     this.node = node;
-    this.grabbableOptions = secondPassOptions.grabbableOptions;
-    this.draggableOptions = secondPassOptions.draggableOptions;
-    this.dragCueNode = secondPassOptions.dragCueNode;
-    this.grabCueNode = new GrabReleaseCueNode( secondPassOptions.grabCueOptions );
-    this.showGrabCueNode = secondPassOptions.showGrabCueNode;
-    this.showDragCueNode = secondPassOptions.showDragCueNode;
-    this.shouldAddAriaDescription = secondPassOptions.shouldAddAriaDescription;
-    this.supportsGestureDescription = secondPassOptions.supportsGestureDescription;
+    this.grabbableOptions = options.grabbableOptions;
+    this.draggableOptions = options.draggableOptions;
+    this.dragCueNode = options.dragCueNode;
+    this.grabCueNode = new GrabReleaseCueNode( options.grabCueOptions );
+    this.showGrabCueNode = options.showGrabCueNode;
+    this.showDragCueNode = options.showDragCueNode;
+    this.shouldAddAriaDescription = options.shouldAddAriaDescription;
+    this.supportsGestureDescription = options.supportsGestureDescription;
 
     // set the help text, if provided - it will be associated with aria-describedby when in the "grabbable" interactionState
-    this.node.descriptionContent = this.supportsGestureDescription ? secondPassOptions.gestureHelpText : secondPassOptions.keyboardHelpText;
+    this.node.descriptionContent = this.supportsGestureDescription ? options.gestureHelpText : options.keyboardHelpText;
 
     // The aria-describedby association object that will associate "grabbable" interactionState with its help text so that it is
     // read automatically when the user finds it. This reference is saved so that the association can be removed
@@ -403,20 +382,28 @@ export default class GrabDragInteraction extends EnabledComponent {
 
     // Wrap the optional onRelease in logic that is needed for the core type.
     this.onRelease = () => {
-      secondPassOptions.onRelease && secondPassOptions.onRelease();
+      options.onRelease && options.onRelease();
 
       this.node.alertDescriptionUtterance( releasedUtterance );
       voicingNode.isVoicing && Voicing.alertUtterance( releasedUtterance );
     };
-    this.onGrab = secondPassOptions.onGrab;
+    this.onGrab = options.onGrab;
 
-    if ( node.focusHighlight ) {
-      assert && assert( node.focusHighlight instanceof HighlightPath,
-        'if provided, focusHighlight must be a Path to support highlightChangedEmitter' );
+    assert && node.focusHighlight && assert( node.focusHighlight instanceof HighlightPath,
+      'if provided, focusHighlight must be a Path to support highlightChangedEmitter' );
+    assert && interactiveHighlightingNode.interactiveHighlight && assert( interactiveHighlightingNode.interactiveHighlight instanceof HighlightPath,
+      'if provided, interactiveHighlight must be a Path to support highlightChangedEmitter' );
+    if ( node.focusHighlightLayerable ) {
+      assert && assert( node.focusHighlight,
+        'if focusHighlightLayerable, the highlight must be set to the node before constructing the grab/drag interaction.' );
+      assert && assert( ( node.focusHighlight! as HighlightPath ).parent,
+        'if focusHighlightLayerable, the highlight must be added to the scene graph before grab/drag construction.' );
     }
-    if ( interactiveHighlightingNode.interactiveHighlight ) {
-      assert && assert( interactiveHighlightingNode.interactiveHighlight instanceof HighlightPath,
-        'if provided, interactiveHighlight must be a Path to support highlightChangedEmitter' );
+    if ( interactiveHighlightingNode.isInteractiveHighlighting && interactiveHighlightingNode.interactiveHighlightLayerable ) {
+      assert && assert( interactiveHighlightingNode.interactiveHighlight,
+        'An interactive highlight must be set to the Node before construction when using interactiveHighlightLayerable' );
+      assert && assert( ( interactiveHighlightingNode.interactiveHighlight! as HighlightPath ).parent,
+        'if interactiveHighlightLayerable, the highlight must be added to the scene graph before construction' );
     }
 
     // Take highlights from the node for the grab button interaction. The Interactive Highlights cannot fall back to
@@ -536,12 +523,12 @@ export default class GrabDragInteraction extends EnabledComponent {
       },
 
       blur: () => {
-        this.grabCueNode.visible = secondPassOptions.showGrabCueNode(); // TODO: why still show grabCueNode after blur? Should this be this.updateVisibilityForCues()? See https://github.com/phetsims/scenery-phet/issues/869
+        this.grabCueNode.visible = options.showGrabCueNode(); // TODO: why still show grabCueNode after blur? Should this be this.updateVisibilityForCues()? See https://github.com/phetsims/scenery-phet/issues/869
       }
     };
 
     // Keep track of all listeners to swap out grab/drag functionalities.
-    this.listenersWhileGrabbable = secondPassOptions.listenersWhileGrabbable.concat( grabButtonListener );
+    this.listenersWhileGrabbable = options.listenersWhileGrabbable.concat( grabButtonListener );
 
     // TODO: is it important/necessary to swap out divs and listeners here? If so, why? Why not just have one listener that knows how to do the right thing based on the current state? See https://github.com/phetsims/scenery-phet/issues/869
     // TODO: Or if it is importantant that one is fireOnDown and one is not, why not always have both listeners, but no-op the irrelevant one? See https://github.com/phetsims/scenery-phet/issues/869
@@ -586,7 +573,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       allowOverlap: true
     } );
 
-    this.listenersWhileDraggable = secondPassOptions.listenersWhileDraggable.concat( [
+    this.listenersWhileDraggable = options.listenersWhileDraggable.concat( [
       dragDivDownListener,
       dragDivUpListener,
       dragDivDraggedListener,
@@ -613,7 +600,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       // whether the pointer is already attached
       attach: false,
       enabledProperty: this.enabledProperty,
-      tandem: secondPassOptions.tandem.createTandem( 'dragListener' )
+      tandem: options.tandem.createTandem( 'dragListener' )
     } );
     this.node.addInputListener( this.dragListener );
 
