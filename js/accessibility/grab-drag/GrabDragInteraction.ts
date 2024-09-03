@@ -479,15 +479,14 @@ export default class GrabDragInteraction extends EnabledComponent {
         // and pick it up immediately again.
         if ( !guardKeyPressFromDraggable ) {
 
-          // blur as a grabbable so that we get a new focus event after we turn into a draggable // TODO: Why do we need a new focus event? See https://github.com/phetsims/scenery-phet/issues/869
+          // blur as a grabbable so that we get a new focus event after we turn into a draggable, and so that grab listeners get a blur() event before mutating.
           this.node.blur();
 
-          // TODO: Using the same DOM element for grabbing and dragging could be less confusing for screen reader users, and would not require swapping and transferring focus. See https://github.com/phetsims/scenery-phet/issues/869
           this.setDraggable();
 
           this.grabDragModel.grabDragCueModel.numberOfKeyboardGrabs++;
 
-          // focus after the transition
+          // focus after the transition so that listeners added to the draggable state get a focus event().
           this.node.focus();
 
           this.onGrab( event );
