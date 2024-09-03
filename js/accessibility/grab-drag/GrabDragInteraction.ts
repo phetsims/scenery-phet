@@ -49,8 +49,6 @@
  * changes. For example see Friction.
 
  * TODO: Can the voicing implementation be a separate component that is composed? https://github.com/phetsims/scenery-phet/issues/869
- * TODO: Having the model be modeProperty = 'grabbable' or 'draggable' and listening for changes in that could help address some of the recommendations below.
- *        Like interactionStateProperty https://github.com/phetsims/scenery-phet/issues/869
  * TODO: Have two classes, one for all the grabbable stuff, and one for the draggable. https://github.com/phetsims/scenery-phet/issues/869
  *        - have demos for grab/drag, and just grab, and just drag
  *
@@ -608,7 +606,6 @@ export default class GrabDragInteraction extends EnabledComponent {
     this.enabledProperty.lazyLink( enabled => {
       if ( !enabled ) {
         this.interrupt(); // This will trigger state change to grabbable via DragListener.release()
-        assert && assert( this.grabDragModel.interactionState === 'grabbable', 'disabled grabDragInteractions must be in "grabbable" state.' );
       }
 
       this.updateVisibilityForCues();
@@ -802,10 +799,11 @@ export default class GrabDragInteraction extends EnabledComponent {
    * Node is back in its "grabbable" state.
    */
   public interrupt(): void {
+
+    // Interrupting this listener will set us back to grabbable
     this.pressReleaseListener.interrupt();
 
-    // TODO: Where is the code that moves this back to 'grabbable'? It is somewhat hidden in the interrupt() method, see https://github.com/phetsims/scenery-phet/issues/869
-    // TODO: Maybe at a minimum add an assertion that we landed in the right state? See https://github.com/phetsims/scenery-phet/issues/869
+    assert && assert( this.grabDragModel.interactionState === 'grabbable', 'disabled grabDragInteractions must be in "grabbable" state.' );
   }
 
   /**
