@@ -1,8 +1,5 @@
 // Copyright 2018-2024, University of Colorado Boulder
 
-import sceneryPhet from '../../sceneryPhet.js';
-import GrabDragCueModel from './GrabDragCueModel.js';
-
 /**
  * The model of the grab drag interaction. This has the current interaction state, and the cueing state.
  *
@@ -12,6 +9,9 @@ import GrabDragCueModel from './GrabDragCueModel.js';
  * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
  */
+
+import sceneryPhet from '../../sceneryPhet.js';
+import GrabDragCueModel from './GrabDragCueModel.js';
 
 // TODO: This should be the EnabledComponent instead of the view, https://github.com/phetsims/scenery-phet/issues/869
 export default class GrabDragModel {
