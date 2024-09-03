@@ -60,7 +60,7 @@ import EnabledComponent, { EnabledComponentOptions } from '../../../../axon/js/E
 import assertHasProperties from '../../../../phet-core/js/assertHasProperties.js';
 import getGlobal from '../../../../phet-core/js/getGlobal.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import { Association, DragListener, HighlightFromNode, HighlightPath, InteractiveHighlightingNode, isInteractiveHighlighting, keyboardDraggingKeys, KeyboardDragListener, KeyboardListener, Node, NodeOptions, ParallelDOMOptions, PDOMPeer, PDOMValueType, SceneryEvent, SceneryListenerFunction, SceneryNullableListenerFunction, TInputListener, Voicing, VoicingNode } from '../../../../scenery/js/imports.js';
+import { Association, DragListener, HighlightFromNode, HighlightPath, isInteractiveHighlighting, isVoicing, keyboardDraggingKeys, KeyboardDragListener, KeyboardListener, Node, NodeOptions, ParallelDOMOptions, PDOMPeer, PDOMValueType, SceneryEvent, SceneryListenerFunction, SceneryNullableListenerFunction, TInputListener, Voicing } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import AriaLiveAnnouncer from '../../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
@@ -360,24 +360,22 @@ export default class GrabDragInteraction extends EnabledComponent {
       }
     } );
 
-    const voicingNode = node as VoicingNode; /// TODO: Better way to do this? See https://github.com/phetsims/scenery-phet/issues/869 Maybe in a subclass? Or this.grabDragVoicing = isVoicing ? new GrabDragVoicing( model, options );?
-    const interactiveHighlightingNode = node as InteractiveHighlightingNode; /// TODO: Better way to do this? See https://github.com/phetsims/scenery-phet/issues/869 Maybe in a subclass? Or this.grabDragVoicing = isVoicing ? new GrabDragVoicing( model, options );?
-    if ( voicingNode.isVoicing ) {
-      assert && assert( voicingNode.voicingFocusListener === voicingNode.defaultFocusListener, 'GrabDragInteraction sets ' +
-                                                                                               'its own voicingFocusListener.' );
+    if ( isVoicing( node ) ) {
+      assert && assert( node.voicingFocusListener === node.defaultFocusListener, 'GrabDragInteraction sets ' +
+                                                                                 'its own voicingFocusListener.' );
 
       // sanity check on the voicing interface API.
-      assertHasProperties( voicingNode, [ 'voicingFocusListener' ] );
+      assertHasProperties( node, [ 'voicingFocusListener' ] );
 
-      voicingNode.voicingFocusListener = event => {
+      node.voicingFocusListener = event => {
 
         // When swapping from interactionState to draggable, the draggable element will be focused, ignore that case here, see https://github.com/phetsims/friction/issues/213
-        this.grabDragModel.interactionState === 'grabbable' && voicingNode.defaultFocusListener();
+        this.grabDragModel.interactionState === 'grabbable' && node.defaultFocusListener();
       };
 
       // These Utterances should only be announced if the Node is globally visible and voicingVisible.
-      Voicing.registerUtteranceToVoicingNode( releasedUtterance, voicingNode );
-      Voicing.registerUtteranceToVoicingNode( this.voicingFocusUtterance, voicingNode );
+      Voicing.registerUtteranceToVoicingNode( releasedUtterance, node );
+      Voicing.registerUtteranceToVoicingNode( this.voicingFocusUtterance, node );
     }
 
     // Wrap the optional onRelease in logic that is needed for the core type.
@@ -385,13 +383,13 @@ export default class GrabDragInteraction extends EnabledComponent {
       options.onRelease && options.onRelease();
 
       this.node.alertDescriptionUtterance( releasedUtterance );
-      voicingNode.isVoicing && Voicing.alertUtterance( releasedUtterance );
+      isVoicing( node ) && Voicing.alertUtterance( releasedUtterance );
     };
     this.onGrab = options.onGrab;
 
     assert && node.focusHighlight && assert( node.focusHighlight instanceof HighlightPath,
       'if provided, focusHighlight must be a Path to support highlightChangedEmitter' );
-    assert && interactiveHighlightingNode.interactiveHighlight && assert( interactiveHighlightingNode.interactiveHighlight instanceof HighlightPath,
+    assert && isInteractiveHighlighting( node ) && node.interactiveHighlight && assert( node.interactiveHighlight instanceof HighlightPath,
       'if provided, interactiveHighlight must be a Path to support highlightChangedEmitter' );
     if ( node.focusHighlightLayerable ) {
       assert && assert( node.focusHighlight,
@@ -399,10 +397,10 @@ export default class GrabDragInteraction extends EnabledComponent {
       assert && assert( ( node.focusHighlight! as HighlightPath ).parent,
         'if focusHighlightLayerable, the highlight must be added to the scene graph before grab/drag construction.' );
     }
-    if ( interactiveHighlightingNode.isInteractiveHighlighting && interactiveHighlightingNode.interactiveHighlightLayerable ) {
-      assert && assert( interactiveHighlightingNode.interactiveHighlight,
+    if ( isInteractiveHighlighting( node ) && node.interactiveHighlightLayerable ) {
+      assert && assert( node.interactiveHighlight,
         'An interactive highlight must be set to the Node before construction when using interactiveHighlightLayerable' );
-      assert && assert( ( interactiveHighlightingNode.interactiveHighlight! as HighlightPath ).parent,
+      assert && assert( ( node.interactiveHighlight! as HighlightPath ).parent,
         'if interactiveHighlightLayerable, the highlight must be added to the scene graph before construction' );
     }
 
@@ -413,12 +411,12 @@ export default class GrabDragInteraction extends EnabledComponent {
     // TODO: provide shapeProperty to our instance of HighlightPath instead of sometimes owning it, https://github.com/phetsims/scenery-phet/issues/869
     this.grabFocusHighlight = ( node.focusHighlight as HighlightPath ) || new HighlightFromNode( node );
 
-    this.ownsGrabInteractiveHighlight = !interactiveHighlightingNode.interactiveHighlight;
+    this.ownsGrabInteractiveHighlight = !( isInteractiveHighlighting( node ) && node.interactiveHighlight );
     // TODO: provide shapeProperty to our instance of HighlightPath instead of sometimes owning it, https://github.com/phetsims/scenery-phet/issues/869
-    this.grabInteractiveHighlight = ( interactiveHighlightingNode.interactiveHighlight as HighlightPath ) || new HighlightFromNode( node );
+    this.grabInteractiveHighlight = ( isInteractiveHighlighting( node ) && node.interactiveHighlight ) ? ( node.interactiveHighlight as HighlightPath ) : new HighlightFromNode( node );
 
     node.focusHighlight = this.grabFocusHighlight;
-    interactiveHighlightingNode.isInteractiveHighlighting && interactiveHighlightingNode.setInteractiveHighlight( this.grabInteractiveHighlight );
+    isInteractiveHighlighting( node ) && node.setInteractiveHighlight( this.grabInteractiveHighlight );
 
     // Make the draggable highlights in the spitting image of the node's grabbable highlights.
     // TODO: What if the grabFocusHighlight shape changes? https://github.com/phetsims/scenery-phet/issues/869
@@ -438,7 +436,7 @@ export default class GrabDragInteraction extends EnabledComponent {
 
     // if the Node layers its interactive highlights in the scene graph, add the dragInteractiveHighlight in the same
     // way the grabInteractiveHighlight was added
-    if ( interactiveHighlightingNode.interactiveHighlightLayerable ) {
+    if ( isInteractiveHighlighting( node ) && node.interactiveHighlightLayerable ) {
       assert && assert( this.grabInteractiveHighlight.parent, 'A parent is required if the highlight is layerable.' );
       this.grabInteractiveHighlight.parent!.addChild( this.dragInteractiveHighlight );
     }
@@ -515,7 +513,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       focus: () => {
         this.updateVisibilityForCues();
 
-        if ( this.enabled && voicingNode.isVoicing && this.showGrabCueNode() ) {
+        if ( this.enabled && isVoicing( this.node ) && this.showGrabCueNode() ) {
           const alert = this.voicingFocusUtterance.alert! as ResponsePacket;
           alert.hintResponse = SceneryPhetStrings.a11y.grabDrag.spaceToGrabOrReleaseStringProperty;
           Voicing.alertUtterance( this.voicingFocusUtterance );
