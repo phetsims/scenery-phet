@@ -60,7 +60,7 @@ import EnabledComponent, { EnabledComponentOptions } from '../../../../axon/js/E
 import assertHasProperties from '../../../../phet-core/js/assertHasProperties.js';
 import getGlobal from '../../../../phet-core/js/getGlobal.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import { Association, DragListener, HighlightFromNode, HighlightPath, InteractiveHighlightingNode, keyboardDraggingKeys, KeyboardDragListener, KeyboardListener, Node, NodeOptions, ParallelDOMOptions, PDOMPeer, PDOMValueType, SceneryEvent, SceneryListenerFunction, SceneryNullableListenerFunction, TInputListener, Voicing, VoicingNode } from '../../../../scenery/js/imports.js';
+import { Association, DragListener, HighlightFromNode, HighlightPath, InteractiveHighlightingNode, isInteractiveHighlighting, keyboardDraggingKeys, KeyboardDragListener, KeyboardListener, Node, NodeOptions, ParallelDOMOptions, PDOMPeer, PDOMValueType, SceneryEvent, SceneryListenerFunction, SceneryNullableListenerFunction, TInputListener, Voicing, VoicingNode } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import AriaLiveAnnouncer from '../../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
@@ -745,16 +745,13 @@ export default class GrabDragInteraction extends EnabledComponent {
    */
   private updateFocusHighlights(): void {
 
-    // TODO: If we always cast to InteractiveHighlightingNode, how about a new type like MaybeInteractiveHighlightingNode and pass that in to the constructor, see https://github.com/phetsims/scenery-phet/issues/869
-    const interactiveHighlightingNode = this.node as InteractiveHighlightingNode;
-
     if ( this.grabDragModel.interactionState === 'grabbable' ) {
       this.node.focusHighlight = this.grabFocusHighlight;
-      interactiveHighlightingNode.isInteractiveHighlighting && interactiveHighlightingNode.setInteractiveHighlight( this.grabInteractiveHighlight );
+      isInteractiveHighlighting( this.node ) && this.node.setInteractiveHighlight( this.grabInteractiveHighlight );
     }
     else {
       this.node.focusHighlight = this.dragFocusHighlight;
-      interactiveHighlightingNode.isInteractiveHighlighting && interactiveHighlightingNode.setInteractiveHighlight( this.dragInteractiveHighlight );
+      isInteractiveHighlighting( this.node ) && this.node.setInteractiveHighlight( this.dragInteractiveHighlight );
     }
   }
 
