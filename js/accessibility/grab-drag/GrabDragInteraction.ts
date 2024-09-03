@@ -648,7 +648,9 @@ export default class GrabDragInteraction extends EnabledComponent {
   }
 
   /**
-   * Release the draggable. TODO: Document when it is appropriate for a client to call this from the outside, see https://github.com/phetsims/scenery-phet/issues/869
+   * Release the draggable. This function will set the interaction back to the "grabbable" state and should only be called
+   * when draggable. It also behaves as though it was released from user input, for example a sound effect and description
+   * will occur.
    */
   public releaseDraggable( event: SceneryEvent | null ): void {
     assert && assert( this.grabDragModel.interactionState === 'draggable', 'cannot set to interactionState if already set that way' );
