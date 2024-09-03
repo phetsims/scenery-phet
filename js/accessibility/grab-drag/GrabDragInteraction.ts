@@ -207,12 +207,12 @@ export default class GrabDragInteraction extends EnabledComponent {
   private readonly dragFocusHighlight: HighlightPath;
   private readonly dragInteractiveHighlight: HighlightPath;
 
-  // From non-PDOM pointer events, change state and representations in the PDOM - This is important to update
-  // interactive highlights, because the highlight showing the state can be seen. It is also important for AT that
-  // use pointer events like iOS VoiceOver.
+  // For mouse and touch events (non-PDOM pointer events), change state and representations in the PDOM - This is
+  // important to update interactive highlights, because the highlight showing the state can be seen. It is also
+  // important for AT that use pointer events like iOS VoiceOver.
   // A DragListener is used instead of a PressListener to work with touchSnag.
   // Note this is NOT the DragListener that implements dragging on the target.
-  private readonly dragListener: DragListener;
+  private readonly pressReleaseListener: DragListener;
 
   private readonly disposeGrabDragInteraction: () => void;
 
@@ -578,7 +578,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       keyboardDragListener
     ] );
 
-    this.dragListener = new DragListener( {
+    this.pressReleaseListener = new DragListener( {
       press: event => {
         if ( !event.isFromPDOM() ) {
           this.setDraggable();
@@ -598,15 +598,13 @@ export default class GrabDragInteraction extends EnabledComponent {
       // whether the pointer is already attached
       attach: false,
       enabledProperty: this.enabledProperty,
-      tandem: options.tandem.createTandem( 'dragListener' )
+      tandem: options.tandem.createTandem( 'pressReleaseListener' )
     } );
-    this.node.addInputListener( this.dragListener );
+    this.node.addInputListener( this.pressReleaseListener );
 
     // Initialize the Node as a grabbable (button) to begin with
     this.setGrabbable();
 
-    // TODO: Hey SR! Is it ok that we don't set enabledProperty on listeners that are only set on draggable? https://github.com/phetsims/scenery-phet/issues/869
-    // TODO: Hey SR! Note how we don't pass an inputEnabled to keyboardDragListner OR GrabDragListener, because the good default is to just respect node.inputEnabledProperty. https://github.com/phetsims/scenery-phet/issues/868
     this.enabledProperty.lazyLink( enabled => {
       if ( !enabled ) {
         this.interrupt(); // This will trigger state change to grabbable via DragListener.release()
@@ -619,11 +617,12 @@ export default class GrabDragInteraction extends EnabledComponent {
     const inputEnabledListener = ( nodeInputEnabled: boolean ) => { this.enabled = nodeInputEnabled; };
 
     // Use the "owns" pattern here to keep the enabledProperty PhET-iO instrumented based on the super options.
+    // If the client specified their own enabledProperty, then they are responsible for managing enabled.
     ownsEnabledProperty && this.node.inputEnabledProperty.lazyLink( inputEnabledListener );
 
     this.disposeGrabDragInteraction = () => {
 
-      this.node.removeInputListener( this.dragListener );
+      this.node.removeInputListener( this.pressReleaseListener );
       ownsEnabledProperty && this.node.inputEnabledProperty.unlink( inputEnabledListener );
 
       this.node.removePDOMAttribute( 'aria-roledescription' );
@@ -634,7 +633,7 @@ export default class GrabDragInteraction extends EnabledComponent {
 
       dragDivDownListener.dispose();
       dragDivUpListener.dispose();
-      this.dragListener.dispose();
+      this.pressReleaseListener.dispose();
 
       releasedUtterance.dispose();
       this.voicingFocusUtterance.dispose();
@@ -806,7 +805,7 @@ export default class GrabDragInteraction extends EnabledComponent {
    * Node is back in its "grabbable" state.
    */
   public interrupt(): void {
-    this.dragListener.interrupt();
+    this.pressReleaseListener.interrupt();
 
     // TODO: Where is the code that moves this back to 'grabbable'? It is somewhat hidden in the interrupt() method, see https://github.com/phetsims/scenery-phet/issues/869
     // TODO: Maybe at a minimum add an assertion that we landed in the right state? See https://github.com/phetsims/scenery-phet/issues/869
