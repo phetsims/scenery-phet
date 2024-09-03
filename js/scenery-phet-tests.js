@@ -9,7 +9,7 @@
  */
 
 import qunitStart from '../../chipper/js/sim-tests/qunitStart.js';
-import './accessibility/GrabDragInteractionTests.js';
+import './accessibility/grab-drag/GrabDragInteractionTests.ts';
 import './ScientificNotationNodeTests.js';
 import './StopwatchNodeTests.js';
 

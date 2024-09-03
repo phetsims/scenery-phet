@@ -8,7 +8,7 @@
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { DragListener, KeyboardDragListener, Node, Rectangle } from '../../../../scenery/js/imports.js';
-import GrabDragInteraction from '../../accessibility/GrabDragInteraction.js';
+import GrabDragInteraction from '../../accessibility/grab-drag/GrabDragInteraction.js';
 import { SunDemoOptions } from '../../../../sun/js/demo/DemosScreenView.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';

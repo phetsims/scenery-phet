@@ -48,28 +48,27 @@
  * to link to whatever Node control's the mouse/touch input and toggle grab drag enabled when that Node's inputEnabled
  * changes. For example see Friction.
 
- * TODO: Can the voicing implementation be a separate component that is composed?
+ * TODO: Can the voicing implementation be a separate component that is composed? https://github.com/phetsims/scenery-phet/issues/869
  * TODO: Having the model be modeProperty = 'grabbable' or 'draggable' and listening for changes in that could help address some of the recommendations below.
- *        Like interactionStateProperty
- * TODO: Move into a directory called "grab-drag" https://github.com/phetsims/scenery-phet/issues/869
+ *        Like interactionStateProperty https://github.com/phetsims/scenery-phet/issues/869
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
-import EnabledComponent, { EnabledComponentOptions } from '../../../axon/js/EnabledComponent.js';
-import assertHasProperties from '../../../phet-core/js/assertHasProperties.js';
-import getGlobal from '../../../phet-core/js/getGlobal.js';
-import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { Association, DragListener, HighlightFromNode, HighlightPath, InteractiveHighlightingNode, keyboardDraggingKeys, KeyboardDragListener, KeyboardListener, Node, NodeOptions, ParallelDOMOptions, PDOMPeer, PDOMValueType, SceneryEvent, SceneryListenerFunction, SceneryNullableListenerFunction, TInputListener, Voicing, VoicingNode } from '../../../scenery/js/imports.js';
-import Tandem from '../../../tandem/js/Tandem.js';
-import AriaLiveAnnouncer from '../../../utterance-queue/js/AriaLiveAnnouncer.js';
-import ResponsePacket from '../../../utterance-queue/js/ResponsePacket.js';
-import Utterance from '../../../utterance-queue/js/Utterance.js';
-import sceneryPhet from '../sceneryPhet.js';
-import SceneryPhetStrings from '../SceneryPhetStrings.js';
-import GrabReleaseCueNode from './nodes/GrabReleaseCueNode.js';
-import optionize, { combineOptions, EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import LocalizedStringProperty from '../../../chipper/js/LocalizedStringProperty.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import EnabledComponent, { EnabledComponentOptions } from '../../../../axon/js/EnabledComponent.js';
+import assertHasProperties from '../../../../phet-core/js/assertHasProperties.js';
+import getGlobal from '../../../../phet-core/js/getGlobal.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import { Association, DragListener, HighlightFromNode, HighlightPath, InteractiveHighlightingNode, keyboardDraggingKeys, KeyboardDragListener, KeyboardListener, Node, NodeOptions, ParallelDOMOptions, PDOMPeer, PDOMValueType, SceneryEvent, SceneryListenerFunction, SceneryNullableListenerFunction, TInputListener, Voicing, VoicingNode } from '../../../../scenery/js/imports.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import AriaLiveAnnouncer from '../../../../utterance-queue/js/AriaLiveAnnouncer.js';
+import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
+import Utterance from '../../../../utterance-queue/js/Utterance.js';
+import sceneryPhet from '../../sceneryPhet.js';
+import SceneryPhetStrings from '../../SceneryPhetStrings.js';
+import GrabReleaseCueNode from '../nodes/GrabReleaseCueNode.js';
+import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import LocalizedStringProperty from '../../../../chipper/js/LocalizedStringProperty.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 // constants
 const grabPatternStringStringProperty = SceneryPhetStrings.a11y.grabDrag.grabPatternStringProperty;
@@ -163,7 +162,7 @@ export default class GrabDragInteraction extends EnabledComponent {
   private readonly node: Node;
   private readonly grabbableOptions: StateOptions;
   private readonly draggableOptions: StateOptions;
-  private readonly dragCueNode: Node; // TODO: It would simplify things to make this always Node (instead of nullable), but it could be an empty Node(), see https://github.com/phetsims/scenery-phet/issues/869
+  private readonly dragCueNode: Node;
 
   // public ONLY to position dynamically. Prefer options.grabCueOptions when possible.
   public readonly grabCueNode: GrabReleaseCueNode;
