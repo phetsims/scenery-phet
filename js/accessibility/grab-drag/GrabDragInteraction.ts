@@ -71,6 +71,8 @@ import GrabReleaseCueNode from '../nodes/GrabReleaseCueNode.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import LocalizedStringProperty from '../../../../chipper/js/LocalizedStringProperty.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import GrabDragModel from './GrabDragModel.js';
+import GrabDragCueModel from './GrabDragCueModel.js';
 
 // constants
 const grabPatternStringStringProperty = SceneryPhetStrings.a11y.grabDrag.grabPatternStringProperty;
@@ -820,52 +822,6 @@ export default class GrabDragInteraction extends EnabledComponent {
     // setGrabbable will update this, so reset it again
     this.grabDragModel.reset();
     this.updateVisibilityForCues();
-  }
-}
-
-// TODO: Move to a separate file, see https://github.com/phetsims/scenery-phet/issues/869
-export class GrabDragCueModel {
-
-  // The number of times the component has been picked up for dragging, regardless
-  // of pickup method for things like determining content for "hints" describing the interaction
-  // to the user
-  public numberOfGrabs = 0;
-
-  // The number of times this component has been picked up with a keyboard specifically to provide hints specific
-  // to alternative input.
-  public numberOfKeyboardGrabs = 0;
-
-  // TODO: added for https://github.com/phetsims/density-buoyancy-common/issues/364, but probably won't pass code review.
-  public shouldShowDragCue = true;
-
-  public reset(): void {
-    this.numberOfGrabs = 0;
-    this.numberOfKeyboardGrabs = 0;
-    this.shouldShowDragCue = true;
-  }
-}
-
-// TODO: Move to a separate file, see https://github.com/phetsims/scenery-phet/issues/869
-// TODO: This should be the EnabledComponent instead of the view, https://github.com/phetsims/scenery-phet/issues/869
-// Private class for organizing the "model" side of the logic for the grab/drag interaction.
-class GrabDragModel {
-
-  // Interaction states that this component interaction can be in:
-  // "grabbable": In the button state where you can interact with the node to grab it.
-  // "draggable": In the state where you can use a keyboard listener to move the object with arrow keys.
-  /**
-   * TODO: Rename to "idle" vs "grabbed"? See https://github.com/phetsims/scenery-phet/issues/869
-   * SR: grabbable vs draggable was initially confusing
-   * MK: Since we want to show the "grabbable" cue when it is grabbable, we should call it grabbable.
-   *     Wouldn't it introduce another layer of confusion to call it "idle" and have to know/figure out that idle means to show the "grabbable" message?
-   * SR: Isn't grabbable a bit of a misnomer since something cannot be grabbed unless it also has focus?
-   */
-  public interactionState: 'grabbable' | 'draggable' = 'grabbable';
-
-  public constructor( public readonly grabDragCueModel: GrabDragCueModel = new GrabDragCueModel() ) {}
-
-  public reset(): void {
-    this.grabDragCueModel.reset();
   }
 }
 
