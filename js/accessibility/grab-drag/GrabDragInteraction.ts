@@ -766,20 +766,15 @@ export default class GrabDragInteraction extends EnabledComponent {
 
   /**
    * Add all listeners to node
-   * TODO: Is the gracefulness still important here? If so, document why, see https://github.com/phetsims/scenery-phet/issues/869
    */
   private addInputListeners( listeners: TInputListener[] ): void {
     for ( let i = 0; i < listeners.length; i++ ) {
-      const listener = listeners[ i ];
-      if ( !this.node.hasInputListener( listener ) ) {
-        this.node.addInputListener( listener );
-      }
+      this.node.addInputListener( listeners[ i ] );
     }
   }
 
   /**
-   * Remove all listeners from the node.
-   * TODO: Is the gracefulness still important here? If so, document why, see https://github.com/phetsims/scenery-phet/issues/869
+   * Remove all listeners from the node. Called from dispose, so it is nice to be graceful.
    */
   private removeInputListeners( listeners: TInputListener[] ): void {
     for ( let i = 0; i < listeners.length; i++ ) {
