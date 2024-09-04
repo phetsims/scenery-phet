@@ -29,7 +29,7 @@ export default class GrabDragModel {
    *     Wouldn't it introduce another layer of confusion to call it "idle" and have to know/figure out that idle means to show the "grabbable" message?
    * SR: Isn't grabbable a bit of a misnomer since something cannot be grabbed unless it also has focus?
    */
-  public interactionStateProperty = new Property<GrabDragInteractionState>( 'grabbable' );
+  public readonly interactionStateProperty = new Property<GrabDragInteractionState>( 'grabbable' );
 
   public constructor( public readonly grabDragCueModel: GrabDragCueModel = new GrabDragCueModel() ) {}
 
@@ -39,6 +39,9 @@ export default class GrabDragModel {
     this.grabDragCueModel.reset();
 
     this.interactionStateProperty.value = 'grabbable';
+
+    assert && assert( this.grabDragCueModel.numberOfGrabs === 0, 'numberOfGrabs should be 0, but it was: ' + this.grabDragCueModel.numberOfGrabs );
+    assert && assert( this.grabDragCueModel.numberOfKeyboardGrabs === 0, 'numberOfKeyboardGrabs should be 0, but it was ' + this.grabDragCueModel.numberOfKeyboardGrabs );
   }
 }
 

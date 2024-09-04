@@ -815,11 +815,7 @@ export default class GrabDragInteraction extends EnabledComponent {
    */
   public reset(): void {
     this.grabDragModel.reset();
-
     this.voicingFocusUtterance.reset();
-
-    // setting to grabble will update this, so reset it again // TODO: Get rid of this? https://github.com/phetsims/scenery-phet/issues/869
-    this.grabDragModel.reset();
     this.updateVisibilityForCues();
   }
 }
