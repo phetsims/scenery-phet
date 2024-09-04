@@ -12,6 +12,9 @@
 
 import sceneryPhet from '../../sceneryPhet.js';
 import GrabDragCueModel from './GrabDragCueModel.js';
+import Property from '../../../../axon/js/Property.js';
+
+type GrabDragInteractionState = 'grabbable' | 'draggable';
 
 // TODO: This should be the EnabledComponent instead of the view, https://github.com/phetsims/scenery-phet/issues/869
 export default class GrabDragModel {
@@ -26,12 +29,13 @@ export default class GrabDragModel {
    *     Wouldn't it introduce another layer of confusion to call it "idle" and have to know/figure out that idle means to show the "grabbable" message?
    * SR: Isn't grabbable a bit of a misnomer since something cannot be grabbed unless it also has focus?
    */
-  public interactionState: 'grabbable' | 'draggable' = 'grabbable';
+  public interactionStateProperty = new Property<GrabDragInteractionState>( 'grabbable' );
 
   public constructor( public readonly grabDragCueModel: GrabDragCueModel = new GrabDragCueModel() ) {}
 
   public reset(): void {
     this.grabDragCueModel.reset();
+    this.interactionStateProperty.value = 'grabbable';
   }
 }
 

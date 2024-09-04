@@ -367,10 +367,10 @@ export default class GrabDragInteraction extends EnabledComponent {
       // sanity check on the voicing interface API.
       assertHasProperties( node, [ 'voicingFocusListener' ] );
 
-      node.voicingFocusListener = event => {
+      node.voicingFocusListener = () => {
 
         // When swapping from interactionState to draggable, the draggable element will be focused, ignore that case here, see https://github.com/phetsims/friction/issues/213
-        this.grabDragModel.interactionState === 'grabbable' && node.defaultFocusListener();
+        this.grabDragModel.interactionStateProperty.value === 'grabbable' && node.defaultFocusListener();
       };
 
       // These Utterances should only be announced if the Node is globally visible and voicingVisible.
@@ -586,7 +586,7 @@ export default class GrabDragInteraction extends EnabledComponent {
 
         // release if interrupted, but only if not already grabbable, which is possible if the GrabDragInteraction
         // has been reset since press
-        if ( ( event === null || !event.isFromPDOM() ) && this.grabDragModel.interactionState === 'draggable' ) {
+        if ( ( event === null || !event.isFromPDOM() ) && this.grabDragModel.interactionStateProperty.value === 'draggable' ) {
           this.releaseDraggable( event );
         }
       },
@@ -652,7 +652,7 @@ export default class GrabDragInteraction extends EnabledComponent {
    * will occur.
    */
   public releaseDraggable( event: SceneryEvent | null ): void {
-    assert && assert( this.grabDragModel.interactionState === 'draggable', 'cannot set to interactionState if already set that way' );
+    assert && assert( this.grabDragModel.interactionStateProperty.value === 'draggable', 'cannot set to interactionState if already set that way' );
     this.setGrabbable();
     this.onRelease( event );
   }
@@ -666,7 +666,7 @@ export default class GrabDragInteraction extends EnabledComponent {
   private setGrabbable(): void {
 
     // TODO: Should we bail early if setting to 'grabbable' when it was already 'grabbable'? Would make it idempotent, which would be clearer, see https://github.com/phetsims/scenery-phet/issues/869
-    this.grabDragModel.interactionState = 'grabbable';
+    this.grabDragModel.interactionStateProperty.value = 'grabbable';
 
     // To support gesture and mobile screen readers, we change the roledescription, see https://github.com/phetsims/scenery-phet/issues/536
     // By default, the grabbable gets a roledescription to force the AT to say its role. This fixes a bug in VoiceOver
@@ -696,7 +696,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     // TODO: Should we bail early if setting to 'draggable' when it was already 'draggable'? Would make it idempotent, which would be clearer, see https://github.com/phetsims/scenery-phet/issues/869
     this.grabDragModel.grabDragCueModel.numberOfGrabs++;
 
-    this.grabDragModel.interactionState = 'draggable';
+    this.grabDragModel.interactionStateProperty.value = 'draggable';
 
     // TODO: Should the remainder of this function be a callback that is triggered when the state changes to draggable? See https://github.com/phetsims/scenery-phet/issues/869
 
@@ -743,7 +743,7 @@ export default class GrabDragInteraction extends EnabledComponent {
    */
   private updateFocusHighlights(): void {
 
-    if ( this.grabDragModel.interactionState === 'grabbable' ) {
+    if ( this.grabDragModel.interactionStateProperty.value === 'grabbable' ) {
       this.node.focusHighlight = this.grabFocusHighlight;
       isInteractiveHighlighting( this.node ) && this.node.setInteractiveHighlight( this.grabInteractiveHighlight );
     }
@@ -804,7 +804,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     // Interrupting this listener will set us back to grabbable
     this.pressReleaseListener.interrupt();
 
-    assert && assert( this.grabDragModel.interactionState === 'grabbable', 'disabled grabDragInteractions must be in "grabbable" state.' );
+    assert && assert( this.grabDragModel.interactionStateProperty.value === 'grabbable', 'disabled grabDragInteractions must be in "grabbable" state.' );
   }
 
   /**
@@ -814,7 +814,7 @@ export default class GrabDragInteraction extends EnabledComponent {
 
     // reset numberOfGrabs for setGrabbable
     this.grabDragModel.reset();
-    this.setGrabbable();
+    this.setGrabbable(); // TODO: Remove this once everything occurs from the Property change in the model reset above, https://github.com/phetsims/scenery-phet/issues/869
 
     this.voicingFocusUtterance.reset();
 

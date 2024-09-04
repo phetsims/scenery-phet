@@ -50,7 +50,7 @@ QUnit.test( 'GrabDragInteraction defaults', assert => {
     // GrabDragInteraction requires the page to be active to behave corectly, otherwise focus/blur events do not
     // fire. See https://github.com/phetsims/aqua/issues/134.
     if ( document.hasFocus() ) {
-      assert.ok( interaction[ 'grabDragModel' ].interactionState === 'grabbable', 'default to grabbable' );
+      assert.ok( interaction[ 'grabDragModel' ].interactionStateProperty.value === 'grabbable', 'default to grabbable' );
       assert.ok( a.tagName!.toUpperCase() === 'BUTTON', 'grabbable defaults to button' );
       assert.ok( a.ariaRole === null, 'no role for grabbable' );
       assert.ok( a.ariaLabel!.includes( thingString ), 'ariaLabel should include thing string for grabbable' );
@@ -69,7 +69,7 @@ QUnit.test( 'GrabDragInteraction defaults', assert => {
 
   const testDefaultDraggable = () => {
 
-    assert.ok( interaction[ 'grabDragModel' ].interactionState === 'draggable', 'should be draggable after click draggable' );
+    assert.ok( interaction[ 'grabDragModel' ].interactionStateProperty.value === 'draggable', 'should be draggable after click draggable' );
     assert.ok( a.tagName!.toUpperCase() === 'DIV', 'draggable defaults to div' );
     assert.ok( a.ariaRole === 'application', 'draggable gets application role' );
     assert.ok( a.ariaLabel!.includes( thingString ), 'ariaLabel should include thing string' );
