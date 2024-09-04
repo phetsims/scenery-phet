@@ -14,7 +14,7 @@ import sceneryPhet from '../../sceneryPhet.js';
 import GrabDragCueModel from './GrabDragCueModel.js';
 import Property from '../../../../axon/js/Property.js';
 
-type GrabDragInteractionState = 'grabbable' | 'draggable';
+export type GrabDragInteractionState = 'grabbable' | 'draggable';
 
 // TODO: This should be the EnabledComponent instead of the view, https://github.com/phetsims/scenery-phet/issues/869
 export default class GrabDragModel {

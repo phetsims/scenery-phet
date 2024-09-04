@@ -68,7 +68,7 @@ import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import GrabReleaseCueNode from '../nodes/GrabReleaseCueNode.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import GrabDragModel from './GrabDragModel.js';
+import GrabDragModel, { GrabDragInteractionState } from './GrabDragModel.js';
 import GrabDragCueModel from './GrabDragCueModel.js';
 
 // constants
@@ -601,46 +601,8 @@ export default class GrabDragInteraction extends EnabledComponent {
 
     assert && assert( this.grabDragModel.interactionStateProperty.value === 'grabbable', 'starting state grabbable please' );
 
-    // Initialize the Node as a grabbable (button) to begin with
-    this.grabDragModel.interactionStateProperty.link( interactionState => {
-      if ( interactionState === 'grabbable' ) {
-
-        // To support gesture and mobile screen readers, we change the roledescription, see https://github.com/phetsims/scenery-phet/issues/536
-        // By default, the grabbable gets a roledescription to force the AT to say its role. This fixes a bug in VoiceOver
-        // where it fails to update the role after turning back into a grabbable.
-        // See https://github.com/phetsims/scenery-phet/issues/688.
-        this.node.setPDOMAttribute( 'aria-roledescription', this.supportsGestureDescription ? movableStringProperty : buttonStringProperty );
-
-        if ( this.shouldAddAriaDescription( this.grabDragModel.grabDragCueModel.numberOfGrabs ) ) {
-
-          // this node is aria-describedby its own description content, so that the description is read automatically
-          // when found by the user
-          !this.node.hasAriaDescribedbyAssociation( this.descriptionAssociationObject ) && this.node.addAriaDescribedbyAssociation( this.descriptionAssociationObject );
-        }
-        else if ( this.node.hasAriaDescribedbyAssociation( this.descriptionAssociationObject ) ) {
-          this.node.removeAriaDescribedbyAssociation( this.descriptionAssociationObject );
-        }
-
-        this.baseInteractionUpdate( this.grabbableOptions, this.listenersWhileDraggable, this.listenersWhileGrabbable );
-
-      }
-      else {
-
-        // TODO: Should the remainder of this function be a callback that is triggered when the state changes to draggable? See https://github.com/phetsims/scenery-phet/issues/869
-
-        // by default, the draggable has roledescription of "movable".
-        this.node.setPDOMAttribute( 'aria-roledescription', movableStringProperty );
-
-        // This node is aria-describedby its own description content only when grabbable, so that the description is
-        // read automatically when found by the user with the virtual cursor. Remove it for draggable
-        if ( this.node.hasAriaDescribedbyAssociation( this.descriptionAssociationObject ) ) {
-          this.node.removeAriaDescribedbyAssociation( this.descriptionAssociationObject );
-        }
-
-        // turn this into a draggable in the node
-        this.baseInteractionUpdate( this.draggableOptions, this.listenersWhileGrabbable, this.listenersWhileDraggable );
-      }
-    } );
+    // Update the interaction, pdom, focus, etc when the state changes.
+    this.grabDragModel.interactionStateProperty.link( interactionState => this.baseInteractionUpdate( interactionState ) );
 
 
     this.enabledProperty.lazyLink( enabled => {
@@ -728,7 +690,23 @@ export default class GrabDragInteraction extends EnabledComponent {
    * be called when switching in either direction.
    */
   // TODO: Would this be clearer to have immutable listeners that we do not interrupt or swap out, that we deal with the state in the callback? See https://github.com/phetsims/scenery-phet/issues/869
-  private baseInteractionUpdate( nodeOptions: ParallelDOMOptions, listenersToRemove: TInputListener[], listenersToAdd: TInputListener[] ): void {
+  private baseInteractionUpdate( interactionState: GrabDragInteractionState ): void {
+    const nodeOptions = interactionState === 'grabbable' ? this.grabbableOptions : this.draggableOptions;
+    const listenersToRemove = interactionState === 'grabbable' ? this.listenersWhileDraggable : this.listenersWhileGrabbable;
+    const listenersToAdd = interactionState === 'grabbable' ? this.listenersWhileGrabbable : this.listenersWhileDraggable;
+
+
+    // TODO: Adjust aria-roledescription and aria-describedby after listener interrupt? https://github.com/phetsims/scenery-phet/issues/869
+    // To support gesture and mobile screen readers, we change the roledescription, see https://github.com/phetsims/scenery-phet/issues/536
+    // By default, the grabbable gets a roledescription to force the AT to say its role. This fixes a bug in VoiceOver
+    // where it fails to update the role after turning back into a grabbable.
+    // See https://github.com/phetsims/scenery-phet/issues/688.
+    this.node.setPDOMAttribute( 'aria-roledescription',
+      ( interactionState === 'draggable' || this.supportsGestureDescription ) ? movableStringProperty :
+      buttonStringProperty
+    );
+
+    this.updateAriaDescribedBy( interactionState );
 
     // interrupt prior input, reset the key state of the drag handler by interrupting the drag. Don't interrupt all
     // input, but instead just those to be removed.
@@ -745,6 +723,25 @@ export default class GrabDragInteraction extends EnabledComponent {
 
     this.updateFocusHighlights();
     this.updateVisibilityForCues();
+  }
+
+  private updateAriaDescribedBy( interactionState: GrabDragInteractionState ): void {
+
+    if ( interactionState === 'grabbable' && this.shouldAddAriaDescription( this.grabDragModel.grabDragCueModel.numberOfGrabs ) ) {
+
+      // this node is aria-describedby its own description content, so that the description is read automatically
+      // when found by the user
+      !this.node.hasAriaDescribedbyAssociation( this.descriptionAssociationObject ) &&
+      this.node.addAriaDescribedbyAssociation( this.descriptionAssociationObject );
+    }
+    else {
+
+      // This node is aria-describedby its own description content only when grabbable, so that the description is
+      // read automatically when found by the user with the virtual cursor. Remove it for draggable
+      if ( this.node.hasAriaDescribedbyAssociation( this.descriptionAssociationObject ) ) {
+        this.node.removeAriaDescribedbyAssociation( this.descriptionAssociationObject );
+      }
+    }
   }
 
   /**
@@ -824,11 +821,10 @@ export default class GrabDragInteraction extends EnabledComponent {
 
     // reset numberOfGrabs for setGrabbable
     this.grabDragModel.reset();
-    this.setGrabbable(); // TODO: Remove this once everything occurs from the Property change in the model reset above, https://github.com/phetsims/scenery-phet/issues/869
 
     this.voicingFocusUtterance.reset();
 
-    // setGrabbable will update this, so reset it again
+    // setting to grabble will update this, so reset it again // TODO: Get rid of this? https://github.com/phetsims/scenery-phet/issues/869
     this.grabDragModel.reset();
     this.updateVisibilityForCues();
   }
