@@ -441,7 +441,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       this.grabInteractiveHighlight.parent!.addChild( this.dragInteractiveHighlight );
     }
 
-    // if ever we update the node's highlights, then update the grab button's too to keep in syn.
+    // if ever we update the node's highlights, then update the grab button's too to keep in sync.
     // TODO: Can these change if we provide the shapeProperty in the constructor? MK doesn't think so because highlightChangedEmitter is weird. https://github.com/phetsims/scenery-phet/issues/869
     const onFocusHighlightChange = () => {
       this.dragFocusHighlight.setShape( this.grabFocusHighlight.shape );
@@ -685,7 +685,6 @@ export default class GrabDragInteraction extends EnabledComponent {
    * be called when switching in either direction.
    * TODO: SR, help me with a better name https://github.com/phetsims/scenery-phet/issues/869
    */
-  // TODO: Would this be clearer to have immutable listeners that we do not interrupt or swap out, that we deal with the state in the callback? See https://github.com/phetsims/scenery-phet/issues/869
   private baseInteractionUpdate( interactionState: GrabDragInteractionState ): void {
     const nodeOptions = interactionState === 'grabbable' ? this.grabbableOptions : this.draggableOptions;
     const listenersToRemove = interactionState === 'grabbable' ? this.listenersWhileDraggable : this.listenersWhileGrabbable;
