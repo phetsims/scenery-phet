@@ -67,7 +67,6 @@ import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import GrabReleaseCueNode from '../nodes/GrabReleaseCueNode.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import LocalizedStringProperty from '../../../../chipper/js/LocalizedStringProperty.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import GrabDragModel from './GrabDragModel.js';
 import GrabDragCueModel from './GrabDragCueModel.js';
@@ -83,7 +82,7 @@ const releasedStringProperty = SceneryPhetStrings.a11y.grabDrag.releasedStringPr
 type SelfOptions = {
 
   // A string that is filled in to the appropriate button label
-  objectToGrabString?: LocalizedStringProperty | string;
+  objectToGrabString?: PDOMValueType;
 
   // If not provided, a default will be applied, see this.grabbableAccessibleName.
   grabbableAccessibleName?: null | string;
@@ -156,10 +155,10 @@ type StateOptions = StrictOmit<ParallelDOMOptions, 'descriptionContent' | 'helpT
 export default class GrabDragInteraction extends EnabledComponent {
 
   // The accessible name for the Node in its 'draggable' interactionState.
-  private readonly draggableAccessibleName: string | LocalizedStringProperty;
+  private readonly draggableAccessibleName: PDOMValueType;
 
   // The accessible name for the Node in its "grabbable" interactionState.
-  private readonly grabbableAccessibleName: string | LocalizedStringProperty;
+  private readonly grabbableAccessibleName: PDOMValueType;
 
   // Directly from options or parameters.
   private readonly node: Node;
