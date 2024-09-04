@@ -481,7 +481,7 @@ export default class GrabDragInteraction extends EnabledComponent {
           // blur as a grabbable so that we get a new focus event after we turn into a draggable, and so that grab listeners get a blur() event before mutating.
           this.node.blur();
 
-          this.setDraggable();
+          this.grab();
 
           this.grabDragModel.grabDragCueModel.numberOfKeyboardGrabs++;
 
@@ -533,9 +533,9 @@ export default class GrabDragInteraction extends EnabledComponent {
 
         // set a guard to make sure the key press from enter doesn't fire future listeners, therefore
         // "clicking" the grab button also on this key press.
-        // TODO: Could it be clearer to remove the grabButtonListener, then call releaseDraggable, then add the grabButtonListener back? See https://github.com/phetsims/scenery-phet/issues/869
+        // TODO: Could it be clearer to remove the grabButtonListener, then call release, then add the grabButtonListener back? See https://github.com/phetsims/scenery-phet/issues/869
         guardKeyPressFromDraggable = true;
-        this.releaseDraggable( null );
+        this.release( null );
       }
     } );
 
@@ -547,11 +547,11 @@ export default class GrabDragInteraction extends EnabledComponent {
 
         // Release on keyup for spacebar so that we don't pick up the draggable again when we release the spacebar
         // and trigger a click event - escape could be added to either keyup or keydown listeners
-        this.releaseDraggable( null ); // TODO: Why not send along the key event? See https://github.com/phetsims/scenery-phet/issues/869
+        this.release( null ); // TODO: Why not send along the key event? See https://github.com/phetsims/scenery-phet/issues/869
       },
 
       // release when focus is lost
-      blur: () => this.releaseDraggable( null ),
+      blur: () => this.release( null ),
 
       // if successfully dragged, then make the cue node invisible
       focus: () => this.updateVisibilityForCues()
@@ -578,16 +578,21 @@ export default class GrabDragInteraction extends EnabledComponent {
     this.pressReleaseListener = new DragListener( {
       press: event => {
         if ( !event.isFromPDOM() ) {
-          this.setDraggable();
+          this.grab();
           this.onGrab( event );
         }
       },
       release: event => {
 
+        // If the event is null, then we are in the interrupt case, and should attempt to release()
+        // If the release is an event from the PDOM (which shouldn't happen most of the time), then PDOM listeners will
+        // handle the release().
+        const shouldRelease = ( event === null || !event.isFromPDOM() );
+
         // release if interrupted, but only if not already grabbable, which is possible if the GrabDragInteraction
         // has been reset since press
-        if ( ( event === null || !event.isFromPDOM() ) && this.grabDragModel.interactionStateProperty.value === 'draggable' ) {
-          this.releaseDraggable( event );
+        if ( shouldRelease && this.grabDragModel.interactionStateProperty.value === 'draggable' ) {
+          this.release( event );
         }
       },
 
@@ -654,40 +659,31 @@ export default class GrabDragInteraction extends EnabledComponent {
    * when draggable. It also behaves as though it was released from user input, for example a sound effect and description
    * will occur.
    */
-  public releaseDraggable( event: SceneryEvent | null ): void {
+  public release( event: SceneryEvent | null ): void {
     assert && assert( this.grabDragModel.interactionStateProperty.value === 'draggable', 'cannot set to interactionState if already set that way' );
-    this.setGrabbable();
+    this.grabDragModel.interactionStateProperty.value = 'grabbable';
     this.onRelease( event );
   }
 
   /**
-   * TODO: This is only called by GrabDragInteraction at the moment, is it intended for public use? See https://github.com/phetsims/scenery-phet/issues/869
-   * turn the Node into the grabbable (button), swap out listeners too
-   *
-   * TODO: Should this be named "release"? See https://github.com/phetsims/scenery-phet/issues/869 How does it differ from releaseDraggable?
+   * Turn from grabbable into draggable interaction state.
+   * This updates accessibility representation in the PDOM and changes input listeners.
    */
-  private setGrabbable(): void {
-
-    // TODO: Should we bail early if setting to 'grabbable' when it was already 'grabbable'? Would make it idempotent, which would be clearer, see https://github.com/phetsims/scenery-phet/issues/869
-    this.grabDragModel.interactionStateProperty.value = 'grabbable';
-  }
-
-  /**
-   * Turn the node into a draggable by updating accessibility representation in the PDOM and changing input
-   * listeners.
-   */
-  private setDraggable(): void {  // TODO: A name like grab() would be clearer than setDraggable(), see https://github.com/phetsims/scenery-phet/issues/869
-
-    // TODO: Should this only increment inside the event, instead of from this "model" change function? https://github.com/phetsims/scenery-phet/issues/869
-    this.grabDragModel.grabDragCueModel.numberOfGrabs++;
-
+  private grab(): void {
     // TODO: Should we bail early if setting to 'draggable' when it was already 'draggable'? Would make it idempotent, which would be clearer, see https://github.com/phetsims/scenery-phet/issues/869
+
+    // TODO an assertion like this fails https://github.com/phetsims/scenery-phet/issues/869
+    // assert && assert( this.grabDragModel.interactionStateProperty.value === 'grabbable' );
+
+    this.grabDragModel.grabDragCueModel.numberOfGrabs++; // TODO: If grabbed while already draggable, isn't that still another grab to count? Don't return early right? https://github.com/phetsims/scenery-phet/issues/869
+
     this.grabDragModel.interactionStateProperty.value = 'draggable';
   }
 
   /**
    * Update the node to switch modalities between being draggable, and grabbable. This function holds code that should
    * be called when switching in either direction.
+   * TODO: SR, help me with a better name https://github.com/phetsims/scenery-phet/issues/869
    */
   // TODO: Would this be clearer to have immutable listeners that we do not interrupt or swap out, that we deal with the state in the callback? See https://github.com/phetsims/scenery-phet/issues/869
   private baseInteractionUpdate( interactionState: GrabDragInteractionState ): void {
@@ -818,8 +814,6 @@ export default class GrabDragInteraction extends EnabledComponent {
    * Reset to initial state
    */
   public reset(): void {
-
-    // reset numberOfGrabs for setGrabbable
     this.grabDragModel.reset();
 
     this.voicingFocusUtterance.reset();

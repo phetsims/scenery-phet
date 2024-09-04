@@ -34,7 +34,10 @@ export default class GrabDragModel {
   public constructor( public readonly grabDragCueModel: GrabDragCueModel = new GrabDragCueModel() ) {}
 
   public reset(): void {
+
+    // This should go first, so that cue logic listening to the interaction state respects the default cue model.
     this.grabDragCueModel.reset();
+
     this.interactionStateProperty.value = 'grabbable';
   }
 }
