@@ -476,37 +476,38 @@ export default class GrabDragInteraction extends EnabledComponent {
 
         // if the draggable was just released, don't pick it up again until the next click event so we don't "loop"
         // and pick it up immediately again.
-        if ( !guardKeyPressFromDraggable ) {
+        if ( guardKeyPressFromDraggable ) {
 
-          // blur as a grabbable so that we get a new focus event after we turn into a draggable, and so that grab listeners get a blur() event before mutating.
-          this.node.blur();
-
-          this.grab();
-
-          this.grabDragModel.grabDragCueModel.numberOfKeyboardGrabs++;
-
-          // focus after the transition so that listeners added to the draggable state get a focus event().
-          this.node.focus();
-
-          this.onGrab( event );
-
-          // Add the newly created focusHighlight to the scene graph if focusHighlightLayerable, just like the
-          // original focus highlight was added. By doing this on click, we make sure that the node's
-          // focusHighlight has been completely constructed (added to the scene graph) and can use its parent. But only
-          // do it once.
-          if ( node.focusHighlightLayerable ) {
-            const grabHighlightParent = this.grabFocusHighlight.parent!;
-            assert && assert( grabHighlightParent, 'how can we have focusHighlightLayerable with a node that is not ' +
-                                                   'in the scene graph?' );
-            // If not yet added, do so now.
-            if ( !grabHighlightParent.hasChild( this.dragFocusHighlight ) ) {
-              grabHighlightParent.addChild( this.dragFocusHighlight );
-            }
-          }
+          // "grab" the draggable on the next click event
+          guardKeyPressFromDraggable = false;
+          return;
         }
 
-        // "grab" the draggable on the next click event
-        guardKeyPressFromDraggable = false;
+        // blur as a grabbable so that we get a new focus event after we turn into a draggable, and so that grab listeners get a blur() event before mutating.
+        this.node.blur();
+
+        this.grab();
+
+        this.grabDragModel.grabDragCueModel.numberOfKeyboardGrabs++;
+
+        // focus after the transition so that listeners added to the draggable state get a focus event().
+        this.node.focus();
+
+        this.onGrab( event );
+
+        // Add the newly created focusHighlight to the scene graph if focusHighlightLayerable, just like the
+        // original focus highlight was added. By doing this on click, we make sure that the node's
+        // focusHighlight has been completely constructed (added to the scene graph) and can use its parent. But only
+        // do it once.
+        if ( node.focusHighlightLayerable ) {
+          const grabHighlightParent = this.grabFocusHighlight.parent!;
+          assert && assert( grabHighlightParent, 'how can we have focusHighlightLayerable with a node that is not ' +
+                                                 'in the scene graph?' );
+          // If not yet added, do so now.
+          if ( !grabHighlightParent.hasChild( this.dragFocusHighlight ) ) {
+            grabHighlightParent.addChild( this.dragFocusHighlight );
+          }
+        }
       },
 
       focus: () => {
@@ -532,7 +533,8 @@ export default class GrabDragInteraction extends EnabledComponent {
 
         // set a guard to make sure the key press from enter doesn't fire future listeners, therefore
         // "clicking" the grab button also on this key press.
-        // TODO: Could it be clearer to remove the grabButtonListener, then call release, then add the grabButtonListener back? See https://github.com/phetsims/scenery-phet/issues/869
+        // The sequence that dispatched this fire also dispatches a click event, so we must avoid immediately grabbing
+        // from this event that released
         guardKeyPressFromDraggable = true;
         this.release( null );
       }
