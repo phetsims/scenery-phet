@@ -599,8 +599,49 @@ export default class GrabDragInteraction extends EnabledComponent {
     } );
     this.node.addInputListener( this.pressReleaseListener );
 
+    assert && assert( this.grabDragModel.interactionStateProperty.value === 'grabbable', 'starting state grabbable please' );
+
     // Initialize the Node as a grabbable (button) to begin with
-    this.setGrabbable();
+    this.grabDragModel.interactionStateProperty.link( interactionState => {
+      if ( interactionState === 'grabbable' ) {
+
+        // To support gesture and mobile screen readers, we change the roledescription, see https://github.com/phetsims/scenery-phet/issues/536
+        // By default, the grabbable gets a roledescription to force the AT to say its role. This fixes a bug in VoiceOver
+        // where it fails to update the role after turning back into a grabbable.
+        // See https://github.com/phetsims/scenery-phet/issues/688.
+        this.node.setPDOMAttribute( 'aria-roledescription', this.supportsGestureDescription ? movableStringProperty : buttonStringProperty );
+
+        if ( this.shouldAddAriaDescription( this.grabDragModel.grabDragCueModel.numberOfGrabs ) ) {
+
+          // this node is aria-describedby its own description content, so that the description is read automatically
+          // when found by the user
+          !this.node.hasAriaDescribedbyAssociation( this.descriptionAssociationObject ) && this.node.addAriaDescribedbyAssociation( this.descriptionAssociationObject );
+        }
+        else if ( this.node.hasAriaDescribedbyAssociation( this.descriptionAssociationObject ) ) {
+          this.node.removeAriaDescribedbyAssociation( this.descriptionAssociationObject );
+        }
+
+        this.baseInteractionUpdate( this.grabbableOptions, this.listenersWhileDraggable, this.listenersWhileGrabbable );
+
+      }
+      else {
+
+        // TODO: Should the remainder of this function be a callback that is triggered when the state changes to draggable? See https://github.com/phetsims/scenery-phet/issues/869
+
+        // by default, the draggable has roledescription of "movable".
+        this.node.setPDOMAttribute( 'aria-roledescription', movableStringProperty );
+
+        // This node is aria-describedby its own description content only when grabbable, so that the description is
+        // read automatically when found by the user with the virtual cursor. Remove it for draggable
+        if ( this.node.hasAriaDescribedbyAssociation( this.descriptionAssociationObject ) ) {
+          this.node.removeAriaDescribedbyAssociation( this.descriptionAssociationObject );
+        }
+
+        // turn this into a draggable in the node
+        this.baseInteractionUpdate( this.draggableOptions, this.listenersWhileGrabbable, this.listenersWhileDraggable );
+      }
+    } );
+
 
     this.enabledProperty.lazyLink( enabled => {
       if ( !enabled ) {
@@ -667,24 +708,6 @@ export default class GrabDragInteraction extends EnabledComponent {
 
     // TODO: Should we bail early if setting to 'grabbable' when it was already 'grabbable'? Would make it idempotent, which would be clearer, see https://github.com/phetsims/scenery-phet/issues/869
     this.grabDragModel.interactionStateProperty.value = 'grabbable';
-
-    // To support gesture and mobile screen readers, we change the roledescription, see https://github.com/phetsims/scenery-phet/issues/536
-    // By default, the grabbable gets a roledescription to force the AT to say its role. This fixes a bug in VoiceOver
-    // where it fails to update the role after turning back into a grabbable.
-    // See https://github.com/phetsims/scenery-phet/issues/688.
-    this.node.setPDOMAttribute( 'aria-roledescription', this.supportsGestureDescription ? movableStringProperty : buttonStringProperty );
-
-    if ( this.shouldAddAriaDescription( this.grabDragModel.grabDragCueModel.numberOfGrabs ) ) {
-
-      // this node is aria-describedby its own description content, so that the description is read automatically
-      // when found by the user
-      !this.node.hasAriaDescribedbyAssociation( this.descriptionAssociationObject ) && this.node.addAriaDescribedbyAssociation( this.descriptionAssociationObject );
-    }
-    else if ( this.node.hasAriaDescribedbyAssociation( this.descriptionAssociationObject ) ) {
-      this.node.removeAriaDescribedbyAssociation( this.descriptionAssociationObject );
-    }
-
-    this.baseInteractionUpdate( this.grabbableOptions, this.listenersWhileDraggable, this.listenersWhileGrabbable );
   }
 
   /**
@@ -693,24 +716,11 @@ export default class GrabDragInteraction extends EnabledComponent {
    */
   private setDraggable(): void {  // TODO: A name like grab() would be clearer than setDraggable(), see https://github.com/phetsims/scenery-phet/issues/869
 
-    // TODO: Should we bail early if setting to 'draggable' when it was already 'draggable'? Would make it idempotent, which would be clearer, see https://github.com/phetsims/scenery-phet/issues/869
+    // TODO: Should this only increment inside the event, instead of from this "model" change function? https://github.com/phetsims/scenery-phet/issues/869
     this.grabDragModel.grabDragCueModel.numberOfGrabs++;
 
+    // TODO: Should we bail early if setting to 'draggable' when it was already 'draggable'? Would make it idempotent, which would be clearer, see https://github.com/phetsims/scenery-phet/issues/869
     this.grabDragModel.interactionStateProperty.value = 'draggable';
-
-    // TODO: Should the remainder of this function be a callback that is triggered when the state changes to draggable? See https://github.com/phetsims/scenery-phet/issues/869
-
-    // by default, the draggable has roledescription of "movable".
-    this.node.setPDOMAttribute( 'aria-roledescription', movableStringProperty );
-
-    // This node is aria-describedby its own description content only when grabbable, so that the description is
-    // read automatically when found by the user with the virtual cursor. Remove it for draggable
-    if ( this.node.hasAriaDescribedbyAssociation( this.descriptionAssociationObject ) ) {
-      this.node.removeAriaDescribedbyAssociation( this.descriptionAssociationObject );
-    }
-
-    // turn this into a draggable in the node
-    this.baseInteractionUpdate( this.draggableOptions, this.listenersWhileGrabbable, this.listenersWhileDraggable );
   }
 
   /**
