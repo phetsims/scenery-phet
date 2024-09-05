@@ -117,7 +117,7 @@ QUnit.test( 'GrabDragInteraction enabled', assert => {
     objectToGrabString: thingString
   } );
   assert.ok( interaction[ 'grabCueNode' ].visible, 'starts visible' );
-  assert.ok( interaction[ 'dragCueNode' ].visible, 'starts visible' );
+  assert.ok( !interaction[ 'dragCueNode' ].visible, 'starts invisible' );
   interaction.enabled = false;
 
   assert.ok( !interaction[ 'grabCueNode' ].visible, 'enabled hides grab cue node visible' );
@@ -125,7 +125,7 @@ QUnit.test( 'GrabDragInteraction enabled', assert => {
 
   interaction.enabled = true;
   assert.ok( interaction[ 'grabCueNode' ].visible, 'starts again visible' );
-  assert.ok( interaction[ 'dragCueNode' ].visible, 'starts again visible' );
+  assert.ok( !interaction[ 'dragCueNode' ].visible, 'starts again invisible' );
 
   a.enabled = false;
   assert.ok( !interaction[ 'grabCueNode' ].visible, 'node enabled visible' );
