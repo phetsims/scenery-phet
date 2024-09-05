@@ -9,7 +9,7 @@
  */
 
 import sceneryPhet from '../../sceneryPhet.js';
-import GrabDragCueModel from './GrabDragCueModel.js';
+import GrabDragUsageTracker from './GrabDragUsageTracker.js';
 import Property from '../../../../axon/js/Property.js';
 
 export type GrabDragInteractionState = 'grabbable' | 'draggable';
@@ -29,17 +29,17 @@ export default class GrabDragModel {
    */
   public readonly interactionStateProperty = new Property<GrabDragInteractionState>( 'grabbable' );
 
-  public constructor( public readonly grabDragCueModel: GrabDragCueModel = new GrabDragCueModel() ) {}
+  public constructor( public readonly grabDragUsageTracker: GrabDragUsageTracker = new GrabDragUsageTracker() ) {}
 
   public reset(): void {
 
-    // This should go first, so that cue logic listening to the interaction state respects the default cue model.
-    this.grabDragCueModel.reset();
+    // This should go first, so that state logic listening to the interaction state respects the resetted usage tracker.
+    this.grabDragUsageTracker.reset();
 
     this.interactionStateProperty.value = 'grabbable';
 
-    assert && assert( this.grabDragCueModel.numberOfGrabs === 0, 'numberOfGrabs should be 0, but it was: ' + this.grabDragCueModel.numberOfGrabs );
-    assert && assert( this.grabDragCueModel.numberOfKeyboardGrabs === 0, 'numberOfKeyboardGrabs should be 0, but it was ' + this.grabDragCueModel.numberOfKeyboardGrabs );
+    assert && assert( this.grabDragUsageTracker.numberOfGrabs === 0, 'numberOfGrabs should be 0, but it was: ' + this.grabDragUsageTracker.numberOfGrabs );
+    assert && assert( this.grabDragUsageTracker.numberOfKeyboardGrabs === 0, 'numberOfKeyboardGrabs should be 0, but it was ' + this.grabDragUsageTracker.numberOfKeyboardGrabs );
   }
 }
 

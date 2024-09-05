@@ -69,7 +69,7 @@ import GrabReleaseCueNode from '../nodes/GrabReleaseCueNode.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import GrabDragModel, { GrabDragInteractionState } from './GrabDragModel.js';
-import GrabDragCueModel from './GrabDragCueModel.js';
+import GrabDragUsageTracker from './GrabDragUsageTracker.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 
 // constants
@@ -143,9 +143,9 @@ type SelfOptions = {
   // Like keyboardHelpText but when supporting gesture interactive description.
   gestureHelpText?: PDOMValueType;
 
-  // For sharing cueing logic between multiple instance of GrabDragInteraction. Even if provided, GrabDragInteraction
+  // For sharing usage tracking between multiple instances of GrabDragInteraction. Even if provided, GrabDragInteraction
   // will reset this.
-  grabDragCueModel?: GrabDragCueModel;
+  grabDragUsageTracker?: GrabDragUsageTracker;
 };
 
 type ParentOptions = EnabledComponentOptions;
@@ -235,7 +235,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       supportsGestureDescription: getGlobal( 'phet.joist.sim.supportsGestureDescription' ),
       keyboardHelpText: null,
       showGrabCueNode: () => {
-        return this.grabDragModel.grabDragCueModel.numberOfKeyboardGrabs < 1 && node.inputEnabled;
+        return this.grabDragModel.grabDragUsageTracker.numberOfKeyboardGrabs < 1 && node.inputEnabled;
       },
       showDragCueNode: () => {
         return true;
@@ -251,7 +251,7 @@ export default class GrabDragInteraction extends EnabledComponent {
         phetioFeatured: false
       },
 
-      grabDragCueModel: new GrabDragCueModel(),
+      grabDragUsageTracker: new GrabDragUsageTracker(),
 
       // For instrumenting (DragListener is also Tandem.REQUIRED)
       tandem: Tandem.REQUIRED
@@ -262,7 +262,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       gestureHelpText: StringUtils.fillIn( gestureHelpTextPatternStringProperty, {
         objectToGrab: firstPassOptions.objectToGrabString
       } ),
-      shouldAddAriaDescribedby: () => firstPassOptions.supportsGestureDescription && firstPassOptions.grabDragCueModel.numberOfGrabs < 2
+      shouldAddAriaDescribedby: () => firstPassOptions.supportsGestureDescription && firstPassOptions.grabDragUsageTracker.numberOfGrabs < 2
     }, firstPassOptions );
 
     assert && assert( options.grabCueOptions.visible === undefined, 'Should not set visibility of the cue node' );
@@ -312,7 +312,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     // from the draggable state is never cleared, see https://github.com/phetsims/scenery-phet/issues/688
     options.grabbableOptions.ariaLabel = this.grabbableAccessibleName;
 
-    this.grabDragModel = new GrabDragModel( options.grabDragCueModel );
+    this.grabDragModel = new GrabDragModel( options.grabDragUsageTracker );
     this.node = node;
     this.grabbableOptions = options.grabbableOptions;
     this.draggableOptions = options.draggableOptions;
@@ -453,7 +453,7 @@ export default class GrabDragInteraction extends EnabledComponent {
 
         this.grab();
 
-        this.grabDragModel.grabDragCueModel.numberOfKeyboardGrabs++;
+        this.grabDragModel.grabDragUsageTracker.numberOfKeyboardGrabs++;
 
         // focus after the transition so that listeners added to the draggable state get a focus event().
         this.node.focus();
@@ -627,7 +627,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     // TODO an assertion like this fails https://github.com/phetsims/scenery-phet/issues/869
     // assert && assert( this.grabDragModel.interactionStateProperty.value === 'grabbable' );
 
-    this.grabDragModel.grabDragCueModel.numberOfGrabs++; // TODO: If grabbed while already draggable, isn't that still another grab to count? Don't return early right? https://github.com/phetsims/scenery-phet/issues/869
+    this.grabDragModel.grabDragUsageTracker.numberOfGrabs++; // TODO: If grabbed while already draggable, isn't that still another grab to count? Don't return early right? https://github.com/phetsims/scenery-phet/issues/869
 
     this.grabDragModel.interactionStateProperty.value = 'draggable';
   }

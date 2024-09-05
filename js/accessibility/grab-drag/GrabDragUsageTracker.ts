@@ -11,7 +11,7 @@
 
 import sceneryPhet from '../../sceneryPhet.js';
 
-export default class GrabDragCueModel {
+export default class GrabDragUsageTracker {
 
   // The number of times the component has been picked up for dragging, regardless
   // of pickup method for things like determining content for "hints" describing the interaction
@@ -32,4 +32,4 @@ export default class GrabDragCueModel {
   }
 }
 
-sceneryPhet.register( 'GrabDragCueModel', GrabDragCueModel );
+sceneryPhet.register( 'GrabDragUsageTracker', GrabDragUsageTracker );
