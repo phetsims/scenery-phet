@@ -22,7 +22,8 @@ export default class GrabDragUsageTracker {
   // to alternative input.
   public numberOfKeyboardGrabs = 0;
 
-  // TODO: added for https://github.com/phetsims/density-buoyancy-common/issues/364, but probably won't pass code review. https://github.com/phetsims/scenery-phet/issues/869
+  // Clients can provide application-specific logic for when to show the drag cue. Typically, they will want to hide it
+  // after the user has interacted with it in a certain way.
   public shouldShowDragCue = true;
 
   public reset(): void {

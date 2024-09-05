@@ -188,7 +188,7 @@ export default class GrabDragInteraction extends EnabledComponent {
   private readonly listenersWhileDraggable: TInputListener[];
 
   // Model-related state of the current and general info about the interaction.
-  private readonly grabDragModel: GrabDragModel;
+  public readonly grabDragModel: GrabDragModel;
 
   // The aria-describedby association object that will associate "interactionState" with its
   // help text so that it is read automatically when the user finds it. This reference is saved so that
@@ -238,7 +238,7 @@ export default class GrabDragInteraction extends EnabledComponent {
         return this.grabDragModel.grabDragUsageTracker.numberOfKeyboardGrabs < 1 && node.inputEnabled;
       },
       showDragCueNode: () => {
-        return true;
+        return this.grabDragModel.grabDragUsageTracker.shouldShowDragCue;
       },
 
       // EnabledComponent
