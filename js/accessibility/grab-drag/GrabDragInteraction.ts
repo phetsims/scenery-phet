@@ -124,7 +124,7 @@ type SelfOptions = {
   // Add an aria-describedby link between the description sibling and the primary sibling, only when grabbable. By
   // default this should only be done when supporting gesture interactive description before two success grabs. This
   // function is called with one parameters: the number of successful grabs that has occurred thus far.
-  shouldAddAriaDescribedby?: ( numberOfGrabs: number ) => boolean;
+  shouldAddAriaDescribedby?: () => boolean;
 
   // Help text is treated as the same for the grabbable and draggable items, but is different based on if the
   // runtime is supporting gesture interactive description. Even though "technically" there is no way to access the
@@ -178,7 +178,7 @@ export default class GrabDragInteraction extends EnabledComponent {
 
   // Predicate that determines whether the aria description should be added.
   // This one is better as a predicate rather than a Property since we need to control its call timing
-  private readonly shouldAddAriaDescribedby: ( numberOfGrabs: number ) => boolean;
+  private readonly shouldAddAriaDescribedby: () => boolean;
 
   private readonly supportsGestureDescription: boolean;
 
@@ -262,7 +262,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       gestureHelpText: StringUtils.fillIn( gestureHelpTextPatternStringProperty, {
         objectToGrab: firstPassOptions.objectToGrabString
       } ),
-      shouldAddAriaDescribedby: numberOfGrabs => firstPassOptions.supportsGestureDescription && numberOfGrabs < 2
+      shouldAddAriaDescribedby: () => firstPassOptions.supportsGestureDescription && firstPassOptions.grabDragCueModel.numberOfGrabs < 2
     }, firstPassOptions );
 
     assert && assert( options.grabCueOptions.visible === undefined, 'Should not set visibility of the cue node' );
@@ -674,7 +674,7 @@ export default class GrabDragInteraction extends EnabledComponent {
 
   private updateAriaDescribedBy( interactionState: GrabDragInteractionState ): void {
 
-    if ( interactionState === 'grabbable' && this.shouldAddAriaDescribedby( this.grabDragModel.grabDragCueModel.numberOfGrabs ) ) {
+    if ( interactionState === 'grabbable' && this.shouldAddAriaDescribedby() ) {
 
       // this node is aria-describedby its own description content, so that the description is read automatically
       // when found by the user
