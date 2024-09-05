@@ -70,7 +70,6 @@ import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-co
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import GrabDragModel, { GrabDragInteractionState } from './GrabDragModel.js';
 import GrabDragUsageTracker from './GrabDragUsageTracker.js';
-import Emitter from '../../../../axon/js/Emitter.js';
 
 // constants
 const grabPatternStringStringProperty = SceneryPhetStrings.a11y.grabDrag.grabPatternStringProperty;
@@ -197,9 +196,6 @@ export default class GrabDragInteraction extends EnabledComponent {
 
   // A reusable Utterance for Voicing output from this type.
   private readonly voicingFocusUtterance: Utterance;
-
-  private readonly releasedEmitter = new Emitter();
-  private readonly grabbedEmitter = new Emitter();
 
   private readonly grabDragFocusHighlight: HighlightPath;
   private readonly grabDragInteractiveHighlight: HighlightPath;
@@ -373,14 +369,14 @@ export default class GrabDragInteraction extends EnabledComponent {
       Voicing.registerUtteranceToVoicingNode( this.voicingFocusUtterance, node );
     }
 
-    this.releasedEmitter.addListener( () => {
+    this.grabDragModel.releasedEmitter.addListener( () => {
       options.onRelease();
 
       this.node.alertDescriptionUtterance( releasedUtterance );
       isVoicing( node ) && Voicing.alertUtterance( releasedUtterance );
     } );
 
-    this.grabbedEmitter.addListener( () => options.onGrab() );
+    this.grabDragModel.grabbedEmitter.addListener( () => options.onGrab() );
 
     // assertions confirm this type cast below
     const nodeFocusHighlight = node.focusHighlight as HighlightPath | null;
@@ -451,14 +447,12 @@ export default class GrabDragInteraction extends EnabledComponent {
         // blur as a grabbable so that we get a new focus event after we turn into a draggable, and so that grab listeners get a blur() event before mutating.
         this.node.blur();
 
-        this.grab();
+        this.grabDragModel.keyboardGrab( () => {
 
-        this.grabDragModel.grabDragUsageTracker.numberOfKeyboardGrabs++;
+          // focus after the transition so that listeners added to the draggable state get a focus event().
+          this.node.focus();
+        } );
 
-        // focus after the transition so that listeners added to the draggable state get a focus event().
-        this.node.focus();
-
-        this.grabbedEmitter.emit();
       },
 
       focus: () => {
@@ -487,7 +481,7 @@ export default class GrabDragInteraction extends EnabledComponent {
         // The sequence that dispatched this fire also dispatches a click event, so we must avoid immediately grabbing
         // from this event that released
         guardKeyPressFromDraggable = true;
-        this.release();
+        this.grabDragModel.release();
       }
     } );
 
@@ -500,11 +494,11 @@ export default class GrabDragInteraction extends EnabledComponent {
 
         // Release on keyup for spacebar so that we don't pick up the draggable again when we release the spacebar
         // and trigger a click event - escape could be added to either keyup or keydown listeners
-        this.release();
+        this.grabDragModel.release();
       },
 
       // release when focus is lost
-      blur: () => this.release(),
+      blur: () => this.grabDragModel.release(),
 
       // if successfully dragged, then make the cue node invisible
       focus: () => this.updateVisibilityForCues()
@@ -531,8 +525,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     this.pressReleaseListener = new DragListener( {
       press: event => {
         if ( !event.isFromPDOM() ) {
-          this.grab();
-          this.grabbedEmitter.emit();
+          this.grabDragModel.grab();
         }
       },
       release: event => {
@@ -545,7 +538,7 @@ export default class GrabDragInteraction extends EnabledComponent {
         // release if interrupted, but only if not already grabbable, which is possible if the GrabDragInteraction
         // has been reset since press
         if ( shouldRelease && this.grabDragModel.interactionStateProperty.value === 'draggable' ) {
-          this.release();
+          this.grabDragModel.release();
         }
       },
 
@@ -560,7 +553,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     assert && assert( this.grabDragModel.interactionStateProperty.value === 'grabbable', 'starting state grabbable please' );
 
     // Update the interaction, pdom, focus, etc when the state changes.
-    this.grabDragModel.interactionStateProperty.link( interactionState => this.baseInteractionUpdate( interactionState ) );
+    this.grabDragModel.interactionStateProperty.link( () => this.updateFromState() );
 
 
     this.enabledProperty.lazyLink( enabled => {
@@ -601,59 +594,18 @@ export default class GrabDragInteraction extends EnabledComponent {
       this.grabCueNode.dispose();
       this.dragCueNode.detach();
 
-      this.grabbedEmitter.dispose();
-      this.releasedEmitter.dispose();
+      this.grabDragModel.dispose();
     } );
   }
 
   /**
-   * Release the draggable. This function will set the interaction back to the "grabbable" state and should only be called
-   * when draggable. It also behaves as though it was released from user input, for example a sound effect and description
-   * will occur.
-   */
-  public release(): void {
-    assert && assert( this.grabDragModel.interactionStateProperty.value === 'draggable', 'cannot set to interactionState if already set that way' );
-    this.grabDragModel.interactionStateProperty.value = 'grabbable';
-    this.releasedEmitter.emit();
-  }
-
-  /**
-   * Turn from grabbable into draggable interaction state.
-   * This updates accessibility representation in the PDOM and changes input listeners.
-   */
-  private grab(): void {
-    // TODO: Should we bail early if setting to 'draggable' when it was already 'draggable'? Would make it idempotent, which would be clearer, see https://github.com/phetsims/scenery-phet/issues/869
-
-    // TODO an assertion like this fails https://github.com/phetsims/scenery-phet/issues/869
-    // assert && assert( this.grabDragModel.interactionStateProperty.value === 'grabbable' );
-
-    this.grabDragModel.grabDragUsageTracker.numberOfGrabs++; // TODO: If grabbed while already draggable, isn't that still another grab to count? Don't return early right? https://github.com/phetsims/scenery-phet/issues/869
-
-    this.grabDragModel.interactionStateProperty.value = 'draggable';
-  }
-
-  /**
    * Update the node to switch modalities between being draggable, and grabbable. This function holds code that should
-   * be called when switching in either direction.
-   * TODO: SR, help me with a better name https://github.com/phetsims/scenery-phet/issues/869
+   * be called when switching from any state to any other state.
    */
-  private baseInteractionUpdate( interactionState: GrabDragInteractionState ): void {
-    const nodeOptions = interactionState === 'grabbable' ? this.grabbableOptions : this.draggableOptions;
+  private updateFromState(): void {
+    const interactionState = this.grabDragModel.interactionStateProperty.value;
+
     const listenersToRemove = interactionState === 'grabbable' ? this.listenersWhileDraggable : this.listenersWhileGrabbable;
-    const listenersToAdd = interactionState === 'grabbable' ? this.listenersWhileGrabbable : this.listenersWhileDraggable;
-
-
-    // TODO: Adjust aria-roledescription and aria-describedby after listener interrupt? https://github.com/phetsims/scenery-phet/issues/869
-    // To support gesture and mobile screen readers, we change the roledescription, see https://github.com/phetsims/scenery-phet/issues/536
-    // By default, the grabbable gets a roledescription to force the AT to say its role. This fixes a bug in VoiceOver
-    // where it fails to update the role after turning back into a grabbable.
-    // See https://github.com/phetsims/scenery-phet/issues/688.
-    this.node.setPDOMAttribute( 'aria-roledescription',
-      ( interactionState === 'draggable' || this.supportsGestureDescription ) ? movableStringProperty :
-      buttonStringProperty
-    );
-
-    this.updateAriaDescribedBy( interactionState );
 
     // interrupt prior input, reset the key state of the drag handler by interrupting the drag. Don't interrupt all
     // input, but instead just those to be removed.
@@ -662,17 +614,32 @@ export default class GrabDragInteraction extends EnabledComponent {
     // remove all previous listeners from the node
     this.removeInputListeners( listenersToRemove );
 
+    // To support gesture and mobile screen readers, we change the roledescription, see https://github.com/phetsims/scenery-phet/issues/536
+    // By default, the grabbable gets a roledescription to force the AT to say its role. This fixes a bug in VoiceOver
+    // where it fails to update the role after turning back into a grabbable.
+    // See https://github.com/phetsims/scenery-phet/issues/688.
+    this.node.setPDOMAttribute( 'aria-roledescription',
+      ( interactionState === 'draggable' || this.supportsGestureDescription ) ? movableStringProperty : buttonStringProperty
+    );
+
+    this.updateAriaDescribedby( interactionState );
+
     // update the PDOM of the node
+    const nodeOptions = interactionState === 'grabbable' ? this.grabbableOptions : this.draggableOptions;
     this.node.mutate( nodeOptions );
     assert && this.enabledProperty.value && assert( this.node.focusable, 'GrabDragInteraction node must remain focusable after mutation' );
 
+    const listenersToAdd = interactionState === 'grabbable' ? this.listenersWhileGrabbable : this.listenersWhileDraggable;
     this.addInputListeners( listenersToAdd );
 
     this.updateFocusHighlights();
     this.updateVisibilityForCues();
+
+    assert && assert( this.grabDragModel.interactionStateProperty.value === interactionState,
+      'updating from state should not change the interaction state.' );
   }
 
-  private updateAriaDescribedBy( interactionState: GrabDragInteractionState ): void {
+  private updateAriaDescribedby( interactionState: GrabDragInteractionState ): void {
 
     if ( interactionState === 'grabbable' && this.shouldAddAriaDescribedby() ) {
 

@@ -11,25 +11,74 @@
 import sceneryPhet from '../../sceneryPhet.js';
 import GrabDragUsageTracker from './GrabDragUsageTracker.js';
 import Property from '../../../../axon/js/Property.js';
+import Emitter from '../../../../axon/js/Emitter.js';
+import EnabledComponent from '../../../../axon/js/EnabledComponent.js';
+import { TReadOnlyEmitter } from '../../../../axon/js/TEmitter.js';
 
 export type GrabDragInteractionState = 'grabbable' | 'draggable';
 
 // TODO: This should be the EnabledComponent instead of the view, https://github.com/phetsims/scenery-phet/issues/869
-export default class GrabDragModel {
+export default class GrabDragModel extends EnabledComponent {
 
   // Interaction states that this component interaction can be in:
   // "grabbable": In the button state where you can interact with the node to grab it.
   // "draggable": In the state where you can use a keyboard listener to move the object with arrow keys.
-  /**
-   * TODO: Rename to "idle" vs "grabbed"? See https://github.com/phetsims/scenery-phet/issues/869
-   * SR: grabbable vs draggable was initially confusing
-   * MK: Since we want to show the "grabbable" cue when it is grabbable, we should call it grabbable.
-   *     Wouldn't it introduce another layer of confusion to call it "idle" and have to know/figure out that idle means to show the "grabbable" message?
-   * SR: Isn't grabbable a bit of a misnomer since something cannot be grabbed unless it also has focus?
-   */
+  // TODO: Rename to "idle" and "grabbed"? See https://github.com/phetsims/scenery-phet/issues/869
   public readonly interactionStateProperty = new Property<GrabDragInteractionState>( 'grabbable' );
 
-  public constructor( public readonly grabDragUsageTracker: GrabDragUsageTracker = new GrabDragUsageTracker() ) {}
+  private readonly _releasedEmitter = new Emitter();
+  public readonly releasedEmitter: TReadOnlyEmitter = this._releasedEmitter;
+  private readonly _grabbedEmitter = new Emitter();
+  public readonly grabbedEmitter: TReadOnlyEmitter = this._grabbedEmitter;
+
+  public constructor( public readonly grabDragUsageTracker: GrabDragUsageTracker = new GrabDragUsageTracker() ) {
+    super();
+  }
+
+  /**
+   * Grab with keyboard usage tracking
+   */
+  public keyboardGrab( onBeforeEmit: VoidFunction = _.noop ): void {
+
+    // increment before grab in case something during the state change reads this value.
+    this.grabDragUsageTracker.numberOfKeyboardGrabs++;
+
+    this.grab( onBeforeEmit );
+  }
+
+  /**
+   * Turn from grabbable into draggable interaction state.
+   * This updates accessibility representation in the PDOM and changes input listeners. This function can be called
+   * while already grabbed, because of nuance in how we support multi-input and gestureDescription.
+   */
+  public grab( onBeforeEmit: VoidFunction = _.noop ): void {
+
+    // Increment this even if we are already in the grabbed state, to indicate user intention in our usage tracker.
+    this.grabDragUsageTracker.numberOfGrabs++;
+
+    this.interactionStateProperty.value = 'draggable';
+
+    onBeforeEmit();
+
+    this._grabbedEmitter.emit();
+  }
+
+  /**
+   * Release the draggable. This function will set the interaction back to the "grabbable" state and should only be called
+   * when draggable. It also behaves as though it was released from user input, for example a sound effect and description
+   * will occur.
+   */
+  public release(): void {
+    assert && assert( this.interactionStateProperty.value === 'draggable', 'cannot set to interactionState if already set that way' );
+    this.interactionStateProperty.value = 'grabbable';
+    this._releasedEmitter.emit();
+  }
+
+  public override dispose(): void {
+    this._grabbedEmitter.dispose();
+    this._releasedEmitter.dispose();
+    super.dispose();
+  }
 
   public reset(): void {
 
