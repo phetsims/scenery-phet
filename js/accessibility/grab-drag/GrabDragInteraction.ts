@@ -209,7 +209,7 @@ export default class GrabDragInteraction extends EnabledComponent {
   // important for AT that use pointer events like iOS VoiceOver.
   // A DragListener is used instead of a PressListener to work with touchSnag.
   // Note this is NOT the DragListener that implements dragging on the target.
-  public readonly pressReleaseListener: DragListener;
+  private readonly pressReleaseListener: DragListener;
 
   /**
    * @param node - will be mutated with a11y options to have the grab/drag functionality in the PDOM
@@ -741,6 +741,15 @@ export default class GrabDragInteraction extends EnabledComponent {
     this.pressReleaseListener.interrupt();
 
     assert && assert( this.grabDragModel.interactionStateProperty.value === 'grabbable', 'disabled grabDragInteractions must be in "grabbable" state.' );
+  }
+
+  /**
+   * Often onGrab callbacks need to know whether the grab was triggered from keyboard/pdom, in which case it should
+   * trigger description, OR triggered via mouse/touch which may not trigger description because another listener may
+   * be responsible.
+   */
+  public isInputFromMouseOrTouch(): boolean {
+    return this.pressReleaseListener.isPressed;
   }
 
   /**
