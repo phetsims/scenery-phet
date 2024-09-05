@@ -3,8 +3,6 @@
 /**
  * The model of the grab drag interaction. This has the current interaction state, and the cueing state.
  *
- * TODO: Having the model be modeProperty = 'grabbable' or 'draggable' and listening for changes in that could help address some of the recommendations below.
- *        Like interactionStateProperty https://github.com/phetsims/scenery-phet/issues/869
  * @author Michael Kauzmann (PhET Interactive Simulations)
  * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
