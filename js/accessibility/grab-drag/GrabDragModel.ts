@@ -27,13 +27,15 @@ export default class GrabDragModel extends EnabledComponent {
   public readonly interactionStateProperty = new Property<GrabDragInteractionState>( 'grabbable' );
 
   private readonly _releasedEmitter = new Emitter();
-  public readonly releasedEmitter: TReadOnlyEmitter = this._releasedEmitter;
   private readonly _grabbedEmitter = new Emitter();
-  public readonly grabbedEmitter: TReadOnlyEmitter = this._grabbedEmitter;
 
   public constructor( public readonly grabDragUsageTracker: GrabDragUsageTracker = new GrabDragUsageTracker() ) {
     super();
   }
+
+  public get grabbedEmitter(): TReadOnlyEmitter { return this._grabbedEmitter; }
+
+  public get releasedEmitter(): TReadOnlyEmitter { return this._releasedEmitter; }
 
   /**
    * Grab with keyboard usage tracking
