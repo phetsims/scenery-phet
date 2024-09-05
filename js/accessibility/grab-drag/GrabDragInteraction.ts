@@ -124,7 +124,7 @@ type SelfOptions = {
   // Add an aria-describedby link between the description sibling and the primary sibling, only when grabbable. By
   // default this should only be done when supporting gesture interactive description before two success grabs. This
   // function is called with one parameters: the number of successful grabs that has occurred thus far.
-  shouldAddAriaDescription?: ( numberOfGrabs: number ) => boolean;
+  shouldAddAriaDescribedby?: ( numberOfGrabs: number ) => boolean;
 
   // Help text is treated as the same for the grabbable and draggable items, but is different based on if the
   // runtime is supporting gesture interactive description. Even though "technically" there is no way to access the
@@ -178,7 +178,7 @@ export default class GrabDragInteraction extends EnabledComponent {
 
   // Predicate that determines whether the aria description should be added.
   // This one is better as a predicate rather than a Property since we need to control its call timing
-  private readonly shouldAddAriaDescription: ( numberOfGrabs: number ) => boolean;
+  private readonly shouldAddAriaDescribedby: ( numberOfGrabs: number ) => boolean;
 
   private readonly supportsGestureDescription: boolean;
 
@@ -221,7 +221,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     const ownsEnabledProperty = !providedOptions || !providedOptions.enabledProperty;
 
     // Options filled in the second optionize pass are ommitted from the self options of first pass.
-    const firstPassOptions = optionize<GrabDragInteractionOptions, StrictOmit<SelfOptions, 'gestureHelpText' | 'shouldAddAriaDescription'>, ParentOptions>()( {
+    const firstPassOptions = optionize<GrabDragInteractionOptions, StrictOmit<SelfOptions, 'gestureHelpText' | 'shouldAddAriaDescribedby'>, ParentOptions>()( {
       objectToGrabString: defaultObjectToGrabStringProperty,
       grabbableAccessibleName: null,
       onGrab: _.noop,
@@ -262,7 +262,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       gestureHelpText: StringUtils.fillIn( gestureHelpTextPatternStringProperty, {
         objectToGrab: firstPassOptions.objectToGrabString
       } ),
-      shouldAddAriaDescription: numberOfGrabs => firstPassOptions.supportsGestureDescription && numberOfGrabs < 2
+      shouldAddAriaDescribedby: numberOfGrabs => firstPassOptions.supportsGestureDescription && numberOfGrabs < 2
     }, firstPassOptions );
 
     assert && assert( options.grabCueOptions.visible === undefined, 'Should not set visibility of the cue node' );
@@ -320,7 +320,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     this.grabCueNode = new GrabReleaseCueNode( options.grabCueOptions );
     this.showGrabCueNode = options.showGrabCueNode;
     this.showDragCueNode = options.showDragCueNode;
-    this.shouldAddAriaDescription = options.shouldAddAriaDescription;
+    this.shouldAddAriaDescribedby = options.shouldAddAriaDescribedby;
     this.supportsGestureDescription = options.supportsGestureDescription;
 
     // set the help text, if provided - it will be associated with aria-describedby when in the "grabbable" interactionState
@@ -674,7 +674,7 @@ export default class GrabDragInteraction extends EnabledComponent {
 
   private updateAriaDescribedBy( interactionState: GrabDragInteractionState ): void {
 
-    if ( interactionState === 'grabbable' && this.shouldAddAriaDescription( this.grabDragModel.grabDragCueModel.numberOfGrabs ) ) {
+    if ( interactionState === 'grabbable' && this.shouldAddAriaDescribedby( this.grabDragModel.grabDragCueModel.numberOfGrabs ) ) {
 
       // this node is aria-describedby its own description content, so that the description is read automatically
       // when found by the user
