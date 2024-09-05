@@ -110,7 +110,7 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
       enabledProperty: enabledProperty,
 
       // AccessibleSlider is composed with InteractiveHighlighting, but the InteractiveHighlight should surround
-      // the shooter so it is disabled for the faucet and
+      // the shooter. It is disabled for the Slider and composed with the ShooterNode.
       interactiveHighlightEnabled: false,
 
       // phet-io
