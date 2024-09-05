@@ -54,7 +54,7 @@ import EnabledComponent, { EnabledComponentOptions } from '../../../../axon/js/E
 import assertHasProperties from '../../../../phet-core/js/assertHasProperties.js';
 import getGlobal from '../../../../phet-core/js/getGlobal.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import { Association, DragListener, HighlightFromNode, HighlightPath, isInteractiveHighlighting, isVoicing, keyboardDraggingKeys, KeyboardDragListener, KeyboardListener, Node, NodeOptions, ParallelDOMOptions, PDOMPeer, PDOMValueType, TInputListener, Voicing } from '../../../../scenery/js/imports.js';
+import { Association, DragListener, HighlightFromNode, HighlightPath, isInteractiveHighlighting, isVoicing, KeyboardDragDirectionToKeyStringPropertiesMap, KeyboardDragListener, KeyboardListener, Node, NodeOptions, ParallelDOMOptions, PDOMPeer, PDOMValueType, TInputListener, Voicing } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import AriaLiveAnnouncer from '../../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
@@ -457,7 +457,9 @@ export default class GrabDragInteraction extends EnabledComponent {
 
     // Update the visibility of dragging cues whenever keyboard dragging keys release (keyup), bug fix for https://github.com/phetsims/scenery-phet/issues/868
     const dragDivDraggedListener = new KeyboardListener( {
-      keys: keyboardDraggingKeys, // TODO: This doesn't support shift+X controls, https://github.com/phetsims/scenery-phet/issues/868
+
+      // All possible dragging keys will fire this.
+      keyStringProperties: KeyboardDragDirectionToKeyStringPropertiesMap.get( 'both' ),
       fireOnDown: false,
       fire: () => this.updateVisibilityForCues(),
 
