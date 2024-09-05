@@ -198,7 +198,6 @@ export default class GrabDragInteraction extends EnabledComponent {
   // A reusable Utterance for Voicing output from this type.
   private readonly voicingFocusUtterance: Utterance;
 
-  // TODO: make these public? https://github.com/phetsims/scenery-phet/issues/869
   private readonly releasedEmitter = new Emitter();
   private readonly grabbedEmitter = new Emitter();
 
@@ -211,8 +210,6 @@ export default class GrabDragInteraction extends EnabledComponent {
   // A DragListener is used instead of a PressListener to work with touchSnag.
   // Note this is NOT the DragListener that implements dragging on the target.
   public readonly pressReleaseListener: DragListener;
-
-  private readonly disposeGrabDragInteraction: () => void;
 
   /**
    * @param node - will be mutated with a11y options to have the grab/drag functionality in the PDOM
@@ -503,7 +500,7 @@ export default class GrabDragInteraction extends EnabledComponent {
 
         // Release on keyup for spacebar so that we don't pick up the draggable again when we release the spacebar
         // and trigger a click event - escape could be added to either keyup or keydown listeners
-        this.release(); // TODO: Why not send along the key event? See https://github.com/phetsims/scenery-phet/issues/869
+        this.release();
       },
 
       // release when focus is lost
@@ -580,7 +577,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     // If the client specified their own enabledProperty, then they are responsible for managing enabled.
     ownsEnabledProperty && this.node.inputEnabledProperty.lazyLink( inputEnabledListener );
 
-    this.disposeGrabDragInteraction = () => {
+    this.disposeEmitter.addListener( () => {
 
       this.node.removeInputListener( this.pressReleaseListener );
       ownsEnabledProperty && this.node.inputEnabledProperty.unlink( inputEnabledListener );
@@ -603,7 +600,10 @@ export default class GrabDragInteraction extends EnabledComponent {
       ownsInteractiveHighlight && this.grabDragInteractiveHighlight.dispose();
       this.grabCueNode.dispose();
       this.dragCueNode.detach();
-    };
+
+      this.grabbedEmitter.dispose();
+      this.releasedEmitter.dispose();
+    } );
   }
 
   /**
@@ -729,14 +729,6 @@ export default class GrabDragInteraction extends EnabledComponent {
         this.node.removeInputListener( listener );
       }
     }
-  }
-
-  /**
-   * @override
-   */
-  public override dispose(): void {
-    this.disposeGrabDragInteraction();
-    super.dispose();
   }
 
   /**
