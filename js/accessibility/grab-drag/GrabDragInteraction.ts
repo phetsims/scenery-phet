@@ -198,14 +198,8 @@ export default class GrabDragInteraction extends EnabledComponent {
   private readonly onRelease: SceneryNullableListenerFunction;
   private readonly onGrab: SceneryListenerFunction;
 
-  private readonly ownsGrabFocusHighlight: boolean;
-  private readonly grabFocusHighlight: HighlightPath;
-
-  private readonly ownsGrabInteractiveHighlight: boolean;
-  private readonly grabInteractiveHighlight: HighlightPath;
-
-  private readonly dragFocusHighlight: HighlightPath;
-  private readonly dragInteractiveHighlight: HighlightPath;
+  private readonly grabDragFocusHighlight: HighlightPath;
+  private readonly grabDragInteractiveHighlight: HighlightPath;
 
   // For mouse and touch events (non-PDOM pointer events), change state and representations in the PDOM - This is
   // important to update interactive highlights, because the highlight showing the state can be seen. It is also
@@ -387,14 +381,17 @@ export default class GrabDragInteraction extends EnabledComponent {
     };
     this.onGrab = options.onGrab;
 
-    assert && node.focusHighlight && assert( node.focusHighlight instanceof HighlightPath,
+    // assertions confirm this type cast below
+    const nodeFocusHighlight = node.focusHighlight as HighlightPath | null;
+
+    assert && nodeFocusHighlight && assert( nodeFocusHighlight instanceof HighlightPath,
       'if provided, focusHighlight must be a Path to support highlightChangedEmitter' );
     assert && isInteractiveHighlighting( node ) && node.interactiveHighlight && assert( node.interactiveHighlight instanceof HighlightPath,
       'if provided, interactiveHighlight must be a Path to support highlightChangedEmitter' );
     if ( node.focusHighlightLayerable ) {
-      assert && assert( node.focusHighlight,
+      assert && assert( nodeFocusHighlight,
         'if focusHighlightLayerable, the highlight must be set to the node before constructing the grab/drag interaction.' );
-      assert && assert( ( node.focusHighlight! as HighlightPath ).parent,
+      assert && assert( ( nodeFocusHighlight! ).parent,
         'if focusHighlightLayerable, the highlight must be added to the scene graph before grab/drag construction.' );
     }
     if ( isInteractiveHighlighting( node ) && node.interactiveHighlightLayerable ) {
@@ -404,61 +401,28 @@ export default class GrabDragInteraction extends EnabledComponent {
         'if interactiveHighlightLayerable, the highlight must be added to the scene graph before construction' );
     }
 
-    // Take highlights from the node for the grab button interaction. The Interactive Highlights cannot fall back to
+    // Take highlights from the node for the grab/drag interaction. The Interactive Highlights cannot fall back to
     // the default focus highlights because GrabDragInteraction adds "grab cue" Nodes as children
     // to the focus highlights that should not be displayed when using Interactive Highlights.
-    this.ownsGrabFocusHighlight = !node.focusHighlight;
-    // TODO: provide shapeProperty to our instance of HighlightPath instead of sometimes owning it, https://github.com/phetsims/scenery-phet/issues/869
-    this.grabFocusHighlight = ( node.focusHighlight as HighlightPath ) || new HighlightFromNode( node );
+    const ownsFocusHighlight = !node.focusHighlightLayerable;
+    this.grabDragFocusHighlight = !ownsFocusHighlight ? nodeFocusHighlight! :
+                              nodeFocusHighlight ? new HighlightPath( nodeFocusHighlight.shapeProperty ) :
+                              new HighlightFromNode( node );
+    const ownsInteractiveHighlight = !( isInteractiveHighlighting( node ) && node.interactiveHighlightLayerable );
+    this.grabDragInteractiveHighlight = !ownsInteractiveHighlight ? ( node.interactiveHighlight as HighlightPath ) :
+                                    ( isInteractiveHighlighting( node ) && node.interactiveHighlight ) ?
+                                    new HighlightPath( ( node.interactiveHighlight as HighlightPath ).shapeProperty ) :
+                                    new HighlightPath( this.grabDragFocusHighlight.shapeProperty );
 
-    this.ownsGrabInteractiveHighlight = !( isInteractiveHighlighting( node ) && node.interactiveHighlight );
-    // TODO: provide shapeProperty to our instance of HighlightPath instead of sometimes owning it, https://github.com/phetsims/scenery-phet/issues/869
-    this.grabInteractiveHighlight = ( isInteractiveHighlighting( node ) && node.interactiveHighlight ) ? ( node.interactiveHighlight as HighlightPath ) : new HighlightFromNode( node );
-
-    node.focusHighlight = this.grabFocusHighlight;
-    isInteractiveHighlighting( node ) && node.setInteractiveHighlight( this.grabInteractiveHighlight );
-
-    // Make the draggable highlights in the spitting image of the node's grabbable highlights.
-    // TODO: What if the grabFocusHighlight shape changes? https://github.com/phetsims/scenery-phet/issues/869
-    this.dragFocusHighlight = new HighlightPath( this.grabFocusHighlight.shape, {
-      visible: false,
-      transformSourceNode: this.grabFocusHighlight.transformSourceNode || node
-    } );
-    // TODO: What if the grabFocusHighlight shape changes? https://github.com/phetsims/scenery-phet/issues/869
-    this.dragInteractiveHighlight = new HighlightPath( this.grabInteractiveHighlight.shape, {
-      visible: false,
-      transformSourceNode: ( this.grabInteractiveHighlight instanceof HighlightPath && this.grabInteractiveHighlight.transformSourceNode ) ? this.grabInteractiveHighlight.transformSourceNode : node
-    } );
-
-    // Update the passed in node's focusHighlight to make it dashed for the "draggable" state
-    this.dragFocusHighlight.setDashed( true );
-    this.dragInteractiveHighlight.setDashed( true );
-
-    // if the Node layers its interactive highlights in the scene graph, add the dragInteractiveHighlight in the same
-    // way the grabInteractiveHighlight was added
-    if ( isInteractiveHighlighting( node ) && node.interactiveHighlightLayerable ) {
-      assert && assert( this.grabInteractiveHighlight.parent, 'A parent is required if the highlight is layerable.' );
-      this.grabInteractiveHighlight.parent!.addChild( this.dragInteractiveHighlight );
-    }
-
-    // if ever we update the node's highlights, then update the grab button's too to keep in sync.
-    // TODO: Can these change if we provide the shapeProperty in the constructor? MK doesn't think so because highlightChangedEmitter is weird. https://github.com/phetsims/scenery-phet/issues/869
-    const onFocusHighlightChange = () => {
-      this.dragFocusHighlight.setShape( this.grabFocusHighlight.shape );
-    };
-    this.grabFocusHighlight.highlightChangedEmitter.addListener( onFocusHighlightChange );
-
-    const onInteractiveHighlightChange = () => {
-      this.dragInteractiveHighlight.setShape( this.grabInteractiveHighlight.shape );
-    };
-    this.grabInteractiveHighlight.highlightChangedEmitter.addListener( onInteractiveHighlightChange );
+    node.focusHighlight = this.grabDragFocusHighlight;
+    isInteractiveHighlighting( node ) && node.setInteractiveHighlight( this.grabDragInteractiveHighlight );
 
     // only the focus highlights have "cue" Nodes so we do not need to do any work here for the Interactive Highlights
     const startingMatrix = node.getMatrix();
     this.grabCueNode.prependMatrix( startingMatrix );
-    this.grabFocusHighlight.addChild( this.grabCueNode );
+    this.grabDragFocusHighlight.addChild( this.grabCueNode );
     this.dragCueNode.prependMatrix( startingMatrix );
-    this.dragFocusHighlight.addChild( this.dragCueNode );
+    this.grabDragFocusHighlight.addChild( this.dragCueNode );
 
     // Some key presses can fire the node's click (the grab button) from the same press that fires the keydown from
     // the draggable, so guard against that.
@@ -494,20 +458,6 @@ export default class GrabDragInteraction extends EnabledComponent {
         this.node.focus();
 
         this.onGrab( event );
-
-        // Add the newly created focusHighlight to the scene graph if focusHighlightLayerable, just like the
-        // original focus highlight was added. By doing this on click, we make sure that the node's
-        // focusHighlight has been completely constructed (added to the scene graph) and can use its parent. But only
-        // do it once.
-        if ( node.focusHighlightLayerable ) {
-          const grabHighlightParent = this.grabFocusHighlight.parent!;
-          assert && assert( grabHighlightParent, 'how can we have focusHighlightLayerable with a node that is not ' +
-                                                 'in the scene graph?' );
-          // If not yet added, do so now.
-          if ( !grabHighlightParent.hasChild( this.dragFocusHighlight ) ) {
-            grabHighlightParent.addChild( this.dragFocusHighlight );
-          }
-        }
       },
 
       focus: () => {
@@ -645,12 +595,8 @@ export default class GrabDragInteraction extends EnabledComponent {
       this.voicingFocusUtterance.dispose();
 
       // Focus and cue disposal
-      this.grabFocusHighlight.highlightChangedEmitter.removeListener( onFocusHighlightChange );
-      this.grabInteractiveHighlight.highlightChangedEmitter.removeListener( onInteractiveHighlightChange );
-      this.ownsGrabFocusHighlight && this.grabFocusHighlight.dispose();
-      this.ownsGrabInteractiveHighlight && this.grabInteractiveHighlight.dispose();
-      this.dragFocusHighlight.dispose();
-      this.dragInteractiveHighlight.dispose();
+      ownsFocusHighlight && this.grabDragFocusHighlight.dispose();
+      ownsInteractiveHighlight && this.grabDragInteractiveHighlight.dispose();
       this.grabCueNode.dispose();
       this.dragCueNode.detach();
     };
@@ -746,23 +692,18 @@ export default class GrabDragInteraction extends EnabledComponent {
    * No need to set visibility to true, because that will happen for us by HighlightOverlay on focus.
    */
   private updateFocusHighlights(): void {
-
-    if ( this.grabDragModel.interactionStateProperty.value === 'grabbable' ) {
-      this.node.focusHighlight = this.grabFocusHighlight;
-      isInteractiveHighlighting( this.node ) && this.node.setInteractiveHighlight( this.grabInteractiveHighlight );
-    }
-    else {
-      this.node.focusHighlight = this.dragFocusHighlight;
-      isInteractiveHighlighting( this.node ) && this.node.setInteractiveHighlight( this.dragInteractiveHighlight );
-    }
+    this.grabDragFocusHighlight.setDashed( this.grabDragModel.interactionStateProperty.value === 'draggable' );
+    this.grabDragInteractiveHighlight.setDashed( this.grabDragModel.interactionStateProperty.value === 'draggable' );
   }
 
   /**
    * Update the visibility of the cues for both grabbable and draggable states.
    */
   private updateVisibilityForCues(): void {
-    this.dragCueNode.visible = this.enabled && this.showDragCueNode();
-    this.grabCueNode.visible = this.enabled && this.showGrabCueNode();
+    this.dragCueNode.visible = this.enabled && this.grabDragModel.interactionStateProperty.value === 'draggable' &&
+                               this.showDragCueNode();
+    this.grabCueNode.visible = this.enabled && this.grabDragModel.interactionStateProperty.value === 'grabbable' &&
+                               this.showGrabCueNode();
   }
 
   /**
