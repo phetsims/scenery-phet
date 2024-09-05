@@ -12,10 +12,14 @@ import sceneryPhet from '../../sceneryPhet.js';
 import GrabDragUsageTracker from './GrabDragUsageTracker.js';
 import Property from '../../../../axon/js/Property.js';
 import Emitter from '../../../../axon/js/Emitter.js';
-import EnabledComponent from '../../../../axon/js/EnabledComponent.js';
+import EnabledComponent, { EnabledComponentOptions } from '../../../../axon/js/EnabledComponent.js';
 import { TReadOnlyEmitter } from '../../../../axon/js/TEmitter.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 export type GrabDragInteractionState = 'grabbable' | 'draggable';
+
+type SelfOptions = EmptySelfOptions;
+export type GrabDragModelOptions = SelfOptions & EnabledComponentOptions;
 
 // TODO: This should be the EnabledComponent instead of the view, https://github.com/phetsims/scenery-phet/issues/869
 export default class GrabDragModel extends EnabledComponent {
@@ -32,8 +36,9 @@ export default class GrabDragModel extends EnabledComponent {
   private readonly _releasedEmitter = new Emitter(); // called after setting to "idle" state
   private readonly _grabbedEmitter = new Emitter(); // called after setting to "grabbed" state
 
-  public constructor( public readonly grabDragUsageTracker: GrabDragUsageTracker = new GrabDragUsageTracker() ) {
-    super();
+  public constructor( public readonly grabDragUsageTracker: GrabDragUsageTracker = new GrabDragUsageTracker(), providedOptions?: GrabDragModelOptions ) {
+    const options = optionize<GrabDragModelOptions, SelfOptions, EnabledComponentOptions>()( {}, providedOptions );
+    super( options );
   }
 
   public get grabbedEmitter(): TReadOnlyEmitter { return this._grabbedEmitter; }

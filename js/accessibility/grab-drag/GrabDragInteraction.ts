@@ -50,7 +50,6 @@
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
-import EnabledComponent, { EnabledComponentOptions } from '../../../../axon/js/EnabledComponent.js';
 import assertHasProperties from '../../../../phet-core/js/assertHasProperties.js';
 import getGlobal from '../../../../phet-core/js/getGlobal.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
@@ -64,9 +63,11 @@ import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import GrabReleaseCueNode from '../nodes/GrabReleaseCueNode.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import GrabDragModel, { GrabDragInteractionState } from './GrabDragModel.js';
+import GrabDragModel, { GrabDragInteractionState, GrabDragModelOptions } from './GrabDragModel.js';
 import GrabDragUsageTracker from './GrabDragUsageTracker.js';
 import Emitter from '../../../../axon/js/Emitter.js';
+import Disposable from '../../../../axon/js/Disposable.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 
 // constants
 const grabPatternStringStringProperty = SceneryPhetStrings.a11y.grabDrag.grabPatternStringProperty;
@@ -142,14 +143,14 @@ type SelfOptions = {
   grabDragUsageTracker?: GrabDragUsageTracker;
 };
 
-type ParentOptions = EnabledComponentOptions;
-type GrabDragInteractionOptions = SelfOptions & ParentOptions;
+// Provide GrabDragModelOptions as top level options, and they are passed directly to the model.
+type GrabDragInteractionOptions = SelfOptions & GrabDragModelOptions;
 
 // Options that can be forwarded to the target Node when the state changes. Fields that are set by the implementation
 // of GrabDragInteraction are omitted.
 type StateOptions = StrictOmit<ParallelDOMOptions, 'descriptionContent' | 'helpText' | 'descriptionTagName' | 'accessibleName' | 'innerContent' | 'ariaLabel'>;
 
-export default class GrabDragInteraction extends EnabledComponent {
+export default class GrabDragInteraction extends Disposable {
 
   // The accessible name for the Node in its 'draggable' interactionState.
   private readonly draggableAccessibleName: PDOMValueType;
@@ -211,7 +212,8 @@ export default class GrabDragInteraction extends EnabledComponent {
     const ownsEnabledProperty = !providedOptions || !providedOptions.enabledProperty;
 
     // Options filled in the second optionize pass are ommitted from the self options of first pass.
-    const firstPassOptions = optionize<GrabDragInteractionOptions, StrictOmit<SelfOptions, 'gestureHelpText' | 'shouldAddAriaDescribedby'>, ParentOptions>()( {
+    const firstPassOptions = optionize<GrabDragInteractionOptions,
+      StrictOmit<SelfOptions, 'gestureHelpText' | 'shouldAddAriaDescribedby'>, GrabDragModelOptions>()( {
       objectToGrabString: defaultObjectToGrabStringProperty,
       grabbableAccessibleName: null,
       onGrab: _.noop,
@@ -261,7 +263,8 @@ export default class GrabDragInteraction extends EnabledComponent {
     assert && assert( !options.dragCueNode.parent, 'GrabDragInteraction adds dragCueNode to focusHighlight' );
     assert && assert( options.dragCueNode.visible, 'dragCueNode should be visible to begin with' );
 
-    super( options );
+    // Options are passed to the model directly, so Disposable options will be handled over in the model type.
+    super();
 
     options.draggableOptions = combineOptions<ParallelDOMOptions>( {
       tagName: 'div',
@@ -302,7 +305,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     // from the draggable state is never cleared, see https://github.com/phetsims/scenery-phet/issues/688
     options.grabbableOptions.ariaLabel = this.grabbableAccessibleName;
 
-    this.grabDragModel = new GrabDragModel( options.grabDragUsageTracker );
+    this.grabDragModel = new GrabDragModel( options.grabDragUsageTracker, options );
     this.node = node;
     this.grabbableOptions = options.grabbableOptions;
     this.draggableOptions = options.draggableOptions;
@@ -386,7 +389,7 @@ export default class GrabDragInteraction extends EnabledComponent {
 
         // don't turn to draggable on mobile a11y, it is the wrong gesture - user should press down and hold
         // to initiate a drag
-        if ( this.supportsGestureDescription || !this.enabled ) {
+        if ( this.supportsGestureDescription || !this.grabDragModel.enabled ) {
           return;
         }
 
@@ -498,7 +501,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       // this listener shouldn't prevent the behavior of other listeners, and this listener should always fire
       // whether the pointer is already attached
       attach: false,
-      enabledProperty: this.enabledProperty,
+      enabledProperty: this.grabDragModel.enabledProperty,
       tandem: options.tandem.createTandem( 'pressReleaseListener' )
     } );
     this.node.addInputListener( this.pressReleaseListener );
@@ -508,7 +511,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     // Update the interaction, pdom, focus, etc when the state changes.
     this.grabDragModel.interactionStateProperty.link( () => this.updateFromState() );
 
-    this.enabledProperty.lazyLink( enabled => {
+    this.grabDragModel.enabledProperty.lazyLink( enabled => {
       if ( !enabled ) {
         this.interrupt(); // This will trigger state change to grabbable via DragListener.release()
       }
@@ -516,7 +519,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       this.updateVisibilityForCues();
     } );
 
-    const inputEnabledListener = ( nodeInputEnabled: boolean ) => { this.enabled = nodeInputEnabled; };
+    const inputEnabledListener = ( nodeInputEnabled: boolean ) => { this.grabDragModel.enabled = nodeInputEnabled; };
 
     // Use the "owns" pattern here to keep the enabledProperty PhET-iO instrumented based on the super options.
     // If the client specified their own enabledProperty, then they are responsible for managing enabled.
@@ -580,7 +583,7 @@ export default class GrabDragInteraction extends EnabledComponent {
     // update the PDOM of the node
     const nodeOptions = interactionState === 'grabbable' ? this.grabbableOptions : this.draggableOptions;
     this.node.mutate( nodeOptions );
-    assert && this.enabledProperty.value && assert( this.node.focusable, 'GrabDragInteraction node must remain focusable after mutation' );
+    assert && this.grabDragModel.enabledProperty.value && assert( this.node.focusable, 'GrabDragInteraction node must remain focusable after mutation' );
 
     const listenersToAdd = interactionState === 'grabbable' ? this.listenersWhileGrabbable : this.listenersWhileDraggable;
     this.addInputListeners( listenersToAdd );
@@ -624,9 +627,9 @@ export default class GrabDragInteraction extends EnabledComponent {
    * Update the visibility of the cues for both grabbable and draggable states.
    */
   private updateVisibilityForCues(): void {
-    this.dragCueNode.visible = this.enabled && this.grabDragModel.interactionStateProperty.value === 'draggable' &&
+    this.dragCueNode.visible = this.grabDragModel.enabled && this.grabDragModel.interactionStateProperty.value === 'draggable' &&
                                this.showDragCueNode();
-    this.grabCueNode.visible = this.enabled && this.grabDragModel.interactionStateProperty.value === 'grabbable' &&
+    this.grabCueNode.visible = this.grabDragModel.enabled && this.grabDragModel.interactionStateProperty.value === 'grabbable' &&
                                this.showGrabCueNode();
   }
 
@@ -715,7 +718,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       Voicing.registerUtteranceToVoicingNode( voicingFocusUtterance, node );
 
       this.onGrabButtonFocusEmitter.addListener( () => {
-        if ( this.enabled && this.showGrabCueNode() ) {
+        if ( this.grabDragModel.enabled && this.showGrabCueNode() ) {
           const alert = voicingFocusUtterance.alert! as ResponsePacket;
           alert.hintResponse = SceneryPhetStrings.a11y.grabDrag.spaceToGrabOrReleaseStringProperty;
           Voicing.alertUtterance( voicingFocusUtterance );
@@ -737,6 +740,18 @@ export default class GrabDragInteraction extends EnabledComponent {
    */
   public reset(): void {
     this.grabDragModel.reset();
+  }
+
+  public get enabledProperty(): TProperty<boolean> {
+    return this.grabDragModel.enabledProperty;
+  }
+
+  public get enabled(): boolean {
+    return this.grabDragModel.enabled;
+  }
+
+  public set enabled( enabled: boolean ) {
+    this.grabDragModel.enabledProperty.value = enabled;
   }
 }
 
