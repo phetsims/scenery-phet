@@ -47,10 +47,6 @@
  * NOTE: For PhET-iO instrumentation, GrabDragInteraction.enabledProperty is phetioReadOnly, it makes the most sense
  * to link to whatever Node control's the mouse/touch input and toggle grab drag enabled when that Node's inputEnabled
  * changes. For example see Friction.
-
- * TODO: Can the voicing implementation be a separate component that is composed? https://github.com/phetsims/scenery-phet/issues/869
- * TODO: Have two classes, one for all the grabbable stuff, and one for the draggable. https://github.com/phetsims/scenery-phet/issues/869
- *        - have demos for grab/drag, and just grab, and just drag
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -70,6 +66,7 @@ import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-co
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import GrabDragModel, { GrabDragInteractionState } from './GrabDragModel.js';
 import GrabDragUsageTracker from './GrabDragUsageTracker.js';
+import Emitter from '../../../../axon/js/Emitter.js';
 
 // constants
 const grabPatternStringStringProperty = SceneryPhetStrings.a11y.grabDrag.grabPatternStringProperty;
@@ -88,11 +85,9 @@ type SelfOptions = {
   grabbableAccessibleName?: null | string;
 
   // Called when the node is "grabbed" (when the grab button fires); button -> draggable.
-  // TODO: REname to onGrabbed? https://github.com/phetsims/scenery-phet/issues/869
   onGrab?: VoidFunction;
 
   // Called when the node is "released" (when the draggable is "let go"); draggable -> button
-  // TODO: REname to onReleased? https://github.com/phetsims/scenery-phet/issues/869
   onRelease?: VoidFunction;
 
   // PDOM options passed to the grabbable created for the PDOM, filled in with defaults below
@@ -171,7 +166,7 @@ export default class GrabDragInteraction extends EnabledComponent {
   // public ONLY to position dynamically. Prefer options.grabCueOptions when possible.
   public readonly grabCueNode: GrabReleaseCueNode;
 
-  // TODO: These should be Property instances, or DerivedProperty instances, which would alleviate our need to be careful about calling updateVisibilityForCues at the right times, see https://github.com/phetsims/scenery-phet/issues/869
+  // TODO: Rename to "shouldShowXCueNode" https://github.com/phetsims/scenery-phet/issues/869
   private readonly showGrabCueNode: () => boolean;
   private readonly showDragCueNode: () => boolean;
 
@@ -182,7 +177,6 @@ export default class GrabDragInteraction extends EnabledComponent {
   private readonly supportsGestureDescription: boolean;
 
   // Keep track of all listeners to swap out grab/drag functionalities
-  // TODO: Would it be simpler to keep these and other attributes in a constructor closure? See https://github.com/phetsims/scenery-phet/issues/869
   private readonly listenersWhileGrabbable: TInputListener[];
   private readonly listenersWhileDraggable: TInputListener[];
 
@@ -194,8 +188,8 @@ export default class GrabDragInteraction extends EnabledComponent {
   // the association can be removed when the node becomes a "draggable".
   private readonly descriptionAssociationObject: Association;
 
-  // A reusable Utterance for Voicing output from this type.
-  private readonly voicingFocusUtterance: Utterance;
+  // Created as a hook to provide logic to voicing code in a modular way. Called when the idle-state button is focused.
+  private readonly onGrabButtonFocusEmitter = new Emitter();
 
   private readonly grabDragFocusHighlight: HighlightPath;
   private readonly grabDragInteractiveHighlight: HighlightPath;
@@ -331,49 +325,10 @@ export default class GrabDragInteraction extends EnabledComponent {
       otherElementName: PDOMPeer.DESCRIPTION_SIBLING
     };
 
-    this.voicingFocusUtterance = new Utterance( {
-      alert: new ResponsePacket(),
-      announcerOptions: {
-        cancelOther: false
-      }
-    } );
-
-    // "released" alerts are assertive so that a pile up of alerts doesn't happen with rapid movement, see
-    // https://github.com/phetsims/balloons-and-static-electricity/issues/491
-    const releasedUtterance = new Utterance( {
-      alert: new ResponsePacket( { objectResponse: releasedStringProperty } ),
-
-      // This was being obscured by other messages, the priority helps make sure it is heard, see https://github.com/phetsims/friction/issues/325
-      priority: Utterance.MEDIUM_PRIORITY,
-
-      announcerOptions: {
-        ariaLivePriority: AriaLiveAnnouncer.AriaLive.ASSERTIVE // for AriaLiveAnnouncer
-      }
-    } );
-
-    if ( isVoicing( node ) ) {
-      assert && assert( node.voicingFocusListener === node.defaultFocusListener, 'GrabDragInteraction sets ' +
-                                                                                 'its own voicingFocusListener.' );
-
-      // sanity check on the voicing interface API.
-      assertHasProperties( node, [ 'voicingFocusListener' ] );
-
-      node.voicingFocusListener = () => {
-
-        // When swapping from interactionState to draggable, the draggable element will be focused, ignore that case here, see https://github.com/phetsims/friction/issues/213
-        this.grabDragModel.interactionStateProperty.value === 'grabbable' && node.defaultFocusListener();
-      };
-
-      // These Utterances should only be announced if the Node is globally visible and voicingVisible.
-      Voicing.registerUtteranceToVoicingNode( releasedUtterance, node );
-      Voicing.registerUtteranceToVoicingNode( this.voicingFocusUtterance, node );
-    }
+    this.wireUpDescriptionAndVoicingResponses( node );
 
     this.grabDragModel.releasedEmitter.addListener( () => {
       options.onRelease();
-
-      this.node.alertDescriptionUtterance( releasedUtterance );
-      isVoicing( node ) && Voicing.alertUtterance( releasedUtterance );
     } );
 
     this.grabDragModel.grabbedEmitter.addListener( () => options.onGrab() );
@@ -458,11 +413,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       focus: () => {
         this.updateVisibilityForCues();
 
-        if ( this.enabled && isVoicing( this.node ) && this.showGrabCueNode() ) {
-          const alert = this.voicingFocusUtterance.alert! as ResponsePacket;
-          alert.hintResponse = SceneryPhetStrings.a11y.grabDrag.spaceToGrabOrReleaseStringProperty;
-          Voicing.alertUtterance( this.voicingFocusUtterance );
-        }
+        this.onGrabButtonFocusEmitter.emit();
       },
 
       blur: () => this.updateVisibilityForCues()
@@ -555,7 +506,6 @@ export default class GrabDragInteraction extends EnabledComponent {
     // Update the interaction, pdom, focus, etc when the state changes.
     this.grabDragModel.interactionStateProperty.link( () => this.updateFromState() );
 
-
     this.enabledProperty.lazyLink( enabled => {
       if ( !enabled ) {
         this.interrupt(); // This will trigger state change to grabbable via DragListener.release()
@@ -569,6 +519,8 @@ export default class GrabDragInteraction extends EnabledComponent {
     // Use the "owns" pattern here to keep the enabledProperty PhET-iO instrumented based on the super options.
     // If the client specified their own enabledProperty, then they are responsible for managing enabled.
     ownsEnabledProperty && this.node.inputEnabledProperty.lazyLink( inputEnabledListener );
+
+    this.grabDragModel.resetEmitter.addListener( () => this.updateVisibilityForCues() );
 
     this.disposeEmitter.addListener( () => {
 
@@ -585,8 +537,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       dragDivUpListener.dispose();
       this.pressReleaseListener.dispose();
 
-      releasedUtterance.dispose();
-      this.voicingFocusUtterance.dispose();
+      this.onGrabButtonFocusEmitter.dispose();
 
       // Focus and cue disposal
       ownsFocusHighlight && this.grabDragFocusHighlight.dispose();
@@ -719,13 +670,71 @@ export default class GrabDragInteraction extends EnabledComponent {
     return this.pressReleaseListener.isPressed;
   }
 
+  private wireUpDescriptionAndVoicingResponses( node: Node ): void {
+
+    // "released" alerts are assertive so that a pile up of alerts doesn't happen with rapid movement, see
+    // https://github.com/phetsims/balloons-and-static-electricity/issues/491
+    const releasedUtterance = new Utterance( {
+      alert: new ResponsePacket( { objectResponse: releasedStringProperty } ),
+
+      // This was being obscured by other messages, the priority helps make sure it is heard, see https://github.com/phetsims/friction/issues/325
+      priority: Utterance.MEDIUM_PRIORITY,
+
+      announcerOptions: {
+        ariaLivePriority: AriaLiveAnnouncer.AriaLive.ASSERTIVE // for AriaLiveAnnouncer
+      }
+    } );
+    this.disposeEmitter.addListener( () => releasedUtterance.dispose() );
+
+    if ( isVoicing( node ) ) {
+
+      assert && assert( node.voicingFocusListener === node.defaultFocusListener,
+        'GrabDragInteraction sets its own voicingFocusListener.' );
+
+      // sanity check on the voicing interface API.
+      assertHasProperties( node, [ 'voicingFocusListener' ] );
+
+      const voicingFocusUtterance = new Utterance( {
+        alert: new ResponsePacket(),
+        announcerOptions: {
+          cancelOther: false
+        }
+      } );
+      this.disposeEmitter.addListener( () => voicingFocusUtterance.dispose() );
+
+      node.voicingFocusListener = () => {
+
+        // When swapping from interactionState to draggable, the draggable element will be focused, ignore that case here, see https://github.com/phetsims/friction/issues/213
+        this.grabDragModel.interactionStateProperty.value === 'grabbable' && node.defaultFocusListener();
+      };
+
+      // These Utterances should only be announced if the Node is globally visible and voicingVisible.
+      Voicing.registerUtteranceToVoicingNode( releasedUtterance, node );
+      Voicing.registerUtteranceToVoicingNode( voicingFocusUtterance, node );
+
+      this.onGrabButtonFocusEmitter.addListener( () => {
+        if ( this.enabled && this.showGrabCueNode() ) {
+          const alert = voicingFocusUtterance.alert! as ResponsePacket;
+          alert.hintResponse = SceneryPhetStrings.a11y.grabDrag.spaceToGrabOrReleaseStringProperty;
+          Voicing.alertUtterance( voicingFocusUtterance );
+        }
+      } );
+
+      this.grabDragModel.resetEmitter.addListener( () => voicingFocusUtterance.reset() );
+    }
+
+    // When released, we want description and voicing to say so.
+    this.grabDragModel.releasedEmitter.addListener( () => {
+      this.node.alertDescriptionUtterance( releasedUtterance );
+      isVoicing( node ) && Voicing.alertUtterance( releasedUtterance );
+    } );
+  }
+
   /**
    * Reset to initial state
    */
   public reset(): void {
     this.grabDragModel.reset();
-    this.voicingFocusUtterance.reset();
-    this.updateVisibilityForCues();
   }
 }
 

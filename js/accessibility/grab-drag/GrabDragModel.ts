@@ -26,8 +26,11 @@ export default class GrabDragModel extends EnabledComponent {
   // TODO: Rename to "idle" and "grabbed"? See https://github.com/phetsims/scenery-phet/issues/869
   public readonly interactionStateProperty = new Property<GrabDragInteractionState>( 'grabbable' );
 
-  private readonly _releasedEmitter = new Emitter();
-  private readonly _grabbedEmitter = new Emitter();
+  // called on reset()
+  public readonly resetEmitter = new Emitter();
+
+  private readonly _releasedEmitter = new Emitter(); // called after setting to "idle" state
+  private readonly _grabbedEmitter = new Emitter(); // called after setting to "grabbed" state
 
   public constructor( public readonly grabDragUsageTracker: GrabDragUsageTracker = new GrabDragUsageTracker() ) {
     super();
@@ -79,6 +82,7 @@ export default class GrabDragModel extends EnabledComponent {
   public override dispose(): void {
     this._grabbedEmitter.dispose();
     this._releasedEmitter.dispose();
+    this.resetEmitter.dispose();
     super.dispose();
   }
 
@@ -88,6 +92,8 @@ export default class GrabDragModel extends EnabledComponent {
     this.grabDragUsageTracker.reset();
 
     this.interactionStateProperty.value = 'grabbable';
+
+    this.resetEmitter.emit();
 
     assert && assert( this.grabDragUsageTracker.numberOfGrabs === 0, 'numberOfGrabs should be 0, but it was: ' + this.grabDragUsageTracker.numberOfGrabs );
     assert && assert( this.grabDragUsageTracker.numberOfKeyboardGrabs === 0, 'numberOfKeyboardGrabs should be 0, but it was ' + this.grabDragUsageTracker.numberOfKeyboardGrabs );
