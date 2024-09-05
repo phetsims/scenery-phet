@@ -36,7 +36,7 @@ export default function demoGrabDragInteraction( layoutBounds: Bounds2, provided
 
   new GrabDragInteraction( rect, keyboardDragListener, { // eslint-disable-line no-new
     objectToGrabString: 'rectangle',
-    grabbableAccessibleName: 'grab rectangle',
+    idleStateAccessibleName: 'grab rectangle',
     tandem: providedOptions.tandem!.createTandem( 'grabDragInteraction' )
   } );
 

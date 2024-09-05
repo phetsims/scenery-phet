@@ -45,48 +45,48 @@ QUnit.test( 'GrabDragInteraction defaults', assert => {
     objectToGrabString: thingString
   } );
 
-  const testDefaultGrabbable = () => {
+  const testDefaultIdleState = () => {
 
     // GrabDragInteraction requires the page to be active to behave corectly, otherwise focus/blur events do not
     // fire. See https://github.com/phetsims/aqua/issues/134.
     if ( document.hasFocus() ) {
-      assert.ok( interaction[ 'grabDragModel' ].interactionStateProperty.value === 'grabbable', 'default to grabbable' );
-      assert.ok( a.tagName!.toUpperCase() === 'BUTTON', 'grabbable defaults to button' );
-      assert.ok( a.ariaRole === null, 'no role for grabbable' );
-      assert.ok( a.ariaLabel!.includes( thingString ), 'ariaLabel should include thing string for grabbable' );
+      assert.ok( interaction[ 'grabDragModel' ].interactionStateProperty.value === 'idle', 'default to idle' );
+      assert.ok( a.tagName!.toUpperCase() === 'BUTTON', 'idle defaults to button' );
+      assert.ok( a.ariaRole === null, 'no role for idle' );
+      assert.ok( a.ariaLabel!.includes( thingString ), 'ariaLabel should include thing string for idle' );
 
       const aElement = a.pdomInstances[ 0 ].peer!.primarySibling;
-      assert.ok( aElement!.tagName === 'BUTTON', 'grabbable defaults to button html element.' );
+      assert.ok( aElement!.tagName === 'BUTTON', 'idle defaults to button html element.' );
     }
     else {
       console.warn( 'Cannot complete tests because document does not have focus.' );
     }
   };
 
-  testDefaultGrabbable();
+  testDefaultIdleState();
 
   a.pdomInstances[ 0 ].peer!.primarySibling!.click();
 
-  const testDefaultDraggable = () => {
+  const testDefaultGrabbedState = () => {
 
-    assert.ok( interaction[ 'grabDragModel' ].interactionStateProperty.value === 'draggable', 'should be draggable after click draggable' );
-    assert.ok( a.tagName!.toUpperCase() === 'DIV', 'draggable defaults to div' );
-    assert.ok( a.ariaRole === 'application', 'draggable gets application role' );
+    assert.ok( interaction[ 'grabDragModel' ].interactionStateProperty.value === 'grabbed', 'should be grabbed after click grabbed' );
+    assert.ok( a.tagName!.toUpperCase() === 'DIV', 'grabbed defaults to div' );
+    assert.ok( a.ariaRole === 'application', 'grabbed gets application role' );
     assert.ok( a.ariaLabel!.includes( thingString ), 'ariaLabel should include thing string' );
     assert.ok( a.ariaLabel === a.innerContent, 'ariaLabel should include thing string' );
 
     const aElement = a.pdomInstances[ 0 ].peer!.primarySibling!;
-    assert.ok( aElement.tagName === 'DIV', 'draggable defaults to div html element.' );
+    assert.ok( aElement.tagName === 'DIV', 'grabbed defaults to div html element.' );
     assert.ok( aElement.getAttribute( 'aria-roledescription' ) === movableString, 'aria role description should describe that it is movable by default' );
     assert.ok( aElement.innerHTML === a.ariaLabel, 'element innerHTML should be same as model label' );
     assert.ok( aElement.getAttribute( 'aria-label' ) === a.ariaLabel, 'element innerHTML should be same as model label' );
   };
 
-  testDefaultDraggable();
+  testDefaultGrabbedState();
 
   a.pdomInstances[ 0 ].peer!.primarySibling!.blur();
 
-  testDefaultGrabbable();
+  testDefaultIdleState();
   display.dispose();
 } );
 

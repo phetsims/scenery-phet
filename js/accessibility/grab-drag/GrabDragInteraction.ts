@@ -3,28 +3,28 @@
 /**
  * The main interaction for grabbing and dragging an object through the PDOM and assistive technology. It works by
  * taking in a Node to augment with the PDOM interaction. In fact it works much like a mixin. In general, this type
- * will mutate the accessible content (PDOM) of the passed in Node (sometimes referred to "wrappedNode"), toggling
- * between a "grabbable" state and a "draggable" state. When each state changes, the underlying PDOM element and general
+ * will mutate the accessible content (PDOM) of the passed in Node, toggling
+ * between an "idle" state and a "grabbed" state. When each state changes, the underlying PDOM element and general
  * interaction does as well.
  *
  * To accomplish this there are options to be filled in that keep track of the scenery inputListeners for each state,
- * as well as options to mutate the Node for each state. By default the grabbable is a `button` with a containing  `div`,
- * and the draggable is a focusable `div` with an "application" aria role. It is up to the client to supply a
- * KeyboardDragListener as an arg that will be added to the Node in the "draggable" state.
+ * as well as options to mutate the Node for each state. By default the idle is a `button` with a containing  `div`,
+ * and the grabbed state is a focusable `div` with an "application" aria role. It is up to the client to supply a
+ * KeyboardDragListener as an arg that will be added to the Node in the "grabbed" state.
  *
- * As a note on terminology, mostly things are referred to by their current "interaction state" which is either grabbable
- * or draggable.
+ * As a note on terminology, mostly things are referred to by their current "interaction state" which is either "idle"
+ * or "grabbed".
  *
- * This type will alert when the draggable is released, but no default alert is provided when the object is grabbed.
+ * This type will alert when the grabbed state is released, but no default alert is provided when the object is grabbed.
  * This is because in usages so far, that alert has been custom, context specific, and easier to just supply through
  * the onGrab callback option.
  *
  * NOTE: You SHOULD NOT add listeners directly to the Node where it is constructed, instead see
- * `options.listenersForGrab/DragState`. These will keep track of the listeners for each interaction state, and
+ * `options.listenersWhileIdle/Grabbed`. These will keep track of the listeners for each interaction state, and
  * will set them accordingly. In rare cases it may be desirable to have a listener attached no matter the state, but that
  * has not come up so far.
  *
- * NOTE: There is no "undo" for a mutate call, so it is the client's job to make sure that grabbable/draggableOptions objects
+ * NOTE: There is no "undo" for a mutate call, so it is the client's job to make sure that idle/grabbedStateOptions objects
  * appropriately "cancel" out the other. The same goes for any alterations that are done on `onGrab` and `onRelease`
  * callbacks.
  *
@@ -39,10 +39,10 @@
  * layout of the grabCueNode. This is because the cue Node is a child of the focus highlight. As a
  * result, currently you must correctly position node before the cue Node is created.
  *
- * NOTE: upon "activation" of this type, meaning that the user grabs the object and it turns into a draggable, the
- * wrappedNode is blurred and refocused. This means that the input event "blur()" set in listenersWhileGrabbable will
+ * NOTE: upon "activation" of this type, meaning that the user grabs the object and it turns into a grabbed, the
+ * wrappedNode is blurred and refocused. This means that the input event "blur()" set in listenersWhileIdle will
  * not just fire when navigating through the sim, but also upon activation. This weirdness is to make sure that the
- * input event "focus()" is called and supported for within listenersWhileDraggable
+ * input event "focus()" is called and supported for within listenersWhileGrabbed
  *
  * NOTE: For PhET-iO instrumentation, GrabDragInteraction.enabledProperty is phetioReadOnly, it makes the most sense
  * to link to whatever Node control's the mouse/touch input and toggle grab drag enabled when that Node's inputEnabled
@@ -82,56 +82,55 @@ type SelfOptions = {
   // A string that is filled in to the appropriate button label
   objectToGrabString?: PDOMValueType;
 
-  // If not provided, a default will be applied, see this.grabbableAccessibleName.
-  grabbableAccessibleName?: null | string;
+  // If not provided, a default will be applied, see this.idleStateAccessibleName.
+  idleStateAccessibleName?: null | string;
 
-  // Called when the node is "grabbed" (when the grab button fires); button -> draggable.
+  // Called when the node is "grabbed" (when the grab button fires); button -> grabbed.
   onGrab?: VoidFunction;
 
-  // Called when the node is "released" (when the draggable is "let go"); draggable -> button
+  // Called when the node is "released" (when the grabbed state is "let go"); grabbed -> button
   onRelease?: VoidFunction;
 
-  // PDOM options passed to the grabbable created for the PDOM, filled in with defaults below
-  grabbableOptions?: ParallelDOMOptions;
+  // PDOM options passed to the idle created for the PDOM, filled in with defaults below
+  idleStateOptions?: ParallelDOMOptions;
 
   // To pass in options to the cue. This is a scenery Node and you can pass it options supported by
   // that type. When positioning this node, it is in the target Node's parent coordinate frame.
   grabCueOptions?: NodeOptions;
 
-  // Node options passed to the draggable created for the PDOM, filled in with defaults below
-  draggableOptions?: NodeOptions;
+  // Node options passed to the grabbed state created for the PDOM, filled in with defaults below
+  grabbedStateOptions?: NodeOptions;
 
   // Optional node to cue the drag interaction once successfully updated.
   dragCueNode?: Node;
 
-  // GrabDragInteraction swaps the PDOM structure for a given node between a grabbable state, and
-  // draggable one. We need to keep track of all listeners that need to be attached to each PDOM manifestation.
-  // Note: when these are removed while converting to/from grabbable/draggable, they are interrupted. Other
-  // listeners that are attached to this.node but aren't in these lists will not be interrupted. The grabbable
-  // will blur() when activated from a grabbable to a draggable. The draggable will focus when activated
-  // from grabbable.
-  listenersWhileDraggable?: TInputListener[];
-  listenersWhileGrabbable?: TInputListener[];
+  // GrabDragInteraction swaps the PDOM structure for a given node between an idle state, and
+  // grabbed one. We need to keep track of all listeners that need to be attached to each PDOM manifestation.
+  // Note: when these are removed while converting to/from idle/grabbed, they are interrupted. Other
+  // listeners that are attached to this.node but aren't in these lists will not be interrupted. The idle
+  // will blur() when activated from idle to grabbed. The grabbed state will focus when activated
+  // from idle.
+  listenersWhileGrabbed?: TInputListener[];
+  listenersWhileIdle?: TInputListener[];
 
   // If this instance will support specific gesture description behavior.
   supportsGestureDescription?: boolean;
 
-  // Add an aria-describedby link between the description sibling and the primary sibling, only when grabbable. By
-  // default this should only be done when supporting gesture interactive description before two success grabs. This
-  // function is called with one parameters: the number of successful grabs that has occurred thus far.
+  // Add an aria-describedby link between the description sibling and the primary sibling, only when idle. By
+  // default, this is only be done when supporting gesture interactive description before two success grabs.
   shouldAddAriaDescribedby?: () => boolean;
 
-  // Help text is treated as the same for the grabbable and draggable items, but is different based on if the
+  // Help text is treated as the same for the idle and grabbed items, but is different based on if the
   // runtime is supporting gesture interactive description. Even though "technically" there is no way to access the
-  // help text when this Node is in the draggable state, the help text is still in the PDOM.
+  // help text when this Node is in the grabbed state, the help text is still in the PDOM.
   keyboardHelpText?: string | null;
 
   // Controls whether or not to show the "Grab" cue node that is displayed on focus - by
   // default it will be shown on focus until it has been successfully grabbed with a keyboard
   shouldShowGrabCueNode?: () => boolean;
 
-  // Whether or not to display the Node for the "Drag" cue node once the grabbable Node has been picked up,
-  // if a options.dragCueNode is specified. This will only be shown if draggable node has focus
+  // Whether or not to display the Node for the "Drag" cue node once the idle Node has been picked up,
+  // if a options.dragCueNode is specified. This will only be shown if grabbed node has focus
   // from alternative input
   shouldShowDragCueNode?: () => boolean;
 
@@ -152,16 +151,16 @@ type StateOptions = StrictOmit<ParallelDOMOptions, 'descriptionContent' | 'helpT
 
 export default class GrabDragInteraction extends Disposable {
 
-  // The accessible name for the Node in its 'draggable' interactionState.
-  private readonly draggableAccessibleName: PDOMValueType;
+  // The accessible name for the Node in its 'grabbed' interactionState.
+  private readonly grabbedStateAccessibleName: PDOMValueType;
 
-  // The accessible name for the Node in its "grabbable" interactionState.
-  private readonly grabbableAccessibleName: PDOMValueType;
+  // The accessible name for the Node in its "idle" interactionState.
+  private readonly idleStateAccessibleName: PDOMValueType;
 
   // Directly from options or parameters.
   private readonly node: Node;
-  private readonly grabbableOptions: StateOptions;
-  private readonly draggableOptions: StateOptions;
+  private readonly idleStateOptions: StateOptions;
+  private readonly grabbedStateOptions: StateOptions;
   private readonly dragCueNode: Node;
 
   // public ONLY to position dynamically. Prefer options.grabCueOptions when possible.
@@ -177,15 +176,15 @@ export default class GrabDragInteraction extends Disposable {
   private readonly supportsGestureDescription: boolean;
 
   // Keep track of all listeners to swap out grab/drag functionalities
-  private readonly listenersWhileGrabbable: TInputListener[];
-  private readonly listenersWhileDraggable: TInputListener[];
+  private readonly listenersWhileIdle: TInputListener[];
+  private readonly listenersWhileGrabbed: TInputListener[];
 
   // Model-related state of the current and general info about the interaction.
   public readonly grabDragModel: GrabDragModel;
 
   // The aria-describedby association object that will associate "interactionState" with its
   // help text so that it is read automatically when the user finds it. This reference is saved so that
-  // the association can be removed when the node becomes a "draggable".
+  // the association can be removed when the node becomes a "grabbed".
   private readonly descriptionAssociationObject: Association;
 
   // Created as a hook to provide logic to voicing code in a modular way. Called when the idle-state button is focused.
@@ -203,7 +202,7 @@ export default class GrabDragInteraction extends Disposable {
 
   /**
    * @param node - will be mutated with a11y options to have the grab/drag functionality in the PDOM
-   * @param keyboardDragListener - added to the Node when it is draggable
+   * @param keyboardDragListener - added to the Node when it is grabbed
    * @param providedOptions
    */
   public constructor( node: Node, keyboardDragListener: KeyboardDragListener, providedOptions?: GrabDragInteractionOptions ) {
@@ -214,15 +213,15 @@ export default class GrabDragInteraction extends Disposable {
     const firstPassOptions = optionize<GrabDragInteractionOptions,
       StrictOmit<SelfOptions, 'gestureHelpText' | 'shouldAddAriaDescribedby'>, GrabDragModelOptions>()( {
       objectToGrabString: defaultObjectToGrabStringProperty,
-      grabbableAccessibleName: null,
+      idleStateAccessibleName: null,
       onGrab: _.noop,
       onRelease: _.noop,
-      grabbableOptions: {},
+      idleStateOptions: {},
       grabCueOptions: {},
-      draggableOptions: {},
+      grabbedStateOptions: {},
       dragCueNode: new Node(),
-      listenersWhileDraggable: [],
-      listenersWhileGrabbable: [],
+      listenersWhileGrabbed: [],
+      listenersWhileIdle: [],
       supportsGestureDescription: getGlobal( 'phet.joist.sim.supportsGestureDescription' ),
       keyboardHelpText: null,
       shouldShowGrabCueNode: () => {
@@ -257,7 +256,7 @@ export default class GrabDragInteraction extends Disposable {
     }, firstPassOptions );
 
     assert && assert( options.grabCueOptions.visible === undefined, 'Should not set visibility of the cue node' );
-    assert && assert( !options.listenersWhileDraggable.includes( keyboardDragListener ), 'GrabDragInteraction adds the KeyboardDragListener to listenersWhileDraggable' );
+    assert && assert( !options.listenersWhileGrabbed.includes( keyboardDragListener ), 'GrabDragInteraction adds the KeyboardDragListener to listenersWhileGrabbed' );
 
     assert && assert( !options.dragCueNode.parent, 'GrabDragInteraction adds dragCueNode to focusHighlight' );
     assert && assert( options.dragCueNode.visible, 'dragCueNode should be visible to begin with' );
@@ -265,49 +264,49 @@ export default class GrabDragInteraction extends Disposable {
     // Options are passed to the model directly, so Disposable options will be handled over in the model type.
     super();
 
-    options.draggableOptions = combineOptions<ParallelDOMOptions>( {
+    options.grabbedStateOptions = combineOptions<ParallelDOMOptions>( {
       tagName: 'div',
       ariaRole: 'application',
       focusable: true,
 
-      // to cancel out grabbable
+      // to cancel out "idle" state options
       containerTagName: null
-    }, options.draggableOptions );
+    }, options.grabbedStateOptions );
 
-    this.draggableAccessibleName = options.objectToGrabString;
-    options.draggableOptions.innerContent = this.draggableAccessibleName;
-    options.draggableOptions.ariaLabel = this.draggableAccessibleName;
+    this.grabbedStateAccessibleName = options.objectToGrabString;
+    options.grabbedStateOptions.innerContent = this.grabbedStateAccessibleName;
+    options.grabbedStateOptions.ariaLabel = this.grabbedStateAccessibleName;
 
-    options.grabbableOptions = combineOptions<ParallelDOMOptions>( {
+    options.idleStateOptions = combineOptions<ParallelDOMOptions>( {
       containerTagName: 'div',
       focusable: true,
       ariaRole: null,
       tagName: 'button',
 
-      // in general, the help text is after the grabbable
+      // in general, the help text is after the component in the PDOM
       appendDescription: true,
 
-      // position the PDOM elements when grabbable for drag and drop on touch-based screen readers
+      // position the PDOM elements when idle for drag and drop on touch-based screen readers
       positionInPDOM: true,
 
       accessibleName: null
-    }, options.grabbableOptions );
+    }, options.idleStateOptions );
 
-    this.grabbableAccessibleName = options.grabbableAccessibleName || // if a provided option
+    this.idleStateAccessibleName = options.idleStateAccessibleName || // if a provided option
                                    ( options.supportsGestureDescription ? options.objectToGrabString : // otherwise if supporting gesture
                                      StringUtils.fillIn( grabPatternStringStringProperty, { // default case
                                        objectToGrab: options.objectToGrabString
                                      } ) );
-    options.grabbableOptions.innerContent = this.grabbableAccessibleName;
+    options.idleStateOptions.innerContent = this.idleStateAccessibleName;
 
     // Setting the aria-label on the interactionState element fixes a bug with VoiceOver in Safari where the aria role
-    // from the draggable state is never cleared, see https://github.com/phetsims/scenery-phet/issues/688
-    options.grabbableOptions.ariaLabel = this.grabbableAccessibleName;
+    // from the grabbed state is never cleared, see https://github.com/phetsims/scenery-phet/issues/688
+    options.idleStateOptions.ariaLabel = this.idleStateAccessibleName;
 
     this.grabDragModel = new GrabDragModel( options.grabDragUsageTracker, options );
     this.node = node;
-    this.grabbableOptions = options.grabbableOptions;
-    this.draggableOptions = options.draggableOptions;
+    this.idleStateOptions = options.idleStateOptions;
+    this.grabbedStateOptions = options.grabbedStateOptions;
     this.dragCueNode = options.dragCueNode;
     this.grabCueNode = new GrabReleaseCueNode( options.grabCueOptions );
     this.shouldShowGrabCueNode = options.shouldShowGrabCueNode;
@@ -315,12 +314,12 @@ export default class GrabDragInteraction extends Disposable {
     this.shouldAddAriaDescribedby = options.shouldAddAriaDescribedby;
     this.supportsGestureDescription = options.supportsGestureDescription;
 
-    // set the help text, if provided - it will be associated with aria-describedby when in the "grabbable" interactionState
+    // set the help text, if provided - it will be associated with aria-describedby when in the "idle" interactionState
     this.node.descriptionContent = this.supportsGestureDescription ? options.gestureHelpText : options.keyboardHelpText;
 
-    // The aria-describedby association object that will associate "grabbable" interactionState with its help text so that it is
+    // The aria-describedby association object that will associate "idle" interactionState with its help text so that it is
     // read automatically when the user finds it. This reference is saved so that the association can be removed
-    // when the node becomes a "draggable"
+    // when the node becomes a "grabbed"
     this.descriptionAssociationObject = {
       otherNode: this.node,
       thisElementName: PDOMPeer.PRIMARY_SIBLING,
@@ -379,34 +378,34 @@ export default class GrabDragInteraction extends Disposable {
     this.grabDragFocusHighlight.addChild( this.dragCueNode );
 
     // Some key presses can fire the node's click (the grab button) from the same press that fires the keydown from
-    // the draggable, so guard against that.
-    let guardKeyPressFromDraggable = false;
+    // the grabbed state, so guard against that.
+    let guardGrabKeyPressFromGrabbedState = false;
 
-    // when the "Grab {{thing}}" button is pressed, focus the draggable node and set to dragged state
+    // when the "Grab {{thing}}" button is pressed, focus the grabbed node and set to dragged state
     const grabButtonListener = {
       click: () => {
 
-        // don't turn to draggable on mobile a11y, it is the wrong gesture - user should press down and hold
+        // don't turn to grabbed on mobile a11y, it is the wrong gesture - user should press down and hold
         // to initiate a drag
         if ( this.supportsGestureDescription || !this.grabDragModel.enabled ) {
           return;
         }
 
-        // if the draggable was just released, don't pick it up again until the next click event so we don't "loop"
+        // if the grabbed node was just released, don't pick it up again until the next click event so we don't "loop"
         // and pick it up immediately again.
-        if ( guardKeyPressFromDraggable ) {
+        if ( guardGrabKeyPressFromGrabbedState ) {
 
-          // "grab" the draggable on the next click event
-          guardKeyPressFromDraggable = false;
+          // allow grab the node on the next click event
+          guardGrabKeyPressFromGrabbedState = false;
           return;
         }
 
-        // blur as a grabbable so that we get a new focus event after we turn into a draggable, and so that grab listeners get a blur() event before mutating.
+        // blur as an idle so that we get a new focus event after we turn into a grabbed, and so that grab listeners get a blur() event before mutating.
         this.node.blur();
 
         this.grabDragModel.keyboardGrab( () => {
 
-          // focus after the transition so that listeners added to the draggable state get a focus event().
+          // focus after the transition so that listeners added to the grabbed state get a focus event().
           this.node.focus();
         } );
 
@@ -422,7 +421,7 @@ export default class GrabDragInteraction extends Disposable {
     };
 
     // Keep track of all listeners to swap out grab/drag functionalities.
-    this.listenersWhileGrabbable = options.listenersWhileGrabbable.concat( grabButtonListener );
+    this.listenersWhileIdle = options.listenersWhileIdle.concat( grabButtonListener );
 
     const dragDivDownListener = new KeyboardListener( {
       keys: [ 'enter' ],
@@ -433,7 +432,7 @@ export default class GrabDragInteraction extends Disposable {
         // "clicking" the grab button also on this key press.
         // The sequence that dispatched this fire also dispatches a click event, so we must avoid immediately grabbing
         // from this event that released
-        guardKeyPressFromDraggable = true;
+        guardGrabKeyPressFromGrabbedState = true;
         this.grabDragModel.release();
       }
     } );
@@ -445,7 +444,7 @@ export default class GrabDragInteraction extends Disposable {
       fireOnDown: false,
       fire: () => {
 
-        // Release on keyup for spacebar so that we don't pick up the draggable again when we release the spacebar
+        // Release on keyup for spacebar so that we don't pick up the grabbed node again when we release the spacebar
         // and trigger a click event - escape could be added to either keyup or keydown listeners
         this.grabDragModel.release();
       },
@@ -470,7 +469,7 @@ export default class GrabDragInteraction extends Disposable {
       allowOverlap: true
     } );
 
-    this.listenersWhileDraggable = options.listenersWhileDraggable.concat( [
+    this.listenersWhileGrabbed = options.listenersWhileGrabbed.concat( [
       dragDivDownListener,
       dragDivUpListener,
       dragDivDraggedListener,
@@ -490,9 +489,9 @@ export default class GrabDragInteraction extends Disposable {
         // handle the release().
         const shouldRelease = ( event === null || !event.isFromPDOM() );
 
-        // release if interrupted, but only if not already grabbable, which is possible if the GrabDragInteraction
+        // release if interrupted, but only if not already idle, which is possible if the GrabDragInteraction
         // has been reset since press
-        if ( shouldRelease && this.grabDragModel.interactionStateProperty.value === 'draggable' ) {
+        if ( shouldRelease && this.grabDragModel.interactionStateProperty.value === 'grabbed' ) {
           this.grabDragModel.release();
         }
       },
@@ -505,14 +504,14 @@ export default class GrabDragInteraction extends Disposable {
     } );
     this.node.addInputListener( this.pressReleaseListener );
 
-    assert && assert( this.grabDragModel.interactionStateProperty.value === 'grabbable', 'starting state grabbable please' );
+    assert && assert( this.grabDragModel.interactionStateProperty.value === 'idle', 'starting state idle please' );
 
     // Update the interaction, pdom, focus, etc when the state changes.
     this.grabDragModel.interactionStateProperty.link( () => this.updateFromState() );
 
     this.grabDragModel.enabledProperty.lazyLink( enabled => {
       if ( !enabled ) {
-        this.interrupt(); // This will trigger state change to grabbable via DragListener.release()
+        this.interrupt(); // This will trigger state change to idle via DragListener.release()
       }
 
       this.updateVisibilityForCues();
@@ -534,8 +533,8 @@ export default class GrabDragInteraction extends Disposable {
       this.node.removePDOMAttribute( 'aria-roledescription' );
 
       // Remove listeners (gracefully)
-      this.removeInputListeners( this.listenersWhileGrabbable );
-      this.removeInputListeners( this.listenersWhileDraggable );
+      this.removeInputListeners( this.listenersWhileIdle );
+      this.removeInputListeners( this.listenersWhileGrabbed );
 
       dragDivDownListener.dispose();
       dragDivUpListener.dispose();
@@ -554,13 +553,13 @@ export default class GrabDragInteraction extends Disposable {
   }
 
   /**
-   * Update the node to switch modalities between being draggable, and grabbable. This function holds code that should
+   * Update the node to switch modalities between being grabbed, and idle. This function holds code that should
    * be called when switching from any state to any other state.
    */
   private updateFromState(): void {
     const interactionState = this.grabDragModel.interactionStateProperty.value;
 
-    const listenersToRemove = interactionState === 'grabbable' ? this.listenersWhileDraggable : this.listenersWhileGrabbable;
+    const listenersToRemove = interactionState === 'idle' ? this.listenersWhileGrabbed : this.listenersWhileIdle;
 
     // interrupt prior input, reset the key state of the drag handler by interrupting the drag. Don't interrupt all
     // input, but instead just those to be removed.
@@ -570,21 +569,21 @@ export default class GrabDragInteraction extends Disposable {
     this.removeInputListeners( listenersToRemove );
 
     // To support gesture and mobile screen readers, we change the roledescription, see https://github.com/phetsims/scenery-phet/issues/536
-    // By default, the grabbable gets a roledescription to force the AT to say its role. This fixes a bug in VoiceOver
-    // where it fails to update the role after turning back into a grabbable.
+    // By default, the idle gets a roledescription to force the AT to say its role. This fixes a bug in VoiceOver
+    // where it fails to update the role after turning back into an idle.
     // See https://github.com/phetsims/scenery-phet/issues/688.
     this.node.setPDOMAttribute( 'aria-roledescription',
-      ( interactionState === 'draggable' || this.supportsGestureDescription ) ? movableStringProperty : buttonStringProperty
+      ( interactionState === 'grabbed' || this.supportsGestureDescription ) ? movableStringProperty : buttonStringProperty
     );
 
     this.updateAriaDescribedby( interactionState );
 
     // update the PDOM of the node
-    const nodeOptions = interactionState === 'grabbable' ? this.grabbableOptions : this.draggableOptions;
+    const nodeOptions = interactionState === 'idle' ? this.idleStateOptions : this.grabbedStateOptions;
     this.node.mutate( nodeOptions );
     assert && this.grabDragModel.enabledProperty.value && assert( this.node.focusable, 'GrabDragInteraction node must remain focusable after mutation' );
 
-    const listenersToAdd = interactionState === 'grabbable' ? this.listenersWhileGrabbable : this.listenersWhileDraggable;
+    const listenersToAdd = interactionState === 'idle' ? this.listenersWhileIdle : this.listenersWhileGrabbed;
     this.addInputListeners( listenersToAdd );
 
     this.updateFocusHighlights();
@@ -596,7 +595,7 @@ export default class GrabDragInteraction extends Disposable {
 
   private updateAriaDescribedby( interactionState: GrabDragInteractionState ): void {
 
-    if ( interactionState === 'grabbable' && this.shouldAddAriaDescribedby() ) {
+    if ( interactionState === 'idle' && this.shouldAddAriaDescribedby() ) {
 
       // this node is aria-describedby its own description content, so that the description is read automatically
       // when found by the user
@@ -605,8 +604,8 @@ export default class GrabDragInteraction extends Disposable {
     }
     else {
 
-      // This node is aria-describedby its own description content only when grabbable, so that the description is
-      // read automatically when found by the user with the virtual cursor. Remove it for draggable
+      // This node is aria-describedby its own description content only when idle, so that the description is
+      // read automatically when found by the user with the virtual cursor. Remove it for grabbed
       if ( this.node.hasAriaDescribedbyAssociation( this.descriptionAssociationObject ) ) {
         this.node.removeAriaDescribedbyAssociation( this.descriptionAssociationObject );
       }
@@ -614,21 +613,21 @@ export default class GrabDragInteraction extends Disposable {
   }
 
   /**
-   * Update the focusHighlights according to if we are in grabbable or draggable state
+   * Update the focusHighlights according to if we are in idle or grabbed state
    * No need to set visibility to true, because that will happen for us by HighlightOverlay on focus.
    */
   private updateFocusHighlights(): void {
-    this.grabDragFocusHighlight.setDashed( this.grabDragModel.interactionStateProperty.value === 'draggable' );
-    this.grabDragInteractiveHighlight.setDashed( this.grabDragModel.interactionStateProperty.value === 'draggable' );
+    this.grabDragFocusHighlight.setDashed( this.grabDragModel.interactionStateProperty.value === 'grabbed' );
+    this.grabDragInteractiveHighlight.setDashed( this.grabDragModel.interactionStateProperty.value === 'grabbed' );
   }
 
   /**
-   * Update the visibility of the cues for both grabbable and draggable states.
+   * Update the visibility of the cues for both idle and grabbed states.
    */
   private updateVisibilityForCues(): void {
-    this.dragCueNode.visible = this.grabDragModel.enabled && this.grabDragModel.interactionStateProperty.value === 'draggable' &&
+    this.dragCueNode.visible = this.grabDragModel.enabled && this.grabDragModel.interactionStateProperty.value === 'grabbed' &&
                                this.shouldShowDragCueNode();
-    this.grabCueNode.visible = this.grabDragModel.enabled && this.grabDragModel.interactionStateProperty.value === 'grabbable' &&
+    this.grabCueNode.visible = this.grabDragModel.enabled && this.grabDragModel.interactionStateProperty.value === 'idle' &&
                                this.shouldShowGrabCueNode();
   }
 
@@ -655,14 +654,14 @@ export default class GrabDragInteraction extends Disposable {
 
   /**
    * Interrupt the grab drag interraction - interrupts any listeners attached and makes sure the
-   * Node is back in its "grabbable" state.
+   * Node is back in its "idle" state.
    */
   public interrupt(): void {
 
-    // Interrupting this listener will set us back to grabbable
+    // Interrupting this listener will set us back to idle
     this.pressReleaseListener.interrupt();
 
-    assert && assert( this.grabDragModel.interactionStateProperty.value === 'grabbable', 'disabled grabDragInteractions must be in "grabbable" state.' );
+    assert && assert( this.grabDragModel.interactionStateProperty.value === 'idle', 'disabled grabDragInteractions must be in "idle" state.' );
   }
 
   /**
@@ -708,8 +707,8 @@ export default class GrabDragInteraction extends Disposable {
 
       node.voicingFocusListener = () => {
 
-        // When swapping from interactionState to draggable, the draggable element will be focused, ignore that case here, see https://github.com/phetsims/friction/issues/213
-        this.grabDragModel.interactionStateProperty.value === 'grabbable' && node.defaultFocusListener();
+        // When swapping from interactionState to grabbed, the grabbed element will be focused, ignore that case here, see https://github.com/phetsims/friction/issues/213
+        this.grabDragModel.interactionStateProperty.value === 'idle' && node.defaultFocusListener();
       };
 
       // These Utterances should only be announced if the Node is globally visible and voicingVisible.

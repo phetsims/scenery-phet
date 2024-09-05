@@ -16,18 +16,18 @@ import EnabledComponent, { EnabledComponentOptions } from '../../../../axon/js/E
 import { TReadOnlyEmitter } from '../../../../axon/js/TEmitter.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
-export type GrabDragInteractionState = 'grabbable' | 'draggable';
+// Interaction states that this component interaction can be in:
+// "idle": In the default state where you can interact with the node to grab it. It is ready to be
+//         "picked up" ("grabbed") from this state. This state mostly behaves like a button.
+// "grabbed": In the state where you can use keyboard to move the object with arrow keys. You are also able to "release"
+//            back into idle
+export type GrabDragInteractionState = 'idle' | 'grabbed';
 
 type SelfOptions = EmptySelfOptions;
 export type GrabDragModelOptions = SelfOptions & EnabledComponentOptions;
 
 export default class GrabDragModel extends EnabledComponent {
-
-  // Interaction states that this component interaction can be in:
-  // "grabbable": In the button state where you can interact with the node to grab it.
-  // "draggable": In the state where you can use a keyboard listener to move the object with arrow keys.
-  // TODO: Rename to "idle" and "grabbed"? See https://github.com/phetsims/scenery-phet/issues/869
-  public readonly interactionStateProperty = new Property<GrabDragInteractionState>( 'grabbable' );
+  public readonly interactionStateProperty = new Property<GrabDragInteractionState>( 'idle' );
 
   // called on reset()
   public readonly resetEmitter = new Emitter();
@@ -56,7 +56,7 @@ export default class GrabDragModel extends EnabledComponent {
   }
 
   /**
-   * Turn from grabbable into draggable interaction state.
+   * Turn from idle into grabbed interaction state.
    * This updates accessibility representation in the PDOM and changes input listeners. This function can be called
    * while already grabbed, because of nuance in how we support multi-input and gestureDescription.
    */
@@ -65,7 +65,7 @@ export default class GrabDragModel extends EnabledComponent {
     // Increment this even if we are already in the grabbed state, to indicate user intention in our usage tracker.
     this.grabDragUsageTracker.numberOfGrabs++;
 
-    this.interactionStateProperty.value = 'draggable';
+    this.interactionStateProperty.value = 'grabbed';
 
     onBeforeEmit();
 
@@ -73,13 +73,13 @@ export default class GrabDragModel extends EnabledComponent {
   }
 
   /**
-   * Release the draggable. This function will set the interaction back to the "grabbable" state and should only be called
-   * when draggable. It also behaves as though it was released from user input, for example a sound effect and description
-   * will occur.
+   * Release from being grabbed. This function will set the interaction back to the "idle" state and should only be called
+   * when in "grabbed" state. It also behaves as though it was released from user input, for example sound effect
+   * and description will occur may occur.
    */
   public release(): void {
-    assert && assert( this.interactionStateProperty.value === 'draggable', 'cannot set to interactionState if already set that way' );
-    this.interactionStateProperty.value = 'grabbable';
+    assert && assert( this.interactionStateProperty.value === 'grabbed', 'cannot set to interactionState if already set that way' );
+    this.interactionStateProperty.value = 'idle';
     this._releasedEmitter.emit();
   }
 
@@ -95,7 +95,7 @@ export default class GrabDragModel extends EnabledComponent {
     // This should go first, so that state logic listening to the interaction state respects the resetted usage tracker.
     this.grabDragUsageTracker.reset();
 
-    this.interactionStateProperty.value = 'grabbable';
+    this.interactionStateProperty.value = 'idle';
 
     this.resetEmitter.emit();
 
