@@ -58,7 +58,7 @@ import EnabledComponent, { EnabledComponentOptions } from '../../../../axon/js/E
 import assertHasProperties from '../../../../phet-core/js/assertHasProperties.js';
 import getGlobal from '../../../../phet-core/js/getGlobal.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import { Association, DragListener, HighlightFromNode, HighlightPath, isInteractiveHighlighting, isVoicing, keyboardDraggingKeys, KeyboardDragListener, KeyboardListener, Node, NodeOptions, ParallelDOMOptions, PDOMPeer, PDOMValueType, SceneryEvent, SceneryListenerFunction, SceneryNullableListenerFunction, TInputListener, Voicing } from '../../../../scenery/js/imports.js';
+import { Association, DragListener, HighlightFromNode, HighlightPath, isInteractiveHighlighting, isVoicing, keyboardDraggingKeys, KeyboardDragListener, KeyboardListener, Node, NodeOptions, ParallelDOMOptions, PDOMPeer, PDOMValueType, TInputListener, Voicing } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import AriaLiveAnnouncer from '../../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
@@ -70,6 +70,7 @@ import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-co
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import GrabDragModel, { GrabDragInteractionState } from './GrabDragModel.js';
 import GrabDragCueModel from './GrabDragCueModel.js';
+import Emitter from '../../../../axon/js/Emitter.js';
 
 // constants
 const grabPatternStringStringProperty = SceneryPhetStrings.a11y.grabDrag.grabPatternStringProperty;
@@ -88,10 +89,12 @@ type SelfOptions = {
   grabbableAccessibleName?: null | string;
 
   // Called when the node is "grabbed" (when the grab button fires); button -> draggable.
-  onGrab?: SceneryListenerFunction;
+  // TODO: REname to onGrabbed? https://github.com/phetsims/scenery-phet/issues/869
+  onGrab?: VoidFunction;
 
   // Called when the node is "released" (when the draggable is "let go"); draggable -> button
-  onRelease?: () => void;
+  // TODO: REname to onReleased? https://github.com/phetsims/scenery-phet/issues/869
+  onRelease?: VoidFunction;
 
   // PDOM options passed to the grabbable created for the PDOM, filled in with defaults below
   grabbableOptions?: ParallelDOMOptions;
@@ -195,8 +198,9 @@ export default class GrabDragInteraction extends EnabledComponent {
   // A reusable Utterance for Voicing output from this type.
   private readonly voicingFocusUtterance: Utterance;
 
-  private readonly onRelease: SceneryNullableListenerFunction;
-  private readonly onGrab: SceneryListenerFunction;
+  // TODO: make these public? https://github.com/phetsims/scenery-phet/issues/869
+  private readonly releasedEmitter = new Emitter();
+  private readonly grabbedEmitter = new Emitter();
 
   private readonly grabDragFocusHighlight: HighlightPath;
   private readonly grabDragInteractiveHighlight: HighlightPath;
@@ -206,7 +210,7 @@ export default class GrabDragInteraction extends EnabledComponent {
   // important for AT that use pointer events like iOS VoiceOver.
   // A DragListener is used instead of a PressListener to work with touchSnag.
   // Note this is NOT the DragListener that implements dragging on the target.
-  private readonly pressReleaseListener: DragListener;
+  public readonly pressReleaseListener: DragListener;
 
   private readonly disposeGrabDragInteraction: () => void;
 
@@ -225,9 +229,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       grabbableAccessibleName: null,
       onGrab: _.noop,
       onRelease: _.noop,
-      grabbableOptions: {
-        appendDescription: true // in general, the help text is after the grabbable
-      },
+      grabbableOptions: {},
       grabCueOptions: {},
       draggableOptions: {},
       dragCueNode: new Node(),
@@ -293,10 +295,12 @@ export default class GrabDragInteraction extends EnabledComponent {
       ariaRole: null,
       tagName: 'button',
 
+      // in general, the help text is after the grabbable
+      appendDescription: true,
+
       // position the PDOM elements when grabbable for drag and drop on touch-based screen readers
       positionInPDOM: true,
 
-      // {string}
       accessibleName: null
     }, options.grabbableOptions );
 
@@ -372,14 +376,14 @@ export default class GrabDragInteraction extends EnabledComponent {
       Voicing.registerUtteranceToVoicingNode( this.voicingFocusUtterance, node );
     }
 
-    // Wrap the optional onRelease in logic that is needed for the core type.
-    this.onRelease = () => {
-      options.onRelease && options.onRelease();
+    this.releasedEmitter.addListener( () => {
+      options.onRelease();
 
       this.node.alertDescriptionUtterance( releasedUtterance );
       isVoicing( node ) && Voicing.alertUtterance( releasedUtterance );
-    };
-    this.onGrab = options.onGrab;
+    } );
+
+    this.grabbedEmitter.addListener( () => options.onGrab() );
 
     // assertions confirm this type cast below
     const nodeFocusHighlight = node.focusHighlight as HighlightPath | null;
@@ -406,13 +410,13 @@ export default class GrabDragInteraction extends EnabledComponent {
     // to the focus highlights that should not be displayed when using Interactive Highlights.
     const ownsFocusHighlight = !node.focusHighlightLayerable;
     this.grabDragFocusHighlight = !ownsFocusHighlight ? nodeFocusHighlight! :
-                              nodeFocusHighlight ? new HighlightPath( nodeFocusHighlight.shapeProperty ) :
-                              new HighlightFromNode( node );
+                                  nodeFocusHighlight ? new HighlightPath( nodeFocusHighlight.shapeProperty ) :
+                                  new HighlightFromNode( node );
     const ownsInteractiveHighlight = !( isInteractiveHighlighting( node ) && node.interactiveHighlightLayerable );
     this.grabDragInteractiveHighlight = !ownsInteractiveHighlight ? ( node.interactiveHighlight as HighlightPath ) :
-                                    ( isInteractiveHighlighting( node ) && node.interactiveHighlight ) ?
-                                    new HighlightPath( ( node.interactiveHighlight as HighlightPath ).shapeProperty ) :
-                                    new HighlightPath( this.grabDragFocusHighlight.shapeProperty );
+                                        ( isInteractiveHighlighting( node ) && node.interactiveHighlight ) ?
+                                        new HighlightPath( ( node.interactiveHighlight as HighlightPath ).shapeProperty ) :
+                                        new HighlightPath( this.grabDragFocusHighlight.shapeProperty );
 
     node.focusHighlight = this.grabDragFocusHighlight;
     isInteractiveHighlighting( node ) && node.setInteractiveHighlight( this.grabDragInteractiveHighlight );
@@ -430,7 +434,7 @@ export default class GrabDragInteraction extends EnabledComponent {
 
     // when the "Grab {{thing}}" button is pressed, focus the draggable node and set to dragged state
     const grabButtonListener = {
-      click: ( event: SceneryEvent ) => {
+      click: () => {
 
         // don't turn to draggable on mobile a11y, it is the wrong gesture - user should press down and hold
         // to initiate a drag
@@ -457,7 +461,7 @@ export default class GrabDragInteraction extends EnabledComponent {
         // focus after the transition so that listeners added to the draggable state get a focus event().
         this.node.focus();
 
-        this.onGrab( event );
+        this.grabbedEmitter.emit();
       },
 
       focus: () => {
@@ -486,7 +490,7 @@ export default class GrabDragInteraction extends EnabledComponent {
         // The sequence that dispatched this fire also dispatches a click event, so we must avoid immediately grabbing
         // from this event that released
         guardKeyPressFromDraggable = true;
-        this.release( null );
+        this.release();
       }
     } );
 
@@ -499,11 +503,11 @@ export default class GrabDragInteraction extends EnabledComponent {
 
         // Release on keyup for spacebar so that we don't pick up the draggable again when we release the spacebar
         // and trigger a click event - escape could be added to either keyup or keydown listeners
-        this.release( null ); // TODO: Why not send along the key event? See https://github.com/phetsims/scenery-phet/issues/869
+        this.release(); // TODO: Why not send along the key event? See https://github.com/phetsims/scenery-phet/issues/869
       },
 
       // release when focus is lost
-      blur: () => this.release( null ),
+      blur: () => this.release(),
 
       // if successfully dragged, then make the cue node invisible
       focus: () => this.updateVisibilityForCues()
@@ -531,7 +535,7 @@ export default class GrabDragInteraction extends EnabledComponent {
       press: event => {
         if ( !event.isFromPDOM() ) {
           this.grab();
-          this.onGrab( event );
+          this.grabbedEmitter.emit();
         }
       },
       release: event => {
@@ -544,7 +548,7 @@ export default class GrabDragInteraction extends EnabledComponent {
         // release if interrupted, but only if not already grabbable, which is possible if the GrabDragInteraction
         // has been reset since press
         if ( shouldRelease && this.grabDragModel.interactionStateProperty.value === 'draggable' ) {
-          this.release( event );
+          this.release();
         }
       },
 
@@ -607,10 +611,10 @@ export default class GrabDragInteraction extends EnabledComponent {
    * when draggable. It also behaves as though it was released from user input, for example a sound effect and description
    * will occur.
    */
-  public release( event: SceneryEvent | null ): void {
+  public release(): void {
     assert && assert( this.grabDragModel.interactionStateProperty.value === 'draggable', 'cannot set to interactionState if already set that way' );
     this.grabDragModel.interactionStateProperty.value = 'grabbable';
-    this.onRelease( event );
+    this.releasedEmitter.emit();
   }
 
   /**
