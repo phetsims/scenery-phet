@@ -21,7 +21,6 @@ export type GrabDragInteractionState = 'grabbable' | 'draggable';
 type SelfOptions = EmptySelfOptions;
 export type GrabDragModelOptions = SelfOptions & EnabledComponentOptions;
 
-// TODO: This should be the EnabledComponent instead of the view, https://github.com/phetsims/scenery-phet/issues/869
 export default class GrabDragModel extends EnabledComponent {
 
   // Interaction states that this component interaction can be in:

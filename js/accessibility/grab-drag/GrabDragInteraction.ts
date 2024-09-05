@@ -128,12 +128,12 @@ type SelfOptions = {
 
   // Controls whether or not to show the "Grab" cue node that is displayed on focus - by
   // default it will be shown on focus until it has been successfully grabbed with a keyboard
-  showGrabCueNode?: () => boolean;
+  shouldShowGrabCueNode?: () => boolean;
 
   // Whether or not to display the Node for the "Drag" cue node once the grabbable Node has been picked up,
   // if a options.dragCueNode is specified. This will only be shown if draggable node has focus
   // from alternative input
-  showDragCueNode?: () => boolean;
+  shouldShowDragCueNode?: () => boolean;
 
   // Like keyboardHelpText but when supporting gesture interactive description.
   gestureHelpText?: PDOMValueType;
@@ -167,9 +167,8 @@ export default class GrabDragInteraction extends Disposable {
   // public ONLY to position dynamically. Prefer options.grabCueOptions when possible.
   public readonly grabCueNode: GrabReleaseCueNode;
 
-  // TODO: Rename to "shouldShowXCueNode" https://github.com/phetsims/scenery-phet/issues/869
-  private readonly showGrabCueNode: () => boolean;
-  private readonly showDragCueNode: () => boolean;
+  private readonly shouldShowGrabCueNode: () => boolean;
+  private readonly shouldShowDragCueNode: () => boolean;
 
   // Predicate that determines whether the aria description should be added.
   // This one is better as a predicate rather than a Property since we need to control its call timing
@@ -226,10 +225,10 @@ export default class GrabDragInteraction extends Disposable {
       listenersWhileGrabbable: [],
       supportsGestureDescription: getGlobal( 'phet.joist.sim.supportsGestureDescription' ),
       keyboardHelpText: null,
-      showGrabCueNode: () => {
+      shouldShowGrabCueNode: () => {
         return this.grabDragModel.grabDragUsageTracker.numberOfKeyboardGrabs < 1 && node.inputEnabled;
       },
-      showDragCueNode: () => {
+      shouldShowDragCueNode: () => {
         return this.grabDragModel.grabDragUsageTracker.shouldShowDragCue;
       },
 
@@ -311,8 +310,8 @@ export default class GrabDragInteraction extends Disposable {
     this.draggableOptions = options.draggableOptions;
     this.dragCueNode = options.dragCueNode;
     this.grabCueNode = new GrabReleaseCueNode( options.grabCueOptions );
-    this.showGrabCueNode = options.showGrabCueNode;
-    this.showDragCueNode = options.showDragCueNode;
+    this.shouldShowGrabCueNode = options.shouldShowGrabCueNode;
+    this.shouldShowDragCueNode = options.shouldShowDragCueNode;
     this.shouldAddAriaDescribedby = options.shouldAddAriaDescribedby;
     this.supportsGestureDescription = options.supportsGestureDescription;
 
@@ -628,9 +627,9 @@ export default class GrabDragInteraction extends Disposable {
    */
   private updateVisibilityForCues(): void {
     this.dragCueNode.visible = this.grabDragModel.enabled && this.grabDragModel.interactionStateProperty.value === 'draggable' &&
-                               this.showDragCueNode();
+                               this.shouldShowDragCueNode();
     this.grabCueNode.visible = this.grabDragModel.enabled && this.grabDragModel.interactionStateProperty.value === 'grabbable' &&
-                               this.showGrabCueNode();
+                               this.shouldShowGrabCueNode();
   }
 
   /**
@@ -718,7 +717,7 @@ export default class GrabDragInteraction extends Disposable {
       Voicing.registerUtteranceToVoicingNode( voicingFocusUtterance, node );
 
       this.onGrabButtonFocusEmitter.addListener( () => {
-        if ( this.grabDragModel.enabled && this.showGrabCueNode() ) {
+        if ( this.grabDragModel.enabled && this.shouldShowGrabCueNode() ) {
           const alert = voicingFocusUtterance.alert! as ResponsePacket;
           alert.hintResponse = SceneryPhetStrings.a11y.grabDrag.spaceToGrabOrReleaseStringProperty;
           Voicing.alertUtterance( voicingFocusUtterance );
