@@ -2,6 +2,7 @@
 
 /**
  * The model of the grab drag interaction. This has the current interaction state, and the cueing state.
+ * Scenery-phet internal, GrabDragInteraction should be the only one to create this.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  * @author Jesse Greenberg (PhET Interactive Simulations)
@@ -87,6 +88,7 @@ export default class GrabDragModel extends EnabledComponent {
     this._grabbedEmitter.dispose();
     this._releasedEmitter.dispose();
     this.resetEmitter.dispose();
+    this.interactionStateProperty.dispose();
     super.dispose();
   }
 
