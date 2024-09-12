@@ -65,6 +65,7 @@ import EnabledComponent, { EnabledComponentOptions } from '../../../../../axon/j
 import IOType from '../../../../../tandem/js/types/IOType.js';
 import ReferenceIO from '../../../../../tandem/js/types/ReferenceIO.js';
 import NullableIO from '../../../../../tandem/js/types/NullableIO.js';
+import phetioStateSetEmitter from '../../../../../tandem/js/phetioStateSetEmitter.js';
 
 type SelfOptions<ItemModel> = {
 
@@ -256,12 +257,10 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
     this.selectedGroupItemProperty.link( updateSortIndicatorNode );
     this.hasGroupItemBeenSortedProperty.link( updateSortIndicatorNode );
     this.isKeyboardFocusedProperty.link( updateSortIndicatorNode );
-    Tandem.PHET_IO_ENABLED && phet.phetio.phetioEngine
-      .phetioStateEngine.stateSetEmitter.addListener( updateSortIndicatorNode );
+    phetioStateSetEmitter.addListener( updateSortIndicatorNode );
 
     this.disposeEmitter.addListener( () => {
-      Tandem.PHET_IO_ENABLED && phet.phetio.phetioEngine
-        .phetioStateEngine.stateSetEmitter.removeListener( updateSortIndicatorNode );
+      phetioStateSetEmitter.removeListener( updateSortIndicatorNode );
       this.isKeyboardFocusedProperty.unlink( updateSortIndicatorNode );
       this.hasGroupItemBeenSortedProperty.unlink( updateSortIndicatorNode );
       this.mouseSortCueVisibleProperty.unlink( updateSortIndicatorNode );
