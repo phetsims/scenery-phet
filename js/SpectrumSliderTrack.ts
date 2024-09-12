@@ -8,15 +8,24 @@
 
 import Range from '../../dot/js/Range.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
-import { Rectangle } from '../../scenery/js/imports.js';
+import { Rectangle, TColor } from '../../scenery/js/imports.js';
 import SliderTrack, { SliderTrackOptions } from '../../sun/js/SliderTrack.js';
 import sceneryPhet from './sceneryPhet.js';
 import SpectrumNode, { SpectrumNodeOptions } from './SpectrumNode.js';
 import TProperty from '../../axon/js/TProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
+import { LineJoin } from '../../kite/js/imports.js';
 
-type SelfOptions = PickOptional<SpectrumNodeOptions, 'valueToColor'>;
+type SelfOptions = {
+  borderRectangleOptions?: {
+    stroke: TColor;
+    lineWidth: number;
+    lineDash?: number[];
+    lineDashOffset?: number;
+    lineJoin?: LineJoin;
+  };
+} & PickOptional<SpectrumNodeOptions, 'valueToColor'>;
 
 export type SpectrumSliderTrackOptions = SelfOptions & SliderTrackOptions;
 
@@ -26,7 +35,11 @@ export default class SpectrumSliderTrack extends SliderTrack {
 
     const options = optionize<SpectrumSliderTrackOptions, SelfOptions, SliderTrackOptions>()( {
       size: new Dimension2( 150, 30 ),
-      valueToColor: SpectrumNode.DEFAULT_VALUE_TO_COLOR // Defaults to a black to white gradient
+      valueToColor: SpectrumNode.DEFAULT_VALUE_TO_COLOR, // Defaults to a black to white gradient,
+      borderRectangleOptions: {
+        stroke: 'black',
+        lineWidth: 1
+      }
     }, providedOptions );
 
     const spectrumNode = new SpectrumNode( {
@@ -37,10 +50,7 @@ export default class SpectrumSliderTrack extends SliderTrack {
     } );
 
     // Show a thin black stroke around the border
-    spectrumNode.addChild( new Rectangle( 0, 0, spectrumNode.width, spectrumNode.height, {
-      stroke: 'black',
-      lineWidth: 1
-    } ) );
+    spectrumNode.addChild( new Rectangle( 0, 0, spectrumNode.width, spectrumNode.height, options.borderRectangleOptions ) );
 
     super( property, spectrumNode, range, options );
   }
