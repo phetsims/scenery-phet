@@ -19,8 +19,8 @@ import { LineJoin } from '../../kite/js/imports.js';
 
 type SelfOptions = {
   borderRectangleOptions?: {
-    stroke: TColor;
-    lineWidth: number;
+    stroke?: TColor;
+    lineWidth?: number;
     lineDash?: number[];
     lineDashOffset?: number;
     lineJoin?: LineJoin;
