@@ -63,7 +63,7 @@
         },
         "parserOptions": {
           "project": [
-            "../scenery-phet/tsconfig.json"
+            "../chipper/tsconfig/eslint-all/tsconfig.json"
           ]
         }
       }
