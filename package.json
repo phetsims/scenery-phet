@@ -60,6 +60,11 @@
               "ts-nocheck": true
             }
           ]
+        },
+        "parserOptions": {
+          "project": [
+            "../scenery-phet/tsconfig.json"
+          ]
         }
       }
     ],
