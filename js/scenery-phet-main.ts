@@ -12,7 +12,7 @@ import ScreenIcon from '../../joist/js/ScreenIcon.js';
 import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import TModel from '../../joist/js/TModel.js';
-import { Color, TColor, Rectangle } from '../../scenery/js/imports.js';
+import { Color, Rectangle, TColor } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import ButtonsScreenView from './demo/buttons/ButtonsScreenView.js';
 import ComponentsScreenView from './demo/components/ComponentsScreenView.js';

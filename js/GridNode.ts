@@ -9,13 +9,13 @@
  * @author Agustín Vallejo
  */
 
-import sceneryPhet from './sceneryPhet.js';
-import { Shape } from '../../kite/js/imports.js';
-import { Path, PathOptions } from '../../scenery/js/imports.js';
-import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
-import Vector2 from '../../dot/js/Vector2.js';
-import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import Vector2 from '../../dot/js/Vector2.js';
+import { Shape } from '../../kite/js/imports.js';
+import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
+import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
+import { Path, PathOptions } from '../../scenery/js/imports.js';
+import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = EmptySelfOptions;
 

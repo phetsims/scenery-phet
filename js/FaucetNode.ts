@@ -23,10 +23,17 @@
 
 import Property from '../../axon/js/Property.js';
 import stepTimer from '../../axon/js/stepTimer.js';
+import { TimerListener } from '../../axon/js/Timer.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import LinearFunction from '../../dot/js/LinearFunction.js';
+import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
+import optionize from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import WithOptional from '../../phet-core/js/types/WithOptional.js';
 import { Circle, DragListener, GroupHighlightPath, HighlightPath, HotkeyData, Image, InteractiveHighlighting, KeyboardListener, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
+import AccessibleSlider, { AccessibleSliderOptions } from '../../sun/js/accessibility/AccessibleSlider.js';
 import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
@@ -42,13 +49,6 @@ import faucetStop_png from '../images/faucetStop_png.js';
 import faucetTrack_png from '../images/faucetTrack_png.js';
 import faucetVerticalPipe_png from '../images/faucetVerticalPipe_png.js';
 import sceneryPhet from './sceneryPhet.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
-import optionize from '../../phet-core/js/optionize.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { TimerListener } from '../../axon/js/Timer.js';
-import AccessibleSlider, { AccessibleSliderOptions } from '../../sun/js/accessibility/AccessibleSlider.js';
-import { Shape } from '../../kite/js/imports.js';
-import WithOptional from '../../phet-core/js/types/WithOptional.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
 
 // constants

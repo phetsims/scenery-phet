@@ -17,16 +17,16 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import NumberProperty from '../../axon/js/NumberProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
+import NumberProperty from '../../axon/js/NumberProperty.js';
 import Range from '../../dot/js/Range.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import { Circle, LinearGradient, Node, NodeOptions, Path, PathOptions, TColor } from '../../scenery/js/imports.js';
-import sceneryPhet from './sceneryPhet.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
+import { Circle, LinearGradient, Node, NodeOptions, Path, PathOptions, TColor } from '../../scenery/js/imports.js';
+import sceneryPhet from './sceneryPhet.js';
 
 // constants
 const SHOW_ORIGIN = false; // {boolean} draws a red circle at the origin, for layout debugging

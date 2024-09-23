@@ -11,7 +11,7 @@
 import Bounds2 from '../../dot/js/Bounds2.js';
 import { LineJoin, Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { TPaint, Node, NodeOptions, Path, PathOptions } from '../../scenery/js/imports.js';
+import { Node, NodeOptions, Path, PathOptions, TPaint } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 import StarShape, { StarShapeOptions } from './StarShape.js';
 

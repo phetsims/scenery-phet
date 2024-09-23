@@ -8,20 +8,20 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import PatternStringProperty from '../../axon/js/PatternStringProperty.js';
+import Property from '../../axon/js/Property.js';
+import StringProperty from '../../axon/js/StringProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Range from '../../dot/js/Range.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { Node } from '../../scenery/js/imports.js';
 import ComboBox, { ComboBoxItem, ComboBoxOptions } from '../../sun/js/ComboBox.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
-import Property from '../../axon/js/Property.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
-import StringProperty from '../../axon/js/StringProperty.js';
-import PatternStringProperty from '../../axon/js/PatternStringProperty.js';
-import Tandem from '../../tandem/js/Tandem.js';
 
 // constants
 const DEFAULT_FONT = new PhetFont( 14 );

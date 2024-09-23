@@ -15,11 +15,11 @@ import Utils from '../../dot/js/Utils.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
-import { Circle, TColor, Node, NodeOptions, Path, Text, TextOptions } from '../../scenery/js/imports.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import { Circle, Node, NodeOptions, Path, TColor, Text, TextOptions } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 
 type GaugeNodeLabelTextOptions = StrictOmit<TextOptions, 'maxWidth' | 'tandem'>;
 

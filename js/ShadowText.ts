@@ -8,7 +8,7 @@
 
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Font, TPaint, Node, NodeOptions, Text } from '../../scenery/js/imports.js';
+import { Font, Node, NodeOptions, Text, TPaint } from '../../scenery/js/imports.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 

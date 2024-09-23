@@ -9,8 +9,8 @@
  */
 
 import optionize from '../../phet-core/js/optionize.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { Circle, Line, Node, NodeOptions, PaintableOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 

@@ -7,15 +7,15 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Multilink from '../../axon/js/Multilink.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import Bounds2 from '../../dot/js/Bounds2.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import sceneryPhet from './sceneryPhet.js';
+import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import StatusBar, { StatusBarOptions } from '../../scenery-phet/js/StatusBar.js';
 import { Text, TextOptions } from '../../scenery/js/imports.js';
-import Bounds2 from '../../dot/js/Bounds2.js';
-import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
-import Multilink from '../../axon/js/Multilink.js';
+import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
   questionString: string | TReadOnlyProperty<string>;

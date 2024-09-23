@@ -9,9 +9,9 @@
  */
 
 import Vector2 from '../../dot/js/Vector2.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { Font, TColor, Node, NodeOptions, Text } from '../../scenery/js/imports.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import { Font, Node, NodeOptions, TColor, Text } from '../../scenery/js/imports.js';
 import FaceNode from './FaceNode.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';

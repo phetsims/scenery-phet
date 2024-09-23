@@ -8,10 +8,9 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import TProperty from '../../axon/js/TProperty.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
+import TProperty from '../../axon/js/TProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
 import Utils from '../../dot/js/Utils.js';
@@ -19,7 +18,8 @@ import { Shape } from '../../kite/js/imports.js';
 import deprecationWarning from '../../phet-core/js/deprecationWarning.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
-import { Color, DragListener, HighlightFromNode, Font, TColor, Node, NodeOptions, Path, PathOptions, Rectangle, RectangleOptions, SceneryEvent, Text, TextOptions } from '../../scenery/js/imports.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import { Color, DragListener, Font, HighlightFromNode, Node, NodeOptions, Path, PathOptions, Rectangle, RectangleOptions, SceneryEvent, TColor, Text, TextOptions } from '../../scenery/js/imports.js';
 import AccessibleSlider, { AccessibleSliderOptions } from '../../sun/js/accessibility/AccessibleSlider.js';
 import ArrowButton from '../../sun/js/buttons/ArrowButton.js';
 import Tandem from '../../tandem/js/Tandem.js';

@@ -13,9 +13,11 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
 import Property from '../../axon/js/Property.js';
+import TProperty from '../../axon/js/TProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
@@ -27,16 +29,14 @@ import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
 import { Circle, DragListener, Font, Image, InteractiveHighlightingNode, Line, Node, NodeOptions, NodeTranslationOptions, Path, PressListenerEvent, Rectangle, TColor, Text } from '../../scenery/js/imports.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
 import measuringTape_png from '../images/measuringTape_png.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
-import TProperty from '../../axon/js/TProperty.js';
-import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
-import Tandem from '../../tandem/js/Tandem.js';
-import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from './SoundKeyboardDragListener.js';
 import SoundDragListener, { SoundDragListenerOptions } from './SoundDragListener.js';
+import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from './SoundKeyboardDragListener.js';
 
 export type MeasuringTapeUnits = {
   name: string;

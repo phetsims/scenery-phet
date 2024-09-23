@@ -6,15 +6,15 @@
  * @author Jesse Greenberg
  */
 
-import { DragListener, DragListenerOptions, KeyboardDragListener, KeyboardDragListenerOptions, RichDragListener, RichDragListenerOptions } from '../../scenery/js/imports.js';
 import { combineOptions, optionize3 } from '../../phet-core/js/optionize.js';
-import WrappedAudioBuffer from '../../tambo/js/WrappedAudioBuffer.js';
+import { DragListener, DragListenerOptions, KeyboardDragListener, KeyboardDragListenerOptions, RichDragListener, RichDragListenerOptions } from '../../scenery/js/imports.js';
 import SoundClip, { SoundClipOptions } from '../../tambo/js/sound-generators/SoundClip.js';
 import soundManager, { SoundGeneratorAddOptions } from '../../tambo/js/soundManager.js';
+import WrappedAudioBuffer from '../../tambo/js/WrappedAudioBuffer.js';
 import grab_mp3 from '../../tambo/sounds/grab_mp3.js';
 import release_mp3 from '../../tambo/sounds/release_mp3.js';
-import SceneryPhetConstants from './SceneryPhetConstants.js';
 import sceneryPhet from './sceneryPhet.js';
+import SceneryPhetConstants from './SceneryPhetConstants.js';
 
 // Options for drag listeners that are specific to sound.
 export type RichDragListenerSoundOptions = {

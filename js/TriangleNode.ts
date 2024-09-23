@@ -9,10 +9,10 @@
  */
 
 import { Shape } from '../../kite/js/imports.js';
-import { Path, PathOptions } from '../../scenery/js/imports.js';
-import sceneryPhet from './sceneryPhet.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import { Path, PathOptions } from '../../scenery/js/imports.js';
+import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
   pointDirection?: 'up' | 'down' | 'right' | 'left';

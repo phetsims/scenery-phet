@@ -12,18 +12,18 @@ import TProperty from '../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Range from '../../dot/js/Range.js';
 import Utils from '../../dot/js/Utils.js';
+import Vector2 from '../../dot/js/Vector2.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import { Font, ManualConstraint, Node, NodeOptions, Rectangle, RichText, RichTextOptions, Text, TextOptions, TPaint } from '../../scenery/js/imports.js';
 import SunConstants from '../../sun/js/SunConstants.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
+import StringIO from '../../tandem/js/types/StringIO.js';
 import MathSymbols from './MathSymbols.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import Tandem from '../../tandem/js/Tandem.js';
-import StringIO from '../../tandem/js/types/StringIO.js';
-import Vector2 from '../../dot/js/Vector2.js';
 
 // constants
 const DEFAULT_FONT = new PhetFont( 20 );

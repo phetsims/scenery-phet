@@ -8,9 +8,9 @@
  */
 
 import TProperty from '../../axon/js/TProperty.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import Utils from '../../dot/js/Utils.js';
 import optionize from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';

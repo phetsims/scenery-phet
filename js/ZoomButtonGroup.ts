@@ -6,13 +6,13 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import TRangedProperty from '../../axon/js/TRangedProperty.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { FlowBox, FlowBoxOptions, Node } from '../../scenery/js/imports.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import sceneryPhet from './sceneryPhet.js';
-import TRangedProperty from '../../axon/js/TRangedProperty.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
 
 type SelfOptions = {

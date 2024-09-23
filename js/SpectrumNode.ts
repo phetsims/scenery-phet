@@ -9,10 +9,10 @@
  */
 
 import Bounds2 from '../../dot/js/Bounds2.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Utils from '../../dot/js/Utils.js';
 import optionize from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { Color, Image, Node, NodeOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 

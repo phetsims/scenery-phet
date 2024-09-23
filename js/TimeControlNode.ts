@@ -11,19 +11,19 @@
  */
 
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import Property from '../../axon/js/Property.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { Node, NodeOptions, SceneryConstants } from '../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../sun/js/Panel.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import PlayPauseStepButtonGroup, { PlayPauseStepButtonGroupOptions } from './buttons/PlayPauseStepButtonGroup.js';
 import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
 import TimeSpeed from './TimeSpeed.js';
 import TimeSpeedRadioButtonGroup, { TimeSpeedRadioButtonGroupOptions } from './TimeSpeedRadioButtonGroup.js';
-import PlayPauseStepButtonGroup, { PlayPauseStepButtonGroupOptions } from './buttons/PlayPauseStepButtonGroup.js';
-import Property from '../../axon/js/Property.js';
 
 // default speeds for SpeedRadioButtonGroup
 const DEFAULT_TIME_SPEEDS = [ TimeSpeed.NORMAL, TimeSpeed.SLOW ];

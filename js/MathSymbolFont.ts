@@ -7,16 +7,16 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
+import PickOptional from '../../phet-core/js/types/PickOptional.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import { Font, FontOptions } from '../../scenery/js/imports.js';
-import sceneryPhet from './sceneryPhet.js';
-import PickOptional from '../../phet-core/js/types/PickOptional.js';
 import { PhetioObjectOptions } from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
+import sceneryPhet from './sceneryPhet.js';
 
 const DEFAULT_STYLE = 'italic';
 

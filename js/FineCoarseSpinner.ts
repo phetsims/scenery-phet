@@ -9,17 +9,17 @@
  */
 
 import NumberProperty from '../../axon/js/NumberProperty.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { HBox, KeyboardUtils, Node, NodeOptions } from '../../scenery/js/imports.js';
+import AccessibleNumberSpinner, { AccessibleNumberSpinnerOptions } from '../../sun/js/accessibility/AccessibleNumberSpinner.js';
 import ArrowButton, { ArrowButtonOptions } from '../../sun/js/buttons/ArrowButton.js';
+import sharedSoundPlayers from '../../tambo/js/sharedSoundPlayers.js';
+import TSoundPlayer from '../../tambo/js/TSoundPlayer.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import sceneryPhet from './sceneryPhet.js';
-import AccessibleNumberSpinner, { AccessibleNumberSpinnerOptions } from '../../sun/js/accessibility/AccessibleNumberSpinner.js';
-import TSoundPlayer from '../../tambo/js/TSoundPlayer.js';
-import sharedSoundPlayers from '../../tambo/js/sharedSoundPlayers.js';
 
 type SelfOptions = {
   deltaFine?: number; // amount to increment/decrement when the 'fine' tweakers are pressed

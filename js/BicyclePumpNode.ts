@@ -10,20 +10,20 @@
  */
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import TProperty from '../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
-import Utils from '../../dot/js/Utils.js';
 import Range from '../../dot/js/Range.js';
+import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import PickRequired from '../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { Circle, InteractiveHighlighting, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, PressListenerEvent, Rectangle, SceneryConstants, TColor } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
 import SegmentedBarGraphNode from './SegmentedBarGraphNode.js';
-import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import SoundDragListener, { SoundDragListenerOptions } from './SoundDragListener.js';
 import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from './SoundKeyboardDragListener.js';
 

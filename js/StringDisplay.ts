@@ -12,9 +12,9 @@
 
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
-import { Node, NodeOptions, Rectangle, RectangleOptions, RichText, RichTextOptions, Text, TextOptions } from '../../scenery/js/imports.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import { Node, NodeOptions, Rectangle, RectangleOptions, RichText, RichTextOptions, Text, TextOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type AlignX = 'left' | 'right' | 'center';

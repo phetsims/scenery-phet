@@ -12,17 +12,17 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import stepTimer from '../../axon/js/stepTimer.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import OscillatorSoundGenerator from '../../tambo/js/sound-generators/OscillatorSoundGenerator.js';
+import { Node, NodeOptions, Path, RichText } from '../../scenery/js/imports.js';
 import videoSolidShape from '../../sherpa/js/fontawesome-5/videoSolidShape.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/js/buttons/RectangularPushButton.js';
-import sceneryPhet from './sceneryPhet.js';
-import { Node, NodeOptions, Path, RichText } from '../../scenery/js/imports.js';
+import OscillatorSoundGenerator from '../../tambo/js/sound-generators/OscillatorSoundGenerator.js';
 import soundManager from '../../tambo/js/soundManager.js';
-import BackgroundNode from './BackgroundNode.js';
-import stepTimer from '../../axon/js/stepTimer.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import BackgroundNode from './BackgroundNode.js';
+import sceneryPhet from './sceneryPhet.js';
 
 const SOUND_DURATION = 1000;
 const BUTTON_LABEL = 'Synchronize Recording';

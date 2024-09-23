@@ -7,8 +7,8 @@
  */
 
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { Circle, Node, NodeOptions, RadialGradient, Rectangle } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 

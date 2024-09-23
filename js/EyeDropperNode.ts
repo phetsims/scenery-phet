@@ -6,18 +6,18 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Property from '../../axon/js/Property.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { Circle, Image, Node, NodeOptions, Path, TPaint } from '../../scenery/js/imports.js';
 import RoundMomentaryButton, { RoundMomentaryButtonOptions } from '../../sun/js/buttons/RoundMomentaryButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import eyeDropperBackground_png from '../images/eyeDropperBackground_png.js';
 import eyeDropperForeground_png from '../images/eyeDropperForeground_png.js';
 import sceneryPhet from './sceneryPhet.js';
-import DerivedProperty from '../../axon/js/DerivedProperty.js';
 
 // constants
 const DEBUG_ORIGIN = false; // if true, put a red dot at the dropper's origin (bottom center)

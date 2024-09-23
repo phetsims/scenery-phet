@@ -14,8 +14,8 @@
  * @author Jesse Greenberg
  */
 
-import sceneryPhet from './sceneryPhet.js';
 import { DragListener, DragListenerOptions, PressedDragListener } from '../../scenery/js/imports.js';
+import sceneryPhet from './sceneryPhet.js';
 import SoundRichDragListener, { RichDragListenerSoundOptions } from './SoundRichDragListener.js';
 
 // Pattern followed from DragListenerOptions.

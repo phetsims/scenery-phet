@@ -9,18 +9,22 @@
  * @author Anton Ulyanov (Mlearner)
  */
 
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Property from '../../axon/js/Property.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import Range from '../../dot/js/Range.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
+import Range from '../../dot/js/Range.js';
 import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import { Circle, DragListener, HBox, InteractiveHighlighting, InteractiveHighlightingOptions, KeyboardDragListener, Node, NodeOptions, Path, PressListenerEvent, TColor, VBox } from '../../scenery/js/imports.js';
 import BooleanRectangularToggleButton, { BooleanRectangularToggleButtonOptions } from '../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/js/buttons/RectangularPushButton.js';
+import sharedSoundPlayers from '../../tambo/js/sharedSoundPlayers.js';
+import TSoundPlayer from '../../tambo/js/TSoundPlayer.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import PauseIconShape from './PauseIconShape.js';
@@ -29,14 +33,10 @@ import PlayIconShape from './PlayIconShape.js';
 import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
 import ShadedRectangle from './ShadedRectangle.js';
-import Stopwatch from './Stopwatch.js';
-import UTurnArrowShape from './UTurnArrowShape.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
-import TSoundPlayer from '../../tambo/js/TSoundPlayer.js';
-import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import SoundDragListener, { PressedSoundDragListener, SoundDragListenerOptions } from './SoundDragListener.js';
 import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from './SoundKeyboardDragListener.js';
-import sharedSoundPlayers from '../../tambo/js/sharedSoundPlayers.js';
+import Stopwatch from './Stopwatch.js';
+import UTurnArrowShape from './UTurnArrowShape.js';
 
 type SelfOptions = {
 

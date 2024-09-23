@@ -13,9 +13,9 @@
  */
 
 import NumberProperty from '../../axon/js/NumberProperty.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { Color, Node, NodeOptions } from '../../scenery/js/imports.js';
 import VSlider from '../../sun/js/VSlider.js';
 import Tandem from '../../tandem/js/Tandem.js';

@@ -6,16 +6,16 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import Range from '../../dot/js/Range.js';
+import TProperty from '../../axon/js/TProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
+import Range from '../../dot/js/Range.js';
+import { LineJoin } from '../../kite/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import PickOptional from '../../phet-core/js/types/PickOptional.js';
 import { Rectangle, TColor } from '../../scenery/js/imports.js';
 import SliderTrack, { SliderTrackOptions } from '../../sun/js/SliderTrack.js';
 import sceneryPhet from './sceneryPhet.js';
 import SpectrumNode, { SpectrumNodeOptions } from './SpectrumNode.js';
-import TProperty from '../../axon/js/TProperty.js';
-import optionize from '../../phet-core/js/optionize.js';
-import PickOptional from '../../phet-core/js/types/PickOptional.js';
-import { LineJoin } from '../../kite/js/imports.js';
 
 type SelfOptions = {
   borderRectangleOptions?: {

@@ -10,7 +10,7 @@ import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { Color, TColor, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, RadialGradient, Rectangle } from '../../scenery/js/imports.js';
+import { Color, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, RadialGradient, Rectangle, TColor } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type LightSource = 'leftTop' | 'rightTop' | 'leftBottom' | 'rightBottom';

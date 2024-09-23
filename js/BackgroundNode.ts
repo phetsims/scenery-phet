@@ -7,11 +7,11 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import Bounds2 from '../../dot/js/Bounds2.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { Node, NodeOptions, Rectangle, RectangleOptions } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
-import Bounds2 from '../../dot/js/Bounds2.js';
 
 type SelfOptions = {
   xMargin?: number; // set the x margin between the Node content and background edge

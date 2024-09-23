@@ -7,13 +7,13 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import Range from '../../dot/js/Range.js';
 import Multilink from '../../axon/js/Multilink.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import Range from '../../dot/js/Range.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { TColor, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
+import { Node, NodeOptions, Rectangle, TColor } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = {
 

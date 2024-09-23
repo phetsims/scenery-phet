@@ -10,13 +10,13 @@
  * @author Marla Schulz <marla.schulz@colorado.edu>
  */
 
+import TRangedProperty from '../../axon/js/TRangedProperty.js';
 import { Shape } from '../../kite/js/imports.js';
-import SceneryPhetColors from './SceneryPhetColors.js';
-import sceneryPhet from './sceneryPhet.js';
-import { Node, NodeOptions, PaintColorProperty, Path, TColor, TPaint } from '../../scenery/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import TRangedProperty from '../../axon/js/TRangedProperty.js';
+import { Node, NodeOptions, PaintColorProperty, Path, TColor, TPaint } from '../../scenery/js/imports.js';
+import sceneryPhet from './sceneryPhet.js';
+import SceneryPhetColors from './SceneryPhetColors.js';
 
 type SelfOptions = {
   emptyBeakerFill?: TPaint;

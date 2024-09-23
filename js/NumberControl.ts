@@ -11,6 +11,7 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import PhetioProperty from '../../axon/js/PhetioProperty.js';
 import Property from '../../axon/js/Property.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
@@ -18,6 +19,7 @@ import Range from '../../dot/js/Range.js';
 import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import Orientation from '../../phet-core/js/Orientation.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
@@ -32,8 +34,6 @@ import IOType from '../../tandem/js/types/IOType.js';
 import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import PhetioProperty from '../../axon/js/PhetioProperty.js';
-import Orientation from '../../phet-core/js/Orientation.js';
 
 // constants
 const SPECIFIC_COMPONENT_CALLBACK_OPTIONS = [

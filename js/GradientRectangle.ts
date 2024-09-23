@@ -30,7 +30,7 @@ import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Matrix3 from '../../dot/js/Matrix3.js';
 import { Shape } from '../../kite/js/imports.js';
 import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
-import { ColorDef, TColor, TPaint, LinearGradient, PaintColorProperty, Path, RadialGradient, Rectangle, RectangleOptions } from '../../scenery/js/imports.js';
+import { ColorDef, LinearGradient, PaintColorProperty, Path, RadialGradient, Rectangle, RectangleOptions, TColor, TPaint } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants

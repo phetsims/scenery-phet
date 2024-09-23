@@ -7,19 +7,19 @@
  */
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import NumberProperty, { NumberPropertyOptions } from '../../axon/js/NumberProperty.js';
-import Vector2 from '../../dot/js/Vector2.js';
+import Property from '../../axon/js/Property.js';
 import Range from '../../dot/js/Range.js';
+import Vector2 from '../../dot/js/Vector2.js';
 import Vector2Property from '../../dot/js/Vector2Property.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import isSettingPhetioStateProperty from '../../tandem/js/isSettingPhetioStateProperty.js';
 import PhetioObject, { PhetioObjectOptions } from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import ReferenceIO from '../../tandem/js/types/ReferenceIO.js';
 import sceneryPhet from './sceneryPhet.js';
-import Property from '../../axon/js/Property.js';
-import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
-import isSettingPhetioStateProperty from '../../tandem/js/isSettingPhetioStateProperty.js';
 
 const DEFAULT_TIME_RANGE = new Range( 0, Number.POSITIVE_INFINITY );
 

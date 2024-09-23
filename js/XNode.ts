@@ -10,11 +10,11 @@
  * @author Alex Schor
  */
 
-import sceneryPhet from './sceneryPhet.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
-import PlusNode, { PlusNodeOptions } from './PlusNode.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import PlusNode, { PlusNodeOptions } from './PlusNode.js';
+import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
 

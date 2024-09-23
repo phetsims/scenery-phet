@@ -8,9 +8,9 @@
  */
 
 import { Shape } from '../../kite/js/imports.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { TColor, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import { Node, NodeOptions, Path, TColor } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
 

@@ -8,8 +8,8 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import optionize from '../../phet-core/js/optionize.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';

@@ -26,7 +26,7 @@ export default class ReturnIcon extends Path {
 
       // SelfOptions
       height: 17,
-      
+
       // PathOptions
       fill: 'black'
     }, providedOptions );
