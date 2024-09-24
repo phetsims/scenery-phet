@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2022-2024, University of Colorado Boulder
 
 /**
  * XNode is a specialized view for displaying a 'x'. It is used throughout the sim to indicate the center of mass
