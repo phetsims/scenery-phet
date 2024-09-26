@@ -107,7 +107,7 @@ export default class PlayPauseStepButtonGroup extends HBox {
     if ( ( !options.stepForwardButtonOptions.enabledProperty ) || ( !options.stepBackwardButtonOptions.enabledProperty ) ) {
 
       // This is clearer than having the variable names match exactly. Opt out below
-      // eslint-disable-next-line tandem-name-should-match
+      // eslint-disable-next-line phet/tandem-name-should-match
       const defaultEnabledProperty = DerivedProperty.not( isPlayingProperty, {
         tandem: options.tandem.createTandem( 'enabledProperty' ),
         phetioValueType: BooleanIO

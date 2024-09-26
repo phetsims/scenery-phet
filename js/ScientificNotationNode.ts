@@ -143,7 +143,7 @@ export default class ScientificNotationNode extends Node {
 
       // use built-in toFixed to format values that are not finite
       // NaN -> 'NaN', Infinity -> 'Infinity', etc.
-      this.mantissaNode.string = value.toFixed( 0 ); // eslint-disable-line bad-sim-text
+      this.mantissaNode.string = value.toFixed( 0 ); // eslint-disable-line phet/bad-sim-text
       this.children = [ this.mantissaNode ];
     }
     else if ( Math.floor( value ) === value && options.showIntegersAsMantissaOnly ) {

@@ -75,7 +75,7 @@ class NumberAccumulator extends AbstractKeyAccumulator {
     this.stringProperty = new DerivedStringProperty( [ this.accumulatedKeysProperty ], accumulatedKeys => {
       return this.keysToString( accumulatedKeys );
     }, {
-      tandem: options.tandem.createTandem( 'stringProperty' ) // eslint-disable-line bad-sim-text
+      tandem: options.tandem.createTandem( 'stringProperty' ) // eslint-disable-line phet/bad-sim-text
     } );
 
     this.valueProperty = new DerivedProperty(

@@ -50,7 +50,7 @@ class Alerter extends EnabledComponent {
   public alert( alertable: TAlertable ): void {
     if ( this.enabled ) {
       if ( this.alertToVoicing ) {
-        assert && assert( alertable instanceof Utterance, 'If alerting to Voicing, the alertable needs to be an Utterance' ); // eslint-disable-line no-simple-type-checking-assertions
+        assert && assert( alertable instanceof Utterance, 'If alerting to Voicing, the alertable needs to be an Utterance' ); // eslint-disable-line phet/no-simple-type-checking-assertions
         Voicing.alertUtterance( alertable as Utterance );
       }
 

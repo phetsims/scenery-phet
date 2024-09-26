@@ -26,11 +26,11 @@ QUnit.test( 'GrabDragInteraction defaults', assert => {
   document.body.appendChild( display.domElement );
 
   phet = phet || {}; // eslint-disable-line no-global-assign
-  phet.joist = phet.joist || {}; // eslint-disable-line bad-phet-library-text
-  phet.joist.sim = phet.joist.sim || {}; // eslint-disable-line bad-phet-library-text
+  phet.joist = phet.joist || {}; // eslint-disable-line phet/bad-phet-library-text
+  phet.joist.sim = phet.joist.sim || {}; // eslint-disable-line phet/bad-phet-library-text
 
   // GrabDragInteraction requires a sim
-  // eslint-disable-next-line bad-phet-library-text
+  // eslint-disable-next-line phet/bad-phet-library-text
   phet.joist.sim.supportsGestureDescription = phet.joist.sim.supportsGestureDescription || false;
 
   const a = new Rectangle( 0, 0, 5, 5 );
@@ -98,8 +98,8 @@ QUnit.test( 'GrabDragInteraction enabled', assert => {
   document.body.appendChild( display.domElement );
 
   phet = phet || {}; // eslint-disable-line no-global-assign
-  phet.joist = phet.joist || {}; // eslint-disable-line bad-phet-library-text
-  phet.joist.sim = phet.joist.sim || {}; // eslint-disable-line bad-phet-library-text
+  phet.joist = phet.joist || {}; // eslint-disable-line phet/bad-phet-library-text
+  phet.joist.sim = phet.joist.sim || {}; // eslint-disable-line phet/bad-phet-library-text
 
   const a = new Rectangle( 0, 0, 5, 5 );
 
