@@ -538,6 +538,7 @@ export default class GrabDragInteraction extends Disposable {
 
       dragDivDownListener.dispose();
       dragDivUpListener.dispose();
+      dragDivDraggedListener.dispose();
       this.pressReleaseListener.dispose();
 
       this.onGrabButtonFocusEmitter.dispose();
