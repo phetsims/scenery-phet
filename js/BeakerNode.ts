@@ -35,6 +35,7 @@ type SelfOptions = {
   majorTickMarkModulus?: number; // modulus number such that every Nth tick mark is a major tick mark. Use with options.numberOfTicks
 };
 export type BeakerNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
+export const SOLUTION_VISIBLE_THRESHOLD = 0.001;
 
 export default class BeakerNode extends Node {
 
@@ -198,7 +199,7 @@ export default class BeakerNode extends Node {
       solutionGlare.shape = solutionCrescentShape;
 
       // Set solution visibility based on solution level
-      if ( solutionLevel < 0.001 ) {
+      if ( solutionLevel < SOLUTION_VISIBLE_THRESHOLD ) {
         solutionTop.visible = false;
         solutionSide.visible = false;
         solutionFrontEdge.visible = false;
