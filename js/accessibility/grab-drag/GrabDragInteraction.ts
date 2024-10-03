@@ -1,5 +1,8 @@
 // Copyright 2018-2024, University of Colorado Boulder
 
+import Disposable from '../../../../axon/js/Disposable.js';
+import Emitter from '../../../../axon/js/Emitter.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 /**
  * The main interaction for grabbing and dragging an object through the PDOM and assistive technology. It works by
  * taking in a Node to augment with the PDOM interaction. In fact it works much like a mixin. In general, this type
@@ -52,6 +55,8 @@
  */
 import assertHasProperties from '../../../../phet-core/js/assertHasProperties.js';
 import getGlobal from '../../../../phet-core/js/getGlobal.js';
+import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Association, DragListener, HighlightFromNode, HighlightPath, isInteractiveHighlighting, isVoicing, KeyboardDragDirectionToKeyStringPropertiesMap, KeyboardDragListener, KeyboardListener, Node, NodeOptions, ParallelDOMOptions, PDOMPeer, PDOMValueType, TInputListener, Voicing } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -61,13 +66,8 @@ import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import GrabReleaseCueNode from '../nodes/GrabReleaseCueNode.js';
-import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import GrabDragModel, { GrabDragInteractionState, GrabDragModelOptions } from './GrabDragModel.js';
 import GrabDragUsageTracker from './GrabDragUsageTracker.js';
-import Emitter from '../../../../axon/js/Emitter.js';
-import Disposable from '../../../../axon/js/Disposable.js';
-import TProperty from '../../../../axon/js/TProperty.js';
 
 // constants
 const grabPatternStringStringProperty = SceneryPhetStrings.a11y.grabDrag.grabPatternStringProperty;
@@ -147,20 +147,26 @@ type GrabDragInteractionOptions = SelfOptions & GrabDragModelOptions;
 
 // Options that can be forwarded to the target Node when the state changes. Fields that are set by the implementation
 // of GrabDragInteraction are omitted.
-type StateOptions = StrictOmit<ParallelDOMOptions, 'descriptionContent' | 'helpText' | 'descriptionTagName' | 'accessibleName' | 'innerContent' | 'ariaLabel'>;
+// type StateOptions = StrictOmit<ParallelDOMOptions, 'descriptionContent' | 'helpText' | 'descriptionTagName' | 'accessibleName' | 'innerContent' | 'ariaLabel'>;
 
 export default class GrabDragInteraction extends Disposable {
 
   // The accessible name for the Node in its 'grabbed' interactionState.
-  private readonly grabbedStateAccessibleName: PDOMValueType;
+  private _grabbedStateAccessibleName: PDOMValueType = '';
 
   // The accessible name for the Node in its "idle" interactionState.
-  private readonly idleStateAccessibleName: PDOMValueType;
+  private _idleStateAccessibleName: PDOMValueType = '';
+
+  private _onGrab: VoidFunction;
+  private _onRelease: VoidFunction;
+
+  private _keyboardHelpText: PDOMValueType = '';
+  private _gestureHelpText: PDOMValueType = '';
 
   // Directly from options or parameters.
   private readonly node: Node;
-  private readonly idleStateOptions: StateOptions;
-  private readonly grabbedStateOptions: StateOptions;
+  private readonly idleStateOptions: ParallelDOMOptions;
+  private readonly grabbedStateOptions: ParallelDOMOptions;
   private readonly dragCueNode: Node;
 
   // public ONLY to position dynamically. Prefer options.grabCueOptions when possible.
@@ -273,10 +279,6 @@ export default class GrabDragInteraction extends Disposable {
       containerTagName: null
     }, options.grabbedStateOptions );
 
-    this.grabbedStateAccessibleName = options.objectToGrabString;
-    options.grabbedStateOptions.innerContent = this.grabbedStateAccessibleName;
-    options.grabbedStateOptions.ariaLabel = this.grabbedStateAccessibleName;
-
     options.idleStateOptions = combineOptions<ParallelDOMOptions>( {
       containerTagName: 'div',
       focusable: true,
@@ -292,16 +294,11 @@ export default class GrabDragInteraction extends Disposable {
       accessibleName: null
     }, options.idleStateOptions );
 
-    this.idleStateAccessibleName = options.idleStateAccessibleName || // if a provided option
-                                   ( options.supportsGestureDescription ? options.objectToGrabString : // otherwise if supporting gesture
-                                     StringUtils.fillIn( grabPatternStringStringProperty, { // default case
-                                       objectToGrab: options.objectToGrabString
-                                     } ) );
-    options.idleStateOptions.innerContent = this.idleStateAccessibleName;
-
-    // Setting the aria-label on the interactionState element fixes a bug with VoiceOver in Safari where the aria role
-    // from the grabbed state is never cleared, see https://github.com/phetsims/scenery-phet/issues/688
-    options.idleStateOptions.ariaLabel = this.idleStateAccessibleName;
+    const defaultIdleStateAccessibleName = options.idleStateAccessibleName || // if a provided option
+                                           ( options.supportsGestureDescription ? options.objectToGrabString : // otherwise if supporting gesture
+                                             StringUtils.fillIn( grabPatternStringStringProperty, { // default case
+                                               objectToGrab: options.objectToGrabString
+                                             } ) );
 
     this.grabDragModel = new GrabDragModel( options.grabDragUsageTracker, options );
     this.node = node;
@@ -313,6 +310,11 @@ export default class GrabDragInteraction extends Disposable {
     this.shouldShowDragCueNode = options.shouldShowDragCueNode;
     this.shouldAddAriaDescribedby = options.shouldAddAriaDescribedby;
     this.supportsGestureDescription = options.supportsGestureDescription;
+    this._onGrab = options.onGrab;
+    this._onRelease = options.onRelease;
+
+    this.setGrabbedStateAccessibleName( options.objectToGrabString );
+    this.setIdleStateAccessibleName( defaultIdleStateAccessibleName );
 
     // set the help text, if provided - it will be associated with aria-describedby when in the "idle" interactionState
     this.node.descriptionContent = this.supportsGestureDescription ? options.gestureHelpText : options.keyboardHelpText;
@@ -329,10 +331,10 @@ export default class GrabDragInteraction extends Disposable {
     this.wireUpDescriptionAndVoicingResponses( node );
 
     this.grabDragModel.releasedEmitter.addListener( () => {
-      options.onRelease();
+      this.onRelease();
     } );
 
-    this.grabDragModel.grabbedEmitter.addListener( () => options.onGrab() );
+    this.grabDragModel.grabbedEmitter.addListener( () => this.onGrab() );
 
     // assertions confirm this type cast below
     const nodeFocusHighlight = node.focusHighlight as HighlightPath | null;
@@ -551,6 +553,128 @@ export default class GrabDragInteraction extends Disposable {
 
       this.grabDragModel.dispose();
     } );
+  }
+
+  /**
+   * Sets the name to be used when in the "grabbed" state. If already grabbed, the name is set to the target Node right away.
+   */
+  public setGrabbedStateAccessibleName( name: PDOMValueType ): void {
+    this._grabbedStateAccessibleName = name;
+    this.grabbedStateOptions.innerContent = this._grabbedStateAccessibleName;
+    this.grabbedStateOptions.ariaLabel = this._grabbedStateAccessibleName;
+
+    // If grabbed, mutate the Node with these options right away
+    if ( this.grabDragModel.interactionStateProperty.value === 'grabbed' ) {
+      this.node.mutate( this.grabbedStateOptions );
+    }
+  }
+
+  public set grabbedStateAccessibleName( name: PDOMValueType ) {
+    this.setGrabbedStateAccessibleName( name );
+  }
+
+  /**
+   * Sets the name to be used when in the "idle" state. If already idle, the name is set to the target Node right away.
+   * @param name
+   */
+  public setIdleStateAccessibleName( name: PDOMValueType ): void {
+    this._idleStateAccessibleName = name;
+    this.idleStateOptions.innerContent = this._idleStateAccessibleName;
+
+    // Setting the aria-label on the interactionState element fixes a bug with VoiceOver in Safari where the aria role
+    // from the grabbed state is never cleared, see https://github.com/phetsims/scenery-phet/issues/688
+    this.idleStateOptions.ariaLabel = this._idleStateAccessibleName;
+
+    // if idle, mutate the Node with these options right away
+    if ( this.grabDragModel.interactionStateProperty.value === 'idle' ) {
+      this.node.mutate( this.idleStateOptions );
+    }
+  }
+
+  public set idleStateAccessibleName( name: PDOMValueType ) {
+    this.setIdleStateAccessibleName( name );
+  }
+
+  /**
+   * Set the help text for keboard input. If the runtime supports "gesture description" this is a no-op.
+   */
+  public setKeyboardHelpText( text: PDOMValueType ): void {
+    this._keyboardHelpText = text;
+    if ( !this.supportsGestureDescription ) {
+      this.node.descriptionContent = text;
+    }
+  }
+
+  public getKeyboardHelpText(): PDOMValueType {
+    return this._keyboardHelpText;
+  }
+
+  public set keyboardHelpText( text: PDOMValueType ) {
+    this.setKeyboardHelpText( text );
+  }
+
+  public get keyboardHelpText(): PDOMValueType {
+    return this.getKeyboardHelpText();
+  }
+
+  /**
+   * Set the help text for gesture input. If the runtime does not support "gesture description" this is a no-op.
+   */
+  public setGestureHelpText( text: PDOMValueType ): void {
+    this._gestureHelpText = text;
+    if ( this.supportsGestureDescription ) {
+      this.node.descriptionContent = text;
+    }
+  }
+
+  public getGestureHelpText(): PDOMValueType {
+    return this._gestureHelpText;
+  }
+
+  public set gestureHelpText( text: PDOMValueType ) {
+    this.setGestureHelpText( text );
+  }
+
+  public get gestureHelpText(): PDOMValueType {
+    return this._gestureHelpText;
+  }
+
+  /**
+   * Set the callback that should be used when grabbed - called when switching from idle to grabbed state.
+   */
+  public setOnGrab( onGrab: VoidFunction ): void {
+    this._onGrab = onGrab;
+  }
+
+  public getOnGrab(): VoidFunction {
+    return this._onGrab;
+  }
+
+  public set onGrab( onGrab: VoidFunction ) {
+    this.setOnGrab( onGrab );
+  }
+
+  public get onGrab(): VoidFunction {
+    return this.getOnGrab();
+  }
+
+  /**
+   * Set the callback that should be used when released - called when switching from grabbed to idle state.
+   */
+  public setOnRelease( onRelease: VoidFunction ): void {
+    this._onRelease = onRelease;
+  }
+
+  public getOnRelease(): VoidFunction {
+    return this._onRelease;
+  }
+
+  public set onRelease( onRelease: VoidFunction ) {
+    this.setOnRelease( onRelease );
+  }
+
+  public get onRelease(): VoidFunction {
+    return this.getOnRelease();
   }
 
   /**
