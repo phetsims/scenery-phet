@@ -546,8 +546,18 @@ export default class GrabDragInteraction extends Disposable {
       this.onGrabButtonFocusEmitter.dispose();
 
       // Focus and cue disposal
-      ownsFocusHighlight && this.grabDragFocusHighlight.dispose();
-      ownsInteractiveHighlight && this.grabDragInteractiveHighlight.dispose();
+      if ( ownsFocusHighlight ) {
+
+        // Assume the GrabDragInteraction was the primary/sole reason for highlighting, do not try to fall back to a prior highlight
+        this.node.focusHighlight = null;
+        this.grabDragFocusHighlight.dispose();
+      }
+
+      if ( ownsInteractiveHighlight ) {
+        isInteractiveHighlighting( node ) && node.setInteractiveHighlight( null );
+        this.grabDragInteractiveHighlight.dispose();
+      }
+
       this.grabCueNode.dispose();
       this.dragCueNode.detach();
 
