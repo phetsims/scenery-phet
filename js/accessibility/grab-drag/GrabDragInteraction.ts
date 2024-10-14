@@ -206,7 +206,7 @@ export default class GrabDragInteraction extends Disposable {
   private readonly listenersWhileGrabbed: TInputListener[];
 
   // Model-related state of the current and general info about the interaction.
-  public readonly grabDragModel: GrabDragModel;
+  private readonly grabDragModel: GrabDragModel;
 
   // The aria-describedby association object that will associate "interactionState" with its
   // help text so that it is read automatically when the user finds it. This reference is saved so that
