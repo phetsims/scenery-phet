@@ -34,14 +34,18 @@ export default function demoGrabDragInteraction( layoutBounds: Bounds2, provided
   } );
   rect.addInputListener( keyboardDragListener );
 
-  new GrabDragInteraction( rect, keyboardDragListener, { // eslint-disable-line no-new
+  // A parent Node for the interaction cues that will be added by GrabDragInteraction.
+  const interactionCueParent = new Node();
+
+  new GrabDragInteraction( rect, keyboardDragListener, interactionCueParent, { // eslint-disable-line no-new
     objectToGrabString: 'rectangle',
     idleStateAccessibleName: 'grab rectangle',
+    grabCueOffset: new Vector2( 0, 10 ),
     tandem: providedOptions.tandem!.createTandem( 'grabDragInteraction' )
   } );
 
   return new Node( {
-    children: [ rect ],
+    children: [ interactionCueParent, rect ],
     center: layoutBounds.center
   } );
 }

@@ -3,6 +3,8 @@
 import Disposable from '../../../../axon/js/Disposable.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import TProperty from '../../../../axon/js/TProperty.js';
+import Matrix3 from '../../../../dot/js/Matrix3.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 /**
  * The main interaction for grabbing and dragging an object through the PDOM and assistive technology. It works by
  * taking in a Node to augment with the PDOM interaction. In fact it works much like a mixin. In general, this type
@@ -58,7 +60,7 @@ import getGlobal from '../../../../phet-core/js/getGlobal.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import { Association, DragListener, HighlightFromNode, HighlightPath, isInteractiveHighlighting, isVoicing, KeyboardDragDirectionToKeyStringPropertiesMap, KeyboardDragListener, KeyboardListener, Node, NodeOptions, ParallelDOMOptions, PDOMPeer, PDOMValueType, TInputListener, Voicing } from '../../../../scenery/js/imports.js';
+import { Association, DragListener, HighlightFromNode, HighlightPath, isInteractiveHighlighting, isVoicing, KeyboardDragDirectionToKeyStringPropertiesMap, KeyboardDragListener, KeyboardListener, MatrixBetweenProperty, Node, NodeOptions, ParallelDOMOptions, PDOMPeer, PDOMValueType, TInputListener, Voicing } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import AriaLiveAnnouncer from '../../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
@@ -76,6 +78,10 @@ const movableStringProperty = SceneryPhetStrings.a11y.grabDrag.movableStringProp
 const buttonStringProperty = SceneryPhetStrings.a11y.grabDrag.buttonStringProperty;
 const defaultObjectToGrabStringProperty = SceneryPhetStrings.a11y.grabDrag.defaultObjectToGrabStringProperty;
 const releasedStringProperty = SceneryPhetStrings.a11y.grabDrag.releasedStringProperty;
+
+// Valid positions for the interaction cue nodes relative to the target Node. For top and bottom, the cue is
+// centered horizontally. For left and right, the cue is centered vertically.
+export type CuePosition = 'center' | 'top' | 'bottom' | 'left' | 'right';
 
 type SelfOptions = {
 
@@ -97,6 +103,20 @@ type SelfOptions = {
   // To pass in options to the cue. This is a scenery Node and you can pass it options supported by
   // that type. When positioning this node, it is in the target Node's parent coordinate frame.
   grabCueOptions?: NodeOptions;
+
+  // Positions for the cue nodes.
+  grabCuePosition?: CuePosition;
+  dragCuePosition?: CuePosition;
+
+  // Offset of the dragCueNode relative to the CuePosition, in the parent coordinate frame of the interaction cue node.
+  grabCueOffset?: Vector2;
+
+  // Offset of the dragCueNode relative to the CuePosition, in the parent coordinate frame of the interaction cue node.
+  dragCueOffset?: Vector2;
+
+  // So that you can monitor any Node for transform changes for repositining interaction cues. Default will be the target Node, but
+  // you can provide another.
+  transformNodeToTrack?: Node;
 
   // Node options passed to the grabbed state created for the PDOM, filled in with defaults below
   grabbedStateOptions?: NodeOptions;
@@ -206,12 +226,23 @@ export default class GrabDragInteraction extends Disposable {
   // Note this is NOT the DragListener that implements dragging on the target.
   private readonly pressReleaseListener: DragListener;
 
+  // A matrix that transforms between the local coordinate frame of the target Node and the local coordinate frame of the
+  // interactionCueParent. This is used to position the grabCueNode and dragCueNode
+  private readonly matrixBetweenProperty: MatrixBetweenProperty;
+
+  // Fields for positioning the grabCueNode and dragCueNode.
+  private readonly grabCuePosition: CuePosition;
+  private readonly dragCuePosition: CuePosition;
+  private readonly grabCueOffset: Vector2;
+  private readonly dragCueOffset: Vector2;
+
   /**
    * @param node - will be mutated with a11y options to have the grab/drag functionality in the PDOM
    * @param keyboardDragListener - added to the Node when it is grabbed
+   * @param interactionCueParent - a parent Node for the grabCueNode and dragCueNode
    * @param providedOptions
    */
-  public constructor( node: Node, keyboardDragListener: KeyboardDragListener, providedOptions?: GrabDragInteractionOptions ) {
+  public constructor( node: Node, keyboardDragListener: KeyboardDragListener, interactionCueParent: Node, providedOptions?: GrabDragInteractionOptions ) {
 
     const ownsEnabledProperty = !providedOptions || !providedOptions.enabledProperty;
 
@@ -224,6 +255,11 @@ export default class GrabDragInteraction extends Disposable {
       onRelease: _.noop,
       idleStateOptions: {},
       grabCueOptions: {},
+      grabCuePosition: 'bottom',
+      dragCuePosition: 'center',
+      grabCueOffset: new Vector2( 0, 0 ),
+      dragCueOffset: new Vector2( 0, 0 ),
+      transformNodeToTrack: node,
       grabbedStateOptions: {},
       dragCueNode: new Node(),
       listenersWhileGrabbed: [],
@@ -312,6 +348,10 @@ export default class GrabDragInteraction extends Disposable {
     this.supportsGestureDescription = options.supportsGestureDescription;
     this._onGrab = options.onGrab;
     this._onRelease = options.onRelease;
+    this.grabCuePosition = options.grabCuePosition;
+    this.dragCuePosition = options.dragCuePosition;
+    this.grabCueOffset = options.grabCueOffset;
+    this.dragCueOffset = options.dragCueOffset;
 
     this.setGrabbedStateAccessibleName( options.objectToGrabString );
     this.setIdleStateAccessibleName( defaultIdleStateAccessibleName );
@@ -340,15 +380,17 @@ export default class GrabDragInteraction extends Disposable {
     const nodeFocusHighlight = node.focusHighlight as HighlightPath | null;
 
     assert && nodeFocusHighlight && assert( nodeFocusHighlight instanceof HighlightPath,
-      'if provided, focusHighlight must be a Path to support highlightChangedEmitter' );
+      'if provided, focusHighlight must be a Path to get a Shape and make dashed' );
     assert && isInteractiveHighlighting( node ) && node.interactiveHighlight && assert( node.interactiveHighlight instanceof HighlightPath,
-      'if provided, interactiveHighlight must be a Path to support highlightChangedEmitter' );
+      'if provided, interactiveHighlight must be a Path to get a Shape and make dashed' );
+
     if ( node.focusHighlightLayerable ) {
       assert && assert( nodeFocusHighlight,
         'if focusHighlightLayerable, the highlight must be set to the node before constructing the grab/drag interaction.' );
       assert && assert( ( nodeFocusHighlight! ).parent,
         'if focusHighlightLayerable, the highlight must be added to the scene graph before grab/drag construction.' );
     }
+
     if ( isInteractiveHighlighting( node ) && node.interactiveHighlightLayerable ) {
       assert && assert( node.interactiveHighlight,
         'An interactive highlight must be set to the Node before construction when using interactiveHighlightLayerable' );
@@ -372,12 +414,20 @@ export default class GrabDragInteraction extends Disposable {
     node.focusHighlight = this.grabDragFocusHighlight;
     isInteractiveHighlighting( node ) && node.setInteractiveHighlight( this.grabDragInteractiveHighlight );
 
-    // only the focus highlights have "cue" Nodes so we do not need to do any work here for the Interactive Highlights
-    const startingMatrix = node.getMatrix();
-    this.grabCueNode.prependMatrix( startingMatrix );
-    this.grabDragFocusHighlight.addChild( this.grabCueNode );
-    this.dragCueNode.prependMatrix( startingMatrix );
-    this.grabDragFocusHighlight.addChild( this.dragCueNode );
+    interactionCueParent.addChild( this.dragCueNode );
+    interactionCueParent.addChild( this.grabCueNode );
+
+    // A matrix between the local frame of the target Node and the local frame of the interactionCueParent.
+    this.matrixBetweenProperty = new MatrixBetweenProperty( options.transformNodeToTrack, interactionCueParent, {
+
+      // Use the local coordinate frame so that the Property observes transform changes up to and including
+      // the target Node.
+      fromCoordinateFrame: 'local',
+      toCoordinateFrame: 'local'
+    } );
+
+    const repositionCuesListener = this.repositionCues.bind( this );
+    this.matrixBetweenProperty.link( repositionCuesListener );
 
     // Some key presses can fire the node's click (the grab button) from the same press that fires the keydown from
     // the grabbed state, so guard against that.
@@ -538,6 +588,12 @@ export default class GrabDragInteraction extends Disposable {
       this.removeInputListeners( this.listenersWhileIdle );
       this.removeInputListeners( this.listenersWhileGrabbed );
 
+      interactionCueParent.removeChild( this.dragCueNode );
+      interactionCueParent.removeChild( this.grabCueNode );
+
+      this.matrixBetweenProperty.unlink( repositionCuesListener );
+      this.matrixBetweenProperty.dispose();
+
       dragDivDownListener.dispose();
       dragDivUpListener.dispose();
       dragDivDraggedListener.dispose();
@@ -688,6 +744,68 @@ export default class GrabDragInteraction extends Disposable {
   }
 
   /**
+   * Set the positions of the grabCueNode and dragCueNode relative to the target Node. The position is determined by
+   * the CuePosition and the offsets.
+   */
+  public repositionCues( matrix: Matrix3 | null ): void {
+    if ( matrix ) {
+      this.positionCueNode( matrix, this.grabCueNode, this.grabCuePosition, this.grabCueOffset );
+      this.positionCueNode( matrix, this.dragCueNode, this.dragCuePosition, this.dragCueOffset );
+    }
+  }
+
+  /**
+   * Sets the position of the cueNode relative to the bounds in the parent coordinate frame, from
+   * the provided position type and offsets.
+   *
+   * @param matrix - the transformation matrix from the local frame of the target Node to the local frame of the interactionCueParent
+   * @param cueNode - the Node to position
+   * @param position - the position of the cueNode relative to the bounds
+   * @param offset - the offset of the cueNode relative to the position
+   */
+  private positionCueNode( matrix: Matrix3, cueNode: Node, position: CuePosition, offset: Vector2 ): void {
+
+    // The bounds for the Node may not be finite during construction.
+    // Skip positioning if the cueNode is not shown for performance.
+    if ( !this.node.bounds.isFinite() || !cueNode.visible ) {
+      return;
+    }
+
+    let parentPointBoundsGetter: string;
+    let cueNodePositionSetter: string;
+
+    if ( position === 'center' ) {
+      parentPointBoundsGetter = 'center';
+      cueNodePositionSetter = 'center';
+    }
+    else if ( position === 'top' ) {
+      parentPointBoundsGetter = 'centerTop';
+      cueNodePositionSetter = 'centerBottom';
+    }
+    else if ( position === 'bottom' ) {
+      parentPointBoundsGetter = 'centerBottom';
+      cueNodePositionSetter = 'centerTop';
+    }
+    else if ( position === 'left' ) {
+      parentPointBoundsGetter = 'leftCenter';
+      cueNodePositionSetter = 'rightCenter';
+    }
+    else if ( position === 'right' ) {
+      parentPointBoundsGetter = 'rightCenter';
+      cueNodePositionSetter = 'leftCenter';
+    }
+    else {
+      assert && assert( false, `unknown position: ${position}` );
+    }
+
+    // @ts-expect-error - so a string can be used to access the Bounds2 field.
+    const localPoint = this.node.parentToLocalPoint( this.node.bounds[ parentPointBoundsGetter ] );
+
+    // @ts-expect-error - so a string can be used to access the Node setter.
+    cueNode[ cueNodePositionSetter ] = matrix.timesVector2( localPoint ).plusXY( offset.x, offset.y );
+  }
+
+  /**
    * Update the node to switch modalities between being grabbed, and idle. This function holds code that should
    * be called when switching from any state to any other state.
    */
@@ -760,10 +878,19 @@ export default class GrabDragInteraction extends Disposable {
    * Update the visibility of the cues for both idle and grabbed states.
    */
   private updateVisibilityForCues(): void {
+    const wasDragCueVisible = this.dragCueNode.visible;
+    const wasGrabCueVisible = this.grabCueNode.visible;
+
     this.dragCueNode.visible = this.grabDragModel.enabled && this.grabDragModel.interactionStateProperty.value === 'grabbed' &&
-                               this.shouldShowDragCueNode();
+                               this.node.focused && this.shouldShowDragCueNode();
     this.grabCueNode.visible = this.grabDragModel.enabled && this.grabDragModel.interactionStateProperty.value === 'idle' &&
-                               this.shouldShowGrabCueNode();
+                               this.node.focused && this.shouldShowGrabCueNode();
+
+    // If visibility of either has changed, reposition the cues. For performance, the cues are only repositioned
+    // while they are shown.
+    if ( wasDragCueVisible !== this.dragCueNode.visible || wasGrabCueVisible !== this.grabCueNode.visible ) {
+      this.repositionCues( this.matrixBetweenProperty.value );
+    }
   }
 
   /**

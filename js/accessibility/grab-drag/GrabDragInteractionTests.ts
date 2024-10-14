@@ -37,10 +37,13 @@ QUnit.test( 'GrabDragInteraction defaults', assert => {
 
   rootNode.addChild( a );
 
+  const interactionCueParent = new Node();
+  rootNode.addChild( interactionCueParent );
+
   const keyboardDragListener = new KeyboardDragListener( {
     tandem: Tandem.ROOT_TEST.createTandem( 'myKeyboardDragListener' )
   } );
-  const interaction = new GrabDragInteraction( a, keyboardDragListener, {
+  const interaction = new GrabDragInteraction( a, keyboardDragListener, interactionCueParent, {
     tandem: Tandem.ROOT_TEST.createTandem( 'myGrabDragInteraction' ),
     objectToGrabString: thingString
   } );
@@ -101,7 +104,7 @@ QUnit.test( 'GrabDragInteraction enabled', assert => {
   phet.joist = phet.joist || {}; // eslint-disable-line phet/bad-phet-library-text
   phet.joist.sim = phet.joist.sim || {}; // eslint-disable-line phet/bad-phet-library-text
 
-  const a = new Rectangle( 0, 0, 5, 5 );
+  const a = new Rectangle( 0, 0, 5, 5, { tagName: 'div', focusable: true } );
 
   rootNode.addChild( a );
 
@@ -111,11 +114,18 @@ QUnit.test( 'GrabDragInteraction enabled', assert => {
 
   const dragCueNode = new Circle( 50 );
 
-  const interaction = new GrabDragInteraction( a, keyboardDragListener, {
+  const interactionCueParent = new Node();
+  rootNode.addChild( interactionCueParent );
+
+  const interaction = new GrabDragInteraction( a, keyboardDragListener, interactionCueParent, {
     tandem: Tandem.ROOT_TEST.createTandem( 'my2GrabDragInteraction' ),
     dragCueNode: dragCueNode,
     objectToGrabString: thingString
   } );
+
+  // Visibility for interaction cues requires DOM focus.
+  a.focus();
+
   assert.ok( interaction[ 'grabCueNode' ].visible, 'starts visible' );
   assert.ok( !interaction[ 'dragCueNode' ].visible, 'starts invisible' );
   interaction.enabled = false;

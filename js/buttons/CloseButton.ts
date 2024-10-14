@@ -48,7 +48,7 @@ export default class CloseButton extends RectangularPushButton {
       soundPlayer: sharedSoundPlayers.get( 'generalClose' ),
 
       // pdom
-      innerContent: SceneryPhetStrings.a11y.closeStringProperty,
+      accessibleName: SceneryPhetStrings.a11y.closeStringProperty,
 
       //voicing
       voicingNameResponse: SceneryPhetStrings.a11y.closeStringProperty
