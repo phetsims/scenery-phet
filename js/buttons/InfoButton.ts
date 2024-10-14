@@ -13,6 +13,7 @@ import { TColor, Path } from '../../../scenery/js/imports.js';
 import infoCircleSolidShape from '../../../sherpa/js/fontawesome-5/infoCircleSolidShape.js';
 import RoundPushButton, { RoundPushButtonOptions } from '../../../sun/js/buttons/RoundPushButton.js';
 import sceneryPhet from '../sceneryPhet.js';
+import SceneryPhetStrings from '../SceneryPhetStrings.js';
 
 type SelfOptions = {
   iconFill?: TColor;
@@ -33,7 +34,8 @@ export default class InfoButton extends RoundPushButton {
       baseColor: 'rgb( 238, 238, 238 )',
       xMargin: 10,
       yMargin: 10,
-      touchAreaDilation: 10
+      touchAreaDilation: 10,
+      accessibleName: SceneryPhetStrings.a11y.infoStringProperty
     }, providedOptions );
 
     options.content = new Path( infoCircleSolidShape, {

@@ -659,6 +659,9 @@
     },
     "measuringTapeTip": {
       "value": "Measuring Tape Tip"
+    },
+    "info": {
+      "value": "Info"
     }
   }
 }

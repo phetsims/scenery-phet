@@ -287,6 +287,7 @@ type StringsType = {
     'zoomOutStringProperty': LocalizedStringProperty;
     'measuringTapeStringProperty': LocalizedStringProperty;
     'measuringTapeTipStringProperty': LocalizedStringProperty;
+    'infoStringProperty': LocalizedStringProperty;
   }
 };
 
