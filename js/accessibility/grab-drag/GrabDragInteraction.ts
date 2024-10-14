@@ -577,6 +577,14 @@ export default class GrabDragInteraction extends Disposable {
 
     this.grabDragModel.resetEmitter.addListener( () => this.updateVisibilityForCues() );
 
+    // Hide the drag cue when there has been a successful pickup.
+    const keyboardPressedListener = ( isPressed: boolean ) => {
+      if ( isPressed ) {
+        this.grabDragModel.grabDragUsageTracker.shouldShowDragCue = false;
+      }
+    };
+    keyboardDragListener.isPressedProperty.link( keyboardPressedListener );
+
     this.disposeEmitter.addListener( () => {
 
       this.node.removeInputListener( this.pressReleaseListener );
@@ -593,6 +601,8 @@ export default class GrabDragInteraction extends Disposable {
 
       this.matrixBetweenProperty.unlink( repositionCuesListener );
       this.matrixBetweenProperty.dispose();
+
+      keyboardDragListener.isPressedProperty.unlink( keyboardPressedListener );
 
       dragDivDownListener.dispose();
       dragDivUpListener.dispose();
