@@ -14,7 +14,7 @@ import Vector2 from '../../dot/js/Vector2.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
 import { optionize3, OptionizeDefaults } from '../../phet-core/js/optionize.js';
-import { LinearGradient, Node, NodeOptions, Rectangle, TColor } from '../../scenery/js/imports.js';
+import { LinearGradient, Node, NodeOptions, PDOMValueType, Rectangle, TColor } from '../../scenery/js/imports.js';
 import RoundMomentaryButton from '../../sun/js/buttons/RoundMomentaryButton.js';
 import RoundStickyToggleButton from '../../sun/js/buttons/RoundStickyToggleButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -46,7 +46,7 @@ type SelfOptions = {
   buttonTouchAreaDilation?: number;
   buttonMouseAreaDilation?: number;
   buttonRotation?: number; // use this to adjust lighting on the button
-  buttonAccessibleName?: string;
+  buttonAccessibleName?: PDOMValueType;
   buttonDescriptionContent?: string;
 
   // where to position the button within the body
