@@ -123,23 +123,31 @@ QUnit.test( 'GrabDragInteraction enabled', assert => {
     objectToGrabString: thingString
   } );
 
-  // Visibility for interaction cues requires DOM focus.
-  a.focus();
+  // GrabDragInteraction requires the page to be active to behave corectly, otherwise focus/blur events do not
+  // fire. See https://github.com/phetsims/aqua/issues/134.
+  if ( document.hasFocus() ) {
 
-  assert.ok( interaction[ 'grabCueNode' ].visible, 'starts visible' );
-  assert.ok( !interaction[ 'dragCueNode' ].visible, 'starts invisible' );
-  interaction.enabled = false;
+    // Visibility for interaction cues requires DOM focus.
+    a.focus();
 
-  assert.ok( !interaction[ 'grabCueNode' ].visible, 'enabled hides grab cue node visible' );
-  assert.ok( !interaction[ 'dragCueNode' ].visible, 'enabled hides drag cue node visible' );
+    assert.ok( interaction[ 'grabCueNode' ].visible, 'starts visible' );
+    assert.ok( !interaction[ 'dragCueNode' ].visible, 'starts invisible' );
+    interaction.enabled = false;
 
-  interaction.enabled = true;
-  assert.ok( interaction[ 'grabCueNode' ].visible, 'starts again visible' );
-  assert.ok( !interaction[ 'dragCueNode' ].visible, 'starts again invisible' );
+    assert.ok( !interaction[ 'grabCueNode' ].visible, 'enabled hides grab cue node visible' );
+    assert.ok( !interaction[ 'dragCueNode' ].visible, 'enabled hides drag cue node visible' );
 
-  a.enabled = false;
-  assert.ok( !interaction[ 'grabCueNode' ].visible, 'node enabled visible' );
-  assert.ok( !interaction[ 'dragCueNode' ].visible, 'node enabled visible' );
+    interaction.enabled = true;
+    assert.ok( interaction[ 'grabCueNode' ].visible, 'starts again visible' );
+    assert.ok( !interaction[ 'dragCueNode' ].visible, 'starts again invisible' );
+
+    a.enabled = false;
+    assert.ok( !interaction[ 'grabCueNode' ].visible, 'node enabled visible' );
+    assert.ok( !interaction[ 'dragCueNode' ].visible, 'node enabled visible' );
+  }
+  else {
+    assert.ok( true, 'Could not run tests because document does not have focus.' );
+  }
 
   display.dispose();
 } );
