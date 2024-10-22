@@ -89,7 +89,7 @@ type SelfOptions = {
   objectToGrabString?: PDOMValueType;
 
   // If not provided, a default will be applied, see this.idleStateAccessibleName.
-  idleStateAccessibleName?: null | string;
+  idleStateAccessibleName?: PDOMValueType | null;
 
   // Called when the node is "grabbed" (when the grab button fires); button -> grabbed.
   onGrab?: VoidFunction;
@@ -143,7 +143,7 @@ type SelfOptions = {
   // Help text is treated as the same for the idle and grabbed items, but is different based on if the
   // runtime is supporting gesture interactive description. Even though "technically" there is no way to access the
   // help text when this Node is in the grabbed state, the help text is still in the PDOM.
-  keyboardHelpText?: string | null;
+  keyboardHelpText?: PDOMValueType | null;
 
   // Controls whether or not to show the "Grab" cue node that is displayed on focus - by
   // default it will be shown on focus until it has been successfully grabbed with a keyboard
@@ -155,7 +155,7 @@ type SelfOptions = {
   shouldShowDragCueNode?: () => boolean;
 
   // Like keyboardHelpText but when supporting gesture interactive description.
-  gestureHelpText?: PDOMValueType;
+  gestureHelpText?: PDOMValueType | null;
 
   // For sharing usage tracking between multiple instances of GrabDragInteraction. Even if provided, GrabDragInteraction
   // will reset this.
