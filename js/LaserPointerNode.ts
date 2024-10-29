@@ -47,7 +47,7 @@ type SelfOptions = {
   buttonMouseAreaDilation?: number;
   buttonRotation?: number; // use this to adjust lighting on the button
   buttonAccessibleName?: PDOMValueType;
-  buttonDescriptionContent?: string;
+  buttonHelpText?: string;
 
   // where to position the button within the body
   getButtonLocation?: ( bodyNode: Node ) => Vector2;
@@ -95,7 +95,7 @@ const DEFAULT_OPTIONS: OptionizeDefaults<SelfOptions, NodeOptions> = {
   buttonMouseAreaDilation: 0,
   buttonRotation: 0, // {number} use this to adjust lighting on the button
   buttonAccessibleName: '',
-  buttonDescriptionContent: '',
+  buttonHelpText: '',
 
   // where to position the button within the body
   getButtonLocation: ( bodyNode: Node ) => bodyNode.center,
@@ -182,9 +182,8 @@ export default class LaserPointerNode extends Node {
         tandem: options.tandem.createTandem( 'button' ),
 
         // pdom
-        labelContent: options.buttonAccessibleName,
-        labelTagName: 'label',
-        descriptionContent: options.buttonDescriptionContent
+        accessibleName: options.buttonAccessibleName,
+        helpText: options.buttonHelpText
       };
 
       onOffButton = ( options.buttonType === 'toggle' ) ?
