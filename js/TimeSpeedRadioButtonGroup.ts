@@ -86,8 +86,10 @@ export default class TimeSpeedRadioButtonGroup extends VerticalAquaRadioButtonGr
       const item: AquaRadioButtonGroupItem<TimeSpeed> = {
         value: speed,
         createNode: () => new Text( stringProperty, options.labelOptions ),
-        labelContent: stringProperty,
-        tandemName: SPEED_LABEL_MAP.get( speed ).tandemName
+        tandemName: SPEED_LABEL_MAP.get( speed ).tandemName,
+        options: {
+          accessibleName: stringProperty
+        }
       };
       return item;
     } );
