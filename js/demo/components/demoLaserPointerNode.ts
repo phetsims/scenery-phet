@@ -6,10 +6,10 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { Node, Rectangle } from '../../../../scenery/js/imports.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import LaserPointerNode from '../../LaserPointerNode.js';
 import Property from '../../../../axon/js/Property.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import { Node, Rectangle } from '../../../../scenery/js/imports.js';
+import LaserPointerNode from '../../LaserPointerNode.js';
 
 export default function demoLaserPointerNode( layoutBounds: Bounds2 ): Node {
 
@@ -24,8 +24,9 @@ export default function demoLaserPointerNode( layoutBounds: Bounds2 ): Node {
     topColor: LaserPointerNode.DEFAULT_LASER_NODE_OPTIONS.bottomColor,
     bottomColor: LaserPointerNode.DEFAULT_LASER_NODE_OPTIONS.topColor,
     highlightColorStop: 1 - LaserPointerNode.DEFAULT_LASER_NODE_OPTIONS.highlightColorStop,
-    buttonRotation: Math.PI,
-
+    buttonOptions: {
+      rotation: Math.PI
+    },
     rotation: Math.PI,
     right: layoutBounds.centerX - 20,
     centerY: layoutBounds.centerY

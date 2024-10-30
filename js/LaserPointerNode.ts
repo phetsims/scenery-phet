@@ -13,8 +13,10 @@ import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
-import { optionize3, OptionizeDefaults } from '../../phet-core/js/optionize.js';
+import { combineOptions, optionize3, OptionizeDefaults } from '../../phet-core/js/optionize.js';
+import PickOptional from '../../phet-core/js/types/PickOptional.js';
 import { LinearGradient, Node, NodeOptions, ParallelDOM, Rectangle, TColor, TrimParallelDOMOptions } from '../../scenery/js/imports.js';
+import { RoundButtonOptions } from '../../sun/js/buttons/RoundButton.js';
 import RoundMomentaryButton from '../../sun/js/buttons/RoundMomentaryButton.js';
 import RoundStickyToggleButton from '../../sun/js/buttons/RoundStickyToggleButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -22,6 +24,9 @@ import sceneryPhet from './sceneryPhet.js';
 import ShadedSphereNode, { ShadedSphereNodeOptions } from './ShadedSphereNode.js';
 
 type ButtonType = 'toggle' | 'momentary';
+
+type ButtonOptions = PickOptional<RoundButtonOptions, 'baseColor' | 'radius' | 'xMargin' |
+  'yMargin' | 'touchAreaDilation' | 'mouseAreaDilation' | 'rotation'>;
 
 type SelfOptions = {
 
@@ -39,13 +44,7 @@ type SelfOptions = {
   // button options
   hasButton?: boolean; // other button options are ignored if this is false
   buttonType?: ButtonType;
-  buttonColor?: TColor;
-  buttonRadius?: number;
-  buttonXMargin?: number;
-  buttonYMargin?: number;
-  buttonTouchAreaDilation?: number;
-  buttonMouseAreaDilation?: number;
-  buttonRotation?: number; // use this to adjust lighting on the button
+  buttonOptions?: ButtonOptions;
 
   // where to position the button within the body
   getButtonLocation?: ( bodyNode: Node ) => Vector2;
@@ -85,13 +84,15 @@ const DEFAULT_OPTIONS: OptionizeDefaults<SelfOptions, NodeOptions> = {
   // button options
   hasButton: true, // {boolean} other button options are ignore if this is false
   buttonType: 'toggle', // {string} 'toggle'|'momentary'
-  buttonColor: 'red',
-  buttonRadius: 22,
-  buttonXMargin: 10,
-  buttonYMargin: 10,
-  buttonTouchAreaDilation: 15,
-  buttonMouseAreaDilation: 0,
-  buttonRotation: 0, // {number} use this to adjust lighting on the button
+  buttonOptions: {
+    baseColor: 'red',
+    radius: 22,
+    xMargin: 10,
+    yMargin: 10,
+    touchAreaDilation: 15,
+    mouseAreaDilation: 0,
+    rotation: 0 // {number} use this to adjust lighting on the button
+  },
 
   // where to position the button within the body
   getButtonLocation: ( bodyNode: Node ) => bodyNode.center,
@@ -166,17 +167,10 @@ export default class LaserPointerNode extends Node {
     let onOffButton: Node | null = null;
     if ( options.hasButton ) {
 
-      const buttonOptions = {
-        radius: options.buttonRadius,
-        xMargin: options.buttonXMargin,
-        yMargin: options.buttonYMargin,
-        touchAreaDilation: options.buttonTouchAreaDilation,
-        mouseAreaDilation: options.buttonMouseAreaDilation,
-        baseColor: options.buttonColor,
-        rotation: options.buttonRotation,
+      const buttonOptions = combineOptions<RoundButtonOptions>( options.buttonOptions, {
         center: options.getButtonLocation( bodyNode ),
         tandem: options.tandem.createTandem( 'button' )
-      };
+      } );
 
       onOffButton = ( options.buttonType === 'toggle' ) ?
                     new RoundStickyToggleButton( onProperty, false, true, buttonOptions ) :
