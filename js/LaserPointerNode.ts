@@ -14,7 +14,7 @@ import Vector2 from '../../dot/js/Vector2.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
 import { optionize3, OptionizeDefaults } from '../../phet-core/js/optionize.js';
-import { LinearGradient, Node, NodeOptions, PDOMValueType, Rectangle, TColor } from '../../scenery/js/imports.js';
+import { LinearGradient, Node, NodeOptions, ParallelDOM, Rectangle, TColor, TrimParallelDOMOptions } from '../../scenery/js/imports.js';
 import RoundMomentaryButton from '../../sun/js/buttons/RoundMomentaryButton.js';
 import RoundStickyToggleButton from '../../sun/js/buttons/RoundStickyToggleButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -46,8 +46,6 @@ type SelfOptions = {
   buttonTouchAreaDilation?: number;
   buttonMouseAreaDilation?: number;
   buttonRotation?: number; // use this to adjust lighting on the button
-  buttonAccessibleName?: PDOMValueType;
-  buttonHelpText?: string;
 
   // where to position the button within the body
   getButtonLocation?: ( bodyNode: Node ) => Vector2;
@@ -69,7 +67,7 @@ type SelfOptions = {
   } & ShadedSphereNodeOptions;
 };
 
-export type LaserPointerNodeOptions = SelfOptions & NodeOptions;
+export type LaserPointerNodeOptions = SelfOptions & TrimParallelDOMOptions<NodeOptions>;
 
 const DEFAULT_OPTIONS: OptionizeDefaults<SelfOptions, NodeOptions> = {
 
@@ -94,8 +92,6 @@ const DEFAULT_OPTIONS: OptionizeDefaults<SelfOptions, NodeOptions> = {
   buttonTouchAreaDilation: 15,
   buttonMouseAreaDilation: 0,
   buttonRotation: 0, // {number} use this to adjust lighting on the button
-  buttonAccessibleName: '',
-  buttonHelpText: '',
 
   // where to position the button within the body
   getButtonLocation: ( bodyNode: Node ) => bodyNode.center,
@@ -179,11 +175,7 @@ export default class LaserPointerNode extends Node {
         baseColor: options.buttonColor,
         rotation: options.buttonRotation,
         center: options.getButtonLocation( bodyNode ),
-        tandem: options.tandem.createTandem( 'button' ),
-
-        // pdom
-        accessibleName: options.buttonAccessibleName,
-        helpText: options.buttonHelpText
+        tandem: options.tandem.createTandem( 'button' )
       };
 
       onOffButton = ( options.buttonType === 'toggle' ) ?
@@ -214,6 +206,11 @@ export default class LaserPointerNode extends Node {
     options.children = children.concat( options.children || [] );
 
     super( options );
+
+    if ( onOffButton ) {
+      ParallelDOM.forwardAccessibleName( this, onOffButton );
+      ParallelDOM.forwardHelpText( this, onOffButton );
+    }
 
     this.disposeLaserPointerNode = () => {
       onOffButton && onOffButton.dispose();
