@@ -9,7 +9,7 @@
 
 import optionize from '../../phet-core/js/optionize.js';
 import { HBox, Path, Text } from '../../scenery/js/imports.js';
-import exclamationTriangleSolidShape from '../../sherpa/js/fontawesome-5/exclamationTriangleSolidShape.js';
+import warningSignShape from '../../sherpa/js/fontawesome-4/warningSignShape.js';
 import TextPushButton from '../../sun/js/buttons/TextPushButton.js';
 import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import PhetFont from './PhetFont.js';
@@ -48,9 +48,9 @@ export default class ContextLossFailureDialog extends Dialog {
 
     }, providedOptions );
 
-    const warningSign = new Path( exclamationTriangleSolidShape, {
+    const warningSign = new Path( warningSignShape, {
       fill: '#E87600', // "safety orange", according to Wikipedia
-      scale: 0.048
+      scale: 0.03
     } );
 
     const text = new Text( SceneryPhetStrings.webglWarning.contextLossFailureStringProperty, {
