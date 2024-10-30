@@ -20,7 +20,7 @@ import Orientation from '../../phet-core/js/Orientation.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { AlignBox, assertNoAdditionalChildren, extendsWidthSizable, Font, HBox, isWidthSizable, Node, NodeOptions, PaintColorProperty, ParallelDOM, Text, TextOptions, VBox, WidthSizable } from '../../scenery/js/imports.js';
+import { AlignBox, assertNoAdditionalChildren, extendsWidthSizable, Font, HBox, isWidthSizable, Node, NodeOptions, PaintColorProperty, ParallelDOM, Text, TextOptions, TrimParallelDOMOptions, VBox, WidthSizable } from '../../scenery/js/imports.js';
 import ArrowButton, { ArrowButtonOptions } from '../../sun/js/buttons/ArrowButton.js';
 import HSlider from '../../sun/js/HSlider.js';
 import Slider, { SliderOptions } from '../../sun/js/Slider.js';
@@ -56,7 +56,7 @@ type NumberControlMajorTick = {
   label?: Node; // optional label that appears at the tick mark
 };
 
-// other slider options that are specific to NumberControl
+// Other slider options that are specific to NumberControl. The accesibleName and helpText should be provided to the NumberControl.
 export type NumberControlSliderOptions = StrictOmit<SliderOptions, 'enabledRangeProperty' | 'accessibleName' | 'helpText'> & {
 
   // description of major ticks
@@ -183,7 +183,7 @@ type SelfOptions = {
   layoutFunction?: LayoutFunction;
 };
 
-export type NumberControlOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
+export type NumberControlOptions = SelfOptions & StrictOmit<TrimParallelDOMOptions<NodeOptions>, 'children'>;
 
 export default class NumberControl extends WidthSizable( Node ) {
 
@@ -376,8 +376,7 @@ export default class NumberControl extends WidthSizable( Node ) {
     // pdom - for alternative input, the number control is accessed entirely through slider interaction and these
     // arrow buttons are not tab navigable
     assert && assert( options.arrowButtonOptions.tagName === undefined,
-      'NumberControl\'s accessible content is just the slider, do not set accessible content on the buttons. Instead ' +
-      'set a11y through options.sliderOptions.' );
+      'NumberControl\'s accessible content uses AccessibleSlider, do not set accessible content on the buttons.' );
     options.arrowButtonOptions.tagName = null;
 
     // pdom - if we include arrow buttons, use a groupFocusHighlight to surround the NumberControl to make it clear
