@@ -4,9 +4,6 @@
  * NumberControl is a control for changing a Property<number>, with flexible layout. It consists of a labeled value,
  * slider, and arrow buttons.
  *
- * NumberControl provides accessible content exclusively through the Slider. Please pass accessibility related
- * customizations to the Slider through options.sliderOptions.
- *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
@@ -23,7 +20,7 @@ import Orientation from '../../phet-core/js/Orientation.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { AlignBox, assertNoAdditionalChildren, extendsWidthSizable, Font, HBox, isWidthSizable, Node, NodeOptions, PaintColorProperty, Text, TextOptions, VBox, WidthSizable } from '../../scenery/js/imports.js';
+import { AlignBox, assertNoAdditionalChildren, extendsWidthSizable, Font, HBox, isWidthSizable, Node, NodeOptions, PaintColorProperty, ParallelDOM, Text, TextOptions, VBox, WidthSizable } from '../../scenery/js/imports.js';
 import ArrowButton, { ArrowButtonOptions } from '../../sun/js/buttons/ArrowButton.js';
 import HSlider from '../../sun/js/HSlider.js';
 import Slider, { SliderOptions } from '../../sun/js/Slider.js';
@@ -60,7 +57,7 @@ type NumberControlMajorTick = {
 };
 
 // other slider options that are specific to NumberControl
-export type NumberControlSliderOptions = StrictOmit<SliderOptions, 'enabledRangeProperty'> & {
+export type NumberControlSliderOptions = StrictOmit<SliderOptions, 'enabledRangeProperty' | 'accessibleName' | 'helpText'> & {
 
   // description of major ticks
   majorTicks?: NumberControlMajorTick[];
@@ -371,8 +368,6 @@ export default class NumberControl extends WidthSizable( Node ) {
     // validate options
     assert && assert( !( options as IntentionalAny ).startDrag, 'use options.startCallback instead of options.startDrag' );
     assert && assert( !( options as IntentionalAny ).endDrag, 'use options.endCallback instead of options.endDrag' );
-    assert && assert( !options.tagName,
-      'Provide accessibility through options.sliderOptions which will be applied to the NumberControl Node.' );
 
     if ( options.enabledRangeProperty ) {
       options.sliderOptions.enabledRangeProperty = options.enabledRangeProperty;
@@ -430,6 +425,10 @@ export default class NumberControl extends WidthSizable( Node ) {
     const numberDisplay = new NumberDisplay( numberProperty, numberRange, options.numberDisplayOptions );
 
     this.slider = new Slider( numberProperty, numberRange, options.sliderOptions );
+
+    // pdom - forward the accessibleName and help text set on this component to the slider
+    ParallelDOM.forwardAccessibleName( this, this.slider );
+    ParallelDOM.forwardHelpText( this, this.slider );
 
     // set below, see options.includeArrowButtons
     let decrementButton: ArrowButton | null = null;
