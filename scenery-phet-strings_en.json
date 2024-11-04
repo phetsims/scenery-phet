@@ -303,7 +303,7 @@
     "value": "Open faucet briefly"
   },
   "keyboardHelpDialog.timingControls.timingControls": {
-    "value": "Timing Controls"
+    "value": "Time Controls"
   },
   "keyboardHelpDialog.timingControls.pauseOrPlayAction": {
     "value": "Pause or play action"
@@ -529,10 +529,10 @@
     },
     "timeControlNode": {
       "simSpeedDescription": {
-        "value": "For closer observations Play sim on slow speed."
+        "value": "For closer observations Play sim on slower speed."
       },
       "label": {
-        "value": "Timing Controls"
+        "value": "Time Controls"
       },
       "simSpeeds": {
         "value": "Sim Speeds"
