@@ -125,8 +125,7 @@ export default function demoProbeNode( layoutBounds: Bounds2 ): Node {
       }
     },
     sliderOptions: {
-      trackSize: new Dimension2( 150, 3 ),
-      containerTagName: 'div'
+      trackSize: new Dimension2( 150, 3 )
     }
   };
   demoParent.addChild( new VBox( {

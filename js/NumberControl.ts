@@ -20,7 +20,7 @@ import Orientation from '../../phet-core/js/Orientation.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { AlignBox, assertNoAdditionalChildren, extendsWidthSizable, Font, HBox, isWidthSizable, Node, NodeOptions, PaintColorProperty, ParallelDOM, Text, TextOptions, TrimParallelDOMOptions, VBox, WidthSizable } from '../../scenery/js/imports.js';
+import { AlignBox, assertNoAdditionalChildren, extendsWidthSizable, Font, HBox, isWidthSizable, Node, NodeOptions, PaintColorProperty, ParallelDOM, RemoveParallelDOMOptions, Text, TextOptions, TrimParallelDOMOptions, VBox, WidthSizable } from '../../scenery/js/imports.js';
 import ArrowButton, { ArrowButtonOptions } from '../../sun/js/buttons/ArrowButton.js';
 import HSlider from '../../sun/js/HSlider.js';
 import Slider, { SliderOptions } from '../../sun/js/Slider.js';
@@ -56,8 +56,8 @@ type NumberControlMajorTick = {
   label?: Node; // optional label that appears at the tick mark
 };
 
-// Other slider options that are specific to NumberControl. The accesibleName and helpText should be provided to the NumberControl.
-export type NumberControlSliderOptions = StrictOmit<SliderOptions, 'enabledRangeProperty' | 'accessibleName' | 'helpText'> & {
+// Other slider options that are specific to NumberControl. Accessibility options should be set on the NumberControl.
+export type NumberControlSliderOptions = StrictOmit<RemoveParallelDOMOptions<SliderOptions>, 'enabledRangeProperty'> & {
 
   // description of major ticks
   majorTicks?: NumberControlMajorTick[];
