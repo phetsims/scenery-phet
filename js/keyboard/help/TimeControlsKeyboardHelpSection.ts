@@ -15,7 +15,7 @@ import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import PlayControlButton from '../../buttons/PlayControlButton.js';
 
 // constants
-const timingControlsStringProperty = SceneryPhetStrings.keyboardHelpDialog.timingControls.timingControlsStringProperty;
+const timeControlsStringProperty = SceneryPhetStrings.keyboardHelpDialog.timingControls.timingControlsStringProperty;
 const pauseOrPlayActionStringProperty = SceneryPhetStrings.keyboardHelpDialog.timingControls.pauseOrPlayActionStringProperty;
 const pauseOrPlayActionDescriptionStringProperty = SceneryPhetStrings.a11y.keyboardHelpDialog.timingControls.pauseOrPlayActionDescriptionStringProperty;
 
@@ -32,12 +32,12 @@ type SelfOptions = {
   pauseOrPlayActionDescriptionString?: string | TReadOnlyProperty<string>;
 };
 type ParentOptions = KeyboardHelpSectionOptions;
-export type TimingControlKeyboardHelpSectionOptions = SelfOptions & ParentOptions;
+export type TimeControlKeyboardHelpSectionOptions = SelfOptions & ParentOptions;
 
 class TimingControlsKeyboardHelpSection extends KeyboardHelpSection {
-  public constructor( providedOptions?: TimingControlKeyboardHelpSectionOptions ) {
-    const options = optionize<TimingControlKeyboardHelpSectionOptions, SelfOptions, ParentOptions>()( {
-      headingString: timingControlsStringProperty,
+  public constructor( providedOptions?: TimeControlKeyboardHelpSectionOptions ) {
+    const options = optionize<TimeControlKeyboardHelpSectionOptions, SelfOptions, ParentOptions>()( {
+      headingString: timeControlsStringProperty,
       pauseOrPlayActionStringProperty: pauseOrPlayActionStringProperty,
       pauseOrPlayActionDescriptionString: pauseOrPlayActionDescriptionStringProperty
     }, providedOptions );
@@ -52,5 +52,5 @@ class TimingControlsKeyboardHelpSection extends KeyboardHelpSection {
   }
 }
 
-sceneryPhet.register( 'TimingControlsKeyboardHelpSection', TimingControlsKeyboardHelpSection );
-export default TimingControlsKeyboardHelpSection;
+sceneryPhet.register( 'TimeControlsKeyboardHelpSection', TimeControlsKeyboardHelpSection );
+export default TimeControlsKeyboardHelpSection;
