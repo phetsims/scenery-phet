@@ -34,7 +34,7 @@ type SelfOptions = {
 type ParentOptions = KeyboardHelpSectionOptions;
 export type TimeControlKeyboardHelpSectionOptions = SelfOptions & ParentOptions;
 
-class TimingControlsKeyboardHelpSection extends KeyboardHelpSection {
+class TimeControlsKeyboardHelpSection extends KeyboardHelpSection {
   public constructor( providedOptions?: TimeControlKeyboardHelpSectionOptions ) {
     const options = optionize<TimeControlKeyboardHelpSectionOptions, SelfOptions, ParentOptions>()( {
       headingString: timeControlsStringProperty,
