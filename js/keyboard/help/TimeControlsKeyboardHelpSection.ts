@@ -1,7 +1,7 @@
 // Copyright 2022-2024, University of Colorado Boulder
 
 /**
- * Help section that explains how to use a keyboard to toggle play/pause and timing controls.
+ * Help section that explains how to use a keyboard to toggle play/pause and time controls.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
