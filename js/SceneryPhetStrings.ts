@@ -218,6 +218,9 @@ type StringsType = {
         'pauseOrPlayActionDescriptionStringProperty': LocalizedStringProperty;
       }
     };
+    'eraserButton': {
+      'accessibleNameStringProperty': LocalizedStringProperty;
+    };
     'playControlButton': {
       'playStringProperty': LocalizedStringProperty;
       'pauseStringProperty': LocalizedStringProperty;

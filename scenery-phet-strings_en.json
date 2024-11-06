@@ -505,6 +505,11 @@
         }
       }
     },
+    "eraserButton": {
+      "accessibleName": {
+        "value": "Erase"
+      }
+    },
     "playControlButton": {
       "play": {
         "value": "Play"

@@ -9,19 +9,21 @@
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { Image } from '../../../scenery/js/imports.js';
+import { Image, TrimParallelDOMOptions } from '../../../scenery/js/imports.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import eraser_png from '../../images/eraser_png.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SoundClipPlayer from '../../../tambo/js/sound-generators/SoundClipPlayer.js';
 import erase_mp3 from '../../sounds/erase_mp3.js';
+import SceneryPhetStrings from '../SceneryPhetStrings.js';
 
 type SelfOptions = {
   iconWidth?: number; // width of eraser icon, used for scaling, the aspect ratio will determine height
 };
 
-export type EraserButtonOptions = SelfOptions & StrictOmit<RectangularPushButtonOptions, 'content'>;
+type TrimmedParentOptions = TrimParallelDOMOptions<RectangularPushButtonOptions>;
+export type EraserButtonOptions = SelfOptions & StrictOmit<TrimmedParentOptions, 'content'>;
 
 export default class EraserButton extends RectangularPushButton {
 
@@ -34,6 +36,9 @@ export default class EraserButton extends RectangularPushButton {
 
       // RectangularPushButtonOptions
       baseColor: PhetColorScheme.BUTTON_YELLOW,
+
+      // pdom
+      accessibleName: SceneryPhetStrings.a11y.eraserButton.accessibleNameStringProperty,
 
       soundPlayer: new SoundClipPlayer( erase_mp3, {
         soundClipOptions: { initialOutputLevel: 0.22 }
