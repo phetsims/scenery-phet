@@ -539,10 +539,10 @@
       }
     },
     "playPauseStepButtonGroup": {
-      "playingDescription": {
+      "playingHelpText": {
         "value": "Pause sim to step through little by little."
       },
-      "pausedDescription": {
+      "pausedHelpText": {
         "value": "Step through little by little."
       }
     },

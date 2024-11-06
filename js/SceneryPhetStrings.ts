@@ -234,8 +234,8 @@ type StringsType = {
       'simSpeedsStringProperty': LocalizedStringProperty;
     };
     'playPauseStepButtonGroup': {
-      'playingDescriptionStringProperty': LocalizedStringProperty;
-      'pausedDescriptionStringProperty': LocalizedStringProperty;
+      'playingHelpTextStringProperty': LocalizedStringProperty;
+      'pausedHelpTextStringProperty': LocalizedStringProperty;
     };
     'movementAlerter': {
       'downStringProperty': LocalizedStringProperty;

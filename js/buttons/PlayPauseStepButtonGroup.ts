@@ -47,8 +47,8 @@ type SelfOptions = {
 
   // pdom - Strings used for the help text of this button group in the playing and paused states. If not provided,
   // default help text will be used when a step button is visible.
-  playingDescription?: string | TReadOnlyProperty<string> | null;
-  pausedDescription?: string | TReadOnlyProperty<string> | null;
+  playingHelpText?: string | TReadOnlyProperty<string> | null;
+  pausedHelpText?: string | TReadOnlyProperty<string> | null;
 };
 
 export type PlayPauseStepButtonGroupOptions = SelfOptions & StrictOmit<RemoveParallelDOMOptions<HBoxOptions>, 'spacing' | 'children'>;
@@ -99,8 +99,8 @@ export default class PlayPauseStepButtonGroup extends HBox {
       // pdom
       tagName: 'div', // so that it can receive descriptions
       appendDescription: true,
-      playingDescription: null,
-      pausedDescription: null
+      playingHelpText: null,
+      pausedHelpText: null
     }, providedOptions );
 
     // by default, the step buttons are enabled when isPlayingProperty is false, but only create a PhET-iO instrumented
@@ -163,16 +163,16 @@ export default class PlayPauseStepButtonGroup extends HBox {
     // pdom - Always use the provided help text. If not provided, a default string describes how to step forward and backward
     // when paused. The default helpText will only be used if a step button is visible.
     const eitherStepButtonVisible = options.includeStepForwardButton || options.includeStepBackwardButton;
-    const playingDescription = options.playingDescription || ( eitherStepButtonVisible
-                                                               ? SceneryPhetStrings.a11y.playPauseStepButtonGroup.playingDescriptionStringProperty
-                                                               : null );
+    const playingHelpText = options.playingHelpText || ( eitherStepButtonVisible
+                                                         ? SceneryPhetStrings.a11y.playPauseStepButtonGroup.playingHelpTextStringProperty
+                                                         : null );
 
-    const pausedDescription = options.pausedDescription || ( eitherStepButtonVisible
-                                                             ? SceneryPhetStrings.a11y.playPauseStepButtonGroup.pausedDescriptionStringProperty
-                                                             : null );
+    const pausedHelpText = options.pausedHelpText || ( eitherStepButtonVisible
+                                                       ? SceneryPhetStrings.a11y.playPauseStepButtonGroup.pausedHelpTextStringProperty
+                                                       : null );
 
     const playingListener = ( playing: boolean ) => {
-      this.helpText = playing ? playingDescription : pausedDescription;
+      this.helpText = playing ? playingHelpText : pausedHelpText;
     };
     isPlayingProperty.link( playingListener );
 
