@@ -540,10 +540,10 @@
     },
     "playPauseStepButtonGroup": {
       "playingDescription": {
-        "value": "Pause sim to step forward little by little."
+        "value": "Pause sim to step through little by little."
       },
       "pausedDescription": {
-        "value": "Step forward little by little."
+        "value": "Step through little by little."
       }
     },
     "movementAlerter": {

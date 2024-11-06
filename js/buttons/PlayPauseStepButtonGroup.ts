@@ -10,21 +10,21 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import SceneryPhetConstants from '../SceneryPhetConstants.js';
+import DerivedProperty from '../../../axon/js/DerivedProperty.js';
+import Property from '../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import Vector2 from '../../../dot/js/Vector2.js';
+import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import { HBox, HBoxOptions, RemoveParallelDOMOptions } from '../../../scenery/js/imports.js';
+import Tandem from '../../../tandem/js/Tandem.js';
+import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
+import sceneryPhet from '../sceneryPhet.js';
+import SceneryPhetConstants from '../SceneryPhetConstants.js';
+import SceneryPhetStrings from '../SceneryPhetStrings.js';
 import PlayPauseButton, { PlayPauseButtonOptions } from './PlayPauseButton.js';
 import StepBackwardButton, { StepBackwardButtonOptions } from './StepBackwardButton.js';
 import StepForwardButton, { StepForwardButtonOptions } from './StepForwardButton.js';
-import sceneryPhet from '../sceneryPhet.js';
-import { HBox, HBoxOptions } from '../../../scenery/js/imports.js';
-import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
-import Tandem from '../../../tandem/js/Tandem.js';
-import DerivedProperty from '../../../axon/js/DerivedProperty.js';
-import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
-import Vector2 from '../../../dot/js/Vector2.js';
-import Property from '../../../axon/js/Property.js';
-import SceneryPhetStrings from '../SceneryPhetStrings.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 
 const DEFAULT_STEP_BUTTON_RADIUS = 15;
 const DEFAULT_STEP_BUTTON_TOUCH_AREA_DILATION = 5;
@@ -45,12 +45,13 @@ type SelfOptions = {
   stepForwardButtonOptions?: StrictOmit<StepForwardButtonOptions, 'tandem' | 'phetioDocumentation'>;
   stepBackwardButtonOptions?: StrictOmit<StepBackwardButtonOptions, 'tandem' | 'phetioDocumentation'>;
 
-  // pdom - description for this button group in its playing or paused state from the isPlayingProperty
-  playingDescription?: string | TReadOnlyProperty<string>;
-  pausedDescription?: string | TReadOnlyProperty<string>;
+  // pdom - Strings used for the help text of this button group in the playing and paused states. If not provided,
+  // default help text will be used when a step button is visible.
+  playingDescription?: string | TReadOnlyProperty<string> | null;
+  pausedDescription?: string | TReadOnlyProperty<string> | null;
 };
 
-export type PlayPauseStepButtonGroupOptions = SelfOptions & StrictOmit<HBoxOptions, 'spacing' | 'children'>;
+export type PlayPauseStepButtonGroupOptions = SelfOptions & StrictOmit<RemoveParallelDOMOptions<HBoxOptions>, 'spacing' | 'children'>;
 
 export default class PlayPauseStepButtonGroup extends HBox {
 
@@ -98,8 +99,8 @@ export default class PlayPauseStepButtonGroup extends HBox {
       // pdom
       tagName: 'div', // so that it can receive descriptions
       appendDescription: true,
-      playingDescription: SceneryPhetStrings.a11y.playPauseStepButtonGroup.playingDescriptionStringProperty,
-      pausedDescription: SceneryPhetStrings.a11y.playPauseStepButtonGroup.pausedDescriptionStringProperty
+      playingDescription: null,
+      pausedDescription: null
     }, providedOptions );
 
     // by default, the step buttons are enabled when isPlayingProperty is false, but only create a PhET-iO instrumented
@@ -159,8 +160,19 @@ export default class PlayPauseStepButtonGroup extends HBox {
 
     this.playPauseButton = playPauseButton;
 
+    // pdom - Always use the provided help text. If not provided, a default string describes how to step forward and backward
+    // when paused. The default helpText will only be used if a step button is visible.
+    const eitherStepButtonVisible = options.includeStepForwardButton || options.includeStepBackwardButton;
+    const playingDescription = options.playingDescription || ( eitherStepButtonVisible
+                                                               ? SceneryPhetStrings.a11y.playPauseStepButtonGroup.playingDescriptionStringProperty
+                                                               : null );
+
+    const pausedDescription = options.pausedDescription || ( eitherStepButtonVisible
+                                                             ? SceneryPhetStrings.a11y.playPauseStepButtonGroup.pausedDescriptionStringProperty
+                                                             : null );
+
     const playingListener = ( playing: boolean ) => {
-      this.descriptionContent = playing ? options.playingDescription : options.pausedDescription;
+      this.helpText = playing ? playingDescription : pausedDescription;
     };
     isPlayingProperty.link( playingListener );
 
