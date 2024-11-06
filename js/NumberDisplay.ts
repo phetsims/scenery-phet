@@ -89,6 +89,7 @@ export default class NumberDisplay extends Node {
   private readonly numberFormatterProperty: TProperty<NumberFormatter>;
   private readonly valueText: RichText | Text;
   private readonly backgroundNode: Rectangle;
+  public readonly valueStringProperty: TReadOnlyProperty<string>;
   private readonly disposeNumberDisplay: () => void; // called by dispose
 
   /**
@@ -280,6 +281,7 @@ export default class NumberDisplay extends Node {
     this.numberFormatterProperty = numberFormatterProperty;
     this.valueText = valueText;
     this.backgroundNode = backgroundNode;
+    this.valueStringProperty = valueStringProperty;
 
 // Align the value in the background.
     ManualConstraint.create( this, [ valueTextContainer, backgroundNode ], ( valueTextContainerProxy, backgroundNodeProxy ) => {

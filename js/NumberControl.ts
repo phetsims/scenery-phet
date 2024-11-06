@@ -383,6 +383,10 @@ export default class NumberControl extends WidthSizable( Node ) {
     // that it is a composite component and there is only one stop in the traversal order.
     this.groupFocusHighlight = options.includeArrowButtons;
 
+    const titleNode = new Text( title, options.titleNodeOptions );
+
+    const numberDisplay = new NumberDisplay( numberProperty, numberRange, options.numberDisplayOptions );
+
     // Slider options for track (if not specified as trackNode)
     if ( !options.sliderOptions.trackNode ) {
       options.sliderOptions = combineOptions<NumberControlSliderOptions>( {
@@ -401,10 +405,13 @@ export default class NumberControl extends WidthSizable( Node ) {
     assert && assert( !options.sliderOptions.hasOwnProperty( 'phetioType' ), 'NumberControl sets phetioType' );
 
     // slider options set by NumberControl, note this may not be the long term pattern, see https://github.com/phetsims/phet-info/issues/96
-    options.sliderOptions = combineOptions<NumberControlSliderOptions>( {
+    options.sliderOptions = combineOptions<SliderOptions>( {
 
       // pdom - by default, shiftKeyboardStep should most likely be the same as clicking the arrow buttons.
       shiftKeyboardStep: options.delta,
+
+      // pdom - The default aria-valuetext for the slider should read the value of the NumberDisplay.
+      pdomCreateAriaValueText: () => numberDisplay.valueStringProperty.value,
 
       // Make sure Slider gets created with the right IOType
       phetioType: Slider.SliderIO
@@ -418,10 +425,6 @@ export default class NumberControl extends WidthSizable( Node ) {
       // Reference to the DerivedProperty not needed, since we dispose what it listens to above.
       options.sliderOptions.thumbFillHighlighted = new DerivedProperty( [ this.thumbFillProperty ], color => color.brighterColor() );
     }
-
-    const titleNode = new Text( title, options.titleNodeOptions );
-
-    const numberDisplay = new NumberDisplay( numberProperty, numberRange, options.numberDisplayOptions );
 
     this.slider = new Slider( numberProperty, numberRange, options.sliderOptions );
 
