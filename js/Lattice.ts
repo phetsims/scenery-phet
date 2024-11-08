@@ -170,7 +170,7 @@ class Lattice {
    * @param j - vertical integer coordinate
    * @param value
    */
-  private setLastValue( i: number, j: number, value: number ): void {
+  public setLastValue( i: number, j: number, value: number ): void {
     this.matrices[ ( this.currentMatrixIndex + 1 ) % this.matrices.length ].set( i, j, value );
   }
 
