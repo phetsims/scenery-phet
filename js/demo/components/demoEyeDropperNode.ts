@@ -6,12 +6,12 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import EyeDropperNode from '../../EyeDropperNode.js';
-import PhetFont from '../../PhetFont.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { Node, Text, VBox } from '../../../../scenery/js/imports.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
+import EyeDropperNode from '../../EyeDropperNode.js';
+import PhetFont from '../../PhetFont.js';
 
 export default function demoEyeDropperNode( layoutBounds: Bounds2 ): Node {
 

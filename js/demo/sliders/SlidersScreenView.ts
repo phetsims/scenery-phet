@@ -14,9 +14,9 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import DemosScreenView, { DemosScreenViewOptions } from '../../../../sun/js/demo/DemosScreenView.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import demoNumberControl from './demoNumberControl.js';
+import demoNumberControlWithSpectrum from './demoNumberControlWithSpectrum.js';
 import demoSliderWithSpectrum from './demoSliderWithSpectrum.js';
 import demoWavelengthNumberControl from './demoWavelengthNumberControl.js';
-import demoNumberControlWithSpectrum from './demoNumberControlWithSpectrum.js';
 
 type SelfOptions = EmptySelfOptions;
 type SlidersScreenViewOptions = SelfOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;

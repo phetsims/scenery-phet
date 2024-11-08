@@ -7,15 +7,15 @@
  */
 
 import NumberProperty from '../../axon/js/NumberProperty.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import MagnifyingGlassNode, { MagnifyingGlassNodeOptions } from './MagnifyingGlassNode.js';
 import MinusNode from './MinusNode.js';
 import PhetColorScheme from './PhetColorScheme.js';
 import PlusNode from './PlusNode.js';
 import sceneryPhet from './sceneryPhet.js';
 import ZoomButtonGroup, { ZoomButtonGroupOptions } from './ZoomButtonGroup.js';
-import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 
 type SelfOptions = {
 

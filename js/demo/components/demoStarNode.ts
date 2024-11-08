@@ -6,13 +6,13 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import StarNode from '../../StarNode.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Range from '../../../../dot/js/Range.js';
 import Property from '../../../../axon/js/Property.js';
-import HSlider from '../../../../sun/js/HSlider.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Range from '../../../../dot/js/Range.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import HSlider from '../../../../sun/js/HSlider.js';
+import StarNode from '../../StarNode.js';
 
 export default function demoStarNode( layoutBounds: Bounds2 ): Node {
 

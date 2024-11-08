@@ -7,8 +7,8 @@
  */
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { Path } from '../../../scenery/js/imports.js';
 import syncAltSolidShape from '../../../sherpa/js/fontawesome-5/syncAltSolidShape.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';

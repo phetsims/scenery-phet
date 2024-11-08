@@ -6,10 +6,10 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Drawer from '../../Drawer.js';
-import PhetFont from '../../PhetFont.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import Drawer from '../../Drawer.js';
+import PhetFont from '../../PhetFont.js';
 
 export default function demoDrawer( layoutBounds: Bounds2 ): Node {
 

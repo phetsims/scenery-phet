@@ -6,20 +6,20 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import FaucetNode, { FaucetNodeOptions } from '../../FaucetNode.js';
-import PhetFont from '../../PhetFont.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
-import { HBox, Node, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
-import Property from '../../../../axon/js/Property.js';
-import Checkbox from '../../../../sun/js/Checkbox.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import Panel from '../../../../sun/js/Panel.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import { HBox, Node, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
+import Checkbox from '../../../../sun/js/Checkbox.js';
+import Panel from '../../../../sun/js/Panel.js';
+import FaucetNode, { FaucetNodeOptions } from '../../FaucetNode.js';
+import PhetFont from '../../PhetFont.js';
 
 const MAX_FLOW_RATE = 10;
 const FAUCET_NODE_SCALE = 0.7;

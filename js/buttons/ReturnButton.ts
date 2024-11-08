@@ -7,12 +7,12 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
-import sceneryPhet from '../../../scenery-phet/js/sceneryPhet.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import ReturnIcon, { ReturnIconOptions } from '../ReturnIcon.js';
+import sceneryPhet from '../../../scenery-phet/js/sceneryPhet.js';
+import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import PhetColorScheme from '../PhetColorScheme.js';
+import ReturnIcon, { ReturnIconOptions } from '../ReturnIcon.js';
 
 type SelfOptions = {
   iconOptions?: ReturnIconOptions;

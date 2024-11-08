@@ -6,16 +6,16 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Range from '../../../../dot/js/Range.js';
+import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import { HBox, Node, Rectangle, Text, VBox, VSeparator } from '../../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import Range from '../../../../dot/js/Range.js';
-import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
+import ResetAllButton from '../../buttons/ResetAllButton.js';
 import NumberControl from '../../NumberControl.js';
 import ParametricSpringNode from '../../ParametricSpringNode.js';
 import PhetFont from '../../PhetFont.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import ResetAllButton from '../../buttons/ResetAllButton.js';
 
 export default function demoParametricSpringNode( layoutBounds: Bounds2 ): Node {
   return new DemoNode( layoutBounds );

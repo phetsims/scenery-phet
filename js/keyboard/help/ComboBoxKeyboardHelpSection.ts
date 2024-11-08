@@ -10,13 +10,13 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import StringProperty from '../../../../axon/js/StringProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 
 type SelfOptions = {
 

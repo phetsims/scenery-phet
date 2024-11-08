@@ -14,8 +14,8 @@
  * @author Jesse Greenberg
  */
 
-import sceneryPhet from './sceneryPhet.js';
 import { KeyboardDragListener, KeyboardDragListenerOptions } from '../../scenery/js/imports.js';
+import sceneryPhet from './sceneryPhet.js';
 import SoundRichDragListener, { RichDragListenerSoundOptions } from './SoundRichDragListener.js';
 
 export type SoundKeyboardDragListenerOptions = KeyboardDragListenerOptions & RichDragListenerSoundOptions;

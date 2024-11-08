@@ -9,15 +9,15 @@
  * @author John Blanco
  */
 
-import { Shape } from '../../kite/js/imports.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import Range from '../../dot/js/Range.js';
-import { Color, TColor, Node, NodeOptions, Path, PathOptions } from '../../scenery/js/imports.js';
-import sceneryPhet from './sceneryPhet.js';
-import ThermometerNode, { ThermometerNodeOptions } from './ThermometerNode.js';
 import TProperty from '../../axon/js/TProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
+import Range from '../../dot/js/Range.js';
+import { Shape } from '../../kite/js/imports.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import { Color, Node, NodeOptions, Path, PathOptions, TColor } from '../../scenery/js/imports.js';
+import sceneryPhet from './sceneryPhet.js';
+import ThermometerNode, { ThermometerNodeOptions } from './ThermometerNode.js';
 
 type SelfOptions = {
 

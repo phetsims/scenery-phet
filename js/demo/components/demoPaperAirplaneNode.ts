@@ -6,9 +6,9 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import PaperAirplaneNode from '../../PaperAirplaneNode.js';
-import { Node } from '../../../../scenery/js/imports.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import PaperAirplaneNode from '../../PaperAirplaneNode.js';
 
 export default function demoPaperAirplaneNode( layoutBounds: Bounds2 ): Node {
   return new PaperAirplaneNode( {

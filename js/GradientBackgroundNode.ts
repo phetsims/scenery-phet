@@ -8,7 +8,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import { TColor, LinearGradient, Rectangle } from '../../scenery/js/imports.js';
+import { LinearGradient, Rectangle, TColor } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 
 export default class GradientBackgroundNode extends Rectangle {

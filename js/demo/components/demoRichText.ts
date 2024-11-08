@@ -6,8 +6,8 @@
  * @author Jonathan Olson
  */
 
-import { HBox, Node, RichText, VBox } from '../../../../scenery/js/imports.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import { HBox, Node, RichText, VBox } from '../../../../scenery/js/imports.js';
 
 export default function demoRichText( layoutBounds: Bounds2 ): Node {
   return new VBox( {

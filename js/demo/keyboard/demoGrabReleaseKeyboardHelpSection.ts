@@ -6,10 +6,10 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
+import StringProperty from '../../../../axon/js/StringProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import GrabReleaseKeyboardHelpSection from '../../keyboard/help/GrabReleaseKeyboardHelpSection.js';
-import StringProperty from '../../../../axon/js/StringProperty.js';
 
 export default function demoGrabReleaseKeyboardHelpSection( layoutBounds: Bounds2 ): Node {
   return new Node( {

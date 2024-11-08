@@ -9,14 +9,14 @@
  */
 
 import { Shape } from '../../../kite/js/imports.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { HBox, TPaint, Path, Rectangle } from '../../../scenery/js/imports.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import { HBox, Path, Rectangle, TPaint } from '../../../scenery/js/imports.js';
 import RoundPushButton, { RoundPushButtonOptions } from '../../../sun/js/buttons/RoundPushButton.js';
+import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
-import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 
 const DEFAULT_RADIUS = 20;
 const MARGIN_COEFFICIENT = 10.5 / DEFAULT_RADIUS;

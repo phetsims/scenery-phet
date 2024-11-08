@@ -15,7 +15,7 @@ import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Font, TColor, Node, NodeOptions, Text, TextOptions } from '../../scenery/js/imports.js';
+import { Font, Node, NodeOptions, TColor, Text, TextOptions } from '../../scenery/js/imports.js';
 import MathSymbols from './MathSymbols.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';

@@ -6,18 +6,18 @@
  * @author Sam Reid
  */
 
-import CapacitorConstants from '../../capacitor/CapacitorConstants.js';
-import YawPitchModelViewTransform3 from '../../capacitor/YawPitchModelViewTransform3.js';
-import CapacitorNode from '../../capacitor/CapacitorNode.js';
-import NumberControl from '../../NumberControl.js';
-import Bounds3 from '../../../../dot/js/Bounds3.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Range from '../../../../dot/js/Range.js';
-import Property from '../../../../axon/js/Property.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Bounds3 from '../../../../dot/js/Bounds3.js';
+import Range from '../../../../dot/js/Range.js';
 import { Node, VBox } from '../../../../scenery/js/imports.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import CapacitorConstants from '../../capacitor/CapacitorConstants.js';
+import CapacitorNode from '../../capacitor/CapacitorNode.js';
+import YawPitchModelViewTransform3 from '../../capacitor/YawPitchModelViewTransform3.js';
+import NumberControl from '../../NumberControl.js';
 
 export default function demoCapacitorNode( layoutBounds: Bounds2 ): Node {
 

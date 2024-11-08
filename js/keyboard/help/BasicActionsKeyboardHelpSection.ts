@@ -11,14 +11,14 @@
  */
 
 import optionize from '../../../../phet-core/js/optionize.js';
+import ResetAllButton from '../../buttons/ResetAllButton.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
+import NumberKeyNode from '../NumberKeyNode.js';
 import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
-import NumberKeyNode from '../NumberKeyNode.js';
-import ResetAllButton from '../../buttons/ResetAllButton.js';
 
 type SelfOptions = {
 

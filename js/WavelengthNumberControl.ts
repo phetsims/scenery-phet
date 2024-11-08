@@ -6,21 +6,21 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Property from '../../axon/js/Property.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
+import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import NestedStrictOmit from '../../phet-core/js/types/NestedStrictOmit.js';
+import Slider from '../../sun/js/Slider.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import NumberControl, { NumberControlOptions } from './NumberControl.js';
 import PhetFont from './PhetFont.js';
-import SceneryPhetStrings from './SceneryPhetStrings.js';
 import sceneryPhet from './sceneryPhet.js';
+import SceneryPhetStrings from './SceneryPhetStrings.js';
 import SpectrumSliderThumb, { SpectrumSliderThumbOptions } from './SpectrumSliderThumb.js';
 import SpectrumSliderTrack, { SpectrumSliderTrackOptions } from './SpectrumSliderTrack.js';
 import VisibleColor from './VisibleColor.js';
-import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
-import Tandem from '../../tandem/js/Tandem.js';
-import Slider from '../../sun/js/Slider.js';
-import Property from '../../axon/js/Property.js';
-import NestedStrictOmit from '../../phet-core/js/types/NestedStrictOmit.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 
 // constants
 const DEFAULT_RANGE = new Range( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );

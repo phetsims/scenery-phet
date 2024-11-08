@@ -6,9 +6,9 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { Node, Text } from '../../../../scenery/js/imports.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import { Node, Text } from '../../../../scenery/js/imports.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import ArrowNode from '../../ArrowNode.js';
 import PhetFont from '../../PhetFont.js';

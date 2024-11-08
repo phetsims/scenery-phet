@@ -6,12 +6,12 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import KeyboardHelpIconFactory from '../../keyboard/help/KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from '../../keyboard/help/KeyboardHelpSection.js';
-import TextKeyNode from '../../keyboard/TextKeyNode.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import KeyboardHelpSectionRow from '../../keyboard/help/KeyboardHelpSectionRow.js';
+import TextKeyNode from '../../keyboard/TextKeyNode.js';
 
 export default function demoKeyboardHelpSection( layoutBounds: Bounds2 ): Node {
 

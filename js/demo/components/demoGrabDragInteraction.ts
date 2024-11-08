@@ -7,11 +7,11 @@
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { DragListener, KeyboardDragListener, Node, Rectangle } from '../../../../scenery/js/imports.js';
-import GrabDragInteraction from '../../accessibility/grab-drag/GrabDragInteraction.js';
-import { SunDemoOptions } from '../../../../sun/js/demo/DemosScreenView.js';
-import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import Vector2Property from '../../../../dot/js/Vector2Property.js';
+import { DragListener, KeyboardDragListener, Node, Rectangle } from '../../../../scenery/js/imports.js';
+import { SunDemoOptions } from '../../../../sun/js/demo/DemosScreenView.js';
+import GrabDragInteraction from '../../accessibility/grab-drag/GrabDragInteraction.js';
 
 export default function demoGrabDragInteraction( layoutBounds: Bounds2, providedOptions: SunDemoOptions ): Node {
 

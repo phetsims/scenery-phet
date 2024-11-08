@@ -10,16 +10,16 @@
  */
 
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
+import DerivedStringProperty from '../../../axon/js/DerivedStringProperty.js';
 import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import NullableIO from '../../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import sceneryPhet from '../sceneryPhet.js';
 import AbstractKeyAccumulator from './AbstractKeyAccumulator.js';
 import KeyID, { KeyIDValue } from './KeyID.js';
-import DerivedStringProperty from '../../../axon/js/DerivedStringProperty.js';
-import { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 
 // constants
 const NEGATIVE_CHAR = '\u2212';

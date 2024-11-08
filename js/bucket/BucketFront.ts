@@ -6,15 +6,15 @@
  * @author Jonathan Olson
  */
 
-import Bucket from '../../../phetcommon/js/model/Bucket.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import Matrix3 from '../../../dot/js/Matrix3.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import Bucket from '../../../phetcommon/js/model/Bucket.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import { LinearGradient, Node, NodeOptions, PaintColorProperty, Path, Text } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
-import optionize from '../../../phet-core/js/optionize.js';
 
 type SelfOptions = {
   labelNode?: Node;

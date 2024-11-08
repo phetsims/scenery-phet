@@ -8,22 +8,22 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { HotkeyData, KeyboardListener, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import Property from '../../../axon/js/Property.js';
+import TinyProperty from '../../../axon/js/TinyProperty.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
+import { HotkeyData, KeyboardListener, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
+import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../utterance-queue/js/ActivationUtterance.js';
+import TextKeyNode from '../keyboard/TextKeyNode.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetConstants from '../SceneryPhetConstants.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
 import ResetButton, { ResetButtonOptions } from './ResetButton.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import TinyProperty from '../../../axon/js/TinyProperty.js';
-import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
-import Property from '../../../axon/js/Property.js';
-import TextKeyNode from '../keyboard/TextKeyNode.js';
-import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 
 const MARGIN_COEFFICIENT = 5 / SceneryPhetConstants.DEFAULT_BUTTON_RADIUS;
 

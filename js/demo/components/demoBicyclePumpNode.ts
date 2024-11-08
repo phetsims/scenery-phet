@@ -6,15 +6,15 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { Node, Text } from '../../../../scenery/js/imports.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
-import PhetFont from '../../PhetFont.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import { Node, Text } from '../../../../scenery/js/imports.js';
 import BicyclePumpNode from '../../BicyclePumpNode.js';
 import ResetButton from '../../buttons/ResetButton.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
+import PhetFont from '../../PhetFont.js';
 
 export default function demoBicyclePumpNode( layoutBounds: Bounds2 ): Node {
 

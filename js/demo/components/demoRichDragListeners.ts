@@ -7,13 +7,13 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import { Circle, Node, Path, Rectangle, RichText } from '../../../../scenery/js/imports.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import SoundDragListener from '../../SoundDragListener.js';
 import TinyProperty from '../../../../axon/js/TinyProperty.js';
-import SoundKeyboardDragListener from '../../SoundKeyboardDragListener.js';
-import PhetFont from '../../PhetFont.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import { Circle, Node, Path, Rectangle, RichText } from '../../../../scenery/js/imports.js';
+import PhetFont from '../../PhetFont.js';
+import SoundDragListener from '../../SoundDragListener.js';
+import SoundKeyboardDragListener from '../../SoundKeyboardDragListener.js';
 import SoundRichDragListener from '../../SoundRichDragListener.js';
 
 export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {

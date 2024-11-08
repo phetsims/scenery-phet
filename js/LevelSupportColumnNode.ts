@@ -8,11 +8,11 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import { LinearGradient, Node, NodeOptions, Path, Rectangle, TPaint } from '../../scenery/js/imports.js';
-import sceneryPhet from './sceneryPhet.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import { LinearGradient, Node, NodeOptions, Path, Rectangle, TPaint } from '../../scenery/js/imports.js';
+import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
   columnFill?: TPaint | null;

@@ -6,15 +6,15 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import PhetFont from '../../PhetFont.js';
-import NumberControl, { NumberControlOptions } from '../../NumberControl.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Property from '../../../../axon/js/Property.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import Orientation from '../../../../phet-core/js/Orientation.js';
 import { HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
-import Orientation from '../../../../phet-core/js/Orientation.js';
+import NumberControl, { NumberControlOptions } from '../../NumberControl.js';
+import PhetFont from '../../PhetFont.js';
 
 export default function demoNumberControl( layoutBounds: Bounds2 ): Node {
 

@@ -9,14 +9,16 @@
  */
 
 import TProperty from '../../axon/js/TProperty.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
-import Utils from '../../dot/js/Utils.js';
 import Range from '../../dot/js/Range.js';
+import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import PickRequired from '../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
 import { Circle, DragListener, Font, Image, InteractiveHighlighting, KeyboardDragListener, KeyboardDragListenerOptions, Node, NodeOptions, Path, PathOptions, Rectangle, TColor, Text } from '../../scenery/js/imports.js';
 import batteryDCell_png from '../images/batteryDCell_png.js';
@@ -26,8 +28,6 @@ import PhetFont from './PhetFont.js';
 import PlusNode from './PlusNode.js';
 import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
-import PickRequired from '../../phet-core/js/types/PickRequired.js';
 
 // constants
 const SHOW_TESTER_ORIGIN = false; // draws a red circle at the tester's origin, for debugging

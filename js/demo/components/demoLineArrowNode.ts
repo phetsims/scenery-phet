@@ -6,8 +6,8 @@
  * @author Chris Malley (PixelZoom, Inc).
  */
 
-import { Node, VBox } from '../../../../scenery/js/imports.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import { Node, VBox } from '../../../../scenery/js/imports.js';
 import LineArrowNode from '../../LineArrowNode.js';
 
 export default function demoLineArrowNode( layoutBounds: Bounds2 ): Node {

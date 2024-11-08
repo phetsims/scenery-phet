@@ -6,11 +6,11 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import TinyProperty from '../../../../axon/js/TinyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import { HBox, Node } from '../../../../scenery/js/imports.js';
 import { SunDemoOptions } from '../../../../sun/js/demo/DemosScreenView.js';
 import SliderControlsKeyboardHelpSection from '../../keyboard/help/SliderControlsKeyboardHelpSection.js';
-import { HBox, Node } from '../../../../scenery/js/imports.js';
-import TinyProperty from '../../../../axon/js/TinyProperty.js';
 
 export default function demoSliderControlsKeyboardHelpSection( layoutBounds: Bounds2, providedOptions?: SunDemoOptions ): Node {
   return new HBox( {

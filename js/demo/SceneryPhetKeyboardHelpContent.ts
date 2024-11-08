@@ -7,13 +7,13 @@
  */
 
 import StringProperty from '../../../axon/js/StringProperty.js';
+import { combineOptions } from '../../../phet-core/js/optionize.js';
 import BasicActionsKeyboardHelpSection, { BasicActionsKeyboardHelpSectionOptions } from '../keyboard/help/BasicActionsKeyboardHelpSection.js';
 import GrabReleaseKeyboardHelpSection from '../keyboard/help/GrabReleaseKeyboardHelpSection.js';
 import KeyboardHelpSection from '../keyboard/help/KeyboardHelpSection.js';
 import SliderControlsKeyboardHelpSection from '../keyboard/help/SliderControlsKeyboardHelpSection.js';
 import TwoColumnKeyboardHelpContent from '../keyboard/help/TwoColumnKeyboardHelpContent.js';
 import sceneryPhet from '../sceneryPhet.js';
-import { combineOptions } from '../../../phet-core/js/optionize.js';
 
 export default class SceneryPhetKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 

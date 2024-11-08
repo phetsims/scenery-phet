@@ -7,9 +7,9 @@
  */
 
 import Dimension2 from '../../../dot/js/Dimension2.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import MagnifyingGlassNode, { MagnifyingGlassNodeOptions } from '../MagnifyingGlassNode.js';

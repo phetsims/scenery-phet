@@ -7,9 +7,9 @@
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import { GridBox, Node } from '../../../../scenery/js/imports.js';
 import { SunDemoOptions } from '../../../../sun/js/demo/DemosScreenView.js';
 import KeyboardHelpIconFactory from '../../keyboard/help/KeyboardHelpIconFactory.js';
-import { GridBox, Node } from '../../../../scenery/js/imports.js';
 import TextKeyNode from '../../keyboard/TextKeyNode.js';
 
 export default function demoKeyboardHelpIconFactory( layoutBounds: Bounds2, providedOptions?: SunDemoOptions ): Node {

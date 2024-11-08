@@ -6,12 +6,12 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { Circle, DragListener, Node } from '../../../../scenery/js/imports.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import WireNode from '../../WireNode.js';
-import Vector2Property from '../../../../dot/js/Vector2Property.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import Vector2Property from '../../../../dot/js/Vector2Property.js';
+import { Circle, DragListener, Node } from '../../../../scenery/js/imports.js';
+import WireNode from '../../WireNode.js';
 
 export default function demoWireNode( layoutBounds: Bounds2 ): Node {
 

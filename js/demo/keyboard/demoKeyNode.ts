@@ -6,11 +6,11 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import { HBox, Node, VBox } from '../../../../scenery/js/imports.js';
 import ArrowKeyNode from '../../keyboard/ArrowKeyNode.js';
 import LetterKeyNode from '../../keyboard/LetterKeyNode.js';
 import TextKeyNode from '../../keyboard/TextKeyNode.js';
-import { HBox, Node, VBox } from '../../../../scenery/js/imports.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 export default function demoKeyNode( layoutBounds: Bounds2 ): Node {
 

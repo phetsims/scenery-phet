@@ -12,10 +12,10 @@ import { HBox, Path, Text } from '../../scenery/js/imports.js';
 import warningSignShape from '../../sherpa/js/fontawesome-4/warningSignShape.js';
 import TextPushButton from '../../sun/js/buttons/TextPushButton.js';
 import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
-import Tandem from '../../tandem/js/Tandem.js';
 
 type SelfOptions = {
 

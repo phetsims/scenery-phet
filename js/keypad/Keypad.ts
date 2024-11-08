@@ -7,8 +7,10 @@
  * @author John Blanco
  */
 
+import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
 import merge from '../../../phet-core/js/merge.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import type { KeyboardListenerOptions, OneKeyStroke } from '../../../scenery/js/imports.js';
 import { Font, KeyboardListener, Node, NodeOptions, Text, TPaint } from '../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
@@ -16,12 +18,10 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import BackspaceIcon from '../BackspaceIcon.js';
 import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
+import AbstractKeyAccumulator from './AbstractKeyAccumulator.js';
 import Key from './Key.js';
 import KeyID, { KeyIDValue } from './KeyID.js';
 import NumberAccumulator, { NumberAccumulatorOptions } from './NumberAccumulator.js';
-import AbstractKeyAccumulator from './AbstractKeyAccumulator.js';
-import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
-import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 
 // constants
 const DEFAULT_BUTTON_WIDTH = 35;

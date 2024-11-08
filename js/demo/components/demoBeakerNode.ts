@@ -6,15 +6,15 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { HBox, Node, Text } from '../../../../scenery/js/imports.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Range from '../../../../dot/js/Range.js';
-import Checkbox from '../../../../sun/js/Checkbox.js';
-import PhetFont from '../../PhetFont.js';
-import BeakerNode from '../../BeakerNode.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Range from '../../../../dot/js/Range.js';
+import { HBox, Node, Text } from '../../../../scenery/js/imports.js';
+import Checkbox from '../../../../sun/js/Checkbox.js';
 import VSlider from '../../../../sun/js/VSlider.js';
+import BeakerNode from '../../BeakerNode.js';
+import PhetFont from '../../PhetFont.js';
 
 export default function demoBeakerNode( layoutBounds: Bounds2 ): Node {
 

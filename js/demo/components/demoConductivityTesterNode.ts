@@ -6,19 +6,19 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Range from '../../../../dot/js/Range.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import { DragListener, Node, Text } from '../../../../scenery/js/imports.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import HSlider from '../../../../sun/js/HSlider.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import ConductivityTesterNode from '../../ConductivityTesterNode.js';
 import PhetFont from '../../PhetFont.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 
 export default function demoConductivityTesterNode( layoutBounds: Bounds2 ): Node {
 

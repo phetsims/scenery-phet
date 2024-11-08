@@ -6,12 +6,12 @@
  * @author Jonathan Olson
  */
 
-import Bucket from '../../../phetcommon/js/model/Bucket.js';
 import Matrix3 from '../../../dot/js/Matrix3.js';
+import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import Bucket from '../../../phetcommon/js/model/Bucket.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import { LinearGradient, Node, NodeOptions, Path } from '../../../scenery/js/imports.js';
 import sceneryPhet from '../sceneryPhet.js';
-import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 
 type SelfOptions = EmptySelfOptions;
 

@@ -6,15 +6,15 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import Property from '../../../axon/js/Property.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { Node, Path } from '../../../scenery/js/imports.js';
 import eyeSlashSolidShape from '../../../sherpa/js/fontawesome-5/eyeSlashSolidShape.js';
 import eyeSolidShape from '../../../sherpa/js/fontawesome-5/eyeSolidShape.js';
 import RectangularToggleButton, { RectangularToggleButtonOptions } from '../../../sun/js/buttons/RectangularToggleButton.js';
 import sceneryPhet from '../sceneryPhet.js';
-import Property from '../../../axon/js/Property.js';
 
 type SelfOptions = EmptySelfOptions;
 

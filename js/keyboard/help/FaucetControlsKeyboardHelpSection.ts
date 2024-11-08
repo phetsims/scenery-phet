@@ -7,15 +7,15 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import sceneryPhet from '../../sceneryPhet.js';
-import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
-import SceneryPhetStrings from '../../SceneryPhetStrings.js';
-import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
-import ArrowKeyNode from '../ArrowKeyNode.js';
-import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
-import TextKeyNode from '../TextKeyNode.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import FaucetNode from '../../FaucetNode.js';
+import sceneryPhet from '../../sceneryPhet.js';
+import SceneryPhetStrings from '../../SceneryPhetStrings.js';
+import ArrowKeyNode from '../ArrowKeyNode.js';
+import TextKeyNode from '../TextKeyNode.js';
+import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
+import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
+import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 
 const headingStringProperty = SceneryPhetStrings.keyboardHelpDialog.faucetControls.faucetControlsStringProperty;
 const adjustFaucetFlowStringProperty = SceneryPhetStrings.keyboardHelpDialog.faucetControls.adjustFaucetFlowStringProperty;

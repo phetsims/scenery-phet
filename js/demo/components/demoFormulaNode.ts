@@ -6,9 +6,9 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import FormulaNode from '../../FormulaNode.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { Node, Rectangle } from '../../../../scenery/js/imports.js';
+import FormulaNode from '../../FormulaNode.js';
 
 export default function demoFormulaNode( layoutBounds: Bounds2 ): Node {
 

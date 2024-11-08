@@ -6,15 +6,15 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
-import Property from '../../../../axon/js/Property.js';
-import VisibleColor from '../../VisibleColor.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import NumberControl from '../../NumberControl.js';
 import PhetFont from '../../PhetFont.js';
-import SpectrumSliderTrack from '../../SpectrumSliderTrack.js';
 import SpectrumSliderThumb from '../../SpectrumSliderThumb.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import SpectrumSliderTrack from '../../SpectrumSliderTrack.js';
+import VisibleColor from '../../VisibleColor.js';
 
 export default function demoNumberControlWithSpectrum( layoutBounds: Bounds2 ): Node {
   const property = new Property( 380 );

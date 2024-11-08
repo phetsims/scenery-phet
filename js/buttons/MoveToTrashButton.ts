@@ -9,9 +9,9 @@
  */
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { TColor, Node, Path } from '../../../scenery/js/imports.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import { Node, Path, TColor } from '../../../scenery/js/imports.js';
 import trashAltRegularShape from '../../../sherpa/js/fontawesome-5/trashAltRegularShape.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import CurvedArrowShape from '../CurvedArrowShape.js';

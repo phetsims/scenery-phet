@@ -6,13 +6,13 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import Property from '../../../../axon/js/Property.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import { HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
+import Checkbox from '../../../../sun/js/Checkbox.js';
 import Keypad from '../../keypad/Keypad.js';
 import PhetFont from '../../PhetFont.js';
-import { HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
-import Property from '../../../../axon/js/Property.js';
-import Checkbox from '../../../../sun/js/Checkbox.js';
 
 export default function demoKeypad( layoutBounds: Bounds2 ): Node {
 

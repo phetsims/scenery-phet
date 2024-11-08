@@ -10,13 +10,13 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 
 type GrabReleaseKeyboardHelpSectionOptions = StrictOmit<KeyboardHelpSectionOptions, 'a11yContentTagName'>;
 

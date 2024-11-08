@@ -6,15 +6,15 @@
  * @author Sam Reid
  */
 
-import { HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Property from '../../../../axon/js/Property.js';
+import stepTimer from '../../../../axon/js/stepTimer.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import { HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import { SunDemoOptions } from '../../../../sun/js/demo/DemosScreenView.js';
+import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import Stopwatch from '../../Stopwatch.js';
 import StopwatchNode from '../../StopwatchNode.js';
-import { SunDemoOptions } from '../../../../sun/js/demo/DemosScreenView.js';
-import stepTimer from '../../../../axon/js/stepTimer.js';
-import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 
 export default function demoStopwatchNode( layoutBounds: Bounds2, providedOptions: SunDemoOptions ): Node {
 

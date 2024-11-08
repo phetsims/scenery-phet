@@ -7,15 +7,15 @@
  */
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { Image, TrimParallelDOMOptions } from '../../../scenery/js/imports.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
+import SoundClipPlayer from '../../../tambo/js/sound-generators/SoundClipPlayer.js';
 import eraser_png from '../../images/eraser_png.js';
+import erase_mp3 from '../../sounds/erase_mp3.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
-import SoundClipPlayer from '../../../tambo/js/sound-generators/SoundClipPlayer.js';
-import erase_mp3 from '../../sounds/erase_mp3.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
 
 type SelfOptions = {

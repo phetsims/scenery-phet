@@ -6,14 +6,14 @@
  * @author Jesse Greenberg
  */
 
-import { Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import { Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import Checkbox from '../../../../sun/js/Checkbox.js';
 import PhetFont from '../../PhetFont.js';
 import TimeControlNode from '../../TimeControlNode.js';
 import TimeSpeed from '../../TimeSpeed.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import Checkbox from '../../../../sun/js/Checkbox.js';
 
 export default function demoTimeControlNode( layoutBounds: Bounds2 ): Node {
 

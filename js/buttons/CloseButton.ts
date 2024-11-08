@@ -9,14 +9,14 @@
  */
 
 import { Shape } from '../../../kite/js/imports.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { Path, PathOptions } from '../../../scenery/js/imports.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
+import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
-import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 
 type SelfOptions = {
   iconLength?: number; // length of the 'X' icon, whose bounds are square

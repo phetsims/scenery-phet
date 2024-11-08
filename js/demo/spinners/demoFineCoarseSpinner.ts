@@ -8,13 +8,13 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Checkbox from '../../../../sun/js/Checkbox.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import { Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import Checkbox from '../../../../sun/js/Checkbox.js';
+import { SunDemoOptions } from '../../../../sun/js/demo/DemosScreenView.js';
 import FineCoarseSpinner from '../../FineCoarseSpinner.js';
 import PhetFont from '../../PhetFont.js';
-import { SunDemoOptions } from '../../../../sun/js/demo/DemosScreenView.js';
 
 export default function demoFineCoarseSpinner( layoutBounds: Bounds2, options?: SunDemoOptions ): Node {
 

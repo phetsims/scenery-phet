@@ -11,12 +11,12 @@ import Property from '../../../axon/js/Property.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { Circle, HotkeyData, KeyboardListener, Node, OneKeyStroke, Path, PDOMValueType } from '../../../scenery/js/imports.js';
 import BooleanRoundToggleButton, { BooleanRoundToggleButtonOptions } from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
+import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import TSoundPlayer from '../../../tambo/js/TSoundPlayer.js';
 import PlayIconShape from '../PlayIconShape.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetConstants from '../SceneryPhetConstants.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
-import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 
 type SelfOptions = {
 

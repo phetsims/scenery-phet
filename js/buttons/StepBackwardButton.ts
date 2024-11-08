@@ -8,9 +8,9 @@
 
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import sceneryPhet from '../sceneryPhet.js';
 import StepButton, { StepButtonOptions } from './StepButton.js';
-import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 
 type SelfOptions = EmptySelfOptions;
 

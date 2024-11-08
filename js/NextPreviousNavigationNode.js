@@ -9,10 +9,10 @@
 
 import Property from '../../axon/js/Property.js';
 import { Shape } from '../../kite/js/imports.js';
+import deprecationWarning from '../../phet-core/js/deprecationWarning.js';
 import merge from '../../phet-core/js/merge.js';
 import { Color, FireListener, Node, Path } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
-import deprecationWarning from '../../phet-core/js/deprecationWarning.js';
 
 /**
  * @deprecated Do not use in new code until https://github.com/phetsims/scenery-phet/issues/763 is addressed.

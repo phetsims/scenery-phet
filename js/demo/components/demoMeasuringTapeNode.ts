@@ -7,11 +7,11 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
-import MeasuringTapeNode from '../../MeasuringTapeNode.js';
-import { Node } from '../../../../scenery/js/imports.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import Vector2Property from '../../../../dot/js/Vector2Property.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import MeasuringTapeNode from '../../MeasuringTapeNode.js';
 
 export default function demoMeasuringTapeNode( layoutBounds: Bounds2 ): Node {
 

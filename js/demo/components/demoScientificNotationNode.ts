@@ -6,21 +6,21 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { HBox, HSeparator, Node, Text, VBox, VSeparator } from '../../../../scenery/js/imports.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
+import { HBox, HSeparator, Node, Text, VBox, VSeparator } from '../../../../scenery/js/imports.js';
+import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import NumberSpinner from '../../../../sun/js/NumberSpinner.js';
 import Panel from '../../../../sun/js/Panel.js';
-import PhetFont from '../../PhetFont.js';
 import Keypad from '../../keypad/Keypad.js';
-import ScientificNotationNode from '../../ScientificNotationNode.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Property from '../../../../axon/js/Property.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import PhetColorScheme from '../../PhetColorScheme.js';
+import PhetFont from '../../PhetFont.js';
+import ScientificNotationNode from '../../ScientificNotationNode.js';
 
 const SCIENTIFIC_NOTATION_FONT = new PhetFont( 30 );
 const TITLE_FONT = new PhetFont( { size: 20, weight: 'bold' } );

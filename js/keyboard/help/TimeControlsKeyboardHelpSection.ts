@@ -8,11 +8,11 @@
 
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import PlayControlButton from '../../buttons/PlayControlButton.js';
 import sceneryPhet from '../../sceneryPhet.js';
+import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
-import SceneryPhetStrings from '../../SceneryPhetStrings.js';
-import PlayControlButton from '../../buttons/PlayControlButton.js';
 
 // constants
 const timeControlsStringProperty = SceneryPhetStrings.keyboardHelpDialog.timingControls.timingControlsStringProperty;

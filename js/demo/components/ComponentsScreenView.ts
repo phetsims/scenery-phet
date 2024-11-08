@@ -36,6 +36,7 @@ import demoNumberDisplay from './demoNumberDisplay.js';
 import demoPaperAirplaneNode from './demoPaperAirplaneNode.js';
 import demoParametricSpringNode from './demoParametricSpringNode.js';
 import demoProbeNode from './demoProbeNode.js';
+import demoRichDragListeners from './demoRichDragListeners.js';
 import demoRichText from './demoRichText.js';
 import demoRulerNode from './demoRulerNode.js';
 import demoScientificNotationNode from './demoScientificNotationNode.js';
@@ -47,7 +48,6 @@ import demoStopwatchNode from './demoStopwatchNode.js';
 import demoThermometerNode from './demoThermometerNode.js';
 import demoTimeControlNode from './demoTimeControlNode.js';
 import demoWireNode from './demoWireNode.js';
-import demoRichDragListeners from './demoRichDragListeners.js';
 
 type SelfOptions = EmptySelfOptions;
 type ComponentsScreenViewOptions = SelfOptions & PickRequired<DemosScreenViewOptions, 'tandem'>;

@@ -6,17 +6,17 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import NumberDisplay, { NumberDisplayOptions } from '../../NumberDisplay.js';
-import StopwatchNode from '../../StopwatchNode.js';
-import { Node, VBox } from '../../../../scenery/js/imports.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Range from '../../../../dot/js/Range.js';
-import Property from '../../../../axon/js/Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import HSlider from '../../../../sun/js/HSlider.js';
+import Range from '../../../../dot/js/Range.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import { Node, VBox } from '../../../../scenery/js/imports.js';
+import HSlider from '../../../../sun/js/HSlider.js';
+import NumberDisplay, { NumberDisplayOptions } from '../../NumberDisplay.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
+import StopwatchNode from '../../StopwatchNode.js';
 
 export default function demoNumberDisplay( layoutBounds: Bounds2 ): Node {
 

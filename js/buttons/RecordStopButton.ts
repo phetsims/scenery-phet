@@ -6,13 +6,13 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import Property from '../../../axon/js/Property.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
+import optionize from '../../../phet-core/js/optionize.js';
 import { Circle, Rectangle, TColor } from '../../../scenery/js/imports.js';
 import BooleanRoundToggleButton, { BooleanRoundToggleButtonOptions } from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
-import optionize from '../../../phet-core/js/optionize.js';
-import Property from '../../../axon/js/Property.js';
 
 type SelfOptions = {
   radius?: number;

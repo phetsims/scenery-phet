@@ -10,17 +10,17 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import TimeSpeed from './TimeSpeed.js';
-import PhetFont from './PhetFont.js';
-import SceneryPhetStrings from './SceneryPhetStrings.js';
-import { Text, TextOptions } from '../../scenery/js/imports.js';
-import VerticalAquaRadioButtonGroup, { VerticalAquaRadioButtonGroupOptions } from '../../sun/js/VerticalAquaRadioButtonGroup.js';
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
-import Tandem from '../../tandem/js/Tandem.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import { Text, TextOptions } from '../../scenery/js/imports.js';
 import { AquaRadioButtonGroupItem } from '../../sun/js/AquaRadioButtonGroup.js';
+import VerticalAquaRadioButtonGroup, { VerticalAquaRadioButtonGroupOptions } from '../../sun/js/VerticalAquaRadioButtonGroup.js';
+import Tandem from '../../tandem/js/Tandem.js';
+import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
+import SceneryPhetStrings from './SceneryPhetStrings.js';
+import TimeSpeed from './TimeSpeed.js';
 
 // maps TimeSpeed to its label and Tandem name
 const SPEED_LABEL_MAP = new Map();

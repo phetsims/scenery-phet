@@ -6,20 +6,20 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { Color, Node, Path, Text, VBox } from '../../../../scenery/js/imports.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import NumberControl, { NumberControlOptions, NumberControlSliderOptions } from '../../NumberControl.js';
-import PhetFont from '../../PhetFont.js';
-import ProbeNode from '../../ProbeNode.js';
-import Property from '../../../../axon/js/Property.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import { Shape } from '../../../../kite/js/imports.js';
+import Property from '../../../../axon/js/Property.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
-import Panel from '../../../../sun/js/Panel.js';
+import { Shape } from '../../../../kite/js/imports.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import { Color, Node, Path, Text, VBox } from '../../../../scenery/js/imports.js';
+import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import Panel from '../../../../sun/js/Panel.js';
+import NumberControl, { NumberControlOptions, NumberControlSliderOptions } from '../../NumberControl.js';
 import { NumberDisplayOptions } from '../../NumberDisplay.js';
+import PhetFont from '../../PhetFont.js';
+import ProbeNode from '../../ProbeNode.js';
 
 export default function demoProbeNode( layoutBounds: Bounds2 ): Node {
 

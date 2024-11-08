@@ -9,10 +9,10 @@
  */
 
 import Matrix3 from '../../../dot/js/Matrix3.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { TColor, Path } from '../../../scenery/js/imports.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import { Path, TColor } from '../../../scenery/js/imports.js';
 import RoundPushButton, { RoundPushButtonOptions } from '../../../sun/js/buttons/RoundPushButton.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import ResetShape from '../ResetShape.js';

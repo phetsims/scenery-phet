@@ -15,18 +15,18 @@
  */
 
 import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../dot/js/Range.js';
+import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import Keypad, { KeypadLayout, KeypadOptions } from '../../../scenery-phet/js/keypad/Keypad.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { Color, Font, KeyboardListener, Node, Rectangle, RichText, TColor, Text, VBox } from '../../../scenery/js/imports.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import Dialog, { DialogOptions } from '../../../sun/js/Dialog.js';
-import sceneryPhet from '../sceneryPhet.js';
-import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import SceneryPhetStrings from '../SceneryPhetStrings.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import sceneryPhet from '../sceneryPhet.js';
+import SceneryPhetStrings from '../SceneryPhetStrings.js';
 
 type SelfOptions = {
   // Font used for all Text instances within the Dialog.

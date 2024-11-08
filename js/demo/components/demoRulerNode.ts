@@ -6,9 +6,9 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import RulerNode from '../../RulerNode.js';
-import { Node } from '../../../../scenery/js/imports.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import RulerNode from '../../RulerNode.js';
 
 export default function demoRulerNode( layoutBounds: Bounds2 ): Node {
 
