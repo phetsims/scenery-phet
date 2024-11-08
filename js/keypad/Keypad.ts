@@ -74,9 +74,7 @@ type SelfOptions = {
 };
 
 export type KeypadOptions = SelfOptions & NodeOptions;
-type KeyboardKeys = {
-  [K in OneKeyStroke]?: Key;
-};
+type KeyboardKeys = Partial<Record<OneKeyStroke, Key>>;
 
 class Keypad extends Node {
 
