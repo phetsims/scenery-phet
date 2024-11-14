@@ -46,7 +46,7 @@
  * - use GroupSortInteractionView.groupSortGroupFocusHighlightPath.shape to set the group highlight dynamically
  * - use positionSortCueNodeEmitter to update the position of the sort cue for the keyboard interaction.
  * - use enabledProperty to control if sorting is enabled. Note that focus and selection are always available (for keyboard tab order consistency)
- * - Note that if GroupSortInteractionModel is PhET-iO instrumented, ItemModel must be a PhetioObject.
+ * - Note that if GroupSelectModel is PhET-iO instrumented, ItemModel must be a PhetioObject.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  * @author Marla Schulz (PhET Interactive Simulations)
@@ -79,9 +79,9 @@ type SelfOptions<ItemModel> = {
 
 type ParentOptions = EnabledComponentOptions;
 
-export type GroupSortInteractionModelOptions<ItemModel> = SelfOptions<ItemModel> & ParentOptions;
+export type GroupSelectModelOptions<ItemModel> = SelfOptions<ItemModel> & ParentOptions;
 
-export default class GroupSortInteractionModel<ItemModel> extends EnabledComponent {
+export default class GroupSelectModel<ItemModel> extends EnabledComponent {
 
   // The group item that is the selected/focused/sorted. If null, then there is nothing to sort (no items?), and the
   // interaction will no-op. Feel free to dynamically change this value to update the realtime selection of the
@@ -132,8 +132,8 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
 
   public readonly getGroupItemValue: ( itemModel: ItemModel ) => number | null;
 
-  public constructor( providedOptions?: GroupSortInteractionModelOptions<ItemModel> ) {
-    const options = optionize<GroupSortInteractionModelOptions<ItemModel>, SelfOptions<ItemModel>, ParentOptions>()( {
+  public constructor( providedOptions?: GroupSelectModelOptions<ItemModel> ) {
+    const options = optionize<GroupSelectModelOptions<ItemModel>, SelfOptions<ItemModel>, ParentOptions>()( {
       tandem: Tandem.REQUIRED,
       phetioEnabledPropertyInstrumented: false,
       initialMouseSortCueVisible: false
@@ -204,7 +204,7 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
     this.hasMouseSortedGroupItemProperty.value = sortedByMouse;
   }
 
-  // Given the knowledge that GroupSortInteractionModel has, should the mouse sort cue be visible? This most often
+  // Given the knowledge that GroupSelectModel has, should the mouse sort cue be visible? This most often
   // isn't the complete boolean, since there will be sim-specific knowledge that contributes to the final visibility
   // of the Node.
   public mouseSortCueShouldBeVisible(): boolean {
@@ -292,4 +292,4 @@ export default class GroupSortInteractionModel<ItemModel> extends EnabledCompone
   }
 }
 
-sceneryPhet.register( 'GroupSortInteractionModel', GroupSortInteractionModel );
+sceneryPhet.register( 'GroupSelectModel', GroupSelectModel );
