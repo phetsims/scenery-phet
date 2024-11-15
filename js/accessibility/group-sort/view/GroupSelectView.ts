@@ -34,9 +34,6 @@ function GROUP_SELECT_ACCESSIBLE_NAME_BEHAVIOR( node: Node, options: NodeOptions
 
 type SelfOptions<ItemModel, ItemNode extends Node> = {
 
-  // Given the delta (difference from current value to new value), return the corresponding next group item model to be selected.
-  getNextSelectedGroupItem: ( delta: number, currentlySelectedGroupItem: ItemModel ) => ItemModel;
-
   // If GroupSortInteraction doesn't know what the selection should be, this function is called to set the default or
   // best guess selection. Return null to not supply a selection (no focus).
   getGroupItemToSelect: ( () => ItemModel | null );
