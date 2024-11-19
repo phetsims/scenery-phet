@@ -33,6 +33,7 @@ export default class SoundDragListener extends DragListener {
       providedOptions,
       providedOptions
     );
+
     super( providedOptions );
 
     // When this listener is disposed, sound clips must be removed from the soundManager.
