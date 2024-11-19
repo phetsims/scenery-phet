@@ -26,8 +26,8 @@ export type SoundDragListenerOptions<Listener extends PressedSoundDragListener =
 export default class SoundDragListener extends DragListener {
   public constructor( providedOptions: SoundDragListenerOptions ) {
 
-    // Apply the sound options to the drag listener, wrapping start/end callbacks, wrapping start/end callbacks with
-    // functions that will play sounds on grab and release.
+    // Apply the sound options to the drag listener, wrapping start/end callbacks with functions that will
+    // play sounds on grab and release.
     const soundClips = SoundRichDragListener.wireSoundsToDragCallbacks(
       SoundRichDragListener.DEFAULT_SOUND_OPTIONS,
       providedOptions,
