@@ -7,9 +7,11 @@
  */
 
 import { combineOptions, optionize3 } from '../../phet-core/js/optionize.js';
-import { DragListener, DragListenerOptions, KeyboardDragListener, KeyboardDragListenerOptions, RichDragListener, RichDragListenerOptions } from '../../scenery/js/imports.js';
+import { DragListener, KeyboardDragListener, RichDragListener, RichDragListenerOptions } from '../../scenery/js/imports.js';
 import SoundClip, { SoundClipOptions } from '../../tambo/js/sound-generators/SoundClip.js';
+import SoundGenerator from '../../tambo/js/sound-generators/SoundGenerator.js';
 import soundManager, { SoundGeneratorAddOptions } from '../../tambo/js/soundManager.js';
+import TSoundPlayer from '../../tambo/js/TSoundPlayer.js';
 import WrappedAudioBuffer from '../../tambo/js/WrappedAudioBuffer.js';
 import grab_mp3 from '../../tambo/sounds/grab_mp3.js';
 import release_mp3 from '../../tambo/sounds/release_mp3.js';
@@ -53,9 +55,6 @@ const DEFAULT_SOUND_OPTIONS = {
 const SOUND_RICH_DRAG_LISTENER_DEFAULTS = _.assignIn( {
   keyboardDragListenerSoundOptions: {},
   dragListenerSoundOptions: {},
-
-  // Empty objects by default so we have a reference to the wrapped callbacks when we forward them to the drag
-  // listeners, see wireSoundsToDragCallbacks.
   dragListenerOptions: {},
   keyboardDragListenerOptions: {}
 }, DEFAULT_SOUND_OPTIONS );
@@ -68,24 +67,25 @@ export default class SoundRichDragListener extends RichDragListener {
     );
 
     // Apply overrides for the KeyboardDragListener sounds and forward to the KeyboardDragListenerOptions drag callbacks.
-    const dragListenerClips = SoundRichDragListener.wireSoundsToDragCallbacks(
+    const [ dragListenerPressedSoundClip, dragListenerReleasedSoundClip ] = SoundRichDragListener.createSoundClips(
       options,
-      options.keyboardDragListenerSoundOptions,
-      options.keyboardDragListenerOptions
+      options.dragListenerSoundOptions
     );
 
     // Apply overrides for the DragListener sounds and forward to the DragListenerOptions drag callbacks.
-    const keyboardDragListenerClips = SoundRichDragListener.wireSoundsToDragCallbacks(
+    const [ keyboardDragListenerPressedSoundClip, keyboardDragListenerReleasedSoundClip ] = SoundRichDragListener.createSoundClips(
       options,
-      options.dragListenerSoundOptions,
-      options.dragListenerOptions
+      options.keyboardDragListenerSoundOptions
     );
 
     super( options );
 
+    const dragListenerPressedListener = SoundRichDragListener.linkSounds( this.dragListener, dragListenerPressedSoundClip, dragListenerReleasedSoundClip );
+    const keyboardDragListenerPressedListener = SoundRichDragListener.linkSounds( this.keyboardDragListener, keyboardDragListenerPressedSoundClip, keyboardDragListenerReleasedSoundClip );
+
     // Dispose the grab and release clips when the listener is disposed.
-    SoundRichDragListener.wireDisposeListener( this.dragListener, dragListenerClips[ 0 ], dragListenerClips[ 1 ] );
-    SoundRichDragListener.wireDisposeListener( this.keyboardDragListener, keyboardDragListenerClips[ 0 ], keyboardDragListenerClips[ 1 ] );
+    SoundRichDragListener.wireDisposeListener( this.dragListener, dragListenerPressedSoundClip, dragListenerReleasedSoundClip, dragListenerPressedListener );
+    SoundRichDragListener.wireDisposeListener( this.keyboardDragListener, keyboardDragListenerPressedSoundClip, keyboardDragListenerReleasedSoundClip, keyboardDragListenerPressedListener );
   }
 
   /**
@@ -94,35 +94,19 @@ export default class SoundRichDragListener extends RichDragListener {
    *
    * @param soundOptions - A default set of sound options.
    * @param listenerSoundOptions - Overriding sound options for a particular listener.
-   * @param listenerOptions - Listener specific options with start/end callbacks. Callbacks will be modified/wrapped
-   *                          to play sounds on grab and release. This object is modified, and so it is required.
    */
-  public static wireSoundsToDragCallbacks<T extends DragListener>(
+  public static createSoundClips(
     soundOptions: RichDragListenerSoundOptions,
-    listenerSoundOptions: RichDragListenerSoundOptions | undefined,
-    listenerOptions: KeyboardDragListenerOptions | DragListenerOptions<T>
-  ):
-    [ SoundClip | undefined, SoundClip | undefined ] {
+    listenerSoundOptions: RichDragListenerSoundOptions | undefined
+  ): [ SoundClip | undefined, SoundClip | undefined ] {
 
     const dragListenerSoundOptions = combineOptions<RichDragListenerSoundOptions>( {}, soundOptions, listenerSoundOptions );
-    listenerOptions = listenerOptions || {};
 
     // Create the grab SoundClip and wire it into the start function for the drag cycle.
     let dragClip: SoundClip | undefined;
     if ( dragListenerSoundOptions.grabSound ) {
       dragClip = new SoundClip( dragListenerSoundOptions.grabSound, dragListenerSoundOptions.grabSoundClipOptions );
       soundManager.addSoundGenerator( dragClip, dragListenerSoundOptions.grabSoundGeneratorAddOptions );
-
-      const previousStart = listenerOptions.start;
-
-      // @ts-expect-error - The args have implicit any type because of the union of KeyboardDragListenerOptions and
-      // DragListenerOptions. I (JG) couldn't figure out how to type this properly, even defining the args.
-      listenerOptions.start = ( ...args ) => {
-
-        // @ts-expect-error - see above note.
-        previousStart && previousStart( ...args );
-        dragClip!.play();
-      };
     }
 
     // Create the release SoundClip and wire it into the end function for the drag cycle.
@@ -130,32 +114,38 @@ export default class SoundRichDragListener extends RichDragListener {
     if ( dragListenerSoundOptions.releaseSound ) {
       releaseClip = new SoundClip( dragListenerSoundOptions.releaseSound, dragListenerSoundOptions.releaseSoundClipOptions );
       soundManager.addSoundGenerator( releaseClip, dragListenerSoundOptions.releaseSoundGeneratorAddOptions );
-
-      const previousEnd = listenerOptions.end;
-
-      // @ts-expect-error - The args have implicit any type because of the union of KeyboardDragListenerOptions and
-      // DragListenerOptions. I (JG) couldn't figure out how to type this properly, even defining the args.
-      listenerOptions.end = ( ...args ) => {
-
-        // @ts-expect-error - see above note.
-        previousEnd && previousEnd( ...args );
-
-        const listener = args[ 1 ] as DragListener | KeyboardDragListener;
-        assert && assert( listener instanceof DragListener || listener instanceof KeyboardDragListener, 'listener should be an instance of DragListener or KeyboardDragListener' );
-        !listener.interrupted && releaseClip!.play();
-      };
     }
 
     return [ dragClip, releaseClip ];
   }
 
   /**
-   * Dispose of the SoundClips and deregister them with soundManager when the listener is disposed.
+   * Plays the sounds when the drag listener is pressed or released. A reference to the listener is returned so that
+   * it can be removed for disposal.
+   */
+  public static linkSounds( dragListener: DragListener | KeyboardDragListener, grabSound: TSoundPlayer | undefined, releaseSound: TSoundPlayer | undefined ): ( isPressed: boolean ) => void {
+    const isPressedListener = ( isPressed: boolean ) => {
+      if ( isPressed ) {
+        grabSound && grabSound.play();
+      }
+      else if ( !dragListener.interrupted ) {
+        releaseSound && releaseSound.play();
+      }
+    };
+    dragListener.isPressedProperty.link( isPressedListener );
+
+    return isPressedListener;
+  }
+
+  /**
+   * Handles disposal when the drag listener is disposed by removing sound clips from the sound manager and listeners on
+   * the DragListener.
    */
   public static wireDisposeListener(
     listener: DragListener | KeyboardDragListener,
-    grabClip: SoundClip | undefined,
-    releaseClip: SoundClip | undefined
+    grabClip: SoundGenerator | undefined,
+    releaseClip: SoundGenerator | undefined,
+    isPressedListener: ( isPressed: boolean ) => void
   ): void {
     listener.disposeEmitter.addListener( () => {
       if ( grabClip ) {
@@ -167,6 +157,8 @@ export default class SoundRichDragListener extends RichDragListener {
         releaseClip.dispose();
         soundManager.removeSoundGenerator( releaseClip );
       }
+
+      listener.isPressedProperty.unlink( isPressedListener );
     } );
   }
 

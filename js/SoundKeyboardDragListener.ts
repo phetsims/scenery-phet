@@ -22,19 +22,17 @@ export type SoundKeyboardDragListenerOptions = KeyboardDragListenerOptions & Ric
 
 export default class SoundKeyboardDragListener extends KeyboardDragListener {
   public constructor( providedOptions: SoundKeyboardDragListenerOptions ) {
-
-    // Apply the sound options to the drag listener, wrapping start/end callbacks with functions that will
-    // play sounds on grab and release.
-    const soundClips = SoundRichDragListener.wireSoundsToDragCallbacks(
+    const [ pressedSoundClip, releasedSoundClip ] = SoundRichDragListener.createSoundClips(
       SoundRichDragListener.DEFAULT_SOUND_OPTIONS,
-      providedOptions,
       providedOptions
     );
 
     super( providedOptions );
 
+    const isPressedListener = SoundRichDragListener.linkSounds( this, pressedSoundClip, releasedSoundClip );
+
     // When this listener is disposed, sound clips must be removed from the soundManager.
-    SoundRichDragListener.wireDisposeListener( this, soundClips[ 0 ], soundClips[ 1 ] );
+    SoundRichDragListener.wireDisposeListener( this, pressedSoundClip, releasedSoundClip, isPressedListener );
   }
 }
 
