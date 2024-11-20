@@ -154,7 +154,7 @@ export default class BracketNode extends Node {
     this.mutate( options );
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-    assert && phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'BracketNode', this );
+    assert && window.phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'BracketNode', this );
 
     this.disposeBracketNode = () => {
       if ( options.labelNode && labelNodeBoundsListener && options.labelNode.boundsProperty.hasListener( labelNodeBoundsListener ) ) {

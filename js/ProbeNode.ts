@@ -218,7 +218,7 @@ export default class ProbeNode extends Node {
     this.mutate( options );
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-    assert && phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ProbeNode', this );
+    assert && window.phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ProbeNode', this );
   }
 
   public override dispose(): void {

@@ -95,7 +95,7 @@ export default class FaceNode extends Node {
     this.mutate( options );
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-    assert && phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'FaceNode', this );
+    assert && window.phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'FaceNode', this );
   }
 
   public smile(): FaceNode {

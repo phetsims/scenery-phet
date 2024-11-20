@@ -55,7 +55,7 @@ export default class ZoomButton extends RectangularPushButton {
     super( options );
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-    assert && phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ZoomButton', this );
+    assert && window.phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'ZoomButton', this );
   }
 }
 
