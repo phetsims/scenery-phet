@@ -14,6 +14,7 @@
  * @author Jesse Greenberg
  */
 
+import { EmptySelfOptions, optionize3 } from '../../phet-core/js/optionize.js';
 import { DragListener, DragListenerOptions, PressedDragListener } from '../../scenery/js/imports.js';
 import sceneryPhet from './sceneryPhet.js';
 import SoundRichDragListener, { RichDragListenerSoundOptions } from './SoundRichDragListener.js';
@@ -25,17 +26,16 @@ export type SoundDragListenerOptions<Listener extends PressedSoundDragListener =
 
 export default class SoundDragListener extends DragListener {
   public constructor( providedOptions: SoundDragListenerOptions ) {
-    const [ pressedSoundClip, releasedSoundClip ] = SoundRichDragListener.createSoundClips(
-      SoundRichDragListener.DEFAULT_SOUND_OPTIONS,
-      providedOptions
+
+    // Get default sounds from SoundRichDragListener.
+    const options = optionize3<SoundDragListenerOptions, EmptySelfOptions, RichDragListenerSoundOptions>()(
+      {}, SoundRichDragListener.DEFAULT_SOUND_OPTIONS, providedOptions
     );
 
-    super( providedOptions );
+    super( options );
 
-    const isPressedListener = SoundRichDragListener.linkSounds( this, pressedSoundClip, releasedSoundClip );
-
-    // When this listener is disposed, sound clips must be removed from the soundManager.
-    SoundRichDragListener.wireDisposeListener( this, pressedSoundClip, releasedSoundClip, isPressedListener );
+    // Unlink is not necessary because the link is removed when this DragListener is disposed.
+    SoundRichDragListener.linkToDragEvents( this, options.grabSoundPlayer, options.releaseSoundPlayer );
   }
 }
 
