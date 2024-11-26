@@ -236,7 +236,6 @@ class MovementAlerter extends Alerter {
    * @returns {DirectionEnum}
    */
   static getDirectionEnumerable( newPoint, oldPoint, modelViewTransform ) {
-    let direction;
 
     // to view coordinates to motion in the screen
     const newViewPoint = modelViewTransform.modelToViewPosition( newPoint );
@@ -245,6 +244,20 @@ class MovementAlerter extends Alerter {
     const dx = newViewPoint.x - oldViewPoint.x;
     const dy = newViewPoint.y - oldViewPoint.y;
     const angle = Math.atan2( dy, dx );
+
+    return MovementAlerter.getDirectionEnumerableFromAngle( angle );
+  }
+
+  /**
+   * Returns one of DirectionEnum from a provided angle.
+   * @public
+   * 
+   * @param angle
+   * @param modelViewTransform
+   * @returns {DirectionEnum}
+   */
+  static getDirectionEnumerableFromAngle( angle ) {
+    let direction;
 
     // atan2 wraps around Math.PI, so special check for moving left from absolute value
     if ( DIRECTION_MAP.LEFT.contains( Math.abs( angle ) ) ) {
