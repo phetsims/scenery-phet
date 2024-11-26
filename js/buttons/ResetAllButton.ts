@@ -14,7 +14,7 @@ import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { HotkeyData, KeyboardListener, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
+import { HotkeyData, KeyboardListener, Node, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
 import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../utterance-queue/js/ActivationUtterance.js';
@@ -28,7 +28,14 @@ import ResetButton, { ResetButtonOptions } from './ResetButton.js';
 const MARGIN_COEFFICIENT = 5 / SceneryPhetConstants.DEFAULT_BUTTON_RADIUS;
 
 type SelfOptions = {
+
+  // option specific to ResetAllButton. If true, then the reset all button will reset back to the
+  // previous PhET-iO state, if applicable.
   phetioRestoreScreenStateOnReset?: boolean;
+
+  // When reset all is called, search for all ancestor Nodes that are JOIST/ScreenView and call
+  // Node.interruptSubtreeInput() on each. See https://github.com/phetsims/scenery-phet/issues/861
+  interruptScreenViewInput?: boolean;
 };
 
 export type ResetAllButtonOptions = SelfOptions & StrictOmit<ResetButtonOptions, 'xMargin' | 'yMargin'>;
@@ -46,9 +53,8 @@ export default class ResetAllButton extends ResetButton {
       // ResetAllButtonOptions
       radius: SceneryPhetConstants.DEFAULT_BUTTON_RADIUS,
 
-      // {boolean} - option specific to ResetAllButton. If true, then the reset all button will reset back to the
-      // previous PhET-iO state, if applicable.
       phetioRestoreScreenStateOnReset: true,
+      interruptScreenViewInput: true,
 
       // Fine tuned in https://github.com/phetsims/tasks/issues/985 and should not be overridden lightly.
       touchAreaDilation: 5.2,
@@ -86,6 +92,7 @@ export default class ResetAllButton extends ResetButton {
 
       // Handle voicingUtteranceQueue.
       if ( isFiring ) {
+        options.interruptScreenViewInput && this.interruptScreenViewInput();
         voicingEnabledOnFire = voicingUtteranceQueue.enabled;
         voicingUtteranceQueue.enabled = false;
         voicingUtteranceQueue.clear();
@@ -141,6 +148,37 @@ export default class ResetAllButton extends ResetButton {
       ariaEnabledOnFirePerUtteranceQueueMap.clear();
       this.pushButtonModel.isFiringProperty.unlink( flagSettingListener );
     };
+  }
+
+  private interruptScreenViewInput(): void {
+    const screenViews = this.getParentScreenViews();
+
+    for ( let i = 0; i < screenViews.length; i++ ) {
+      screenViews[ i ].interruptSubtreeInput();
+    }
+  }
+
+  private getParentScreenViews(): Node[] {
+    const ScreenViewClass = window.phet?.joist?.ScreenView;
+    if ( !ScreenViewClass ) {
+      return [];
+    }
+    const trails = this.getTrails();
+
+    const screenViews = [];
+    for ( let i = 0; i < trails.length; i++ ) {
+      const trail = trails[ i ];
+      const nodes = trail.nodes;
+      for ( let j = 0; j < nodes.length; j++ ) {
+        const node = nodes[ j ];
+        if ( node instanceof ScreenViewClass ) {
+          screenViews.push( node );
+          break; // Stop at first ScreenView
+        }
+      }
+    }
+
+    return _.uniq( screenViews );
   }
 
   public override dispose(): void {
