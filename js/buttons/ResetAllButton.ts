@@ -92,7 +92,10 @@ export default class ResetAllButton extends ResetButton {
 
       // Handle voicingUtteranceQueue.
       if ( isFiring ) {
+
+        // Interrupt before doing anything else.
         options.interruptScreenViewInput && this.interruptScreenViewInput();
+
         voicingEnabledOnFire = voicingUtteranceQueue.enabled;
         voicingUtteranceQueue.enabled = false;
         voicingUtteranceQueue.clear();
@@ -165,11 +168,13 @@ export default class ResetAllButton extends ResetButton {
     }
     const trails = this.getTrails();
 
-    const screenViews = [];
+    const screenViews: Node[] = [];
     for ( let i = 0; i < trails.length; i++ ) {
       const trail = trails[ i ];
       const nodes = trail.nodes;
-      for ( let j = 0; j < nodes.length; j++ ) {
+
+      // Start at the closest ancestor
+      for ( let j = nodes.length - 1; j >= 0; j-- ) {
         const node = nodes[ j ];
         if ( node instanceof ScreenViewClass ) {
           screenViews.push( node );
