@@ -5,12 +5,12 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import EnabledComponent, { EnabledComponentOptions } from '../../../../axon/js/EnabledComponent.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import { Node, Voicing } from '../../../../scenery/js/imports.js';
 import Utterance, { TAlertable } from '../../../../utterance-queue/js/Utterance.js';
 import UtteranceQueue from '../../../../utterance-queue/js/UtteranceQueue.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import EnabledComponent, { EnabledComponentOptions } from '../../../../axon/js/EnabledComponent.js';
 
 type UtteranceQueueCallback = ( queue: UtteranceQueue ) => void;
 

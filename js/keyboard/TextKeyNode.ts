@@ -6,6 +6,7 @@
  * @author Jesse Greenberg
  */
 
+import PhetioProperty from '../../../axon/js/PhetioProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import platform from '../../../phet-core/js/platform.js';
@@ -14,7 +15,6 @@ import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
 import KeyNode, { KeyNodeOptions } from './KeyNode.js';
-import PhetioProperty from '../../../axon/js/PhetioProperty.js';
 
 type SelfOptions = {
   font?: Font;

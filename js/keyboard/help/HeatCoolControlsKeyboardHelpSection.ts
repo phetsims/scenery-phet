@@ -6,12 +6,12 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import SliderControlsKeyboardHelpSection, { ArrowKeyIconDisplay, SliderControlsKeyboardHelpSectionOptions } from './SliderControlsKeyboardHelpSection.js';
-import sceneryPhet from '../../sceneryPhet.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
-import NumberKeyNode from '../NumberKeyNode.js';
+import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
+import NumberKeyNode from '../NumberKeyNode.js';
+import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
+import SliderControlsKeyboardHelpSection, { ArrowKeyIconDisplay, SliderControlsKeyboardHelpSectionOptions } from './SliderControlsKeyboardHelpSection.js';
 
 type SelfOptions = EmptySelfOptions;
 type ParentOptions = SliderControlsKeyboardHelpSectionOptions;

@@ -52,20 +52,20 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import sceneryPhet from '../../../sceneryPhet.js';
-import optionize from '../../../../../phet-core/js/optionize.js';
-import Property from '../../../../../axon/js/Property.js';
-import Tandem from '../../../../../tandem/js/Tandem.js';
-import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import BooleanProperty from '../../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
-import PhetioObject, { PhetioObjectOptions } from '../../../../../tandem/js/PhetioObject.js';
-import TProperty from '../../../../../axon/js/TProperty.js';
 import EnabledComponent, { EnabledComponentOptions } from '../../../../../axon/js/EnabledComponent.js';
-import IOType from '../../../../../tandem/js/types/IOType.js';
-import ReferenceIO from '../../../../../tandem/js/types/ReferenceIO.js';
-import NullableIO from '../../../../../tandem/js/types/NullableIO.js';
+import Property from '../../../../../axon/js/Property.js';
+import TProperty from '../../../../../axon/js/TProperty.js';
+import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
+import optionize from '../../../../../phet-core/js/optionize.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../../tandem/js/PhetioObject.js';
 import phetioStateSetEmitter from '../../../../../tandem/js/phetioStateSetEmitter.js';
+import Tandem from '../../../../../tandem/js/Tandem.js';
+import IOType from '../../../../../tandem/js/types/IOType.js';
+import NullableIO from '../../../../../tandem/js/types/NullableIO.js';
+import ReferenceIO from '../../../../../tandem/js/types/ReferenceIO.js';
+import sceneryPhet from '../../../sceneryPhet.js';
 
 type SelfOptions<ItemModel> = {
 

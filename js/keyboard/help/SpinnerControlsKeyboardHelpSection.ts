@@ -6,10 +6,10 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import SliderControlsKeyboardHelpSection, { SliderControlsKeyboardHelpSectionOptions } from './SliderControlsKeyboardHelpSection.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import SliderControlsKeyboardHelpSection, { SliderControlsKeyboardHelpSectionOptions } from './SliderControlsKeyboardHelpSection.js';
 
 const spinnerControlsStringProperty = SceneryPhetStrings.keyboardHelpDialog.spinnerControlsStringProperty;
 const spinnerStringProperty = SceneryPhetStrings.keyboardHelpDialog.spinnerStringProperty;

@@ -9,13 +9,13 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import { Shape } from '../../../../kite/js/imports.js';
-import LetterKeyNode, { LetterKeyNodeOptions } from '../../keyboard/LetterKeyNode.js';
-import PhetFont from '../../PhetFont.js';
-import { HBox, Node, Path, VBox } from '../../../../scenery/js/imports.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import TextKeyNode from '../../keyboard/TextKeyNode.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import { Shape } from '../../../../kite/js/imports.js';
+import { HBox, Node, Path, VBox } from '../../../../scenery/js/imports.js';
+import LetterKeyNode, { LetterKeyNodeOptions } from '../../keyboard/LetterKeyNode.js';
+import TextKeyNode from '../../keyboard/TextKeyNode.js';
+import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
 
 // constants

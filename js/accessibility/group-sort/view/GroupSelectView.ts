@@ -13,18 +13,18 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import { animatedPanZoomSingleton, HighlightFromNode, HighlightPath, isInteractiveHighlighting, KeyboardListener, Node, NodeOptions, ParallelDOMOptions, Path, PDOMValueType } from '../../../../../scenery/js/imports.js';
-import sceneryPhet from '../../../sceneryPhet.js';
-import Multilink from '../../../../../axon/js/Multilink.js';
-import GroupSelectModel from '../model/GroupSelectModel.js';
+import Disposable, { DisposableOptions } from '../../../../../axon/js/Disposable.js';
 import Emitter from '../../../../../axon/js/Emitter.js';
+import Multilink from '../../../../../axon/js/Multilink.js';
+import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import { Shape } from '../../../../../kite/js/imports.js';
 import optionize, { combineOptions } from '../../../../../phet-core/js/optionize.js';
-import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
-import SortCueArrowNode from './SortCueArrowNode.js';
-import Disposable, { DisposableOptions } from '../../../../../axon/js/Disposable.js';
-import GrabReleaseCueNode, { GrabReleaseCueNodeOptions } from '../../nodes/GrabReleaseCueNode.js';
 import StrictOmit from '../../../../../phet-core/js/types/StrictOmit.js';
+import { animatedPanZoomSingleton, HighlightFromNode, HighlightPath, isInteractiveHighlighting, KeyboardListener, Node, NodeOptions, ParallelDOMOptions, Path, PDOMValueType } from '../../../../../scenery/js/imports.js';
+import sceneryPhet from '../../../sceneryPhet.js';
+import GrabReleaseCueNode, { GrabReleaseCueNodeOptions } from '../../nodes/GrabReleaseCueNode.js';
+import GroupSelectModel from '../model/GroupSelectModel.js';
+import SortCueArrowNode from './SortCueArrowNode.js';
 
 function GROUP_SELECT_ACCESSIBLE_NAME_BEHAVIOR( node: Node, options: NodeOptions, accessibleName: PDOMValueType ): NodeOptions {
   options.ariaLabel = accessibleName; // IMPORTANT! Divs with innerContent aren't recognized with accessibleNames

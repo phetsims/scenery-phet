@@ -11,14 +11,14 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
+import Multilink from '../../../../../axon/js/Multilink.js';
+import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
+import Range from '../../../../../dot/js/Range.js';
+import optionize from '../../../../../phet-core/js/optionize.js';
 import { KeyboardListener, Node } from '../../../../../scenery/js/imports.js';
 import sceneryPhet from '../../../sceneryPhet.js';
-import Range from '../../../../../dot/js/Range.js';
-import Multilink from '../../../../../axon/js/Multilink.js';
-import GroupSelectModel from '../model/GroupSelectModel.js';
-import optionize from '../../../../../phet-core/js/optionize.js';
-import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import SceneryPhetStrings from '../../../SceneryPhetStrings.js';
+import GroupSelectModel from '../model/GroupSelectModel.js';
 import GroupSelectView, { GroupSelectViewOptions } from './GroupSelectView.js';
 
 const navigableStringProperty = SceneryPhetStrings.a11y.groupSort.navigableStringProperty;

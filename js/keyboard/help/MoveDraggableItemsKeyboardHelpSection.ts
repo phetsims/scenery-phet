@@ -7,10 +7,10 @@
  */
 
 import sceneryPhet from '../../sceneryPhet.js';
-import KeyboardHelpSection from './KeyboardHelpSection.js';
-import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
+import KeyboardHelpSection from './KeyboardHelpSection.js';
+import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 
 export default class MoveDraggableItemsKeyboardHelpSection extends KeyboardHelpSection {
 

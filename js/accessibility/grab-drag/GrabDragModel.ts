@@ -9,13 +9,13 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import sceneryPhet from '../../sceneryPhet.js';
-import GrabDragUsageTracker from './GrabDragUsageTracker.js';
-import Property from '../../../../axon/js/Property.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import EnabledComponent, { EnabledComponentOptions } from '../../../../axon/js/EnabledComponent.js';
+import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyEmitter } from '../../../../axon/js/TEmitter.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import sceneryPhet from '../../sceneryPhet.js';
+import GrabDragUsageTracker from './GrabDragUsageTracker.js';
 
 // Interaction states that this component interaction can be in:
 // "idle": In the default state where you can interact with the node to grab it. It is ready to be
