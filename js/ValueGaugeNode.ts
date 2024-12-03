@@ -15,6 +15,7 @@ import GaugeNode, { GaugeNodeOptions } from './GaugeNode.js';
 import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
+import { ManualConstraint } from '../../scenery/js/imports.js';
 
 // constants
 const DEFAULT_FONT = new PhetFont( 16 );
@@ -57,7 +58,9 @@ export default class ValueGaugeNode extends GaugeNode {
 
     assert && assert( this.numberDisplay.matrix.translation.equals( Vector2.ZERO ),
       'NumberDisplay translation options are not allowed. ValueGaugeNode positions the NumberDisplay' );
-    this.numberDisplay.center = new Vector2( 0, this.radius / 2 );
+    ManualConstraint.create( this, [ this.numberDisplay ], numberDisplayProxy => {
+      numberDisplayProxy.center = new Vector2( 0, this.radius / 2 );
+    } );
   }
 
   /**
