@@ -20,6 +20,7 @@ import TSoundPlayer from '../../tambo/js/TSoundPlayer.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import sceneryPhet from './sceneryPhet.js';
+import Multilink from '../../axon/js/Multilink.js';
 
 type SelfOptions = {
   deltaFine?: number; // amount to increment/decrement when the 'fine' tweakers are pressed
@@ -32,7 +33,9 @@ type SelfOptions = {
 
 type ParentOptions = AccessibleNumberSpinnerOptions & NodeOptions;
 
-export type FineCoarseSpinnerOptions = SelfOptions & StrictOmit<ParentOptions, 'children' | 'valueProperty' | 'enabledRangeProperty' | 'keyboardStep' | 'shiftKeyboardStep' | 'pageKeyboardStep' | 'onInput'>;
+export type FineCoarseSpinnerOptions =
+  SelfOptions
+  & StrictOmit<ParentOptions, 'children' | 'valueProperty' | 'enabledRangeProperty' | 'keyboardStep' | 'shiftKeyboardStep' | 'pageKeyboardStep' | 'onInput'>;
 
 export default class FineCoarseSpinner extends AccessibleNumberSpinner( Node, 0 ) {
 
@@ -71,8 +74,6 @@ export default class FineCoarseSpinner extends AccessibleNumberSpinner( Node, 0 
       phetioFeatured: true,
       phetioEnabledPropertyInstrumented: true
     }, providedOptions );
-
-    const range = numberProperty.range;
 
     assert && assert( options.deltaFine > 0, `invalid deltaFine: ${options.deltaFine}` );
     assert && assert( options.deltaCoarse > 0, `invalid deltaCoarse: ${options.deltaCoarse}` );
@@ -123,14 +124,14 @@ export default class FineCoarseSpinner extends AccessibleNumberSpinner( Node, 0 
 
     // <<
     const decrementCoarseButton = new ArrowButton( 'left', ( () => {
-      const delta = Math.min( options.deltaCoarse, numberProperty.value - range.min );
+      const delta = Math.min( options.deltaCoarse, numberProperty.value - numberProperty.range.min );
       numberProperty.value = numberProperty.value - delta;
     } ), combineOptions<ArrowButtonOptions>( {}, coarseButtonOptions, {
       tandem: options.tandem.createTandem( 'decrementCoarseButton' )
     } ) );
 
     // [ value ]
-    const numberDisplay = new NumberDisplay( numberProperty, range,
+    const numberDisplay = new NumberDisplay( numberProperty, numberProperty.range,
       combineOptions<NumberDisplayOptions>( {
         tandem: options.tandem.createTandem( 'numberDisplay' )
       }, options.numberDisplayOptions ) );
@@ -143,7 +144,7 @@ export default class FineCoarseSpinner extends AccessibleNumberSpinner( Node, 0 
 
     // >>
     const incrementCoarseButton = new ArrowButton( 'right', ( () => {
-      const delta = Math.min( options.deltaCoarse, range.max - numberProperty.value );
+      const delta = Math.min( options.deltaCoarse, numberProperty.range.max - numberProperty.value );
       numberProperty.value = numberProperty.value + delta;
     } ), combineOptions<ArrowButtonOptions>( {}, coarseButtonOptions,
       { tandem: options.tandem.createTandem( 'incrementCoarseButton' ) } ) );
@@ -180,12 +181,13 @@ export default class FineCoarseSpinner extends AccessibleNumberSpinner( Node, 0 
     const numberPropertyListener = ( value: number ) => {
 
       // left buttons
-      decrementFineButton.enabled = decrementCoarseButton.enabled = ( value !== range.min );
+      decrementFineButton.enabled = decrementCoarseButton.enabled = ( value !== numberProperty.range.min );
 
       // right buttons
-      incrementFineButton.enabled = incrementCoarseButton.enabled = ( value !== range.max );
+      incrementFineButton.enabled = incrementCoarseButton.enabled = ( value !== numberProperty.range.max );
     };
-    numberProperty.link( numberPropertyListener ); // unlink required in dispose
+    const rangeAndNumberPropertyMultilink = Multilink.multilink( [ numberProperty, numberProperty.rangeProperty ], numberPropertyListener );
+
 
     // pdom - manually click arrow buttons from alt input events so that the buttons look pressed while the key is down
     const increasedListener = ( isDown: boolean ) => {
@@ -202,10 +204,7 @@ export default class FineCoarseSpinner extends AccessibleNumberSpinner( Node, 0 
     this.pdomDecrementDownEmitter.addListener( decreasedListener );
 
     this.disposeFineCoarseSpinner = () => {
-
-      if ( numberProperty.hasListener( numberPropertyListener ) ) {
-        numberProperty.unlink( numberPropertyListener );
-      }
+      rangeAndNumberPropertyMultilink.dispose();
 
       // unregister tandems
       numberDisplay.dispose();
