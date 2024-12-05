@@ -118,6 +118,9 @@ export default class LaserPointerNode extends Node {
 
   private readonly disposeLaserPointerNode: () => void;
 
+  // Read-only access to see if the pointer is over the button specifically, ok to add listeners, but do not mutate.
+  public readonly onOffButton: Node | null = null;
+
   public static readonly DEFAULT_LASER_NODE_OPTIONS = DEFAULT_OPTIONS;
 
   /**
@@ -202,6 +205,7 @@ export default class LaserPointerNode extends Node {
     super( options );
 
     if ( onOffButton ) {
+      this.onOffButton = onOffButton;
       ParallelDOM.forwardAccessibleName( this, onOffButton );
       ParallelDOM.forwardHelpText( this, onOffButton );
     }
