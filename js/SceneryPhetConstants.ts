@@ -15,10 +15,7 @@ const SceneryPhetConstants = {
   DEFAULT_BUTTON_RADIUS: 20.8,
 
   // default radius for PlayControlButton and its subtypes
-  PLAY_CONTROL_BUTTON_RADIUS: 28,
-
-  DEFAULT_DRAG_CLIP_OPTIONS: { initialOutputLevel: 0.4 },
-  DEFAULT_GRAB_SOUND_GENERATOR_ADD_OPTIONS: { categoryName: 'user-interface' }
+  PLAY_CONTROL_BUTTON_RADIUS: 28
 };
 sceneryPhet.register( 'SceneryPhetConstants', SceneryPhetConstants );
 export default SceneryPhetConstants;
