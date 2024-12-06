@@ -8,7 +8,9 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import Multilink from '../../axon/js/Multilink.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
+import Range from '../../dot/js/Range.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
@@ -20,7 +22,6 @@ import TSoundPlayer from '../../tambo/js/TSoundPlayer.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import sceneryPhet from './sceneryPhet.js';
-import Multilink from '../../axon/js/Multilink.js';
 
 type SelfOptions = {
   deltaFine?: number; // amount to increment/decrement when the 'fine' tweakers are pressed
@@ -178,16 +179,15 @@ export default class FineCoarseSpinner extends AccessibleNumberSpinner( Node, 0 
     super( options );
 
     // Disable the buttons when the value is at min or max of the range
-    const numberPropertyListener = ( value: number ) => {
+    const buttonsEnabledListener = ( value: number, range: Range ) => {
 
       // left buttons
-      decrementFineButton.enabled = decrementCoarseButton.enabled = ( value !== numberProperty.range.min );
+      decrementFineButton.enabled = decrementCoarseButton.enabled = ( value !== range.min );
 
       // right buttons
-      incrementFineButton.enabled = incrementCoarseButton.enabled = ( value !== numberProperty.range.max );
+      incrementFineButton.enabled = incrementCoarseButton.enabled = ( value !== range.max );
     };
-    const rangeAndNumberPropertyMultilink = Multilink.multilink( [ numberProperty, numberProperty.rangeProperty ], numberPropertyListener );
-
+    const rangeAndNumberPropertyMultilink = Multilink.multilink( [ numberProperty, numberProperty.rangeProperty ], buttonsEnabledListener );
 
     // pdom - manually click arrow buttons from alt input events so that the buttons look pressed while the key is down
     const increasedListener = ( isDown: boolean ) => {
