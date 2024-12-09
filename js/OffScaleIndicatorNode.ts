@@ -36,7 +36,7 @@ type SelfOptions = {
   panelOptions?: PanelOptions;
 };
 
-type OffScaleIndicatorNodeOptions = SelfOptions & NodeOptions;
+export type OffScaleIndicatorNodeOptions = SelfOptions & NodeOptions;
 
 export default class OffScaleIndicatorNode extends Node {
   private readonly richText: RichText;
