@@ -368,6 +368,9 @@
   "ten": {
     "value": "ten"
   },
+  "offScaleIndicator.pointsOffScale": {
+    "value": "Points<br>off scale!"
+  },
   "a11y": {
     "simSection": {
       "screenSummary": {

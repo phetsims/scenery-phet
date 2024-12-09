@@ -159,6 +159,9 @@ type StringsType = {
   'eightStringProperty': LocalizedStringProperty;
   'nineStringProperty': LocalizedStringProperty;
   'tenStringProperty': LocalizedStringProperty;
+  'offScaleIndicator': {
+    'pointsOffScaleStringProperty': LocalizedStringProperty;
+  };
   'a11y': {
     'simSection': {
       'screenSummary': {

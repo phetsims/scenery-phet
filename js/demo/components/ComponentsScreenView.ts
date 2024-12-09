@@ -33,6 +33,7 @@ import demoLaserPointerNode from './demoLaserPointerNode.js';
 import demoLineArrowNode from './demoLineArrowNode.js';
 import demoMeasuringTapeNode from './demoMeasuringTapeNode.js';
 import demoNumberDisplay from './demoNumberDisplay.js';
+import demoOffScaleIndicatorNode from './demoOffScaleIndicatorNode.js';
 import demoPaperAirplaneNode from './demoPaperAirplaneNode.js';
 import demoParametricSpringNode from './demoParametricSpringNode.js';
 import demoProbeNode from './demoProbeNode.js';
@@ -81,6 +82,7 @@ export default class ComponentsScreenView extends DemosScreenView {
       { label: 'PaperAirplaneNode', createNode: demoPaperAirplaneNode },
       { label: 'ParametricSpringNode', createNode: demoParametricSpringNode },
       { label: 'ProbeNode', createNode: demoProbeNode },
+      { label: 'OffScaleIndicatorNode', createNode: demoOffScaleIndicatorNode },
       { label: 'RichDragListeners', createNode: demoRichDragListeners },
       { label: 'RichText', createNode: demoRichText },
       { label: 'RulerNode', createNode: demoRulerNode },
