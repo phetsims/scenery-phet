@@ -44,7 +44,9 @@ export default class ContextLossFailureDialog extends Dialog {
       xSpacing: 30,
       topMargin: 30,
       bottomMargin: 30,
-      leftMargin: 30
+      leftMargin: 30,
+
+      tandem: Tandem.OPT_OUT
 
     }, providedOptions );
 
