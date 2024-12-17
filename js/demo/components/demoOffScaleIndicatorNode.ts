@@ -51,11 +51,16 @@ export default function demoOffScaleIndicatorNode( layoutBounds: Bounds2 ): Node
     }
   } );
 
+  const defaultUpIndicator = new OffScaleIndicatorNode( 'up' );
+  const defaultDownIndicator = new OffScaleIndicatorNode( 'down' );
+
   demoParent.children = [
     defaultLeftIndicator,
     defaultRightIndicator,
     customLeftIndicator,
-    customRightIndicator
+    customRightIndicator,
+    defaultUpIndicator,
+    defaultDownIndicator
   ];
 
   // layout

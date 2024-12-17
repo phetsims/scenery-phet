@@ -41,7 +41,7 @@ export type OffScaleIndicatorNodeOptions = SelfOptions & NodeOptions;
 export default class OffScaleIndicatorNode extends Node {
   private readonly richText: RichText;
 
-  public constructor( direction: 'left' | 'right', providedOptions?: OffScaleIndicatorNodeOptions ) {
+  public constructor( direction: 'left' | 'right' | 'up' | 'down', providedOptions?: OffScaleIndicatorNodeOptions ) {
     const options = optionize<OffScaleIndicatorNodeOptions, SelfOptions, NodeOptions>()( {
       offScaleStringProperty: SceneryPhetStrings.offScaleIndicator.pointsOffScaleStringProperty,
       arrowTailLength: 25,
@@ -64,10 +64,17 @@ export default class OffScaleIndicatorNode extends Node {
 
     const richText = new RichText( options.offScaleStringProperty, options.richTextOptions );
 
-    const x2 = direction === 'right' ? options.arrowTailLength : -options.arrowTailLength;
-    const arrowNode = new ArrowNode( 0, 0, x2, 0, options.arrowNodeOptions );
+    const x2 = direction === 'right' ? options.arrowTailLength :
+               direction === 'left' ? -options.arrowTailLength :
+               0;
+    const y2 = direction === 'down' ? options.arrowTailLength :
+               direction === 'up' ? -options.arrowTailLength :
+               0;
+    const arrowNode = new ArrowNode( 0, 0, x2, y2, options.arrowNodeOptions );
 
     const panelContent = new HBox( {
+
+      // For all directions except right, the arrow should be on the left side of the text.
       children: direction === 'right' ? [ richText, arrowNode ] : [ arrowNode, richText ],
       spacing: options.spacing
     } );
