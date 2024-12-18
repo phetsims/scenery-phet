@@ -1,0 +1,1 @@
+first-control-area-string = First control area string
