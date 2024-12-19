@@ -67,7 +67,7 @@ type SelfOptions<ItemModel, ItemNode extends Node> = {
 type ParentOptions = DisposableOptions;
 export type GroupSelectViewOptions<ItemModel, ItemNode extends Node> = SelfOptions<ItemModel, ItemNode> & ParentOptions;
 
-export default class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
+class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
 
   // Update group highlight dynamically by setting the `shape` of this path.
   public readonly groupSortGroupFocusHighlightPath: Path;
@@ -336,3 +336,5 @@ export default class GroupSelectView<ItemModel, ItemNode extends Node> extends D
 }
 
 sceneryPhet.register( 'GroupSelectView', GroupSelectView );
+
+export default GroupSelectView;
