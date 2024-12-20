@@ -28,7 +28,7 @@ export default class InfoButton extends RoundPushButton {
     const options = optionize<InfoButtonOptions, SelfOptions, RoundPushButtonOptions>()( {
 
       // SelfOptions
-      iconFill: 'black',
+      iconFill: 'rgb( 41, 106, 163 )',
 
       // RoundPushButtonOptions
       baseColor: 'rgb( 238, 238, 238 )',
