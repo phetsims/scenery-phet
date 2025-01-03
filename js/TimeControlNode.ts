@@ -17,6 +17,7 @@ import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { FlowBox, HorizontalLayoutAlign, ManualConstraint, Node, NodeOptions, SceneryConstants, VerticalLayoutAlign } from '../../scenery/js/imports.js';
+import RoundPushButton from '../../sun/js/buttons/RoundPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import PlayPauseStepButtonGroup, { PlayPauseStepButtonGroupOptions } from './buttons/PlayPauseStepButtonGroup.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -55,7 +56,7 @@ export type TimeControlNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'chil
 export default class TimeControlNode extends Node {
 
   // push button for play/pause and (optionally) step forward, step back
-  public readonly playPauseStepButtons: PlayPauseStepButtonGroup;
+  protected readonly pushButtonGroup: PlayPauseStepButtonGroup;
 
   // radio buttons from controlling speed
   private readonly speedRadioButtonGroup: TimeSpeedRadioButtonGroup | null;
@@ -92,7 +93,7 @@ export default class TimeControlNode extends Node {
 
     super();
 
-    this.playPauseStepButtons = new PlayPauseStepButtonGroup( isPlayingProperty,
+    this.pushButtonGroup = new PlayPauseStepButtonGroup( isPlayingProperty,
       combineOptions<PlayPauseStepButtonGroupOptions>( {
         tandem: options.tandem.createTandem( 'playPauseStepButtonGroup' )
       }, options.playPauseStepButtonOptions ) );
@@ -112,7 +113,7 @@ export default class TimeControlNode extends Node {
     }
 
     const children: Node[] = [
-      this.playPauseStepButtons
+      this.pushButtonGroup
     ];
 
     if ( this.speedRadioButtonGroup ) {
@@ -135,7 +136,7 @@ export default class TimeControlNode extends Node {
     options.children = [ flowBox ];
 
     ManualConstraint.create( this, [ flowBox ], flowBoxProxy => {
-      const localBounds = this.globalToLocalBounds( this.playPauseStepButtons.playPauseButton.globalBounds );
+      const localBounds = this.globalToLocalBounds( this.pushButtonGroup.playPauseButton.globalBounds );
       const x = localBounds.centerX;
       const y = localBounds.centerY;
 
@@ -143,7 +144,7 @@ export default class TimeControlNode extends Node {
       flowBoxProxy.translation = flowBoxProxy.translation.plusXY( -Utils.roundToInterval( x, 1E-6 ), -Utils.roundToInterval( y, 1E-6 ) );
     } );
 
-    this.disposeEmitter.addListener( () => this.playPauseStepButtons.dispose() );
+    this.disposeEmitter.addListener( () => this.pushButtonGroup.dispose() );
 
     // mutate with options after spacing and layout is complete so other layout options apply correctly to the
     // whole TimeControlNode
@@ -151,6 +152,14 @@ export default class TimeControlNode extends Node {
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && window.phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'TimeControlNode', this );
+  }
+
+  /**
+   * Add a push button to the TimeControlNode.
+   */
+  public addPushButton( pushButton: RoundPushButton, index: number ): void {
+    this.pushButtonGroup.insertChild( index, pushButton );
+    this.pushButtonGroup.updateLayout();
   }
 }
 
