@@ -10,12 +10,8 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
-import Multilink, { UnknownMultilink } from '../../axon/js/Multilink.js';
 import Property from '../../axon/js/Property.js';
-import ScreenView from '../../joist/js/ScreenView.js';
-import affirm from '../../perennial-alias/js/browser-and-node/affirm.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
@@ -169,44 +165,6 @@ export default class TimeControlNode extends FlowBox {
 
     // Apply the calculated translation to align the play/pause button
     this.translate( translationUnits, 0 );
-  }
-
-  /**
-   * For simulations like Gravity and Orbits or Neuron that have a design where the radio buttons flow to the left
-   * of the screen.
-   *
-   * @param screenView - the ScreenView that contains this TimeControlNode
-   * @param playPauseButtonGlobalCenterXProperty - the center x property of the play/pause button
-   * @param margin - the margin from the edge of the screen
-   *
-   * @returns a multilink that can be used to unlink as needed
-   */
-  public initializeFlowLayout( screenView: ScreenView, positionerNode: Node, margin: number ): UnknownMultilink {
-    affirm( this.speedRadioButtonGroup, 'speedRadioButtonGroup should be defined for the flow layout' );
-    affirm( this.orientation === 'horizontal', 'TimeControlNode should be horizontal for this layout' );
-
-    // When the width of the TimeControlNode changes, position the spacer and the play/pause button
-    const getWidthProperty = ( node: Node ) => new DerivedProperty( [ node.boundsProperty ], bounds => bounds.width );
-
-    return Multilink.multilink( [
-      positionerNode.boundsProperty,
-      getWidthProperty( this.playPauseStepButtons ),
-      getWidthProperty( this.speedRadioButtonGroup ),
-      this.speedRadioButtonGroup.visibleProperty
-    ], () => {
-
-      // Calculate the center point of the spacer in parent coordinates, just for the x-coordinate
-      const targetCenter = screenView.globalToParentPoint( positionerNode.globalBounds.center );
-
-      this.setPlayPauseButtonCenterX( screenView, targetCenter.x );
-
-      // Float the speed radio buttons to the left edge
-      const delta = this.left - ( screenView.layoutBounds.left + margin );
-      this.spacing += delta;
-      this.setPlayPauseButtonCenterX( screenView, targetCenter.x );
-
-      this.bottom = screenView.layoutBounds.bottom - margin;
-    } );
   }
 }
 
