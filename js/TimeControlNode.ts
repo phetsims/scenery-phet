@@ -12,10 +12,11 @@
 
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import Property from '../../axon/js/Property.js';
+import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { FlowBox, FlowBoxOptions, Node, NodeOptions, SceneryConstants } from '../../scenery/js/imports.js';
+import { FlowBox, HorizontalLayoutAlign, ManualConstraint, Node, NodeOptions, SceneryConstants, VerticalLayoutAlign } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import PlayPauseStepButtonGroup, { PlayPauseStepButtonGroupOptions } from './buttons/PlayPauseStepButtonGroup.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -39,19 +40,22 @@ type SelfOptions = {
   // after (right for orientation 'horizontal' or below for orientation: 'vertical')
   speedRadioButtonGroupPlacement?: 'before' | 'after';
 
-  // horizontal space between PlayPauseStepButtons and SpeedRadioButtonGroup, if SpeedRadioButtonGroup is included
-  buttonGroupXSpacing?: number;
-
   // options passed along to the PlayPauseStepButtons, see the inner class for defaults
   playPauseStepButtonOptions?: PlayPauseStepButtonGroupOptions;
 
   // options passed along to the SpeedRadioButtonGroup, if included
   speedRadioButtonGroupOptions?: StrictOmit<TimeSpeedRadioButtonGroupOptions, 'tandem'>;
+
+  flowBoxOrientation?: 'horizontal' | 'vertical';
+  flowBoxAlign?: HorizontalLayoutAlign | VerticalLayoutAlign;
+
+  // horizontal space between PlayPauseStepButtons and SpeedRadioButtonGroup, if SpeedRadioButtonGroup is included
+  buttonGroupXSpacing?: number;
 };
 
-export type TimeControlNodeOptions = SelfOptions & StrictOmit<FlowBoxOptions, 'children'>;
+export type TimeControlNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
-export default class TimeControlNode extends FlowBox {
+export default class TimeControlNode extends Node {
 
   // push button for play/pause and (optionally) step forward, step back
   public readonly playPauseStepButtons: PlayPauseStepButtonGroup;
@@ -84,7 +88,10 @@ export default class TimeControlNode extends FlowBox {
       // pdom
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: SceneryPhetStrings.a11y.timeControlNode.labelStringProperty
+      labelContent: SceneryPhetStrings.a11y.timeControlNode.labelStringProperty,
+
+      flowBoxOrientation: 'horizontal',
+      flowBoxAlign: 'center'
     }, providedOptions );
 
     super();
@@ -120,9 +127,25 @@ export default class TimeControlNode extends FlowBox {
         children.push( this.speedRadioButtonGroup );
       }
     }
-    options.children = children;
 
-    this.setSpacing( options.buttonGroupXSpacing );
+    // Use a nested Node that will allow us to keep the play/pause button centered at (0,0) to simplify layout
+    const flowBox = new FlowBox( {
+      children: children,
+      spacing: options.buttonGroupXSpacing,
+      orientation: options.flowBoxOrientation,
+      align: options.flowBoxAlign
+    } );
+
+    options.children = [ flowBox ];
+
+    ManualConstraint.create( this, [ flowBox ], flowBoxProxy => {
+      const localBounds = this.globalToLocalBounds( this.playPauseStepButtons.playPauseButton.globalBounds );
+      const x = localBounds.centerX;
+      const y = localBounds.centerY;
+
+      // Round to prevent hysteresis on roundoff error
+      flowBoxProxy.translation = flowBoxProxy.translation.plusXY( -Utils.roundToInterval( x, 1E-6 ), -Utils.roundToInterval( y, 1E-6 ) );
+    } );
 
     this.disposeEmitter.addListener( () => this.playPauseStepButtons.dispose() );
 
@@ -132,39 +155,6 @@ export default class TimeControlNode extends FlowBox {
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && window.phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'TimeControlNode', this );
-  }
-
-  /**
-   * Many simulations have the constraint that the Play/Pause button in particular is aligned with some other UI element.
-   * However, this is difficult since the Play/Pause button may be in a different coordinate frame than the item it aligns with.
-   * Therefore, we compute the translation needed to align the Play/Pause button with the given centerX in the parent's
-   * coordinate frame, assuming it is a linear relationship.
-   */
-  public setPlayPauseButtonCenterX( container: Node, centerX: number ): void {
-
-    // Get the current center point of the play/pause button in parent coordinates
-    const pt1 = container.globalToParentPoint( this.playPauseStepButtons.playPauseButton.globalBounds.center );
-
-    // Perform a trial translation of 1 unit in the x-direction
-    this.translate( 1, 0 );
-
-    // Get the new center point of the play/pause button after translation
-    const pt2 = container.globalToParentPoint( this.playPauseStepButtons.playPauseButton.globalBounds.center );
-
-    // Revert the trial translation to maintain the original position
-    this.translate( -1, 0 );
-
-    // Calculate how much the play/pause button moves per unit translation
-    const deltaPerUnit = pt2.x - pt1.x;
-
-    // Calculate the difference needed to align the play/pause button with the spacer
-    const requiredDelta = centerX - pt1.x;
-
-    // Determine how many units to translate to achieve the required alignment
-    const translationUnits = requiredDelta / deltaPerUnit;
-
-    // Apply the calculated translation to align the play/pause button
-    this.translate( translationUnits, 0 );
   }
 }
 
