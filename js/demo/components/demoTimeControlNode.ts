@@ -47,7 +47,7 @@ export default function demoTimeControlNode( layoutBounds: Bounds2 ): Node {
     timeSpeedProperty: new EnumerationProperty( TimeSpeed.SLOW ),
     timeSpeeds: [ TimeSpeed.NORMAL, TimeSpeed.FAST, TimeSpeed.SLOW ],
     speedRadioButtonGroupPlacement: 'left',
-    buttonGroupXSpacing: 40,
+    flowBoxSpacing: 40,
     enabledProperty: enabledProperty
   } );
 

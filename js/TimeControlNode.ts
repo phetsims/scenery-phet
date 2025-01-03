@@ -45,10 +45,11 @@ type SelfOptions = {
   // options passed along to the SpeedRadioButtonGroup, if included
   speedRadioButtonGroupOptions?: StrictOmit<TimeSpeedRadioButtonGroupOptions, 'tandem'>;
 
+  // Alignment of the FlowBox containing the buttons
   flowBoxAlign?: HorizontalLayoutAlign | VerticalLayoutAlign;
 
   // horizontal space between PlayPauseStepButtons and SpeedRadioButtonGroup, if SpeedRadioButtonGroup is included
-  buttonGroupXSpacing?: number;
+  flowBoxSpacing?: number;
 };
 
 export type TimeControlNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
@@ -70,7 +71,8 @@ export default class TimeControlNode extends Node {
       timeSpeedProperty: null,
       timeSpeeds: DEFAULT_TIME_SPEEDS,
       speedRadioButtonGroupPlacement: 'right',
-      buttonGroupXSpacing: 40,
+      flowBoxSpacing: 40,
+      flowBoxAlign: 'center',
 
       // NodeOptions
       disabledOpacity: SceneryConstants.DISABLED_OPACITY,
@@ -86,9 +88,7 @@ export default class TimeControlNode extends Node {
       // pdom
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: SceneryPhetStrings.a11y.timeControlNode.labelStringProperty,
-
-      flowBoxAlign: 'center'
+      labelContent: SceneryPhetStrings.a11y.timeControlNode.labelStringProperty
     }, providedOptions );
 
     super();
@@ -128,7 +128,7 @@ export default class TimeControlNode extends Node {
     // Use a nested Node that will allow us to keep the play/pause button centered at (0,0) to simplify layout
     const flowBox = new FlowBox( {
       children: children,
-      spacing: options.buttonGroupXSpacing,
+      spacing: options.flowBoxSpacing,
       orientation: options.speedRadioButtonGroupPlacement === 'left' || options.speedRadioButtonGroupPlacement === 'right' ? 'horizontal' : 'vertical',
       align: options.flowBoxAlign
     } );
