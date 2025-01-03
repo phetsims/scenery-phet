@@ -55,7 +55,9 @@ export type PlayPauseStepButtonGroupOptions = SelfOptions & StrictOmit<RemovePar
 
 export default class PlayPauseStepButtonGroup extends HBox {
 
-  private readonly playPauseButton: PlayPauseButton;
+  // Public to help with positioning
+  public readonly playPauseButton: PlayPauseButton;
+
   private readonly disposePlayPauseStepButtonGroup: () => void;
 
   public constructor( isPlayingProperty: Property<boolean>, providedOptions?: PlayPauseStepButtonGroupOptions ) {

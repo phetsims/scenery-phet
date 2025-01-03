@@ -46,12 +46,8 @@ export default function demoTimeControlNode( layoutBounds: Bounds2 ): Node {
   const customTimeControlNode = new TimeControlNode( new BooleanProperty( true ), {
     timeSpeedProperty: new EnumerationProperty( TimeSpeed.SLOW ),
     timeSpeeds: [ TimeSpeed.NORMAL, TimeSpeed.FAST, TimeSpeed.SLOW ],
-    speedRadioButtonGroupOnLeft: true,
-    speedRadioButtonGroupPanelOptions: {
-      fill: 'rgb(239,239,195)'
-    },
+    speedRadioButtonGroupPlacement: 'before',
     buttonGroupXSpacing: 40,
-    wrapSpeedRadioButtonGroupInPanel: true,
     enabledProperty: enabledProperty
   } );
 

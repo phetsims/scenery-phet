@@ -10,14 +10,16 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
+import Multilink, { UnknownMultilink } from '../../axon/js/Multilink.js';
 import Property from '../../axon/js/Property.js';
-import Vector2 from '../../dot/js/Vector2.js';
+import ScreenView from '../../joist/js/ScreenView.js';
+import affirm from '../../perennial-alias/js/browser-and-node/affirm.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Node, NodeOptions, SceneryConstants } from '../../scenery/js/imports.js';
-import Panel, { PanelOptions } from '../../sun/js/Panel.js';
+import { FlowBox, FlowBoxOptions, Node, NodeOptions, SceneryConstants } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import PlayPauseStepButtonGroup, { PlayPauseStepButtonGroupOptions } from './buttons/PlayPauseStepButtonGroup.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -36,9 +38,10 @@ type SelfOptions = {
   // Speeds supported by this TimeControlNode. Vertical radio buttons are created for each in the order provided.
   timeSpeeds?: TimeSpeed[];
 
-  // true = speed radio buttons to left of push buttons
-  // false = speed radio buttons to right of push buttons
-  speedRadioButtonGroupOnLeft?: boolean;
+  // speed radio buttons placement relative to the play/pause button group:
+  // before (left for orientation 'horizontal' or top for orientation: 'vertical')
+  // after (right for orientation 'horizontal' or below for orientation: 'vertical')
+  speedRadioButtonGroupPlacement?: 'before' | 'after';
 
   // horizontal space between PlayPauseStepButtons and SpeedRadioButtonGroup, if SpeedRadioButtonGroup is included
   buttonGroupXSpacing?: number;
@@ -48,35 +51,17 @@ type SelfOptions = {
 
   // options passed along to the SpeedRadioButtonGroup, if included
   speedRadioButtonGroupOptions?: StrictOmit<TimeSpeedRadioButtonGroupOptions, 'tandem'>;
-
-  // if true, the SpeedRadioButtonGroup will be wrapped in a Panel
-  wrapSpeedRadioButtonGroupInPanel?: boolean;
-
-  // options passed to the panel wrapping SpeedRadioButtonGroup, if SpeedRadioButtonGroup included AND we are wrapping
-  // them in a panel
-  speedRadioButtonGroupPanelOptions?: PanelOptions;
 };
 
-export type TimeControlNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
+export type TimeControlNodeOptions = SelfOptions & StrictOmit<FlowBoxOptions, 'children'>;
 
-export default class TimeControlNode extends Node {
+export default class TimeControlNode extends FlowBox {
 
   // push button for play/pause and (optionally) step forward, step back
-  protected readonly playPauseStepButtons: PlayPauseStepButtonGroup;
+  public readonly playPauseStepButtons: PlayPauseStepButtonGroup;
 
   // radio buttons from controlling speed
   private readonly speedRadioButtonGroup: TimeSpeedRadioButtonGroup | null;
-
-  // parent for speedRadioButtonGroup, optionally a Panel
-  protected readonly speedRadioButtonGroupParent: Node | Panel | null;
-
-  // whether the radio buttons are to the left or right of the push buttons
-  private readonly speedRadioButtonGroupOnLeft: boolean;
-
-  // horizontal spacing between push buttons and radio buttons
-  private buttonGroupXSpacing: number;
-
-  private readonly disposeTimeControlNode: () => void;
 
   public constructor( isPlayingProperty: Property<boolean>, providedOptions?: TimeControlNodeOptions ) {
 
@@ -86,13 +71,8 @@ export default class TimeControlNode extends Node {
       // TimeControlNodeOptions
       timeSpeedProperty: null,
       timeSpeeds: DEFAULT_TIME_SPEEDS,
-      speedRadioButtonGroupOnLeft: false,
+      speedRadioButtonGroupPlacement: 'after',
       buttonGroupXSpacing: 40,
-      wrapSpeedRadioButtonGroupInPanel: false,
-      speedRadioButtonGroupPanelOptions: {
-        xMargin: 8,
-        yMargin: 6
-      },
 
       // NodeOptions
       disabledOpacity: SceneryConstants.DISABLED_OPACITY,
@@ -103,6 +83,8 @@ export default class TimeControlNode extends Node {
       visiblePropertyOptions: { phetioFeatured: true },
       phetioEnabledPropertyInstrumented: true, // opt into default PhET-iO instrumented enabledProperty
 
+      excludeInvisibleChildrenFromBounds: true,
+
       // pdom
       tagName: 'div',
       labelTagName: 'h3',
@@ -111,16 +93,12 @@ export default class TimeControlNode extends Node {
 
     super();
 
-    const children = [];
-
     this.playPauseStepButtons = new PlayPauseStepButtonGroup( isPlayingProperty,
       combineOptions<PlayPauseStepButtonGroupOptions>( {
         tandem: options.tandem.createTandem( 'playPauseStepButtonGroup' )
       }, options.playPauseStepButtonOptions ) );
-    children.push( this.playPauseStepButtons );
 
     this.speedRadioButtonGroup = null;
-    this.speedRadioButtonGroupParent = null;
     if ( options.timeSpeedProperty !== null ) {
 
       this.speedRadioButtonGroup = new TimeSpeedRadioButtonGroup(
@@ -131,34 +109,26 @@ export default class TimeControlNode extends Node {
         }, options.speedRadioButtonGroupOptions )
       );
 
-      if ( options.wrapSpeedRadioButtonGroupInPanel ) {
-        this.speedRadioButtonGroupParent = new Panel( this.speedRadioButtonGroup, options.speedRadioButtonGroupPanelOptions );
-      }
-      else {
-        this.speedRadioButtonGroupParent = new Node( { children: [ this.speedRadioButtonGroup ] } );
-      }
-
-      if ( options.speedRadioButtonGroupOnLeft ) {
-        children.unshift( this.speedRadioButtonGroupParent );
-      }
-      else {
-        children.push( this.speedRadioButtonGroupParent );
-      }
-
-      this.speedRadioButtonGroupParent.centerY = this.playPauseStepButtons.centerY;
+      this.disposeEmitter.addListener( () => this.speedRadioButtonGroup!.dispose() );
     }
 
+    const children: Node[] = [
+      this.playPauseStepButtons
+    ];
+
+    if ( this.speedRadioButtonGroup ) {
+      if ( options.speedRadioButtonGroupPlacement === 'before' ) {
+        children.unshift( this.speedRadioButtonGroup );
+      }
+      else {
+        children.push( this.speedRadioButtonGroup );
+      }
+    }
     options.children = children;
 
-    this.speedRadioButtonGroupOnLeft = options.speedRadioButtonGroupOnLeft;
-    this.buttonGroupXSpacing = options.buttonGroupXSpacing;
+    this.setSpacing( options.buttonGroupXSpacing );
 
-    this.setButtonGroupXSpacing( this.buttonGroupXSpacing );
-
-    this.disposeTimeControlNode = () => {
-      this.playPauseStepButtons.dispose();
-      this.speedRadioButtonGroup && this.speedRadioButtonGroup.dispose();
-    };
+    this.disposeEmitter.addListener( () => this.playPauseStepButtons.dispose() );
 
     // mutate with options after spacing and layout is complete so other layout options apply correctly to the
     // whole TimeControlNode
@@ -169,46 +139,74 @@ export default class TimeControlNode extends Node {
   }
 
   /**
-   * Translate this node so that the center of the PlayPauseButton is at the specified point in the parent
-   * coordinate frame for the TimeControlNode.
+   * Many simulations have the constraint that the Play/Pause button in particular is aligned with some other UI element.
+   * However, this is difficult since the Play/Pause button may be in a different coordinate frame than the item it aligns with.
+   * Therefore, we compute the translation needed to align the Play/Pause button with the given centerX in the parent's
+   * coordinate frame, assuming it is a linear relationship.
    */
-  public setPlayPauseButtonCenter( center: Vector2 ): void {
-    const distanceToCenter = this.localToParentPoint( this.getPlayPauseButtonCenter() ).minus( this.center );
-    this.center = center.minus( distanceToCenter );
+  public setPlayPauseButtonCenterX( container: Node, centerX: number ): void {
+
+    // Get the current center point of the play/pause button in parent coordinates
+    const pt1 = container.globalToParentPoint( this.playPauseStepButtons.playPauseButton.globalBounds.center );
+
+    // Perform a trial translation of 1 unit in the x-direction
+    this.translate( 1, 0 );
+
+    // Get the new center point of the play/pause button after translation
+    const pt2 = container.globalToParentPoint( this.playPauseStepButtons.playPauseButton.globalBounds.center );
+
+    // Revert the trial translation to maintain the original position
+    this.translate( -1, 0 );
+
+    // Calculate how much the play/pause button moves per unit translation
+    const deltaPerUnit = pt2.x - pt1.x;
+
+    // Calculate the difference needed to align the play/pause button with the spacer
+    const requiredDelta = centerX - pt1.x;
+
+    // Determine how many units to translate to achieve the required alignment
+    const translationUnits = requiredDelta / deltaPerUnit;
+
+    // Apply the calculated translation to align the play/pause button
+    this.translate( translationUnits, 0 );
   }
 
   /**
-   * Get the center of the PlayPauseButton, in the local coordinate frame of the TimeControlNode. Useful if the
-   * TimeControlNode needs to be positioned relative to the PlayPauseButtons.
+   * For simulations like Gravity and Orbits or Neuron that have a design where the radio buttons flow to the left
+   * of the screen.
+   *
+   * @param screenView - the ScreenView that contains this TimeControlNode
+   * @param playPauseButtonGlobalCenterXProperty - the center x property of the play/pause button
+   * @param margin - the margin from the edge of the screen
+   *
+   * @returns a multilink that can be used to unlink as needed
    */
-  public getPlayPauseButtonCenter(): Vector2 {
-    return this.playPauseStepButtons.getPlayPauseButtonCenter();
-  }
+  public initializeFlowLayout( screenView: ScreenView, positionerNode: Node, margin: number ): UnknownMultilink {
+    affirm( this.speedRadioButtonGroup, 'speedRadioButtonGroup should be defined for the flow layout' );
+    affirm( this.orientation === 'horizontal', 'TimeControlNode should be horizontal for this layout' );
 
-  /**
-   * Set the spacing between the SpeedRadioButtonGroup and the PlayPauseStepButtons. Spacing is from horizontal
-   * edge to edge for each Node. This will move the SpeedRadioButtonGroup relative to the edge of the
-   * PlayPauseStepButtons. No-op if there is no SpeedRadioButtonGroup for this TimeControlNode.
-   */
-  public setButtonGroupXSpacing( spacing: number ): void {
-    this.buttonGroupXSpacing = spacing;
-    if ( this.speedRadioButtonGroupParent ) {
-      if ( this.speedRadioButtonGroupOnLeft ) {
-        this.speedRadioButtonGroupParent.right = this.playPauseStepButtons.left - this.buttonGroupXSpacing;
-      }
-      else {
-        this.speedRadioButtonGroupParent.left = this.playPauseStepButtons.right + this.buttonGroupXSpacing;
-      }
-    }
-  }
+    // When the width of the TimeControlNode changes, position the spacer and the play/pause button
+    const getWidthProperty = ( node: Node ) => new DerivedProperty( [ node.boundsProperty ], bounds => bounds.width );
 
-  public getButtonGroupXSpacing(): number {
-    return this.buttonGroupXSpacing;
-  }
+    return Multilink.multilink( [
+      positionerNode.boundsProperty,
+      getWidthProperty( this.playPauseStepButtons ),
+      getWidthProperty( this.speedRadioButtonGroup ),
+      this.speedRadioButtonGroup.visibleProperty
+    ], () => {
 
-  public override dispose(): void {
-    this.disposeTimeControlNode();
-    super.dispose();
+      // Calculate the center point of the spacer in parent coordinates, just for the x-coordinate
+      const targetCenter = screenView.globalToParentPoint( positionerNode.globalBounds.center );
+
+      this.setPlayPauseButtonCenterX( screenView, targetCenter.x );
+
+      // Float the speed radio buttons to the left edge
+      const delta = this.left - ( screenView.layoutBounds.left + margin );
+      this.spacing += delta;
+      this.setPlayPauseButtonCenterX( screenView, targetCenter.x );
+
+      this.bottom = screenView.layoutBounds.bottom - margin;
+    } );
   }
 }
 
