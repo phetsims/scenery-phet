@@ -35,10 +35,8 @@ type SelfOptions = {
   // Speeds supported by this TimeControlNode. Vertical radio buttons are created for each in the order provided.
   timeSpeeds?: TimeSpeed[];
 
-  // speed radio buttons placement relative to the play/pause button group:
-  // before (left for orientation 'horizontal' or top for orientation: 'vertical')
-  // after (right for orientation 'horizontal' or below for orientation: 'vertical')
-  speedRadioButtonGroupPlacement?: 'before' | 'after';
+  // speed radio buttons placement relative to the play/pause button group
+  speedRadioButtonGroupPlacement?: 'left' | 'right' | 'top' | 'bottom';
 
   // options passed along to the PlayPauseStepButtons, see the inner class for defaults
   playPauseStepButtonOptions?: PlayPauseStepButtonGroupOptions;
@@ -46,7 +44,6 @@ type SelfOptions = {
   // options passed along to the SpeedRadioButtonGroup, if included
   speedRadioButtonGroupOptions?: StrictOmit<TimeSpeedRadioButtonGroupOptions, 'tandem'>;
 
-  flowBoxOrientation?: 'horizontal' | 'vertical';
   flowBoxAlign?: HorizontalLayoutAlign | VerticalLayoutAlign;
 
   // horizontal space between PlayPauseStepButtons and SpeedRadioButtonGroup, if SpeedRadioButtonGroup is included
@@ -71,7 +68,7 @@ export default class TimeControlNode extends Node {
       // TimeControlNodeOptions
       timeSpeedProperty: null,
       timeSpeeds: DEFAULT_TIME_SPEEDS,
-      speedRadioButtonGroupPlacement: 'after',
+      speedRadioButtonGroupPlacement: 'right',
       buttonGroupXSpacing: 40,
 
       // NodeOptions
@@ -90,7 +87,6 @@ export default class TimeControlNode extends Node {
       labelTagName: 'h3',
       labelContent: SceneryPhetStrings.a11y.timeControlNode.labelStringProperty,
 
-      flowBoxOrientation: 'horizontal',
       flowBoxAlign: 'center'
     }, providedOptions );
 
@@ -120,7 +116,7 @@ export default class TimeControlNode extends Node {
     ];
 
     if ( this.speedRadioButtonGroup ) {
-      if ( options.speedRadioButtonGroupPlacement === 'before' ) {
+      if ( options.speedRadioButtonGroupPlacement === 'left' || options.speedRadioButtonGroupPlacement === 'top' ) {
         children.unshift( this.speedRadioButtonGroup );
       }
       else {
@@ -132,7 +128,7 @@ export default class TimeControlNode extends Node {
     const flowBox = new FlowBox( {
       children: children,
       spacing: options.buttonGroupXSpacing,
-      orientation: options.flowBoxOrientation,
+      orientation: options.speedRadioButtonGroupPlacement === 'left' || options.speedRadioButtonGroupPlacement === 'right' ? 'horizontal' : 'vertical',
       align: options.flowBoxAlign
     } );
 
