@@ -48,7 +48,7 @@ export default class TextKeyNode extends KeyNode {
     } );
 
     super( text, options );
-    this.disposeEmitter.addListener( () => text.dispose() );
+    this.addDisposable( text );
   }
 
   /**

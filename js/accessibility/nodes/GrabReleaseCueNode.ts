@@ -58,11 +58,7 @@ export default class GrabReleaseCueNode extends Panel {
     // rectangle containing the content, not visible until focused the first time
     super( spaceKeyHBox, options );
 
-    this.disposeEmitter.addListener( () => {
-      spaceKeyNode.dispose();
-      spaceLabelText.dispose();
-      spaceKeyHBox.dispose();
-    } );
+    this.addDisposable( spaceKeyNode, spaceLabelText, spaceKeyHBox );
   }
 }
 

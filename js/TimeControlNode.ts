@@ -109,7 +109,7 @@ export default class TimeControlNode extends Node {
         }, options.speedRadioButtonGroupOptions )
       );
 
-      this.disposeEmitter.addListener( () => this.speedRadioButtonGroup!.dispose() );
+      this.addDisposable( this.speedRadioButtonGroup );
     }
 
     const children: Node[] = [
@@ -144,7 +144,7 @@ export default class TimeControlNode extends Node {
       flowBoxProxy.translation = flowBoxProxy.translation.plusXY( -Utils.roundToInterval( x, 1E-6 ), -Utils.roundToInterval( y, 1E-6 ) );
     } );
 
-    this.disposeEmitter.addListener( () => this.pushButtonGroup.dispose() );
+    this.addDisposable( this.pushButtonGroup );
 
     // mutate with options after spacing and layout is complete so other layout options apply correctly to the
     // whole TimeControlNode
