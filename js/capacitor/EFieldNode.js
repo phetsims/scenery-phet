@@ -78,7 +78,6 @@ class EFieldNode extends CanvasNode {
   constructor( capacitor, modelViewTransform, maxEffectiveEField, canvasBounds ) {
 
     super( { canvasBounds: canvasBounds } );
-    const self = this;
 
     // @private
     this.capacitor = capacitor;
@@ -90,8 +89,8 @@ class EFieldNode extends CanvasNode {
       capacitor.plateSeparationProperty,
       capacitor.plateVoltageProperty
     ], () => {
-      if ( self.isVisible() ) {
-        self.invalidatePaint();
+      if ( this.isVisible() ) {
+        this.invalidatePaint();
       }
     } );
 

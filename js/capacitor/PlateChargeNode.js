@@ -52,7 +52,6 @@ class PlateChargeNode extends CanvasNode {
     validate( options.orientation, { validValues: Orientation.enumeration.values } );
 
     super( { canvasBounds: options.canvasBounds } );
-    const self = this; // extend scope for nested callbacks
 
     // @private {Capacitor}
     this.capacitor = capacitor;
@@ -79,7 +78,7 @@ class PlateChargeNode extends CanvasNode {
     Multilink.multilink( [
         capacitor.plateSizeProperty,
         capacitor.plateChargeProperty
-      ], () => self.isVisible() && self.invalidatePaint()
+      ], () => this.isVisible() && this.invalidatePaint()
     );
 
     // Update when this Node becomes visible.
