@@ -1,4 +1,4 @@
-// Copyright 2018-2024, University of Colorado Boulder
+// Copyright 2018-2025, University of Colorado Boulder
 
 /**
  * A Node that displays a visual queue to use space to grab and release a component.
@@ -58,11 +58,7 @@ export default class GrabReleaseCueNode extends Panel {
     // rectangle containing the content, not visible until focused the first time
     super( spaceKeyHBox, options );
 
-    this.disposeEmitter.addListener( () => {
-      spaceKeyNode.dispose();
-      spaceLabelText.dispose();
-      spaceKeyHBox.dispose();
-    } );
+    this.addDisposable( spaceKeyNode, spaceLabelText, spaceKeyHBox );
   }
 }
 

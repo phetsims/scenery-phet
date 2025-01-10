@@ -1,4 +1,4 @@
-// Copyright 2019-2022, University of Colorado Boulder
+// Copyright 2019-2025, University of Colorado Boulder
 
 /**
  * Visual representation of the effective E-field (E_effective) between the capacitor plates.
@@ -78,7 +78,6 @@ class EFieldNode extends CanvasNode {
   constructor( capacitor, modelViewTransform, maxEffectiveEField, canvasBounds ) {
 
     super( { canvasBounds: canvasBounds } );
-    const self = this;
 
     // @private
     this.capacitor = capacitor;
@@ -90,8 +89,8 @@ class EFieldNode extends CanvasNode {
       capacitor.plateSeparationProperty,
       capacitor.plateVoltageProperty
     ], () => {
-      if ( self.isVisible() ) {
-        self.invalidatePaint();
+      if ( this.isVisible() ) {
+        this.invalidatePaint();
       }
     } );
 

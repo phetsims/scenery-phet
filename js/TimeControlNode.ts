@@ -1,4 +1,4 @@
-// Copyright 2018-2024, University of Colorado Boulder
+// Copyright 2018-2025, University of Colorado Boulder
 
 /**
  * TimeControlNode provides a UI for controlling time.  It includes a play/pause button, step-forward button,
@@ -12,12 +12,12 @@
 
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import Property from '../../axon/js/Property.js';
-import Vector2 from '../../dot/js/Vector2.js';
+import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Node, NodeOptions, SceneryConstants } from '../../scenery/js/imports.js';
-import Panel, { PanelOptions } from '../../sun/js/Panel.js';
+import { FlowBox, HorizontalLayoutAlign, ManualConstraint, Node, NodeOptions, SceneryConstants, VerticalLayoutAlign } from '../../scenery/js/imports.js';
+import RoundPushButton from '../../sun/js/buttons/RoundPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import PlayPauseStepButtonGroup, { PlayPauseStepButtonGroupOptions } from './buttons/PlayPauseStepButtonGroup.js';
 import sceneryPhet from './sceneryPhet.js';
@@ -36,12 +36,8 @@ type SelfOptions = {
   // Speeds supported by this TimeControlNode. Vertical radio buttons are created for each in the order provided.
   timeSpeeds?: TimeSpeed[];
 
-  // true = speed radio buttons to left of push buttons
-  // false = speed radio buttons to right of push buttons
-  speedRadioButtonGroupOnLeft?: boolean;
-
-  // horizontal space between PlayPauseStepButtons and SpeedRadioButtonGroup, if SpeedRadioButtonGroup is included
-  buttonGroupXSpacing?: number;
+  // speed radio buttons placement relative to the play/pause button group
+  speedRadioButtonGroupPlacement?: 'left' | 'right' | 'top' | 'bottom';
 
   // options passed along to the PlayPauseStepButtons, see the inner class for defaults
   playPauseStepButtonOptions?: PlayPauseStepButtonGroupOptions;
@@ -49,12 +45,11 @@ type SelfOptions = {
   // options passed along to the SpeedRadioButtonGroup, if included
   speedRadioButtonGroupOptions?: StrictOmit<TimeSpeedRadioButtonGroupOptions, 'tandem'>;
 
-  // if true, the SpeedRadioButtonGroup will be wrapped in a Panel
-  wrapSpeedRadioButtonGroupInPanel?: boolean;
+  // Alignment of the FlowBox containing the buttons
+  flowBoxAlign?: HorizontalLayoutAlign | VerticalLayoutAlign;
 
-  // options passed to the panel wrapping SpeedRadioButtonGroup, if SpeedRadioButtonGroup included AND we are wrapping
-  // them in a panel
-  speedRadioButtonGroupPanelOptions?: PanelOptions;
+  // horizontal space between PlayPauseStepButtons and SpeedRadioButtonGroup, if SpeedRadioButtonGroup is included
+  flowBoxSpacing?: number;
 };
 
 export type TimeControlNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
@@ -62,21 +57,10 @@ export type TimeControlNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'chil
 export default class TimeControlNode extends Node {
 
   // push button for play/pause and (optionally) step forward, step back
-  protected readonly playPauseStepButtons: PlayPauseStepButtonGroup;
+  protected readonly pushButtonGroup: PlayPauseStepButtonGroup;
 
   // radio buttons from controlling speed
   private readonly speedRadioButtonGroup: TimeSpeedRadioButtonGroup | null;
-
-  // parent for speedRadioButtonGroup, optionally a Panel
-  protected readonly speedRadioButtonGroupParent: Node | Panel | null;
-
-  // whether the radio buttons are to the left or right of the push buttons
-  private readonly speedRadioButtonGroupOnLeft: boolean;
-
-  // horizontal spacing between push buttons and radio buttons
-  private buttonGroupXSpacing: number;
-
-  private readonly disposeTimeControlNode: () => void;
 
   public constructor( isPlayingProperty: Property<boolean>, providedOptions?: TimeControlNodeOptions ) {
 
@@ -86,13 +70,9 @@ export default class TimeControlNode extends Node {
       // TimeControlNodeOptions
       timeSpeedProperty: null,
       timeSpeeds: DEFAULT_TIME_SPEEDS,
-      speedRadioButtonGroupOnLeft: false,
-      buttonGroupXSpacing: 40,
-      wrapSpeedRadioButtonGroupInPanel: false,
-      speedRadioButtonGroupPanelOptions: {
-        xMargin: 8,
-        yMargin: 6
-      },
+      speedRadioButtonGroupPlacement: 'right',
+      flowBoxSpacing: 40,
+      flowBoxAlign: 'center',
 
       // NodeOptions
       disabledOpacity: SceneryConstants.DISABLED_OPACITY,
@@ -103,6 +83,8 @@ export default class TimeControlNode extends Node {
       visiblePropertyOptions: { phetioFeatured: true },
       phetioEnabledPropertyInstrumented: true, // opt into default PhET-iO instrumented enabledProperty
 
+      excludeInvisibleChildrenFromBounds: true,
+
       // pdom
       tagName: 'div',
       labelTagName: 'h3',
@@ -111,16 +93,12 @@ export default class TimeControlNode extends Node {
 
     super();
 
-    const children = [];
-
-    this.playPauseStepButtons = new PlayPauseStepButtonGroup( isPlayingProperty,
+    this.pushButtonGroup = new PlayPauseStepButtonGroup( isPlayingProperty,
       combineOptions<PlayPauseStepButtonGroupOptions>( {
         tandem: options.tandem.createTandem( 'playPauseStepButtonGroup' )
       }, options.playPauseStepButtonOptions ) );
-    children.push( this.playPauseStepButtons );
 
     this.speedRadioButtonGroup = null;
-    this.speedRadioButtonGroupParent = null;
     if ( options.timeSpeedProperty !== null ) {
 
       this.speedRadioButtonGroup = new TimeSpeedRadioButtonGroup(
@@ -131,34 +109,42 @@ export default class TimeControlNode extends Node {
         }, options.speedRadioButtonGroupOptions )
       );
 
-      if ( options.wrapSpeedRadioButtonGroupInPanel ) {
-        this.speedRadioButtonGroupParent = new Panel( this.speedRadioButtonGroup, options.speedRadioButtonGroupPanelOptions );
-      }
-      else {
-        this.speedRadioButtonGroupParent = new Node( { children: [ this.speedRadioButtonGroup ] } );
-      }
-
-      if ( options.speedRadioButtonGroupOnLeft ) {
-        children.unshift( this.speedRadioButtonGroupParent );
-      }
-      else {
-        children.push( this.speedRadioButtonGroupParent );
-      }
-
-      this.speedRadioButtonGroupParent.centerY = this.playPauseStepButtons.centerY;
+      this.addDisposable( this.speedRadioButtonGroup );
     }
 
-    options.children = children;
+    const children: Node[] = [
+      this.pushButtonGroup
+    ];
 
-    this.speedRadioButtonGroupOnLeft = options.speedRadioButtonGroupOnLeft;
-    this.buttonGroupXSpacing = options.buttonGroupXSpacing;
+    if ( this.speedRadioButtonGroup ) {
+      if ( options.speedRadioButtonGroupPlacement === 'left' || options.speedRadioButtonGroupPlacement === 'top' ) {
+        children.unshift( this.speedRadioButtonGroup );
+      }
+      else {
+        children.push( this.speedRadioButtonGroup );
+      }
+    }
 
-    this.setButtonGroupXSpacing( this.buttonGroupXSpacing );
+    // Use a nested Node that will allow us to keep the play/pause button centered at (0,0) to simplify layout
+    const flowBox = new FlowBox( {
+      children: children,
+      spacing: options.flowBoxSpacing,
+      orientation: options.speedRadioButtonGroupPlacement === 'left' || options.speedRadioButtonGroupPlacement === 'right' ? 'horizontal' : 'vertical',
+      align: options.flowBoxAlign
+    } );
 
-    this.disposeTimeControlNode = () => {
-      this.playPauseStepButtons.dispose();
-      this.speedRadioButtonGroup && this.speedRadioButtonGroup.dispose();
-    };
+    options.children = [ flowBox ];
+
+    ManualConstraint.create( this, [ flowBox ], flowBoxProxy => {
+      const localBounds = this.globalToLocalBounds( this.pushButtonGroup.playPauseButton.globalBounds );
+      const x = localBounds.centerX;
+      const y = localBounds.centerY;
+
+      // Round to prevent hysteresis on roundoff error
+      flowBoxProxy.translation = flowBoxProxy.translation.plusXY( -Utils.roundToInterval( x, 1E-6 ), -Utils.roundToInterval( y, 1E-6 ) );
+    } );
+
+    this.addDisposable( this.pushButtonGroup );
 
     // mutate with options after spacing and layout is complete so other layout options apply correctly to the
     // whole TimeControlNode
@@ -169,46 +155,11 @@ export default class TimeControlNode extends Node {
   }
 
   /**
-   * Translate this node so that the center of the PlayPauseButton is at the specified point in the parent
-   * coordinate frame for the TimeControlNode.
+   * Add a push button to the TimeControlNode.
    */
-  public setPlayPauseButtonCenter( center: Vector2 ): void {
-    const distanceToCenter = this.localToParentPoint( this.getPlayPauseButtonCenter() ).minus( this.center );
-    this.center = center.minus( distanceToCenter );
-  }
-
-  /**
-   * Get the center of the PlayPauseButton, in the local coordinate frame of the TimeControlNode. Useful if the
-   * TimeControlNode needs to be positioned relative to the PlayPauseButtons.
-   */
-  public getPlayPauseButtonCenter(): Vector2 {
-    return this.playPauseStepButtons.getPlayPauseButtonCenter();
-  }
-
-  /**
-   * Set the spacing between the SpeedRadioButtonGroup and the PlayPauseStepButtons. Spacing is from horizontal
-   * edge to edge for each Node. This will move the SpeedRadioButtonGroup relative to the edge of the
-   * PlayPauseStepButtons. No-op if there is no SpeedRadioButtonGroup for this TimeControlNode.
-   */
-  public setButtonGroupXSpacing( spacing: number ): void {
-    this.buttonGroupXSpacing = spacing;
-    if ( this.speedRadioButtonGroupParent ) {
-      if ( this.speedRadioButtonGroupOnLeft ) {
-        this.speedRadioButtonGroupParent.right = this.playPauseStepButtons.left - this.buttonGroupXSpacing;
-      }
-      else {
-        this.speedRadioButtonGroupParent.left = this.playPauseStepButtons.right + this.buttonGroupXSpacing;
-      }
-    }
-  }
-
-  public getButtonGroupXSpacing(): number {
-    return this.buttonGroupXSpacing;
-  }
-
-  public override dispose(): void {
-    this.disposeTimeControlNode();
-    super.dispose();
+  public addPushButton( pushButton: RoundPushButton, index: number ): void {
+    this.pushButtonGroup.insertChild( index, pushButton );
+    this.pushButtonGroup.updateLayout();
   }
 }
 

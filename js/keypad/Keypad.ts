@@ -1,4 +1,4 @@
-// Copyright 2016-2024, University of Colorado Boulder
+// Copyright 2016-2025, University of Colorado Boulder
 
 /**
  * A flexible keypad that looks somewhat like a calculator or keyboard keypad.
@@ -220,7 +220,7 @@ class Keypad extends Node {
       this.addInputListener( keyboardListener );
     }
 
-    this.disposeEmitter.addListener( () => keyboardListener.dispose() );
+    this.addDisposable( keyboardListener );
 
     this.stringProperty.link( string => {
       this.innerContent = string; // show current value in the PDOM

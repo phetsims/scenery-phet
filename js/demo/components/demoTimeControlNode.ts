@@ -1,4 +1,4 @@
-// Copyright 2022-2024, University of Colorado Boulder
+// Copyright 2022-2025, University of Colorado Boulder
 
 /**
  * Demo for ThermometerNode
@@ -46,12 +46,8 @@ export default function demoTimeControlNode( layoutBounds: Bounds2 ): Node {
   const customTimeControlNode = new TimeControlNode( new BooleanProperty( true ), {
     timeSpeedProperty: new EnumerationProperty( TimeSpeed.SLOW ),
     timeSpeeds: [ TimeSpeed.NORMAL, TimeSpeed.FAST, TimeSpeed.SLOW ],
-    speedRadioButtonGroupOnLeft: true,
-    speedRadioButtonGroupPanelOptions: {
-      fill: 'rgb(239,239,195)'
-    },
-    buttonGroupXSpacing: 40,
-    wrapSpeedRadioButtonGroupInPanel: true,
+    speedRadioButtonGroupPlacement: 'left',
+    flowBoxSpacing: 40,
     enabledProperty: enabledProperty
   } );
 

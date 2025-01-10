@@ -1,4 +1,4 @@
-// Copyright 2022-2024, University of Colorado Boulder
+// Copyright 2022-2025, University of Colorado Boulder
 
 /**
  * PlayPauseStepButtonGroup has a play & pause button, optional step-forward button, and optional step-back button.
@@ -55,7 +55,9 @@ export type PlayPauseStepButtonGroupOptions = SelfOptions & StrictOmit<RemovePar
 
 export default class PlayPauseStepButtonGroup extends HBox {
 
-  private readonly playPauseButton: PlayPauseButton;
+  // Public to help with positioning
+  public readonly playPauseButton: PlayPauseButton;
+
   private readonly disposePlayPauseStepButtonGroup: () => void;
 
   public constructor( isPlayingProperty: Property<boolean>, providedOptions?: PlayPauseStepButtonGroupOptions ) {
