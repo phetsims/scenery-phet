@@ -113,7 +113,8 @@ export default class PlayPauseStepButtonGroup extends HBox {
       // eslint-disable-next-line phet/tandem-name-should-match
       const defaultEnabledProperty = DerivedProperty.not( isPlayingProperty, {
         tandem: options.tandem.createTandem( 'enabledProperty' ),
-        phetioValueType: BooleanIO
+        phetioValueType: BooleanIO,
+        phetioFeatured: true
       } );
 
       if ( !options.stepForwardButtonOptions.enabledProperty ) {
