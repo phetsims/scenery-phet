@@ -18,7 +18,6 @@ import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { HBox, HBoxOptions, RemoveParallelDOMOptions } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetConstants from '../SceneryPhetConstants.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
@@ -102,7 +101,9 @@ export default class PlayPauseStepButtonGroup extends HBox {
       tagName: 'div', // so that it can receive descriptions
       appendDescription: true,
       playingHelpText: null,
-      pausedHelpText: null
+      pausedHelpText: null,
+
+      phetioEnabledPropertyInstrumented: true
     }, providedOptions );
 
     // by default, the step buttons are enabled when isPlayingProperty is false, but only create a PhET-iO instrumented
@@ -110,19 +111,15 @@ export default class PlayPauseStepButtonGroup extends HBox {
     if ( ( !options.stepForwardButtonOptions.enabledProperty ) || ( !options.stepBackwardButtonOptions.enabledProperty ) ) {
 
       // This is clearer than having the variable names match exactly. Opt out below
-      // eslint-disable-next-line phet/tandem-name-should-match
-      const defaultEnabledProperty = DerivedProperty.not( isPlayingProperty, {
-        tandem: options.tandem.createTandem( 'enabledProperty' ),
-        phetioValueType: BooleanIO
-      } );
+      const stepButtonEnabledProperty = DerivedProperty.not( isPlayingProperty );
 
       if ( !options.stepForwardButtonOptions.enabledProperty ) {
 
-        options.stepForwardButtonOptions.enabledProperty = defaultEnabledProperty;
+        options.stepForwardButtonOptions.enabledProperty = stepButtonEnabledProperty;
       }
       if ( !options.stepBackwardButtonOptions.enabledProperty ) {
 
-        options.stepBackwardButtonOptions.enabledProperty = defaultEnabledProperty;
+        options.stepBackwardButtonOptions.enabledProperty = stepButtonEnabledProperty;
       }
     }
 
