@@ -1,4 +1,4 @@
-// Copyright 2015-2024, University of Colorado Boulder
+// Copyright 2015-2025, University of Colorado Boulder
 
 /**
  * Failure message displayed when a WebGL context loss is experienced and we can't recover. Offers a button to reload
@@ -9,7 +9,7 @@
 
 import optionize from '../../phet-core/js/optionize.js';
 import { HBox, Path, Text } from '../../scenery/js/imports.js';
-import warningSignShape from '../../sherpa/js/fontawesome-4/warningSignShape.js';
+import warningSignShape from '../../sun/js/shapes/warningSignShape.js';
 import TextPushButton from '../../sun/js/buttons/TextPushButton.js';
 import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -52,7 +52,7 @@ export default class ContextLossFailureDialog extends Dialog {
 
     const warningSign = new Path( warningSignShape, {
       fill: '#E87600', // "safety orange", according to Wikipedia
-      scale: 0.03
+      scale: 1.2
     } );
 
     const text = new Text( SceneryPhetStrings.webglWarning.contextLossFailureStringProperty, {

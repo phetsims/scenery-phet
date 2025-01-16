@@ -371,6 +371,16 @@
   "offScaleIndicator.pointsOffScale": {
     "value": "Points<br>off scale!"
   },
+  "ResetAllButton.name": {
+    "value": "Reset All",
+    "_comment": "See https://github.com/phetsims/chipper/issues/1446",
+    "deprecated": true
+  },
+  "SoundToggleButton.name": {
+    "value": "Toggle Sound",
+    "_comment": "See https://github.com/phetsims/chipper/issues/1446",
+    "deprecated": true
+  },
   "a11y": {
     "simSection": {
       "screenSummary": {
