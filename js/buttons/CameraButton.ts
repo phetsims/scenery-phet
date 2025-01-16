@@ -10,7 +10,7 @@ import optionize from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { Path, TColor } from '../../../scenery/js/imports.js';
-import cameraSolidShape from '../../../sherpa/js/fontawesome-5/cameraSolidShape.js';
+import cameraSolidShape from '../../../sun/js/shapes/cameraSolidShape.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -32,7 +32,7 @@ export default class CameraButton extends RectangularPushButton {
 
       // SelfOptions
       iconFill: 'black',
-      iconScale: 0.037,
+      iconScale: 0.587,
 
       // RectangularPushButtonOptions
       baseColor: PhetColorScheme.BUTTON_YELLOW,
