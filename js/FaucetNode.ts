@@ -26,6 +26,7 @@ import stepTimer from '../../axon/js/stepTimer.js';
 import { TimerListener } from '../../axon/js/Timer.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
+import Range from '../../dot/js/Range.js';
 import LinearFunction from '../../dot/js/LinearFunction.js';
 import { Shape } from '../../kite/js/imports.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
@@ -102,7 +103,7 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
       rasterizeHorizontalPipeNode: false,
 
       // AccessibleSliderOptions
-      enabledRangeProperty: new phet.axon.Property( new phet.dot.Range( 0, maxFlowRate ) ),
+      enabledRangeProperty: new Property( new Range( 0, maxFlowRate ) ),
       valueProperty: flowRateProperty,
 
       // ParentOptions
