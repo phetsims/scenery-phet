@@ -46,9 +46,11 @@ export default class WavelengthSlider extends SpectrumSlider {
       // SpectrumSliderOptions
       valueToString: function( value: number ) {
 
+        const patternStringProperty = SceneryPhetStrings.WavelengthSlider.pattern_0wavelength_1unitsStringProperty;
+        const unitsStringProperty = SceneryPhetStrings.units_nmStringProperty;
+
         // NOTE: Because this class is deprecated, the API was not reworked to support dynamic strings here.
-        return StringUtils.format( SceneryPhetStrings.WavelengthSlider.pattern_0wavelength_1unitsStringProperty.value,
-          Utils.toFixed( value, 0 ), SceneryPhetStrings.units_nmStringProperty.value );
+        return StringUtils.format( patternStringProperty.value, Utils.toFixed( value, 0 ), unitsStringProperty.value );
       },
       valueToColor: function( value: number ) {
         return VisibleColor.wavelengthToColor( value );
