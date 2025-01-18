@@ -1,4 +1,4 @@
-// Copyright 2022-2024, University of Colorado Boulder
+// Copyright 2022-2025, University of Colorado Boulder
 
 /**
  * A Node that produces a variety of loud outputs to support data synchronizing during a recording.
