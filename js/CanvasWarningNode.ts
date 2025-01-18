@@ -7,7 +7,7 @@
  */
 
 import { HBox, openPopup, Path, Text, VBox } from '../../scenery/js/imports.js';
-import exclamationTriangleSolidShape from '../../sherpa/js/fontawesome-5/exclamationTriangleSolidShape.js';
+import exclamationSolidShape from '../../sun/js/shapes/exclamationSolidShape.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
@@ -30,9 +30,9 @@ export default class CanvasWarningNode extends HBox {
 
     super( {
       children: [
-        new Path( exclamationTriangleSolidShape, {
+        new Path( exclamationSolidShape, {
           fill: '#E87600', // "safety orange", according to Wikipedia
-          scale: 0.048
+          scale: 0.61
         } ),
         new VBox( {
           children: [ titleText, bodyText ],

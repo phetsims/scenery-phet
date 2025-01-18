@@ -11,8 +11,8 @@ import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegist
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { Node, Path } from '../../../scenery/js/imports.js';
-import eyeSlashSolidShape from '../../../sherpa/js/fontawesome-5/eyeSlashSolidShape.js';
-import eyeSolidShape from '../../../sherpa/js/fontawesome-5/eyeSolidShape.js';
+import eyeSlashSolidShape from '../../../sun/js/shapes/eyeSlashSolidShape.js';
+import eyeSolidShape from '../../../sun/js/shapes/eyeSolidShape.js';
 import RectangularToggleButton, { RectangularToggleButtonOptions } from '../../../sun/js/buttons/RectangularToggleButton.js';
 import sceneryPhet from '../sceneryPhet.js';
 
@@ -34,7 +34,7 @@ export default class EyeToggleButton extends RectangularToggleButton<boolean> {
 
     // icons
     const iconOptions = {
-      scale: 0.08,
+      scale: 0.76,
       fill: 'black'
     };
     const eyeOpenNode = new Path( eyeSolidShape, iconOptions );

@@ -9,7 +9,7 @@
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { Path, PathOptions } from '../../../scenery/js/imports.js';
-import trashAltRegularShape from '../../../sherpa/js/fontawesome-5/trashAltRegularShape.js';
+import trashShape from '../../../sun/js/shapes/trashShape.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import sceneryPhet from '../sceneryPhet.js';
 
@@ -25,12 +25,12 @@ export default class TrashButton extends RectangularPushButton {
 
     const options = optionize<TrashButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {
       iconOptions: {
-        scale: 0.05,
+        scale: 0.95,
         fill: 'black'
       }
     }, providedOptions );
 
-    options.content = new Path( trashAltRegularShape, options.iconOptions );
+    options.content = new Path( trashShape, options.iconOptions );
 
     super( options );
   }

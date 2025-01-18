@@ -10,7 +10,7 @@ import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegist
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { Path } from '../../../scenery/js/imports.js';
-import syncAltSolidShape from '../../../sherpa/js/fontawesome-5/syncAltSolidShape.js';
+import syncShape from '../../../sun/js/shapes/syncShape.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -36,7 +36,7 @@ export default class RefreshButton extends RectangularPushButton {
       tandemNameSuffix: 'RefreshButton'
     }, providedOptions );
 
-    options.content = new Path( syncAltSolidShape, {
+    options.content = new Path( syncShape, {
       fill: 'black'
     } );
     options.content.setScaleMagnitude( options.iconHeight / options.content.height );

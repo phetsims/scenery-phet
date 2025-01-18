@@ -12,7 +12,7 @@ import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegist
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { Node, Path, TColor } from '../../../scenery/js/imports.js';
-import trashAltRegularShape from '../../../sherpa/js/fontawesome-5/trashAltRegularShape.js';
+import trashShape from '../../../sun/js/shapes/trashShape.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import CurvedArrowShape from '../CurvedArrowShape.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -36,9 +36,9 @@ export default class MoveToTrashButton extends RectangularPushButton {
       iconScale: 0.46
     }, providedOptions );
 
-    const trashNode = new Path( trashAltRegularShape, {
+    const trashNode = new Path( trashShape, {
       fill: 'black',
-      scale: 0.08
+      scale: 1.52
     } );
 
     const arrowShape = new CurvedArrowShape( 10, -0.9 * Math.PI, -0.2 * Math.PI, {

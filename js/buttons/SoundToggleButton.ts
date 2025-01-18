@@ -13,8 +13,8 @@ import { Shape } from '../../../kite/js/imports.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import { Node, Path } from '../../../scenery/js/imports.js';
-import volumeOffSolidShape from '../../../sherpa/js/fontawesome-5/volumeOffSolidShape.js';
-import volumeUpSolidShape from '../../../sherpa/js/fontawesome-5/volumeUpSolidShape.js';
+import volumeOffShape from '../../../sun/js/shapes/volumeOffShape.js';
+import volumeOnShape from '../../../sun/js/shapes/volumeOnShape.js';
 import BooleanRectangularToggleButton, { BooleanRectangularToggleButtonOptions } from '../../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -49,7 +49,7 @@ export default class SoundToggleButton extends BooleanRectangularToggleButton {
     }, provideOptions );
 
     // 'on' icon is a font-awesome icon
-    const soundOnNode = new Path( volumeUpSolidShape, {
+    const soundOnNode = new Path( volumeOnShape, {
       fill: 'black'
     } );
     const contentScale = ( WIDTH - ( 2 * MARGIN ) ) / soundOnNode.width;
@@ -57,7 +57,7 @@ export default class SoundToggleButton extends BooleanRectangularToggleButton {
 
     // 'off' icon is a font-awesome icon, with an 'x' added to the right.
     const soundOffNode = new Node();
-    soundOffNode.addChild( new Path( volumeOffSolidShape, {
+    soundOffNode.addChild( new Path( volumeOffShape, {
       scale: contentScale,
       fill: 'black'
     } ) );

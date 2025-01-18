@@ -10,7 +10,7 @@ import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegist
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { Path, TColor } from '../../../scenery/js/imports.js';
-import infoCircleSolidShape from '../../../sherpa/js/fontawesome-5/infoCircleSolidShape.js';
+import infoCircleSolidShape from '../../../sun/js/shapes/infoCircleSolidShape.js';
 import RoundPushButton, { RoundPushButtonOptions } from '../../../sun/js/buttons/RoundPushButton.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
@@ -39,7 +39,7 @@ export default class InfoButton extends RoundPushButton {
     }, providedOptions );
 
     options.content = new Path( infoCircleSolidShape, {
-      scale: 0.08,
+      scale: 1.45,
       fill: options.iconFill
     } );
 
