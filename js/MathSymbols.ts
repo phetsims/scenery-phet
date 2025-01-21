@@ -46,11 +46,15 @@ const MathSymbols = {
   // other math symbols
   PERCENT: '%' as const,
   INFINITY: '\u221E' as const,
-  PI: '\u03c0' as const,
   PLUS_MINUS: '\u00B1' as const,
 
   // Greek characters
+  ALPHA: '\u03b1' as const,
+  BETA: '\u03b2' as const,
   THETA: '\u03b8' as const,
+  PHI: '\u03c6' as const,
+  PI: '\u03c0' as const,
+  PSI: '\u03c8' as const,
 
   // Used to symbolize 'no value', e.g. on a meter that is not reading anything.
   // See https://github.com/phetsims/scenery-phet/issues/431
