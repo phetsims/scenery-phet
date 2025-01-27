@@ -2,7 +2,7 @@
 
 /**
  * OopsDialog is displayed when some limitation of the simulation is encountered.
- * So named because the messages typically begin with 'Oops!', so that's how people referred to it.
+ * So named because the message typically begins with 'Oops!', so that's how people referred to it.
  * See https://github.com/phetsims/equality-explorer/issues/48
  *
  * @author Chris Malley (PixelZoom, Inc.)
@@ -20,10 +20,13 @@ import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {
 
-  // Optional icon that will be placed to the right of the image.
+  // Icon that will be placed to the right of the image.
   // If not provided, then a PhET Girl image is used.
   // If provided, the caller is responsible for all aspects of the icon, including scale.
   iconNode?: Node;
+
+  // Position of optional icon, relative to message text.
+  iconPosition?: 'left' | 'right';
 
   // Passed to RichText node that displays messageString
   richTextOptions?: RichTextOptions;
@@ -42,6 +45,9 @@ export default class OopsDialog extends Dialog {
   public constructor( messageString: string | ReadOnlyProperty<string>, providedOptions?: OopsDialogOptions ) {
 
     const options = optionize<OopsDialogOptions, StrictOmit<SelfOptions, 'iconNode' | 'richTextOptions'>, DialogOptions>()( {
+
+      // SelfOptions
+      iconPosition: 'right', // default is 'right' because default icon (phetGirlWaggingFinger_png) faces to the left
 
       // DialogOptions
       topMargin: 20,
@@ -63,7 +69,7 @@ export default class OopsDialog extends Dialog {
 
     const content = new HBox( {
       spacing: 20,
-      children: [ text, iconNode ]
+      children: ( options.iconPosition === 'left' ) ? [ iconNode, text ] : [ text, iconNode ]
     } );
 
     super( content, options );

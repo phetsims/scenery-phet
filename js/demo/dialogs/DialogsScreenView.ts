@@ -70,7 +70,8 @@ export default class DialogsScreenView extends ScreenView {
       listener: () => {
         if ( !oopsDialog ) {
           oopsDialog = new OopsDialog( 'Oops!<br><br>Your battery appears to be dead.', {
-            iconNode: new Image( batteryDCell_png, { rotation: -Math.PI / 2 } )
+            iconNode: new Image( batteryDCell_png, { rotation: -Math.PI / 2 } ),
+            iconPosition: 'left'
           } );
         }
         oopsDialog.show();
