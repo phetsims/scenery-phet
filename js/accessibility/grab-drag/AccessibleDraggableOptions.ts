@@ -19,6 +19,9 @@ const AccessibleDraggableOptions: ParallelDOMOptions = {
   // Application role tells the screen reader to provide access to arrow keys and switch to a 'forms' mode.
   ariaRole: 'application',
 
+  // So that you can drag and drop this component on screen readers on mobile devices.
+  positionInPDOM: true,
+
   // The screen reader will call this a 'movable', which is more intuitive for the user.
   pdomAttributes: [ { attribute: 'aria-roledescription', value: movableStringProperty } ]
 } as const;
