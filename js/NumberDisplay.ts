@@ -65,7 +65,7 @@ type SelfOptions = {
   // See https://github.com/phetsims/density/issues/34.
   useFullHeight?: boolean;
 
-  // // options passed to Text or RichText (depending on the value of options.useRichText) that displays the value
+  // options passed to Text or RichText (depending on the value of options.useRichText) that displays the value
   textOptions?: TextOptions | RichTextOptions;
 
   xMargin?: number;

@@ -20,7 +20,7 @@ import Orientation from '../../phet-core/js/Orientation.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { AlignBox, assertNoAdditionalChildren, extendsWidthSizable, Font, HBox, isWidthSizable, Node, NodeOptions, PaintColorProperty, ParallelDOM, RemoveParallelDOMOptions, Text, TextOptions, TrimParallelDOMOptions, VBox, WidthSizable } from '../../scenery/js/imports.js';
+import { AlignBox, assertNoAdditionalChildren, extendsWidthSizable, Font, HBox, isWidthSizable, Node, NodeOptions, PaintColorProperty, ParallelDOM, RemoveParallelDOMOptions, RichText, RichTextOptions, Text, TextOptions, TrimParallelDOMOptions, VBox, WidthSizable } from '../../scenery/js/imports.js';
 import ArrowButton, { ArrowButtonOptions } from '../../sun/js/buttons/ArrowButton.js';
 import HSlider from '../../sun/js/HSlider.js';
 import Slider, { SliderOptions } from '../../sun/js/Slider.js';
@@ -163,7 +163,11 @@ type SelfOptions = {
     rightStart?: () => void;
     rightEnd?: ( over: boolean ) => void;
   };
-  titleNodeOptions?: TextOptions;
+
+  useRichText?: boolean;
+
+  // options passed to Text or RichText (depending on the value of options.useRichText) that displays the value
+  titleNodeOptions?: TextOptions | RichTextOptions;
 
   // If provided, this will be provided to the slider and arrow buttons in order to
   // constrain the range of actual values to within this range.
@@ -213,6 +217,7 @@ export default class NumberControl extends WidthSizable( Node ) {
       sliderOptions: {},
       arrowButtonOptions: {},
       titleNodeOptions: {},
+      useRichText: false,
 
       // General Callbacks
       startCallback: _.noop, // called when interaction begins, default value set in validateCallbacks()
@@ -383,7 +388,9 @@ export default class NumberControl extends WidthSizable( Node ) {
     // that it is a composite component and there is only one stop in the traversal order.
     this.groupFocusHighlight = options.includeArrowButtons;
 
-    const titleNode = new Text( title, options.titleNodeOptions );
+    const titleNode = options.useRichText ?
+                      new RichText( title, options.titleNodeOptions ) :
+                      new Text( title, options.titleNodeOptions );
 
     const numberDisplay = new NumberDisplay( numberProperty, numberRange, options.numberDisplayOptions );
 
