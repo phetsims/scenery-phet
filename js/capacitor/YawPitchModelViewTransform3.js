@@ -142,7 +142,7 @@ class YawPitchModelViewTransform3 {
    * @returns {Vector3}
    */
   viewToModelPosition( viewPoint ) {
-    return this.modelToViewTransform2D.inversePosition2( viewPoint ).toVector3();
+    return Vector3.from( this.modelToViewTransform2D.inversePosition2( viewPoint ) );
   }
 
   /**
