@@ -1,4 +1,4 @@
-// Copyright 2015-2024, University of Colorado Boulder
+// Copyright 2015-2025, University of Colorado Boulder
 
 /**
  * NumberControl is a control for changing a Property<number>, with flexible layout. It consists of a labeled value,
