@@ -33,7 +33,7 @@ import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import WithOptional from '../../phet-core/js/types/WithOptional.js';
-import { Circle, DragListener, GroupHighlightPath, HighlightPath, HotkeyData, Image, InteractiveHighlighting, KeyboardListener, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
+import { Circle, DragListener, GroupHighlightPath, HighlightPath, HotkeyData, Image, InteractiveHighlighting, KeyboardListener, Node, NodeOptions, rasterized, Rectangle } from '../../scenery/js/imports.js';
 import AccessibleSlider, { AccessibleSliderOptions } from '../../sun/js/accessibility/AccessibleSlider.js';
 import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -136,7 +136,7 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
     assert && assert( horizontalPipeWidth > 0 );
     horizontalPipeNode.setScaleMagnitude( horizontalPipeWidth / faucetHorizontalPipe_png.width, 1 );
     if ( options.rasterizeHorizontalPipeNode ) {
-      horizontalPipeNode = horizontalPipeNode.rasterized();
+      horizontalPipeNode = rasterized( horizontalPipeNode );
     }
 
     // vertical pipe
