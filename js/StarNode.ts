@@ -9,9 +9,12 @@
  */
 
 import Bounds2 from '../../dot/js/Bounds2.js';
-import { LineJoin, Shape } from '../../kite/js/imports.js';
+import Shape from '../../kite/js/Shape.js';
+import { LineJoin } from '../../kite/js/util/LineStyles.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { Node, NodeOptions, Path, PathOptions, TPaint } from '../../scenery/js/imports.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Path, { PathOptions } from '../../scenery/js/nodes/Path.js';
+import TPaint from '../../scenery/js/util/TPaint.js';
 import sceneryPhet from './sceneryPhet.js';
 import StarShape, { StarShapeOptions } from './StarShape.js';
 

@@ -9,10 +9,15 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import { Shape } from '../../kite/js/imports.js';
+import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { Circle, Color, Node, NodeOptions, PaintColorProperty, Path, TColor } from '../../scenery/js/imports.js';
+import Circle from '../../scenery/js/nodes/Circle.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Path from '../../scenery/js/nodes/Path.js';
+import Color from '../../scenery/js/util/Color.js';
+import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
+import TColor from '../../scenery/js/util/TColor.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {

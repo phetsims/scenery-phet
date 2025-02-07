@@ -7,10 +7,12 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import { Shape } from '../../kite/js/imports.js';
+import Shape from '../../kite/js/Shape.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Node, NodeOptions, Path, TColor } from '../../scenery/js/imports.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Path from '../../scenery/js/nodes/Path.js';
+import TColor from '../../scenery/js/util/TColor.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
 

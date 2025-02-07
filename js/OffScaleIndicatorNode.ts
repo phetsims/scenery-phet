@@ -8,7 +8,9 @@
 
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { HBox, Node, NodeOptions, RichText, RichTextOptions } from '../../scenery/js/imports.js';
+import HBox from '../../scenery/js/layout/nodes/HBox.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import RichText, { RichTextOptions } from '../../scenery/js/nodes/RichText.js';
 import Panel, { PanelOptions } from '../../sun/js/Panel.js';
 import ArrowNode, { ArrowNodeOptions } from './ArrowNode.js';
 import PhetFont from './PhetFont.js';

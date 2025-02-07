@@ -9,7 +9,7 @@
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import HeaterCoolerNode from '../../HeaterCoolerNode.js';
 
 export default function demoHeaterCoolerNode( layoutBounds: Bounds2 ): Node {

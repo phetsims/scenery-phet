@@ -7,7 +7,9 @@
  */
 
 import { combineOptions, optionize3 } from '../../phet-core/js/optionize.js';
-import { DragListener, KeyboardDragListener, RichDragListener, RichDragListenerOptions } from '../../scenery/js/imports.js';
+import DragListener from '../../scenery/js/listeners/DragListener.js';
+import KeyboardDragListener from '../../scenery/js/listeners/KeyboardDragListener.js';
+import RichDragListener, { RichDragListenerOptions } from '../../scenery/js/listeners/RichDragListener.js';
 import sharedSoundPlayers from '../../tambo/js/sharedSoundPlayers.js';
 import TSoundPlayer from '../../tambo/js/TSoundPlayer.js';
 import sceneryPhet from './sceneryPhet.js';

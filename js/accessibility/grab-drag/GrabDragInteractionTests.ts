@@ -6,7 +6,11 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import { Circle, Display, KeyboardDragListener, Node, Rectangle } from '../../../../scenery/js/imports.js';
+import Display from '../../../../scenery/js/display/Display.js';
+import KeyboardDragListener from '../../../../scenery/js/listeners/KeyboardDragListener.js';
+import Circle from '../../../../scenery/js/nodes/Circle.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GrabDragInteraction from './GrabDragInteraction.js';
 

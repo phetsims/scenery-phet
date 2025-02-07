@@ -9,7 +9,8 @@
 import TRangedProperty from '../../axon/js/TRangedProperty.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { FlowBox, FlowBoxOptions, Node } from '../../scenery/js/imports.js';
+import FlowBox, { FlowBoxOptions } from '../../scenery/js/layout/nodes/FlowBox.js';
+import Node from '../../scenery/js/nodes/Node.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';

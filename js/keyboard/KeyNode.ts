@@ -14,7 +14,10 @@
 import Bounds2 from '../../../dot/js/Bounds2.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import { AlignBox, Node, NodeOptions, Rectangle, TColor } from '../../../scenery/js/imports.js';
+import AlignBox from '../../../scenery/js/layout/nodes/AlignBox.js';
+import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
+import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
+import TColor from '../../../scenery/js/util/TColor.js';
 import sceneryPhet from '../sceneryPhet.js';
 
 type XAlign = 'left' | 'center' | 'right';

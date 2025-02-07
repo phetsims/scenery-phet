@@ -11,12 +11,15 @@
 import NumberProperty from '../../axon/js/NumberProperty.js';
 import Property from '../../axon/js/Property.js';
 import Vector2 from '../../dot/js/Vector2.js';
-import { Shape } from '../../kite/js/imports.js';
+import Shape from '../../kite/js/Shape.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import sceneryPhet from '../../scenery-phet/js/sceneryPhet.js';
 import protractor_png from '../../scenery-phet/mipmaps/protractor_png.js';
-import { DragListener, Image, Node, NodeOptions, Path } from '../../scenery/js/imports.js';
+import DragListener from '../../scenery/js/listeners/DragListener.js';
+import Image from '../../scenery/js/nodes/Image.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Path from '../../scenery/js/nodes/Path.js';
 
 type SelfOptions = {
 

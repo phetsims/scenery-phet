@@ -7,7 +7,7 @@
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import RulerNode from '../../RulerNode.js';
 
 export default function demoRulerNode( layoutBounds: Bounds2 ): Node {

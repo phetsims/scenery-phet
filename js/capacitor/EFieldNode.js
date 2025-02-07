@@ -13,7 +13,7 @@
 import Multilink from '../../../axon/js/Multilink.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import EnumerationDeprecated from '../../../phet-core/js/EnumerationDeprecated.js';
-import { CanvasNode } from '../../../scenery/js/imports.js';
+import CanvasNode from '../../../scenery/js/nodes/CanvasNode.js';
 import sceneryPhet from '../sceneryPhet.js';
 
 // constants

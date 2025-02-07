@@ -8,11 +8,14 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { Shape } from '../../../kite/js/imports.js';
+import Shape from '../../../kite/js/Shape.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import { HBox, Path, Rectangle, TPaint } from '../../../scenery/js/imports.js';
+import HBox from '../../../scenery/js/layout/nodes/HBox.js';
+import Path from '../../../scenery/js/nodes/Path.js';
+import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
+import TPaint from '../../../scenery/js/util/TPaint.js';
 import RoundPushButton, { RoundPushButtonOptions } from '../../../sun/js/buttons/RoundPushButton.js';
 import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import sceneryPhet from '../sceneryPhet.js';

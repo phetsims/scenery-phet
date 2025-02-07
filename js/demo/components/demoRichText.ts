@@ -7,7 +7,10 @@
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { HBox, Node, RichText, VBox } from '../../../../scenery/js/imports.js';
+import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
+import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import RichText from '../../../../scenery/js/nodes/RichText.js';
 
 export default function demoRichText( layoutBounds: Bounds2 ): Node {
   return new VBox( {

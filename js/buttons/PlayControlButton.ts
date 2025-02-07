@@ -9,7 +9,13 @@
 
 import Property from '../../../axon/js/Property.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { Circle, HotkeyData, KeyboardListener, Node, OneKeyStroke, Path, PDOMValueType } from '../../../scenery/js/imports.js';
+import { PDOMValueType } from '../../../scenery/js/accessibility/pdom/ParallelDOM.js';
+import HotkeyData from '../../../scenery/js/input/HotkeyData.js';
+import { OneKeyStroke } from '../../../scenery/js/input/KeyDescriptor.js';
+import KeyboardListener from '../../../scenery/js/listeners/KeyboardListener.js';
+import Circle from '../../../scenery/js/nodes/Circle.js';
+import Node from '../../../scenery/js/nodes/Node.js';
+import Path from '../../../scenery/js/nodes/Path.js';
 import BooleanRoundToggleButton, { BooleanRoundToggleButtonOptions } from '../../../sun/js/buttons/BooleanRoundToggleButton.js';
 import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import TSoundPlayer from '../../../tambo/js/TSoundPlayer.js';

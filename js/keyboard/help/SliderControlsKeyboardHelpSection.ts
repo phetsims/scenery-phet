@@ -12,7 +12,7 @@ import assertMutuallyExclusiveOptions from '../../../../phet-core/js/assertMutua
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import { HBox } from '../../../../scenery/js/imports.js';
+import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import AccessibleValueHandlerHotkeyDataCollection from '../../../../sun/js/accessibility/AccessibleValueHandlerHotkeyDataCollection.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import sceneryPhet from '../../sceneryPhet.js';

@@ -12,7 +12,9 @@ import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Range from '../../dot/js/Range.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { Node, NodeOptions, Rectangle, TColor } from '../../scenery/js/imports.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Rectangle from '../../scenery/js/nodes/Rectangle.js';
+import TColor from '../../scenery/js/util/TColor.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {

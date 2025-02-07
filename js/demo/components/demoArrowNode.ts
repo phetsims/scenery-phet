@@ -8,7 +8,8 @@
 
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { Node, Text } from '../../../../scenery/js/imports.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import ArrowNode from '../../ArrowNode.js';
 import PhetFont from '../../PhetFont.js';

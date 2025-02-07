@@ -8,7 +8,8 @@
  */
 
 import optionize from '../../../phet-core/js/optionize.js';
-import { Node, OneKeyStroke } from '../../../scenery/js/imports.js';
+import { OneKeyStroke } from '../../../scenery/js/input/KeyDescriptor.js';
+import Node from '../../../scenery/js/nodes/Node.js';
 import sceneryPhet from '../sceneryPhet.js';
 import { KeyIDValue } from './KeyID.js';
 

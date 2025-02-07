@@ -9,7 +9,7 @@
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import SpectrumSliderThumb from '../../SpectrumSliderThumb.js';
 import SpectrumSliderTrack from '../../SpectrumSliderTrack.js';

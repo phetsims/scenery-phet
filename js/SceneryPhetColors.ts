@@ -7,7 +7,8 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import { Color, ProfileColorProperty } from '../../scenery/js/imports.js';
+import Color from '../../scenery/js/util/Color.js';
+import ProfileColorProperty from '../../scenery/js/util/ProfileColorProperty.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // Initial colors for each profile, by string key. Only profile currently is default (still helpful for making color

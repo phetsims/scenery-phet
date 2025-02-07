@@ -21,11 +21,15 @@ import Multilink from '../../axon/js/Multilink.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
 import Range from '../../dot/js/Range.js';
 import Vector2 from '../../dot/js/Vector2.js';
-import { Shape } from '../../kite/js/imports.js';
+import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
-import { Circle, LinearGradient, Node, NodeOptions, Path, PathOptions, TColor } from '../../scenery/js/imports.js';
+import Circle from '../../scenery/js/nodes/Circle.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Path, { PathOptions } from '../../scenery/js/nodes/Path.js';
+import LinearGradient from '../../scenery/js/util/LinearGradient.js';
+import TColor from '../../scenery/js/util/TColor.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants

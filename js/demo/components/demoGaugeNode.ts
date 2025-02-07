@@ -9,7 +9,8 @@
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
-import { Node, VBox } from '../../../../scenery/js/imports.js';
+import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import GaugeNode from '../../GaugeNode.js';
 import NumberControl from '../../NumberControl.js';
 

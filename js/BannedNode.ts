@@ -11,7 +11,10 @@
 import optionize from '../../phet-core/js/optionize.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Circle, Line, Node, NodeOptions, PaintableOptions } from '../../scenery/js/imports.js';
+import Circle from '../../scenery/js/nodes/Circle.js';
+import Line from '../../scenery/js/nodes/Line.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import { PaintableOptions } from '../../scenery/js/nodes/Paintable.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {

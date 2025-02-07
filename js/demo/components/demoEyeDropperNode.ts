@@ -8,7 +8,9 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import EyeDropperNode from '../../EyeDropperNode.js';
 import PhetFont from '../../PhetFont.js';

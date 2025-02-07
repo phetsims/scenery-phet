@@ -15,10 +15,16 @@
 
 import Matrix3 from '../../dot/js/Matrix3.js';
 import Utils from '../../dot/js/Utils.js';
-import { Shape } from '../../kite/js/imports.js';
+import Shape from '../../kite/js/Shape.js';
 import merge from '../../phet-core/js/merge.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { AlignBox, AlignGroup, HBox, Node, Path, Text, VBox } from '../../scenery/js/imports.js';
+import AlignGroup from '../../scenery/js/layout/constraints/AlignGroup.js';
+import AlignBox from '../../scenery/js/layout/nodes/AlignBox.js';
+import HBox from '../../scenery/js/layout/nodes/HBox.js';
+import VBox from '../../scenery/js/layout/nodes/VBox.js';
+import Node from '../../scenery/js/nodes/Node.js';
+import Path from '../../scenery/js/nodes/Path.js';
+import Text from '../../scenery/js/nodes/Text.js';
 import sceneryPhet from './sceneryPhet.js';
 
 class MatrixNode extends Node {

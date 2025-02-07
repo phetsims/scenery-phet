@@ -6,9 +6,9 @@
  * @author John Blanco
  */
 
-import { Shape } from '../../kite/js/imports.js';
+import Shape from '../../kite/js/Shape.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
-import { Path, PathOptions } from '../../scenery/js/imports.js';
+import Path, { PathOptions } from '../../scenery/js/nodes/Path.js';
 import PhetColorScheme from './PhetColorScheme.js';
 import sceneryPhet from './sceneryPhet.js';
 

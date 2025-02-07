@@ -9,10 +9,11 @@
 import TProperty from '../../axon/js/TProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
-import { LineJoin } from '../../kite/js/imports.js';
+import { LineJoin } from '../../kite/js/util/LineStyles.js';
 import optionize from '../../phet-core/js/optionize.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
-import { Rectangle, TColor } from '../../scenery/js/imports.js';
+import Rectangle from '../../scenery/js/nodes/Rectangle.js';
+import TColor from '../../scenery/js/util/TColor.js';
 import SliderTrack, { SliderTrackOptions } from '../../sun/js/SliderTrack.js';
 import sceneryPhet from './sceneryPhet.js';
 import SpectrumNode, { SpectrumNodeOptions } from './SpectrumNode.js';

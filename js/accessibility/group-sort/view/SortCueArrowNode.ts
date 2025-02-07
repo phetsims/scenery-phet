@@ -9,7 +9,9 @@
 
 import optionize, { combineOptions } from '../../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../../phet-core/js/types/StrictOmit.js';
-import { HBox, HBoxOptions, Node, Rectangle } from '../../../../../scenery/js/imports.js';
+import HBox, { HBoxOptions } from '../../../../../scenery/js/layout/nodes/HBox.js';
+import Node from '../../../../../scenery/js/nodes/Node.js';
+import Rectangle from '../../../../../scenery/js/nodes/Rectangle.js';
 import sceneryPhet from '../../../sceneryPhet.js';
 import TriangleNode, { TriangleNodeOptions } from '../../../TriangleNode.js';
 

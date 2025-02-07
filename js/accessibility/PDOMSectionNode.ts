@@ -12,7 +12,7 @@
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import { Node, NodeOptions } from '../../../scenery/js/imports.js';
+import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import sceneryPhet from '../sceneryPhet.js';
 
 type SelfOptions = EmptySelfOptions;

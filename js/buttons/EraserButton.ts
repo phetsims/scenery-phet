@@ -9,7 +9,8 @@
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import { Image, TrimParallelDOMOptions } from '../../../scenery/js/imports.js';
+import { TrimParallelDOMOptions } from '../../../scenery/js/accessibility/pdom/ParallelDOM.js';
+import Image from '../../../scenery/js/nodes/Image.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import SoundClipPlayer from '../../../tambo/js/sound-generators/SoundClipPlayer.js';
 import eraser_png from '../../images/eraser_png.js';

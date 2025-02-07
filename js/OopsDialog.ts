@@ -11,7 +11,10 @@
 import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { HBox, Image, Node, RichText, RichTextOptions } from '../../scenery/js/imports.js';
+import HBox from '../../scenery/js/layout/nodes/HBox.js';
+import Image from '../../scenery/js/nodes/Image.js';
+import Node from '../../scenery/js/nodes/Node.js';
+import RichText, { RichTextOptions } from '../../scenery/js/nodes/RichText.js';
 import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import phetGirlWaggingFinger_png from '../images/phetGirlWaggingFinger_png.js';

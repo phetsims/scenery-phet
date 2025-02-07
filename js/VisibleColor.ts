@@ -12,7 +12,7 @@
 
 import Utils from '../../dot/js/Utils.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { Color } from '../../scenery/js/imports.js';
+import Color from '../../scenery/js/util/Color.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants

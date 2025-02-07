@@ -8,7 +8,9 @@
 
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { HBox, Node, NodeOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
+import VBox, { VBoxOptions } from '../../../../scenery/js/layout/nodes/VBox.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
 

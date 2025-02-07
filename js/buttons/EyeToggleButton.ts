@@ -10,10 +10,11 @@ import Property from '../../../axon/js/Property.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import { Node, Path } from '../../../scenery/js/imports.js';
+import Node from '../../../scenery/js/nodes/Node.js';
+import Path from '../../../scenery/js/nodes/Path.js';
+import RectangularToggleButton, { RectangularToggleButtonOptions } from '../../../sun/js/buttons/RectangularToggleButton.js';
 import eyeSlashSolidShape from '../../../sun/js/shapes/eyeSlashSolidShape.js';
 import eyeSolidShape from '../../../sun/js/shapes/eyeSolidShape.js';
-import RectangularToggleButton, { RectangularToggleButtonOptions } from '../../../sun/js/buttons/RectangularToggleButton.js';
 import sceneryPhet from '../sceneryPhet.js';
 
 type SelfOptions = EmptySelfOptions;

@@ -7,9 +7,9 @@
  */
 
 import Utils from '../../dot/js/Utils.js';
-import { Shape } from '../../kite/js/imports.js';
+import Shape from '../../kite/js/Shape.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { Path, PathOptions } from '../../scenery/js/imports.js';
+import Path, { PathOptions } from '../../scenery/js/nodes/Path.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants, these are specific to bulb images

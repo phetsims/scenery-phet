@@ -12,7 +12,15 @@
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { AlignBoxOptions, AlignGroup, HBox, HotkeyData, Node, PDOMValueType, RichText, RichTextOptions, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { PDOMValueType } from '../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
+import HotkeyData from '../../../../scenery/js/input/HotkeyData.js';
+import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
+import { AlignBoxOptions } from '../../../../scenery/js/layout/nodes/AlignBox.js';
+import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
+import VBox, { VBoxOptions } from '../../../../scenery/js/layout/nodes/VBox.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import RichText, { RichTextOptions } from '../../../../scenery/js/nodes/RichText.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import { VoicingResponse } from '../../../../utterance-queue/js/ResponsePacket.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';

@@ -9,7 +9,10 @@
 import Property from '../../../../axon/js/Property.js';
 import stepTimer from '../../../../axon/js/stepTimer.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
+import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import { SunDemoOptions } from '../../../../sun/js/demo/DemosScreenView.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';

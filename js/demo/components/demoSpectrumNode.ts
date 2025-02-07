@@ -7,7 +7,7 @@
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import SpectrumNode from '../../SpectrumNode.js';
 
 export default function demoSpectrumNode( layoutBounds: Bounds2 ): Node {

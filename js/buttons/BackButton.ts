@@ -11,7 +11,7 @@
 
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import { Path } from '../../../scenery/js/imports.js';
+import Path from '../../../scenery/js/nodes/Path.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import SoundClip from '../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../tambo/js/soundManager.js';

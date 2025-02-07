@@ -7,7 +7,10 @@
 
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Circle, Line, Node, NodeOptions, TColor } from '../../scenery/js/imports.js';
+import Circle from '../../scenery/js/nodes/Circle.js';
+import Line from '../../scenery/js/nodes/Line.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import TColor from '../../scenery/js/util/TColor.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {

@@ -12,7 +12,13 @@ import Utils from '../../dot/js/Utils.js';
 import getGlobal from '../../phet-core/js/getGlobal.js';
 import optionize from '../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
-import { Display, Font, Node, Rectangle, RichText, RichTextAlign, SceneryEvent, TColor } from '../../scenery/js/imports.js';
+import Display from '../../scenery/js/display/Display.js';
+import SceneryEvent from '../../scenery/js/input/SceneryEvent.js';
+import Node from '../../scenery/js/nodes/Node.js';
+import Rectangle from '../../scenery/js/nodes/Rectangle.js';
+import RichText, { RichTextAlign } from '../../scenery/js/nodes/RichText.js';
+import Font from '../../scenery/js/util/Font.js';
+import TColor from '../../scenery/js/util/TColor.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 

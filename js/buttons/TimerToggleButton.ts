@@ -7,9 +7,10 @@
  */
 
 import Property from '../../../axon/js/Property.js';
-import { Shape } from '../../../kite/js/imports.js';
+import Shape from '../../../kite/js/Shape.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import { Node, Path } from '../../../scenery/js/imports.js';
+import Node from '../../../scenery/js/nodes/Node.js';
+import Path from '../../../scenery/js/nodes/Path.js';
 import BooleanRectangularToggleButton, { BooleanRectangularToggleButtonOptions } from '../../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';

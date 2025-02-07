@@ -9,7 +9,10 @@
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Circle, Node, NodeOptions, RadialGradient, Rectangle } from '../../scenery/js/imports.js';
+import Circle from '../../scenery/js/nodes/Circle.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Rectangle from '../../scenery/js/nodes/Rectangle.js';
+import RadialGradient from '../../scenery/js/util/RadialGradient.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {

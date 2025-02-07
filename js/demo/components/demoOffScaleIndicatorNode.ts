@@ -8,7 +8,8 @@
 
 import StringProperty from '../../../../axon/js/StringProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { GridBox, Node } from '../../../../scenery/js/imports.js';
+import GridBox from '../../../../scenery/js/layout/nodes/GridBox.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import OffScaleIndicatorNode from '../../OffScaleIndicatorNode.js';
 import PhetFont from '../../PhetFont.js';
 

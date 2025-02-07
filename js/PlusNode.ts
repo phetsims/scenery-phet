@@ -9,7 +9,7 @@
 
 import Dimension2 from '../../dot/js/Dimension2.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { Path, PathOptions } from '../../scenery/js/imports.js';
+import Path, { PathOptions } from '../../scenery/js/nodes/Path.js';
 import PlusShape from './PlusShape.js';
 import sceneryPhet from './sceneryPhet.js';
 

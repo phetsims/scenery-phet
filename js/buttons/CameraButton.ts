@@ -9,9 +9,10 @@
 import optionize from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import { Path, TColor } from '../../../scenery/js/imports.js';
-import cameraSolidShape from '../../../sun/js/shapes/cameraSolidShape.js';
+import Path from '../../../scenery/js/nodes/Path.js';
+import TColor from '../../../scenery/js/util/TColor.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
+import cameraSolidShape from '../../../sun/js/shapes/cameraSolidShape.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 

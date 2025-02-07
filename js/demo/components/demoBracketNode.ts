@@ -7,7 +7,8 @@
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { Node, Text } from '../../../../scenery/js/imports.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import BracketNode from '../../BracketNode.js';
 import PhetFont from '../../PhetFont.js';
 

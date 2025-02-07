@@ -9,7 +9,9 @@
 import TRangedProperty from '../../axon/js/TRangedProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { AlignBox, AlignGroup, PathOptions } from '../../scenery/js/imports.js';
+import AlignGroup from '../../scenery/js/layout/constraints/AlignGroup.js';
+import AlignBox from '../../scenery/js/layout/nodes/AlignBox.js';
+import { PathOptions } from '../../scenery/js/nodes/Path.js';
 import ButtonNode from '../../sun/js/buttons/ButtonNode.js';
 import MinusNode from './MinusNode.js';
 import PlusNode from './PlusNode.js';

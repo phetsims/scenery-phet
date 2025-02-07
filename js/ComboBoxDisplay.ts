@@ -15,7 +15,7 @@ import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Range from '../../dot/js/Range.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Node } from '../../scenery/js/imports.js';
+import Node from '../../scenery/js/nodes/Node.js';
 import ComboBox, { ComboBoxItem, ComboBoxOptions } from '../../sun/js/ComboBox.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';

@@ -15,7 +15,11 @@ import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.
 import merge from '../../phet-core/js/merge.js';
 import { combineOptions, optionize3, OptionizeDefaults } from '../../phet-core/js/optionize.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
-import { LinearGradient, Node, NodeOptions, ParallelDOM, Rectangle, TColor, TrimParallelDOMOptions } from '../../scenery/js/imports.js';
+import ParallelDOM, { TrimParallelDOMOptions } from '../../scenery/js/accessibility/pdom/ParallelDOM.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Rectangle from '../../scenery/js/nodes/Rectangle.js';
+import LinearGradient from '../../scenery/js/util/LinearGradient.js';
+import TColor from '../../scenery/js/util/TColor.js';
 import { RoundButtonOptions } from '../../sun/js/buttons/RoundButton.js';
 import RoundMomentaryButton from '../../sun/js/buttons/RoundMomentaryButton.js';
 import RoundStickyToggleButton from '../../sun/js/buttons/RoundStickyToggleButton.js';

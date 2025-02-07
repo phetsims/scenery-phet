@@ -20,7 +20,16 @@ import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
-import { Circle, DragListener, HBox, InteractiveHighlighting, InteractiveHighlightingOptions, KeyboardDragListener, Node, NodeOptions, Path, PressListenerEvent, TColor, VBox } from '../../scenery/js/imports.js';
+import InteractiveHighlighting, { InteractiveHighlightingOptions } from '../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
+import HBox from '../../scenery/js/layout/nodes/HBox.js';
+import VBox from '../../scenery/js/layout/nodes/VBox.js';
+import DragListener from '../../scenery/js/listeners/DragListener.js';
+import KeyboardDragListener from '../../scenery/js/listeners/KeyboardDragListener.js';
+import { PressListenerEvent } from '../../scenery/js/listeners/PressListener.js';
+import Circle from '../../scenery/js/nodes/Circle.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Path from '../../scenery/js/nodes/Path.js';
+import TColor from '../../scenery/js/util/TColor.js';
 import BooleanRectangularToggleButton, { BooleanRectangularToggleButtonOptions } from '../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/js/buttons/RectangularPushButton.js';
 import sharedSoundPlayers from '../../tambo/js/sharedSoundPlayers.js';

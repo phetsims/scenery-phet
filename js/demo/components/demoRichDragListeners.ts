@@ -9,8 +9,12 @@
 
 import TinyProperty from '../../../../axon/js/TinyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { Shape } from '../../../../kite/js/imports.js';
-import { Circle, Node, Path, Rectangle, RichText } from '../../../../scenery/js/imports.js';
+import Shape from '../../../../kite/js/Shape.js';
+import Circle from '../../../../scenery/js/nodes/Circle.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import RichText from '../../../../scenery/js/nodes/RichText.js';
 import PhetFont from '../../PhetFont.js';
 import SoundDragListener from '../../SoundDragListener.js';
 import SoundKeyboardDragListener from '../../SoundKeyboardDragListener.js';

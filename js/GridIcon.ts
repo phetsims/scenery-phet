@@ -6,9 +6,9 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { Shape } from '../../kite/js/imports.js';
+import Shape from '../../kite/js/Shape.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { Path, PathOptions } from '../../scenery/js/imports.js';
+import Path, { PathOptions } from '../../scenery/js/nodes/Path.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {

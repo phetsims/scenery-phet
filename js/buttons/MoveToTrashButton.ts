@@ -11,9 +11,11 @@
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import { Node, Path, TColor } from '../../../scenery/js/imports.js';
-import trashShape from '../../../sun/js/shapes/trashShape.js';
+import Node from '../../../scenery/js/nodes/Node.js';
+import Path from '../../../scenery/js/nodes/Path.js';
+import TColor from '../../../scenery/js/util/TColor.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
+import trashShape from '../../../sun/js/shapes/trashShape.js';
 import CurvedArrowShape from '../CurvedArrowShape.js';
 import sceneryPhet from '../sceneryPhet.js';
 

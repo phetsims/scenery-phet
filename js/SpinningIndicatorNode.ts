@@ -13,7 +13,12 @@
 
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Circle, Color, Node, NodeOptions, PaintColorProperty, Path, Rectangle } from '../../scenery/js/imports.js';
+import Circle from '../../scenery/js/nodes/Circle.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Path from '../../scenery/js/nodes/Path.js';
+import Rectangle from '../../scenery/js/nodes/Rectangle.js';
+import Color from '../../scenery/js/util/Color.js';
+import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {

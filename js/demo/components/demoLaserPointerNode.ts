@@ -8,7 +8,8 @@
 
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { Node, Rectangle } from '../../../../scenery/js/imports.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import LaserPointerNode from '../../LaserPointerNode.js';
 
 export default function demoLaserPointerNode( layoutBounds: Bounds2 ): Node {

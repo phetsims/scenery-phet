@@ -8,10 +8,13 @@
  */
 
 import Property from '../../axon/js/Property.js';
-import { Shape } from '../../kite/js/imports.js';
+import Shape from '../../kite/js/Shape.js';
 import deprecationWarning from '../../phet-core/js/deprecationWarning.js';
 import merge from '../../phet-core/js/merge.js';
-import { Color, FireListener, Node, Path } from '../../scenery/js/imports.js';
+import FireListener from '../../scenery/js/listeners/FireListener.js';
+import Node from '../../scenery/js/nodes/Node.js';
+import Path from '../../scenery/js/nodes/Path.js';
+import Color from '../../scenery/js/util/Color.js';
 import sceneryPhet from './sceneryPhet.js';
 
 /**

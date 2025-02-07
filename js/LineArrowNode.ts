@@ -7,11 +7,14 @@
  */
 
 import Vector2 from '../../dot/js/Vector2.js';
-import { LineCap, LineJoin, Shape } from '../../kite/js/imports.js';
+import Shape from '../../kite/js/Shape.js';
+import { LineCap, LineJoin } from '../../kite/js/util/LineStyles.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Node, NodeOptions, Path, TColor } from '../../scenery/js/imports.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Path from '../../scenery/js/nodes/Path.js';
+import TColor from '../../scenery/js/util/TColor.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {

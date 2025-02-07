@@ -8,10 +8,12 @@
  */
 
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
-import { Shape } from '../../kite/js/imports.js';
+import Shape from '../../kite/js/Shape.js';
 import optionize from '../../phet-core/js/optionize.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
-import { Node, Path, PathOptions, Rectangle, RectangleOptions } from '../../scenery/js/imports.js';
+import Node from '../../scenery/js/nodes/Node.js';
+import Path, { PathOptions } from '../../scenery/js/nodes/Path.js';
+import Rectangle, { RectangleOptions } from '../../scenery/js/nodes/Rectangle.js';
 import sceneryPhet from './sceneryPhet.js';
 import SpectrumNode, { SpectrumNodeOptions } from './SpectrumNode.js';
 

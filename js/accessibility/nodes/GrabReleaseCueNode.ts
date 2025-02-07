@@ -7,7 +7,8 @@
  */
 
 import optionize from '../../../../phet-core/js/optionize.js';
-import { HBox, RichText } from '../../../../scenery/js/imports.js';
+import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
+import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import TextKeyNode from '../../keyboard/TextKeyNode.js';
 import PhetFont from '../../PhetFont.js';

@@ -14,7 +14,10 @@ import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Node, NodeOptions, Rectangle, RectangleOptions, RichText, RichTextOptions, Text, TextOptions } from '../../scenery/js/imports.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Rectangle, { RectangleOptions } from '../../scenery/js/nodes/Rectangle.js';
+import RichText, { RichTextOptions } from '../../scenery/js/nodes/RichText.js';
+import Text, { TextOptions } from '../../scenery/js/nodes/Text.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type AlignX = 'left' | 'right' | 'center';

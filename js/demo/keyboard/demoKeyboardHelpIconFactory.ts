@@ -7,7 +7,8 @@
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { GridBox, Node } from '../../../../scenery/js/imports.js';
+import GridBox from '../../../../scenery/js/layout/nodes/GridBox.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import { SunDemoOptions } from '../../../../sun/js/demo/DemosScreenView.js';
 import KeyboardHelpIconFactory from '../../keyboard/help/KeyboardHelpIconFactory.js';
 import TextKeyNode from '../../keyboard/TextKeyNode.js';

@@ -13,7 +13,7 @@
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Text, TextOptions } from '../../scenery/js/imports.js';
+import Text, { TextOptions } from '../../scenery/js/nodes/Text.js';
 import { AquaRadioButtonGroupItem } from '../../sun/js/AquaRadioButtonGroup.js';
 import VerticalAquaRadioButtonGroup, { VerticalAquaRadioButtonGroupOptions } from '../../sun/js/VerticalAquaRadioButtonGroup.js';
 import Tandem from '../../tandem/js/Tandem.js';

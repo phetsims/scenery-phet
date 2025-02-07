@@ -9,9 +9,10 @@
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import { Path, TColor } from '../../../scenery/js/imports.js';
-import infoCircleSolidShape from '../../../sun/js/shapes/infoCircleSolidShape.js';
+import Path from '../../../scenery/js/nodes/Path.js';
+import TColor from '../../../scenery/js/util/TColor.js';
 import RoundPushButton, { RoundPushButtonOptions } from '../../../sun/js/buttons/RoundPushButton.js';
+import infoCircleSolidShape from '../../../sun/js/shapes/infoCircleSolidShape.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
 

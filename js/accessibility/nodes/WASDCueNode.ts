@@ -11,8 +11,11 @@
 
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { Shape } from '../../../../kite/js/imports.js';
-import { HBox, Node, Path, VBox } from '../../../../scenery/js/imports.js';
+import Shape from '../../../../kite/js/Shape.js';
+import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
+import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
 import LetterKeyNode, { LetterKeyNodeOptions } from '../../keyboard/LetterKeyNode.js';
 import TextKeyNode from '../../keyboard/TextKeyNode.js';
 import PhetFont from '../../PhetFont.js';

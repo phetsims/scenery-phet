@@ -9,9 +9,9 @@
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import { Path } from '../../../scenery/js/imports.js';
-import syncShape from '../../../sun/js/shapes/syncShape.js';
+import Path from '../../../scenery/js/nodes/Path.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
+import syncShape from '../../../sun/js/shapes/syncShape.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 

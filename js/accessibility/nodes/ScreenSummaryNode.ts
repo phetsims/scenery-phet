@@ -12,7 +12,7 @@
  */
 
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 

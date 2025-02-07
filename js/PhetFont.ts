@@ -12,7 +12,7 @@
  */
 
 import { combineOptions } from '../../phet-core/js/optionize.js';
-import { Font, FontOptions } from '../../scenery/js/imports.js';
+import Font, { FontOptions } from '../../scenery/js/util/Font.js';
 import sceneryPhet from './sceneryPhet.js';
 import sceneryPhetQueryParameters from './sceneryPhetQueryParameters.js';
 

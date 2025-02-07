@@ -10,7 +10,7 @@
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import merge from '../../../../phet-core/js/merge.js';
-import { KeyboardUtils } from '../../../../scenery/js/imports.js';
+import KeyboardUtils from '../../../../scenery/js/accessibility/KeyboardUtils.js';
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../../sceneryPhet.js';

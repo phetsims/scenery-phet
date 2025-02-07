@@ -8,9 +8,9 @@
 
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import { Path, PathOptions } from '../../../scenery/js/imports.js';
-import trashShape from '../../../sun/js/shapes/trashShape.js';
+import Path, { PathOptions } from '../../../scenery/js/nodes/Path.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
+import trashShape from '../../../sun/js/shapes/trashShape.js';
 import sceneryPhet from '../sceneryPhet.js';
 
 type SelfOptions = {

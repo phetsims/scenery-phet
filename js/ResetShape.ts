@@ -7,7 +7,7 @@
  * @author John Blanco
  */
 
-import { Shape } from '../../kite/js/imports.js';
+import Shape from '../../kite/js/Shape.js';
 import sceneryPhet from './sceneryPhet.js';
 
 export default class ResetShape extends Shape {

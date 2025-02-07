@@ -11,7 +11,7 @@
 import Property from '../../../axon/js/Property.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import { Path } from '../../../scenery/js/imports.js';
+import Path from '../../../scenery/js/nodes/Path.js';
 import PauseIconShape from '../PauseIconShape.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetConstants from '../SceneryPhetConstants.js';

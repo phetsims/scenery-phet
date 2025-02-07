@@ -7,7 +7,7 @@
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import PaperAirplaneNode from '../../PaperAirplaneNode.js';
 
 export default function demoPaperAirplaneNode( layoutBounds: Bounds2 ): Node {

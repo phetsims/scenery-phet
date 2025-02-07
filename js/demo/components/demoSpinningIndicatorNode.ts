@@ -8,7 +8,9 @@
 
 import stepTimer from '../../../../axon/js/stepTimer.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { Color, HBox, Node } from '../../../../scenery/js/imports.js';
+import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import SpinningIndicatorNode from '../../SpinningIndicatorNode.js';
 
 export default function demoSpinningIndicatorNode( layoutBounds: Bounds2 ): Node {

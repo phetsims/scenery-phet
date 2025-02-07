@@ -8,9 +8,16 @@
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
-import { Shape } from '../../kite/js/imports.js';
+import Shape from '../../kite/js/Shape.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { Color, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, RadialGradient, Rectangle, TColor } from '../../scenery/js/imports.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Path from '../../scenery/js/nodes/Path.js';
+import Rectangle from '../../scenery/js/nodes/Rectangle.js';
+import Color from '../../scenery/js/util/Color.js';
+import LinearGradient from '../../scenery/js/util/LinearGradient.js';
+import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
+import RadialGradient from '../../scenery/js/util/RadialGradient.js';
+import TColor from '../../scenery/js/util/TColor.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type LightSource = 'leftTop' | 'rightTop' | 'leftBottom' | 'rightBottom';

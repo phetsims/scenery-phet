@@ -10,7 +10,9 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
-import { Circle, DragListener, Node } from '../../../../scenery/js/imports.js';
+import DragListener from '../../../../scenery/js/listeners/DragListener.js';
+import Circle from '../../../../scenery/js/nodes/Circle.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import WireNode from '../../WireNode.js';
 
 export default function demoWireNode( layoutBounds: Bounds2 ): Node {

@@ -15,9 +15,11 @@
 import stepTimer from '../../axon/js/stepTimer.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Node, NodeOptions, Path, RichText } from '../../scenery/js/imports.js';
-import videoSolidShape from '../../sun/js/shapes/videoSolidShape.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Path from '../../scenery/js/nodes/Path.js';
+import RichText from '../../scenery/js/nodes/RichText.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/js/buttons/RectangularPushButton.js';
+import videoSolidShape from '../../sun/js/shapes/videoSolidShape.js';
 import OscillatorSoundGenerator from '../../tambo/js/sound-generators/OscillatorSoundGenerator.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import Tandem from '../../tandem/js/Tandem.js';

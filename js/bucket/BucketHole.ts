@@ -10,7 +10,9 @@ import Matrix3 from '../../../dot/js/Matrix3.js';
 import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import Bucket from '../../../phetcommon/js/model/Bucket.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
-import { LinearGradient, Node, NodeOptions, Path } from '../../../scenery/js/imports.js';
+import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
+import Path from '../../../scenery/js/nodes/Path.js';
+import LinearGradient from '../../../scenery/js/util/LinearGradient.js';
 import sceneryPhet from '../sceneryPhet.js';
 
 type SelfOptions = EmptySelfOptions;

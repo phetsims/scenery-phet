@@ -8,7 +8,7 @@
 
 import StringProperty from '../../../../axon/js/StringProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import GrabReleaseKeyboardHelpSection from '../../keyboard/help/GrabReleaseKeyboardHelpSection.js';
 
 export default function demoGrabReleaseKeyboardHelpSection( layoutBounds: Bounds2 ): Node {

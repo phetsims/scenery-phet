@@ -6,7 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { Shape } from '../../kite/js/imports.js';
+import Shape from '../../kite/js/Shape.js';
 import sceneryPhet from './sceneryPhet.js';
 
 export default class PauseIconShape extends Shape {

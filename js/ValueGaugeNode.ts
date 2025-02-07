@@ -11,11 +11,11 @@ import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Range from '../../dot/js/Range.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import optionize from '../../phet-core/js/optionize.js';
+import ManualConstraint from '../../scenery/js/layout/constraints/ManualConstraint.js';
 import GaugeNode, { GaugeNodeOptions } from './GaugeNode.js';
 import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import { ManualConstraint } from '../../scenery/js/imports.js';
 
 // constants
 const DEFAULT_FONT = new PhetFont( 16 );

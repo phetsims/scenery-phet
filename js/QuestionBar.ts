@@ -14,7 +14,7 @@ import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import StatusBar, { StatusBarOptions } from '../../scenery-phet/js/StatusBar.js';
-import { Text, TextOptions } from '../../scenery/js/imports.js';
+import Text, { TextOptions } from '../../scenery/js/nodes/Text.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {

@@ -10,7 +10,8 @@
 import { ObservableArray } from '../../axon/js/createObservableArray.js';
 import dotRandom from '../../dot/js/dotRandom.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
-import { FireListener, Plane, PlaneOptions } from '../../scenery/js/imports.js';
+import FireListener from '../../scenery/js/listeners/FireListener.js';
+import Plane, { PlaneOptions } from '../../scenery/js/nodes/Plane.js';
 import { PopupableNode } from '../../sun/js/Popupable.js';
 import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';

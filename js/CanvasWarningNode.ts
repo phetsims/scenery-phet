@@ -6,7 +6,11 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import { HBox, openPopup, Path, Text, VBox } from '../../scenery/js/imports.js';
+import HBox from '../../scenery/js/layout/nodes/HBox.js';
+import VBox from '../../scenery/js/layout/nodes/VBox.js';
+import Path from '../../scenery/js/nodes/Path.js';
+import Text from '../../scenery/js/nodes/Text.js';
+import openPopup from '../../scenery/js/util/openPopup.js';
 import exclamationSolidShape from '../../sun/js/shapes/exclamationSolidShape.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';

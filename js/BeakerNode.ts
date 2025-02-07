@@ -11,10 +11,14 @@
  */
 
 import TRangedProperty from '../../axon/js/TRangedProperty.js';
-import { Shape } from '../../kite/js/imports.js';
+import Shape from '../../kite/js/Shape.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Node, NodeOptions, PaintColorProperty, Path, TColor, TPaint } from '../../scenery/js/imports.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Path from '../../scenery/js/nodes/Path.js';
+import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
+import TColor from '../../scenery/js/util/TColor.js';
+import TPaint from '../../scenery/js/util/TPaint.js';
 import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetColors from './SceneryPhetColors.js';
 

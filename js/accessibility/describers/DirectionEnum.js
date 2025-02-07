@@ -9,7 +9,7 @@
  */
 
 import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
-import { KeyboardUtils } from '../../../../scenery/js/imports.js';
+import KeyboardUtils from '../../../../scenery/js/accessibility/KeyboardUtils.js';
 import sceneryPhet from '../../sceneryPhet.js';
 
 // It is important that the key and value are the same, so that either way you can access the values of the enum.

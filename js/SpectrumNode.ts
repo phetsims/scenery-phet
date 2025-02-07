@@ -13,7 +13,9 @@ import Dimension2 from '../../dot/js/Dimension2.js';
 import Utils from '../../dot/js/Utils.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Color, Image, Node, NodeOptions } from '../../scenery/js/imports.js';
+import Image from '../../scenery/js/nodes/Image.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Color from '../../scenery/js/util/Color.js';
 import sceneryPhet from './sceneryPhet.js';
 
 const DEFAULT_SIZE = new Dimension2( 150, 30 );

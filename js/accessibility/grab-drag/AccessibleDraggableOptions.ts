@@ -6,7 +6,8 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import { Node, ParallelDOMOptions, PDOMValueType } from '../../../../scenery/js/imports.js';
+import { ParallelDOMOptions, PDOMValueType } from '../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 
 // constants

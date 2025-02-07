@@ -8,7 +8,8 @@
 
 import TinyProperty from '../../../../axon/js/TinyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { HBox, Node } from '../../../../scenery/js/imports.js';
+import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import { SunDemoOptions } from '../../../../sun/js/demo/DemosScreenView.js';
 import SliderControlsKeyboardHelpSection from '../../keyboard/help/SliderControlsKeyboardHelpSection.js';
 

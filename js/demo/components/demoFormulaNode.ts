@@ -7,7 +7,8 @@
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { Node, Rectangle } from '../../../../scenery/js/imports.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import FormulaNode from '../../FormulaNode.js';
 
 export default function demoFormulaNode( layoutBounds: Bounds2 ): Node {

@@ -6,9 +6,11 @@
  * @author Jesse Greenberg
  */
 
-import { LineJoin, Shape } from '../../../kite/js/imports.js';
+import Shape from '../../../kite/js/Shape.js';
+import { LineJoin } from '../../../kite/js/util/LineStyles.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { Path, TColor } from '../../../scenery/js/imports.js';
+import Path from '../../../scenery/js/nodes/Path.js';
+import TColor from '../../../scenery/js/util/TColor.js';
 import sceneryPhet from '../sceneryPhet.js';
 import KeyNode, { KeyNodeOptions } from './KeyNode.js';
 

@@ -9,11 +9,15 @@
  */
 
 import Matrix3 from '../../dot/js/Matrix3.js';
-import { Shape } from '../../kite/js/imports.js';
+import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { LinearGradient, Node, NodeOptions, PaintColorProperty, Path, PathOptions, TColor } from '../../scenery/js/imports.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Path, { PathOptions } from '../../scenery/js/nodes/Path.js';
+import LinearGradient from '../../scenery/js/util/LinearGradient.js';
+import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
+import TColor from '../../scenery/js/util/TColor.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants

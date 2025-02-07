@@ -9,7 +9,7 @@
 
 import Dimension2 from '../../dot/js/Dimension2.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { Rectangle, RectangleOptions } from '../../scenery/js/imports.js';
+import Rectangle, { RectangleOptions } from '../../scenery/js/nodes/Rectangle.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // constants

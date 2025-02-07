@@ -8,7 +8,10 @@
  */
 
 import optionize from '../../phet-core/js/optionize.js';
-import { Circle, Line, LineOptions, Node, NodeOptions, TPaint } from '../../scenery/js/imports.js';
+import Circle from '../../scenery/js/nodes/Circle.js';
+import Line, { LineOptions } from '../../scenery/js/nodes/Line.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import TPaint from '../../scenery/js/util/TPaint.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {

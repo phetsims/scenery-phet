@@ -8,11 +8,15 @@
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Property from '../../axon/js/Property.js';
-import { Shape } from '../../kite/js/imports.js';
+import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Circle, Image, Node, NodeOptions, Path, TPaint } from '../../scenery/js/imports.js';
+import Circle from '../../scenery/js/nodes/Circle.js';
+import Image from '../../scenery/js/nodes/Image.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Path from '../../scenery/js/nodes/Path.js';
+import TPaint from '../../scenery/js/util/TPaint.js';
 import RoundMomentaryButton, { RoundMomentaryButtonOptions } from '../../sun/js/buttons/RoundMomentaryButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import eyeDropperBackground_png from '../images/eyeDropperBackground_png.js';

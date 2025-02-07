@@ -10,7 +10,7 @@
  * @author Jonathan Olson
  */
 
-import { Node } from '../../scenery/js/imports.js';
+import Node from '../../scenery/js/nodes/Node.js';
 import sceneryPhet from './sceneryPhet.js';
 
 export default class ViewSynchronizer<Model, View extends Node> {

@@ -7,10 +7,15 @@
  */
 
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
-import { Shape } from '../../kite/js/imports.js';
+import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { Font, Node, NodeOptions, Path, Rectangle, TColor, Text } from '../../scenery/js/imports.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Path from '../../scenery/js/nodes/Path.js';
+import Rectangle from '../../scenery/js/nodes/Rectangle.js';
+import Text from '../../scenery/js/nodes/Text.js';
+import Font from '../../scenery/js/util/Font.js';
+import TColor from '../../scenery/js/util/TColor.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';

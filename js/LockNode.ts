@@ -8,7 +8,11 @@
 
 import TProperty from '../../axon/js/TProperty.js';
 import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
-import { AlignBox, AlignBoxOptions, AlignGroup, HBox, HStrut, Image } from '../../scenery/js/imports.js';
+import AlignGroup from '../../scenery/js/layout/constraints/AlignGroup.js';
+import AlignBox, { AlignBoxOptions } from '../../scenery/js/layout/nodes/AlignBox.js';
+import HBox from '../../scenery/js/layout/nodes/HBox.js';
+import HStrut from '../../scenery/js/nodes/HStrut.js';
+import Image from '../../scenery/js/nodes/Image.js';
 import BooleanToggleNode, { BooleanToggleNodeOptions } from '../../sun/js/BooleanToggleNode.js';
 import lockClosed_png from '../images/lockClosed_png.js';
 import lockOpened_png from '../images/lockOpened_png.js';

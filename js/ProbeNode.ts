@@ -15,10 +15,18 @@
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Ray2 from '../../dot/js/Ray2.js';
 import Vector2 from '../../dot/js/Vector2.js';
-import { EllipticalArc, Shape } from '../../kite/js/imports.js';
+import { EllipticalArc } from '../../kite/js/segments/Segment.js';
+import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { EmptySelfOptions, optionize3 } from '../../phet-core/js/optionize.js';
-import { Circle, Line, LinearGradient, Node, NodeOptions, PaintColorProperty, Path, RadialGradient, TColor } from '../../scenery/js/imports.js';
+import Circle from '../../scenery/js/nodes/Circle.js';
+import Line from '../../scenery/js/nodes/Line.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Path from '../../scenery/js/nodes/Path.js';
+import LinearGradient from '../../scenery/js/util/LinearGradient.js';
+import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
+import RadialGradient from '../../scenery/js/util/RadialGradient.js';
+import TColor from '../../scenery/js/util/TColor.js';
 import sceneryPhet from './sceneryPhet.js';
 
 // options for ProbeNode.glass

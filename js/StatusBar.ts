@@ -13,7 +13,10 @@ import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import optionize from '../../phet-core/js/optionize.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { Color, Node, NodeOptions, Rectangle, TColor } from '../../scenery/js/imports.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Rectangle from '../../scenery/js/nodes/Rectangle.js';
+import Color from '../../scenery/js/util/Color.js';
+import TColor from '../../scenery/js/util/TColor.js';
 import sceneryPhet from './sceneryPhet.js';
 
 type SelfOptions = {

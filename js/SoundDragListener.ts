@@ -15,7 +15,7 @@
  */
 
 import { EmptySelfOptions, optionize3 } from '../../phet-core/js/optionize.js';
-import { DragListener, DragListenerOptions, PressedDragListener } from '../../scenery/js/imports.js';
+import DragListener, { DragListenerOptions, PressedDragListener } from '../../scenery/js/listeners/DragListener.js';
 import sceneryPhet from './sceneryPhet.js';
 import SoundRichDragListener, { RichDragListenerSoundOptions } from './SoundRichDragListener.js';
 

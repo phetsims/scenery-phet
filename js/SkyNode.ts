@@ -8,7 +8,8 @@
  */
 
 import optionize from '../../phet-core/js/optionize.js';
-import { Color, TColor } from '../../scenery/js/imports.js';
+import Color from '../../scenery/js/util/Color.js';
+import TColor from '../../scenery/js/util/TColor.js';
 import GradientBackgroundNode from './GradientBackgroundNode.js';
 import sceneryPhet from './sceneryPhet.js';
 
