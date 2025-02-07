@@ -8,6 +8,7 @@
 
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
+import VoicingRichText from '../../scenery/js/accessibility/voicing/nodes/VoicingRichText.js';
 import HBox from '../../scenery/js/layout/nodes/HBox.js';
 import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
 import RichText, { RichTextOptions } from '../../scenery/js/nodes/RichText.js';
@@ -64,7 +65,7 @@ export default class OffScaleIndicatorNode extends Node {
       }
     }, providedOptions );
 
-    const richText = new RichText( options.offScaleStringProperty, options.richTextOptions );
+    const richText = new VoicingRichText( options.offScaleStringProperty, options.richTextOptions );
 
     const x2 = direction === 'right' ? options.arrowTailLength :
                direction === 'left' ? -options.arrowTailLength :
