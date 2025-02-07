@@ -11,10 +11,22 @@ import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+
+type MoveDraggableItemsKeyboardHelpSectionOptions = {
+
+  // The heading string for this help section.
+  headingStringProperty?: TReadOnlyProperty<string>;
+};
 
 export default class MoveDraggableItemsKeyboardHelpSection extends KeyboardHelpSection {
 
-  public constructor() {
+  public constructor( providedOptions?: MoveDraggableItemsKeyboardHelpSectionOptions ) {
+
+    const options = optionize<MoveDraggableItemsKeyboardHelpSectionOptions>()( {
+      headingStringProperty: SceneryPhetStrings.keyboardHelpDialog.moveDraggableItemsStringProperty
+    }, providedOptions );
 
     // Move
     const moveRow = KeyboardHelpSectionRow.labelWithIcon(
@@ -32,7 +44,7 @@ export default class MoveDraggableItemsKeyboardHelpSection extends KeyboardHelpS
         labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.draggableItems.moveSlowerDescriptionStringProperty
       } );
 
-    super( SceneryPhetStrings.keyboardHelpDialog.moveDraggableItemsStringProperty, [ moveRow, moveSlowerRow ] );
+    super( options.headingStringProperty, [ moveRow, moveSlowerRow ] );
   }
 }
 
