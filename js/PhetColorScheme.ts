@@ -1,4 +1,4 @@
-// Copyright 2015-2023, University of Colorado Boulder
+// Copyright 2015-2025, University of Colorado Boulder
 
 /**
  * Colors that are specific to PhET simulations.

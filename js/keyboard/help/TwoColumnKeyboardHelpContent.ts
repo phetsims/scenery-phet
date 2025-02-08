@@ -1,4 +1,4 @@
-// Copyright 2019-2023, University of Colorado Boulder
+// Copyright 2019-2025, University of Colorado Boulder
 
 /**
  * TwoColumnKeyboardHelpContentOptions handles layout of KeyboardHelpSections in 2 columns.

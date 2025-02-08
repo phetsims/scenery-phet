@@ -1,4 +1,4 @@
-// Copyright 2014-2024, University of Colorado Boulder
+// Copyright 2014-2025, University of Colorado Boulder
 
 /**
  * SpectrumNode displays a color spectrum for a range of values. By default, it maps values in the range [0,1] to

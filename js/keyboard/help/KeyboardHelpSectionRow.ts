@@ -1,4 +1,4 @@
-// Copyright 2022-2024, University of Colorado Boulder
+// Copyright 2022-2025, University of Colorado Boulder
 
 /**
  * A row of KeyboardHelpSection, containing the label, icon, and text. Many of the static functions of

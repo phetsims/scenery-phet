@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * SoundDragListener extends DragListener to integrate PhET-specific sounds for grab and release.

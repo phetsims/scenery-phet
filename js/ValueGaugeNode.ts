@@ -1,4 +1,4 @@
-// Copyright 2019-2024, University of Colorado Boulder
+// Copyright 2019-2025, University of Colorado Boulder
 
 /**
  * A GaugeNode with a NumberDisplay located in the center bottom half of the GaugeNode to

@@ -1,4 +1,4 @@
-// Copyright 2019-2023, University of Colorado Boulder
+// Copyright 2019-2025, University of Colorado Boulder
 
 /**
  * DebugLoggerText is a node that can be added as a child to the view and can show debug log messages.

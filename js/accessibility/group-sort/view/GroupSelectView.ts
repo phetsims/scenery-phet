@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * This doc assumes you have read the doc in GroupSelectModel. Read that first as it explains the "group select

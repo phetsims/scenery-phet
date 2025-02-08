@@ -1,4 +1,4 @@
-// Copyright 2018-2024, University of Colorado Boulder
+// Copyright 2018-2025, University of Colorado Boulder
 
 /**
  * Scenery node that shows a handle, which is made of two parts: the "grip" which is where you would grab it and the

@@ -1,4 +1,4 @@
-// Copyright 2014-2024, University of Colorado Boulder
+// Copyright 2014-2025, University of Colorado Boulder
 
 /**
  * A face that either smiles or frowns.  When the face is smiling, it displays points awarded next to it.

@@ -1,4 +1,4 @@
-// Copyright 2017-2024, University of Colorado Boulder
+// Copyright 2017-2025, University of Colorado Boulder
 
 /**
  * KeyNode looks like a keyboard key. It has a shadow rectangle under the key icon, with a slight offset so that it

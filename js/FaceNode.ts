@@ -1,4 +1,4 @@
-// Copyright 2013-2024, University of Colorado Boulder
+// Copyright 2013-2025, University of Colorado Boulder
 
 /**
  * FaceNode is a face that can smile or frown.  This is generally used for indicating success or failure.

@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * MoveDraggableItemsKeyboardHelpSection is the keyboard-help section that describes how to move items in 2D.
