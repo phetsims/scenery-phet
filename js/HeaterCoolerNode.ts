@@ -58,7 +58,7 @@ export default class HeaterCoolerNode extends Node {
     const options = optionize<HeaterCoolerNodeOptions, StrictOmit<SelfOptions, 'frontOptions' | 'backOptions'>, NodeOptions>()( {
 
       // SelfOptions
-      baseColor: HeaterCoolerFront.DEFAULT_BASE_COLOR,
+      baseColor: HeaterCoolerBack.DEFAULT_BASE_COLOR,
 
       // NodeOptions
       tandem: Tandem.REQUIRED,

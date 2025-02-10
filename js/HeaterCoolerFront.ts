@@ -90,7 +90,6 @@ export default class HeaterCoolerFront extends Node {
 
   private readonly disposeHeaterCoolerFront: () => void;
 
-  public static readonly DEFAULT_BASE_COLOR = 'rgb( 159, 182, 205 )';
 
   /**
    * @param heatCoolAmountProperty +1 for max heating, -1 for max cooling
@@ -102,7 +101,7 @@ export default class HeaterCoolerFront extends Node {
     const options = optionize<HeaterCoolerFrontOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
-      baseColor: HeaterCoolerFront.DEFAULT_BASE_COLOR,
+      baseColor: HeaterCoolerBack.DEFAULT_BASE_COLOR,
       width: 120,
       heatEnabled: true,
       coolEnabled: true,
