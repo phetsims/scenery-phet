@@ -296,6 +296,12 @@ type StringsType = {
     'measuringTapeStringProperty': LocalizedStringProperty;
     'measuringTapeTipStringProperty': LocalizedStringProperty;
     'infoStringProperty': LocalizedStringProperty;
+    'offScaleIndicator': {
+      'pointsOffScaleUpStringProperty': LocalizedStringProperty;
+      'pointsOffScaleDownStringProperty': LocalizedStringProperty;
+      'pointsOffScaleLeftStringProperty': LocalizedStringProperty;
+      'pointsOffScaleRightStringProperty': LocalizedStringProperty;
+    }
   }
 };
 

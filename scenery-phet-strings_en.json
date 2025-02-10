@@ -680,6 +680,18 @@
     },
     "info": {
       "value": "Info"
+    },
+    "offScaleIndicator.pointsOffScaleUp": {
+      "value": "Points off scale up!"
+    },
+    "offScaleIndicator.pointsOffScaleDown": {
+      "value": "Points off scale down!"
+    },
+    "offScaleIndicator.pointsOffScaleLeft": {
+      "value": "Points off scale to the left!"
+    },
+    "offScaleIndicator.pointsOffScaleRight": {
+      "value": "Points off scale to the right!"
     }
   }
 }
