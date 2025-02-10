@@ -30,7 +30,7 @@ type SelfOptions = {
   deltaCoarse?: number; // amount to increment/decrement when the 'coarse' tweakers are pressed
   spacing?: number; // horizontal space between subcomponents
   arrowsSoundPlayer?: TSoundPlayer;
-  numberDisplayOptions?: StrictOmit<NumberDisplayOptions, 'tandem'>;
+  numberDisplayOptions?: NumberDisplayOptions;
   arrowButtonOptions?: StrictOmit<ArrowButtonOptions, 'numberOfArrows' | 'tandem' | 'focusable' | 'soundPlayer'>;
 };
 
