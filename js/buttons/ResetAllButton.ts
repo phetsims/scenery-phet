@@ -89,6 +89,7 @@ export default class ResetAllButton extends ResetButton {
     let voicingEnabledOnFire = voicingUtteranceQueue.enabled;
     const ariaEnabledOnFirePerUtteranceQueueMap = new Map(); // Keep track of the enabled of each connected description UtteranceQueue
     this.pushButtonModel.isFiringProperty.lazyLink( ( isFiring: boolean ) => {
+      isResettingAllProperty.value = isFiring;
 
       // Handle voicingUtteranceQueue.
       if ( isFiring ) {
@@ -140,16 +141,9 @@ export default class ResetAllButton extends ResetButton {
       fireOnDown: false
     } );
 
-    // Add a listener that will set and clear the static flag that signals when a reset all is in progress.
-    const flagSettingListener = ( isFiring: boolean ) => {
-      isResettingAllProperty.value = isFiring;
-    };
-    this.pushButtonModel.isFiringProperty.lazyLink( flagSettingListener );
-
     this.disposeResetAllButton = () => {
       keyboardListener.dispose();
       ariaEnabledOnFirePerUtteranceQueueMap.clear();
-      this.pushButtonModel.isFiringProperty.unlink( flagSettingListener );
     };
   }
 
