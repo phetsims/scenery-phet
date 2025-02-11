@@ -43,7 +43,7 @@ import Circle from '../../scenery/js/nodes/Circle.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
-import { rasterized } from '../../scenery/js/util/rasterized.js';
+import { rasterizeNode } from '../../scenery/js/util/rasterizeNode.js';
 import AccessibleSlider, { AccessibleSliderOptions } from '../../sun/js/accessibility/AccessibleSlider.js';
 import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -146,7 +146,7 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
     assert && assert( horizontalPipeWidth > 0 );
     horizontalPipeNode.setScaleMagnitude( horizontalPipeWidth / faucetHorizontalPipe_png.width, 1 );
     if ( options.rasterizeHorizontalPipeNode ) {
-      horizontalPipeNode = rasterized( horizontalPipeNode );
+      horizontalPipeNode = rasterizeNode( horizontalPipeNode );
     }
 
     // vertical pipe
