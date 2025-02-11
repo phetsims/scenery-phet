@@ -30,7 +30,7 @@ import assertNoAdditionalChildren from '../../../../scenery/js/util/assertNoAddi
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
+import type KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 
 // heading defaults
 const DEFAULT_HEADING_CONTENT_SPACING = 13; // spacing between h
