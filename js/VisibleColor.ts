@@ -60,10 +60,10 @@ const VisibleColor = {
     if ( wavelength === VisibleColor.WHITE_WAVELENGTH ) { // white light
       color = Color.WHITE;
     }
-    else if ( wavelength < VisibleColor.MIN_WAVELENGTH ) { // IR
+    else if ( VisibleColor.isIRWavelength( wavelength ) ) { // IR
       color = Color.toColor( options.irColor );
     }
-    else if ( wavelength > VisibleColor.MAX_WAVELENGTH ) { // UV
+    else if ( VisibleColor.isUVWavelength( wavelength ) ) { // UV
       color = Color.toColor( options.uvColor );
     }
     else { // look up visible color
@@ -118,6 +118,20 @@ const VisibleColor = {
    */
   isVisibleWavelength( wavelength: number ): boolean {
     return wavelength >= VisibleColor.MIN_WAVELENGTH && wavelength <= VisibleColor.MAX_WAVELENGTH;
+  },
+
+  /**
+   * Is the specified wavelength in the IR spectrum?
+   */
+  isIRWavelength( wavelength: number ): boolean {
+    return wavelength > VisibleColor.MAX_WAVELENGTH;
+  },
+
+  /**
+   * Is the specified wavelength in the UV spectrum?
+   */
+  isUVWavelength( wavelength: number ): boolean {
+    return wavelength < VisibleColor.MIN_WAVELENGTH;
   }
 };
 
