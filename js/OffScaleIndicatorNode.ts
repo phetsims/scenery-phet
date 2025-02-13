@@ -42,7 +42,7 @@ type SelfOptions = {
 };
 
 // Use accessibleParagraph for accessibility on this component.
-type ParentOptions = ReadingBlockOptions & StrictOmit<TrimParallelDOMOptions<NodeOptions>, 'accessibleName' | 'helpText'>;
+type ParentOptions = ReadingBlockOptions & StrictOmit<TrimParallelDOMOptions<NodeOptions>, 'accessibleName' | 'accessibleHelpText'>;
 
 export type OffScaleIndicatorNodeOptions = SelfOptions & ParentOptions;
 

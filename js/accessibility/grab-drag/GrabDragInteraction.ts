@@ -178,7 +178,7 @@ type GrabDragInteractionOptions = SelfOptions & GrabDragModelOptions;
 
 // Options that can be forwarded to the target Node when the state changes. Fields that are set by the implementation
 // of GrabDragInteraction are omitted.
-// type StateOptions = StrictOmit<ParallelDOMOptions, 'descriptionContent' | 'helpText' | 'descriptionTagName' | 'accessibleName' | 'innerContent' | 'ariaLabel'>;
+// type StateOptions = StrictOmit<ParallelDOMOptions, 'descriptionContent' | 'accessibleHelpText' | 'descriptionTagName' | 'accessibleName' | 'innerContent' | 'ariaLabel'>;
 
 export default class GrabDragInteraction extends Disposable {
 

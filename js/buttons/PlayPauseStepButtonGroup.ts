@@ -161,7 +161,7 @@ export default class PlayPauseStepButtonGroup extends HBox {
     this.playPauseButton = playPauseButton;
 
     // pdom - Always use the provided help text. If not provided, a default string describes how to step forward and backward
-    // when paused. The default helpText will only be used if a step button is visible.
+    // when paused. The default accessibleHelpText will only be used if a step button is visible.
     const eitherStepButtonVisible = options.includeStepForwardButton || options.includeStepBackwardButton;
     const playingHelpText = options.playingHelpText || ( eitherStepButtonVisible
                                                          ? SceneryPhetStrings.a11y.playPauseStepButtonGroup.playingHelpTextStringProperty
@@ -172,7 +172,7 @@ export default class PlayPauseStepButtonGroup extends HBox {
                                                        : null );
 
     const playingListener = ( playing: boolean ) => {
-      this.helpText = playing ? playingHelpText : pausedHelpText;
+      this.accessibleHelpText = playing ? playingHelpText : pausedHelpText;
     };
     isPlayingProperty.link( playingListener );
 
