@@ -19,7 +19,7 @@ import Property from '../../axon/js/Property.js';
 import TProperty from '../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
-import Utils from '../../dot/js/Utils.js';
+import { toFixed } from '../../dot/js/util/toFixed.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import Vector2Property from '../../dot/js/Vector2Property.js';
 import Shape from '../../kite/js/Shape.js';
@@ -295,7 +295,7 @@ class MeasuringTapeNode extends Node {
     const readoutStringProperty = new DerivedStringProperty(
       [ this.unitsProperty, this.measuredDistanceProperty, SceneryPhetStrings.measuringTapeReadoutPatternStringProperty ],
       ( units, measuredDistance, measuringTapeReadoutPattern ) => {
-        const distance = Utils.toFixed( units.multiplier * measuredDistance, this.significantFigures );
+        const distance = toFixed( units.multiplier * measuredDistance, this.significantFigures );
         return StringUtils.fillIn( measuringTapeReadoutPattern, {
           distance: distance,
           units: units.name

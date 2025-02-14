@@ -11,7 +11,6 @@
  */
 
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
-import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
@@ -22,6 +21,7 @@ import TColor from '../../scenery/js/util/TColor.js';
 import MathSymbols from './MathSymbols.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
+import { toFixed } from '../../dot/js/util/toFixed.js';
 
 type SelfOptions = {
   fill?: TColor;
@@ -201,7 +201,7 @@ export default class ScientificNotationNode extends Node {
     if ( options.exponent !== null ) {
 
       // M x 10^E, where E is options.exponent
-      mantissa = Utils.toFixed( value / Math.pow( 10, options.exponent ), options.mantissaDecimalPlaces );
+      mantissa = toFixed( value / Math.pow( 10, options.exponent ), options.mantissaDecimalPlaces );
       exponent = options.exponent.toString();
     }
     else {

@@ -10,13 +10,14 @@
 
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
-import Utils from '../../dot/js/Utils.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
 import Color from '../../scenery/js/util/Color.js';
 import sceneryPhet from './sceneryPhet.js';
+import { clamp } from '../../dot/js/util/clamp.js';
+import { linear } from '../../dot/js/util/linear.js';
 
 const DEFAULT_SIZE = new Dimension2( 150, 30 );
 
@@ -70,7 +71,7 @@ export default class SpectrumNode extends Node {
 
     // Draw the spectrum.
     for ( let i = 0; i < canvas.width; i++ ) {
-      const value = Utils.clamp( Utils.linear( 0, canvas.width, options.minValue, options.maxValue, i ), options.minValue, options.maxValue );
+      const value = clamp( linear( 0, canvas.width, options.minValue, options.maxValue, i ), options.minValue, options.maxValue );
       context.fillStyle = options.valueToColor( value ).toCSS();
       context.fillRect( i, 0, 1, canvas.height );
     }

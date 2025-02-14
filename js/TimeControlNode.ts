@@ -12,7 +12,7 @@
 
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import Property from '../../axon/js/Property.js';
-import Utils from '../../dot/js/Utils.js';
+import { roundToInterval } from '../../dot/js/util/roundToInterval.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
@@ -145,7 +145,7 @@ export default class TimeControlNode extends Node {
       const y = localBounds.centerY;
 
       // Round to prevent hysteresis on roundoff error
-      flowBoxProxy.translation = flowBoxProxy.translation.plusXY( -Utils.roundToInterval( x, 1E-6 ), -Utils.roundToInterval( y, 1E-6 ) );
+      flowBoxProxy.translation = flowBoxProxy.translation.plusXY( -roundToInterval( x, 1E-6 ), -roundToInterval( y, 1E-6 ) );
     } );
 
     this.addDisposable( this.pushButtonGroup );

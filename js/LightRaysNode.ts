@@ -6,11 +6,13 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Utils from '../../dot/js/Utils.js';
 import Shape from '../../kite/js/Shape.js';
 import optionize from '../../phet-core/js/optionize.js';
 import Path, { PathOptions } from '../../scenery/js/nodes/Path.js';
 import sceneryPhet from './sceneryPhet.js';
+import { roundSymmetric } from '../../dot/js/util/roundSymmetric.js';
+import { linear } from '../../dot/js/util/linear.js';
+import { clamp } from '../../dot/js/util/clamp.js';
 
 // constants, these are specific to bulb images
 const RAYS_START_ANGLE = 3 * Math.PI / 4;
@@ -84,7 +86,7 @@ export default class LightRaysNode extends Path {
     assert && assert( brightness >= 0 && brightness <= 1 );
 
     // number of rays is a function of brightness
-    const numberOfRays = ( brightness === 0 ) ? 0 : this.minRays + Utils.roundSymmetric( brightness * ( this.maxRays - this.minRays ) );
+    const numberOfRays = ( brightness === 0 ) ? 0 : this.minRays + roundSymmetric( brightness * ( this.maxRays - this.minRays ) );
 
     // ray length is a function of brightness
     const rayLength = this.minRayLength + ( brightness * ( this.maxRayLength - this.minRayLength ) );
@@ -93,14 +95,14 @@ export default class LightRaysNode extends Path {
     const deltaAngle = RAYS_ARC_ANGLE / ( numberOfRays - 1 );
 
     // The ray line width is a linear function within the allowed range
-    const lineWidth = Utils.linear(
+    const lineWidth = linear(
       0.3 * this.maxRayLength,
       0.6 * this.maxRayLength,
       this.shortRayLineWidth,
       this.longRayLineWidth,
       rayLength
     );
-    this.lineWidth = Utils.clamp( lineWidth, this.shortRayLineWidth, this.longRayLineWidth );
+    this.lineWidth = clamp( lineWidth, this.shortRayLineWidth, this.longRayLineWidth );
 
     const shape = new Shape();
 

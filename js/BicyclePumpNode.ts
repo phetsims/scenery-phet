@@ -13,7 +13,7 @@ import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import TProperty from '../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Range from '../../dot/js/Range.js';
-import Utils from '../../dot/js/Utils.js';
+import { clamp } from '../../dot/js/util/clamp.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
@@ -323,7 +323,7 @@ export default class BicyclePumpNode extends Node {
 
         // Update the handle position based on the user's pointer position.
         const dragPositionY = this.pumpHandleNode.globalToParentPoint( event.pointer.point ).y;
-        const handlePosition = Utils.clamp( dragPositionY, minHandleYOffset, maxHandleYOffset );
+        const handlePosition = clamp( dragPositionY, minHandleYOffset, maxHandleYOffset );
         this.dragDelegate.handleDrag( handlePosition );
       },
       tandem: options.tandem.createTandem( 'dragListener' )
@@ -336,7 +336,7 @@ export default class BicyclePumpNode extends Node {
       dragSpeed: 200,
       shiftDragSpeed: 50,
       drag: ( event, listener ) => {
-        const handlePosition = Utils.clamp( this.pumpHandleNode.centerY + listener.modelDelta.y, minHandleYOffset, maxHandleYOffset );
+        const handlePosition = clamp( this.pumpHandleNode.centerY + listener.modelDelta.y, minHandleYOffset, maxHandleYOffset );
         this.dragDelegate.handleDrag( handlePosition );
       },
       tandem: options.tandem.createTandem( 'keyboardDragListener' )

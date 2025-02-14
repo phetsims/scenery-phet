@@ -9,7 +9,6 @@
 
 import TProperty from '../../axon/js/TProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
-import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
@@ -26,6 +25,7 @@ import RoundStickyToggleButton from '../../sun/js/buttons/RoundStickyToggleButto
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
 import ShadedSphereNode, { ShadedSphereNodeOptions } from './ShadedSphereNode.js';
+import { linear } from '../../dot/js/util/linear.js';
 
 type ButtonType = 'toggle' | 'momentary';
 
@@ -192,7 +192,7 @@ export default class LaserPointerNode extends Node {
       const glassOptions = merge( {}, options.glassOptions, {
 
         // The origin is at the output point of the nozzle, translate accordingly
-        centerX: Utils.linear( 0, 1, -glassDiameter / 2, 0, options.glassOptions.proportionStickingOut! ),
+        centerX: linear( 0, 1, -glassDiameter / 2, 0, options.glassOptions.proportionStickingOut! ),
 
         // Center vertically
         centerY: 0

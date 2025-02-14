@@ -7,7 +7,6 @@
  */
 
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
-import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
@@ -18,6 +17,7 @@ import lightBulbOff_png from '../mipmaps/lightBulbOff_png.js';
 import lightBulbOn_png from '../mipmaps/lightBulbOn_png.js';
 import LightRaysNode, { LightRaysNodeOptions } from './LightRaysNode.js';
 import sceneryPhet from './sceneryPhet.js';
+import { linear } from '../../dot/js/util/linear.js';
 
 type SelfOptions = {
   bulbImageScale?: number;
@@ -102,7 +102,7 @@ export default class LightBulbNode extends Node {
       assert && assert( brightness >= 0 && brightness <= 1 );
       this.onNode.visible = ( brightness > 0 );
       if ( this.onNode.visible ) {
-        this.onNode.opacity = Utils.linear( 0, 1, 0.3, 1, brightness );
+        this.onNode.opacity = linear( 0, 1, 0.3, 1, brightness );
       }
       this.raysNode.setBrightness( brightness );
     }

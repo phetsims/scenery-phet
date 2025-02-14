@@ -13,7 +13,6 @@ import Property from '../../axon/js/Property.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
-import Utils from '../../dot/js/Utils.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import Orientation from '../../phet-core/js/Orientation.js';
@@ -42,6 +41,7 @@ import IOType from '../../tandem/js/types/IOType.js';
 import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
+import { roundToInterval } from '../../dot/js/util/roundToInterval.js';
 
 // constants
 const SPECIFIC_COMPONENT_CALLBACK_OPTIONS = [
@@ -275,7 +275,7 @@ export default class NumberControl extends WidthSizable( Node ) {
     // the arrow buttons, see https://github.com/phetsims/scenery-phet/issues/384.
     const constrainValue = ( value: number ) => {
       assert && assert( options.delta !== undefined );
-      const newValue = Utils.roundToInterval( value, options.delta );
+      const newValue = roundToInterval( value, options.delta );
       return getCurrentRange().constrainValue( newValue );
     };
 
@@ -465,7 +465,7 @@ export default class NumberControl extends WidthSizable( Node ) {
       decrementButton = new ArrowButton( 'left', () => {
         const oldValue = numberProperty.get();
         let newValue = numberProperty.get() - options.delta;
-        newValue = Utils.roundToInterval( newValue, options.delta ); // constrain to multiples of delta, see #384
+        newValue = roundToInterval( newValue, options.delta ); // constrain to multiples of delta, see #384
         newValue = Math.max( newValue, getCurrentRange().min ); // constrain to range
         numberProperty.set( newValue );
         options.soundGenerator!.playSoundForValueChange( newValue, oldValue );
@@ -482,7 +482,7 @@ export default class NumberControl extends WidthSizable( Node ) {
       incrementButton = new ArrowButton( 'right', () => {
         const oldValue = numberProperty.get();
         let newValue = numberProperty.get() + options.delta;
-        newValue = Utils.roundToInterval( newValue, options.delta ); // constrain to multiples of delta, see #384
+        newValue = roundToInterval( newValue, options.delta ); // constrain to multiples of delta, see #384
         newValue = Math.min( newValue, getCurrentRange().max ); // constrain to range
         numberProperty.set( newValue );
         options.soundGenerator!.playSoundForValueChange( newValue, oldValue );

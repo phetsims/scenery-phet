@@ -12,7 +12,7 @@
  */
 
 import Range from '../../../../dot/js/Range.js';
-import Utils from '../../../../dot/js/Utils.js';
+import { toFixedNumber } from '../../../../dot/js/util/toFixedNumber.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
@@ -303,8 +303,8 @@ class MovementAlerter extends Alerter {
 
     // trim off precision error when very close to 0 or 1 so that cardinal direction is still described
     // when off by a minuscule amount
-    const dx = Utils.toFixedNumber( Math.cos( angle ), 8 );
-    const dy = Utils.toFixedNumber( Math.sin( angle ), 8 );
+    const dx = toFixedNumber( Math.cos( angle ), 8 );
+    const dy = toFixedNumber( Math.sin( angle ), 8 );
     const modelEndPoint = new Vector2( dx, dy );
 
     const direction = MovementAlerter.getDirectionEnumerable( modelEndPoint, modelStartPoint, options.modelViewTransform );

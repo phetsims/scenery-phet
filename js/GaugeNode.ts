@@ -11,7 +11,7 @@
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Matrix3 from '../../dot/js/Matrix3.js';
 import Range from '../../dot/js/Range.js';
-import Utils from '../../dot/js/Utils.js';
+import { clamp } from '../../dot/js/util/clamp.js';
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
@@ -24,6 +24,7 @@ import TColor from '../../scenery/js/util/TColor.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
+import { linear } from '../../dot/js/util/linear.js';
 
 type GaugeNodeLabelTextOptions = StrictOmit<TextOptions, 'maxWidth' | 'tandem'>;
 
@@ -149,8 +150,8 @@ export default class GaugeNode extends Node {
         if ( typeof ( valueProperty.get() ) === 'number' ) {
 
           // clamp value to valid range and map it to an angle
-          const clampedValue = Utils.clamp( valueProperty.get(), range.min, range.max );
-          const needleAngle = Utils.linear( range.min, range.max, startAngle, endAngle, clampedValue );
+          const clampedValue = clamp( valueProperty.get(), range.min, range.max );
+          const needleAngle = linear( range.min, range.max, startAngle, endAngle, clampedValue );
 
           // 2d rotation, but reusing our matrix above
           needle.setMatrix( scratchMatrix.setToRotationZ( needleAngle ) );

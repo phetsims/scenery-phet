@@ -14,7 +14,8 @@
  */
 
 import Matrix3 from '../../dot/js/Matrix3.js';
-import Utils from '../../dot/js/Utils.js';
+import { toFixed } from '../../dot/js/util/toFixed.js';
+import { toFixedNumber } from '../../dot/js/util/toFixedNumber.js';
 import Shape from '../../kite/js/Shape.js';
 import merge from '../../phet-core/js/merge.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
@@ -79,8 +80,8 @@ class MatrixNode extends Node {
         else {
           // value is a number, round it to the desired number of decimal places.
           valueString = options.stripTrailingZeros ?
-                        '' + Utils.toFixedNumber( value, options.decimalPlaces ) :
-                        Utils.toFixed( value, options.decimalPlaces );
+                        '' + toFixedNumber( value, options.decimalPlaces ) :
+                        toFixed( value, options.decimalPlaces );
         }
 
         // Cell value

@@ -8,7 +8,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Utils from '../../dot/js/Utils.js';
+import { toFixed } from '../../dot/js/util/toFixed.js';
 import getGlobal from '../../phet-core/js/getGlobal.js';
 import optionize from '../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
@@ -85,13 +85,13 @@ export default class PointerCoordinatesNode extends Node {
 
         // (x,y) in view coordinates
         const viewPoint = this.globalToParentPoint( event.pointer.point );
-        const xView = Utils.toFixed( viewPoint.x, options.viewDecimalPlaces );
-        const yView = Utils.toFixed( viewPoint.y, options.viewDecimalPlaces );
+        const xView = toFixed( viewPoint.x, options.viewDecimalPlaces );
+        const yView = toFixed( viewPoint.y, options.viewDecimalPlaces );
 
         // (x,y) in model coordinates
         const modelPoint = modelViewTransform.viewToModelPosition( viewPoint );
-        const xModel = Utils.toFixed( modelPoint.x, options.modelDecimalPlaces );
-        const yModel = Utils.toFixed( modelPoint.y, options.modelDecimalPlaces );
+        const xModel = toFixed( modelPoint.x, options.modelDecimalPlaces );
+        const yModel = toFixed( modelPoint.y, options.modelDecimalPlaces );
 
         // Update coordinates display.
         textNode.string = `(${xView},${yView})<br>(${xModel},${yModel})`;

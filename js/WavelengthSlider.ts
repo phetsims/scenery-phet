@@ -8,7 +8,6 @@
  */
 
 import TProperty from '../../axon/js/TProperty.js';
-import Utils from '../../dot/js/Utils.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
@@ -16,6 +15,7 @@ import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
 import SpectrumSlider, { SpectrumSliderOptions } from './SpectrumSlider.js';
 import VisibleColor from './VisibleColor.js';
+import { toFixed } from '../../dot/js/util/toFixed.js';
 
 type SelfOptions = {
   minWavelength?: number;
@@ -50,7 +50,7 @@ export default class WavelengthSlider extends SpectrumSlider {
         const unitsStringProperty = SceneryPhetStrings.units_nmStringProperty;
 
         // NOTE: Because this class is deprecated, the API was not reworked to support dynamic strings here.
-        return StringUtils.format( patternStringProperty.value, Utils.toFixed( value, 0 ), unitsStringProperty.value );
+        return StringUtils.format( patternStringProperty.value, toFixed( value, 0 ), unitsStringProperty.value );
       },
       valueToColor: function( value: number ) {
         return VisibleColor.wavelengthToColor( value );

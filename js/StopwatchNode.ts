@@ -14,7 +14,6 @@ import Property from '../../axon/js/Property.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Range from '../../dot/js/Range.js';
-import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
@@ -46,6 +45,7 @@ import SoundDragListener, { PressedSoundDragListener, SoundDragListenerOptions }
 import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from './SoundKeyboardDragListener.js';
 import Stopwatch from './Stopwatch.js';
 import UTurnArrowShape from './UTurnArrowShape.js';
+import { roundSymmetric } from '../../dot/js/util/roundSymmetric.js';
 
 type SelfOptions = {
 
@@ -447,10 +447,10 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
     const max = Math.pow( 10, numberDecimalPlaces );
 
     // Round to the nearest centisecond, see https://github.com/phetsims/masses-and-springs/issues/156
-    time = Utils.roundSymmetric( time * max ) / max;
+    time = roundSymmetric( time * max ) / max;
 
     // Rounding after mod, in case there is floating-point error
-    let decimalValue = `${Utils.roundSymmetric( time % 1 * max )}`;
+    let decimalValue = `${roundSymmetric( time % 1 * max )}`;
     while ( decimalValue.length < numberDecimalPlaces ) {
       decimalValue = `0${decimalValue}`;
     }
@@ -513,7 +513,7 @@ function toMinutesAndSeconds( time: number ): string {
 
   // Round to the nearest centi-part (if time is in seconds, this would be centiseconds)
   // see https://github.com/phetsims/masses-and-springs/issues/156
-  time = Utils.roundSymmetric( time * 100 ) / 100;
+  time = roundSymmetric( time * 100 ) / 100;
 
   // When showing units, don't show the "00:" prefix, see https://github.com/phetsims/scenery-phet/issues/378
   const timeInSeconds = time;

@@ -11,7 +11,7 @@ import TinyProperty from '../../axon/js/TinyProperty.js';
 import TProperty from '../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Range from '../../dot/js/Range.js';
-import Utils from '../../dot/js/Utils.js';
+import { toFixed } from '../../dot/js/util/toFixed.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
@@ -156,7 +156,7 @@ export default class NumberDisplay extends Node {
         return `${value}`;
       }
       else {
-        return Utils.toFixed( value, options.decimalPlaces );
+        return toFixed( value, options.decimalPlaces );
       }
     } );
 

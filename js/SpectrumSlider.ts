@@ -13,7 +13,6 @@ import TProperty from '../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
-import Utils from '../../dot/js/Utils.js';
 import Shape from '../../kite/js/Shape.js';
 import deprecationWarning from '../../phet-core/js/deprecationWarning.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
@@ -35,6 +34,8 @@ import Tandem from '../../tandem/js/Tandem.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import SpectrumNode from './SpectrumNode.js';
+import { clamp } from '../../dot/js/util/clamp.js';
+import { linear } from '../../dot/js/util/linear.js';
 
 const DEFAULT_MIN_VALUE = 0;
 const DEFAULT_MAX_VALUE = 1;
@@ -281,9 +282,9 @@ export default class SpectrumSlider extends AccessibleSlider( Node, 0 ) {
 
     // transforms between position and value
     const positionToValue = ( x: number ) =>
-      Utils.clamp( Utils.linear( 0, track.width, options.minValue, options.maxValue, x ), options.minValue, options.maxValue );
+      clamp( linear( 0, track.width, options.minValue, options.maxValue, x ), options.minValue, options.maxValue );
     const valueToPosition = ( value: number ) =>
-      Utils.clamp( Utils.linear( options.minValue, options.maxValue, 0, track.width, value ), 0, track.width );
+      clamp( linear( options.minValue, options.maxValue, 0, track.width, value ), 0, track.width );
 
     // click in the track to change the value, continue dragging if desired
     const handleTrackEvent = ( event: SceneryEvent ) => {

@@ -12,7 +12,6 @@ import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import LinearFunction from '../../dot/js/LinearFunction.js';
 import Range from '../../dot/js/Range.js';
-import Utils from '../../dot/js/Utils.js';
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
@@ -25,6 +24,7 @@ import NullableIO from '../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
 import sceneryPhet from './sceneryPhet.js';
 import ShadedSphereNode from './ShadedSphereNode.js';
+import { clamp } from '../../dot/js/util/clamp.js';
 
 const FLUID_OVERLAP = 1; // overlap of fluid in tube and bulb, to hide seam
 
@@ -243,7 +243,7 @@ export default class ThermometerNode extends Node {
 
     const percentProperty = new DerivedProperty( [ temperatureProperty ], temp => {
       return temp === null ? 0 :
-             thermometerRange.getNormalizedValue( Utils.clamp( temp, thermometerRange.min, thermometerRange.max ) ) * 100;
+             thermometerRange.getNormalizedValue( clamp( temp, thermometerRange.min, thermometerRange.max ) ) * 100;
     }, {
       tandem: options.tandem?.createTandem( 'percentProperty' ),
       phetioDocumentation: 'the percentage of the thermometer that is filled by the current temperature. If temperature is null, then percent will be 0',

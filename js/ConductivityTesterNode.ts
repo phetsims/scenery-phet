@@ -12,7 +12,6 @@ import TProperty from '../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
-import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
@@ -38,6 +37,7 @@ import PhetFont from './PhetFont.js';
 import PlusNode from './PlusNode.js';
 import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
+import { clamp } from '../../dot/js/util/clamp.js';
 
 // constants
 const SHOW_TESTER_ORIGIN = false; // draws a red circle at the tester's origin, for debugging
@@ -225,7 +225,7 @@ export default class ConductivityTesterNode extends Node {
         const positionView = options.modelViewTransform.modelToViewPosition( positionProperty.value );
         let yView = listener.currentTarget.globalToParentPoint( event.pointer.point ).y + positionView.y - clickYOffset;
         if ( options.probeDragYRange ) {
-          yView = Utils.clamp( yView, positionView.y + options.probeDragYRange.min, positionView.y + options.probeDragYRange.max );
+          yView = clamp( yView, positionView.y + options.probeDragYRange.min, positionView.y + options.probeDragYRange.max );
         }
 
         // convert to model coordinate frame
@@ -247,13 +247,13 @@ export default class ConductivityTesterNode extends Node {
 
         const yPositiveProbe = positiveProbePositionProperty.value.y + listener.modelDelta.y;
         const yPositiveProbeConstrained = options.probeDragYRange ?
-                                          Utils.clamp( yPositiveProbe, y + options.probeDragYRange.min, y + options.probeDragYRange.max ) :
+                                          clamp( yPositiveProbe, y + options.probeDragYRange.min, y + options.probeDragYRange.max ) :
                                           yPositiveProbe;
         positiveProbePositionProperty.value = new Vector2( positiveProbePositionProperty.value.x, yPositiveProbeConstrained );
 
         const yNegativeProbe = negativeProbePositionProperty.value.y + listener.modelDelta.y;
         const yNegativeProbeConstrained = options.probeDragYRange ?
-                                          Utils.clamp( yNegativeProbe, y + options.probeDragYRange.min, y + options.probeDragYRange.max ) :
+                                          clamp( yNegativeProbe, y + options.probeDragYRange.min, y + options.probeDragYRange.max ) :
                                           yNegativeProbe;
         negativeProbePositionProperty.value = new Vector2( negativeProbePositionProperty.value.x, yNegativeProbeConstrained );
       },

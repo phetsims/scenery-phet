@@ -17,7 +17,8 @@ import Multilink from '../../../axon/js/Multilink.js';
 import validate from '../../../axon/js/validate.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import Range from '../../../dot/js/Range.js';
-import Utils from '../../../dot/js/Utils.js';
+import { roundSymmetric } from '../../../dot/js/util/roundSymmetric.js';
+import { toFixedNumber } from '../../../dot/js/util/toFixedNumber.js';
 import merge from '../../../phet-core/js/merge.js';
 import Orientation from '../../../phet-core/js/Orientation.js';
 import CanvasNode from '../../../scenery/js/nodes/CanvasNode.js';
@@ -100,11 +101,11 @@ class PlateChargeNode extends CanvasNode {
     if ( numberOfObjects > 0 ) {
 
       const alpha = Math.sqrt( numberOfObjects / width / height );
-      columns = Utils.roundSymmetric( width * alpha );
+      columns = roundSymmetric( width * alpha );
 
       // compute rows 2 ways, choose the best fit
-      const rows1 = Utils.roundSymmetric( height * alpha );
-      const rows2 = Utils.roundSymmetric( numberOfObjects / columns );
+      const rows1 = roundSymmetric( height * alpha );
+      const rows2 = roundSymmetric( numberOfObjects / columns );
       if ( rows1 !== rows2 ) {
         const error1 = Math.abs( numberOfObjects - ( rows1 * columns ) );
         const error2 = Math.abs( numberOfObjects - ( rows2 * columns ) );
@@ -238,7 +239,7 @@ class PlateChargeNode extends CanvasNode {
    */
   getNumberOfCharges( plateCharge, maxPlateCharge ) {
     const absCharge = Math.abs( plateCharge );
-    let numberOfCharges = Utils.toFixedNumber( NUMBER_OF_PLATE_CHARGES.max * ( absCharge / maxPlateCharge ), 0 );
+    let numberOfCharges = toFixedNumber( NUMBER_OF_PLATE_CHARGES.max * ( absCharge / maxPlateCharge ), 0 );
     if ( absCharge > 0 && numberOfCharges < NUMBER_OF_PLATE_CHARGES.min ) {
       numberOfCharges = NUMBER_OF_PLATE_CHARGES.min;
     }
