@@ -111,10 +111,10 @@ export default class OffScaleIndicatorNode extends ReadingBlock( Node ) {
   }
 
   private static getAccessibleParagraphForDirection( direction: 'left' | 'right' | 'up' | 'down' ): TReadOnlyProperty<string> {
-    return direction === 'right' ? SceneryPhetStrings.a11y.offScaleIndicator.pointsOffScaleRightStringProperty :
-           direction === 'left' ? SceneryPhetStrings.a11y.offScaleIndicator.pointsOffScaleLeftStringProperty :
-           direction === 'up' ? SceneryPhetStrings.a11y.offScaleIndicator.pointsOffScaleUpStringProperty :
-           SceneryPhetStrings.a11y.offScaleIndicator.pointsOffScaleDownStringProperty;
+    return direction === 'right' ? SceneryPhetStrings.a11y.translatable.offScaleIndicator.pointsOffScaleRightStringProperty :
+           direction === 'left' ? SceneryPhetStrings.a11y.translatable.offScaleIndicator.pointsOffScaleLeftStringProperty :
+           direction === 'up' ? SceneryPhetStrings.a11y.translatable.offScaleIndicator.pointsOffScaleUpStringProperty :
+           SceneryPhetStrings.a11y.translatable.offScaleIndicator.pointsOffScaleDownStringProperty;
   }
 }
 

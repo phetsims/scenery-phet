@@ -45,7 +45,7 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
     const moveToNextItemRow = KeyboardHelpSectionRow.labelWithIcon(
       SceneryPhetStrings.keyboardHelpDialog.moveToNextItemOrGroupStringProperty,
       tabKeyNode, {
-        labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.tabGroupDescriptionStringProperty
+        labelInnerContent: SceneryPhetStrings.a11y.translatable.keyboardHelpDialog.general.tabGroupDescriptionStringProperty
       } );
 
     // 'Move to previous item or group'
@@ -53,7 +53,7 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
     const moveToPreviousItemRow = KeyboardHelpSectionRow.labelWithIcon(
       SceneryPhetStrings.keyboardHelpDialog.moveToPreviousItemOrGroupStringProperty,
       shiftPlusTabIcon, {
-        labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.shiftTabGroupDescriptionStringProperty
+        labelInnerContent: SceneryPhetStrings.a11y.translatable.keyboardHelpDialog.general.shiftTabGroupDescriptionStringProperty
       } );
 
     // 'Move between items in a group'
@@ -63,7 +63,7 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
     const moveBetweenItemsInAGroupRow = KeyboardHelpSectionRow.labelWithIcon(
       SceneryPhetStrings.keyboardHelpDialog.moveBetweenItemsInAGroupStringProperty,
       arrowsIcon, {
-        labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.groupNavigationDescriptionStringProperty
+        labelInnerContent: SceneryPhetStrings.a11y.translatable.keyboardHelpDialog.general.groupNavigationDescriptionStringProperty
       } );
 
     // 'Press buttons'
@@ -72,7 +72,7 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
     const spaceOrEnterIcon = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode );
     const pressButtonsItemRow = KeyboardHelpSectionRow.labelWithIcon(
       SceneryPhetStrings.keyboardHelpDialog.pressButtonsStringProperty, spaceOrEnterIcon, {
-        labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.pressButtonsDescriptionStringProperty
+        labelInnerContent: SceneryPhetStrings.a11y.translatable.keyboardHelpDialog.general.pressButtonsDescriptionStringProperty
       } );
 
     // 'Reset All'
@@ -82,7 +82,7 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
     const escapeKeyNode = TextKeyNode.esc();
     const exitADialogRow = KeyboardHelpSectionRow.labelWithIcon(
       SceneryPhetStrings.keyboardHelpDialog.exitADialogStringProperty, escapeKeyNode, {
-        labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.exitDialogDescriptionStringProperty
+        labelInnerContent: SceneryPhetStrings.a11y.translatable.keyboardHelpDialog.general.exitDialogDescriptionStringProperty
       } );
 
     const content = [
@@ -97,7 +97,7 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
       const zeroToNineIcon = KeyboardHelpIconFactory.iconToIcon( new NumberKeyNode( 0 ), new NumberKeyNode( 9 ) );
       const setValuesInKeypadRow = KeyboardHelpSectionRow.labelWithIcon(
         SceneryPhetStrings.keyboardHelpDialog.setValuesInKeypadStringProperty, zeroToNineIcon, {
-          labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.setValuesInKeypadDescriptionStringProperty
+          labelInnerContent: SceneryPhetStrings.a11y.translatable.keyboardHelpDialog.general.setValuesInKeypadDescriptionStringProperty
         } );
       content.push( setValuesInKeypadRow );
     }
@@ -107,7 +107,7 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
       const checkboxSpaceKeyNode = TextKeyNode.space();
       const toggleCheckboxes = KeyboardHelpSectionRow.labelWithIcon(
         SceneryPhetStrings.keyboardHelpDialog.toggleCheckboxesStringProperty, checkboxSpaceKeyNode, {
-          labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.toggleCheckboxesDescriptionStringProperty
+          labelInnerContent: SceneryPhetStrings.a11y.translatable.keyboardHelpDialog.general.toggleCheckboxesDescriptionStringProperty
         } );
       content.push( toggleCheckboxes );
     }

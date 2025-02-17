@@ -17,7 +17,7 @@ import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 // constants
 const timeControlsStringProperty = SceneryPhetStrings.keyboardHelpDialog.timingControls.timingControlsStringProperty;
 const pauseOrPlayActionStringProperty = SceneryPhetStrings.keyboardHelpDialog.timingControls.pauseOrPlayActionStringProperty;
-const pauseOrPlayActionDescriptionStringProperty = SceneryPhetStrings.a11y.keyboardHelpDialog.timingControls.pauseOrPlayActionDescriptionStringProperty;
+const pauseOrPlayActionDescriptionStringProperty = SceneryPhetStrings.a11y.translatable.keyboardHelpDialog.timingControls.pauseOrPlayActionDescriptionStringProperty;
 
 type SelfOptions = {
 

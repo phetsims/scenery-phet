@@ -66,7 +66,7 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
       radius: SceneryPhetConstants.PLAY_CONTROL_BUTTON_RADIUS,
       scaleFactorWhenNotPlaying: 1,
       includeGlobalHotkey: false,
-      startPlayingLabel: SceneryPhetStrings.a11y.playControlButton.playStringProperty,
+      startPlayingLabel: SceneryPhetStrings.a11y.translatable.playControlButton.playStringProperty,
       endPlayingLabel: null,
       valueOffSoundPlayer: sharedSoundPlayers.get( 'pause' ),
       valueOnSoundPlayer: sharedSoundPlayers.get( 'play' ),

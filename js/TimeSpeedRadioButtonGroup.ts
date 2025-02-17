@@ -67,8 +67,8 @@ export default class TimeSpeedRadioButtonGroup extends VerticalAquaRadioButtonGr
 
       // pdom
       labelTagName: 'h4',
-      accessibleName: SceneryPhetStrings.a11y.timeControlNode.simSpeedsStringProperty,
-      accessibleHelpText: SceneryPhetStrings.a11y.timeControlNode.simSpeedDescriptionStringProperty
+      accessibleName: SceneryPhetStrings.a11y.translatable.timeControlNode.simSpeedsStringProperty,
+      accessibleHelpText: SceneryPhetStrings.a11y.translatable.timeControlNode.simSpeedDescriptionStringProperty
     }, providedOptions );
 
     // by default, radio buttons match height of label before maxWidth scaling adjustments

@@ -163,37 +163,131 @@ type StringsType = {
     'pointsOffScaleStringProperty': LocalizedStringProperty;
   };
   'a11y': {
-    'simSection': {
-      'screenSummary': {
-        'multiScreenIntroStringProperty': LocalizedStringProperty;
-        'singleScreenIntroPatternStringProperty': LocalizedStringProperty;
-        'keyboardShortcutsHintStringProperty': LocalizedStringProperty;
+    'translatable': {
+      'simSection': {
+        'screenSummary': {
+          'multiScreenIntroStringProperty': LocalizedStringProperty;
+          'singleScreenIntroPatternStringProperty': LocalizedStringProperty;
+          'keyboardShortcutsHintStringProperty': LocalizedStringProperty;
+        };
+        'playAreaStringProperty': LocalizedStringProperty;
+        'controlAreaStringProperty': LocalizedStringProperty;
       };
-      'playAreaStringProperty': LocalizedStringProperty;
-      'controlAreaStringProperty': LocalizedStringProperty;
-    };
-    'resetAll': {
-      'labelStringProperty': LocalizedStringProperty;
-      'alertStringProperty': LocalizedStringProperty;
-    };
-    'soundToggle': {
-      'labelStringProperty': LocalizedStringProperty;
-      'alert': {
-        'simSoundOnStringProperty': LocalizedStringProperty;
-        'simSoundOffStringProperty': LocalizedStringProperty;
+      'resetAll': {
+        'labelStringProperty': LocalizedStringProperty;
+        'alertStringProperty': LocalizedStringProperty;
+      };
+      'soundToggle': {
+        'labelStringProperty': LocalizedStringProperty;
+        'alert': {
+          'simSoundOnStringProperty': LocalizedStringProperty;
+          'simSoundOffStringProperty': LocalizedStringProperty;
+        }
+      };
+      'keyboardHelpDialog': {
+        'general': {
+          'tabDescriptionStringProperty': LocalizedStringProperty;
+          'shiftTabDescriptionStringProperty': LocalizedStringProperty;
+          'tabGroupDescriptionStringProperty': LocalizedStringProperty;
+          'shiftTabGroupDescriptionStringProperty': LocalizedStringProperty;
+          'pressButtonsDescriptionStringProperty': LocalizedStringProperty;
+          'groupNavigationDescriptionStringProperty': LocalizedStringProperty;
+          'setValuesInKeypadDescriptionStringProperty': LocalizedStringProperty;
+          'exitDialogDescriptionStringProperty': LocalizedStringProperty;
+          'toggleCheckboxesDescriptionStringProperty': LocalizedStringProperty;
+        };
+        'grabOrReleaseDescriptionPatternStringProperty': LocalizedStringProperty;
+        'comboBox': {
+          'popUpListPatternDescriptionStringProperty': LocalizedStringProperty;
+          'moveThroughPatternDescriptionStringProperty': LocalizedStringProperty;
+          'chooseNewPatternDescriptionStringProperty': LocalizedStringProperty;
+          'closeWithoutChangingDescriptionStringProperty': LocalizedStringProperty;
+        };
+        'draggableItems': {
+          'moveDescriptionStringProperty': LocalizedStringProperty;
+          'moveSlowerDescriptionStringProperty': LocalizedStringProperty;
+        };
+        'timingControls': {
+          'pauseOrPlayActionDescriptionStringProperty': LocalizedStringProperty;
+        }
+      };
+      'eraserButton': {
+        'accessibleNameStringProperty': LocalizedStringProperty;
+      };
+      'playControlButton': {
+        'playStringProperty': LocalizedStringProperty;
+        'pauseStringProperty': LocalizedStringProperty;
+        'stopStringProperty': LocalizedStringProperty;
+      };
+      'stepButton': {
+        'stepForwardStringProperty': LocalizedStringProperty;
+        'playingDescriptionStringProperty': LocalizedStringProperty;
+        'pausedDescriptionStringProperty': LocalizedStringProperty;
+      };
+      'timeControlNode': {
+        'simSpeedDescriptionStringProperty': LocalizedStringProperty;
+        'labelStringProperty': LocalizedStringProperty;
+        'simSpeedsStringProperty': LocalizedStringProperty;
+      };
+      'playPauseStepButtonGroup': {
+        'playingHelpTextStringProperty': LocalizedStringProperty;
+        'pausedHelpTextStringProperty': LocalizedStringProperty;
+      };
+      'movementAlerter': {
+        'downStringProperty': LocalizedStringProperty;
+        'leftStringProperty': LocalizedStringProperty;
+        'rightStringProperty': LocalizedStringProperty;
+        'upStringProperty': LocalizedStringProperty;
+        'upAndToTheRightStringProperty': LocalizedStringProperty;
+        'upAndToTheLeftStringProperty': LocalizedStringProperty;
+        'downAndToTheRightStringProperty': LocalizedStringProperty;
+        'downAndToTheLeftStringProperty': LocalizedStringProperty;
+        'leftBorderAlertStringProperty': LocalizedStringProperty;
+        'rightBorderAlertStringProperty': LocalizedStringProperty;
+        'topBorderAlertStringProperty': LocalizedStringProperty;
+        'bottomBorderAlertStringProperty': LocalizedStringProperty;
+      };
+      'grabDrag': {
+        'grabPatternStringProperty': LocalizedStringProperty;
+        'movableStringProperty': LocalizedStringProperty;
+        'buttonStringProperty': LocalizedStringProperty;
+        'defaultObjectToGrabStringProperty': LocalizedStringProperty;
+        'releasedStringProperty': LocalizedStringProperty;
+        'gestureHelpTextPatternStringProperty': LocalizedStringProperty;
+        'spaceToGrabOrReleaseStringProperty': LocalizedStringProperty;
+      };
+      'groupSort': {
+        'sortableStringProperty': LocalizedStringProperty;
+        'navigableStringProperty': LocalizedStringProperty;
+      };
+      'voicing': {
+        'simSection': {
+          'screenSummary': {
+            'singleScreenIntroPatternStringProperty': LocalizedStringProperty;
+          }
+        };
+        'grabDragHintPatternStringProperty': LocalizedStringProperty;
+        'grabbedAlertStringProperty': LocalizedStringProperty;
+        'draggableAlertStringProperty': LocalizedStringProperty;
+        'resetAll': {
+          'contextResponseStringProperty': LocalizedStringProperty;
+        }
+      };
+      'closeStringProperty': LocalizedStringProperty;
+      'zoomInStringProperty': LocalizedStringProperty;
+      'zoomOutStringProperty': LocalizedStringProperty;
+      'measuringTapeStringProperty': LocalizedStringProperty;
+      'measuringTapeTipStringProperty': LocalizedStringProperty;
+      'infoStringProperty': LocalizedStringProperty;
+      'offScaleIndicator': {
+        'pointsOffScaleUpStringProperty': LocalizedStringProperty;
+        'pointsOffScaleDownStringProperty': LocalizedStringProperty;
+        'pointsOffScaleLeftStringProperty': LocalizedStringProperty;
+        'pointsOffScaleRightStringProperty': LocalizedStringProperty;
       }
     };
     'keyboardHelpDialog': {
       'general': {
-        'tabDescriptionStringProperty': LocalizedStringProperty;
-        'shiftTabDescriptionStringProperty': LocalizedStringProperty;
-        'tabGroupDescriptionStringProperty': LocalizedStringProperty;
-        'shiftTabGroupDescriptionStringProperty': LocalizedStringProperty;
-        'pressButtonsDescriptionStringProperty': LocalizedStringProperty;
-        'groupNavigationDescriptionStringProperty': LocalizedStringProperty;
-        'setValuesInKeypadDescriptionStringProperty': LocalizedStringProperty;
-        'exitDialogDescriptionStringProperty': LocalizedStringProperty;
-        'toggleCheckboxesDescriptionStringProperty': LocalizedStringProperty;
         'resetAllDescriptionPatternStringProperty': LocalizedStringProperty;
       };
       'slider': {
@@ -207,100 +301,7 @@ type StringsType = {
         'largerStepsDescriptionPatternStringProperty': LocalizedStringProperty;
         'jumpToMinimumDescriptionPatternStringProperty': LocalizedStringProperty;
         'jumpToMaximumDescriptionPatternStringProperty': LocalizedStringProperty;
-      };
-      'grabOrReleaseDescriptionPatternStringProperty': LocalizedStringProperty;
-      'comboBox': {
-        'popUpListPatternDescriptionStringProperty': LocalizedStringProperty;
-        'moveThroughPatternDescriptionStringProperty': LocalizedStringProperty;
-        'chooseNewPatternDescriptionStringProperty': LocalizedStringProperty;
-        'closeWithoutChangingDescriptionStringProperty': LocalizedStringProperty;
-      };
-      'draggableItems': {
-        'moveDescriptionStringProperty': LocalizedStringProperty;
-        'moveSlowerDescriptionStringProperty': LocalizedStringProperty;
-      };
-      'timingControls': {
-        'pauseOrPlayActionDescriptionStringProperty': LocalizedStringProperty;
       }
-    };
-    'eraserButton': {
-      'accessibleNameStringProperty': LocalizedStringProperty;
-    };
-    'playControlButton': {
-      'playStringProperty': LocalizedStringProperty;
-      'pauseStringProperty': LocalizedStringProperty;
-      'stopStringProperty': LocalizedStringProperty;
-    };
-    'stepButton': {
-      'stepForwardStringProperty': LocalizedStringProperty;
-      'playingDescriptionStringProperty': LocalizedStringProperty;
-      'pausedDescriptionStringProperty': LocalizedStringProperty;
-    };
-    'timeControlNode': {
-      'simSpeedDescriptionStringProperty': LocalizedStringProperty;
-      'labelStringProperty': LocalizedStringProperty;
-      'simSpeedsStringProperty': LocalizedStringProperty;
-    };
-    'playPauseStepButtonGroup': {
-      'playingHelpTextStringProperty': LocalizedStringProperty;
-      'pausedHelpTextStringProperty': LocalizedStringProperty;
-    };
-    'movementAlerter': {
-      'downStringProperty': LocalizedStringProperty;
-      'leftStringProperty': LocalizedStringProperty;
-      'rightStringProperty': LocalizedStringProperty;
-      'upStringProperty': LocalizedStringProperty;
-      'upAndToTheRightStringProperty': LocalizedStringProperty;
-      'upAndToTheLeftStringProperty': LocalizedStringProperty;
-      'downAndToTheRightStringProperty': LocalizedStringProperty;
-      'downAndToTheLeftStringProperty': LocalizedStringProperty;
-      'leftBorderAlertStringProperty': LocalizedStringProperty;
-      'rightBorderAlertStringProperty': LocalizedStringProperty;
-      'topBorderAlertStringProperty': LocalizedStringProperty;
-      'bottomBorderAlertStringProperty': LocalizedStringProperty;
-    };
-    'grabDrag': {
-      'grabPatternStringProperty': LocalizedStringProperty;
-      'movableStringProperty': LocalizedStringProperty;
-      'buttonStringProperty': LocalizedStringProperty;
-      'defaultObjectToGrabStringProperty': LocalizedStringProperty;
-      'releasedStringProperty': LocalizedStringProperty;
-      'gestureHelpTextPatternStringProperty': LocalizedStringProperty;
-      'spaceToGrabOrReleaseStringProperty': LocalizedStringProperty;
-    };
-    'groupSort': {
-      'sortableStringProperty': LocalizedStringProperty;
-      'navigableStringProperty': LocalizedStringProperty;
-    };
-    'voicing': {
-      'simSection': {
-        'screenSummary': {
-          'singleScreenIntroPatternStringProperty': LocalizedStringProperty;
-        }
-      };
-      'keyboardHelpDialog': {
-        'general': {
-          'descriptionPatternStringProperty': LocalizedStringProperty;
-        }
-      };
-      'grabDragHintPatternStringProperty': LocalizedStringProperty;
-      'grabbedAlertStringProperty': LocalizedStringProperty;
-      'draggableAlertStringProperty': LocalizedStringProperty;
-      'resetAll': {
-        'contextResponseStringProperty': LocalizedStringProperty;
-      }
-    };
-    'closeStringProperty': LocalizedStringProperty;
-    'zoomInStringProperty': LocalizedStringProperty;
-    'zoomOutStringProperty': LocalizedStringProperty;
-    'measuringTapeStringProperty': LocalizedStringProperty;
-    'measuringTapeTipStringProperty': LocalizedStringProperty;
-    'infoStringProperty': LocalizedStringProperty;
-    'offScaleIndicator': {
-      'pointsOffScaleUpStringProperty': LocalizedStringProperty;
-      'pointsOffScaleDownStringProperty': LocalizedStringProperty;
-      'pointsOffScaleLeftStringProperty': LocalizedStringProperty;
-      'pointsOffScaleRightStringProperty': LocalizedStringProperty;
     }
   }
 };

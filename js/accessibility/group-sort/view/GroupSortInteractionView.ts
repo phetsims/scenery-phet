@@ -22,8 +22,8 @@ import SceneryPhetStrings from '../../../SceneryPhetStrings.js';
 import GroupSelectModel from '../model/GroupSelectModel.js';
 import GroupSelectView, { GroupSelectViewOptions } from './GroupSelectView.js';
 
-const navigableStringProperty = SceneryPhetStrings.a11y.groupSort.navigableStringProperty;
-const sortableStringProperty = SceneryPhetStrings.a11y.groupSort.sortableStringProperty;
+const navigableStringProperty = SceneryPhetStrings.a11y.translatable.groupSort.navigableStringProperty;
+const sortableStringProperty = SceneryPhetStrings.a11y.translatable.groupSort.sortableStringProperty;
 
 type SelfOptions<ItemModel> = {
 

@@ -83,12 +83,12 @@ import GrabDragModel, { GrabDragInteractionState, GrabDragModelOptions } from '.
 import GrabDragUsageTracker from './GrabDragUsageTracker.js';
 
 // constants
-const grabPatternStringStringProperty = SceneryPhetStrings.a11y.grabDrag.grabPatternStringProperty;
-const gestureHelpTextPatternStringProperty = SceneryPhetStrings.a11y.grabDrag.gestureHelpTextPatternStringProperty;
-const movableStringProperty = SceneryPhetStrings.a11y.grabDrag.movableStringProperty;
-const buttonStringProperty = SceneryPhetStrings.a11y.grabDrag.buttonStringProperty;
-const defaultObjectToGrabStringProperty = SceneryPhetStrings.a11y.grabDrag.defaultObjectToGrabStringProperty;
-const releasedStringProperty = SceneryPhetStrings.a11y.grabDrag.releasedStringProperty;
+const grabPatternStringStringProperty = SceneryPhetStrings.a11y.translatable.grabDrag.grabPatternStringProperty;
+const gestureHelpTextPatternStringProperty = SceneryPhetStrings.a11y.translatable.grabDrag.gestureHelpTextPatternStringProperty;
+const movableStringProperty = SceneryPhetStrings.a11y.translatable.grabDrag.movableStringProperty;
+const buttonStringProperty = SceneryPhetStrings.a11y.translatable.grabDrag.buttonStringProperty;
+const defaultObjectToGrabStringProperty = SceneryPhetStrings.a11y.translatable.grabDrag.defaultObjectToGrabStringProperty;
+const releasedStringProperty = SceneryPhetStrings.a11y.translatable.grabDrag.releasedStringProperty;
 
 // Valid positions for the interaction cue nodes relative to the target Node. For top and bottom, the cue is
 // centered horizontally. For left and right, the cue is centered vertically.
@@ -1001,7 +1001,7 @@ export default class GrabDragInteraction extends Disposable {
       this.onGrabButtonFocusEmitter.addListener( () => {
         if ( this.grabDragModel.enabled && this.shouldShowGrabCueNode() ) {
           const alert = voicingFocusUtterance.alert! as ResponsePacket;
-          alert.hintResponse = SceneryPhetStrings.a11y.grabDrag.spaceToGrabOrReleaseStringProperty;
+          alert.hintResponse = SceneryPhetStrings.a11y.translatable.grabDrag.spaceToGrabOrReleaseStringProperty;
           Voicing.alertUtterance( voicingFocusUtterance );
         }
       } );

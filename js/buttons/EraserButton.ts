@@ -39,7 +39,7 @@ export default class EraserButton extends RectangularPushButton {
       baseColor: PhetColorScheme.BUTTON_YELLOW,
 
       // pdom
-      accessibleName: SceneryPhetStrings.a11y.eraserButton.accessibleNameStringProperty,
+      accessibleName: SceneryPhetStrings.a11y.translatable.eraserButton.accessibleNameStringProperty,
 
       soundPlayer: new SoundClipPlayer( erase_mp3, {
         soundClipOptions: { initialOutputLevel: 0.22 }

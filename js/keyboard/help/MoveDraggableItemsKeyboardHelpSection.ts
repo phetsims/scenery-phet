@@ -32,7 +32,7 @@ export default class MoveDraggableItemsKeyboardHelpSection extends KeyboardHelpS
     const moveRow = KeyboardHelpSectionRow.labelWithIcon(
       SceneryPhetStrings.keyboardHelpDialog.moveStringProperty,
       KeyboardHelpIconFactory.arrowOrWasdKeysRowIcon(), {
-        labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.draggableItems.moveDescriptionStringProperty
+        labelInnerContent: SceneryPhetStrings.a11y.translatable.keyboardHelpDialog.draggableItems.moveDescriptionStringProperty
       } );
 
     // Move slower
@@ -41,7 +41,7 @@ export default class MoveDraggableItemsKeyboardHelpSection extends KeyboardHelpS
         KeyboardHelpIconFactory.shiftPlusIcon( KeyboardHelpIconFactory.arrowKeysRowIcon() ),
         KeyboardHelpIconFactory.shiftPlusIcon( KeyboardHelpIconFactory.wasdRowIcon() )
       ], {
-        labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.draggableItems.moveSlowerDescriptionStringProperty
+        labelInnerContent: SceneryPhetStrings.a11y.translatable.keyboardHelpDialog.draggableItems.moveSlowerDescriptionStringProperty
       } );
 
     super( options.headingStringProperty, [ moveRow, moveSlowerRow ] );

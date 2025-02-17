@@ -164,11 +164,11 @@ export default class PlayPauseStepButtonGroup extends HBox {
     // when paused. The default accessibleHelpText will only be used if a step button is visible.
     const eitherStepButtonVisible = options.includeStepForwardButton || options.includeStepBackwardButton;
     const playingHelpText = options.playingHelpText || ( eitherStepButtonVisible
-                                                         ? SceneryPhetStrings.a11y.playPauseStepButtonGroup.playingHelpTextStringProperty
+                                                         ? SceneryPhetStrings.a11y.translatable.playPauseStepButtonGroup.playingHelpTextStringProperty
                                                          : null );
 
     const pausedHelpText = options.pausedHelpText || ( eitherStepButtonVisible
-                                                       ? SceneryPhetStrings.a11y.playPauseStepButtonGroup.pausedHelpTextStringProperty
+                                                       ? SceneryPhetStrings.a11y.translatable.playPauseStepButtonGroup.pausedHelpTextStringProperty
                                                        : null );
 
     const playingListener = ( playing: boolean ) => {

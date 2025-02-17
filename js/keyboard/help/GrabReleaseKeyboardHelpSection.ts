@@ -47,7 +47,7 @@ export default class GrabReleaseKeyboardHelpSection extends KeyboardHelpSection 
     }, { tandem: Tandem.OPT_OUT } );
 
     // the string for the PDOM
-    const descriptionStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.grabOrReleaseDescriptionPatternStringProperty, {
+    const descriptionStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.translatable.keyboardHelpDialog.grabOrReleaseDescriptionPatternStringProperty, {
       thing: thingAsLowerCase
     }, { tandem: Tandem.OPT_OUT } );
 
