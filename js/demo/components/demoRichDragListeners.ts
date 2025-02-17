@@ -1,4 +1,5 @@
 // Copyright 2024-2025, University of Colorado Boulder
+
 /**
  * Demo for SoundDragListener and SoundKeyboardDragListener
  *
