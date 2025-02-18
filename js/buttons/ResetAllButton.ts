@@ -70,7 +70,7 @@ export default class ResetAllButton extends ResetButton {
       soundPlayer: sharedSoundPlayers.get( 'resetAll' ),
 
       // pdom
-      innerContent: SceneryPhetStrings.a11y.translatable.resetAll.labelStringProperty,
+      accessibleName: SceneryPhetStrings.a11y.translatable.resetAll.labelStringProperty,
 
       // voicing
       voicingNameResponse: SceneryPhetStrings.a11y.translatable.resetAll.labelStringProperty,
