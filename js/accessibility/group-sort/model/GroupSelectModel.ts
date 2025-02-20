@@ -47,6 +47,7 @@
  * - use positionSortCueNodeEmitter to update the position of the sort cue for the keyboard interaction.
  * - use enabledProperty to control if sorting is enabled. Note that focus and selection are always available (for keyboard tab order consistency)
  * - Note that if GroupSelectModel is PhET-iO instrumented, ItemModel must be a PhetioObject.
+ * - Note that "null" is a reserved value, and should not be a value of ItemModel.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  * @author Marla Schulz (PhET Interactive Simulations)
