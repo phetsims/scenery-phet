@@ -153,13 +153,13 @@ export default class GroupSelectModel<ItemModel> extends EnabledComponent {
     } );
 
     assert && this.selectedGroupItemProperty.lazyLink( ( selectedGroupItem, oldSelectedGroupItem ) => {
-      if ( this.isGroupItemKeyboardGrabbedProperty.value && selectedGroupItem && oldSelectedGroupItem ) {
+      if ( this.isGroupItemKeyboardGrabbedProperty.value && ( selectedGroupItem !== null ) && ( oldSelectedGroupItem !== null ) ) {
         assert && assert( this.getGroupItemValue( selectedGroupItem ) === this.getGroupItemValue( oldSelectedGroupItem ),
           'should not change both the selection and the value when sorting' );
       }
 
       // If we are PhET-iO instrumented, so should the selection.
-      if ( Tandem.VALIDATION && selectedGroupItem && options.tandem.supplied ) {
+      if ( Tandem.VALIDATION && selectedGroupItem !== null && options.tandem.supplied ) {
         assert && assert( selectedGroupItem instanceof PhetioObject && selectedGroupItem.isPhetioInstrumented(),
           'instrumented GroupSortInteractionModels require its group items to be instrumented.' );
       }

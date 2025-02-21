@@ -129,7 +129,7 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
 
     const grabbedPropertyListener = ( grabbed: boolean ) => {
       const selectedGroupItem = selectedGroupItemProperty.value;
-      if ( selectedGroupItem ) {
+      if ( selectedGroupItem !== null ) {
         if ( grabbed ) {
           options.onGrab( selectedGroupItem );
         }
@@ -207,7 +207,7 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
       ],
       ( selectedGroupItem, isGroupItemGrabbed ) => {
         let focusHighlightSet = false;
-        if ( selectedGroupItem ) {
+        if ( selectedGroupItem !== null ) {
           const node = options.getHighlightNodeFromModelItem( selectedGroupItem );
           if ( node ) {
             const focusForSelectedGroupItem = new HighlightFromNode( node, { dashed: isGroupItemGrabbed } );
