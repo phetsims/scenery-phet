@@ -145,10 +145,7 @@ export default class GroupSelectModel<ItemModel> extends EnabledComponent {
     this.getGroupItemValue = options.getGroupItemValue;
 
     this.selectedGroupItemProperty = new Property<ItemModel | null>( null, {
-
-      // TODO: Review this line: https://github.com/phetsims/scenery-phet/issues/901
       isValidValue: x => x !== undefined,
-
       tandem: options.tandem.createTandem( 'selectedGroupItemProperty' ),
       phetioValueType: NullableIO( ReferenceIO( IOType.ObjectIO ) ),
       phetioReadOnly: true,
