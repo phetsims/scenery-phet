@@ -88,7 +88,7 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
   private readonly getNodeFromModelItem: ( model: ItemModel ) => ItemNode | null;
 
   public constructor(
-    protected readonly model: GroupSelectModel<ItemModel>,
+    public readonly model: GroupSelectModel<ItemModel>,
     primaryFocusedNode: Node, // Client is responsible for setting accessibleName and nothing else!
     providedOptions: GroupSelectViewOptions<ItemModel, ItemNode> ) {
 
