@@ -2,6 +2,7 @@
 
 /**
  * Generic base class responsible for interfacing between a Node to alert description.
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
@@ -28,7 +29,7 @@ type SelfOptions = {
 };
 export type AlerterOptions = SelfOptions & EnabledComponentOptions;
 
-class Alerter extends EnabledComponent {
+export default class Alerter extends EnabledComponent {
 
   public readonly alertToVoicing: boolean;
   public readonly descriptionAlertNode: Node | null;
@@ -75,4 +76,3 @@ class Alerter extends EnabledComponent {
 }
 
 sceneryPhet.register( 'Alerter', Alerter );
-export default Alerter;
