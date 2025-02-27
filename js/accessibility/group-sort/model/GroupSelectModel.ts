@@ -76,6 +76,8 @@ type SelfOptions<ItemModel> = {
 
   // Define the startup value of the mouseSortCue. False by default.
   initialMouseSortCueVisible?: boolean;
+
+  instrumentMouseSortCue?: boolean;
 } & Pick<PhetioObjectOptions, 'tandem'>;
 
 type ParentOptions = EnabledComponentOptions;
@@ -137,7 +139,8 @@ export default class GroupSelectModel<ItemModel> extends EnabledComponent {
     const options = optionize<GroupSelectModelOptions<ItemModel>, SelfOptions<ItemModel>, ParentOptions>()( {
       tandem: Tandem.REQUIRED,
       phetioEnabledPropertyInstrumented: false,
-      initialMouseSortCueVisible: false
+      initialMouseSortCueVisible: false,
+      instrumentMouseSortCue: true
     }, providedOptions );
 
     super( options );
@@ -168,7 +171,7 @@ export default class GroupSelectModel<ItemModel> extends EnabledComponent {
     this.mouseSortCueVisibleProperty = new Property( options.initialMouseSortCueVisible );
 
     this.showMouseCueProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'showMouseCueProperty' ),
+      tandem: options.instrumentMouseSortCue ? options.tandem.createTandem( 'showMouseCueProperty' ) : Tandem.OPT_OUT,
       phetioDocumentation: 'This controls if the visual cue Node for mouse/touch sorting is displayed. Set to false ' +
                            'to hide the cue. A value of true does not mean the cue is visible, but instead that it can ' +
                            'be shown when appropriate'
