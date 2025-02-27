@@ -88,11 +88,12 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
   // Emitted when the sorting cue should be repositioned. Most likely because the selection has changed.
   public readonly positionSortCueNodeEmitter = new Emitter();
 
-  private readonly getNodeFromModelItem: ( model: ItemModel ) => ItemNode | null;
+  private readonly getNodeFromModelItem: Required<SelfOptions<ItemModel, ItemNode>>['getNodeFromModelItem'];
+  private readonly isGroupItemEnabled: Required<SelfOptions<ItemModel, ItemNode>>['isGroupItemEnabled'];
 
   public constructor(
     public readonly model: GroupSelectModel<ItemModel>,
-    primaryFocusedNode: Node, // Client is responsible for setting accessibleName and nothing else!
+    private readonly primaryFocusedNode: Node, // Client is responsible for setting accessibleName and nothing else!
     providedOptions: GroupSelectViewOptions<ItemModel, ItemNode> ) {
 
     const options = optionize<
@@ -122,6 +123,7 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
     super( options );
 
     this.getNodeFromModelItem = options.getNodeFromModelItem;
+    this.isGroupItemEnabled = options.isGroupItemEnabled;
 
     const selectedGroupItemProperty = this.model.selectedGroupItemProperty;
     const isKeyboardFocusedProperty = this.model.isKeyboardFocusedProperty;
@@ -250,7 +252,7 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
       fire: ( event, keysPressed ) => {
 
         // Do no grab when the interaction is disabled, if there is no selection, or when the individual group item is disabled
-        if ( this.model.enabled && selectedGroupItemProperty.value !== null && options.isGroupItemEnabled( selectedGroupItemProperty.value ) ) {
+        if ( this.model.enabled && selectedGroupItemProperty.value !== null && this.isGroupItemEnabled( selectedGroupItemProperty.value ) ) {
 
           // Do the "Grab/release" action to switch to sorting or selecting
           if ( keysPressed === 'enter' || keysPressed === 'space' ) {
@@ -306,6 +308,20 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
 
     // Reset to true from keyboard input, in case mouse/touch input set to false during the keyboard interaction.
     this.model.isKeyboardFocusedProperty.value = true;
+  }
+
+  /**
+   * Programmatic way to activate the group select interaction, set its selection, and grab that selection.
+   */
+  public keyboardGrab( groupItem: ItemModel ): void {
+    if ( this.model.enabled && this.isGroupItemEnabled( groupItem ) ) {
+      this.primaryFocusedNode.focus();
+
+      this.model.selectedGroupItemProperty.value = groupItem;
+      this.model.hasKeyboardGrabbedGroupItemProperty.value = true;
+      this.model.isGroupItemKeyboardGrabbedProperty.value = true;
+      this.model.isKeyboardFocusedProperty.value = true;
+    }
   }
 
   public override dispose(): void {
