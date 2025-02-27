@@ -315,9 +315,13 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
    */
   public keyboardGrab( groupItem: ItemModel ): void {
     if ( this.model.enabled && this.isGroupItemEnabled( groupItem ) ) {
+
+      // focus before anything else
       this.primaryFocusedNode.focus();
 
+      // Selecting before grabbing ensures that the item is correct as it pertains to Property listeners.
       this.model.selectedGroupItemProperty.value = groupItem;
+
       this.model.hasKeyboardGrabbedGroupItemProperty.value = true;
       this.model.isGroupItemKeyboardGrabbedProperty.value = true;
       this.model.isKeyboardFocusedProperty.value = true;
