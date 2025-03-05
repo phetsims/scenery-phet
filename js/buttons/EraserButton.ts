@@ -12,9 +12,8 @@ import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { TrimParallelDOMOptions } from '../../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
-import SoundClipPlayer from '../../../tambo/js/sound-generators/SoundClipPlayer.js';
+import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import eraser_png from '../../images/eraser_png.js';
-import erase_mp3 from '../../sounds/erase_mp3.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
@@ -41,9 +40,8 @@ export default class EraserButton extends RectangularPushButton {
       // pdom
       accessibleName: SceneryPhetStrings.a11y.translatable.eraserButton.accessibleNameStringProperty,
 
-      soundPlayer: new SoundClipPlayer( erase_mp3, {
-        soundClipOptions: { initialOutputLevel: 0.22 }
-      } )
+      // sound
+      soundPlayer: sharedSoundPlayers.get( 'erase' )
     }, providedOptions );
 
     // eraser icon
