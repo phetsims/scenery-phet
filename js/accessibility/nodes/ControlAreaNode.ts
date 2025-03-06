@@ -19,7 +19,7 @@ export type ControlAreaNodeOptions = SelfOptions & PDOMSectionNodeOptions;
 
 export default class ControlAreaNode extends PDOMSectionNode {
   public constructor( providedOptions?: ControlAreaNodeOptions ) {
-    super( SceneryPhetStrings.a11y.translatable.simSection.controlAreaStringProperty, providedOptions );
+    super( SceneryPhetStrings.a11y.simSection.controlAreaStringProperty, providedOptions );
   }
 }
 

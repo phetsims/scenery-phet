@@ -100,7 +100,7 @@ export default class ZoomButtonGroup extends FlowBox {
       touchAreaYShift: -touchYShift,
       mouseAreaXShift: mouseXShift,
       mouseAreaYShift: -mouseYShift,
-      accessibleName: SceneryPhetStrings.a11y.translatable.zoomInStringProperty,
+      accessibleName: SceneryPhetStrings.a11y.zoomInStringProperty,
       tandem: options.tandem.createTandem( 'zoomInButton' )
     }, options.buttonOptions ) );
 
@@ -118,7 +118,7 @@ export default class ZoomButtonGroup extends FlowBox {
       touchAreaYShift: touchYShift,
       mouseAreaXShift: -mouseXShift,
       mouseAreaYShift: mouseYShift,
-      accessibleName: SceneryPhetStrings.a11y.translatable.zoomOutStringProperty,
+      accessibleName: SceneryPhetStrings.a11y.zoomOutStringProperty,
       tandem: options.tandem.createTandem( 'zoomOutButton' )
     }, options.buttonOptions ) );
 

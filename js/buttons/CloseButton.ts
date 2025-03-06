@@ -48,10 +48,10 @@ export default class CloseButton extends RectangularPushButton {
       soundPlayer: sharedSoundPlayers.get( 'generalClose' ),
 
       // pdom
-      accessibleName: SceneryPhetStrings.a11y.translatable.closeStringProperty,
+      accessibleName: SceneryPhetStrings.a11y.closeStringProperty,
 
       //voicing
-      voicingNameResponse: SceneryPhetStrings.a11y.translatable.closeStringProperty
+      voicingNameResponse: SceneryPhetStrings.a11y.closeStringProperty
     }, providedOptions );
 
     // 'X' icon

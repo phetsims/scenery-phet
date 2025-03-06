@@ -36,7 +36,7 @@ export default class InfoButton extends RoundPushButton {
       xMargin: 10,
       yMargin: 10,
       touchAreaDilation: 10,
-      accessibleName: SceneryPhetStrings.a11y.translatable.infoStringProperty
+      accessibleName: SceneryPhetStrings.a11y.infoStringProperty
     }, providedOptions );
 
     options.content = new Path( infoCircleSolidShape, {

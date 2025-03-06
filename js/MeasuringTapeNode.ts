@@ -265,8 +265,8 @@ class MeasuringTapeNode extends Node {
       tagName: 'div',
       focusable: true,
       ariaRole: 'application',
-      innerContent: SceneryPhetStrings.a11y.translatable.measuringTapeStringProperty,
-      ariaLabel: SceneryPhetStrings.a11y.translatable.measuringTapeStringProperty
+      innerContent: SceneryPhetStrings.a11y.measuringTapeStringProperty,
+      ariaLabel: SceneryPhetStrings.a11y.measuringTapeStringProperty
     } );
     baseImageParent.addChild( this.baseImage );
 
@@ -288,8 +288,8 @@ class MeasuringTapeNode extends Node {
       tagName: 'div',
       focusable: true,
       ariaRole: 'application',
-      innerContent: SceneryPhetStrings.a11y.translatable.measuringTapeTipStringProperty,
-      ariaLabel: SceneryPhetStrings.a11y.translatable.measuringTapeTipStringProperty
+      innerContent: SceneryPhetStrings.a11y.measuringTapeTipStringProperty,
+      ariaLabel: SceneryPhetStrings.a11y.measuringTapeTipStringProperty
     } );
 
     const readoutStringProperty = new DerivedStringProperty(

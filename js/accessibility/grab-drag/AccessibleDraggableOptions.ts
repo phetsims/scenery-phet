@@ -11,7 +11,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 
 // constants
-const movableStringProperty = SceneryPhetStrings.a11y.translatable.grabDrag.movableStringProperty;
+const movableStringProperty = SceneryPhetStrings.a11y.grabDrag.movableStringProperty;
 
 const AccessibleDraggableOptions: ParallelDOMOptions = {
   tagName: 'div',

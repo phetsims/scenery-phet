@@ -28,7 +28,7 @@ export default class ScreenSummaryNode extends Node {
 
     const keyboardShortcutsHint = new Node( {
       tagName: 'p',
-      innerContent: SceneryPhetStrings.a11y.translatable.simSection.screenSummary.keyboardShortcutsHintStringProperty
+      innerContent: SceneryPhetStrings.a11y.simSection.screenSummary.keyboardShortcutsHintStringProperty
     } );
 
     this.addChild( this.openingSummaryNode );
@@ -49,8 +49,8 @@ export default class ScreenSummaryNode extends Node {
     // different default string depending on if there are multiple screens
     this.openingSummaryNode.innerContent =
       ( isMultiScreen && screenDisplayName ) ?
-      StringUtils.fillIn( SceneryPhetStrings.a11y.translatable.simSection.screenSummary.multiScreenIntroStringProperty, { screen: screenDisplayName } ) :
-      StringUtils.fillIn( SceneryPhetStrings.a11y.translatable.simSection.screenSummary.singleScreenIntroPatternStringProperty, { sim: simName } );
+      StringUtils.fillIn( SceneryPhetStrings.a11y.simSection.screenSummary.multiScreenIntroStringProperty, { screen: screenDisplayName } ) :
+      StringUtils.fillIn( SceneryPhetStrings.a11y.simSection.screenSummary.singleScreenIntroPatternStringProperty, { sim: simName } );
   }
 }
 

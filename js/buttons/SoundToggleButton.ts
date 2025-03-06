@@ -46,7 +46,7 @@ export default class SoundToggleButton extends BooleanRectangularToggleButton {
       xMargin: MARGIN,
       yMargin: MARGIN,
       tagName: 'button',
-      innerContent: SceneryPhetStrings.a11y.translatable.soundToggle.labelStringProperty
+      innerContent: SceneryPhetStrings.a11y.soundToggle.labelStringProperty
     }, provideOptions );
 
     // 'on' icon is a font-awesome icon

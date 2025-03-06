@@ -33,7 +33,7 @@ export default class PlayPauseButton extends PlayControlButton {
 
       // PlayControlButtonOptions
       includeGlobalHotkey: true,
-      endPlayingLabel: SceneryPhetStrings.a11y.translatable.playControlButton.pauseStringProperty
+      endPlayingLabel: SceneryPhetStrings.a11y.playControlButton.pauseStringProperty
     }, providedOptions );
 
     // icon sized relative to the radius
