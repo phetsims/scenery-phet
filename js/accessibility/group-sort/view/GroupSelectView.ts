@@ -19,14 +19,13 @@ import Multilink from '../../../../../axon/js/Multilink.js';
 import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import Shape from '../../../../../kite/js/Shape.js';
 import optionize, { combineOptions } from '../../../../../phet-core/js/optionize.js';
-import IntentionalAny from '../../../../../phet-core/js/types/IntentionalAny.js';
 import StrictOmit from '../../../../../phet-core/js/types/StrictOmit.js';
 import HighlightFromNode from '../../../../../scenery/js/accessibility/HighlightFromNode.js';
 import HighlightPath from '../../../../../scenery/js/accessibility/HighlightPath.js';
 import { ParallelDOMOptions, PDOMValueType } from '../../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import { isInteractiveHighlighting } from '../../../../../scenery/js/accessibility/voicing/isInteractiveHighlighting.js';
 import animatedPanZoomSingleton from '../../../../../scenery/js/listeners/animatedPanZoomSingleton.js';
-import KeyboardListener, { KeyboardListenerOptions } from '../../../../../scenery/js/listeners/KeyboardListener.js';
+import KeyboardListener from '../../../../../scenery/js/listeners/KeyboardListener.js';
 import Node, { NodeOptions } from '../../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../../scenery/js/nodes/Path.js';
 import sceneryPhet from '../../../sceneryPhet.js';
@@ -70,8 +69,6 @@ type SelfOptions<ItemModel, ItemNode extends Node> = {
   // Accessible content provided to the node. This doesn't change from selecting/sorting states. Client is responsible
   // for setting accessibleName according to grabbed state, see https://github.com/phetsims/scenery-phet/issues/860
   primaryFocusedNodeOptions?: ParallelDOMOptions;
-
-  grabReleaseKeyboardListenerOptions?: KeyboardListenerOptions<IntentionalAny>;
 };
 
 type ParentOptions = DisposableOptions;
@@ -116,8 +113,7 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
         ariaRole: 'application',
         accessibleNameBehavior: GROUP_SELECT_ACCESSIBLE_NAME_BEHAVIOR
       },
-      grabReleaseCueOptions: {},
-      grabReleaseKeyboardListenerOptions: {}
+      grabReleaseCueOptions: {}
     }, providedOptions );
 
     super( options );
@@ -245,8 +241,7 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
     } );
 
     // A KeyboardListener that changes the "sorting" vs "selecting" state of the interaction.
-    const grabReleaseKeyboardListener = new KeyboardListener( combineOptions<KeyboardListenerOptions<IntentionalAny>>( {
-      fireOnHold: true,
+    const grabReleaseKeyboardListener = new KeyboardListener( {
       fireOnDown: false,
       keys: [ 'enter', 'space', 'escape' ],
       fire: ( event, keysPressed ) => {
@@ -267,7 +262,7 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
           isKeyboardFocusedProperty.value = true;
         }
       }
-    }, options.grabReleaseKeyboardListenerOptions ) );
+    } );
 
     const defaultGroupShape = primaryFocusedNode.visibleBounds.isFinite() ? Shape.bounds( primaryFocusedNode.visibleBounds ) : null;
 
