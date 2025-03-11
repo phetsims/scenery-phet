@@ -93,6 +93,7 @@ export default class TimeControlNode extends Node {
         xMargin: 8,
         yMargin: 6
       },
+      excludeInvisibleChildrenFromBounds: true,
 
       // NodeOptions
       disabledOpacity: SceneryConstants.DISABLED_OPACITY,
@@ -137,6 +138,7 @@ export default class TimeControlNode extends Node {
       else {
         this.speedRadioButtonGroupParent = new Node( { children: [ this.speedRadioButtonGroup ] } );
       }
+      this.speedRadioButtonGroupParent.visibleProperty = this.speedRadioButtonGroup.visibleProperty;
 
       if ( options.speedRadioButtonGroupOnLeft ) {
         children.unshift( this.speedRadioButtonGroupParent );
