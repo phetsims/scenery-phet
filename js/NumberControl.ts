@@ -841,7 +841,7 @@ export default class NumberControl extends WidthSizable( Node ) {
     documentation: 'A number control with a title, slider and +/- buttons',
     supertype: Node.NodeIO
   } );
-  public static readonly SLIDER_TANDEM_NAME = 'slider' as const;
+  public static readonly SLIDER_TANDEM_NAME = 'slider';
 }
 
 /**
