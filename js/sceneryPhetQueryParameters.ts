@@ -6,6 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import { QueryStringMachine } from '../../query-string-machine/js/QueryStringMachineModule.js';
 import sceneryPhet from './sceneryPhet.js';
 
 const sceneryPhetQueryParameters = QueryStringMachine.getAll( {
