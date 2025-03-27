@@ -1011,7 +1011,7 @@ export default class GrabDragInteraction extends Disposable {
 
     // When released, we want description and voicing to say so.
     this.grabDragModel.releasedEmitter.addListener( () => {
-      this.node.alertDescriptionUtterance( releasedUtterance );
+      this.node.addAccessibleResponse( releasedUtterance );
       isVoicing( node ) && Voicing.alertUtterance( releasedUtterance );
     } );
   }

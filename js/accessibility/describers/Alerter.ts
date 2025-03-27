@@ -56,15 +56,15 @@ export default class Alerter extends EnabledComponent {
         Voicing.alertUtterance( alertable as Utterance );
       }
 
-      this.alertDescriptionUtterance( alertable );
+      this.addAccessibleResponse( alertable );
     }
   }
 
   /**
-   * Forward to provided Node for UtteranceQueue alerting logic. See ParallelDOM.alertDescriptionUtterance() for details.
+   * Forward to provided Node for UtteranceQueue alerting logic. See ParallelDOM.addAccessibleResponse() for details.
    */
-  public alertDescriptionUtterance( alertable: TAlertable ): void {
-    this.enabled && this.descriptionAlertNode && this.descriptionAlertNode.alertDescriptionUtterance( alertable );
+  public addAccessibleResponse( alertable: TAlertable ): void {
+    this.enabled && this.descriptionAlertNode && this.descriptionAlertNode.addAccessibleResponse( alertable );
   }
 
   /**
