@@ -244,6 +244,9 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
     const grabReleaseKeyboardListener = new KeyboardListener( {
       fireOnDown: false,
       keys: [ 'enter', 'space', 'escape' ],
+
+      // This option will ensure that this listener doesn't disrupt other keys
+      overlapBehavior: 'allow',
       fire: ( event, keysPressed ) => {
 
         // Do no grab when the interaction is disabled, if there is no selection, or when the individual group item is disabled

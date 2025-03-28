@@ -527,9 +527,8 @@ export default class GrabDragInteraction extends Disposable {
       fireOnDown: false,
       fire: () => this.updateVisibilityForCues(),
 
-      // These options simulate PressListener's attach:false option, and will ensure this doesn't disrupt other keys
-      override: false,
-      allowOverlap: true
+      // This option will ensure that this listener doesn't disrupt other keys
+      overlapBehavior: 'allow'
     } );
 
     this.listenersWhileGrabbed = options.listenersWhileGrabbed.concat( [
