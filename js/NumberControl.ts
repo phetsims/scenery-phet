@@ -838,7 +838,7 @@ export default class NumberControl extends WidthSizable( Node ) {
     };
   }
 
-  public static readonly NumberControlIO = new IOType( 'NumberControlIO', {
+  public static readonly NumberControlIO = new IOType<IntentionalAny, IntentionalAny>( 'NumberControlIO', {
     valueType: NumberControl,
     documentation: 'A number control with a title, slider and +/- buttons',
     supertype: Node.NodeIO

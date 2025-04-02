@@ -14,6 +14,7 @@ import Range from '../../dot/js/Range.js';
 import { toFixed } from '../../dot/js/util/toFixed.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import ManualConstraint from '../../scenery/js/layout/constraints/ManualConstraint.js';
@@ -388,7 +389,7 @@ export default class NumberDisplay extends Node {
 
   public set backgroundWidth( width: number ) { this.setBackgroundWidth( width ); }
 
-  public static readonly NumberDisplayIO = new IOType( 'NumberDisplayIO', {
+  public static readonly NumberDisplayIO = new IOType<IntentionalAny, IntentionalAny>( 'NumberDisplayIO', {
     valueType: NumberDisplay,
     supertype: Node.NodeIO,
     documentation: 'A numeric readout with a background'

@@ -31,6 +31,7 @@ import Range from '../../dot/js/Range.js';
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize from '../../phet-core/js/optionize.js';
+import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import WithOptional from '../../phet-core/js/types/WithOptional.js';
 import GroupHighlightPath from '../../scenery/js/accessibility/GroupHighlightPath.js';
@@ -408,7 +409,7 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
     binderName: 'Tap to dispense faucet'
   } );
 
-  public static FaucetNodeIO = new IOType( 'FaucetNodeIO', {
+  public static FaucetNodeIO = new IOType<IntentionalAny, IntentionalAny>( 'FaucetNodeIO', {
     valueType: FaucetNode,
     documentation: 'Faucet that emits fluid, typically user-controllable',
     supertype: Node.NodeIO,

@@ -10,6 +10,7 @@
 
 import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
+import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import HBox from '../../scenery/js/layout/nodes/HBox.js';
 import Image from '../../scenery/js/nodes/Image.js';
@@ -91,7 +92,7 @@ export default class OopsDialog extends Dialog {
     super.dispose();
   }
 
-  public static readonly OopsDialogIO = new IOType( 'OopsDialogIO', {
+  public static readonly OopsDialogIO = new IOType<IntentionalAny, IntentionalAny>( 'OopsDialogIO', {
     valueType: OopsDialog,
     supertype: Dialog.DialogIO
   } );
