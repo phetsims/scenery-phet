@@ -12,6 +12,7 @@ import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Matrix3 from '../../dot/js/Matrix3.js';
 import Range from '../../dot/js/Range.js';
 import { clamp } from '../../dot/js/util/clamp.js';
+import { linear } from '../../dot/js/util/linear.js';
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
@@ -24,7 +25,6 @@ import TColor from '../../scenery/js/util/TColor.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import { linear } from '../../dot/js/util/linear.js';
 
 type GaugeNodeLabelTextOptions = StrictOmit<TextOptions, 'maxWidth' | 'tandem'>;
 
@@ -97,7 +97,7 @@ export default class GaugeNode extends Node {
       },
 
       // NodeOptions
-      tandem: Tandem.REQUIRED,
+      tandem: Tandem.OPTIONAL,
       tandemNameSuffix: 'Node'
     }, providedOptions );
 
