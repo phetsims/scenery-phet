@@ -13,6 +13,7 @@ import Property from '../../axon/js/Property.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
+import { roundToInterval } from '../../dot/js/util/roundToInterval.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import Orientation from '../../phet-core/js/Orientation.js';
@@ -41,7 +42,6 @@ import IOType from '../../tandem/js/types/IOType.js';
 import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import { roundToInterval } from '../../dot/js/util/roundToInterval.js';
 
 // constants
 const SPECIFIC_COMPONENT_CALLBACK_OPTIONS = [
@@ -208,7 +208,7 @@ export default class NumberControl extends WidthSizable( Node ) {
   private readonly numberDisplay: NumberDisplay;
   private readonly disposeNumberControl: () => void;
 
-  public constructor( title: string | TReadOnlyProperty<string>, numberProperty: PhetioProperty<number>, numberRange: Range, providedOptions?: NumberControlOptions ) {
+  public constructor( title: string | TReadOnlyProperty<string> | Node, numberProperty: PhetioProperty<number>, numberRange: Range, providedOptions?: NumberControlOptions ) {
 
     // Make sure that general callbacks (for all components) and specific callbacks (for a specific component) aren't
     // used in tandem. This must be called before defaults are set.
@@ -399,7 +399,9 @@ export default class NumberControl extends WidthSizable( Node ) {
     // that it is a composite component and there is only one stop in the traversal order.
     this.groupFocusHighlight = options.includeArrowButtons;
 
-    const titleNode = options.useRichText ?
+    // Since we support either a node title or passing the strings directly, we need to create the title node here.
+    const titleNode = title instanceof Node ? title :
+                      options.useRichText ?
                       new RichText( title, options.titleNodeOptions ) :
                       new Text( title, options.titleNodeOptions );
 
