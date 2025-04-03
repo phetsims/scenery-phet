@@ -73,53 +73,6 @@ class FormulaNode extends DOM {
   }
 
   /**
-   *
-   * FormulaNode needs this override in order to render formulas correctly in DOM's invalidateDOM method, the
-   * temporaryContainer is given a size temporaryContainer having a size affects the size of the formula and renders
-   * calculateDOMBounds useless this method is almost the same as the one it overrides, but it just removes
-   * temporaryContainer's size so that calculateDOMBounds can work and this can render correctly
-   * @public
-   * @override
-   */
-  invalidateDOM() {
-    // prevent this from being executed as a side-effect from inside one of its own calls
-    if ( this.invalidateDOMLock ) {
-      return;
-    }
-    this.invalidateDOMLock = true;
-
-    // we will place ourselves in a temporary container to get our real desired bounds
-    const temporaryContainer = document.createElement( 'div' );
-    $( temporaryContainer ).css( {
-      display: 'hidden',
-      padding: '0 !important',
-      margin: '0 !important',
-      position: 'absolute',
-      left: 0,
-      top: 0
-    } );
-
-    // move to the temporary container
-    this._container.removeChild( this._element );
-    temporaryContainer.appendChild( this._element );
-    document.body.appendChild( temporaryContainer );
-
-    // bounds computation and resize our container to fit precisely
-    const selfBounds = this.calculateDOMBounds();
-    this.invalidateSelf( selfBounds );
-    this._$container.width( selfBounds.getWidth() );
-    this._$container.height( selfBounds.getHeight() );
-
-    // move back to the main container
-    document.body.removeChild( temporaryContainer );
-    temporaryContainer.removeChild( this._element );
-    this._container.appendChild( this._element );
-
-    // unlock
-    this.invalidateDOMLock = false;
-  }
-
-  /**
    * Updates the formula to display. It should be a string, formatted with the general LaTeX style. Particular
    * function support is available at https://github.com/Khan/KaTeX/wiki/Function-Support-in-KaTeX.
    * @public
