@@ -600,7 +600,7 @@ export default class GrabDragInteraction extends Disposable {
       this.node.removeInputListener( this.pressReleaseListener );
       ownsEnabledProperty && this.node.inputEnabledProperty.unlink( inputEnabledListener );
 
-      this.node.removePDOMAttribute( 'aria-roledescription' );
+      this.node.accessibleRoleDescription = null;
 
       // Remove listeners (gracefully)
       this.removeInputListeners( this.listenersWhileIdle );
@@ -845,9 +845,7 @@ export default class GrabDragInteraction extends Disposable {
     // By default, the idle gets a roledescription to force the AT to say its role. This fixes a bug in VoiceOver
     // where it fails to update the role after turning back into an idle.
     // See https://github.com/phetsims/scenery-phet/issues/688.
-    this.node.setPDOMAttribute( 'aria-roledescription',
-      ( interactionState === 'grabbed' || this.supportsGestureDescription ) ? movableStringProperty : buttonStringProperty
-    );
+    this.node.accessibleRoleDescription = ( interactionState === 'grabbed' || this.supportsGestureDescription ) ? movableStringProperty : buttonStringProperty;
 
     this.updateAriaDescribedby( interactionState );
 

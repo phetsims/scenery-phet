@@ -187,7 +187,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
     Multilink.multilink( [
       model.isGroupItemKeyboardGrabbedProperty
     ], isGrabbed => {
-      primaryFocusedNode.setPDOMAttribute( 'aria-roledescription', isGrabbed ? sortableStringProperty : navigableStringProperty );
+      primaryFocusedNode.accessibleRoleDescription = isGrabbed ? sortableStringProperty : navigableStringProperty;
     } );
 
 
