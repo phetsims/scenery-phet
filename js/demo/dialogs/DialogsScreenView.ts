@@ -20,6 +20,7 @@ import ContextLossFailureDialog from '../../ContextLossFailureDialog.js';
 import OopsDialog from '../../OopsDialog.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
+import KeypadDialog from '../../keypad/KeypadDialog.js';
 
 // constants
 const TEXT_OPTIONS = {
@@ -80,11 +81,24 @@ export default class DialogsScreenView extends ScreenView {
       }
     } );
 
+    // KeypadDialog
+    let keypadDialog: Dialog | null = null;
+    const keypadDialogButton = new RectangularPushButton( {
+      content: new Text( 'KeypadDialog', TEXT_OPTIONS ),
+      listener: () => {
+        if ( !keypadDialog ) {
+          keypadDialog = new KeypadDialog();
+        }
+        keypadDialog.show();
+      }
+    } );
+
     this.addChild( new VBox( {
       children: [
         contextLossFailureButton,
         canvasWarningButton,
-        oopsButton
+        oopsButton,
+        keypadDialogButton
       ],
       spacing: 20,
       center: this.layoutBounds.center
