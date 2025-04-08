@@ -33,7 +33,7 @@ const AccessibleDraggableOptions: ParallelDOMOptions = {
   positionInPDOM: true,
 
   // The screen reader will call this a 'movable', which is more intuitive for the user.
-  pdomAttributes: [ { attribute: 'aria-roledescription', value: movableStringProperty } ]
+  accessibleRoleDescription: movableStringProperty
 } as const;
 
 export default AccessibleDraggableOptions;
