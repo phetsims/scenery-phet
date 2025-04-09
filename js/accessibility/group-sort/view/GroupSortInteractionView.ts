@@ -11,19 +11,15 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import Multilink from '../../../../../axon/js/Multilink.js';
 import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../../dot/js/Range.js';
 import optionize from '../../../../../phet-core/js/optionize.js';
 import KeyboardListener from '../../../../../scenery/js/listeners/KeyboardListener.js';
 import Node from '../../../../../scenery/js/nodes/Node.js';
 import sceneryPhet from '../../../sceneryPhet.js';
-import SceneryPhetStrings from '../../../SceneryPhetStrings.js';
 import GroupSelectModel from '../model/GroupSelectModel.js';
 import GroupSelectView, { GroupSelectViewOptions } from './GroupSelectView.js';
-
-const navigableStringProperty = SceneryPhetStrings.a11y.groupSort.navigableStringProperty;
-const sortableStringProperty = SceneryPhetStrings.a11y.groupSort.sortableStringProperty;
+import SortCueArrowNode from './SortCueArrowNode.js';
 
 type SelfOptions<ItemModel> = {
 
@@ -150,7 +146,7 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
               selectedGroupItemProperty.value = options.getNextSelectedGroupItem( clampedDelta, groupItem );
             }
           }
-          this.onGroupItemChange( groupItem );
+          selectedGroupItemProperty.value && this.onGroupItemChange( selectedGroupItemProperty.value );
         }
       }
     } );
@@ -183,13 +179,6 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
       } );
     }
     primaryFocusedNode.addInputListener( deltaKeyboardListener );
-
-    Multilink.multilink( [
-      model.isGroupItemKeyboardGrabbedProperty
-    ], isGrabbed => {
-      primaryFocusedNode.setPDOMAttribute( 'aria-roledescription', isGrabbed ? sortableStringProperty : navigableStringProperty );
-    } );
-
 
     this.disposeEmitter.addListener( () => {
       primaryFocusedNode.removeInputListener( deltaKeyboardListener );
@@ -231,15 +220,22 @@ export default class GroupSortInteractionView<ItemModel, ItemNode extends Node> 
   }
 
   /**
-   * Creator factory, similar to PhetioObject.create(). This is most useful if you don't need to keep the instance of
-   * your GroupSortInteractionView.
+   * Use SortCueArrowNode to create a Node for the keyboard sorting cue. Can also be used as the mouse/touch cue
+   * Node if desired.
    */
-  public static override create<ItemModel, ItemNode extends Node>(
-    model: GroupSelectModel<ItemModel>,
-    primaryFocusedNode: Node,
-    providedOptions: GroupSortInteractionViewOptions<ItemModel, ItemNode> ): GroupSortInteractionView<ItemModel, ItemNode> {
-
-    return new GroupSortInteractionView<ItemModel, ItemNode>( model, primaryFocusedNode, providedOptions );
+  public static createSortCueNode( visibleProperty: TReadOnlyProperty<boolean>, scale = 1 ): SortCueArrowNode {
+    return new SortCueArrowNode( {
+      doubleHead: true,
+      dashWidth: 3.5 * scale,
+      dashHeight: 2.8 * scale,
+      numberOfDashes: 3,
+      spacing: 2 * scale,
+      triangleNodeOptions: {
+        triangleWidth: 12 * scale,
+        triangleHeight: 11 * scale
+      },
+      visibleProperty: visibleProperty
+    } );
   }
 }
 

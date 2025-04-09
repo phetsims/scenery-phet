@@ -16,7 +16,6 @@
 import Disposable, { DisposableOptions } from '../../../../../axon/js/Disposable.js';
 import Emitter from '../../../../../axon/js/Emitter.js';
 import Multilink from '../../../../../axon/js/Multilink.js';
-import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import Shape from '../../../../../kite/js/Shape.js';
 import optionize, { combineOptions } from '../../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../../phet-core/js/types/StrictOmit.js';
@@ -31,13 +30,16 @@ import Path from '../../../../../scenery/js/nodes/Path.js';
 import sceneryPhet from '../../../sceneryPhet.js';
 import GrabReleaseCueNode, { GrabReleaseCueNodeOptions } from '../../nodes/GrabReleaseCueNode.js';
 import GroupSelectModel from '../model/GroupSelectModel.js';
-import SortCueArrowNode from './SortCueArrowNode.js';
+import SceneryPhetStrings from '../../../SceneryPhetStrings.js';
 
 function GROUP_SELECT_ACCESSIBLE_NAME_BEHAVIOR( node: Node, options: NodeOptions, accessibleName: PDOMValueType ): NodeOptions {
   options.ariaLabel = accessibleName; // IMPORTANT! Divs with innerContent aren't recognized with accessibleNames
   options.innerContent = accessibleName;
   return options;
 }
+
+const navigableStringProperty = SceneryPhetStrings.a11y.groupSort.navigableStringProperty;
+const sortableStringProperty = SceneryPhetStrings.a11y.groupSort.sortableStringProperty;
 
 type SelfOptions<ItemModel, ItemNode extends Node> = {
 
@@ -277,6 +279,12 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
       innerLineWidth: HighlightPath.GROUP_INNER_LINE_WIDTH
     } );
 
+    Multilink.multilink( [
+      model.isGroupItemKeyboardGrabbedProperty
+    ], isGrabbed => {
+      primaryFocusedNode.setPDOMAttribute( 'aria-roledescription', isGrabbed ? sortableStringProperty : navigableStringProperty );
+    } );
+
     this.grabReleaseCueNode = new GrabReleaseCueNode( combineOptions<GrabReleaseCueNodeOptions>( {
       visibleProperty: this.model.grabReleaseCueVisibleProperty
     }, options.grabReleaseCueOptions ) );
@@ -299,6 +307,7 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
 
   // By "change" we mean sort or selection.
   protected onGroupItemChange( newGroupItem: ItemModel ): void {
+
     // When using keyboard input, make sure that the selected group item is still displayed by panning to keep it
     // in view. `panToCenter` is false because centering the group item in the screen is too much movement.
     const node = this.getNodeFromModelItem( newGroupItem );
@@ -331,37 +340,6 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
     this.grabReleaseCueNode.dispose();
     this.positionSortCueNodeEmitter.dispose();
     super.dispose();
-  }
-
-  /**
-   * Use SortCueArrowNode to create a Node for the keyboard sorting cue. Can also be used as the mouse/touch cue
-   * Node if desired.
-   */
-  public static createSortCueNode( visibleProperty: TReadOnlyProperty<boolean>, scale = 1 ): SortCueArrowNode {
-    return new SortCueArrowNode( {
-      doubleHead: true,
-      dashWidth: 3.5 * scale,
-      dashHeight: 2.8 * scale,
-      numberOfDashes: 3,
-      spacing: 2 * scale,
-      triangleNodeOptions: {
-        triangleWidth: 12 * scale,
-        triangleHeight: 11 * scale
-      },
-      visibleProperty: visibleProperty
-    } );
-  }
-
-  /**
-   * Creator factory, similar to PhetioObject.create(). This is most useful if you don't need to keep the instance of
-   * your GroupSortInteractionView.
-   */
-  public static create<ItemModel, ItemNode extends Node>(
-    model: GroupSelectModel<ItemModel>,
-    primaryFocusedNode: Node,
-    providedOptions: GroupSelectViewOptions<ItemModel, ItemNode> ): GroupSelectView<ItemModel, ItemNode> {
-
-    return new GroupSelectView<ItemModel, ItemNode>( model, primaryFocusedNode, providedOptions );
   }
 }
 
