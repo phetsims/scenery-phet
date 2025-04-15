@@ -1,10 +1,5 @@
 // Copyright 2018-2025, University of Colorado Boulder
 
-import Disposable from '../../../../axon/js/Disposable.js';
-import Emitter from '../../../../axon/js/Emitter.js';
-import TProperty from '../../../../axon/js/TProperty.js';
-import Matrix3 from '../../../../dot/js/Matrix3.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 /**
  * The main interaction for grabbing and dragging an object through the PDOM and assistive technology. It works by
  * taking in a Node to augment with the PDOM interaction. In fact it works much like a mixin. In general, this type
@@ -55,6 +50,11 @@ import Vector2 from '../../../../dot/js/Vector2.js';
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
+import Disposable from '../../../../axon/js/Disposable.js';
+import Emitter from '../../../../axon/js/Emitter.js';
+import TProperty from '../../../../axon/js/TProperty.js';
+import Matrix3 from '../../../../dot/js/Matrix3.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import assertHasProperties from '../../../../phet-core/js/assertHasProperties.js';
 import getGlobal from '../../../../phet-core/js/getGlobal.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
