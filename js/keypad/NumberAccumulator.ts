@@ -96,35 +96,35 @@ class NumberAccumulator extends AbstractKeyAccumulator {
 
   /**
    * Invoked when a key is pressed and creates proposed set of keys to be passed to the validator
-   * @param keyIdentifier - identifier for the key pressed
+   * @param keyID - identifier for the key pressed
    */
-  public override handleKeyPressed( keyIdentifier: KeyIDValue ): void {
-    const newArray = this.handleClearOnNextKeyPress( keyIdentifier );
-    if ( this.isDigit( keyIdentifier ) ) {
+  public override handleKeyPressed( keyID: KeyIDValue ): void {
+    const newArray = this.handleClearOnNextKeyPress( keyID );
+    if ( this.isDigit( keyID ) ) {
       this.removeLeadingZero( newArray );
-      newArray.push( keyIdentifier );
+      newArray.push( keyID );
 
     }
-    else if ( keyIdentifier === KeyID.BACKSPACE ) {
+    else if ( keyID === KeyID.BACKSPACE ) {
       newArray.pop();
 
     }
-    else if ( keyIdentifier === KeyID.PLUS_MINUS ) {
+    else if ( keyID === KeyID.PLUS_MINUS ) {
       // check if first element of array is instance of this class
       if ( newArray.length > 0 && newArray[ 0 ] === KeyID.PLUS_MINUS ) {
         newArray.shift();
       }
       else {
-        newArray.unshift( keyIdentifier );
+        newArray.unshift( keyID );
       }
     }
-    else if ( keyIdentifier === KeyID.DECIMAL ) {
+    else if ( keyID === KeyID.DECIMAL ) {
       if ( !this.containsFloatingPoint( newArray ) ) {
-        newArray.push( keyIdentifier );
+        newArray.push( keyID );
       }
     }
     else {
-      assert && assert( false, `unsupported keyIdentifier: ${keyIdentifier}` );
+      assert && assert( false, `unsupported keyID: ${keyID}` );
     }
 
     // Validate and update the keys

@@ -16,7 +16,7 @@ import { KeyIDValue } from './KeyID.js';
 type SelfOptions = {
   horizontalSpan?: number;
   verticalSpan?: number;
-  keyboardIdentifiers?: OneKeyStroke[];
+  keyboardIDs?: OneKeyStroke[];
 };
 
 export type KeyOptions = SelfOptions;
@@ -33,29 +33,29 @@ class Key {
   public readonly buttonTandemName: string;
 
   // For keyboard input, this is used to identify the keystroke to activate this key (see KeyboardListener.ts)
-  public readonly keyboardIdentifiers: OneKeyStroke[];
+  public readonly keyboardIDs: OneKeyStroke[];
 
   /**
    * @param label - node or string that will appear on the key
-   * @param identifier - ID for this key, see KeyID.js
+   * @param keyID - ID for this key, see KeyID.js
    * @param [providedOptions]
    */
   public constructor(
     public readonly label: Node | string,
-    public readonly identifier: KeyIDValue,
+    public readonly keyID: KeyIDValue,
     providedOptions?: KeyOptions ) {
 
     const options = optionize<KeyOptions, SelfOptions>()( {
       horizontalSpan: 1,
       verticalSpan: 1,
-      keyboardIdentifiers: []
+      keyboardIDs: []
     }, providedOptions );
 
     this.horizontalSpan = options.horizontalSpan;
     this.verticalSpan = options.verticalSpan;
-    this.keyboardIdentifiers = options.keyboardIdentifiers;
+    this.keyboardIDs = options.keyboardIDs;
 
-    this.buttonTandemName = `${_.camelCase( this.identifier )}Button`;
+    this.buttonTandemName = `${_.camelCase( this.keyID )}Button`;
   }
 }
 

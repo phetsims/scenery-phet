@@ -84,14 +84,14 @@ abstract class AbstractKeyAccumulator {
   /**
    * Called by the key accumulator when this key is pressed.
    */
-  public abstract handleKeyPressed( keyIdentifier: KeyIDValue ): void;
+  public abstract handleKeyPressed( keyID: KeyIDValue ): void;
 
   /**
    * creates an empty array if clearOnNextKeyPress is true, the behavior differs if Backspace key is pressed
    */
-  protected handleClearOnNextKeyPress( keyIdentifier: KeyIDValue ): KeyIDValue[] {
+  protected handleClearOnNextKeyPress( keyID: KeyIDValue ): KeyIDValue[] {
     let proposedArray: KeyIDValue[];
-    if ( !this.getClearOnNextKeyPress() || keyIdentifier === KeyID.BACKSPACE ) {
+    if ( !this.getClearOnNextKeyPress() || keyID === KeyID.BACKSPACE ) {
       proposedArray = _.clone( this.accumulatedKeysProperty.get() );
     }
     else {
