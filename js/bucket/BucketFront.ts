@@ -1,6 +1,6 @@
 // Copyright 2013-2025, University of Colorado Boulder
 
-/*
+/**
  * The front of a bucket (does not include the hole)
  *
  * @author Jonathan Olson
