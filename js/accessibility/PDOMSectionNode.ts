@@ -27,8 +27,7 @@ export default class PDOMSectionNode extends Node {
       // accessibility options controlled by PDOMSectionNode
       containerTagName: 'section',
       tagName: 'div',
-      labelContent: labelStringProperty,
-      labelTagName: 'h2'
+      accessibleHeading: labelStringProperty
     }, providedOptions ) );
   }
 }
