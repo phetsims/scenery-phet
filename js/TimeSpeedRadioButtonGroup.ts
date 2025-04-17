@@ -66,7 +66,6 @@ export default class TimeSpeedRadioButtonGroup extends VerticalAquaRadioButtonGr
       tandemNameSuffix: 'RadioButtonGroup',
 
       // pdom
-      labelTagName: 'h4',
       accessibleName: SceneryPhetStrings.a11y.timeControlNode.simSpeedsStringProperty,
       accessibleHelpText: SceneryPhetStrings.a11y.timeControlNode.simSpeedDescriptionStringProperty
     }, providedOptions );

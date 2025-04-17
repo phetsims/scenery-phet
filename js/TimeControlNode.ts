@@ -90,9 +90,7 @@ export default class TimeControlNode extends Node {
       excludeInvisibleChildrenFromBounds: true,
 
       // pdom
-      tagName: 'div',
-      labelTagName: 'h3',
-      labelContent: SceneryPhetStrings.a11y.timeControlNode.labelStringProperty
+      accessibleHeading: SceneryPhetStrings.a11y.timeControlNode.labelStringProperty
     }, providedOptions );
 
     super();

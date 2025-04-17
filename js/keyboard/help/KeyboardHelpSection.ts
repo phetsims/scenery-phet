@@ -92,12 +92,7 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
       // SelfOptions
       headingOptions: {
         font: DEFAULT_HEADING_FONT,
-        maxWidth: DEFAULT_HEADING_MAX_WIDTH,
-
-        // pdom
-        tagName: 'h2',
-
-        innerContent: headingString
+        maxWidth: DEFAULT_HEADING_MAX_WIDTH
       },
       textMaxWidth: DEFAULT_LABEL_MAX_WIDTH,
       vBoxOptions: {
@@ -137,7 +132,8 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
       children: icons,
 
       // pdom
-      tagName: options.a11yContentTagName
+      tagName: options.a11yContentTagName,
+      accessibleHeading: headingString
     }, options.vBoxOptions ) );
 
     // labels and icons horizontally aligned
