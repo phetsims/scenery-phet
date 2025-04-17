@@ -79,7 +79,7 @@ export default class SoundRichDragListener extends RichDragListener {
         releaseSound && releaseSound.play();
       }
     };
-    dragListener.isPressedProperty.link( isPressedListener );
+    dragListener.isPressedProperty.lazyLink( isPressedListener );
   }
 
   public static readonly DEFAULT_SOUND_OPTIONS = DEFAULT_SOUND_OPTIONS;
