@@ -19,10 +19,11 @@ import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../dot/js/Range.js';
 import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import Keypad, { KeypadLayout, KeypadOptions } from '../../../scenery-phet/js/keypad/Keypad.js';
+import Keypad, { KeyboardKeys, KeypadLayout, KeypadOptions } from '../../../scenery-phet/js/keypad/Keypad.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
+import { OneKeyStroke } from '../../../scenery/js/input/KeyDescriptor.js';
 import VBox from '../../../scenery/js/layout/nodes/VBox.js';
-import KeyboardListener from '../../../scenery/js/listeners/KeyboardListener.js';
+import KeyboardListener, { KeyboardListenerOptions } from '../../../scenery/js/listeners/KeyboardListener.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../scenery/js/nodes/RichText.js';
@@ -94,6 +95,8 @@ class KeypadDialog extends Dialog {
 
   private readonly disposeKeypadDialog: () => void;
 
+  private readonly accessibleNode: Node; // TODO: TEMP, see https://github.com/phetsims/scenery-phet/issues/909
+
   public constructor( providedOptions?: KeypadDialogOptions ) {
 
     const options = optionize<KeypadDialogOptions, SelfOptions, DialogOptions>()( {
@@ -127,10 +130,25 @@ class KeypadDialog extends Dialog {
     const keypad = new Keypad( options.keypadLayout, combineOptions<KeypadOptions>( {}, options.keypadOptions, {
       tandem: Tandem.OPT_OUT
     } ) );
+    const valueDisplayBox = new Node();
+    const accessibleNode = valueDisplayBox;
 
-    options.focusOnShowNode = keypad;
+    accessibleNode.mutate( {
+      tagName: 'div',
+      ariaRole: 'application',
+      focusable: true,
+      labelTagName: 'p',
+      accessibleNameBehavior: ( node, options, accessibleName ) => {
+        options.labelContent = accessibleName;
+        options.ariaLabel = accessibleName;
+        return options;
+      }
+    } );
+    accessibleNode.setPDOMAttribute( 'aria-roledescription', 'edit' );
+    options.focusOnShowNode = accessibleNode;
 
     super( contentNode, options );
+    this.accessibleNode = accessibleNode;
 
     this.defaultTextColor = options.keypadDefaultTextColor;
     this.errorTextColor = options.keypadErrorTextColor;
@@ -148,7 +166,7 @@ class KeypadDialog extends Dialog {
       stroke: Color.BLACK
     } );
 
-    const valueDisplayBox = new Node( { children: [ valueBackgroundNode, this.valueText ] } );
+    valueDisplayBox.children = [ valueBackgroundNode, this.valueText ];
 
     // Create the enterButton, which allows the user to submit an Edit.
     const enterText = new Text( SceneryPhetStrings.key.enterStringProperty, {
@@ -159,7 +177,8 @@ class KeypadDialog extends Dialog {
       listener: this.submitEdit.bind( this ),
 
       content: enterText,
-      accessibleName: SceneryPhetStrings.key.enterStringProperty,
+      tagName: null, // The enter interaction happens generally from the keyboard directly. No need for this to be described.
+      // accessibleName: SceneryPhetStrings.key.enterStringProperty,
       tandem: Tandem.OPT_OUT
     }, options.enterButtonOptions ) );
 
@@ -178,6 +197,8 @@ class KeypadDialog extends Dialog {
     this.keypad.stringProperty.link( string => {
       this.valueText.string = string;
       this.valueText.center = valueBackgroundNode.center;
+      accessibleNode.accessibleName = `Mass Input ${string}`;
+      // accessibleNode.setPDOMAttribute( 'aria-valuetext', string ); // TODO: Do we want this? https://github.com/phetsims/scenery-phet/issues/909
     } );
 
     // Observe when a key is pressed and reset text colors. Link is never disposed.
@@ -191,7 +212,45 @@ class KeypadDialog extends Dialog {
       fireOnDown: false,
       fire: () => this.submitEdit()
     } );
-    this.keypad.addInputListener( submitFromKeypadListener );
+    contentNode.addInputListener( submitFromKeypadListener );
+
+    const keyboardKeys: KeyboardKeys = {};
+
+    // interpret the layout specification
+    for ( let row = 0; row < options.keypadLayout.length; row++ ) {
+      for ( let column = 0; column < options.keypadLayout[ row ].length; column++ ) {
+        const key = options.keypadLayout[ row ][ column ];
+        if ( key ) {
+          for ( let i = 0; i < key.keyboardIDs.length; i++ ) {
+            const keyboardID = key.keyboardIDs[ i ];
+            assert && assert( !keyboardKeys.hasOwnProperty( keyboardID ), 'Keypad has already registered key for keyboard input: ' + keyboardID );
+            keyboardKeys[ keyboardID ] = key;
+          }
+        }
+      }
+    }
+
+    const keyboardListenerOptions: KeyboardListenerOptions<OneKeyStroke[]> = {
+
+      // @ts-expect-error - TypeScript doesn't know that keyboardKeys has keys of type OneKeyStroke. Type assertion
+      // works but is incompatible with eslint.
+      keys: Object.keys( keyboardKeys ),
+      fire: ( sceneryEvent, keysPressed ) => {
+        const keyObject = keyboardKeys[ keysPressed ];
+        this.keypad.keyAccumulator.handleKeyPressed( keyObject!.keyID );
+      }
+    };
+
+    let keyboardListener: KeyboardListener<OneKeyStroke[]>;
+    if ( options.keypadOptions.useGlobalKeyboardListener ) {
+      keyboardListener = KeyboardListener.createGlobal( this, keyboardListenerOptions );
+    }
+    else {
+      keyboardListener = new KeyboardListener( keyboardListenerOptions );
+      contentNode.addInputListener( keyboardListener );
+    }
+
+    this.addDisposable( keyboardListener );
 
     this.disposeKeypadDialog = () => {
       submitFromKeypadListener.dispose();
@@ -222,12 +281,18 @@ class KeypadDialog extends Dialog {
     // Clear a previous value out if it exists
     this.rangeStringProperty && this.rangeStringProperty.dispose();
 
+    // TODO: make better dynamics with a valueRangeProperty!! https://github.com/phetsims/scenery-phet/issues/909
     this.rangeStringProperty = new PatternStringProperty( patternStringProperty, {
       min: valueRange.min,
       max: valueRange.max
     }, { tandem: Tandem.OPT_OUT } );
     this.rangeText.mutate( {
       stringProperty: this.rangeStringProperty
+    } );
+
+
+    this.rangeStringProperty.link( string => {
+      this.accessibleNode.accessibleHelpText = `Enter mass value, range ${string} using keyboard.`;
     } );
 
     // Display the KeypadDialog.

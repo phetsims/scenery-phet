@@ -12,7 +12,6 @@ import merge from '../../../phet-core/js/merge.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import { OneKeyStroke } from '../../../scenery/js/input/KeyDescriptor.js';
-import KeyboardListener, { KeyboardListenerOptions } from '../../../scenery/js/listeners/KeyboardListener.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import Font from '../../../scenery/js/util/Font.js';
@@ -78,11 +77,11 @@ type SelfOptions = {
 };
 
 export type KeypadOptions = SelfOptions & NodeOptions;
-type KeyboardKeys = Partial<Record<OneKeyStroke, Key>>;
+export type KeyboardKeys = Partial<Record<OneKeyStroke, Key>>;
 
 class Keypad extends Node {
 
-  private readonly keyAccumulator: AbstractKeyAccumulator;
+  public readonly keyAccumulator: AbstractKeyAccumulator;
 
   // array of the keys that have been accumulated
   public readonly accumulatedKeysProperty: ReadOnlyProperty<KeyIDValue[]>;
@@ -114,9 +113,6 @@ class Keypad extends Node {
       accumulatorOptions: null,
       tandem: Tandem.REQUIRED,
       tandemNameSuffix: 'Keypad',
-      tagName: 'div',
-      ariaLabel: 'Keypad',
-      focusable: true,
       useGlobalKeyboardListener: false
     }, providedOptions );
 
@@ -163,19 +159,12 @@ class Keypad extends Node {
       }
     }
 
-    const keyboardKeys: KeyboardKeys = {};
-
     // interpret the layout specification
     for ( let row = 0; row < layout.length; row++ ) {
       const startRow = row;
       for ( let column = 0; column < layout[ row ].length; column++ ) {
         const key = layout[ row ][ column ];
         if ( key ) {
-          for ( let i = 0; i < key.keyboardIDs.length; i++ ) {
-            const keyboardID = key.keyboardIDs[ i ];
-            assert && assert( !keyboardKeys.hasOwnProperty( keyboardID ), 'Keypad has already registered key for keyboard input: ' + keyboardID );
-            keyboardKeys[ keyboardID ] = key;
-          }
 
           const keyBefore = layout[ row ][ column - 1 ];
           const startColumn = column +
@@ -203,32 +192,6 @@ class Keypad extends Node {
         }
       }
     }
-
-    const keyboardListenerOptions: KeyboardListenerOptions<OneKeyStroke[]> = {
-
-      // @ts-expect-error - TypeScript doesn't know that keyboardKeys has keys of type OneKeyStroke. Type assertion
-      // works but is incompatible with eslint.
-      keys: Object.keys( keyboardKeys ),
-      fire: ( sceneryEvent, keysPressed ) => {
-        const keyObject = keyboardKeys[ keysPressed ];
-        this.keyAccumulator.handleKeyPressed( keyObject!.keyID );
-      }
-    };
-
-    let keyboardListener: KeyboardListener<OneKeyStroke[]>;
-    if ( options.useGlobalKeyboardListener ) {
-      keyboardListener = KeyboardListener.createGlobal( this, keyboardListenerOptions );
-    }
-    else {
-      keyboardListener = new KeyboardListener( keyboardListenerOptions );
-      this.addInputListener( keyboardListener );
-    }
-
-    this.addDisposable( keyboardListener );
-
-    this.stringProperty.link( string => {
-      this.innerContent = string; // show current value in the PDOM
-    } );
 
     this.mutate( options );
   }
