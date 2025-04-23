@@ -13,6 +13,7 @@ import NumberProperty from '../../axon/js/NumberProperty.js';
 import Range from '../../dot/js/Range.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import Orientation from '../../phet-core/js/Orientation.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import KeyboardUtils from '../../scenery/js/accessibility/KeyboardUtils.js';
 import HBox from '../../scenery/js/layout/nodes/HBox.js';
@@ -75,7 +76,9 @@ export default class FineCoarseSpinner extends AccessibleNumberSpinner( Node, 0 
       tandem: Tandem.REQUIRED,
       tandemNameSuffix: 'Spinner',
       phetioFeatured: true,
-      phetioEnabledPropertyInstrumented: true
+      phetioEnabledPropertyInstrumented: true,
+
+      ariaOrientation: Orientation.HORIZONTAL
     }, providedOptions );
 
     assert && assert( options.deltaFine > 0, `invalid deltaFine: ${options.deltaFine}` );
