@@ -1031,6 +1031,10 @@ export default class GrabDragInteraction extends Disposable {
   public set enabled( enabled: boolean ) {
     this.grabDragModel.enabledProperty.value = enabled;
   }
+
+  public get interactionStateProperty(): TProperty<GrabDragInteractionState> {
+    return this.grabDragModel.interactionStateProperty;
+  }
 }
 
 sceneryPhet.register( 'GrabDragInteraction', GrabDragInteraction );
