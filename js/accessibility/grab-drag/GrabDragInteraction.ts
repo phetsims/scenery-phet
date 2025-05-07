@@ -97,7 +97,7 @@ type SelfOptions = {
   objectToGrabString?: PDOMValueType;
 
   // If not provided, a default will be applied, see this.idleStateAccessibleName.
-  idleStateAccessibleName?: PDOMValueType | null;
+  idleStateAccessibleName?: PDOMValueType;
 
   // Called when the node is "grabbed" (when the grab button fires); button -> grabbed.
   onGrab?: VoidFunction;
@@ -151,7 +151,7 @@ type SelfOptions = {
   // Help text is treated as the same for the idle and grabbed items, but is different based on if the
   // runtime is supporting gesture interactive description. Even though "technically" there is no way to access the
   // help text when this Node is in the grabbed state, the help text is still in the PDOM.
-  keyboardHelpText?: PDOMValueType | null;
+  keyboardHelpText?: PDOMValueType;
 
   // Controls whether or not to show the "Grab" cue node that is displayed on focus - by
   // default it will be shown on focus until it has been successfully grabbed with a keyboard
@@ -163,7 +163,7 @@ type SelfOptions = {
   shouldShowDragCueNode?: () => boolean;
 
   // Like keyboardHelpText but when supporting gesture interactive description.
-  gestureHelpText?: PDOMValueType | null;
+  gestureHelpText?: PDOMValueType;
 
   // For sharing usage tracking between multiple instances of GrabDragInteraction. Even if provided, GrabDragInteraction
   // will reset this.
@@ -186,16 +186,16 @@ type GrabDragInteractionOptions = SelfOptions & GrabDragModelOptions;
 export default class GrabDragInteraction extends Disposable {
 
   // The accessible name for the Node in its 'grabbed' interactionState.
-  private _grabbedStateAccessibleName: PDOMValueType = '';
+  private _grabbedStateAccessibleName: PDOMValueType = null;
 
   // The accessible name for the Node in its "idle" interactionState.
-  private _idleStateAccessibleName: PDOMValueType = '';
+  private _idleStateAccessibleName: PDOMValueType = null;
 
   private _onGrab: VoidFunction;
   private _onRelease: VoidFunction;
 
-  private _keyboardHelpText: PDOMValueType | null = null;
-  private _gestureHelpText: PDOMValueType = '';
+  private _keyboardHelpText: PDOMValueType = null;
+  private _gestureHelpText: PDOMValueType = null;
 
   private _createReleasedResponse: () => string | null;
   private _createGrabbedResponse: () => string | null;
@@ -695,22 +695,22 @@ export default class GrabDragInteraction extends Disposable {
   /**
    * Set the help text for keyboard input. If the runtime supports "gesture description" this is a no-op.
    */
-  public setKeyboardHelpText( text: PDOMValueType | null ): void {
+  public setKeyboardHelpText( text: PDOMValueType ): void {
     this._keyboardHelpText = text;
     if ( !this.supportsGestureDescription ) {
       this.node.descriptionContent = text;
     }
   }
 
-  public getKeyboardHelpText(): PDOMValueType | null {
+  public getKeyboardHelpText(): PDOMValueType {
     return this._keyboardHelpText;
   }
 
-  public set keyboardHelpText( text: PDOMValueType | null ) {
+  public set keyboardHelpText( text: PDOMValueType ) {
     this.setKeyboardHelpText( text );
   }
 
-  public get keyboardHelpText(): PDOMValueType | null {
+  public get keyboardHelpText(): PDOMValueType {
     return this.getKeyboardHelpText();
   }
 
