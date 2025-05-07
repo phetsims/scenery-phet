@@ -191,7 +191,7 @@ export default class GrabDragInteraction extends Disposable {
   private _onGrab: VoidFunction;
   private _onRelease: VoidFunction;
 
-  private _keyboardHelpText: PDOMValueType = '';
+  private _keyboardHelpText: PDOMValueType | null = null;
   private _gestureHelpText: PDOMValueType = '';
 
   // Directly from options or parameters.
@@ -682,24 +682,24 @@ export default class GrabDragInteraction extends Disposable {
   }
 
   /**
-   * Set the help text for keboard input. If the runtime supports "gesture description" this is a no-op.
+   * Set the help text for keyboard input. If the runtime supports "gesture description" this is a no-op.
    */
-  public setKeyboardHelpText( text: PDOMValueType ): void {
+  public setKeyboardHelpText( text: PDOMValueType | null ): void {
     this._keyboardHelpText = text;
     if ( !this.supportsGestureDescription ) {
       this.node.descriptionContent = text;
     }
   }
 
-  public getKeyboardHelpText(): PDOMValueType {
+  public getKeyboardHelpText(): PDOMValueType | null {
     return this._keyboardHelpText;
   }
 
-  public set keyboardHelpText( text: PDOMValueType ) {
+  public set keyboardHelpText( text: PDOMValueType | null ) {
     this.setKeyboardHelpText( text );
   }
 
-  public get keyboardHelpText(): PDOMValueType {
+  public get keyboardHelpText(): PDOMValueType | null {
     return this.getKeyboardHelpText();
   }
 
