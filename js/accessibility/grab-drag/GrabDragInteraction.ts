@@ -15,10 +15,6 @@
  * As a note on terminology, mostly things are referred to by their current "interaction state" which is either "idle"
  * or "grabbed".
  *
- * This type will alert when the grabbed state is released, but no default alert is provided when the object is grabbed.
- * This is because in usages so far, that alert has been custom, context specific, and easier to just supply through
- * the onGrab callback option.
- *
  * NOTE: You SHOULD NOT add listeners directly to the Node where it is constructed, instead see
  * `options.listenersWhileIdle/Grabbed`. These will keep track of the listeners for each interaction state, and
  * will set them accordingly. In rare cases it may be desirable to have a listener attached no matter the state, but that
@@ -89,6 +85,7 @@ const movableStringProperty = SceneryPhetStrings.a11y.grabDrag.movableStringProp
 const buttonStringProperty = SceneryPhetStrings.a11y.grabDrag.buttonStringProperty;
 const defaultObjectToGrabStringProperty = SceneryPhetStrings.a11y.grabDrag.defaultObjectToGrabStringProperty;
 const releasedStringProperty = SceneryPhetStrings.a11y.grabDrag.releasedStringProperty;
+const grabbedStringProperty = SceneryPhetStrings.a11y.grabDrag.grabbedStringProperty;
 
 // Valid positions for the interaction cue nodes relative to the target Node. For top and bottom, the cue is
 // centered horizontally. For left and right, the cue is centered vertically.
@@ -171,6 +168,12 @@ type SelfOptions = {
   // For sharing usage tracking between multiple instances of GrabDragInteraction. Even if provided, GrabDragInteraction
   // will reset this.
   grabDragUsageTracker?: GrabDragUsageTracker;
+
+  // Create responses for description and Voicing that describe when the movable is grabbed or released.
+  // A string is returned to discourage memory leaks and because responses are temporary and do not need to
+  // observe changing languages. Return null to remove the response entirely.
+  createReleasedResponse?: () => string | null;
+  createGrabbedResponse?: () => string | null;
 };
 
 // Provide GrabDragModelOptions as top level options, and they are passed directly to the model.
@@ -193,6 +196,9 @@ export default class GrabDragInteraction extends Disposable {
 
   private _keyboardHelpText: PDOMValueType | null = null;
   private _gestureHelpText: PDOMValueType = '';
+
+  private _createReleasedResponse: () => string | null;
+  private _createGrabbedResponse: () => string | null;
 
   // Directly from options or parameters.
   private readonly node: Node;
@@ -296,6 +302,9 @@ export default class GrabDragInteraction extends Disposable {
 
       grabDragUsageTracker: new GrabDragUsageTracker(),
 
+      createReleasedResponse: () => releasedStringProperty.value,
+      createGrabbedResponse: () => grabbedStringProperty.value,
+
       // For instrumenting (DragListener is also Tandem.REQUIRED)
       tandem: Tandem.REQUIRED
     }, providedOptions );
@@ -363,6 +372,8 @@ export default class GrabDragInteraction extends Disposable {
     this.dragCuePosition = options.dragCuePosition;
     this.grabCueOffset = options.grabCueOffset;
     this.dragCueOffset = options.dragCueOffset;
+    this._createReleasedResponse = options.createReleasedResponse;
+    this._createGrabbedResponse = options.createGrabbedResponse;
 
     this.setGrabbedStateAccessibleName( options.objectToGrabString );
     this.setIdleStateAccessibleName( defaultIdleStateAccessibleName );
@@ -955,10 +966,12 @@ export default class GrabDragInteraction extends Disposable {
 
   private wireUpDescriptionAndVoicingResponses( node: Node ): void {
 
-    // "released" alerts are assertive so that a pile up of alerts doesn't happen with rapid movement, see
+    const responsePacket = new ResponsePacket();
+
+    // Responses are assertive so that a pile up of alerts doesn't happen with rapid movement, see
     // https://github.com/phetsims/balloons-and-static-electricity/issues/491
-    const releasedUtterance = new Utterance( {
-      alert: new ResponsePacket( { objectResponse: releasedStringProperty } ),
+    const responseUtterance = new Utterance( {
+      alert: responsePacket,
 
       // This was being obscured by other messages, the priority helps make sure it is heard, see https://github.com/phetsims/friction/issues/325
       priority: Utterance.MEDIUM_PRIORITY,
@@ -967,7 +980,7 @@ export default class GrabDragInteraction extends Disposable {
         ariaLivePriority: AriaLiveAnnouncer.AriaLive.ASSERTIVE // for AriaLiveAnnouncer
       }
     } );
-    this.disposeEmitter.addListener( () => releasedUtterance.dispose() );
+    this.disposeEmitter.addListener( () => responseUtterance.dispose() );
 
     if ( isVoicing( node ) ) {
 
@@ -992,7 +1005,7 @@ export default class GrabDragInteraction extends Disposable {
       };
 
       // These Utterances should only be announced if the Node is globally visible and voicingVisible.
-      Voicing.registerUtteranceToVoicingNode( releasedUtterance, node );
+      Voicing.registerUtteranceToVoicingNode( responseUtterance, node );
       Voicing.registerUtteranceToVoicingNode( voicingFocusUtterance, node );
 
       this.onGrabButtonFocusEmitter.addListener( () => {
@@ -1006,10 +1019,16 @@ export default class GrabDragInteraction extends Disposable {
       this.grabDragModel.resetEmitter.addListener( () => voicingFocusUtterance.reset() );
     }
 
-    // When released, we want description and voicing to say so.
     this.grabDragModel.releasedEmitter.addListener( () => {
-      this.node.addAccessibleResponse( releasedUtterance );
-      isVoicing( node ) && Voicing.alertUtterance( releasedUtterance );
+      responsePacket.objectResponse = this._createReleasedResponse();
+      this.node.addAccessibleResponse( responseUtterance );
+      isVoicing( node ) && Voicing.alertUtterance( responseUtterance );
+    } );
+
+    this.grabDragModel.grabbedEmitter.addListener( () => {
+      responsePacket.objectResponse = this._createGrabbedResponse();
+      this.node.addAccessibleResponse( responseUtterance );
+      isVoicing( node ) && Voicing.alertUtterance( responseUtterance );
     } );
   }
 

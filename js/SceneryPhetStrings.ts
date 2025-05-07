@@ -265,6 +265,7 @@ type StringsType = {
       'buttonStringProperty': LocalizedStringProperty;
       'defaultObjectToGrabStringProperty': LocalizedStringProperty;
       'releasedStringProperty': LocalizedStringProperty;
+      'grabbedStringProperty': LocalizedStringProperty;
       'gestureHelpTextPatternStringProperty': LocalizedStringProperty;
       'spaceToGrabOrReleaseStringProperty': LocalizedStringProperty;
     };

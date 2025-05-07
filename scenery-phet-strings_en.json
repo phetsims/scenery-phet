@@ -618,6 +618,9 @@
       "released": {
         "value": "Released."
       },
+      "grabbed": {
+        "value": "Grabbed."
+      },
       "gestureHelpTextPattern": {
         "value": "Double tap and hold to drag {{objectToGrab}}. Lift finger to release."
       },
