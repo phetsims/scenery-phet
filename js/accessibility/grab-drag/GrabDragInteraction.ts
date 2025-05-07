@@ -148,10 +148,10 @@ type SelfOptions = {
   // default, this is only be done when supporting gesture interactive description before two success grabs.
   shouldAddAriaDescribedby?: () => boolean;
 
-  // Help text is treated as the same for the idle and grabbed items, but is different based on if the
-  // runtime is supporting gesture interactive description. Even though "technically" there is no way to access the
-  // help text when this Node is in the grabbed state, the help text is still in the PDOM.
-  keyboardHelpText?: PDOMValueType;
+  // The accessibleHelpText assigned to the movable Node. Value is the same for the idle and grabbed items, but is different
+  // based on if the runtime is supporting gesture interactive description. Even though "technically" there is no way
+  // to access the help text when this Node is in the grabbed state, the help text is still in the PDOM.
+  accessibleHelpText?: PDOMValueType;
 
   // Controls whether or not to show the "Grab" cue node that is displayed on focus - by
   // default it will be shown on focus until it has been successfully grabbed with a keyboard
@@ -162,7 +162,7 @@ type SelfOptions = {
   // from alternative input
   shouldShowDragCueNode?: () => boolean;
 
-  // Like keyboardHelpText but when supporting gesture interactive description.
+  // Like accessibleHelpText but when supporting gesture interactive description.
   gestureHelpText?: PDOMValueType;
 
   // For sharing usage tracking between multiple instances of GrabDragInteraction. Even if provided, GrabDragInteraction
@@ -194,7 +194,7 @@ export default class GrabDragInteraction extends Disposable {
   private _onGrab: VoidFunction;
   private _onRelease: VoidFunction;
 
-  private _keyboardHelpText: PDOMValueType = null;
+  private _accessibleHelpText: PDOMValueType = null;
   private _gestureHelpText: PDOMValueType = null;
 
   private _createReleasedResponse: () => string | null;
@@ -282,7 +282,7 @@ export default class GrabDragInteraction extends Disposable {
       listenersWhileGrabbed: [],
       listenersWhileIdle: [],
       supportsGestureDescription: getGlobal( 'phet.joist.sim.supportsGestureDescription' ),
-      keyboardHelpText: null,
+      accessibleHelpText: null,
       shouldShowGrabCueNode: () => {
         return this.grabDragModel.grabDragUsageTracker.numberOfKeyboardGrabs < 1 && node.inputEnabled;
       },
@@ -379,7 +379,7 @@ export default class GrabDragInteraction extends Disposable {
     this.setIdleStateAccessibleName( defaultIdleStateAccessibleName );
 
     // set the help text, if provided - it will be associated with aria-describedby when in the "idle" interactionState
-    this.node.descriptionContent = this.supportsGestureDescription ? options.gestureHelpText : options.keyboardHelpText;
+    this.node.descriptionContent = this.supportsGestureDescription ? options.gestureHelpText : options.accessibleHelpText;
 
     // The aria-describedby association object that will associate "idle" interactionState with its help text so that it is
     // read automatically when the user finds it. This reference is saved so that the association can be removed
@@ -695,23 +695,23 @@ export default class GrabDragInteraction extends Disposable {
   /**
    * Set the help text for keyboard input. If the runtime supports "gesture description" this is a no-op.
    */
-  public setKeyboardHelpText( text: PDOMValueType ): void {
-    this._keyboardHelpText = text;
+  public setAccessibleHelpText( text: PDOMValueType ): void {
+    this._accessibleHelpText = text;
     if ( !this.supportsGestureDescription ) {
       this.node.descriptionContent = text;
     }
   }
 
-  public getKeyboardHelpText(): PDOMValueType {
-    return this._keyboardHelpText;
+  public getAccessibleHelpText(): PDOMValueType {
+    return this._accessibleHelpText;
   }
 
-  public set keyboardHelpText( text: PDOMValueType ) {
-    this.setKeyboardHelpText( text );
+  public set accessibleHelpText( text: PDOMValueType ) {
+    this.setAccessibleHelpText( text );
   }
 
-  public get keyboardHelpText(): PDOMValueType {
-    return this.getKeyboardHelpText();
+  public get accessibleHelpText(): PDOMValueType {
+    return this.getAccessibleHelpText();
   }
 
   /**
