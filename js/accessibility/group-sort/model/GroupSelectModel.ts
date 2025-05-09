@@ -243,8 +243,8 @@ export default class GroupSelectModel<ItemModel> extends EnabledComponent {
     this.mouseSortCueVisibleProperty.reset();
 
     // If a PhET-iO client has set showMouseCueProperty to false, then the mouseSortCueVisibleProperty
-    // needs to respect that.
-    this.mouseSortCueVisibleProperty.value = this.mouseSortCueVisibleProperty.value && this.mouseSortCueShouldBeVisible();
+    // needs to respect that. It should only be shown on reset if options.mouseSortCueShouldBeVisible is true.
+    this.mouseSortCueVisibleProperty.value = this.mouseSortCueVisibleProperty.initialValue && this.mouseSortCueShouldBeVisible();
   }
 
   // Clear the selection state for the interaction (setting to null)
