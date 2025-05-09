@@ -242,8 +242,8 @@ export default class GroupSelectModel<ItemModel> extends EnabledComponent {
     this.hasKeyboardSortedGroupItemProperty.reset();
     this.mouseSortCueVisibleProperty.reset();
 
-    // If a PhET-iO client has set showMouseCueProperty to false, then the mouseSortCueVisibleProperty
-    // needs to respect that. It should only be shown on reset if options.mouseSortCueShouldBeVisible is true.
+    // If a PhET-iO client has set showMouseCueProperty to false, then the mouseSortCueVisibleProperty needs to respect
+    // that. It should only be shown on reset if mouseSortCueShouldBeVisible is true and our initial value is true.
     this.mouseSortCueVisibleProperty.value = this.mouseSortCueVisibleProperty.initialValue && this.mouseSortCueShouldBeVisible();
   }
 
