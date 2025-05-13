@@ -948,8 +948,9 @@ export default class GrabDragInteraction extends Disposable {
    * Node is back in its "idle" state.
    */
   public interrupt(): void {
-
-    // Interrupting this listener will set us back to idle
+    if ( this.grabDragModel.interactionStateProperty.value === 'grabbed' ) {
+      this.grabDragModel.release();
+    }
     this.pressReleaseListener.interrupt();
 
     assert && assert( this.grabDragModel.interactionStateProperty.value === 'idle', 'disabled grabDragInteractions must be in "idle" state.' );

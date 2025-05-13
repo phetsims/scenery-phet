@@ -161,6 +161,9 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
         }
       },
       blur: () => {
+
+        // Do not clear the selectedGroupItemProperty when blurring because we want to keep the selection for the
+        // next time focus lands on the group.
         isKeyboardFocusedProperty.value = false;
         isGroupItemKeyboardGrabbedProperty.value = false;
       },
@@ -207,7 +210,10 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
 
     const updateFocusHighlight = new Multilink( [
         selectedGroupItemProperty,
-        isGroupItemKeyboardGrabbedProperty
+        isGroupItemKeyboardGrabbedProperty,
+
+        // Make sure that the highlight is updated when focused, because mouse input does not update the selectedGroupItemProperty
+        isKeyboardFocusedProperty
       ],
       ( selectedGroupItem, isGroupItemGrabbed ) => {
         let focusHighlightSet = false;
