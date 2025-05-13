@@ -30,8 +30,8 @@ type SelfOptions = {
   // false: bar at top of layoutBounds
   floatToTop?: boolean;
 
-  // true: keeps things on the status bar aligned with left and right edges of window bounds (aka visible bounds)
-  // false: keeps things on the status bar aligned with left and right edges of layoutBounds
+  // true: keeps things on the status bar aligned with left and right edges of visibleBounds (aka browser window bounds)
+  // false: keeps things on the status bar aligned with left and right edges of layoutBounds (aka dev bounds)
   dynamicAlignment?: boolean;
 };
 
