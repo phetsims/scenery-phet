@@ -156,7 +156,7 @@ export default class NumberDisplay extends Node {
         return StringUtils.wrapLTR( `${value}` );
       }
       else {
-        return StringUtils.toSafeFixed( value, options.decimalPlaces );
+        return StringUtils.toFixedLTR( value, options.decimalPlaces );
       }
     } );
 
