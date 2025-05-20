@@ -420,18 +420,15 @@ export default class GrabDragInteraction extends Disposable {
         'if interactiveHighlightLayerable, the highlight must be added to the scene graph before construction' );
     }
 
-    // Take highlights from the node for the grab/drag interaction. The Interactive Highlights cannot fall back to
-    // the default focus highlights because GrabDragInteraction adds "grab cue" Nodes as children
-    // to the focus highlights that should not be displayed when using Interactive Highlights.
-    const ownsFocusHighlight = !node.focusHighlightLayerable;
-    this.grabDragFocusHighlight = !ownsFocusHighlight ? nodeFocusHighlight! :
-                                  nodeFocusHighlight ? new HighlightPath( nodeFocusHighlight.shapeProperty ) :
-                                  new HighlightFromNode( node );
-    const ownsInteractiveHighlight = !( isInteractiveHighlighting( node ) && node.interactiveHighlightLayerable );
+    // Create custom focus highlight (unless the Node already has one). This allows us to dash the highlight in the 'grabbed' state.
+    const ownsFocusHighlight = nodeFocusHighlight === null; // for disposal
+    this.grabDragFocusHighlight = nodeFocusHighlight || new HighlightFromNode( node );
+
+    // If the Node supports interactive highlight and defines its own interactive highlight, use it.
+    // Otherwise, create a new one that will surround the target Node.
+    const ownsInteractiveHighlight = !( isInteractiveHighlighting( node ) && node.interactiveHighlight );
     this.grabDragInteractiveHighlight = !ownsInteractiveHighlight ? ( node.interactiveHighlight as HighlightPath ) :
-                                        ( isInteractiveHighlighting( node ) && node.interactiveHighlight ) ?
-                                        new HighlightPath( ( node.interactiveHighlight as HighlightPath ).shapeProperty ) :
-                                        new HighlightPath( this.grabDragFocusHighlight.shapeProperty );
+                                        new HighlightFromNode( node );
 
     node.focusHighlight = this.grabDragFocusHighlight;
     isInteractiveHighlighting( node ) && node.setInteractiveHighlight( this.grabDragInteractiveHighlight );
