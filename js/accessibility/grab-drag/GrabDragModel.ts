@@ -15,7 +15,7 @@ import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyEmitter } from '../../../../axon/js/TEmitter.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import GrabDragUsageTracker from './GrabDragUsageTracker.js';
+import GrabDragUsageTracker, { InputType } from './GrabDragUsageTracker.js';
 
 // Interaction states that this component interaction can be in:
 // "idle": In the default state where you can interact with the node to grab it. It is ready to be
@@ -53,18 +53,21 @@ export default class GrabDragModel extends EnabledComponent {
     // increment before grab in case something during the state change reads this value.
     this.grabDragUsageTracker.numberOfKeyboardGrabs++;
 
-    this.grab( onBeforeEmit );
+    this.grab( onBeforeEmit, 'alternative' );
   }
 
   /**
    * Turn from idle into grabbed interaction state.
    * This updates accessibility representation in the PDOM and changes input listeners. This function can be called
    * while already grabbed, because of nuance in how we support multi-input and gestureDescription.
+   * @param onBeforeEmit
+   * @param inputType - is the user using pointer or alternative input?
    */
-  public grab( onBeforeEmit: VoidFunction = _.noop ): void {
+  public grab( onBeforeEmit: VoidFunction, inputType: InputType ): void {
 
     // Increment this even if we are already in the grabbed state, to indicate user intention in our usage tracker.
     this.grabDragUsageTracker.numberOfGrabs++;
+    this.grabDragUsageTracker.currentInputType = inputType;
 
     this.interactionStateProperty.value = 'grabbed';
 
@@ -82,6 +85,8 @@ export default class GrabDragModel extends EnabledComponent {
     assert && assert( this.interactionStateProperty.value === 'grabbed', 'cannot set to interactionState if already set that way' );
     this.interactionStateProperty.value = 'idle';
     this._releasedEmitter.emit();
+
+    this.grabDragUsageTracker.currentInputType = null;
   }
 
   public override dispose(): void {

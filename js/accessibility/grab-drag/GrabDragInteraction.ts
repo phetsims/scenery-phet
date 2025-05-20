@@ -76,7 +76,7 @@ import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import GrabReleaseCueNode from '../nodes/GrabReleaseCueNode.js';
 import GrabDragModel, { GrabDragInteractionState, GrabDragModelOptions } from './GrabDragModel.js';
-import GrabDragUsageTracker from './GrabDragUsageTracker.js';
+import GrabDragUsageTracker, { InputType } from './GrabDragUsageTracker.js';
 
 // constants
 const grabPatternStringStringProperty = SceneryPhetStrings.a11y.grabDrag.grabPatternStringProperty;
@@ -551,7 +551,7 @@ export default class GrabDragInteraction extends Disposable {
     this.pressReleaseListener = new DragListener( {
       press: event => {
         if ( !event.isFromPDOM() ) {
-          this.grabDragModel.grab();
+          this.grabDragModel.grab( _.noop, 'pointer' );
         }
       },
       release: event => {
@@ -955,15 +955,6 @@ export default class GrabDragInteraction extends Disposable {
     assert && assert( this.grabDragModel.interactionStateProperty.value === 'idle', 'disabled grabDragInteractions must be in "idle" state.' );
   }
 
-  /**
-   * Often onGrab callbacks need to know whether the grab was triggered from keyboard/pdom, in which case it should
-   * trigger description, OR triggered via mouse/touch which may not trigger description because another listener may
-   * be responsible.
-   */
-  public isInputFromMouseOrTouch(): boolean {
-    return this.pressReleaseListener.isPressed;
-  }
-
   private wireUpDescriptionAndVoicingResponses( node: Node ): void {
 
     const responsePacket = new ResponsePacket();
@@ -1057,6 +1048,15 @@ export default class GrabDragInteraction extends Disposable {
 
   public get grabDragUsageTracker(): GrabDragUsageTracker {
     return this.grabDragModel.grabDragUsageTracker;
+  }
+
+  /**
+   * Returns an InputType that describes the current way that the user is interacting with the
+   * GrabDragInteraciton. It is set before grab and cleared after release so it is accurate for
+   * onGrab and onRelease callbacks.
+   */
+  public get currentInputType(): InputType {
+    return this.grabDragModel.grabDragUsageTracker.currentInputType;
   }
 }
 
