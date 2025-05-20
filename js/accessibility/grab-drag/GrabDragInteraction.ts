@@ -428,7 +428,9 @@ export default class GrabDragInteraction extends Disposable {
     // Otherwise, create a new one that will surround the target Node.
     const ownsInteractiveHighlight = !( isInteractiveHighlighting( node ) && node.interactiveHighlight );
     this.grabDragInteractiveHighlight = !ownsInteractiveHighlight ? ( node.interactiveHighlight as HighlightPath ) :
-                                        new HighlightFromNode( node );
+
+                                        // If it doesn't have a custom interactive highlight, use the same highlight as the focus highlight.
+                                        this.grabDragFocusHighlight;
 
     node.focusHighlight = this.grabDragFocusHighlight;
     isInteractiveHighlighting( node ) && node.setInteractiveHighlight( this.grabDragInteractiveHighlight );
