@@ -75,8 +75,8 @@ import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import GrabReleaseCueNode from '../nodes/GrabReleaseCueNode.js';
-import GrabDragModel, { GrabDragInteractionState, GrabDragModelOptions } from './GrabDragModel.js';
-import GrabDragUsageTracker, { InputType } from './GrabDragUsageTracker.js';
+import GrabDragModel, { GrabDragInteractionState, GrabDragModelOptions, InputType } from './GrabDragModel.js';
+import GrabDragUsageTracker from './GrabDragUsageTracker.js';
 
 // constants
 const grabPatternStringStringProperty = SceneryPhetStrings.a11y.grabDrag.grabPatternStringProperty;
@@ -86,6 +86,8 @@ const buttonStringProperty = SceneryPhetStrings.a11y.grabDrag.buttonStringProper
 const defaultObjectToGrabStringProperty = SceneryPhetStrings.a11y.grabDrag.defaultObjectToGrabStringProperty;
 const releasedStringProperty = SceneryPhetStrings.a11y.grabDrag.releasedStringProperty;
 const grabbedStringProperty = SceneryPhetStrings.a11y.grabDrag.grabbedStringProperty;
+
+type GrabDragCallback = ( inputType: InputType ) => void;
 
 // Valid positions for the interaction cue nodes relative to the target Node. For top and bottom, the cue is
 // centered horizontally. For left and right, the cue is centered vertically.
@@ -100,10 +102,10 @@ type SelfOptions = {
   idleStateAccessibleName?: PDOMValueType;
 
   // Called when the node is "grabbed" (when the grab button fires); button -> grabbed.
-  onGrab?: VoidFunction;
+  onGrab?: GrabDragCallback;
 
   // Called when the node is "released" (when the grabbed state is "let go"); grabbed -> button
-  onRelease?: VoidFunction;
+  onRelease?: GrabDragCallback;
 
   // PDOM options passed to the idle created for the PDOM, filled in with defaults below
   idleStateOptions?: ParallelDOMOptions;
@@ -191,8 +193,8 @@ export default class GrabDragInteraction extends Disposable {
   // The accessible name for the Node in its "idle" interactionState.
   private _idleStateAccessibleName: PDOMValueType = null;
 
-  private _onGrab: VoidFunction;
-  private _onRelease: VoidFunction;
+  private _onGrab: GrabDragCallback;
+  private _onRelease: GrabDragCallback;
 
   private _accessibleHelpText: PDOMValueType = null;
   private _gestureHelpText: PDOMValueType = null;
@@ -392,11 +394,11 @@ export default class GrabDragInteraction extends Disposable {
 
     this.wireUpDescriptionAndVoicingResponses( node );
 
-    this.grabDragModel.releasedEmitter.addListener( () => {
-      this.onRelease();
+    this.grabDragModel.releasedEmitter.addListener( inputType => {
+      this.onRelease( inputType );
     } );
 
-    this.grabDragModel.grabbedEmitter.addListener( () => this.onGrab() );
+    this.grabDragModel.grabbedEmitter.addListener( inputType => this.onGrab( inputType ) );
 
     // assertions confirm this type cast below
     const nodeFocusHighlight = node.focusHighlight as HighlightPath | null;
@@ -506,7 +508,7 @@ export default class GrabDragInteraction extends Disposable {
         // The sequence that dispatched this fire also dispatches a click event, so we must avoid immediately grabbing
         // from this event that released
         guardGrabKeyPressFromGrabbedState = true;
-        this.grabDragModel.release();
+        this.grabDragModel.release( 'alternative' );
       }
     } );
 
@@ -519,11 +521,11 @@ export default class GrabDragInteraction extends Disposable {
 
         // Release on keyup for spacebar so that we don't pick up the grabbed node again when we release the spacebar
         // and trigger a click event - escape could be added to either keyup or keydown listeners
-        this.grabDragModel.release();
+        this.grabDragModel.release( 'alternative' );
       },
 
       // release when focus is lost
-      blur: () => this.grabDragModel.release(),
+      blur: () => this.grabDragModel.release( 'programmatic' ),
 
       // if successfully dragged, then make the cue node invisible
       focus: () => this.updateVisibilityForCues()
@@ -564,7 +566,7 @@ export default class GrabDragInteraction extends Disposable {
         // release if interrupted, but only if not already idle, which is possible if the GrabDragInteraction
         // has been reset since press
         if ( shouldRelease && this.grabDragModel.interactionStateProperty.value === 'grabbed' ) {
-          this.grabDragModel.release();
+          this.grabDragModel.release( 'pointer' );
         }
       },
 
@@ -738,38 +740,38 @@ export default class GrabDragInteraction extends Disposable {
   /**
    * Set the callback that should be used when grabbed - called when switching from idle to grabbed state.
    */
-  public setOnGrab( onGrab: VoidFunction ): void {
+  public setOnGrab( onGrab: GrabDragCallback ): void {
     this._onGrab = onGrab;
   }
 
-  public getOnGrab(): VoidFunction {
+  public getOnGrab(): GrabDragCallback {
     return this._onGrab;
   }
 
-  public set onGrab( onGrab: VoidFunction ) {
+  public set onGrab( onGrab: GrabDragCallback ) {
     this.setOnGrab( onGrab );
   }
 
-  public get onGrab(): VoidFunction {
+  public get onGrab(): GrabDragCallback {
     return this.getOnGrab();
   }
 
   /**
    * Set the callback that should be used when released - called when switching from grabbed to idle state.
    */
-  public setOnRelease( onRelease: VoidFunction ): void {
+  public setOnRelease( onRelease: GrabDragCallback ): void {
     this._onRelease = onRelease;
   }
 
-  public getOnRelease(): VoidFunction {
+  public getOnRelease(): GrabDragCallback {
     return this._onRelease;
   }
 
-  public set onRelease( onRelease: VoidFunction ) {
+  public set onRelease( onRelease: GrabDragCallback ) {
     this.setOnRelease( onRelease );
   }
 
-  public get onRelease(): VoidFunction {
+  public get onRelease(): GrabDragCallback {
     return this.getOnRelease();
   }
 
@@ -948,7 +950,7 @@ export default class GrabDragInteraction extends Disposable {
    */
   public interrupt(): void {
     if ( this.grabDragModel.interactionStateProperty.value === 'grabbed' ) {
-      this.grabDragModel.release();
+      this.grabDragModel.release( 'programmatic' );
     }
     this.pressReleaseListener.interrupt();
 
@@ -1048,15 +1050,6 @@ export default class GrabDragInteraction extends Disposable {
 
   public get grabDragUsageTracker(): GrabDragUsageTracker {
     return this.grabDragModel.grabDragUsageTracker;
-  }
-
-  /**
-   * Returns an InputType that describes the current way that the user is interacting with the
-   * GrabDragInteraciton. It is set before grab and cleared after release so it is accurate for
-   * onGrab and onRelease callbacks.
-   */
-  public get currentInputType(): InputType {
-    return this.grabDragModel.grabDragUsageTracker.currentInputType;
   }
 }
 

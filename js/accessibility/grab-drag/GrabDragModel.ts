@@ -15,7 +15,15 @@ import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyEmitter } from '../../../../axon/js/TEmitter.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import GrabDragUsageTracker, { InputType } from './GrabDragUsageTracker.js';
+import GrabDragUsageTracker from './GrabDragUsageTracker.js';
+
+// Input type for the interaction.
+export const InputTypeValues = [
+  'pointer', // mouse or touch
+  'alternative', // keyboard or other input
+  'programmatic' // cancel or interrupt
+] as const;
+export type InputType = typeof InputTypeValues[number];
 
 // Interaction states that this component interaction can be in:
 // "idle": In the default state where you can interact with the node to grab it. It is ready to be
@@ -33,17 +41,17 @@ export default class GrabDragModel extends EnabledComponent {
   // called on reset()
   public readonly resetEmitter = new Emitter();
 
-  private readonly _releasedEmitter = new Emitter(); // called after setting to "idle" state
-  private readonly _grabbedEmitter = new Emitter(); // called after setting to "grabbed" state
+  private readonly _releasedEmitter = new Emitter<[ InputType ]>( { parameters: [ { validValues: InputTypeValues } ] } ); // called after setting to "idle" state
+  private readonly _grabbedEmitter = new Emitter<[ InputType ]>( { parameters: [ { validValues: InputTypeValues } ] } ); // called after setting to "grabbed" state
 
   public constructor( public readonly grabDragUsageTracker: GrabDragUsageTracker = new GrabDragUsageTracker(), providedOptions?: GrabDragModelOptions ) {
     const options = optionize<GrabDragModelOptions, SelfOptions, EnabledComponentOptions>()( {}, providedOptions );
     super( options );
   }
 
-  public get grabbedEmitter(): TReadOnlyEmitter { return this._grabbedEmitter; }
+  public get grabbedEmitter(): TReadOnlyEmitter<[ InputType ]> { return this._grabbedEmitter; }
 
-  public get releasedEmitter(): TReadOnlyEmitter { return this._releasedEmitter; }
+  public get releasedEmitter(): TReadOnlyEmitter<[ InputType ]> { return this._releasedEmitter; }
 
   /**
    * Grab with keyboard usage tracking
@@ -67,13 +75,12 @@ export default class GrabDragModel extends EnabledComponent {
 
     // Increment this even if we are already in the grabbed state, to indicate user intention in our usage tracker.
     this.grabDragUsageTracker.numberOfGrabs++;
-    this.grabDragUsageTracker.currentInputType = inputType;
 
     this.interactionStateProperty.value = 'grabbed';
 
     onBeforeEmit();
 
-    this._grabbedEmitter.emit();
+    this._grabbedEmitter.emit( inputType );
   }
 
   /**
@@ -81,12 +88,11 @@ export default class GrabDragModel extends EnabledComponent {
    * when in "grabbed" state. It also behaves as though it was released from user input, for example sound effect
    * and description will occur may occur.
    */
-  public release(): void {
+  public release( inputType: InputType ): void {
+
     assert && assert( this.interactionStateProperty.value === 'grabbed', 'cannot set to interactionState if already set that way' );
     this.interactionStateProperty.value = 'idle';
-    this._releasedEmitter.emit();
-
-    this.grabDragUsageTracker.currentInputType = null;
+    this._releasedEmitter.emit( inputType );
   }
 
   public override dispose(): void {

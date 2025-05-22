@@ -11,10 +11,6 @@
 
 import sceneryPhet from '../../sceneryPhet.js';
 
-// Input type for the interaction, 'pointer' for mouse and touch, alternative for other forms
-// of input. Null for programmatic interaction.
-export type InputType = 'pointer' | 'alternative' | null;
-
 export default class GrabDragUsageTracker {
 
   // The number of times the component has been picked up for dragging, regardless
@@ -30,13 +26,10 @@ export default class GrabDragUsageTracker {
   // after the user has interacted with it in a certain way.
   public shouldShowDragCue = true;
 
-  public currentInputType: InputType | null = null;
-
   public reset(): void {
     this.numberOfGrabs = 0;
     this.numberOfKeyboardGrabs = 0;
     this.shouldShowDragCue = true;
-    this.currentInputType = null;
   }
 }
 
