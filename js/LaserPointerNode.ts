@@ -30,7 +30,7 @@ import { linear } from '../../dot/js/util/linear.js';
 type ButtonType = 'toggle' | 'momentary';
 
 type ButtonOptions = PickOptional<RoundButtonOptions, 'baseColor' | 'radius' | 'xMargin' |
-  'yMargin' | 'touchAreaDilation' | 'mouseAreaDilation' | 'rotation'>;
+  'yMargin' | 'touchAreaDilation' | 'mouseAreaDilation' | 'rotation' | 'accessibleName' | 'accessibleHelpText'>;
 
 type SelfOptions = {
 
