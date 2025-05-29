@@ -38,7 +38,6 @@ import GroupHighlightPath from '../../scenery/js/accessibility/GroupHighlightPat
 import HighlightPath from '../../scenery/js/accessibility/HighlightPath.js';
 import InteractiveHighlighting from '../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
 import HotkeyData from '../../scenery/js/input/HotkeyData.js';
-import DragListener from '../../scenery/js/listeners/DragListener.js';
 import KeyboardListener from '../../scenery/js/listeners/KeyboardListener.js';
 import Circle from '../../scenery/js/nodes/Circle.js';
 import Image from '../../scenery/js/nodes/Image.js';
@@ -62,6 +61,7 @@ import faucetTrack_png from '../images/faucetTrack_png.js';
 import faucetVerticalPipe_png from '../images/faucetVerticalPipe_png.js';
 import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
+import SoundDragListener from './SoundDragListener.js';
 
 // constants
 const DEBUG_ORIGIN = false; // when true, draws a red dot at the origin (bottom-center of the spout)
@@ -249,7 +249,7 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
     };
 
     let startXOffset = 0; // where the drag started, relative to the target node's origin, in parent view coordinates
-    const dragListener = new DragListener( {
+    const dragListener = new SoundDragListener( {
 
       start: event => {
         if ( enabledProperty.get() ) {
@@ -305,7 +305,7 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
         FaucetNode.CLOSE_FAUCET_HOTKEY_DATA,
         FaucetNode.TAP_TO_DISPENSE_HOTKEY_DATA
       ] ),
-      fire: ( event, keysPressed ) => {
+      fire: ( event, keysPressed, listener ) => {
         if ( options.tapToDispenseEnabled && FaucetNode.TAP_TO_DISPENSE_HOTKEY_DATA.hasKeyStroke( keysPressed ) ) {
 
           // stop the previous timeout before running a new dispense
