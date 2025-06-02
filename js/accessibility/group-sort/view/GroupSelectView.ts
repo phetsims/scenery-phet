@@ -71,6 +71,12 @@ type SelfOptions<ItemModel, ItemNode extends Node> = {
   // Accessible content provided to the node. This doesn't change from selecting/sorting states. Client is responsible
   // for setting accessibleName according to grabbed state, see https://github.com/phetsims/scenery-phet/issues/860
   primaryFocusedNodeOptions?: ParallelDOMOptions;
+
+  // The role description for the group item when it is grabbed (sorting state).
+  grabbedRoleDescription?: PDOMValueType;
+
+  // The role description for the group item when it is released (selecting state).
+  releasedRoleDescription?: PDOMValueType;
 };
 
 type ParentOptions = DisposableOptions;
@@ -115,7 +121,9 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
         ariaRole: 'application',
         accessibleNameBehavior: GROUP_SELECT_ACCESSIBLE_NAME_BEHAVIOR
       },
-      grabReleaseCueOptions: {}
+      grabReleaseCueOptions: {},
+      grabbedRoleDescription: sortableStringProperty,
+      releasedRoleDescription: navigableStringProperty
     }, providedOptions );
 
     super( options );
@@ -288,7 +296,7 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
     Multilink.multilink( [
       model.isGroupItemKeyboardGrabbedProperty
     ], isGrabbed => {
-      primaryFocusedNode.accessibleRoleDescription = isGrabbed ? sortableStringProperty : navigableStringProperty;
+      primaryFocusedNode.accessibleRoleDescription = isGrabbed ? options.grabbedRoleDescription : options.releasedRoleDescription;
     } );
 
     this.grabReleaseCueNode = new GrabReleaseCueNode( combineOptions<GrabReleaseCueNodeOptions>( {
