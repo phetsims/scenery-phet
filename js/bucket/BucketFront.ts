@@ -72,6 +72,9 @@ export default class BucketFront extends Node {
 
     this.labelNode = options.labelNode;
     this.setLabel( this.labelNode );
+    this.labelNode.boundsProperty.link( () => {
+      this.labelNode.center = this.localBounds.center;
+    } );
 
     // Set initial position.
     this.translation = modelViewTransform.modelToViewPosition( bucket.position );
