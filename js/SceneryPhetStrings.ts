@@ -273,6 +273,11 @@ type StringsType = {
       'sortableStringProperty': LocalizedStringProperty;
       'navigableStringProperty': LocalizedStringProperty;
     };
+    'listItemPunctuation': {
+      'semicolonPatternStringProperty': LocalizedStringProperty;
+      'commaPatternStringProperty': LocalizedStringProperty;
+      'periodPatternStringProperty': LocalizedStringProperty;
+    };
     'voicing': {
       'simSection': {
         'screenSummary': {

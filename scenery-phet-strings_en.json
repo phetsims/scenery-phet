@@ -636,6 +636,17 @@
         "value": "navigable"
       }
     },
+    "listItemPunctuation": {
+      "semicolonPattern": {
+        "value": "{{content}};"
+      },
+      "commaPattern": {
+        "value": "{{content}},"
+      },
+      "periodPattern": {
+        "value": "{{content}}."
+      }
+    },
     "voicing": {
       "simSection": {
         "screenSummary": {
