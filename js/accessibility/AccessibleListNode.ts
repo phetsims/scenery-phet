@@ -8,13 +8,14 @@
  * --------------
  *   const appleStringProperty = new StringProperty( 'there is 1 apple' );
  *   const orangeStringProperty = new StringProperty( 'there are 2 oranges' );
+ *   const strawberryStringProperty = new StringProperty( 'there are 4 strawberries' );
  *   const strawberriesVisible = new BooleanProperty( true );
  *
  *   const listNode = new AccessibleListNode( [
  *     appleStringProperty,
  *     orangeStringProperty,
  *     {
- *       stringProperty: new StringProperty( 'there are 4 strawberries' ),
+ *       stringProperty: strawberryStringProperty,
  *       visibleProperty: strawberriesVisibleProperty
  *     }
  *   ], {
@@ -81,9 +82,9 @@ type SelfOptions = {
   punctuationStyle?: null | 'comma' | 'semicolon';
 };
 
-type ParentOptions = Pick<NodeOptions, 'visibleProperty'>;
+type ParentOptions = NodeOptions;
 
-type AccessibleListNodeOptions = SelfOptions & ParentOptions;
+type AccessibleListNodeOptions = SelfOptions & Pick<ParentOptions, 'visibleProperty'>;
 
 export default class AccessibleListNode extends Node {
   public constructor( listItems: ( TReadOnlyProperty<string> | ListItem )[], providedOptions?: AccessibleListNodeOptions ) {
@@ -91,14 +92,14 @@ export default class AccessibleListNode extends Node {
     const options = optionize<AccessibleListNodeOptions, SelfOptions, ParentOptions>()( {
       leadingParagraphStringProperty: null,
       listType: 'unordered',
-      punctuationStyle: null
-    }, providedOptions );
-
-    super( {
+      punctuationStyle: null,
 
       // This Node is not interactive with input.
       pickable: false
-    } );
+
+    }, providedOptions );
+
+    super( options );
 
     if ( options.leadingParagraphStringProperty ) {
       const leadingParagraphNode = new Node( {
