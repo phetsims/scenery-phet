@@ -11,6 +11,7 @@ import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import Bucket from '../../../phetcommon/js/model/Bucket.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
+import InteractiveHighlighting from '../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import Text from '../../../scenery/js/nodes/Text.js';
@@ -26,7 +27,7 @@ type SelfOptions = {
 
 export type BucketFrontOptions = SelfOptions & NodeOptions;
 
-export default class BucketFront extends Node {
+export default class BucketFront extends InteractiveHighlighting( Node ) {
 
   public readonly bucket: Bucket; // public (a11y)
   private labelNode: Node;
