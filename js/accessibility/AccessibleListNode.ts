@@ -37,7 +37,7 @@ import Multilink from '../../../axon/js/Multilink.js';
 import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import Node from '../../../scenery/js/nodes/Node.js';
+import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
 
@@ -46,14 +46,13 @@ type ListItem = {
   visibleProperty: TReadOnlyProperty<boolean>;
 };
 
-type AccessibleListNodeOptions = {
+type SelfOptions = {
 
   // If provided, this is a descriptive paragraph that comes before the list of items.
   leadingParagraphStringProperty?: TReadOnlyProperty<string> | null;
 
   // The list type for the accessible content.
   listType?: 'unordered' | 'ordered';
-
 
   // Automatically manage terminating punctuation for each <li>.
   //
@@ -82,10 +81,14 @@ type AccessibleListNodeOptions = {
   punctuationStyle?: null | 'comma' | 'semicolon';
 };
 
+type ParentOptions = Pick<NodeOptions, 'visibleProperty'>;
+
+type AccessibleListNodeOptions = SelfOptions & ParentOptions;
+
 export default class AccessibleListNode extends Node {
   public constructor( listItems: ( TReadOnlyProperty<string> | ListItem )[], providedOptions?: AccessibleListNodeOptions ) {
 
-    const options = optionize<AccessibleListNodeOptions>()( {
+    const options = optionize<AccessibleListNodeOptions, SelfOptions, ParentOptions>()( {
       leadingParagraphStringProperty: null,
       listType: 'unordered',
       punctuationStyle: null
