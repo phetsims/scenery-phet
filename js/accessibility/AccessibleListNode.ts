@@ -34,6 +34,7 @@
  */
 
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import Multilink from '../../../axon/js/Multilink.js';
 import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
@@ -87,6 +88,11 @@ type ParentOptions = NodeOptions;
 type AccessibleListNodeOptions = SelfOptions & Pick<ParentOptions, 'visibleProperty'>;
 
 export default class AccessibleListNode extends Node {
+
+  // A Property holding an equivalent single string representation of all string contents of this
+  // AccessibleListNode. Used when reading with the Voicing feature.
+  public readonly voicingContentStringProperty: TReadOnlyProperty<string>;
+
   public constructor( listItems: ( TReadOnlyProperty<string> | ListItem )[], providedOptions?: AccessibleListNodeOptions ) {
 
     const options = optionize<AccessibleListNodeOptions, SelfOptions, ParentOptions>()( {
@@ -117,7 +123,7 @@ export default class AccessibleListNode extends Node {
 
 
     // Collect all string content and scenery Nodes to make it easier to render the requested list structure and punctuation.
-    const itemsWithNodesAndContent = listItems.map( ( item, index ) => {
+    const collectedListItems = listItems.map( item => {
       const patternProperty = options.punctuationStyle === 'comma' ?
                               SceneryPhetStrings.a11y.listItemPunctuation.commaPatternStringProperty :
                               SceneryPhetStrings.a11y.listItemPunctuation.semicolonPatternStringProperty;
@@ -146,20 +152,24 @@ export default class AccessibleListNode extends Node {
     } );
 
     // Add all list item Nodes to the scene graph.
-    itemsWithNodesAndContent.forEach( item => {
+    collectedListItems.forEach( item => {
       listParentNode.addChild( item.node );
       this.addDisposable( item.node );
     } );
 
+    const allVisibleProperties = _.uniq( collectedListItems.map( item => item.visibleProperty ) );
+
+    // Collects a list of just the visible items in the list.
+    const collectVisibleItems = () => collectedListItems.filter( itemWithNode => {
+      return itemWithNode.visibleProperty.value;
+    } );
+
     // If there is a requested punctuation style, observe any change to visibility to update the punctuation for each list item.
     if ( options.punctuationStyle ) {
-      const allVisibleProperties = _.uniq( itemsWithNodesAndContent.map( item => item.visibleProperty ) );
       const contentMultilink = Multilink.multilinkAny( allVisibleProperties, () => {
 
         // Collect a list of just the visible items so we can determine punctuation based on where the item is relative to the visible items.
-        const visibleItems = itemsWithNodesAndContent.filter( itemWithNode => {
-          return itemWithNode.visibleProperty.value;
-        } );
+        const visibleItems = collectVisibleItems();
 
         visibleItems.forEach( ( ( visibleItem, index ) => {
           if ( index === visibleItems.length - 1 ) {
@@ -170,9 +180,33 @@ export default class AccessibleListNode extends Node {
           }
         } ) );
       } );
-
       this.addDisposable( contentMultilink );
     }
+
+    // Assemble the equivalent string for Voicing.
+    const allPunctuationStringProperties = collectedListItems.map( item => item.punctuationStringProperty );
+    this.voicingContentStringProperty = DerivedProperty.deriveAny(
+      [ ...allVisibleProperties, ...allPunctuationStringProperties, options.leadingParagraphStringProperty ].filter( property => !!property ),
+      () => {
+        const voicingStrings = [];
+
+        if ( options.leadingParagraphStringProperty ) {
+          voicingStrings.push( options.leadingParagraphStringProperty.value );
+        }
+
+        const visibleItems = collectVisibleItems();
+        visibleItems.forEach( item => {
+          voicingStrings.push( item.punctuationStringProperty.value );
+        } );
+
+        // Join the content into a final sentence. Note that this may not be friendly for translation. But items are simply read in order
+        // so this should be equivalent to reading each as its own utterance.
+        return voicingStrings
+          .filter( str => !!str )
+          .join( ' ' );
+      }
+    );
+    this.addDisposable( this.voicingContentStringProperty );
   }
 }
 
