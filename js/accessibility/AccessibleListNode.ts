@@ -75,7 +75,7 @@ type SelfOptions = {
   //       – there are 2 oranges;
   //       – there are 4 strawberries.
   //
-  // If the strawberries item becomes invisible the list updates to:
+  // If the strawberries' item becomes invisible, the list updates to:
   //     In the basket:
   //       – there is 1 apple;
   //       – there are 2 oranges.
