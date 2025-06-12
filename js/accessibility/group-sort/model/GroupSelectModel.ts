@@ -128,6 +128,8 @@ export default class GroupSelectModel<ItemModel> extends EnabledComponent {
   // input (not from keyboard/group sort input), but is important for cue showing.
   public readonly hasMouseSortedGroupItemProperty = new BooleanProperty( false );
 
+  private readonly initialMouseSortCueVisible: boolean;
+
   // Whether any group item has yet been sorted to a new value, even if not by the "group sort" interaction. This
   // Property should be used to control the mouseSortCueVisibleProperty. The mouse sort cue does not need to be shown
   // if a keyboard sort has occurred (because now the user knows that the group items are sortable).
@@ -146,6 +148,7 @@ export default class GroupSelectModel<ItemModel> extends EnabledComponent {
     super( options );
 
     this.getGroupItemValue = options.getGroupItemValue;
+    this.initialMouseSortCueVisible = options.initialMouseSortCueVisible;
 
     this.selectedGroupItemProperty = new Property<ItemModel | null>( null, {
       isValidValue: x => x !== undefined,
@@ -240,11 +243,10 @@ export default class GroupSelectModel<ItemModel> extends EnabledComponent {
     this.hasKeyboardGrabbedGroupItemProperty.reset();
     this.hasKeyboardSelectedGroupItemProperty.reset();
     this.hasKeyboardSortedGroupItemProperty.reset();
-    this.mouseSortCueVisibleProperty.reset();
 
     // If a PhET-iO client has set showMouseCueProperty to false, then the mouseSortCueVisibleProperty needs to respect
     // that. It should only be shown on reset if mouseSortCueShouldBeVisible is true and our initial value is true.
-    this.mouseSortCueVisibleProperty.value = this.mouseSortCueVisibleProperty.initialValue && this.mouseSortCueShouldBeVisible();
+    this.mouseSortCueVisibleProperty.value = this.initialMouseSortCueVisible && this.mouseSortCueShouldBeVisible();
   }
 
   // Clear the selection state for the interaction (setting to null)
