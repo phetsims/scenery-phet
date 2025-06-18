@@ -51,7 +51,7 @@ type LabelWithIconListOptions = {
 };
 
 // Options type for labelWithIcon, see that function
-type LabelWithIconOptions = {
+export type LabelWithIconOptions = {
 
   // {string|null} to provide the PDOM description of this row
   labelInnerContent?: string | TReadOnlyProperty<string> | null;
