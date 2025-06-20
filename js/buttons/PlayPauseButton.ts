@@ -8,7 +8,9 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import Property from '../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import Path from '../../../scenery/js/nodes/Path.js';
@@ -26,6 +28,19 @@ export default class PlayPauseButton extends PlayControlButton {
 
   public constructor( isPlayingProperty: Property<boolean>, providedOptions?: PlayPauseButtonOptions ) {
 
+    // Only create the Property if necessary.
+    let contextResponseProperty = providedOptions?.accessibleContextResponse;
+    const ownsContextResponseProperty = !contextResponseProperty;
+    if ( ownsContextResponseProperty ) {
+      contextResponseProperty = new DerivedProperty(
+        [ isPlayingProperty,
+          SceneryPhetStrings.a11y.playPauseButton.playingAccessibleContextResponseStringProperty,
+          SceneryPhetStrings.a11y.playPauseButton.pausedAccessibleContextResponseStringProperty
+        ],
+        ( isPlaying, playingContextResponse, pausedContextResponse ) => isPlaying ? playingContextResponse : pausedContextResponse
+      );
+    }
+
     const options = optionize<PlayPauseButtonOptions, SelfOptions, PlayControlButtonOptions>()( {
 
       // PlayPauseButtonOptions
@@ -33,7 +48,12 @@ export default class PlayPauseButton extends PlayControlButton {
 
       // PlayControlButtonOptions
       includeGlobalHotkey: true,
-      endPlayingLabel: SceneryPhetStrings.a11y.playControlButton.pauseStringProperty
+      endPlayingLabel: SceneryPhetStrings.a11y.playControlButton.pauseStringProperty,
+      accessibleContextResponse: contextResponseProperty,
+
+      // For this button, do not speak the voicing name when it is pressed because the context responses are clearer without it.
+      // Otherwise, it says "Play, Sim Paused."
+      speakVoicingNameResponseOnFire: false
     }, providedOptions );
 
     // icon sized relative to the radius
@@ -45,6 +65,10 @@ export default class PlayPauseButton extends PlayControlButton {
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && window.phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'PlayPauseButton', this );
+
+    if ( ownsContextResponseProperty ) {
+      this.addDisposable( contextResponseProperty as TReadOnlyProperty<string> );
+    }
   }
 }
 

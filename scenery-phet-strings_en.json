@@ -534,6 +534,14 @@
         "value": "Stop"
       }
     },
+    "playPauseButton": {
+      "playingAccessibleContextResponse": {
+        "value": "Sim Playing."
+      },
+      "pausedAccessibleContextResponse": {
+        "value": "Sim Paused."
+      }
+    },
     "stepButton": {
       "stepForward": {
         "value": "Step Forward"

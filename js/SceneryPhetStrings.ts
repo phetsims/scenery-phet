@@ -231,6 +231,10 @@ type StringsType = {
       'pauseStringProperty': LocalizedStringProperty;
       'stopStringProperty': LocalizedStringProperty;
     };
+    'playPauseButton': {
+      'playingAccessibleContextResponseStringProperty': LocalizedStringProperty;
+      'pausedAccessibleContextResponseStringProperty': LocalizedStringProperty;
+    };
     'stepButton': {
       'stepForwardStringProperty': LocalizedStringProperty;
       'playingDescriptionStringProperty': LocalizedStringProperty;

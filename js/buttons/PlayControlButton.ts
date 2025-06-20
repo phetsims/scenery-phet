@@ -108,8 +108,11 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
     const isPlayingListener = ( isPlaying: boolean, oldValue: boolean | null ) => {
 
       // pdom - accessible name for the button
+      // TODO: Use accessibleName so we get Voicing automatically, see https://github.com/phetsims/scenery-phet/issues/927
       this.innerContent = isPlaying ? options.endPlayingLabel
                                     : options.startPlayingLabel;
+
+      this.voicingNameResponse = this.innerContent;
 
       // so we don't scale down the button immediately if isPlayingProperty is initially false
       const runningScale = oldValue === null ? 1 : 1 / options.scaleFactorWhenNotPlaying;
