@@ -70,11 +70,11 @@ export default class ResetAllButton extends ResetButton {
       soundPlayer: sharedSoundPlayers.get( 'resetAll' ),
 
       // pdom
-      accessibleName: SceneryPhetStrings.a11y.resetAll.labelStringProperty,
+      accessibleName: SceneryPhetStrings.a11y.resetAll.accessibleNameStringProperty,
 
-      // voicing
-      voicingNameResponse: SceneryPhetStrings.a11y.resetAll.labelStringProperty,
-      voicingContextResponse: SceneryPhetStrings.a11y.voicing.resetAll.contextResponseStringProperty
+      // voicing - set here instead of using accessibleContextResponse because we make a manual request to speak
+      // the response after the button fires.
+      voicingContextResponse: SceneryPhetStrings.a11y.resetAll.accessibleContextResponseStringProperty
     }, providedOptions );
 
     assert && assert( options.xMargin === undefined && options.yMargin === undefined, 'resetAllButton sets margins' );
@@ -85,7 +85,7 @@ export default class ResetAllButton extends ResetButton {
     // a11y - When reset all button is fired, disable alerts so that there isn't an excessive stream of alerts while
     // many Properties are reset. When callbacks are ended for reset all, enable alerts again and announce an alert that
     // everything was reset.
-    const resetUtterance = new ActivationUtterance( { alert: SceneryPhetStrings.a11y.resetAll.alertStringProperty } );
+    const resetUtterance = new ActivationUtterance( { alert: SceneryPhetStrings.a11y.resetAll.accessibleContextResponseStringProperty } );
     let voicingEnabledOnFire = voicingUtteranceQueue.enabled;
     const ariaEnabledOnFirePerUtteranceQueueMap = new Map(); // Keep track of the enabled of each connected description UtteranceQueue
     this.pushButtonModel.isFiringProperty.lazyLink( ( isFiring: boolean ) => {

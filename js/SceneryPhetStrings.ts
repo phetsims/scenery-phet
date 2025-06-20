@@ -173,8 +173,8 @@ type StringsType = {
       'controlAreaStringProperty': LocalizedStringProperty;
     };
     'resetAll': {
-      'labelStringProperty': LocalizedStringProperty;
-      'alertStringProperty': LocalizedStringProperty;
+      'accessibleNameStringProperty': LocalizedStringProperty;
+      'accessibleContextResponseStringProperty': LocalizedStringProperty;
     };
     'soundToggle': {
       'labelStringProperty': LocalizedStringProperty;
@@ -291,9 +291,6 @@ type StringsType = {
       'grabDragHintPatternStringProperty': LocalizedStringProperty;
       'grabbedAlertStringProperty': LocalizedStringProperty;
       'draggableAlertStringProperty': LocalizedStringProperty;
-      'resetAll': {
-        'contextResponseStringProperty': LocalizedStringProperty;
-      }
     };
     'closeStringProperty': LocalizedStringProperty;
     'zoomInStringProperty': LocalizedStringProperty;

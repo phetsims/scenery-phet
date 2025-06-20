@@ -402,11 +402,11 @@
       }
     },
     "resetAll": {
-      "label": {
+      "accessibleName": {
         "value": "Reset All"
       },
-      "alert": {
-        "value": "Sim screen restarted. Everything reset."
+      "accessibleContextResponse": {
+        "value": "Everything reset."
       }
     },
     "soundToggle": {
@@ -671,11 +671,6 @@
       },
       "draggableAlert": {
         "value": "Draggable"
-      },
-      "resetAll": {
-        "contextResponse": {
-          "value": "Everything Reset."
-        }
       }
     },
     "close": {
