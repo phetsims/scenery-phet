@@ -37,10 +37,10 @@ type SelfOptions = {
   includeGlobalHotkey?: boolean;
 
   // Label for the button in the PDOM when the button will set isPlayingProperty to true
-  startPlayingLabel?: PDOMValueType;
+  startPlayingAccessibleName?: PDOMValueType;
 
   // Label for the button in the PDOM when the button will set isPlayingProperty to false
-  endPlayingLabel?: PDOMValueType | null;
+  endPlayingAccessibleName?: PDOMValueType | null;
 
   // sound generation
   valueOffSoundPlayer?: TSoundPlayer;
@@ -66,8 +66,8 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
       radius: SceneryPhetConstants.PLAY_CONTROL_BUTTON_RADIUS,
       scaleFactorWhenNotPlaying: 1,
       includeGlobalHotkey: false,
-      startPlayingLabel: SceneryPhetStrings.a11y.playControlButton.playStringProperty,
-      endPlayingLabel: null,
+      startPlayingAccessibleName: SceneryPhetStrings.a11y.playControlButton.playStringProperty,
+      endPlayingAccessibleName: null,
       valueOffSoundPlayer: sharedSoundPlayers.get( 'pause' ),
       valueOnSoundPlayer: sharedSoundPlayers.get( 'play' ),
 
@@ -108,8 +108,8 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
     const isPlayingListener = ( isPlaying: boolean, oldValue: boolean | null ) => {
 
       // pdom - accessible name for the button
-      this.accessibleName = isPlaying ? options.endPlayingLabel
-                                      : options.startPlayingLabel;
+      this.accessibleName = isPlaying ? options.endPlayingAccessibleName
+                                      : options.startPlayingAccessibleName;
 
       // so we don't scale down the button immediately if isPlayingProperty is initially false
       const runningScale = oldValue === null ? 1 : 1 / options.scaleFactorWhenNotPlaying;
