@@ -33,12 +33,14 @@ export default class BucketFront extends InteractiveHighlighting( Node ) {
   private labelNode: Node;
   private readonly disposeBucketFront: () => void;
 
-  public constructor( bucket: Bucket, modelViewTransform: ModelViewTransform2, providedOptions?: BucketFrontOptions ) {
+  public constructor( bucket: Bucket,
+                      modelViewTransform: ModelViewTransform2,
+                      providedOptions?: BucketFrontOptions ) {
 
     const options = optionize<BucketFrontOptions, StrictOmit<SelfOptions, 'labelNode'>, NodeOptions>()( {
-      tandem: Tandem.REQUIRED,
+      cursor: 'pointer',
       tandemNameSuffix: 'BucketFrontNode',
-      cursor: 'pointer'
+      tandem: Tandem.OPT_OUT
     }, providedOptions );
 
     super();
@@ -84,7 +86,8 @@ export default class BucketFront extends InteractiveHighlighting( Node ) {
 
     this.disposeBucketFront = () => {
 
-      //TOO https://github.com/phetsims/scenery-phet/issues/732 if BucketFront didn't create labelNode, then it should not be disposing it here
+      // TODO https://github.com/phetsims/scenery-phet/issues/732 if BucketFront didn't create labelNode, then it should
+      //      not be disposing it here.
       this.labelNode && this.labelNode.dispose();
       baseBrighter5Property.dispose();
       baseDarker5Property.dispose();
@@ -98,7 +101,8 @@ export default class BucketFront extends InteractiveHighlighting( Node ) {
 
     if ( this.hasChild( this.labelNode ) ) {
 
-      //TODO https://github.com/phetsims/scenery-phet/issues/732 memory leak - if BucketFront created this instance of labelNode, it needs to dispose it
+      // TODO https://github.com/phetsims/scenery-phet/issues/732 memory leak - if BucketFront created this instance of
+      //      labelNode, it needs to dispose it.
       this.removeChild( this.labelNode );
     }
 
