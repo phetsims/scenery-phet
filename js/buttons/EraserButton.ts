@@ -13,7 +13,7 @@ import { TrimParallelDOMOptions } from '../../../scenery/js/accessibility/pdom/P
 import Image from '../../../scenery/js/nodes/Image.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
-import eraser_png from '../../images/eraser_png.js';
+import eraser_svg from '../../images/eraser_svg.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
@@ -45,7 +45,7 @@ export default class EraserButton extends RectangularPushButton {
     }, providedOptions );
 
     // eraser icon
-    options.content = new Image( eraser_png );
+    options.content = new Image( eraser_svg );
     options.content.scale( options.iconWidth / options.content.width );
 
     super( options );
