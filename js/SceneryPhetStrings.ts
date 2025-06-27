@@ -189,10 +189,13 @@ type StringsType = {
         'leftRightArrowKeysStringProperty': LocalizedStringProperty;
         'upDownArrowKeysStringProperty': LocalizedStringProperty;
         'defaultStepsDescriptionPatternStringProperty': LocalizedStringProperty;
+        'defaultStepsAdjustSliderDescriptionPatternStringProperty': LocalizedStringProperty;
         'shiftLeftRightArrowKeysStringProperty': LocalizedStringProperty;
         'shiftUpDownArrowKeysStringProperty': LocalizedStringProperty;
         'smallerStepsDescriptionPatternStringProperty': LocalizedStringProperty;
+        'smallerStepsAdjustSliderDescriptionPatternStringProperty': LocalizedStringProperty;
         'largerStepsDescriptionPatternStringProperty': LocalizedStringProperty;
+        'largerStepsAdjustSliderDescriptionPatternStringProperty': LocalizedStringProperty;
         'jumpToMinimumDescriptionPatternStringProperty': LocalizedStringProperty;
         'jumpToMaximumDescriptionPatternStringProperty': LocalizedStringProperty;
       };

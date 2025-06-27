@@ -436,6 +436,9 @@
         "defaultStepsDescriptionPattern": {
           "value": "{{verb}} {{slider}} with {{keys}}."
         },
+        "defaultStepsAdjustSliderDescriptionPattern": {
+          "value": "{{adjustSlider}} with {{keys}}."
+        },
         "shiftLeftRightArrowKeys": {
           "value": "Shift plus Left or Right arrow key"
         },
@@ -445,8 +448,14 @@
         "smallerStepsDescriptionPattern": {
           "value": "{{verb}} in smaller steps with {{keys}}."
         },
+        "smallerStepsAdjustSliderDescriptionPattern": {
+          "value": "{{adjustInSmallerSteps}} with {{keys}}."
+        },
         "largerStepsDescriptionPattern": {
           "value": "{{verb}} in larger steps with Page Up or Page Down key."
+        },
+        "largerStepsAdjustSliderDescriptionPattern": {
+          "value": "{{adjustInLargerSteps}} with Page Up or Page Down key."
         },
         "jumpToMinimumDescriptionPattern": {
           "value": "Jump to {{minimum}} with Home key."

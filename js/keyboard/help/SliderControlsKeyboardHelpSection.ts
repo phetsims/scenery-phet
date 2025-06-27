@@ -145,11 +145,23 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
         upDown: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.upDownArrowKeysStringProperty
       }, { tandem: Tandem.OPT_OUT } ) : null;
     assert && assert( keysStringProperty );
-    const keyboardHelpDialogDefaultStepsStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.defaultStepsDescriptionPatternStringProperty, {
-      verb: options.verbStringProperty,
-      slider: options.sliderStringProperty,
-      keys: keysStringProperty!
-    }, { tandem: Tandem.OPT_OUT } );
+
+    // The PDOM content describing how to adjust the slider in default steps.
+    const keyboardHelpDialogDefaultStepsStringProperty =
+
+      // The user provided a custom string for the adjustSliderStringProperty, so use that in the pattern.
+      options.adjustSliderStringProperty !== SceneryPhetStrings.keyboardHelpDialog.adjustSliderStringProperty ?
+      new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.defaultStepsAdjustSliderDescriptionPatternStringProperty, {
+        adjustSlider: options.adjustSliderStringProperty,
+        keys: keysStringProperty!
+      }, { tandem: Tandem.OPT_OUT } ) :
+
+        // Otherwise, use the default pattern.
+      new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.defaultStepsDescriptionPatternStringProperty, {
+        verb: options.verbStringProperty,
+        slider: options.sliderStringProperty,
+        keys: keysStringProperty!
+      }, { tandem: Tandem.OPT_OUT } );
 
     const shiftKeysStringProperty =
       ( options.arrowKeyIconDisplay === ArrowKeyIconDisplay.LEFT_RIGHT ) ? SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftLeftRightArrowKeysStringProperty :
@@ -159,14 +171,36 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
         upDown: SceneryPhetStrings.a11y.keyboardHelpDialog.slider.shiftUpDownArrowKeysStringProperty
       }, { tandem: Tandem.OPT_OUT } ) : null;
     assert && assert( shiftKeysStringProperty );
-    const keyboardHelpDialogSmallerStepsStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.smallerStepsDescriptionPatternStringProperty, {
-      verb: options.verbStringProperty,
-      keys: shiftKeysStringProperty!
-    }, { tandem: Tandem.OPT_OUT } );
-    const keyboardHelpDialogLargerStepsStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.largerStepsDescriptionPatternStringProperty, {
-      verb: options.verbStringProperty
-    }, { tandem: Tandem.OPT_OUT } );
 
+    // The PDOM content describing how to adjust the slider in smaller steps.
+    const keyboardHelpDialogSmallerStepsStringProperty =
+
+      // The user provided a custom string for the adjustInSmallerStepsStringProperty, so use that in the pattern.
+      options.adjustInSmallerStepsStringProperty !== SceneryPhetStrings.keyboardHelpDialog.adjustInSmallerStepsStringProperty ?
+      new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.smallerStepsAdjustSliderDescriptionPatternStringProperty, {
+        adjustInSmallerSteps: options.adjustInSmallerStepsStringProperty,
+        keys: shiftKeysStringProperty!
+      }, { tandem: Tandem.OPT_OUT } ) :
+
+        // Otherwise, use the default pattern.
+      new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.smallerStepsDescriptionPatternStringProperty, {
+        verb: options.verbStringProperty,
+        keys: shiftKeysStringProperty!
+      }, { tandem: Tandem.OPT_OUT } );
+
+    // The PDOM content describing how to adjust the slider in larger steps.
+    const keyboardHelpDialogLargerStepsStringProperty =
+
+      // The user provided a custom string for the adjustInLargerStepsStringProperty, so use that in the pattern.
+      options.adjustInLargerStepsStringProperty !== SceneryPhetStrings.keyboardHelpDialog.adjustInLargerStepsStringProperty ?
+      new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.largerStepsAdjustSliderDescriptionPatternStringProperty, {
+        adjustInLargerSteps: options.adjustInLargerStepsStringProperty
+      }, { tandem: Tandem.OPT_OUT } ) :
+
+        // Otherwise, use the default pattern.
+      new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.slider.largerStepsDescriptionPatternStringProperty, {
+        verb: options.verbStringProperty
+      }, { tandem: Tandem.OPT_OUT } );
 
     let jumpToMinimumStringProperty = options.jumpToMinimumStringProperty;
     if ( ownsMinimumStringProperty ) {
