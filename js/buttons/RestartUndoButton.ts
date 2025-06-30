@@ -24,7 +24,6 @@ export default class RestartUndoButton extends RectangularPushButton {
 
     super( optionize<RestartUndoButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {
       baseColor: ColorConstants.LIGHT_BLUE,
-      lineWidth: 0,
       xMargin: 6,
       yMargin: 5,
       touchAreaXDilation: 8,
