@@ -27,10 +27,11 @@ import animatedPanZoomSingleton from '../../../../../scenery/js/listeners/animat
 import KeyboardListener from '../../../../../scenery/js/listeners/KeyboardListener.js';
 import Node, { NodeOptions } from '../../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../../scenery/js/nodes/Path.js';
+import { AlertableNoUtterance } from '../../../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../../../sceneryPhet.js';
+import SceneryPhetStrings from '../../../SceneryPhetStrings.js';
 import GrabReleaseCueNode, { GrabReleaseCueNodeOptions } from '../../nodes/GrabReleaseCueNode.js';
 import GroupSelectModel from '../model/GroupSelectModel.js';
-import SceneryPhetStrings from '../../../SceneryPhetStrings.js';
 
 function GROUP_SELECT_ACCESSIBLE_NAME_BEHAVIOR( node: Node, options: NodeOptions, accessibleName: PDOMValueType ): NodeOptions {
   options.ariaLabel = accessibleName; // IMPORTANT! Divs with innerContent aren't recognized with accessibleNames
@@ -77,6 +78,10 @@ type SelfOptions<ItemModel, ItemNode extends Node> = {
 
   // The role description for the group item when it is released (selecting state).
   releasedRoleDescription?: PDOMValueType;
+
+  // Context responses describing the grab/release events. Only spoken with alternative input.
+  grabbedAccessibleContextResponse?: AlertableNoUtterance;
+  releasedAccessibleContextResponse?: AlertableNoUtterance;
 };
 
 type ParentOptions = DisposableOptions;
@@ -123,7 +128,9 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
       },
       grabReleaseCueOptions: {},
       grabbedRoleDescription: sortableStringProperty,
-      releasedRoleDescription: navigableStringProperty
+      releasedRoleDescription: navigableStringProperty,
+      grabbedAccessibleContextResponse: SceneryPhetStrings.a11y.groupSort.grabbedAccessibleContextResponseStringProperty,
+      releasedAccessibleContextResponse: SceneryPhetStrings.a11y.groupSort.releasedAccessibleContextResponseStringProperty
     }, providedOptions );
 
     super( options );
@@ -144,9 +151,21 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
       if ( selectedGroupItem !== null ) {
         if ( grabbed ) {
           options.onGrab( selectedGroupItem );
+
+          // This listener is linked to a model Property, only speak through the Node if it is actually
+          // displayed.
+          if ( primaryFocusedNode.wasVisuallyDisplayed() ) {
+            this.primaryFocusedNode.addAccessibleContextResponse( options.grabbedAccessibleContextResponse );
+          }
         }
         else {
           options.onRelease( selectedGroupItem );
+
+          // This listener is linked to a model Property, only speak through the Node if it is actually
+          // displayed.
+          if ( primaryFocusedNode.wasVisuallyDisplayed() ) {
+            this.primaryFocusedNode.addAccessibleContextResponse( options.releasedAccessibleContextResponse );
+          }
         }
       }
     };
