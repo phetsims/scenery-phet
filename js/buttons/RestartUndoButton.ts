@@ -1,4 +1,4 @@
-// Copyright 2020, University of Colorado Boulder
+// Copyright 2025, University of Colorado Boulder
 
 /**
  * A rectangular "restart"" button (with an "undo" icon)
