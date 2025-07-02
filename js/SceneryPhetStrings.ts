@@ -312,6 +312,7 @@ type StringsType = {
     'stopwatch': {
       'accessibleNameStringProperty': LocalizedStringProperty;
       'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      'accessibleHelpTextWithoutControlsStringProperty': LocalizedStringProperty;
       'resetButton': {
         'accessibleNameStringProperty': LocalizedStringProperty;
       };

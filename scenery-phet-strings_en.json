@@ -725,6 +725,9 @@
         "value": "Stopwatch"
       },
       "accessibleHelpText": {
+        "value": "Measure elapsed time. Use the Pause button or tab to any stopwatch button for the latest time."
+      },
+      "accessibleHelpTextWithoutControls": {
         "value": "Measure elapsed time."
       },
       "resetButton": {

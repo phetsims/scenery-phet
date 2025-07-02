@@ -144,6 +144,8 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
 
   public constructor( stopwatch: Stopwatch, providedOptions?: StopwatchNodeOptions ) {
 
+    const DEFAULT_INCLUDE_PLAY_PAUSE_BUTTONS = true;
+
     const options = optionize4<StopwatchNodeOptions, StrictOmit<SelfOptions, 'playPauseButtonOptions' | 'resetButtonOptions'>, ParentOptions>()(
       {},
       AccessibleDraggableOptions,
@@ -190,7 +192,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
 
         otherControls: [],
 
-        includePlayPauseResetButtons: true,
+        includePlayPauseResetButtons: DEFAULT_INCLUDE_PLAY_PAUSE_BUTTONS,
         visibleProperty: stopwatch.isVisibleProperty,
 
         // Tandem is required to make sure the buttons are instrumented
@@ -198,7 +200,9 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
         phetioFeatured: true,
 
         accessibleName: SceneryPhetStrings.a11y.stopwatch.accessibleNameStringProperty,
-        accessibleHelpText: SceneryPhetStrings.a11y.stopwatch.accessibleHelpTextStringProperty
+        accessibleHelpText: ( providedOptions?.includePlayPauseResetButtons ?? DEFAULT_INCLUDE_PLAY_PAUSE_BUTTONS ) ?
+                            SceneryPhetStrings.a11y.stopwatch.accessibleHelpTextStringProperty :
+                            SceneryPhetStrings.a11y.stopwatch.accessibleHelpTextWithoutControlsStringProperty
       },
       providedOptions
     );
