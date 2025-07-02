@@ -7,6 +7,7 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import StringProperty from '../../axon/js/StringProperty.js';
 import TinyProperty from '../../axon/js/TinyProperty.js';
 import TProperty from '../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
@@ -40,7 +41,11 @@ type NumberDisplayAlign = typeof ALIGN_VALUES[number];
 
 const DEFAULT_DECIMAL_PLACES = 0;
 
-type NumberFormatter = ( n: number ) => string;
+export type NumberDisplayStringPair = {
+  valueString: string; // The typical visual output of the NumberDisplay
+  accessibleValueString: string; // A value to fill into the accessibleValueStringProperty, for use in context responses
+};
+type NumberFormatter = ( n: number ) => string | NumberDisplayStringPair;
 
 type SelfOptions = {
 
@@ -58,7 +63,7 @@ type SelfOptions = {
   // Takes a {number} and returns a {string} for full control. Mutually exclusive with valuePattern and
   // decimalPlaces.  Named "numberFormatter" instead of "formatter" to help clarify that it is separate from the
   // noValueString/Align/Pattern defined below. Please see also numberFormatterDependencies
-  numberFormatter?: ( ( n: number ) => string ) | null;
+  numberFormatter?: NumberFormatter | null;
 
   // If your numberFormatter depends on other Properties, you must specify them so that the text will update when those
   // dependencies change.
@@ -96,6 +101,11 @@ export default class NumberDisplay extends Node {
   private readonly valueText: RichText | Text;
   private readonly backgroundNode: Rectangle;
   public readonly valueStringProperty: TReadOnlyProperty<string>;
+
+  // A read-only Property filled in with the 'accessibleValueString' from the numberFormatter (if available), falling
+  // back to the visual value string. Available to be used for context responses.
+  public readonly accessibleValueStringProperty: TReadOnlyProperty<string>;
+
   private readonly disposeNumberDisplay: () => void; // called by dispose
 
   /**
@@ -220,6 +230,7 @@ export default class NumberDisplay extends Node {
     // value
     const ValueTextConstructor = options.useRichText ? RichText : Text;
     const valueTextTandem = options.textOptions.tandem || options.tandem.createTandem( 'valueText' );
+    const accessibleValueStringProperty = new StringProperty( '' );
     const valueStringProperty = DerivedProperty.deriveAny(
       [ numberProperty, noValuePatternProperty, valuePatternProperty, numberFormatterProperty, ...options.numberFormatterDependencies ],
       () => {
@@ -230,7 +241,9 @@ export default class NumberDisplay extends Node {
 
         const valuePattern = ( value === null && noValuePattern ) ? noValuePattern : valuePatternValue;
 
-        const stringValue = valueToString( value, options.noValueString, numberFormatter );
+        const stringPair = valueToStringPair( value, options.noValueString, numberFormatter );
+        accessibleValueStringProperty.value = stringPair?.accessibleValueString ?? options.noValueString;
+        const stringValue = stringPair?.valueString ?? null;
         return StringUtils.fillIn( valuePattern, {
           value: stringValue
         } );
@@ -288,6 +301,7 @@ export default class NumberDisplay extends Node {
     this.valueText = valueText;
     this.backgroundNode = backgroundNode;
     this.valueStringProperty = valueStringProperty;
+    this.accessibleValueStringProperty = accessibleValueStringProperty;
 
 // Align the value in the background.
     ManualConstraint.create( this, [ valueTextContainer, backgroundNode ], ( valueTextContainerProxy, backgroundNodeProxy ) => {
@@ -402,12 +416,55 @@ sceneryPhet.register( 'NumberDisplay', NumberDisplay );
  * @param value
  * @param decimalPlaces - if null, use the full value
  * @param noValueString
- * @param numberFormatter - if provided, function that converts {number} => {string}
+ * @param numberFormatter - if provided, function that converts {number} => {string | StringPair}
  */
-const valueToString = <S extends number | null>( value: S, noValueString: string, numberFormatter: NumberFormatter ): ( S extends null ? ( string | null ) : string ) => {
-  let stringValue = noValueString;
+const valueToString = <S extends number | null>(
+  value: S,
+  noValueString: string,
+  numberFormatter: NumberFormatter
+): ( S extends null ? ( string | null ) : string ) => {
   if ( value !== null ) {
-    stringValue = numberFormatter( value );
+    const formattedValue = numberFormatter( value );
+    if ( typeof formattedValue === 'string' ) {
+      return formattedValue;
+    }
+    else {
+      return formattedValue.valueString;
+    }
   }
-  return stringValue;
+  else {
+    return noValueString;
+  }
+};
+
+/**
+ * Converts a numeric value to a string pair (contains both a visual string and an accessible value string).
+ * @param value
+ * @param decimalPlaces - if null, use the full value
+ * @param noValueString
+ * @param numberFormatter - if provided, function that converts {number} => {string | StringPair}
+ */
+const valueToStringPair = <S extends number | null>(
+  value: S,
+  noValueString: string,
+  numberFormatter: NumberFormatter
+): ( S extends null ? ( NumberDisplayStringPair | null ) : NumberDisplayStringPair ) => {
+  if ( value !== null ) {
+    const formattedValue = numberFormatter( value );
+    if ( typeof formattedValue === 'string' ) {
+      return {
+        valueString: formattedValue,
+        accessibleValueString: formattedValue // for backwards compatibility, we return the same value for both
+      };
+    }
+    else {
+      return formattedValue;
+    }
+  }
+  else {
+    return {
+      valueString: noValueString,
+      accessibleValueString: noValueString
+    };
+  }
 };

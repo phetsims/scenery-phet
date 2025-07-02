@@ -308,6 +308,19 @@ type StringsType = {
       'pointsOffScaleDownStringProperty': LocalizedStringProperty;
       'pointsOffScaleLeftStringProperty': LocalizedStringProperty;
       'pointsOffScaleRightStringProperty': LocalizedStringProperty;
+    };
+    'stopwatch': {
+      'accessibleNameStringProperty': LocalizedStringProperty;
+      'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      'resetButton': {
+        'accessibleNameStringProperty': LocalizedStringProperty;
+      };
+      'playButton': {
+        'accessibleNameStringProperty': LocalizedStringProperty;
+      };
+      'pauseButton': {
+        'accessibleNameStringProperty': LocalizedStringProperty;
+      }
     }
   }
 };

@@ -719,6 +719,29 @@
       "pointsOffScaleRight": {
         "value": "Points off scale to the right!"
       }
+    },
+    "stopwatch": {
+      "accessibleName": {
+        "value": "Stopwatch"
+      },
+      "accessibleHelpText": {
+        "value": "Measure elapsed time."
+      },
+      "resetButton": {
+        "accessibleName": {
+          "value": "Reset Stopwatch"
+        }
+      },
+      "playButton": {
+        "accessibleName": {
+          "value": "Play Stopwatch"
+        }
+      },
+      "pauseButton": {
+        "accessibleName": {
+          "value": "Pause Stopwatch"
+        }
+      }
     }
   }
 }
