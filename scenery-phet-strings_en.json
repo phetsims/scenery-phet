@@ -733,6 +733,9 @@
       "resetButton": {
         "accessibleName": {
           "value": "Reset Stopwatch"
+        },
+        "accessibleContextResponse": {
+          "value": "Stopwatch reset."
         }
       },
       "playButton": {

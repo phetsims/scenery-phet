@@ -273,7 +273,8 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
         tandem: options.tandem.createTandem( 'resetButton' ),
         phetioVisiblePropertyInstrumented: false,
         phetioEnabledPropertyInstrumented: false,
-        accessibleName: SceneryPhetStrings.a11y.stopwatch.resetButton.accessibleNameStringProperty
+        accessibleName: SceneryPhetStrings.a11y.stopwatch.resetButton.accessibleNameStringProperty,
+        accessibleContextResponse: SceneryPhetStrings.a11y.stopwatch.resetButton.accessibleContextResponseStringProperty
       }, options.resetButtonOptions ) );
 
       playPauseResetButtonContainer = new HBox( {

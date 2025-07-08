@@ -315,6 +315,7 @@ type StringsType = {
       'accessibleHelpTextWithoutControlsStringProperty': LocalizedStringProperty;
       'resetButton': {
         'accessibleNameStringProperty': LocalizedStringProperty;
+        'accessibleContextResponseStringProperty': LocalizedStringProperty;
       };
       'playButton': {
         'accessibleNameStringProperty': LocalizedStringProperty;
