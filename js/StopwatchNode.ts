@@ -14,6 +14,7 @@ import Property from '../../axon/js/Property.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Range from '../../dot/js/Range.js';
+import { roundSymmetric } from '../../dot/js/util/roundSymmetric.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions, optionize4 } from '../../phet-core/js/optionize.js';
@@ -34,6 +35,7 @@ import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/j
 import sharedSoundPlayers from '../../tambo/js/sharedSoundPlayers.js';
 import TSoundPlayer from '../../tambo/js/TSoundPlayer.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import AccessibleDraggableOptions from './accessibility/grab-drag/AccessibleDraggableOptions.js';
 import NumberDisplay, { NumberDisplayOptions, NumberDisplayStringPair } from './NumberDisplay.js';
 import PauseIconShape from './PauseIconShape.js';
 import PhetFont from './PhetFont.js';
@@ -45,8 +47,6 @@ import SoundDragListener, { PressedSoundDragListener, SoundDragListenerOptions }
 import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from './SoundKeyboardDragListener.js';
 import Stopwatch from './Stopwatch.js';
 import UTurnArrowShape from './UTurnArrowShape.js';
-import { roundSymmetric } from '../../dot/js/util/roundSymmetric.js';
-import AccessibleDraggableOptions from './accessibility/grab-drag/AccessibleDraggableOptions.js';
 
 type SelfOptions = {
 
@@ -416,14 +416,6 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       this.keyboardDragListener = new SoundKeyboardDragListener( keyboardDragListenerOptions );
       this.addInputListener( this.keyboardDragListener );
 
-      // When the entire StopwatchNode gets focused (not one of the buttons themselves), then read out the value context
-      // response, see https://github.com/phetsims/scenery-phet/issues/929#issuecomment-3019748489
-      this.addInputListener( {
-        focus: () => {
-          this.addAccessibleContextResponse( getValueReadoutContextResponse() );
-        }
-      } );
-
       // The group focus highlight makes it clear the stopwatch is highlighted even if the children are focused
       this.groupFocusHighlight = true;
 
@@ -435,6 +427,14 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
         focus: () => this.moveToFront()
       } );
     }
+
+    // When the entire StopwatchNode gets focused (not one of the buttons themselves), then read out the value context
+    // response, see https://github.com/phetsims/scenery-phet/issues/929#issuecomment-3019748489
+    this.addInputListener( {
+      focus: () => {
+        this.addAccessibleContextResponse( getValueReadoutContextResponse() );
+      }
+    } );
 
     this.addLinkedElement( stopwatch, {
       tandemName: 'stopwatch'
