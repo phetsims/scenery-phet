@@ -740,7 +740,7 @@
       },
       "playButton": {
         "accessibleName": {
-          "value": "Play Stopwatch"
+          "value": "Start Stopwatch"
         }
       },
       "pauseButton": {
