@@ -272,19 +272,22 @@ export default class KeyboardHelpIconFactory {
     [ 'pageDown', TextKeyNode.pageDown() ],
     [ 'home', TextKeyNode.home() ],
     [ 'end', TextKeyNode.end() ],
-    [ 'r', new LetterKeyNode( 'R' ) ],
-    [ 's', new LetterKeyNode( 'S' ) ],
-    [ 'l', new LetterKeyNode( 'L' ) ],
     [ 'c', new LetterKeyNode( 'C' ) ],
     [ 'h', new LetterKeyNode( 'H' ) ],
-    [ 'w', new LetterKeyNode( 'W' ) ],
     [ 'j', new LetterKeyNode( 'J' ) ],
     [ 'k', new LetterKeyNode( 'K' ) ],
+    [ 'l', new LetterKeyNode( 'L' ) ],
+    [ 'm', new LetterKeyNode( 'M' ) ],
     [ 'n', new LetterKeyNode( 'N' ) ],
+    [ 'r', new LetterKeyNode( 'R' ) ],
+    [ 's', new LetterKeyNode( 'S' ) ],
+    [ 'w', new LetterKeyNode( 'W' ) ],
     [ '0', new LetterKeyNode( '0' ) ],
     [ '1', new LetterKeyNode( '1' ) ],
     [ '2', new LetterKeyNode( '2' ) ],
-    [ '3', new LetterKeyNode( '3' ) ]
+    [ '3', new LetterKeyNode( '3' ) ],
+    [ 'enter', TextKeyNode.enter() ],
+    [ 'backspace', TextKeyNode.backspace() ]
   ] );
 
   /**

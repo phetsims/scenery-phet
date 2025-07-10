@@ -65,6 +65,9 @@
   "key.enter": {
     "value": "Enter"
   },
+  "key.backspace": {
+    "value": "Backspace"
+  },
   "key.space": {
     "value": "Space"
   },

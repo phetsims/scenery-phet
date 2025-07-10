@@ -89,6 +89,10 @@ export default class TextKeyNode extends KeyNode {
     return new TextKeyNode( SceneryPhetStrings.key.enterStringProperty, providedOptions );
   }
 
+  public static backspace( providedOptions?: KeyNodeOptions ): KeyNode {
+    return new TextKeyNode( SceneryPhetStrings.key.backspaceStringProperty, providedOptions );
+  }
+
   public static fn( providedOptions?: KeyNodeOptions ): KeyNode {
     return new TextKeyNode( SceneryPhetStrings.key.fnStringProperty, providedOptions );
   }
