@@ -23,6 +23,11 @@ import sceneryPhet from '../sceneryPhet.js';
 
 type SelfOptions = {
   labelNode?: Node;
+
+  // Luminance values for the left and right sides of the gradient fill.  These values are relative to the base color
+  // and can be used to adjust the appearance of the gradient.  Values must be from -1 to 1.
+  gradientLuminanceLeft?: number;
+  gradientLuminanceRight?: number;
 };
 
 export type BucketFrontOptions = SelfOptions & NodeOptions;
@@ -38,6 +43,8 @@ export default class BucketFront extends InteractiveHighlighting( Node ) {
                       providedOptions?: BucketFrontOptions ) {
 
     const options = optionize<BucketFrontOptions, StrictOmit<SelfOptions, 'labelNode'>, NodeOptions>()( {
+      gradientLuminanceLeft: 0.5,
+      gradientLuminanceRight: -0.5,
       cursor: 'pointer',
       tandemNameSuffix: 'BucketFrontNode',
       tandem: Tandem.OPT_OUT
@@ -63,11 +70,15 @@ export default class BucketFront extends InteractiveHighlighting( Node ) {
     const transformedShape = bucket.containerShape.transformed( scaleMatrix );
 
     // fill
-    const baseBrighter5Property = new PaintColorProperty( bucket.baseColor, { luminanceFactor: 0.5 } );
-    const baseDarker5Property = new PaintColorProperty( bucket.baseColor, { luminanceFactor: -0.5 } );
+    const baseLeftSidePaintProperty = new PaintColorProperty( bucket.baseColor, {
+      luminanceFactor: options.gradientLuminanceLeft
+    } );
+    const baseRightSidePaintProperty = new PaintColorProperty( bucket.baseColor, {
+      luminanceFactor: options.gradientLuminanceRight
+    } );
     const frontGradient = new LinearGradient( transformedShape.bounds.getMinX(), 0, transformedShape.bounds.getMaxX(), 0 )
-      .addColorStop( 0, baseBrighter5Property )
-      .addColorStop( 1, baseDarker5Property );
+      .addColorStop( 0, baseLeftSidePaintProperty )
+      .addColorStop( 1, baseRightSidePaintProperty );
 
     this.addChild( new Path( transformedShape, {
       fill: frontGradient
@@ -89,8 +100,8 @@ export default class BucketFront extends InteractiveHighlighting( Node ) {
       // TODO https://github.com/phetsims/scenery-phet/issues/732 if BucketFront didn't create labelNode, then it should
       //      not be disposing it here.
       this.labelNode && this.labelNode.dispose();
-      baseBrighter5Property.dispose();
-      baseDarker5Property.dispose();
+      baseLeftSidePaintProperty.dispose();
+      baseRightSidePaintProperty.dispose();
     };
   }
 
