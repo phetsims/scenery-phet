@@ -68,6 +68,9 @@
   "key.backspace": {
     "value": "Backspace"
   },
+  "key.delete": {
+    "value": "Delete"
+  },
   "key.space": {
     "value": "Space"
   },

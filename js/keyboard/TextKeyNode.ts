@@ -8,7 +8,7 @@
 
 import PhetioProperty from '../../../axon/js/PhetioProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import optionize from '../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
 import platform from '../../../phet-core/js/platform.js';
 import RichText from '../../../scenery/js/nodes/RichText.js';
 import Font from '../../../scenery/js/util/Font.js';
@@ -89,8 +89,19 @@ export default class TextKeyNode extends KeyNode {
     return new TextKeyNode( SceneryPhetStrings.key.enterStringProperty, providedOptions );
   }
 
-  public static backspace( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.backspaceStringProperty, providedOptions );
+  public static backspace( providedOptions?: TextKeyNodeOptions ): KeyNode {
+    return new TextKeyNode( SceneryPhetStrings.key.backspaceStringProperty, combineOptions<TextKeyNodeOptions>(
+      {},
+      {
+        // This is a longer key name in english, so it is allowed to grow.
+        textMaxWidth: 80
+      },
+      providedOptions
+    ) );
+  }
+
+  public static delete( providedOptions?: TextKeyNodeOptions ): KeyNode {
+    return new TextKeyNode( SceneryPhetStrings.key.deleteStringProperty, providedOptions );
   }
 
   public static fn( providedOptions?: KeyNodeOptions ): KeyNode {

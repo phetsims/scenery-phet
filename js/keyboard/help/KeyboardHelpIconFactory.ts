@@ -270,9 +270,11 @@ export default class KeyboardHelpIconFactory {
     [ 'arrowDown', new ArrowKeyNode( 'down' ) ],
     [ 'pageUp', TextKeyNode.pageUp() ],
     [ 'pageDown', TextKeyNode.pageDown() ],
+    [ 'space', TextKeyNode.space() ],
     [ 'home', TextKeyNode.home() ],
     [ 'end', TextKeyNode.end() ],
     [ 'c', new LetterKeyNode( 'C' ) ],
+    [ 'd', new LetterKeyNode( 'D' ) ],
     [ 'h', new LetterKeyNode( 'H' ) ],
     [ 'j', new LetterKeyNode( 'J' ) ],
     [ 'k', new LetterKeyNode( 'K' ) ],
@@ -287,7 +289,8 @@ export default class KeyboardHelpIconFactory {
     [ '2', new LetterKeyNode( '2' ) ],
     [ '3', new LetterKeyNode( '3' ) ],
     [ 'enter', TextKeyNode.enter() ],
-    [ 'backspace', TextKeyNode.backspace() ]
+    [ 'backspace', TextKeyNode.backspace() ],
+    [ 'delete', TextKeyNode.delete() ]
   ] );
 
   /**
@@ -295,16 +298,19 @@ export default class KeyboardHelpIconFactory {
    * For example, a HotkeyData with 'shift+r' would produce a row with the shift icon, a plus icon, and the r icon.
    */
   public static fromHotkeyData( hotkeyData: HotkeyData ): Node {
-    const modifierKeyNodes = hotkeyData.keyDescriptorsProperty.value[ 0 ].modifierKeys.map( modifierKey => {
-      const keyNode = KeyboardHelpIconFactory.ENGLISH_KEY_TO_KEY_NODE.get( modifierKey )!;
-      assert && assert( keyNode, 'modifier key not found in ENGLISH_KEY_TO_KEY_NODE' );
-      return keyNode;
+    const iconRows = hotkeyData.keyDescriptorsProperty.value.map( descriptor => {
+      const modifierKeyNodes = descriptor.modifierKeys.map( modifierKey => {
+        const keyNode = KeyboardHelpIconFactory.ENGLISH_KEY_TO_KEY_NODE.get( modifierKey )!;
+        assert && assert( keyNode, 'modifier key not found in ENGLISH_KEY_TO_KEY_NODE' );
+        return keyNode;
+      } );
+      const keyNode = KeyboardHelpIconFactory.ENGLISH_KEY_TO_KEY_NODE.get( descriptor.key )!;
+      assert && assert( keyNode, 'key not found in ENGLISH_KEY_TO_KEY_NODE' );
+      return KeyboardHelpIconFactory.iconPlusIconRow( [ ...modifierKeyNodes, keyNode ] );
     } );
 
-    const keyNode = KeyboardHelpIconFactory.ENGLISH_KEY_TO_KEY_NODE.get( hotkeyData.keyDescriptorsProperty.value[ 0 ].key )!;
-    assert && assert( keyNode, 'key not found in ENGLISH_KEY_TO_KEY_NODE' );
-
-    return KeyboardHelpIconFactory.iconPlusIconRow( [ ...modifierKeyNodes, keyNode ] );
+    // Combine icon rows with iconOrIcon
+    return iconRows.reduce( ( acc, iconRow ) => acc ? KeyboardHelpIconFactory.iconOrIcon( acc, iconRow ) : iconRow, null as Node | null )!;
   }
 
 

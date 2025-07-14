@@ -42,6 +42,7 @@ type StringsType = {
     'capsLockStringProperty': LocalizedStringProperty;
     'enterStringProperty': LocalizedStringProperty;
     'backspaceStringProperty': LocalizedStringProperty;
+    'deleteStringProperty': LocalizedStringProperty;
     'spaceStringProperty': LocalizedStringProperty;
     'escStringProperty': LocalizedStringProperty;
     'fnStringProperty': LocalizedStringProperty;
