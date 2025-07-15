@@ -348,6 +348,14 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
         if ( FaucetNode.CLOSE_FAUCET_HOTKEY_DATA.hasKeyStroke( keysPressed ) ) {
           setFlowRateToZeroWithSound();
         }
+      },
+      release: ( event, keysPressed ) => {
+
+        // If tap to dispense is enabled, dispensing will stop shortly after the key is released. Instead
+        // of linking to that event, the sound is played directly from user input.
+        if ( options.tapToDispenseEnabled && keysPressed && FaucetNode.TAP_TO_DISPENSE_HOTKEY_DATA.hasKeyStroke( keysPressed ) ) {
+          options.releaseSoundPlayer?.play();
+        }
       }
     } );
     this.addInputListener( keyboardListener );
