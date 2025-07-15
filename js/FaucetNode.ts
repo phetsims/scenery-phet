@@ -45,6 +45,8 @@ import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import { rasterizeNode } from '../../scenery/js/util/rasterizeNode.js';
 import AccessibleSlider, { AccessibleSliderOptions } from '../../sun/js/accessibility/AccessibleSlider.js';
+import sharedSoundPlayers from '../../tambo/js/sharedSoundPlayers.js';
+import TSoundPlayer from '../../tambo/js/TSoundPlayer.js';
 import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
@@ -87,12 +89,15 @@ type SelfOptions = {
   // Overcome a flickering problems, see https://github.com/phetsims/wave-interference/issues/187
   rasterizeHorizontalPipeNode?: boolean;
 
+  grabSoundPlayer?: TSoundPlayer | null;
+  releaseSoundPlayer?: TSoundPlayer | null;
+
   // options for the nested type ShooterNode
   shooterOptions?: ShooterNodeOptions;
 };
 type ParentOptions = AccessibleSliderOptions & NodeOptions;
 
-export type FaucetNodeOptions = SelfOptions & StrictOmit<ParentOptions, 'interactiveHighlightEnabled' | 'enabledRangeProperty' | 'valueProperty'>;
+export type FaucetNodeOptions = SelfOptions & StrictOmit<ParentOptions, 'interactiveHighlightEnabled' | 'enabledRangeProperty' | 'valueProperty' | 'startDrag' | 'endDrag'>;
 
 export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
 
@@ -112,6 +117,8 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
       closeOnRelease: true,
       interactiveProperty: new Property( true ),
       rasterizeHorizontalPipeNode: false,
+      grabSoundPlayer: sharedSoundPlayers.get( 'grab' ),
+      releaseSoundPlayer: sharedSoundPlayers.get( 'release' ),
 
       // AccessibleSliderOptions
       enabledRangeProperty: new Property( new Range( 0, maxFlowRate ) ),
@@ -124,6 +131,15 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
       // AccessibleSlider is composed with InteractiveHighlighting, but the InteractiveHighlight should surround
       // the shooter. It is disabled for the Slider and composed with the ShooterNode.
       interactiveHighlightEnabled: false,
+
+      // Alt input uses AccessibleSlider, so sounds are played with AccessibleSlider event callbacks.
+      // Pointer input uses SoundDragListener.
+      startDrag: () => {
+        options.grabSoundPlayer?.play();
+      },
+      endDrag: () => {
+        options.releaseSoundPlayer?.play();
+      },
 
       // phet-io
       tandem: Tandem.REQUIRED,
@@ -250,6 +266,8 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
 
     let startXOffset = 0; // where the drag started, relative to the target node's origin, in parent view coordinates
     const dragListener = new SoundDragListener( {
+      grabSoundPlayer: options.grabSoundPlayer,
+      releaseSoundPlayer: options.releaseSoundPlayer,
 
       start: event => {
         if ( enabledProperty.get() ) {
