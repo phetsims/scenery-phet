@@ -317,6 +317,15 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
     } );
     shooterNode.addInputListener( dragListener );
 
+    // Sets the flow rate to zero and plays the release sound if this actually changes the value. This is used when
+    // an alt input event should reset the flow rate to zero.
+    const setFlowRateToZeroWithSound = () => {
+      if ( flowRateProperty.get() > 0 ) {
+        options.releaseSoundPlayer?.play();
+      }
+      flowRateProperty.set( 0 );
+    };
+
     // Keyboard support for tap-to-dispense and setting the flow rate to zero.
     const keyboardListener = new KeyboardListener( {
       keyStringProperties: HotkeyData.combineKeyStringProperties( [
@@ -333,10 +342,11 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
 
           tapToDispenseIsArmed = true;
           startTapToDispense();
+          options.grabSoundPlayer?.play();
         }
 
         if ( FaucetNode.CLOSE_FAUCET_HOTKEY_DATA.hasKeyStroke( keysPressed ) ) {
-          flowRateProperty.set( 0 );
+          setFlowRateToZeroWithSound();
         }
       }
     } );
@@ -346,7 +356,7 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
     if ( options.closeOnRelease ) {
       this.addInputListener( {
         blur: () => {
-          flowRateProperty.set( 0 );
+          setFlowRateToZeroWithSound();
         }
       } );
     }
