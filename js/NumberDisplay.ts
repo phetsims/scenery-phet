@@ -303,7 +303,7 @@ export default class NumberDisplay extends Node {
     this.valueStringProperty = valueStringProperty;
     this.accessibleValueStringProperty = accessibleValueStringProperty;
 
-// Align the value in the background.
+    // Align the value in the background.
     ManualConstraint.create( this, [ valueTextContainer, backgroundNode ], ( valueTextContainerProxy, backgroundNodeProxy ) => {
 
       // Alignment depends on whether we have a non-null value.
