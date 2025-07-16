@@ -38,6 +38,7 @@ import GroupHighlightPath from '../../scenery/js/accessibility/GroupHighlightPat
 import HighlightPath from '../../scenery/js/accessibility/HighlightPath.js';
 import InteractiveHighlighting from '../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
 import HotkeyData from '../../scenery/js/input/HotkeyData.js';
+import { OneKeyStroke } from '../../scenery/js/input/KeyDescriptor.js';
 import KeyboardListener from '../../scenery/js/listeners/KeyboardListener.js';
 import Circle from '../../scenery/js/nodes/Circle.js';
 import Image from '../../scenery/js/nodes/Image.js';
@@ -138,7 +139,12 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
         options.grabSoundPlayer?.play();
       },
       endDrag: () => {
-        options.releaseSoundPlayer?.play();
+
+        // For this component, it is too noisy to play the release sound on every drag end. It is only played
+        // to indicate that the flow rate has been set to zero.
+        if ( flowRateProperty.value === 0 ) {
+          options.releaseSoundPlayer?.play();
+        }
       },
 
       // phet-io
@@ -317,15 +323,6 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
     } );
     shooterNode.addInputListener( dragListener );
 
-    // Sets the flow rate to zero and plays the release sound if this actually changes the value. This is used when
-    // an alt input event should reset the flow rate to zero.
-    const setFlowRateToZeroWithSound = () => {
-      if ( flowRateProperty.get() > 0 ) {
-        options.releaseSoundPlayer?.play();
-      }
-      flowRateProperty.set( 0 );
-    };
-
     // Keyboard support for tap-to-dispense and setting the flow rate to zero.
     const keyboardListener = new KeyboardListener( {
       keyStringProperties: HotkeyData.combineKeyStringProperties( [
@@ -346,7 +343,12 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
         }
 
         if ( FaucetNode.CLOSE_FAUCET_HOTKEY_DATA.hasKeyStroke( keysPressed ) ) {
-          setFlowRateToZeroWithSound();
+          flowRateProperty.set( 0 );
+
+          // The 'home' key will already play a sound from AccessibleSlider,
+          if ( keysPressed === FaucetNode.ZERO_CLOSE_FAUCET_STRING_PROPERTY.value ) {
+            options.releaseSoundPlayer?.play();
+          }
         }
       },
       release: ( event, keysPressed ) => {
@@ -364,7 +366,10 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
     if ( options.closeOnRelease ) {
       this.addInputListener( {
         blur: () => {
-          setFlowRateToZeroWithSound();
+          if ( flowRateProperty.value > 0 ) {
+            options.releaseSoundPlayer?.play();
+          }
+          flowRateProperty.set( 0 );
         }
       } );
     }
@@ -433,8 +438,9 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
     super.dispose();
   }
 
+  private static readonly ZERO_CLOSE_FAUCET_STRING_PROPERTY: TReadOnlyProperty<OneKeyStroke> = new Property( '0' );
   public static readonly CLOSE_FAUCET_HOTKEY_DATA = new HotkeyData( {
-    keyStringProperties: [ new Property( '0' ), new Property( 'home' ) ],
+    keyStringProperties: [ FaucetNode.ZERO_CLOSE_FAUCET_STRING_PROPERTY, new Property( 'home' ) ],
     repoName: sceneryPhet.name,
     keyboardHelpDialogLabelStringProperty: SceneryPhetStrings.keyboardHelpDialog.faucetControls.closeFaucetStringProperty
   } );
