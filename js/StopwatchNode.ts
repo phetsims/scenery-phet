@@ -541,8 +541,6 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       // TODO: This will be moved to fluent-translated content, see https://github.com/phetsims/scenery-phet/issues/929
       let accessibleValueString: string;
       if ( options.showAsMinutesAndSeconds ) {
-        assert && assert( units === '' || units === 's', 'showAsMinutesAndSeconds:true only supported for seconds as units' );
-
         if ( minutes === 0 ) {
           accessibleValueString = `${seconds} seconds`;
         }
