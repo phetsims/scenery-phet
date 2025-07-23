@@ -54,6 +54,7 @@ export default function demoNumberDisplay( layoutBounds: Bounds2 ): Node {
   // Test shrinking to fit
   const numberDisplayTimeRichUnits = new NumberDisplay( property, new Range( 0, 10 ), {
     numberFormatter: StopwatchNode.createRichTextNumberFormatter( {
+      showAsMinutesAndSeconds: false,
       units: 'hours'
     } ),
     numberFormatterDependencies: [ SceneryPhetStrings.stopwatchValueUnitsPatternStringProperty ],
