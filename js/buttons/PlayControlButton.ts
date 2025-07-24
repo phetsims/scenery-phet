@@ -147,7 +147,7 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
   }
 
   public static readonly TOGGLE_PLAY_HOTKEY_DATA = new HotkeyData( {
-    keyStringProperties: [ new Property( 'alt+k' ) ],
+    keys: [ 'alt+k' ],
     keyboardHelpDialogLabelStringProperty: SceneryPhetStrings.keyboardHelpDialog.timingControls.pauseOrPlayActionStringProperty,
     repoName: sceneryPhet.name,
     global: true

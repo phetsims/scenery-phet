@@ -346,7 +346,7 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
           flowRateProperty.set( 0 );
 
           // The 'home' key will already play a sound from AccessibleSlider,
-          if ( keysPressed === FaucetNode.ZERO_CLOSE_FAUCET_STRING_PROPERTY.value ) {
+          if ( keysPressed === FaucetNode.ZERO_CLOSE_FAUCET_STRING ) {
             options.releaseSoundPlayer?.play();
           }
         }
@@ -438,15 +438,15 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
     super.dispose();
   }
 
-  private static readonly ZERO_CLOSE_FAUCET_STRING_PROPERTY: TReadOnlyProperty<OneKeyStroke> = new Property( '0' );
+  private static readonly ZERO_CLOSE_FAUCET_STRING: OneKeyStroke = '0';
   public static readonly CLOSE_FAUCET_HOTKEY_DATA = new HotkeyData( {
-    keyStringProperties: [ FaucetNode.ZERO_CLOSE_FAUCET_STRING_PROPERTY, new Property( 'home' ) ],
+    keys: [ FaucetNode.ZERO_CLOSE_FAUCET_STRING, 'home' ],
     repoName: sceneryPhet.name,
     keyboardHelpDialogLabelStringProperty: SceneryPhetStrings.keyboardHelpDialog.faucetControls.closeFaucetStringProperty
   } );
 
   public static readonly TAP_TO_DISPENSE_HOTKEY_DATA = new HotkeyData( {
-    keyStringProperties: [ new Property( 'enter' ), new Property( 'space' ) ],
+    keys: [ 'enter', 'space' ],
     repoName: sceneryPhet.name,
     binderName: 'Tap to dispense faucet'
   } );

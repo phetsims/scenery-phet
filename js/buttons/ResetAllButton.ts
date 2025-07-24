@@ -8,7 +8,6 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Property from '../../../axon/js/Property.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
@@ -187,8 +186,7 @@ export default class ResetAllButton extends ResetButton {
 
   public static readonly RESET_ALL_HOTKEY_DATA = new HotkeyData( {
 
-    // alt+r
-    keyStringProperties: [ new Property( 'alt+r' ) ],
+    keys: [ 'alt+r' ],
 
     // visual label for this Hotkey in the Keyboard Help dialog
     keyboardHelpDialogLabelStringProperty: SceneryPhetStrings.keyboardHelpDialog.resetAllStringProperty,
