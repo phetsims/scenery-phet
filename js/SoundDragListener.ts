@@ -22,7 +22,9 @@ import SoundRichDragListener, { RichDragListenerSoundOptions } from './SoundRich
 // Pattern followed from DragListenerOptions.
 export type PressedSoundDragListener = SoundDragListener & PressedDragListener;
 
-export type SoundDragListenerOptions<Listener extends PressedSoundDragListener = PressedSoundDragListener> = DragListenerOptions<Listener> & RichDragListenerSoundOptions;
+export type SoundDragListenerOptions<Listener extends PressedSoundDragListener =
+  PressedSoundDragListener> =
+  DragListenerOptions<Listener> & RichDragListenerSoundOptions;
 
 export default class SoundDragListener extends DragListener {
   public constructor( providedOptions: SoundDragListenerOptions ) {
