@@ -67,7 +67,7 @@ function createOffIcon( clockRadius: number ): Node {
     .lineTo( xShapeWidth, 0 );
   const xNode = new Path( xShape, {
     stroke: 'red',
-    opacity: 0.55,
+    opacity: 0.71,
     lineWidth: 6,
     lineCap: 'round',
     center: clockIcon.center
