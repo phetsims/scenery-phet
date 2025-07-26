@@ -273,14 +273,17 @@ export default class KeyboardHelpIconFactory {
     [ 'space', TextKeyNode.space() ],
     [ 'home', TextKeyNode.home() ],
     [ 'end', TextKeyNode.end() ],
+    [ 'b', new LetterKeyNode( 'B' ) ],
     [ 'c', new LetterKeyNode( 'C' ) ],
     [ 'd', new LetterKeyNode( 'D' ) ],
+    [ 'g', new LetterKeyNode( 'G' ) ],
     [ 'h', new LetterKeyNode( 'H' ) ],
     [ 'j', new LetterKeyNode( 'J' ) ],
     [ 'k', new LetterKeyNode( 'K' ) ],
     [ 'l', new LetterKeyNode( 'L' ) ],
     [ 'm', new LetterKeyNode( 'M' ) ],
     [ 'n', new LetterKeyNode( 'N' ) ],
+    [ 'p', new LetterKeyNode( 'P' ) ],
     [ 'r', new LetterKeyNode( 'R' ) ],
     [ 's', new LetterKeyNode( 'S' ) ],
     [ 'w', new LetterKeyNode( 'W' ) ],
@@ -301,11 +304,11 @@ export default class KeyboardHelpIconFactory {
     const iconRows = hotkeyData.keyDescriptorsProperty.value.map( descriptor => {
       const modifierKeyNodes = descriptor.modifierKeys.map( modifierKey => {
         const keyNode = KeyboardHelpIconFactory.ENGLISH_KEY_TO_KEY_NODE.get( modifierKey )!;
-        assert && assert( keyNode, 'modifier key not found in ENGLISH_KEY_TO_KEY_NODE' );
+        assert && assert( keyNode, `modifier key ${modifierKey} not found in ENGLISH_KEY_TO_KEY_NODE` );
         return keyNode;
       } );
       const keyNode = KeyboardHelpIconFactory.ENGLISH_KEY_TO_KEY_NODE.get( descriptor.key )!;
-      assert && assert( keyNode, 'key not found in ENGLISH_KEY_TO_KEY_NODE' );
+      assert && assert( keyNode, `key ${descriptor.key} not found in ENGLISH_KEY_TO_KEY_NODE` );
       return KeyboardHelpIconFactory.iconPlusIconRow( [ ...modifierKeyNodes, keyNode ] );
     } );
 
