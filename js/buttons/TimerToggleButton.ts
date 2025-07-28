@@ -8,9 +8,9 @@
 
 import Property from '../../../axon/js/Property.js';
 import Shape from '../../../kite/js/Shape.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import Node from '../../../scenery/js/nodes/Node.js';
-import Path from '../../../scenery/js/nodes/Path.js';
+import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
+import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
+import Path, { PathOptions } from '../../../scenery/js/nodes/Path.js';
 import BooleanRectangularToggleButton, { BooleanRectangularToggleButtonOptions } from '../../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -21,7 +21,9 @@ const WIDTH = 45;
 const HEIGHT = 45;
 const MARGIN = 4;
 
-type SelfOptions = EmptySelfOptions;
+type SelfOptions = {
+  offIconOptions?: NodeOptions;
+};
 
 export type TimerToggleButtonOptions = SelfOptions & BooleanRectangularToggleButtonOptions;
 
@@ -36,12 +38,14 @@ export default class TimerToggleButton extends BooleanRectangularToggleButton {
       minWidth: WIDTH,
       minHeight: HEIGHT,
       xMargin: MARGIN,
-      yMargin: MARGIN
+      yMargin: MARGIN,
+
+      offIconOptions: {}
     }, provideOptions );
 
     const clockRadius = WIDTH * 0.35;
 
-    super( timerRunningProperty, createOnIcon( clockRadius ), createOffIcon( clockRadius ), options );
+    super( timerRunningProperty, createOnIcon( clockRadius ), createOffIcon( clockRadius, options.offIconOptions ), options );
   }
 }
 
@@ -55,7 +59,7 @@ function createOnIcon( clockRadius: number ): Node {
 /**
  * Creates the icon for the 'off' state. This is a clock icon with a red 'X' over it.
  */
-function createOffIcon( clockRadius: number ): Node {
+function createOffIcon( clockRadius: number, providedOptions: PathOptions ): Node {
 
   const clockIcon = new SimpleClockIcon( clockRadius, { opacity: 0.8 } );
 
@@ -65,16 +69,16 @@ function createOffIcon( clockRadius: number ): Node {
     .lineTo( xShapeWidth, xShapeWidth )
     .moveTo( 0, xShapeWidth )
     .lineTo( xShapeWidth, 0 );
-  const xNode = new Path( xShape, {
+  const offIcon = new Path( xShape, combineOptions<PathOptions>( {
     stroke: 'red',
-    opacity: 0.85,
+    opacity: 0.55,
     lineWidth: 6,
     lineCap: 'round',
     center: clockIcon.center
-  } );
+  }, providedOptions ) );
 
   return new Node( {
-    children: [ clockIcon, xNode ]
+    children: [ clockIcon, offIcon ]
   } );
 }
 
