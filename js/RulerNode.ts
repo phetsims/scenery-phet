@@ -52,6 +52,9 @@ type SelfOptions = {
   // appearance options
   tickMarksOnTop?: boolean;
   tickMarksOnBottom?: boolean;
+
+  // Allow turning off instrumentation of the unitsLabelText when not needed for phet-io
+  instrumentUnitsLabelText?: boolean;
 };
 
 export type RulerNodeOptions = SelfOptions & NodeOptions;
@@ -95,6 +98,7 @@ class RulerNode extends Node {
       unitsSpacing: 3,
       tickMarksOnTop: true,
       tickMarksOnBottom: true,
+      instrumentUnitsLabelText: true,
 
       // NodeOptions
       tandem: Tandem.REQUIRED,
@@ -131,7 +135,7 @@ class RulerNode extends Node {
     const unitsLabelText = new Text( units, {
       font: options.unitsFont,
       pickable: false,
-      tandem: options.tandem.createTandem( 'unitsLabelText' )
+      tandem: options.instrumentUnitsLabelText ? options.tandem.createTandem( 'unitsLabelText' ) : undefined
     } );
     let unitsLabelMaxWidth = Number.POSITIVE_INFINITY;
     this.addChild( unitsLabelText );
