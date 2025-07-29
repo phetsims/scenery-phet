@@ -55,6 +55,9 @@ type SelfOptions = {
   // If provided, this is a descriptive paragraph that comes before the list of items.
   leadingParagraphStringProperty?: TReadOnlyProperty<string> | null;
 
+  // Controls the visibility of the leading paragraph.
+  leadingParagraphVisibleProperty?: TReadOnlyProperty<boolean> | null;
+
   // The list type for the accessible content.
   listType?: 'unordered' | 'ordered';
 
@@ -99,6 +102,7 @@ export default class AccessibleListNode extends Node {
 
     const options = optionize<AccessibleListNodeOptions, SelfOptions, ParentOptions>()( {
       leadingParagraphStringProperty: null,
+      leadingParagraphVisibleProperty: null,
       listType: 'unordered',
       punctuationStyle: null,
 
@@ -112,7 +116,8 @@ export default class AccessibleListNode extends Node {
     if ( options.leadingParagraphStringProperty ) {
       const leadingParagraphNode = new Node( {
         tagName: 'p',
-        innerContent: options.leadingParagraphStringProperty
+        innerContent: options.leadingParagraphStringProperty,
+        visibleProperty: options.leadingParagraphVisibleProperty
       } );
       this.addChild( leadingParagraphNode );
       this.addDisposable( leadingParagraphNode );
