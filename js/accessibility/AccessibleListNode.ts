@@ -45,7 +45,9 @@ import SceneryPhetStrings from '../SceneryPhetStrings.js';
 
 type ListItem = {
   stringProperty: TReadOnlyProperty<string>;
-  visibleProperty: TReadOnlyProperty<boolean>;
+
+  // always visible if undefined
+  visibleProperty?: TReadOnlyProperty<boolean>;
 };
 
 type SelfOptions = {
@@ -130,7 +132,7 @@ export default class AccessibleListNode extends Node {
 
       // eslint-disable-next-line phet/bad-sim-text
       const contentProperty = ( 'stringProperty' in item ) ? item.stringProperty : item;
-      const visibleProperty = ( 'visibleProperty' in item ) ? item.visibleProperty : new BooleanProperty( true );
+      const visibleProperty = ( 'visibleProperty' in item && item.visibleProperty ) ? item.visibleProperty : new BooleanProperty( true );
 
       return {
         node: new Node( {
