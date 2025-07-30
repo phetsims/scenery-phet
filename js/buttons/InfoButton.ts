@@ -13,6 +13,7 @@ import Path from '../../../scenery/js/nodes/Path.js';
 import TColor from '../../../scenery/js/util/TColor.js';
 import RoundPushButton, { RoundPushButtonOptions } from '../../../sun/js/buttons/RoundPushButton.js';
 import infoCircleSolidShape from '../../../sun/js/shapes/infoCircleSolidShape.js';
+import nullSoundPlayer from '../../../tambo/js/nullSoundPlayer.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
 
@@ -36,7 +37,11 @@ export default class InfoButton extends RoundPushButton {
       xMargin: 10,
       yMargin: 10,
       touchAreaDilation: 10,
-      accessibleName: SceneryPhetStrings.a11y.infoStringProperty
+      accessibleName: SceneryPhetStrings.a11y.infoStringProperty,
+
+      // Since info buttons almost always pop up a dialog, they shouldn't produce their own sound, since the dialog
+      // makes one when it appears.
+      soundPlayer: nullSoundPlayer
     }, providedOptions );
 
     options.content = new Path( infoCircleSolidShape, {
