@@ -66,7 +66,12 @@ export default function demoFaucetNode( layoutBounds: Bounds2 ): Node {
   const panel5 = new FaucetDemoPanel( panelNumber++, {
     tapToDispenseEnabled: true,
     closeOnRelease: true,
-    reverseAlternativeInput: true // Dragging the faucet shooter to the left will increase the flow rate.
+    reverseAlternativeInput: true, // Dragging the faucet shooter to the left will increase the flow rate.
+
+    // The described value is
+    pdomCreateAriaValueText: ( mappedValue, propertyValue ) => {
+      return `The flow rate is ${MAX_FLOW_RATE - propertyValue}`;
+    }
   } );
 
   const panelsBox = new HBox( {
@@ -85,7 +90,7 @@ export default function demoFaucetNode( layoutBounds: Bounds2 ): Node {
 }
 
 type FaucetDemoPanelOptions = PickRequired<FaucetNodeOptions, 'tapToDispenseEnabled' | 'closeOnRelease'> &
-  PickOptional<FaucetNodeOptions, 'reverseAlternativeInput'>;
+  PickOptional<FaucetNodeOptions, 'reverseAlternativeInput' | 'pdomCreateAriaValueText'>;
 
 class FaucetDemoPanel extends Panel {
 
