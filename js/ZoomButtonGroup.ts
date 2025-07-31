@@ -15,6 +15,7 @@ import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/j
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
+import { PDOMValueType } from '../../scenery/js/accessibility/pdom/ParallelDOM.js';
 
 type SelfOptions = {
 
@@ -32,6 +33,12 @@ type SelfOptions = {
   touchAreaYDilation?: number;
   mouseAreaXDilation?: number;
   mouseAreaYDilation?: number;
+
+  // pdom support
+  zoomInAccessibleName?: PDOMValueType;
+  zoomInAccessibleHelpText?: PDOMValueType;
+  zoomOutAccessibleName?: PDOMValueType;
+  zoomOutAccessibleHelpText?: PDOMValueType;
 };
 
 export type ZoomButtonGroupOptions = SelfOptions & StrictOmit<FlowBoxOptions, 'children'>;
@@ -46,7 +53,7 @@ export default class ZoomButtonGroup extends FlowBox {
    * @param zoomLevelProperty - smaller value means more zoomed out
    * @param zoomInIcon
    * @param zoomOutIcon
-   * @param providedOptions?
+   * @param providedOptions
    */
   protected constructor( zoomLevelProperty: TRangedProperty, zoomInIcon: Node, zoomOutIcon: Node,
                          providedOptions?: ZoomButtonGroupOptions ) {
@@ -69,6 +76,12 @@ export default class ZoomButtonGroup extends FlowBox {
         phetioVisiblePropertyInstrumented: false,
         phetioEnabledPropertyInstrumented: false
       },
+
+      // pdom support
+      zoomInAccessibleName: SceneryPhetStrings.a11y.zoomInStringProperty,
+      zoomOutAccessibleName: SceneryPhetStrings.a11y.zoomOutStringProperty,
+      zoomInAccessibleHelpText: null,
+      zoomOutAccessibleHelpText: null,
 
       // FlowBoxOptions
       spacing: 0,
@@ -100,7 +113,8 @@ export default class ZoomButtonGroup extends FlowBox {
       touchAreaYShift: -touchYShift,
       mouseAreaXShift: mouseXShift,
       mouseAreaYShift: -mouseYShift,
-      accessibleName: SceneryPhetStrings.a11y.zoomInStringProperty,
+      accessibleName: options.zoomInAccessibleName,
+      accessibleHelpText: options.zoomInAccessibleHelpText,
       tandem: options.tandem.createTandem( 'zoomInButton' )
     }, options.buttonOptions ) );
 
@@ -118,7 +132,8 @@ export default class ZoomButtonGroup extends FlowBox {
       touchAreaYShift: touchYShift,
       mouseAreaXShift: -mouseXShift,
       mouseAreaYShift: mouseYShift,
-      accessibleName: SceneryPhetStrings.a11y.zoomOutStringProperty,
+      accessibleName: options.zoomOutAccessibleName,
+      accessibleHelpText: options.zoomOutAccessibleHelpText,
       tandem: options.tandem.createTandem( 'zoomOutButton' )
     }, options.buttonOptions ) );
 
