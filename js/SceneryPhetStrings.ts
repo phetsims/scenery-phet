@@ -226,6 +226,14 @@ type StringsType = {
       };
       'timingControls': {
         'pauseOrPlayActionDescriptionStringProperty': LocalizedStringProperty;
+      };
+      'faucetControls': {
+        'adjustFaucetFlowDescriptionStringProperty': LocalizedStringProperty;
+        'adjustInSmallerStepsDescriptionStringProperty': LocalizedStringProperty;
+        'adjustInLargerStepsDescriptionStringProperty': LocalizedStringProperty;
+        'closeFaucetDescriptionStringProperty': LocalizedStringProperty;
+        'openFaucetFullyDescriptionStringProperty': LocalizedStringProperty;
+        'openFaucetBrieflyDescriptionStringProperty': LocalizedStringProperty;
       }
     };
     'eraserButton': {

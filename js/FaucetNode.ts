@@ -452,7 +452,8 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
   public static readonly CLOSE_FAUCET_HOTKEY_DATA = new HotkeyData( {
     keys: [ FaucetNode.ZERO_CLOSE_FAUCET_STRING, 'home' ],
     repoName: sceneryPhet.name,
-    keyboardHelpDialogLabelStringProperty: SceneryPhetStrings.keyboardHelpDialog.faucetControls.closeFaucetStringProperty
+    keyboardHelpDialogLabelStringProperty: SceneryPhetStrings.keyboardHelpDialog.faucetControls.closeFaucetStringProperty,
+    keyboardHelpDialogPDOMLabelStringProperty: SceneryPhetStrings.a11y.keyboardHelpDialog.faucetControls.closeFaucetDescriptionStringProperty
   } );
 
   public static readonly TAP_TO_DISPENSE_HOTKEY_DATA = new HotkeyData( {

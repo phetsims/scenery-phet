@@ -531,6 +531,26 @@
         "pauseOrPlayActionDescription": {
           "value": "Pause or play action with alt key plus K."
         }
+      },
+      "faucetControls": {
+        "adjustFaucetFlowDescription": {
+          "value": "Adjust faucet flow with Left and Right Arrow keys."
+        },
+        "adjustInSmallerStepsDescription": {
+          "value": "Adjust in smaller steps with Shift plus Left and Right Arrow keys."
+        },
+        "adjustInLargerStepsDescription": {
+          "value": "Adjust in larger steps with Page Up and Page Down keys."
+        },
+        "closeFaucetDescription": {
+          "value": "Close faucet with Zero or Home keys."
+        },
+        "openFaucetFullyDescription": {
+          "value": "Open faucet fully with End key."
+        },
+        "openFaucetBrieflyDescription": {
+          "value": "Open faucet briefly with Space or Enter keys."
+        }
       }
     },
     "eraserButton": {

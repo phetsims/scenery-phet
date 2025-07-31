@@ -43,21 +43,35 @@ export default class FaucetControlsKeyboardHelpSection extends KeyboardHelpSecti
     const leftRightArrowKeysIcon = KeyboardHelpIconFactory.iconRow( [ new ArrowKeyNode( 'left' ), new ArrowKeyNode( 'right' ) ] );
 
     // Adjust faucet flow [<] [>]
-    const adjustFaucetFlowRow = KeyboardHelpSectionRow.labelWithIcon( adjustFaucetFlowStringProperty, leftRightArrowKeysIcon );
+    const adjustFaucetFlowRow = KeyboardHelpSectionRow.labelWithIcon( adjustFaucetFlowStringProperty, leftRightArrowKeysIcon, {
+      labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.faucetControls.adjustFaucetFlowDescriptionStringProperty
+    } );
 
     // Adjust in smaller steps [Shift] + [<] [>]
-    const adjustInSmallerStepsRow = KeyboardHelpSectionRow.labelWithIcon( adjustInSmallerStepsStringProperty,
-      KeyboardHelpIconFactory.shiftPlusIcon( leftRightArrowKeysIcon ) );
+    const adjustInSmallerStepsRow = KeyboardHelpSectionRow.labelWithIcon(
+      adjustInSmallerStepsStringProperty,
+      KeyboardHelpIconFactory.shiftPlusIcon( leftRightArrowKeysIcon ),
+      {
+        labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.faucetControls.adjustInSmallerStepsDescriptionStringProperty
+      }
+    );
 
     // Adjust in larger steps [Pg Up] [Pg Down]
-    const adjustInLargerStepsRow = KeyboardHelpSectionRow.labelWithIcon( adjustInLargerStepsStringProperty,
-      KeyboardHelpIconFactory.pageUpPageDownRowIcon() );
+    const adjustInLargerStepsRow = KeyboardHelpSectionRow.labelWithIcon(
+      adjustInLargerStepsStringProperty,
+      KeyboardHelpIconFactory.pageUpPageDownRowIcon(),
+      {
+        labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.faucetControls.adjustInLargerStepsDescriptionStringProperty
+      }
+    );
 
     // Close faucet [Home] or [0]
     const closeFaucetRow = KeyboardHelpSectionRow.fromHotkeyData( FaucetNode.CLOSE_FAUCET_HOTKEY_DATA );
 
     // Open faucet fully [End]
-    const openFaucetFullyRow = KeyboardHelpSectionRow.labelWithIcon( openFaucetFullyStringProperty, TextKeyNode.end() );
+    const openFaucetFullyRow = KeyboardHelpSectionRow.labelWithIcon( openFaucetFullyStringProperty, TextKeyNode.end(), {
+      labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.faucetControls.openFaucetFullyDescriptionStringProperty
+    } );
 
     const content: KeyboardHelpSectionRow[] = [
       adjustFaucetFlowRow,
@@ -69,8 +83,13 @@ export default class FaucetControlsKeyboardHelpSection extends KeyboardHelpSecti
 
     // Open faucet briefly [Space] or [Enter]
     if ( options.tapToDispenseEnabled ) {
-      const openFaucetBrieflyRow = KeyboardHelpSectionRow.labelWithIcon( openFaucetBrieflyStringProperty,
-        KeyboardHelpIconFactory.iconOrIcon( TextKeyNode.space(), TextKeyNode.enter() ) );
+      const openFaucetBrieflyRow = KeyboardHelpSectionRow.labelWithIcon(
+        openFaucetBrieflyStringProperty,
+        KeyboardHelpIconFactory.iconOrIcon( TextKeyNode.space(), TextKeyNode.enter() ),
+        {
+          labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.faucetControls.openFaucetBrieflyDescriptionStringProperty
+        }
+      );
       content.push( openFaucetBrieflyRow );
     }
 
