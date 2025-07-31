@@ -90,7 +90,12 @@ type SelfOptions = {
   // Overcome a flickering problems, see https://github.com/phetsims/wave-interference/issues/187
   rasterizeHorizontalPipeNode?: boolean;
 
+  // The sound player for when interaction starts with the shooter, for all forms of input.
   grabSoundPlayer?: TSoundPlayer | null;
+
+  // The release sound player plays sound in the following cases:
+  // - When the flow rate is manually set to zero from any form of user input.
+  // - When the flow rate is set to zero programmatically, such as from closeOnRelease or tapToDispense.
   releaseSoundPlayer?: TSoundPlayer | null;
 
   // options for the nested type ShooterNode
@@ -140,9 +145,8 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
       },
       endDrag: () => {
 
-        // For this component, it is too noisy to play the release sound on every drag end. It is only played
-        // to indicate that the flow rate has been set to zero.
-        if ( flowRateProperty.value === 0 ) {
+        // The release sound is only played when the flow rate is manually set to zero.
+        if ( flowRateProperty.value === 0 && !tapToDispenseIsArmed ) {
           options.releaseSoundPlayer?.play();
         }
       },
@@ -250,14 +254,22 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
         tapToDispenseIsRunning = true;
         flowRateProperty.set( flowRate );
         timeoutID = stepTimer.setTimeout( () => {
-          intervalID = stepTimer.setInterval( () => endTapToDispense(), options.tapToDispenseInterval );
+          intervalID = stepTimer.setInterval( () => endTapToDispense( true ), options.tapToDispenseInterval );
         }, 0 );
         this.phetioEndEvent();
       }
     };
-    const endTapToDispense = () => {
+
+    /**
+     * @param playSound - Play a sound when the flow rate is set to zero? There are cases where this should not happen, like when this
+     *                    function is called to clear the previous interval before queuing up another.
+     */
+    const endTapToDispense = ( playSound: boolean ) => {
       this.phetioStartEvent( 'endTapToDispense', { data: { flowRate: 0 } } );
       flowRateProperty.set( 0 );
+
+      playSound && options.releaseSoundPlayer?.play();
+
       if ( timeoutID !== null ) {
         stepTimer.clearTimeout( timeoutID );
         timeoutID = null;
@@ -273,7 +285,9 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
     let startXOffset = 0; // where the drag started, relative to the target node's origin, in parent view coordinates
     const dragListener = new SoundDragListener( {
       grabSoundPlayer: options.grabSoundPlayer,
-      releaseSoundPlayer: options.releaseSoundPlayer,
+
+      // Release sounds are played when the flow rate is set to zero, not when the pointer is released.
+      releaseSoundPlayer: null,
 
       start: event => {
         if ( enabledProperty.get() ) {
@@ -291,7 +305,7 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
         // dragging is the cue that we're not doing tap-to-dispense
         tapToDispenseIsArmed = false;
         if ( tapToDispenseIsRunning ) {
-          endTapToDispense();
+          endTapToDispense( false );
         }
 
         // compute the new flow rate
@@ -310,12 +324,16 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
 
           if ( tapToDispenseIsArmed ) {
             // tapping toggles the tap-to-dispense state
-            ( tapToDispenseIsRunning || flowRateProperty.get() !== 0 ) ? endTapToDispense() : startTapToDispense();
+            ( tapToDispenseIsRunning || flowRateProperty.get() !== 0 ) ? endTapToDispense( true ) : startTapToDispense();
           }
           else if ( options.closeOnRelease ) {
 
             // the shooter was dragged and released, so turn off the faucet
             flowRateProperty.set( 0 );
+            options.releaseSoundPlayer?.play();
+          }
+          else if ( flowRateProperty.value === 0 ) {
+            options.releaseSoundPlayer?.play();
           }
         }
       },
@@ -334,7 +352,7 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
 
           // stop the previous timeout before running a new dispense
           if ( tapToDispenseIsRunning ) {
-            endTapToDispense();
+            endTapToDispense( false );
           }
 
           tapToDispenseIsArmed = true;
@@ -349,14 +367,6 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
           if ( keysPressed === FaucetNode.ZERO_CLOSE_FAUCET_STRING ) {
             options.releaseSoundPlayer?.play();
           }
-        }
-      },
-      release: ( event, keysPressed ) => {
-
-        // If tap to dispense is enabled, dispensing will stop shortly after the key is released. Instead
-        // of linking to that event, the sound is played directly from user input.
-        if ( options.tapToDispenseEnabled && keysPressed && FaucetNode.TAP_TO_DISPENSE_HOTKEY_DATA.hasKeyStroke( keysPressed ) ) {
-          options.releaseSoundPlayer?.play();
         }
       }
     } );
@@ -391,7 +401,7 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
         dragListener.interrupt();
       }
       if ( !enabled && tapToDispenseIsRunning ) {
-        endTapToDispense();
+        endTapToDispense( false );
       }
     };
     enabledProperty.link( enabledObserver );
