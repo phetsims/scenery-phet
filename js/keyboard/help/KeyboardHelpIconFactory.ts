@@ -255,46 +255,53 @@ export default class KeyboardHelpIconFactory {
     return KeyboardHelpIconFactory.iconRow( [ leftArrowKeyNode, rightArrowKeyNode ], providedOptions );
   }
 
+  public static leftRightOrADKeysRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
+    return KeyboardHelpIconFactory.iconOrIcon(
+      KeyboardHelpIconFactory.leftRightArrowKeysRowIcon(),
+      KeyboardHelpIconFactory.iconRow( [ LetterKeyNode.a(), LetterKeyNode.d() ] ),
+      providedOptions
+    );
+  }
+
   /**
    * Maps English key strings to their corresponding icon nodes.
    */
-  public static readonly ENGLISH_KEY_TO_KEY_NODE = new Map<OneKeyStrokeEntry, TextKeyNode>( [
-    [ 'a', new LetterKeyNode( 'A' ) ],
-    [ 'j', new LetterKeyNode( 'J' ) ],
-    [ 'shift', TextKeyNode.shift() ],
-    [ 'alt', TextKeyNode.altOrOption() ],
-    [ 'escape', TextKeyNode.esc() ],
-    [ 'arrowLeft', new ArrowKeyNode( 'left' ) ],
-    [ 'arrowRight', new ArrowKeyNode( 'right' ) ],
-    [ 'arrowUp', new ArrowKeyNode( 'up' ) ],
-    [ 'arrowDown', new ArrowKeyNode( 'down' ) ],
-    [ 'pageUp', TextKeyNode.pageUp() ],
-    [ 'pageDown', TextKeyNode.pageDown() ],
-    [ 'space', TextKeyNode.space() ],
-    [ 'home', TextKeyNode.home() ],
-    [ 'end', TextKeyNode.end() ],
-    [ 'b', new LetterKeyNode( 'B' ) ],
-    [ 'c', new LetterKeyNode( 'C' ) ],
-    [ 'd', new LetterKeyNode( 'D' ) ],
-    [ 'g', new LetterKeyNode( 'G' ) ],
-    [ 'h', new LetterKeyNode( 'H' ) ],
-    [ 'j', new LetterKeyNode( 'J' ) ],
-    [ 'k', new LetterKeyNode( 'K' ) ],
-    [ 'l', new LetterKeyNode( 'L' ) ],
-    [ 'm', new LetterKeyNode( 'M' ) ],
-    [ 'n', new LetterKeyNode( 'N' ) ],
-    [ 'p', new LetterKeyNode( 'P' ) ],
-    [ 'r', new LetterKeyNode( 'R' ) ],
-    [ 's', new LetterKeyNode( 'S' ) ],
-    [ 'w', new LetterKeyNode( 'W' ) ],
-    [ '0', new LetterKeyNode( '0' ) ],
-    [ '1', new LetterKeyNode( '1' ) ],
-    [ '2', new LetterKeyNode( '2' ) ],
-    [ '3', new LetterKeyNode( '3' ) ],
-    [ 'enter', TextKeyNode.enter() ],
-    [ 'backspace', TextKeyNode.backspace() ],
-    [ 'delete', TextKeyNode.delete() ]
-  ] );
+  private static readonly ENGLISH_KEY_TO_KEY_NODE = {
+    shift: TextKeyNode.shift(),
+    alt: TextKeyNode.altOrOption(),
+    escape: TextKeyNode.esc(),
+    arrowLeft: new ArrowKeyNode( 'left' ),
+    arrowRight: new ArrowKeyNode( 'right' ),
+    arrowUp: new ArrowKeyNode( 'up' ),
+    arrowDown: new ArrowKeyNode( 'down' ),
+    pageUp: TextKeyNode.pageUp(),
+    pageDown: TextKeyNode.pageDown(),
+    space: TextKeyNode.space(),
+    home: TextKeyNode.home(),
+    end: TextKeyNode.end(),
+    a: new LetterKeyNode( 'A' ),
+    b: new LetterKeyNode( 'B' ),
+    c: new LetterKeyNode( 'C' ),
+    d: new LetterKeyNode( 'D' ),
+    g: new LetterKeyNode( 'G' ),
+    h: new LetterKeyNode( 'H' ),
+    j: new LetterKeyNode( 'J' ),
+    k: new LetterKeyNode( 'K' ),
+    l: new LetterKeyNode( 'L' ),
+    m: new LetterKeyNode( 'M' ),
+    n: new LetterKeyNode( 'N' ),
+    p: new LetterKeyNode( 'P' ),
+    r: new LetterKeyNode( 'R' ),
+    s: new LetterKeyNode( 'S' ),
+    w: new LetterKeyNode( 'W' ),
+    0: new LetterKeyNode( '0' ),
+    1: new LetterKeyNode( '1' ),
+    2: new LetterKeyNode( '2' ),
+    3: new LetterKeyNode( '3' ),
+    enter: TextKeyNode.enter(),
+    backspace: TextKeyNode.backspace(),
+    delete: TextKeyNode.delete()
+  };
 
   /**
    * Create an icon Node for a hotkey, based on the provided HotkeyData. Combines key icons with plus icons.
@@ -303,11 +310,15 @@ export default class KeyboardHelpIconFactory {
   public static fromHotkeyData( hotkeyData: HotkeyData ): Node {
     const iconRows = hotkeyData.keyDescriptorsProperty.value.map( descriptor => {
       const modifierKeyNodes = descriptor.modifierKeys.map( modifierKey => {
-        const keyNode = KeyboardHelpIconFactory.ENGLISH_KEY_TO_KEY_NODE.get( modifierKey )!;
+
+        // @ts-expect-error - We know this record returns a TextKeyNode, but cannot have an entry for every possible OneKeyStroke.
+        const keyNode = KeyboardHelpIconFactory.ENGLISH_KEY_TO_KEY_NODE[ modifierKey ]!;
         assert && assert( keyNode, `modifier key ${modifierKey} not found in ENGLISH_KEY_TO_KEY_NODE` );
         return keyNode;
       } );
-      const keyNode = KeyboardHelpIconFactory.ENGLISH_KEY_TO_KEY_NODE.get( descriptor.key )!;
+
+      // @ts-expect-error - We know this record returns a TextKeyNode, but cannot have an entry for every possible OneKeyStroke.
+      const keyNode = KeyboardHelpIconFactory.ENGLISH_KEY_TO_KEY_NODE[ descriptor.key ]!;
       assert && assert( keyNode, `key ${descriptor.key} not found in ENGLISH_KEY_TO_KEY_NODE` );
       return KeyboardHelpIconFactory.iconPlusIconRow( [ ...modifierKeyNodes, keyNode ] );
     } );
