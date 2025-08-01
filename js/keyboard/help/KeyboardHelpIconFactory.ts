@@ -11,7 +11,6 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import HotkeyData from '../../../../scenery/js/input/HotkeyData.js';
-import { OneKeyStrokeEntry } from '../../../../scenery/js/input/KeyDescriptor.js';
 import HBox, { HBoxOptions } from '../../../../scenery/js/layout/nodes/HBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
