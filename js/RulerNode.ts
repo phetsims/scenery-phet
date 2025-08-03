@@ -73,7 +73,7 @@ class RulerNode extends Node {
    * @param units
    * @param providedOptions
    */
-  public constructor( rulerWidth: number, rulerHeight: number, majorTickWidth: number, majorTickLabels: string[],
+  public constructor( rulerWidth: number, rulerHeight: number, majorTickWidth: number, majorTickLabels: ( string | number )[],
                       units: string | TReadOnlyProperty<string>, providedOptions?: RulerNodeOptions ) {
 
     // default options
