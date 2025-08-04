@@ -530,6 +530,9 @@
       "timingControls": {
         "pauseOrPlayActionDescription": {
           "value": "Pause or play action with alt key plus K."
+        },
+        "pauseOrPlayActionMacOSDescription": {
+          "value": "Pause or play action with option key plus K."
         }
       },
       "faucetControls": {
