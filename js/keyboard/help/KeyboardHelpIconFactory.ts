@@ -246,6 +246,15 @@ export default class KeyboardHelpIconFactory {
   }
 
   /**
+   * Icon for the [A][D] keys, often used to move something horizontally.
+   */
+  public static aDKeysRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
+    const aKeyNode = LetterKeyNode.a();
+    const dKeyNode = LetterKeyNode.d();
+    return KeyboardHelpIconFactory.iconRow( [ aKeyNode, dKeyNode ], providedOptions );
+  }
+
+  /**
    * An icon with left and right arrow keys, in horizontal layout.
    */
   public static leftRightArrowKeysRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
@@ -257,7 +266,7 @@ export default class KeyboardHelpIconFactory {
   public static leftRightOrADKeysRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
     return KeyboardHelpIconFactory.iconOrIcon(
       KeyboardHelpIconFactory.leftRightArrowKeysRowIcon(),
-      KeyboardHelpIconFactory.iconRow( [ LetterKeyNode.a(), LetterKeyNode.d() ] ),
+      KeyboardHelpIconFactory.aDKeysRowIcon(),
       providedOptions
     );
   }
