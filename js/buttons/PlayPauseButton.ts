@@ -12,7 +12,8 @@ import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import Property from '../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import optionize, { combineOptions, EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import { SpeakingOptions } from '../../../scenery/js/accessibility/voicing/Voicing.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import PauseIconShape from '../PauseIconShape.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -29,16 +30,26 @@ export default class PlayPauseButton extends PlayControlButton {
   public constructor( isPlayingProperty: Property<boolean>, providedOptions?: PlayPauseButtonOptions ) {
 
     // Only create the Property if necessary.
-    let contextResponseProperty = providedOptions?.accessibleContextResponse;
-    const ownsContextResponseProperty = !contextResponseProperty;
-    if ( ownsContextResponseProperty ) {
-      contextResponseProperty = new DerivedProperty(
+    let ownedAccessibleContextResponseProperty: TReadOnlyProperty<string> | null = null;
+    if ( providedOptions && !providedOptions.accessibleContextResponse ) {
+      ownedAccessibleContextResponseProperty = new DerivedProperty(
         [ isPlayingProperty,
           SceneryPhetStrings.a11y.playPauseButton.playingAccessibleContextResponseStringProperty,
           SceneryPhetStrings.a11y.playPauseButton.pausedAccessibleContextResponseStringProperty
         ],
         ( isPlaying, playingContextResponse, pausedContextResponse ) => isPlaying ? playingContextResponse : pausedContextResponse
       );
+    }
+
+    let ownedVoicingNameResponse: TReadOnlyProperty<string> | null = null;
+    if ( providedOptions && !providedOptions.voicingNameResponse ) {
+      ownedVoicingNameResponse = new DerivedProperty( [
+        isPlayingProperty,
+        SceneryPhetStrings.a11y.playPauseButton.playingAccessibleContextResponseStringProperty,
+        SceneryPhetStrings.a11y.playPauseButton.pausedAccessibleContextResponseStringProperty
+      ], ( isPlaying, playingString, pausedString ) => {
+        return isPlaying ? playingString : pausedString;
+      } );
     }
 
     const options = optionize<PlayPauseButtonOptions, SelfOptions, PlayControlButtonOptions>()( {
@@ -49,11 +60,8 @@ export default class PlayPauseButton extends PlayControlButton {
       // PlayControlButtonOptions
       includeGlobalHotkey: true,
       endPlayingAccessibleName: SceneryPhetStrings.a11y.playControlButton.pauseStringProperty,
-      accessibleContextResponse: contextResponseProperty,
-
-      // For this button, do not speak the voicing name when it is pressed because the context responses are clearer without it.
-      // Otherwise, it says "Play, Sim Paused."
-      speakVoicingNameResponseOnFire: false
+      accessibleContextResponse: ownedAccessibleContextResponseProperty || providedOptions!.accessibleContextResponse!,
+      voicingNameResponse: ownedVoicingNameResponse || providedOptions!.voicingNameResponse!
     }, providedOptions );
 
     // icon sized relative to the radius
@@ -66,9 +74,25 @@ export default class PlayPauseButton extends PlayControlButton {
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && window.phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'PlayPauseButton', this );
 
-    if ( ownsContextResponseProperty ) {
-      this.addDisposable( contextResponseProperty as TReadOnlyProperty<string> );
+    if ( ownedAccessibleContextResponseProperty ) {
+      this.addDisposable( ownedAccessibleContextResponseProperty );
     }
+
+    if ( ownedVoicingNameResponse ) {
+      this.addDisposable( ownedVoicingNameResponse );
+    }
+  }
+
+  /**
+   * The PlayPauseButton does not provide voicing for the context response, since that appears in the name response
+   */
+  public override voicingSpeakResponse( providedOptions?: SpeakingOptions ): void {
+
+    // create a new one but without the contextResponse
+    const options = combineOptions<SpeakingOptions>( {}, providedOptions, {
+      contextResponse: null
+    } );
+    super.voicingSpeakResponse( options );
   }
 }
 
