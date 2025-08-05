@@ -164,6 +164,19 @@ type StringsType = {
   'offScaleIndicator': {
     'pointsOffScaleStringProperty': LocalizedStringProperty;
   };
+  'scientificNotationStringProperty': LocalizedStringProperty;
+  'units': {
+    'centimetersStringProperty': LocalizedStringProperty;
+    'centimetersPatternStringProperty': LocalizedStringProperty;
+    'centimetersSquaredStringProperty': LocalizedStringProperty;
+    'centimetersSquaredPatternStringProperty': LocalizedStringProperty;
+    'hertzStringProperty': LocalizedStringProperty;
+    'hertzPatternStringProperty': LocalizedStringProperty;
+    'percentStringProperty': LocalizedStringProperty;
+    'percentPatternStringProperty': LocalizedStringProperty;
+    'secondsStringProperty': LocalizedStringProperty;
+    'secondsPatternStringProperty': LocalizedStringProperty;
+  };
   'a11y': {
     'simSection': {
       'screenSummary': {
@@ -333,6 +346,15 @@ type StringsType = {
       'pauseButton': {
         'accessibleNameStringProperty': LocalizedStringProperty;
       }
+    };
+    'negativeNumberStringProperty': LocalizedStringProperty;
+    'scientificNotationStringProperty': LocalizedStringProperty;
+    'units': {
+      'centimetersPatternStringProperty': LocalizedStringProperty;
+      'centimetersSquaredPatternStringProperty': LocalizedStringProperty;
+      'hertzPatternStringProperty': LocalizedStringProperty;
+      'percentPatternStringProperty': LocalizedStringProperty;
+      'secondsPatternStringProperty': LocalizedStringProperty;
     }
   }
 };

@@ -318,10 +318,10 @@
     "value": "Fast"
   },
   "symbol.ohms": {
-    "value": "\u03A9"
+    "value": "Ω"
   },
   "symbol.resistivity": {
-    "value": "\u03C1"
+    "value": "ρ"
   },
   "comboBoxDisplay.valueUnits": {
     "value": "{{value}} {{units}}"
@@ -379,13 +379,46 @@
   },
   "ResetAllButton.name": {
     "value": "Reset All",
-    "_comment": "See https://github.com/phetsims/chipper/issues/1446",
-    "deprecated": true
+    "deprecated": true,
+    "_comment": "See https://github.com/phetsims/chipper/issues/1446"
   },
   "SoundToggleButton.name": {
     "value": "Toggle Sound",
-    "_comment": "See https://github.com/phetsims/chipper/issues/1446",
-    "deprecated": true
+    "deprecated": true,
+    "_comment": "See https://github.com/phetsims/chipper/issues/1446"
+  },
+  "scientificNotation": {
+    "value": "{ $value } × ${ $base }<sup>{ $exponent }</sup>"
+  },
+  "units.centimeters": {
+    "value": "cm"
+  },
+  "units.centimetersPattern": {
+    "value": "{ $value } cm"
+  },
+  "units.centimetersSquared": {
+    "value": "cm<sup>2</sup>"
+  },
+  "units.centimetersSquaredPattern": {
+    "value": "{ $value } cm<sup>2</sup>"
+  },
+  "units.hertz": {
+    "value": "Hz"
+  },
+  "units.hertzPattern": {
+    "value": "{ $value } Hz"
+  },
+  "units.percent": {
+    "value": "%"
+  },
+  "units.percentPattern": {
+    "value": "{ $value }%"
+  },
+  "units.seconds": {
+    "value": "s"
+  },
+  "units.secondsPattern": {
+    "value": "{ $value } s"
   },
   "a11y": {
     "simSection": {
@@ -773,6 +806,29 @@
         "accessibleName": {
           "value": "Pause Stopwatch"
         }
+      }
+    },
+    "negativeNumber": {
+      "value": "negative { $value }"
+    },
+    "scientificNotation": {
+      "value": "{ $value } times ${ $base } to the { $exponent } power"
+    },
+    "units": {
+      "centimetersPattern": {
+        "value": "{ $value ->\n  [one] { $value } centimeter\n  *[other] { $value } centimeters\n}"
+      },
+      "centimetersSquaredPattern": {
+        "value": "{ $value ->\n  [one] { $value } square centimeter\n  *[other] { $value } square centimeters\n}"
+      },
+      "hertzPattern": {
+        "value": "{ $value } hertz"
+      },
+      "percentPattern": {
+        "value": "{ $value } percent"
+      },
+      "secondsPattern": {
+        "value": "{ $value ->\n  [one] { $value } second\n  *[other] { $value } seconds\n}"
       }
     }
   }
