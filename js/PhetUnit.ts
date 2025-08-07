@@ -3,9 +3,6 @@
 /**
  * A rich enumeration value for units (which can be associated with Property instances).
  *
- * TODO: docs for how to add units under scenery-phet/js/units/ (and how to add strings)
- * TODO: ideally a markdown under units/
- *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 

@@ -200,7 +200,8 @@ a11y:
       moveDescription:       Move with arrow keys or W, A, S, or D keys.
       moveSlowerDescription: Move slower with shift plus arrow keys or W, A, S, or D keys.
     timingControls:
-      pauseOrPlayActionDescription: Pause or play action with alt key plus K.
+      pauseOrPlayActionDescription:      Pause or play action with alt key plus K.
+      pauseOrPlayActionMacOSDescription: Pause or play action with option key plus K.
     faucetControls:
       adjustFaucetFlowDescription:     Adjust faucet flow with Left and Right Arrow keys.
       adjustInSmallerStepsDescription: Adjust in smaller steps with Shift plus Left and Right Arrow keys.
