@@ -12,8 +12,8 @@ import sceneryPhet from '../sceneryPhet.js';
 
 export const centimetersUnit = new PhetUnit( 'cm', {
   visualStandaloneStringProperty: SceneryPhetFluent.units.centimetersStringProperty,
-  visualPattern: SceneryPhetFluent.units.centimetersPattern,
-  spokenPattern: SceneryPhetFluent.a11y.units.centimetersPattern
+  visualPatternStringProperty: SceneryPhetFluent.units.centimetersPatternStringProperty,
+  accessiblePattern: SceneryPhetFluent.a11y.units.centimetersPattern
 } );
 
 sceneryPhet.register( 'centimetersUnit', centimetersUnit );

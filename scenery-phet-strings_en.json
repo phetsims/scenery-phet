@@ -388,37 +388,39 @@
     "_comment": "See https://github.com/phetsims/chipper/issues/1446"
   },
   "scientificNotation": {
-    "value": "{ $value } × ${ $base }<sup>{ $exponent }</sup>"
+    "value": "{{value}} × {{base}}<sup>{{exponent}}</sup>"
   },
-  "units.centimeters": {
-    "value": "cm"
-  },
-  "units.centimetersPattern": {
-    "value": "{ $value } cm"
-  },
-  "units.centimetersSquared": {
-    "value": "cm<sup>2</sup>"
-  },
-  "units.centimetersSquaredPattern": {
-    "value": "{ $value } cm<sup>2</sup>"
-  },
-  "units.hertz": {
-    "value": "Hz"
-  },
-  "units.hertzPattern": {
-    "value": "{ $value } Hz"
-  },
-  "units.percent": {
-    "value": "%"
-  },
-  "units.percentPattern": {
-    "value": "{ $value }%"
-  },
-  "units.seconds": {
-    "value": "s"
-  },
-  "units.secondsPattern": {
-    "value": "{ $value } s"
+  "units": {
+    "centimeters": {
+      "value": "cm"
+    },
+    "centimetersPattern": {
+      "value": "{{value}} cm"
+    },
+    "centimetersSquared": {
+      "value": "cm<sup>2</sup>"
+    },
+    "centimetersSquaredPattern": {
+      "value": "{{value}} cm<sup>2</sup>"
+    },
+    "hertz": {
+      "value": "Hz"
+    },
+    "hertzPattern": {
+      "value": "{{value}} Hz"
+    },
+    "percent": {
+      "value": "%"
+    },
+    "percentPattern": {
+      "value": "{{value}}%"
+    },
+    "seconds": {
+      "value": "s"
+    },
+    "secondsPattern": {
+      "value": "{{value}} s"
+    }
   },
   "a11y": {
     "simSection": {
@@ -563,9 +565,6 @@
       "timingControls": {
         "pauseOrPlayActionDescription": {
           "value": "Pause or play action with alt key plus K."
-        },
-        "pauseOrPlayActionMacOSDescription": {
-          "value": "Pause or play action with option key plus K."
         }
       },
       "faucetControls": {

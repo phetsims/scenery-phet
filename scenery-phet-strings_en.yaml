@@ -1,308 +1,309 @@
-scenery-phet.title: scenery-phet demo
-screen.buttons: Buttons
-screen.components: Components
-screen.dialogs: Dialogs
-screen.keyboard: Keyboard
-screen.sliders: Sliders
-screen.spinners: Spinners
-WavelengthSlider.pattern_0wavelength_1units: '{0} {1}'
-frequencyUnitsPattern: '{{frequency}} THz'
-stopwatchValueUnitsPattern: '{{value}} {{units}}'
-units_nm: nm
-shortCircuit: Short circuit!
-heat: Heat
-cool: Cool
-key.tab: Tab
-key.shift: Shift
-key.alt: Alt
-key.option: Option
-key.k: K
-key.l: L
-key.capsLock: Caps Lock
-key.enter: Enter
-key.backspace: Backspace
-key.delete: Delete
-key.space: Space
-key.esc: Esc
-key.fn: Fn
-key.pageUp: Pg Up
-key.pageDown: Pg Dn
-key.home: Home
-key.end: End
-key.a: A
-key.c: C
-key.d: D
-key.r: R
-key.s: S
-key.w: W
-key.one: '1'
-key.two: '2'
-key.three: '3'
-key.toGrabOrRelease: to <b>Grab</b> or <b>Release</b>
-webglWarning.title: Running with low graphics quality
-webglWarning.body: WebGL is not enabled or not available. Click to learn more.
-webglWarning.contextLossFailure: Sorry, a graphics error has occurred.
-webglWarning.contextLossReload: Reload
-webglWarning.ie11StencilBody: Update Internet Explorer by installing recommended Windows Update patches.
-keyboardHelpDialog.sliderControls: Slider Controls
-keyboardHelpDialog.adjustSlider: Adjust slider
-keyboardHelpDialog.spinnerControls: Spinner Controls
-keyboardHelpDialog.adjustInSmallerSteps: Adjust in smaller steps
-keyboardHelpDialog.adjustInLargerSteps: Adjust in larger steps
-keyboardHelpDialog.jumpToMinimum: Jump to minimum
-keyboardHelpDialog.jumpToMaximum: Jump to maximum
-keyboardHelpDialog.adjust: Adjust
-keyboardHelpDialog.slider: slider
-keyboardHelpDialog.spinner: spinner
-keyboardHelpDialog.heatCoolControls: Heat/Cool Controls
-keyboardHelpDialog.maximumHeat: Maximum heat
-keyboardHelpDialog.maximumCool: Maximum cool
-keyboardHelpDialog.heatCoolOff: 'Off'
-keyboardHelpDialog.verbSliderPattern: '{{verb}} {{slider}}'
-keyboardHelpDialog.verbInSmallerStepsPattern: '{{verb}} in smaller steps'
-keyboardHelpDialog.verbInLargerStepsPattern: '{{verb}} in larger steps'
-keyboardHelpDialog.minimum: minimum
-keyboardHelpDialog.maximum: maximum
-keyboardHelpDialog.jumpToMinimumPattern: Jump to {{minimum}}
-keyboardHelpDialog.jumpToMaximumPattern: Jump to {{maximum}}
-keyboardHelpDialog.generalNavigation: General Navigation
-keyboardHelpDialog.basicActions: Basic Actions
-keyboardHelpDialog.moveToNextItem: Move to next item
-keyboardHelpDialog.moveToPreviousItem: Move to previous item
-keyboardHelpDialog.moveToNextItemOrGroup: Move to next item or group
-keyboardHelpDialog.moveToPreviousItemOrGroup: Move to previous item or group
-keyboardHelpDialog.pressButtons: Press buttons
-keyboardHelpDialog.moveBetweenItemsInAGroup: Move between items in a group
-keyboardHelpDialog.setValuesInKeypad: Set values within keypad
-keyboardHelpDialog.resetAll: Reset All
-keyboardHelpDialog.exitADialog: Exit a dialog
-keyboardHelpDialog.toggleCheckboxes: Toggle checkboxes
-keyboardHelpDialog.or: or
-keyboardHelpDialog.hyphen: '-'
-keyboardHelpDialog.grabOrReleaseHeadingPattern: Grab or Release {{thing}}
-keyboardHelpDialog.grabOrReleaseLabelPattern: Grab or release {{thing}}
-keyboardHelpDialog.comboBox.chooseAThingPattern: Choose a {{thingTitle}}
-keyboardHelpDialog.comboBox.headingString: Change Choice
-keyboardHelpDialog.comboBox.popUpListPattern: 1. Show {{thingPlural}}
-keyboardHelpDialog.comboBox.moveThroughPattern: 2. Move through {{thingPlural}}
-keyboardHelpDialog.comboBox.chooseNewPattern: 3. Change {{thingSingular}}
-keyboardHelpDialog.comboBox.closeWithoutChanging: 4. Close without changing
-keyboardHelpDialog.comboBox.options: choices
-keyboardHelpDialog.comboBox.option: choice
-keyboardHelpDialog.moveDraggableItems: Move Draggable Items
-keyboardHelpDialog.move: Move
-keyboardHelpDialog.moveSlower: Move slower
-speed.normal: Normal
-speed.slow: Slow
-keyboardHelpDialog.faucetControls.faucetControls: Faucet Controls
-keyboardHelpDialog.faucetControls.adjustFaucetFlow: Adjust faucet flow
+scenery-phet.title:                                     scenery-phet demo
+screen.buttons:                                         Buttons
+screen.components:                                      Components
+screen.dialogs:                                         Dialogs
+screen.keyboard:                                        Keyboard
+screen.sliders:                                         Sliders
+screen.spinners:                                        Spinners
+WavelengthSlider.pattern_0wavelength_1units:            '{0} {1}'
+frequencyUnitsPattern:                                  '{{frequency}} THz'
+stopwatchValueUnitsPattern:                             '{{value}} {{units}}'
+units_nm:                                               nm
+shortCircuit:                                           Short circuit!
+heat:                                                   Heat
+cool:                                                   Cool
+key.tab:                                                Tab
+key.shift:                                              Shift
+key.alt:                                                Alt
+key.option:                                             Option
+key.k:                                                  K
+key.l:                                                  L
+key.capsLock:                                           Caps Lock
+key.enter:                                              Enter
+key.backspace:                                          Backspace
+key.delete:                                             Delete
+key.space:                                              Space
+key.esc:                                                Esc
+key.fn:                                                 Fn
+key.pageUp:                                             Pg Up
+key.pageDown:                                           Pg Dn
+key.home:                                               Home
+key.end:                                                End
+key.a:                                                  A
+key.c:                                                  C
+key.d:                                                  D
+key.r:                                                  R
+key.s:                                                  S
+key.w:                                                  W
+key.one:                                                '1'
+key.two:                                                '2'
+key.three:                                              '3'
+key.toGrabOrRelease:                                    to <b>Grab</b> or <b>Release</b>
+webglWarning.title:                                     Running with low graphics quality
+webglWarning.body:                                      WebGL is not enabled or not available. Click to learn more.
+webglWarning.contextLossFailure:                        Sorry, a graphics error has occurred.
+webglWarning.contextLossReload:                         Reload
+webglWarning.ie11StencilBody:                           Update Internet Explorer by installing recommended Windows Update patches.
+keyboardHelpDialog.sliderControls:                      Slider Controls
+keyboardHelpDialog.adjustSlider:                        Adjust slider
+keyboardHelpDialog.spinnerControls:                     Spinner Controls
+keyboardHelpDialog.adjustInSmallerSteps:                Adjust in smaller steps
+keyboardHelpDialog.adjustInLargerSteps:                 Adjust in larger steps
+keyboardHelpDialog.jumpToMinimum:                       Jump to minimum
+keyboardHelpDialog.jumpToMaximum:                       Jump to maximum
+keyboardHelpDialog.adjust:                              Adjust
+keyboardHelpDialog.slider:                              slider
+keyboardHelpDialog.spinner:                             spinner
+keyboardHelpDialog.heatCoolControls:                    Heat/Cool Controls
+keyboardHelpDialog.maximumHeat:                         Maximum heat
+keyboardHelpDialog.maximumCool:                         Maximum cool
+keyboardHelpDialog.heatCoolOff:                         'Off'
+keyboardHelpDialog.verbSliderPattern:                   '{{verb}} {{slider}}'
+keyboardHelpDialog.verbInSmallerStepsPattern:           '{{verb}} in smaller steps'
+keyboardHelpDialog.verbInLargerStepsPattern:            '{{verb}} in larger steps'
+keyboardHelpDialog.minimum:                             minimum
+keyboardHelpDialog.maximum:                             maximum
+keyboardHelpDialog.jumpToMinimumPattern:                Jump to {{minimum}}
+keyboardHelpDialog.jumpToMaximumPattern:                Jump to {{maximum}}
+keyboardHelpDialog.generalNavigation:                   General Navigation
+keyboardHelpDialog.basicActions:                        Basic Actions
+keyboardHelpDialog.moveToNextItem:                      Move to next item
+keyboardHelpDialog.moveToPreviousItem:                  Move to previous item
+keyboardHelpDialog.moveToNextItemOrGroup:               Move to next item or group
+keyboardHelpDialog.moveToPreviousItemOrGroup:           Move to previous item or group
+keyboardHelpDialog.pressButtons:                        Press buttons
+keyboardHelpDialog.moveBetweenItemsInAGroup:            Move between items in a group
+keyboardHelpDialog.setValuesInKeypad:                   Set values within keypad
+keyboardHelpDialog.resetAll:                            Reset All
+keyboardHelpDialog.exitADialog:                         Exit a dialog
+keyboardHelpDialog.toggleCheckboxes:                    Toggle checkboxes
+keyboardHelpDialog.or:                                  or
+keyboardHelpDialog.hyphen:                              '-'
+keyboardHelpDialog.grabOrReleaseHeadingPattern:         Grab or Release {{thing}}
+keyboardHelpDialog.grabOrReleaseLabelPattern:           Grab or release {{thing}}
+keyboardHelpDialog.comboBox.chooseAThingPattern:        Choose a {{thingTitle}}
+keyboardHelpDialog.comboBox.headingString:              Change Choice
+keyboardHelpDialog.comboBox.popUpListPattern:           1. Show {{thingPlural}}
+keyboardHelpDialog.comboBox.moveThroughPattern:         2. Move through {{thingPlural}}
+keyboardHelpDialog.comboBox.chooseNewPattern:           3. Change {{thingSingular}}
+keyboardHelpDialog.comboBox.closeWithoutChanging:       4. Close without changing
+keyboardHelpDialog.comboBox.options:                    choices
+keyboardHelpDialog.comboBox.option:                     choice
+keyboardHelpDialog.moveDraggableItems:                  Move Draggable Items
+keyboardHelpDialog.move:                                Move
+keyboardHelpDialog.moveSlower:                          Move slower
+speed.normal:                                           Normal
+speed.slow:                                             Slow
+keyboardHelpDialog.faucetControls.faucetControls:       Faucet Controls
+keyboardHelpDialog.faucetControls.adjustFaucetFlow:     Adjust faucet flow
 keyboardHelpDialog.faucetControls.adjustInSmallerSteps: Adjust in smaller steps
-keyboardHelpDialog.faucetControls.adjustInLargerSteps: Adjust in larger steps
-keyboardHelpDialog.faucetControls.closeFaucet: Close faucet
-keyboardHelpDialog.faucetControls.openFaucetFully: Open faucet fully
-keyboardHelpDialog.faucetControls.openFaucetBriefly: Open faucet briefly
-keyboardHelpDialog.timingControls.timingControls: Time Controls
-keyboardHelpDialog.timingControls.pauseOrPlayAction: Pause or play action
-speed.fast: Fast
-symbol.ohms: Ω
-symbol.resistivity: ρ
-comboBoxDisplay.valueUnits: '{{value}} {{units}}'
-wavelengthNMValuePattern: '{0} nm'
-measuringTapeReadoutPattern: '{{distance}} {{units}}'
-wavelength: Wavelength
-rulerCapitalized: Ruler
-ruler: Ruler
-zero: zero
-one: one
-two: two
-three: three
-four: four
-five: five
-six: six
-seven: seven
-eight: eight
-nine: nine
-ten: ten
-offScaleIndicator.pointsOffScale: Points<br>off scale!
-ResetAllButton.name: Reset All
-ResetAllButton.name__comment: See https://github.com/phetsims/chipper/issues/1446
-ResetAllButton.name__deprecated: true
-SoundToggleButton.name: Toggle Sound
-SoundToggleButton.name__comment: See https://github.com/phetsims/chipper/issues/1446
-SoundToggleButton.name__deprecated: true
-scientificNotation: '{ $value } × ${ $base }<sup>{ $exponent }</sup>'
-units.centimeters: cm
-units.centimetersPattern: '{ $value } cm'
-units.centimetersSquared: cm<sup>2</sup>
-units.centimetersSquaredPattern: '{ $value } cm<sup>2</sup>'
-units.hertz: Hz
-units.hertzPattern: '{ $value } Hz'
-units.percent: '%'
-units.percentPattern: '{ $value }%'
-units.seconds: s
-units.secondsPattern: '{ $value } s'
+keyboardHelpDialog.faucetControls.adjustInLargerSteps:  Adjust in larger steps
+keyboardHelpDialog.faucetControls.closeFaucet:          Close faucet
+keyboardHelpDialog.faucetControls.openFaucetFully:      Open faucet fully
+keyboardHelpDialog.faucetControls.openFaucetBriefly:    Open faucet briefly
+keyboardHelpDialog.timingControls.timingControls:       Time Controls
+keyboardHelpDialog.timingControls.pauseOrPlayAction:    Pause or play action
+speed.fast:                                             Fast
+symbol.ohms:                                            Ω
+symbol.resistivity:                                     ρ
+comboBoxDisplay.valueUnits:                             '{{value}} {{units}}'
+wavelengthNMValuePattern:                               '{0} nm'
+measuringTapeReadoutPattern:                            '{{distance}} {{units}}'
+wavelength:                                             Wavelength
+rulerCapitalized:                                       Ruler
+ruler:                                                  Ruler
+zero:                                                   zero
+one:                                                    one
+two:                                                    two
+three:                                                  three
+four:                                                   four
+five:                                                   five
+six:                                                    six
+seven:                                                  seven
+eight:                                                  eight
+nine:                                                   nine
+ten:                                                    ten
+offScaleIndicator.pointsOffScale:                       Points<br>off scale!
+ResetAllButton.name:                                    Reset All
+ResetAllButton.name__comment:                           See https://github.com/phetsims/chipper/issues/1446
+ResetAllButton.name__deprecated:                        true
+SoundToggleButton.name:                                 Toggle Sound
+SoundToggleButton.name__comment:                        See https://github.com/phetsims/chipper/issues/1446
+SoundToggleButton.name__deprecated:                     true
+scientificNotation:                                     '{{value}} × {{base}}<sup>{{exponent}}</sup>'
+units:
+  centimeters:               cm
+  centimetersPattern:        '{{value}} cm'
+  centimetersSquared:        cm<sup>2</sup>
+  centimetersSquaredPattern: '{{value}} cm<sup>2</sup>'
+  hertz:                     Hz
+  hertzPattern:              '{{value}} Hz'
+  percent:                   '%'
+  percentPattern:            '{{value}}%'
+  seconds:                   s
+  secondsPattern:            '{{value}} s'
 a11y:
   simSection:
     screenSummary:
-      multiScreenIntro: >-
-        The {{screen}} changes as you play with it. It has a Play Area and a
-        Control Area.
+      multiScreenIntro:         >-
+                                The {{screen}} changes as you play with it. It has a Play Area and a
+                                Control Area.
       singleScreenIntroPattern: >-
-        {{sim}} is an interactive sim. It changes as you play with it. It has a
-        Play Area and a Control Area.
-      keyboardShortcutsHint: If needed, check out keyboard shortcuts under Sim Resources.
-    playArea: Play Area
+                                {{sim}} is an interactive sim. It changes as you play with it. It has a
+                                Play Area and a Control Area.
+      keyboardShortcutsHint:    If needed, check out keyboard shortcuts under Sim Resources.
+    playArea:    Play Area
     controlArea: Control Area
   resetAll:
-    accessibleName: Reset All
+    accessibleName:            Reset All
     accessibleContextResponse: Everything reset.
   soundToggle:
     label: Mute Sound
     alert:
-      simSoundOn: Sim sound on.
+      simSoundOn:  Sim sound on.
       simSoundOff: Sim sound off.
   keyboardHelpDialog:
     slider:
-      orKeysPattern: '{{leftRight}}, or {{upDown}}'
-      leftRightArrowKeys: Left and Right arrow keys
-      upDownArrowKeys: Up and Down arrow keys
-      defaultStepsDescriptionPattern: '{{verb}} {{slider}} with {{keys}}.'
+      orKeysPattern:                              '{{leftRight}}, or {{upDown}}'
+      leftRightArrowKeys:                         Left and Right arrow keys
+      upDownArrowKeys:                            Up and Down arrow keys
+      defaultStepsDescriptionPattern:             '{{verb}} {{slider}} with {{keys}}.'
       defaultStepsAdjustSliderDescriptionPattern: '{{adjustSlider}} with {{keys}}.'
-      shiftLeftRightArrowKeys: Shift plus Left or Right arrow key
-      shiftUpDownArrowKeys: Shift plus Up or Down arrow key
-      smallerStepsDescriptionPattern: '{{verb}} in smaller steps with {{keys}}.'
+      shiftLeftRightArrowKeys:                    Shift plus Left or Right arrow key
+      shiftUpDownArrowKeys:                       Shift plus Up or Down arrow key
+      smallerStepsDescriptionPattern:             '{{verb}} in smaller steps with {{keys}}.'
       smallerStepsAdjustSliderDescriptionPattern: '{{adjustInSmallerSteps}} with {{keys}}.'
-      largerStepsDescriptionPattern: '{{verb}} in larger steps with Page Up or Page Down key.'
-      largerStepsAdjustSliderDescriptionPattern: '{{adjustInLargerSteps}} with Page Up or Page Down key.'
-      jumpToMinimumDescriptionPattern: Jump to {{minimum}} with Home key.
-      jumpToMaximumDescriptionPattern: Jump to {{maximum}} with End key.
+      largerStepsDescriptionPattern:              '{{verb}} in larger steps with Page Up or Page Down key.'
+      largerStepsAdjustSliderDescriptionPattern:  '{{adjustInLargerSteps}} with Page Up or Page Down key.'
+      jumpToMinimumDescriptionPattern:            Jump to {{minimum}} with Home key.
+      jumpToMaximumDescriptionPattern:            Jump to {{maximum}} with End key.
     general:
-      resetAllDescriptionPattern: Reset All with {{altOrOption}} plus R.
-      tabDescription: Move to next item with Tab key.
-      shiftTabDescription: Move to previous item with Shift plus Tab key.
-      tabGroupDescription: Move to next item or group with Tab key.
-      shiftTabGroupDescription: Move to previous item or group with Shift plus Tab key.
-      pressButtonsDescription: Press buttons with Space or Enter keys.
-      groupNavigationDescription: >-
-        Move between items in a group with Left and Right arrow keys or Up and
-        Down arrow keys.
+      resetAllDescriptionPattern:   Reset All with {{altOrOption}} plus R.
+      tabDescription:               Move to next item with Tab key.
+      shiftTabDescription:          Move to previous item with Shift plus Tab key.
+      tabGroupDescription:          Move to next item or group with Tab key.
+      shiftTabGroupDescription:     Move to previous item or group with Shift plus Tab key.
+      pressButtonsDescription:      Press buttons with Space or Enter keys.
+      groupNavigationDescription:   >-
+                                    Move between items in a group with Left and Right arrow keys or Up and
+                                    Down arrow keys.
       setValuesInKeypadDescription: Set values within keypad using number keys 0-9.
-      exitDialogDescription: Exit a dialog with Escape key.
-      toggleCheckboxesDescription: Toggle checkboxes with Space key.
+      exitDialogDescription:        Exit a dialog with Escape key.
+      toggleCheckboxesDescription:  Toggle checkboxes with Space key.
     grabOrReleaseDescriptionPattern: Grab or release {{thing}} with Space or Enter keys.
     comboBox:
-      popUpListPatternDescription: Show {{thingPlural}} with Space or Enter keys.
-      moveThroughPatternDescription: Move through {{thingPlural}} with Up and Down arrow keys.
-      chooseNewPatternDescription: Change {{thingSingular}} with Enter key.
+      popUpListPatternDescription:     Show {{thingPlural}} with Space or Enter keys.
+      moveThroughPatternDescription:   Move through {{thingPlural}} with Up and Down arrow keys.
+      chooseNewPatternDescription:     Change {{thingSingular}} with Enter key.
       closeWithoutChangingDescription: ' Close without changing with Escape key.'
     draggableItems:
-      moveDescription: Move with arrow keys or W, A, S, or D keys.
+      moveDescription:       Move with arrow keys or W, A, S, or D keys.
       moveSlowerDescription: Move slower with shift plus arrow keys or W, A, S, or D keys.
     timingControls:
       pauseOrPlayActionDescription: Pause or play action with alt key plus K.
     faucetControls:
-      adjustFaucetFlowDescription: Adjust faucet flow with Left and Right Arrow keys.
+      adjustFaucetFlowDescription:     Adjust faucet flow with Left and Right Arrow keys.
       adjustInSmallerStepsDescription: Adjust in smaller steps with Shift plus Left and Right Arrow keys.
-      adjustInLargerStepsDescription: Adjust in larger steps with Page Up and Page Down keys.
-      closeFaucetDescription: Close faucet with Zero or Home keys.
-      openFaucetFullyDescription: Open faucet fully with End key.
-      openFaucetBrieflyDescription: Open faucet briefly with Space or Enter keys.
+      adjustInLargerStepsDescription:  Adjust in larger steps with Page Up and Page Down keys.
+      closeFaucetDescription:          Close faucet with Zero or Home keys.
+      openFaucetFullyDescription:      Open faucet fully with End key.
+      openFaucetBrieflyDescription:    Open faucet briefly with Space or Enter keys.
   eraserButton:
     accessibleName: Erase
   playControlButton:
-    play: Play
+    play:  Play
     pause: Pause
-    stop: Stop
+    stop:  Stop
   playPauseButton:
     playingAccessibleContextResponse: Sim Playing.
-    pausedAccessibleContextResponse: Sim Paused.
+    pausedAccessibleContextResponse:  Sim Paused.
   stepButton:
-    stepForward: Step Forward
+    stepForward:        Step Forward
     playingDescription: Pause sim to step forward little by little.
-    pausedDescription: Play sim to resume chosen speed.
+    pausedDescription:  Play sim to resume chosen speed.
   timeControlNode:
     simSpeedDescription: For closer observations Play sim on slower speed.
-    label: Time Controls
-    simSpeeds: Sim Speeds
+    label:               Time Controls
+    simSpeeds:           Sim Speeds
   playPauseStepButtonGroup:
     playingHelpText: Pause sim to step through little by little.
-    pausedHelpText: Step through little by little.
+    pausedHelpText:  Step through little by little.
   movementAlerter:
-    down: down
-    left: left
-    right: right
-    up: up
-    upAndToTheRight: up and to the right
-    upAndToTheLeft: up and to the left
+    down:              down
+    left:              left
+    right:             right
+    up:                up
+    upAndToTheRight:   up and to the right
+    upAndToTheLeft:    up and to the left
     downAndToTheRight: down and to the right
-    downAndToTheLeft: down and to the left
-    leftBorderAlert: At left edge
-    rightBorderAlert: At right edge
-    topBorderAlert: At top
+    downAndToTheLeft:  down and to the left
+    leftBorderAlert:   At left edge
+    rightBorderAlert:  At right edge
+    topBorderAlert:    At top
     bottomBorderAlert: At bottom
   grabDrag:
-    grabPattern: Grab {{objectToGrab}}
-    movable: movable
-    button: button
-    defaultObjectToGrab: Object
-    released: Released.
-    grabbed: Grabbed.
+    grabPattern:            Grab {{objectToGrab}}
+    movable:                movable
+    button:                 button
+    defaultObjectToGrab:    Object
+    released:               Released.
+    grabbed:                Grabbed.
     gestureHelpTextPattern: Double tap and hold to drag {{objectToGrab}}. Lift finger to release.
-    spaceToGrabOrRelease: Space to Grab or Release.
+    spaceToGrabOrRelease:   Space to Grab or Release.
   groupSort:
-    sortable: sortable
-    navigable: navigable
-    grabbedAccessibleContextResponse: Grabbed.
+    sortable:                          sortable
+    navigable:                         navigable
+    grabbedAccessibleContextResponse:  Grabbed.
     releasedAccessibleContextResponse: Released.
   listItemPunctuation:
     semicolonPattern: '{{content}};'
-    commaPattern: '{{content}},'
-    periodPattern: '{{content}}.'
+    commaPattern:     '{{content}},'
+    periodPattern:    '{{content}}.'
   voicing:
     simSection:
       screenSummary:
         singleScreenIntroPattern: '{{sim}} is an interactive sim. It changes as you play with it.'
     grabDragHintPattern: Tap, hold, and drag to {{manipulation}}.
-    grabbedAlert: Grabbed.
-    draggableAlert: Draggable
-  close: Close
-  zoomIn: Zoom In
-  zoomOut: Zoom Out
-  measuringTape: Measuring Tape
-  measuringTapeTip: Measuring Tape Tip
-  info: Info
+    grabbedAlert:        Grabbed.
+    draggableAlert:      Draggable
+  close:              Close
+  zoomIn:             Zoom In
+  zoomOut:            Zoom Out
+  measuringTape:      Measuring Tape
+  measuringTapeTip:   Measuring Tape Tip
+  info:               Info
   offScaleIndicator:
-    pointsOffScaleUp: Points off scale up!
-    pointsOffScaleDown: Points off scale down!
-    pointsOffScaleLeft: Points off scale to the left!
+    pointsOffScaleUp:    Points off scale up!
+    pointsOffScaleDown:  Points off scale down!
+    pointsOffScaleLeft:  Points off scale to the left!
     pointsOffScaleRight: Points off scale to the right!
   stopwatch:
-    accessibleName: Stopwatch
+    accessibleName:     Stopwatch
     accessibleHelpText: Measure elapsed time.
     resetButton:
-      accessibleName: Reset Stopwatch
+      accessibleName:            Reset Stopwatch
       accessibleContextResponse: Stopwatch reset.
     playButton:
       accessibleName: Start Stopwatch
     pauseButton:
       accessibleName: Pause Stopwatch
-  negativeNumber: 'negative { $value }'
+  negativeNumber:     'negative { $value }'
   scientificNotation: '{ $value } times ${ $base } to the { $exponent } power'
   units:
-    centimetersPattern: |-
-                        { $value ->
-                          [one] { $value } centimeter
-                          *[other] { $value } centimeters
-                        }
+    centimetersPattern:        |-
+                               { $value ->
+                                 [one] { $value } centimeter
+                                 *[other] { $value } centimeters
+                               }
     centimetersSquaredPattern: |-
-                        { $value ->
-                          [one] { $value } square centimeter
-                          *[other] { $value } square centimeters
-                        }
-    hertzPattern: '{ $value } hertz'
-    percentPattern: '{ $value } percent'
-    secondsPattern: |-
-                        { $value ->
-                          [one] { $value } second
-                          *[other] { $value } seconds
-                        }
+                               { $value ->
+                                 [one] { $value } square centimeter
+                                 *[other] { $value } square centimeters
+                               }
+    hertzPattern:              '{ $value } hertz'
+    percentPattern:            '{ $value } percent'
+    secondsPattern:            |-
+                               { $value ->
+                                 [one] { $value } second
+                                 *[other] { $value } seconds
+                               }

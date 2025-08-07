@@ -12,8 +12,8 @@ import sceneryPhet from '../sceneryPhet.js';
 
 export const hertzUnit = new PhetUnit( 'Hz', {
   visualStandaloneStringProperty: SceneryPhetFluent.units.hertzStringProperty,
-  visualPattern: SceneryPhetFluent.units.hertzPattern,
-  spokenPattern: SceneryPhetFluent.a11y.units.hertzPattern
+  visualPatternStringProperty: SceneryPhetFluent.units.hertzPatternStringProperty,
+  accessiblePattern: SceneryPhetFluent.a11y.units.hertzPattern
 } );
 
 sceneryPhet.register( 'hertzUnit', hertzUnit );

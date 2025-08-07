@@ -12,8 +12,8 @@ import sceneryPhet from '../sceneryPhet.js';
 
 export const secondsUnit = new PhetUnit( 's', {
   visualStandaloneStringProperty: SceneryPhetFluent.units.secondsStringProperty,
-  visualPattern: SceneryPhetFluent.units.secondsPattern,
-  spokenPattern: SceneryPhetFluent.a11y.units.secondsPattern
+  visualPatternStringProperty: SceneryPhetFluent.units.secondsPatternStringProperty,
+  accessiblePattern: SceneryPhetFluent.a11y.units.secondsPattern
 } );
 
 sceneryPhet.register( 'secondsUnit', secondsUnit );

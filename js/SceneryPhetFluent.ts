@@ -142,17 +142,11 @@ addToMapIfDefined( 'ResetAllButton_name__deprecated', 'ResetAllButton.name__depr
 addToMapIfDefined( 'SoundToggleButton_name', 'SoundToggleButton.nameStringProperty' );
 addToMapIfDefined( 'SoundToggleButton_name__comment', 'SoundToggleButton.name__commentStringProperty' );
 addToMapIfDefined( 'SoundToggleButton_name__deprecated', 'SoundToggleButton.name__deprecatedStringProperty' );
-addToMapIfDefined( 'scientificNotation', 'scientificNotationStringProperty' );
 addToMapIfDefined( 'units_centimeters', 'units.centimetersStringProperty' );
-addToMapIfDefined( 'units_centimetersPattern', 'units.centimetersPatternStringProperty' );
 addToMapIfDefined( 'units_centimetersSquared', 'units.centimetersSquaredStringProperty' );
-addToMapIfDefined( 'units_centimetersSquaredPattern', 'units.centimetersSquaredPatternStringProperty' );
 addToMapIfDefined( 'units_hertz', 'units.hertzStringProperty' );
-addToMapIfDefined( 'units_hertzPattern', 'units.hertzPatternStringProperty' );
 addToMapIfDefined( 'units_percent', 'units.percentStringProperty' );
-addToMapIfDefined( 'units_percentPattern', 'units.percentPatternStringProperty' );
 addToMapIfDefined( 'units_seconds', 'units.secondsStringProperty' );
-addToMapIfDefined( 'units_secondsPattern', 'units.secondsPatternStringProperty' );
 addToMapIfDefined( 'a11y_simSection_screenSummary_keyboardShortcutsHint', 'a11y.simSection.screenSummary.keyboardShortcutsHintStringProperty' );
 addToMapIfDefined( 'a11y_simSection_playArea', 'a11y.simSection.playAreaStringProperty' );
 addToMapIfDefined( 'a11y_simSection_controlArea', 'a11y.simSection.controlAreaStringProperty' );
@@ -420,18 +414,18 @@ const SceneryPhetFluent = {
     name__commentStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'SoundToggleButton_name__comment', _.get( SceneryPhetStrings, 'SoundToggleButton.name__commentStringProperty' ) ),
     name__deprecatedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'SoundToggleButton_name__deprecated', _.get( SceneryPhetStrings, 'SoundToggleButton.name__deprecatedStringProperty' ) )
   },
-  scientificNotation: new FluentPattern<{ base: FluentVariable, exponent: FluentVariable, value: FluentVariable }>( fluentSupport.bundleProperty, 'scientificNotation', _.get( SceneryPhetStrings, 'scientificNotationStringProperty' ), [{"name":"base"},{"name":"exponent"},{"name":"value"}] ),
+  scientificNotationStringProperty: _.get( SceneryPhetStrings, 'scientificNotationStringProperty' ),
   units: {
     centimetersStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'units_centimeters', _.get( SceneryPhetStrings, 'units.centimetersStringProperty' ) ),
-    centimetersPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'units_centimetersPattern', _.get( SceneryPhetStrings, 'units.centimetersPatternStringProperty' ), [{"name":"value"}] ),
+    centimetersPatternStringProperty: _.get( SceneryPhetStrings, 'units.centimetersPatternStringProperty' ),
     centimetersSquaredStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'units_centimetersSquared', _.get( SceneryPhetStrings, 'units.centimetersSquaredStringProperty' ) ),
-    centimetersSquaredPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'units_centimetersSquaredPattern', _.get( SceneryPhetStrings, 'units.centimetersSquaredPatternStringProperty' ), [{"name":"value"}] ),
+    centimetersSquaredPatternStringProperty: _.get( SceneryPhetStrings, 'units.centimetersSquaredPatternStringProperty' ),
     hertzStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'units_hertz', _.get( SceneryPhetStrings, 'units.hertzStringProperty' ) ),
-    hertzPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'units_hertzPattern', _.get( SceneryPhetStrings, 'units.hertzPatternStringProperty' ), [{"name":"value"}] ),
+    hertzPatternStringProperty: _.get( SceneryPhetStrings, 'units.hertzPatternStringProperty' ),
     percentStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'units_percent', _.get( SceneryPhetStrings, 'units.percentStringProperty' ) ),
-    percentPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'units_percentPattern', _.get( SceneryPhetStrings, 'units.percentPatternStringProperty' ), [{"name":"value"}] ),
+    percentPatternStringProperty: _.get( SceneryPhetStrings, 'units.percentPatternStringProperty' ),
     secondsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'units_seconds', _.get( SceneryPhetStrings, 'units.secondsStringProperty' ) ),
-    secondsPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'units_secondsPattern', _.get( SceneryPhetStrings, 'units.secondsPatternStringProperty' ), [{"name":"value"}] )
+    secondsPatternStringProperty: _.get( SceneryPhetStrings, 'units.secondsPatternStringProperty' )
   },
   a11y: {
     simSection: {

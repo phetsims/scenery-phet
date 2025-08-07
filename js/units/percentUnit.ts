@@ -12,8 +12,8 @@ import sceneryPhet from '../sceneryPhet.js';
 
 export const percentUnit = new PhetUnit( '%', {
   visualStandaloneStringProperty: SceneryPhetFluent.units.percentStringProperty,
-  visualPattern: SceneryPhetFluent.units.percentPattern,
-  spokenPattern: SceneryPhetFluent.a11y.units.percentPattern
+  visualPatternStringProperty: SceneryPhetFluent.units.percentPatternStringProperty,
+  accessiblePattern: SceneryPhetFluent.a11y.units.percentPattern
 } );
 
 sceneryPhet.register( 'percentUnit', percentUnit );

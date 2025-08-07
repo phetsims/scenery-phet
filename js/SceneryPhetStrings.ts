@@ -239,7 +239,6 @@ type StringsType = {
       };
       'timingControls': {
         'pauseOrPlayActionDescriptionStringProperty': LocalizedStringProperty;
-        'pauseOrPlayActionMacOSDescriptionStringProperty': LocalizedStringProperty;
       };
       'faucetControls': {
         'adjustFaucetFlowDescriptionStringProperty': LocalizedStringProperty;
