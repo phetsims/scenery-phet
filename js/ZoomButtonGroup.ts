@@ -35,10 +35,10 @@ type SelfOptions = {
   mouseAreaYDilation?: number;
 
   // pdom support
-  zoomInAccessibleName?: PDOMValueType;
-  zoomInAccessibleHelpText?: PDOMValueType;
-  zoomOutAccessibleName?: PDOMValueType;
-  zoomOutAccessibleHelpText?: PDOMValueType;
+  accessibleNameZoomIn?: PDOMValueType;
+  accessibleHelpTextZoomIn?: PDOMValueType;
+  accessibleNameZoomOut?: PDOMValueType;
+  accessibleHelpTextZoomOut?: PDOMValueType;
 };
 
 export type ZoomButtonGroupOptions = SelfOptions & StrictOmit<FlowBoxOptions, 'children'>;
@@ -78,10 +78,10 @@ export default class ZoomButtonGroup extends FlowBox {
       },
 
       // pdom support
-      zoomInAccessibleName: SceneryPhetStrings.a11y.zoomInStringProperty,
-      zoomOutAccessibleName: SceneryPhetStrings.a11y.zoomOutStringProperty,
-      zoomInAccessibleHelpText: null,
-      zoomOutAccessibleHelpText: null,
+      accessibleNameZoomIn: SceneryPhetStrings.a11y.zoomInStringProperty,
+      accessibleNameZoomOut: SceneryPhetStrings.a11y.zoomOutStringProperty,
+      accessibleHelpTextZoomIn: null,
+      accessibleHelpTextZoomOut: null,
 
       // FlowBoxOptions
       spacing: 0,
@@ -113,8 +113,8 @@ export default class ZoomButtonGroup extends FlowBox {
       touchAreaYShift: -touchYShift,
       mouseAreaXShift: mouseXShift,
       mouseAreaYShift: -mouseYShift,
-      accessibleName: options.zoomInAccessibleName,
-      accessibleHelpText: options.zoomInAccessibleHelpText,
+      accessibleName: options.accessibleNameZoomIn,
+      accessibleHelpText: options.accessibleHelpTextZoomIn,
       tandem: options.tandem.createTandem( 'zoomInButton' )
     }, options.buttonOptions ) );
 
@@ -132,8 +132,8 @@ export default class ZoomButtonGroup extends FlowBox {
       touchAreaYShift: touchYShift,
       mouseAreaXShift: -mouseXShift,
       mouseAreaYShift: mouseYShift,
-      accessibleName: options.zoomOutAccessibleName,
-      accessibleHelpText: options.zoomOutAccessibleHelpText,
+      accessibleName: options.accessibleNameZoomOut,
+      accessibleHelpText: options.accessibleHelpTextZoomOut,
       tandem: options.tandem.createTandem( 'zoomOutButton' )
     }, options.buttonOptions ) );
 
