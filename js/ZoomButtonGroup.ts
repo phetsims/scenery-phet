@@ -9,13 +9,13 @@
 import TRangedProperty from '../../axon/js/TRangedProperty.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import { PDOMValueType, RemoveParallelDOMOptions } from '../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import FlowBox, { FlowBoxOptions } from '../../scenery/js/layout/nodes/FlowBox.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
-import { PDOMValueType } from '../../scenery/js/accessibility/pdom/ParallelDOM.js';
 
 type SelfOptions = {
 
@@ -26,7 +26,7 @@ type SelfOptions = {
   applyZoomOut?: ( currentZoom: number ) => number;
 
   // propagated to the '+' and '-' push buttons
-  buttonOptions?: StrictOmit<RectangularPushButtonOptions, 'content' | 'listener' | 'tandem'>;
+  buttonOptions?: RemoveParallelDOMOptions<StrictOmit<RectangularPushButtonOptions, 'content' | 'listener' | 'tandem'>>;
 
   // pointer area dilation, correct for options.orientation, and overlap will be prevented by shifting
   touchAreaXDilation?: number;
@@ -41,7 +41,7 @@ type SelfOptions = {
   accessibleHelpTextZoomOut?: PDOMValueType;
 };
 
-export type ZoomButtonGroupOptions = SelfOptions & StrictOmit<FlowBoxOptions, 'children'>;
+export type ZoomButtonGroupOptions = SelfOptions & RemoveParallelDOMOptions<StrictOmit<FlowBoxOptions, 'children'>>;
 
 export default class ZoomButtonGroup extends FlowBox {
 
