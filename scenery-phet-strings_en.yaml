@@ -104,6 +104,7 @@ keyboardHelpDialog.faucetControls.openFaucetBriefly:    Open faucet briefly
 keyboardHelpDialog.timingControls.timingControls:       Time Controls
 keyboardHelpDialog.timingControls.pauseOrPlayAction:    Pause or play action
 speed.fast:                                             Fast
+speed.superSlow:                                        Super Slow
 symbol.ohms:                                            Ω
 symbol.resistivity:                                     ρ
 comboBoxDisplay.valueUnits:                             '{{value}} {{units}}'

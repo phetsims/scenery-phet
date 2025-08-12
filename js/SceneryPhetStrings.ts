@@ -137,6 +137,7 @@ type StringsType = {
     'normalStringProperty': LocalizedStringProperty;
     'slowStringProperty': LocalizedStringProperty;
     'fastStringProperty': LocalizedStringProperty;
+    'superSlowStringProperty': LocalizedStringProperty;
   };
   'symbol': {
     'ohmsStringProperty': LocalizedStringProperty;

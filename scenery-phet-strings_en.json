@@ -317,6 +317,9 @@
   "speed.fast": {
     "value": "Fast"
   },
+  "speed.superSlow": {
+    "value": "Super Slow"
+  },
   "symbol.ohms": {
     "value": "Ω"
   },
