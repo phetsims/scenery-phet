@@ -148,6 +148,7 @@ addToMapIfDefined( 'units_hertz', 'units.hertzStringProperty' );
 addToMapIfDefined( 'units_percent', 'units.percentStringProperty' );
 addToMapIfDefined( 'units_seconds', 'units.secondsStringProperty' );
 addToMapIfDefined( 'a11y_simSection_screenSummary_keyboardShortcutsHint', 'a11y.simSection.screenSummary.keyboardShortcutsHintStringProperty' );
+addToMapIfDefined( 'a11y_simSection_screenSummary_strongKeyboardShortcutsHint', 'a11y.simSection.screenSummary.strongKeyboardShortcutsHintStringProperty' );
 addToMapIfDefined( 'a11y_simSection_playArea', 'a11y.simSection.playAreaStringProperty' );
 addToMapIfDefined( 'a11y_simSection_controlArea', 'a11y.simSection.controlAreaStringProperty' );
 addToMapIfDefined( 'a11y_resetAll_accessibleName', 'a11y.resetAll.accessibleNameStringProperty' );
@@ -433,7 +434,8 @@ const SceneryPhetFluent = {
       screenSummary: {
         multiScreenIntroStringProperty: _.get( SceneryPhetStrings, 'a11y.simSection.screenSummary.multiScreenIntroStringProperty' ),
         singleScreenIntroPatternStringProperty: _.get( SceneryPhetStrings, 'a11y.simSection.screenSummary.singleScreenIntroPatternStringProperty' ),
-        keyboardShortcutsHintStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_simSection_screenSummary_keyboardShortcutsHint', _.get( SceneryPhetStrings, 'a11y.simSection.screenSummary.keyboardShortcutsHintStringProperty' ) )
+        keyboardShortcutsHintStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_simSection_screenSummary_keyboardShortcutsHint', _.get( SceneryPhetStrings, 'a11y.simSection.screenSummary.keyboardShortcutsHintStringProperty' ) ),
+        strongKeyboardShortcutsHintStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_simSection_screenSummary_strongKeyboardShortcutsHint', _.get( SceneryPhetStrings, 'a11y.simSection.screenSummary.strongKeyboardShortcutsHintStringProperty' ) )
       },
       playAreaStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_simSection_playArea', _.get( SceneryPhetStrings, 'a11y.simSection.playAreaStringProperty' ) ),
       controlAreaStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_simSection_controlArea', _.get( SceneryPhetStrings, 'a11y.simSection.controlAreaStringProperty' ) )

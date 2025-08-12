@@ -433,6 +433,9 @@
         },
         "keyboardShortcutsHint": {
           "value": "If needed, check out keyboard shortcuts under Sim Resources."
+        },
+        "strongKeyboardShortcutsHint": {
+          "value": "This screen has custom interactions. If needed, check out keyboard shortcuts under Sim Resources."
         }
       },
       "playArea": {
