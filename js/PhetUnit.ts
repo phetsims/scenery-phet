@@ -189,7 +189,7 @@ export const getFormattedNumber = (
   // If using scientific notation, divide off the base raised to the exponent (so we are left with the non-exponent part)
   let exponent = 0;
   if ( options.useScientificNotation ) {
-    exponent = Math.floor( Math.log( 5 ) / Math.log( options.scientificBase ) );
+    exponent = Math.floor( Math.log( absoluteValue ) / Math.log( options.scientificBase ) );
     absoluteValue /= Math.pow( options.scientificBase, exponent );
   }
 
