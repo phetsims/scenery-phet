@@ -16,6 +16,7 @@ export default class TimeSpeed extends EnumerationValue {
   public static readonly FAST = new TimeSpeed();
   public static readonly NORMAL = new TimeSpeed();
   public static readonly SLOW = new TimeSpeed();
+  public static readonly SUPER_SLOW = new TimeSpeed();
 
   // Gets a list of keys, values and mapping between them. For use in EnumerationProperty and PhET-iO
   public static readonly enumeration = new Enumeration( TimeSpeed );

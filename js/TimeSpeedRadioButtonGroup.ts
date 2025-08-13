@@ -36,6 +36,10 @@ SPEED_LABEL_MAP.set( TimeSpeed.SLOW, {
   stringProperty: SceneryPhetStrings.speed.slowStringProperty,
   tandemName: 'slowRadioButton'
 } );
+SPEED_LABEL_MAP.set( TimeSpeed.SUPER_SLOW, {
+  stringProperty: SceneryPhetStrings.speed.superSlowStringProperty,
+  tandemName: 'superSlowRadioButton'
+} );
 
 type SelfOptions = {
   radius?: number;

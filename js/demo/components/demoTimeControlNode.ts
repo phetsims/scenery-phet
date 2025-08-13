@@ -47,7 +47,7 @@ export default function demoTimeControlNode( layoutBounds: Bounds2 ): Node {
   // a TimeControlNode with swapped layout for radio buttons with radio buttons wrapped in a panel
   const customTimeControlNode = new TimeControlNode( new BooleanProperty( true ), {
     timeSpeedProperty: new EnumerationProperty( TimeSpeed.SLOW ),
-    timeSpeeds: [ TimeSpeed.NORMAL, TimeSpeed.FAST, TimeSpeed.SLOW ],
+    timeSpeeds: [ TimeSpeed.NORMAL, TimeSpeed.FAST, TimeSpeed.SLOW, TimeSpeed.SUPER_SLOW ],
     speedRadioButtonGroupPlacement: 'left',
     flowBoxSpacing: 40,
     enabledProperty: enabledProperty

@@ -119,6 +119,7 @@ addToMapIfDefined( 'keyboardHelpDialog_faucetControls_openFaucetBriefly', 'keybo
 addToMapIfDefined( 'keyboardHelpDialog_timingControls_timingControls', 'keyboardHelpDialog.timingControls.timingControlsStringProperty' );
 addToMapIfDefined( 'keyboardHelpDialog_timingControls_pauseOrPlayAction', 'keyboardHelpDialog.timingControls.pauseOrPlayActionStringProperty' );
 addToMapIfDefined( 'speed_fast', 'speed.fastStringProperty' );
+addToMapIfDefined( 'speed_superSlow', 'speed.superSlowStringProperty' );
 addToMapIfDefined( 'symbol_ohms', 'symbol.ohmsStringProperty' );
 addToMapIfDefined( 'symbol_resistivity', 'symbol.resistivityStringProperty' );
 addToMapIfDefined( 'wavelength', 'wavelengthStringProperty' );
@@ -378,7 +379,8 @@ const SceneryPhetFluent = {
   speed: {
     normalStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'speed_normal', _.get( SceneryPhetStrings, 'speed.normalStringProperty' ) ),
     slowStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'speed_slow', _.get( SceneryPhetStrings, 'speed.slowStringProperty' ) ),
-    fastStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'speed_fast', _.get( SceneryPhetStrings, 'speed.fastStringProperty' ) )
+    fastStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'speed_fast', _.get( SceneryPhetStrings, 'speed.fastStringProperty' ) ),
+    superSlowStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'speed_superSlow', _.get( SceneryPhetStrings, 'speed.superSlowStringProperty' ) )
   },
   symbol: {
     ohmsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'symbol_ohms', _.get( SceneryPhetStrings, 'symbol.ohmsStringProperty' ) ),
