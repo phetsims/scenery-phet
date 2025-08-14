@@ -246,6 +246,23 @@ export default class KeyboardHelpIconFactory {
   }
 
   /**
+   * Icon for the [W][S] keys, often used to move something vertically.
+   */
+  public static wSKeysRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
+    const aKeyNode = LetterKeyNode.w();
+    const dKeyNode = LetterKeyNode.s();
+    return KeyboardHelpIconFactory.iconRow( [ aKeyNode, dKeyNode ], providedOptions );
+  }
+
+  public static upDownOrWSKeysRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
+    return KeyboardHelpIconFactory.iconOrIcon(
+      KeyboardHelpIconFactory.upDownArrowKeysRowIcon(),
+      KeyboardHelpIconFactory.wSKeysRowIcon(),
+      providedOptions
+    );
+  }
+
+  /**
    * Icon for the [A][D] keys, often used to move something horizontally.
    */
   public static aDKeysRowIcon( providedOptions?: KeyboardHelpIconFactoryOptions ): Node {
