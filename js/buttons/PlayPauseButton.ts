@@ -31,7 +31,7 @@ export default class PlayPauseButton extends PlayControlButton {
 
     // Only create the Property if necessary.
     let ownedAccessibleContextResponseProperty: TReadOnlyProperty<string> | null = null;
-    if ( providedOptions === undefined || ( providedOptions && !providedOptions.accessibleContextResponse ) ) {
+    if ( providedOptions === undefined || !providedOptions.accessibleContextResponse ) {
       ownedAccessibleContextResponseProperty = new DerivedProperty(
         [ isPlayingProperty,
           SceneryPhetStrings.a11y.playPauseButton.playingAccessibleContextResponseStringProperty,
@@ -42,7 +42,7 @@ export default class PlayPauseButton extends PlayControlButton {
     }
 
     let ownedVoicingNameResponse: TReadOnlyProperty<string> | null = null;
-    if ( providedOptions === undefined || ( providedOptions && !providedOptions.voicingNameResponse ) ) {
+    if ( providedOptions === undefined || !providedOptions.voicingNameResponse ) {
       ownedVoicingNameResponse = new DerivedProperty( [
         isPlayingProperty,
         SceneryPhetStrings.a11y.playPauseButton.playingAccessibleContextResponseStringProperty,
