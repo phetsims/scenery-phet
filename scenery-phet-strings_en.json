@@ -432,7 +432,7 @@
           "value": "{{sim}} is an interactive sim. It changes as you play with it. It has a Play Area and a Control Area."
         },
         "keyboardShortcutsHint": {
-          "value": "If needed, check out keyboard shortcuts under Sim Resources."
+          "value": "This screen has custom interactions. If needed, check out keyboard shortcuts under Sim Resources."
         }
       },
       "playArea": {
