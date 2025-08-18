@@ -11,29 +11,16 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import optionize from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 
-export type ScreenSummaryNodeOptions = {
-
-  // If true, the keyboard shortcuts hint will use strong wording to
-  // emphasize the availability of custom keyboard interactions. This
-  // helps users notice and read the content in the keyboard shortcuts dialog.
-  strongKeyboardShortcutsHint?: boolean;
-};
-
 export default class ScreenSummaryNode extends Node {
 
   private readonly openingSummaryNode: Node;
 
-  public constructor( providedOptions?: ScreenSummaryNodeOptions ) {
-
-    const options = optionize<ScreenSummaryNodeOptions>()( {
-      strongKeyboardShortcutsHint: false
-    }, providedOptions );
+  public constructor() {
 
     super();
 
@@ -41,8 +28,7 @@ export default class ScreenSummaryNode extends Node {
 
     const keyboardShortcutsHint = new Node( {
       tagName: 'p',
-      innerContent: options.strongKeyboardShortcutsHint ? SceneryPhetStrings.a11y.simSection.screenSummary.strongKeyboardShortcutsHintStringProperty :
-                    SceneryPhetStrings.a11y.simSection.screenSummary.keyboardShortcutsHintStringProperty
+      innerContent: SceneryPhetStrings.a11y.simSection.screenSummary.keyboardShortcutsHintStringProperty
     } );
 
     this.addChild( this.openingSummaryNode );

@@ -183,7 +183,6 @@ type StringsType = {
         'multiScreenIntroStringProperty': LocalizedStringProperty;
         'singleScreenIntroPatternStringProperty': LocalizedStringProperty;
         'keyboardShortcutsHintStringProperty': LocalizedStringProperty;
-        'strongKeyboardShortcutsHintStringProperty': LocalizedStringProperty;
       };
       'playAreaStringProperty': LocalizedStringProperty;
       'controlAreaStringProperty': LocalizedStringProperty;

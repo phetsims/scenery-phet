@@ -145,14 +145,13 @@ units:
 a11y:
   simSection:
     screenSummary:
-      multiScreenIntro:            >-
-                                   The {{screen}} changes as you play with it. It has a Play Area and a
-                                   Control Area.
-      singleScreenIntroPattern:    >-
-                                   {{sim}} is an interactive sim. It changes as you play with it. It has a
-                                   Play Area and a Control Area.
-      keyboardShortcutsHint:       If needed, check out keyboard shortcuts under Sim Resources.
-      strongKeyboardShortcutsHint: This screen has custom interactions. If needed, check out keyboard shortcuts under Sim Resources.
+      multiScreenIntro:         >-
+                                The {{screen}} changes as you play with it. It has a Play Area and a
+                                Control Area.
+      singleScreenIntroPattern: >-
+                                {{sim}} is an interactive sim. It changes as you play with it. It has a
+                                Play Area and a Control Area.
+      keyboardShortcutsHint:    If needed, check out keyboard shortcuts under Sim Resources.
     playArea:    Play Area
     controlArea: Control Area
   resetAll:
