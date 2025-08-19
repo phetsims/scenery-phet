@@ -456,6 +456,15 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
     keyboardHelpDialogPDOMLabelStringProperty: SceneryPhetStrings.a11y.keyboardHelpDialog.faucetControls.closeFaucetDescriptionStringProperty
   } );
 
+
+  // The hotkey data for closing the faucet when `reverseAlternativeInput` is true.
+  public static readonly CLOSE_FAUCET_REVERSED_HOTKEY_DATA = new HotkeyData( {
+    keys: [ FaucetNode.ZERO_CLOSE_FAUCET_STRING, 'end' ],
+    repoName: sceneryPhet.name,
+    keyboardHelpDialogLabelStringProperty: SceneryPhetStrings.keyboardHelpDialog.faucetControls.closeFaucetStringProperty,
+    keyboardHelpDialogPDOMLabelStringProperty: SceneryPhetStrings.a11y.keyboardHelpDialog.faucetControls.closeFaucetWithEndDescriptionStringProperty
+  } );
+
   public static readonly TAP_TO_DISPENSE_HOTKEY_DATA = new HotkeyData( {
     keys: [ 'enter', 'space' ],
     repoName: sceneryPhet.name,

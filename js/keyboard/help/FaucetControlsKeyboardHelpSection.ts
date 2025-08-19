@@ -26,6 +26,7 @@ const openFaucetBrieflyStringProperty = SceneryPhetStrings.keyboardHelpDialog.fa
 
 type SelfOptions = {
   tapToDispenseEnabled?: boolean; // Set this to true if any faucet in your sim has FaucetNodeOptions.tapToDispenseEnabled: true
+  reverseAlternativeInput?: boolean; // Set this to true if your faucet Node reverses alternative input (because it faces left).
 };
 
 type FaucetControlsKeyboardHelpSectionOptions = SelfOptions & KeyboardHelpSectionOptions;
@@ -37,7 +38,8 @@ export default class FaucetControlsKeyboardHelpSection extends KeyboardHelpSecti
     const options = optionize<FaucetControlsKeyboardHelpSectionOptions, SelfOptions, KeyboardHelpSectionOptions>()( {
 
       // SelfOptions
-      tapToDispenseEnabled: false
+      tapToDispenseEnabled: false,
+      reverseAlternativeInput: false
     }, providedOptions );
 
     const leftRightArrowKeysIcon = KeyboardHelpIconFactory.iconRow( [ new ArrowKeyNode( 'left' ), new ArrowKeyNode( 'right' ) ] );
@@ -65,13 +67,28 @@ export default class FaucetControlsKeyboardHelpSection extends KeyboardHelpSecti
       }
     );
 
-    // Close faucet [Home] or [0]
-    const closeFaucetRow = KeyboardHelpSectionRow.fromHotkeyData( FaucetNode.CLOSE_FAUCET_HOTKEY_DATA );
+    let closeFaucetRow: KeyboardHelpSectionRow;
+    let openFaucetFullyRow: KeyboardHelpSectionRow;
+    if ( options.reverseAlternativeInput ) {
 
-    // Open faucet fully [End]
-    const openFaucetFullyRow = KeyboardHelpSectionRow.labelWithIcon( openFaucetFullyStringProperty, TextKeyNode.end(), {
-      labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.faucetControls.openFaucetFullyDescriptionStringProperty
-    } );
+      // Close faucet [End] or [0]
+      closeFaucetRow = KeyboardHelpSectionRow.fromHotkeyData( FaucetNode.CLOSE_FAUCET_REVERSED_HOTKEY_DATA );
+
+      // Open faucet fully [Home]
+      openFaucetFullyRow = KeyboardHelpSectionRow.labelWithIcon( openFaucetFullyStringProperty, TextKeyNode.home(), {
+        labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.faucetControls.openFaucetFullyWithHomeDescriptionStringProperty
+      } );
+    }
+    else {
+
+      // Close faucet [Home] or [0]
+      closeFaucetRow = KeyboardHelpSectionRow.fromHotkeyData( FaucetNode.CLOSE_FAUCET_HOTKEY_DATA );
+
+      // Open faucet fully [End]
+      openFaucetFullyRow = KeyboardHelpSectionRow.labelWithIcon( openFaucetFullyStringProperty, TextKeyNode.end(), {
+        labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.faucetControls.openFaucetFullyDescriptionStringProperty
+      } );
+    }
 
     const content: KeyboardHelpSectionRow[] = [
       adjustFaucetFlowRow,

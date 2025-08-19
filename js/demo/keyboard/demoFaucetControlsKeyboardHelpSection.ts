@@ -17,7 +17,8 @@ export default function demoFaucetControlsKeyboardHelpSection( layoutBounds: Bou
     children: [
       new FaucetControlsKeyboardHelpSection(),
       new FaucetControlsKeyboardHelpSection( {
-        tapToDispenseEnabled: true // use this option if your FaucetNode has tapToDispenseEnabled: true
+        tapToDispenseEnabled: true, // use this option if your FaucetNode has tapToDispenseEnabled: true
+        reverseAlternativeInput: true // use this option if your FaucetNode has reverseAlternativeInput: true
       } )
     ],
     spacing: 100,

@@ -246,7 +246,9 @@ type StringsType = {
         'adjustInSmallerStepsDescriptionStringProperty': LocalizedStringProperty;
         'adjustInLargerStepsDescriptionStringProperty': LocalizedStringProperty;
         'closeFaucetDescriptionStringProperty': LocalizedStringProperty;
+        'closeFaucetWithEndDescriptionStringProperty': LocalizedStringProperty;
         'openFaucetFullyDescriptionStringProperty': LocalizedStringProperty;
+        'openFaucetFullyWithHomeDescriptionStringProperty': LocalizedStringProperty;
         'openFaucetBrieflyDescriptionStringProperty': LocalizedStringProperty;
       }
     };

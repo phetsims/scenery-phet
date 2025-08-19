@@ -177,7 +177,9 @@ addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_adjustFaucetFlowDescr
 addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_adjustInSmallerStepsDescription', 'a11y.keyboardHelpDialog.faucetControls.adjustInSmallerStepsDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_adjustInLargerStepsDescription', 'a11y.keyboardHelpDialog.faucetControls.adjustInLargerStepsDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_closeFaucetDescription', 'a11y.keyboardHelpDialog.faucetControls.closeFaucetDescriptionStringProperty' );
+addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_closeFaucetWithEndDescription', 'a11y.keyboardHelpDialog.faucetControls.closeFaucetWithEndDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_openFaucetFullyDescription', 'a11y.keyboardHelpDialog.faucetControls.openFaucetFullyDescriptionStringProperty' );
+addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_openFaucetFullyWithHomeDescription', 'a11y.keyboardHelpDialog.faucetControls.openFaucetFullyWithHomeDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_openFaucetBrieflyDescription', 'a11y.keyboardHelpDialog.faucetControls.openFaucetBrieflyDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_eraserButton_accessibleName', 'a11y.eraserButton.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_playControlButton_play', 'a11y.playControlButton.playStringProperty' );
@@ -497,7 +499,9 @@ const SceneryPhetFluent = {
         adjustInSmallerStepsDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_faucetControls_adjustInSmallerStepsDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.faucetControls.adjustInSmallerStepsDescriptionStringProperty' ) ),
         adjustInLargerStepsDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_faucetControls_adjustInLargerStepsDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.faucetControls.adjustInLargerStepsDescriptionStringProperty' ) ),
         closeFaucetDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_faucetControls_closeFaucetDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.faucetControls.closeFaucetDescriptionStringProperty' ) ),
+        closeFaucetWithEndDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_faucetControls_closeFaucetWithEndDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.faucetControls.closeFaucetWithEndDescriptionStringProperty' ) ),
         openFaucetFullyDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_faucetControls_openFaucetFullyDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.faucetControls.openFaucetFullyDescriptionStringProperty' ) ),
+        openFaucetFullyWithHomeDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_faucetControls_openFaucetFullyWithHomeDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.faucetControls.openFaucetFullyWithHomeDescriptionStringProperty' ) ),
         openFaucetBrieflyDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_faucetControls_openFaucetBrieflyDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.faucetControls.openFaucetBrieflyDescriptionStringProperty' ) )
       }
     },

@@ -203,12 +203,14 @@ a11y:
       pauseOrPlayActionDescription:      Pause or play action with alt key plus K.
       pauseOrPlayActionMacOSDescription: Pause or play action with option key plus K.
     faucetControls:
-      adjustFaucetFlowDescription:     Adjust faucet flow with Left and Right Arrow keys.
-      adjustInSmallerStepsDescription: Adjust in smaller steps with Shift plus Left and Right Arrow keys.
-      adjustInLargerStepsDescription:  Adjust in larger steps with Page Up and Page Down keys.
-      closeFaucetDescription:          Close faucet with Zero or Home keys.
-      openFaucetFullyDescription:      Open faucet fully with End key.
-      openFaucetBrieflyDescription:    Open faucet briefly with Space or Enter keys.
+      adjustFaucetFlowDescription:        Adjust faucet flow with Left and Right Arrow keys.
+      adjustInSmallerStepsDescription:    Adjust in smaller steps with Shift plus Left and Right Arrow keys.
+      adjustInLargerStepsDescription:     Adjust in larger steps with Page Up and Page Down keys.
+      closeFaucetDescription:             Close faucet with Zero or Home keys.
+      closeFaucetWithEndDescription:      Close faucet with Zero or End keys.
+      openFaucetFullyDescription:         Open faucet fully with End key.
+      openFaucetFullyWithHomeDescription: Open faucet fully with Home key.
+      openFaucetBrieflyDescription:       Open faucet briefly with Space or Enter keys.
   eraserButton:
     accessibleName: Erase
   playControlButton:
