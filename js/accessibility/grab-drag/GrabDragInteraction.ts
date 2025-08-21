@@ -173,9 +173,10 @@ type SelfOptions = {
 
   // Create responses for description and Voicing that describe when the movable is grabbed or released.
   // A string is returned to discourage memory leaks and because responses are temporary and do not need to
-  // observe changing languages. Return null to remove the response entirely.
-  createReleasedResponse?: () => string | null;
-  createGrabbedResponse?: () => string | null;
+  // observe changing languages. Return null to remove the response entirely. Argument lets you customize
+  // depending on the mode of input.
+  createReleasedResponse?: ( inputType: InputType ) => string | null;
+  createGrabbedResponse?: ( inputType: InputType ) => string | null;
 };
 
 // Provide GrabDragModelOptions as top level options, and they are passed directly to the model.
@@ -199,8 +200,8 @@ export default class GrabDragInteraction extends Disposable {
   private _accessibleHelpText: PDOMValueType = null;
   private _gestureHelpText: PDOMValueType = null;
 
-  private _createReleasedResponse: () => string | null;
-  private _createGrabbedResponse: () => string | null;
+  private _createReleasedResponse: ( inputType: InputType ) => string | null;
+  private _createGrabbedResponse: ( inputType: InputType ) => string | null;
 
   // Directly from options or parameters.
   private readonly node: Node;
@@ -1012,14 +1013,14 @@ export default class GrabDragInteraction extends Disposable {
       this.grabDragModel.resetEmitter.addListener( () => voicingFocusUtterance.reset() );
     }
 
-    this.grabDragModel.releasedEmitter.addListener( () => {
-      responsePacket.objectResponse = this._createReleasedResponse();
+    this.grabDragModel.releasedEmitter.addListener( inputType => {
+      responsePacket.objectResponse = this._createReleasedResponse( inputType );
       this.node.addAccessibleResponse( responseUtterance );
       isVoicing( node ) && Voicing.alertUtterance( responseUtterance );
     } );
 
-    this.grabDragModel.grabbedEmitter.addListener( () => {
-      responsePacket.objectResponse = this._createGrabbedResponse();
+    this.grabDragModel.grabbedEmitter.addListener( inputType => {
+      responsePacket.objectResponse = this._createGrabbedResponse( inputType );
       this.node.addAccessibleResponse( responseUtterance );
       isVoicing( node ) && Voicing.alertUtterance( responseUtterance );
     } );
