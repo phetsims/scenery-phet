@@ -12,6 +12,7 @@
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Property from '../../axon/js/Property.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import { DualString } from '../../axon/js/Unit.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Range from '../../dot/js/Range.js';
 import { roundSymmetric } from '../../dot/js/util/roundSymmetric.js';
@@ -36,7 +37,7 @@ import sharedSoundPlayers from '../../tambo/js/sharedSoundPlayers.js';
 import TSoundPlayer from '../../tambo/js/TSoundPlayer.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import AccessibleDraggableOptions from './accessibility/grab-drag/AccessibleDraggableOptions.js';
-import NumberDisplay, { NumberDisplayOptions, NumberDisplayStringPair } from './NumberDisplay.js';
+import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import PauseIconShape from './PauseIconShape.js';
 import PhetFont from './PhetFont.js';
 import PlayIconShape from './PlayIconShape.js';
@@ -503,7 +504,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
    *   unitsProperty
    * ],
    */
-  public static createRichTextNumberFormatter( providedOptions?: FormatterOptions ): ( time: number ) => NumberDisplayStringPair {
+  public static createRichTextNumberFormatter( providedOptions?: FormatterOptions ): ( time: number ) => DualString {
 
     const options = optionize<FormatterOptions>()( {
 
@@ -533,21 +534,21 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
 
       // Single quotes around CSS style so the double-quotes in the CSS font family work. Himalaya doesn't like &quot;
       // See https://github.com/phetsims/collision-lab/issues/140.
-      const valueString = StringUtils.fillIn( options.valueUnitsPattern, {
+      const visualString = StringUtils.fillIn( options.valueUnitsPattern, {
         value: StringUtils.wrapLTR( `<span style='font-size: ${options.bigNumberFont}px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${minutesAndSecondsString}</span><span style='font-size: ${fontSize};font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${centisecondsString}</span>` ),
         units: `<span style='font-size: ${options.unitsFont}px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${units}</span>`
       } );
 
       // TODO: This will be moved to fluent-translated content, see https://github.com/phetsims/scenery-phet/issues/929
-      let accessibleValueString: string;
+      let accessibleString: string;
       if ( options.showAsMinutesAndSeconds ) {
         assert && assert( units === '' || units === 's', 'showAsMinutesAndSeconds:true only supported for seconds as units' );
 
         if ( minutes === 0 ) {
-          accessibleValueString = `${seconds} seconds`;
+          accessibleString = `${seconds} seconds`;
         }
         else {
-          accessibleValueString = `${minutes} minutes and ${seconds} seconds`;
+          accessibleString = `${minutes} minutes and ${seconds} seconds`;
         }
       }
       else {
@@ -557,12 +558,12 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
 
         const unitsString = units.length ? ` ${expandedUnitsMap[ units ] ?? units}` : '';
 
-        accessibleValueString = `${minutesAndSecondsString}${centisecondsString}${unitsString}`;
+        accessibleString = `${minutesAndSecondsString}${centisecondsString}${unitsString}`;
       }
 
       return {
-        valueString: valueString,
-        accessibleValueString: accessibleValueString
+        visualString: visualString,
+        accessibleString: accessibleString
       };
     };
   }

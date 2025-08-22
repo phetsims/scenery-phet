@@ -6,24 +6,25 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import FluentPattern, { FluentVariable } from '../../chipper/js/browser/FluentPattern.js';
 import { optionize3 } from '../../phet-core/js/optionize.js';
 import { toFixed } from '../../dot/js/util/toFixed.js';
 import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
-import { Unit, DualString, NumberFormatOptions, FormattedNumberPropertyOptions, DEFAULT_FORMATTED_NUMBER_VISUAL_OPTIONS, DEFAULT_FORMATTED_NUMBER_SPOKEN_OPTIONS } from '../../axon/js/Unit.js';
+import { Unit, DualString, NumberFormatOptions, FormattedNumberPropertyOptions, DEFAULT_FORMATTED_NUMBER_VISUAL_OPTIONS, DEFAULT_FORMATTED_NUMBER_SPOKEN_OPTIONS, AccessibleValuePattern } from '../../axon/js/Unit.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetFluent from './SceneryPhetFluent.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PatternStringProperty from '../../axon/js/PatternStringProperty.js';
+import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 
-export type PhetUnitOptions = {
-  visualStandaloneStringProperty?: TReadOnlyProperty<string>;
-  visualPatternStringProperty?: TReadOnlyProperty<string>;
-  accessiblePattern?: FluentPattern<{ value: FluentVariable }>;
+export type PhetUnitOptions<InputPropertyType extends TReadOnlyProperty<string>> = {
+  visualStandaloneStringProperty?: InputPropertyType;
+  visualPatternStringProperty?: InputPropertyType;
+  accessiblePattern?: AccessibleValuePattern;
 };
 
-export default class PhetUnit implements Unit {
+// Parameterized so that we can get more specific methods on the input Properties.
+export default class PhetUnit<InputPropertyType extends TReadOnlyProperty<string>> implements Unit {
 
   // Presence of support for methods that return strings
   public readonly hasVisualStandaloneString: boolean;
@@ -31,17 +32,17 @@ export default class PhetUnit implements Unit {
   public readonly hasAccessibleString: boolean;
 
   // String Property for the "standalone" string (e.g. units with no value)
-  public readonly visualStandaloneStringProperty?: TReadOnlyProperty<string>;
+  public readonly visualStandaloneStringProperty?: InputPropertyType;
 
   // Pattern for the visual "value + units" combination
-  public readonly visualPatternStringProperty?: TReadOnlyProperty<string>;
+  public readonly visualPatternStringProperty?: InputPropertyType;
 
   // Pattern for the accessible "value + units" combination
-  public readonly accessiblePattern?: FluentPattern<{ value: FluentVariable }>;
+  public readonly accessiblePattern?: AccessibleValuePattern;
 
   public constructor(
     public readonly name: string, // Basic "backwards-compatible" name, e.g. "m" or "m/s^2"
-    options?: PhetUnitOptions
+    options?: PhetUnitOptions<InputPropertyType>
   ) {
     this.visualStandaloneStringProperty = options?.visualStandaloneStringProperty;
     this.visualPatternStringProperty = options?.visualPatternStringProperty;
@@ -110,7 +111,7 @@ export default class PhetUnit implements Unit {
   /**
    * Get the string Property for the standalone visual string (units with no value).
    */
-  public getVisualStandaloneStringProperty(): TReadOnlyProperty<string> {
+  public getVisualStandaloneStringProperty(): InputPropertyType {
     if ( !this.visualStandaloneStringProperty ) {
       throw new Error( `This PhetUnit (${this.name}) does not have support for visual standalone strings.` );
     }
@@ -124,7 +125,7 @@ export default class PhetUnit implements Unit {
   public getVisualStringProperty(
     valueProperty: TReadOnlyProperty<number>,
     providedOptions?: FormattedNumberPropertyOptions<string>
-  ): TReadOnlyProperty<string> {
+  ): ReadOnlyProperty<string> {
     if ( !this.visualPatternStringProperty ) {
       throw new Error( `This PhetUnit (${this.name}) does not have support for visual strings.` );
     }
@@ -138,7 +139,7 @@ export default class PhetUnit implements Unit {
   public getAccessibleStringProperty(
     valueProperty: TReadOnlyProperty<number>,
     providedOptions?: FormattedNumberPropertyOptions<string>
-  ): TReadOnlyProperty<string> {
+  ): ReadOnlyProperty<string> {
     if ( !this.accessiblePattern ) {
       throw new Error( `This PhetUnit (${this.name}) does not have support for accessible strings.` );
     }
@@ -152,11 +153,23 @@ export default class PhetUnit implements Unit {
   public getDualStringProperty(
     valueProperty: TReadOnlyProperty<number>,
     providedOptions?: FormattedNumberPropertyOptions<string>
-  ): TReadOnlyProperty<DualString> {
+  ): ReadOnlyProperty<DualString> {
     return combineToDisposableDualString(
       this.getVisualStringProperty( valueProperty, providedOptions ),
       this.getAccessibleStringProperty( valueProperty, providedOptions )
     );
+  }
+
+  /**
+   * Get a list of the dependent properties that this unit relies on.
+   */
+  public getDependentProperties(): TReadOnlyProperty<unknown>[] {
+    return [
+      // Spreads for TS to typecheck a bit safer than a filter could
+      ...( this.visualStandaloneStringProperty ? [ this.visualStandaloneStringProperty ] : [] ),
+      ...( this.visualPatternStringProperty ? [ this.visualPatternStringProperty ] : [] ),
+      ...( this.accessiblePattern ? this.accessiblePattern.getDependentProperties() : [] )
+    ];
   }
 }
 
@@ -239,6 +252,11 @@ export const getFormattedNumber = (
     }
   }
 
+  // Wrap with LTR marks if enabled, so it will show up correctly in RTL languages.
+  if ( options.wrapLTR ) {
+    absoluteValueOutput = StringUtils.wrapLTR( `${absoluteValueOutput}` );
+  }
+
   return absoluteValueOutput;
 };
 
@@ -266,7 +284,7 @@ export const getFormattedNumberProperty = (
   valueProperty: TReadOnlyProperty<number>,
   isAccessible?: boolean,
   providedOptions?: FormattedNumberPropertyOptions<string | number>
-): TReadOnlyProperty<string | number> => {
+): ReadOnlyProperty<string | number> => {
   const usesNegativeString = providedOptions?.numberFormatOptions?.replaceMinusWithNegative ?? getDefaultOptions( isAccessible ).replaceMinusWithNegative;
   return new DerivedProperty( [
     valueProperty,
@@ -281,14 +299,14 @@ export const getFormattedNumberProperty = (
 export const getFormattedVisualNumberProperty = (
   valueProperty: TReadOnlyProperty<number>,
   providedOptions?: FormattedNumberPropertyOptions<string | number>
-): TReadOnlyProperty<string | number> => {
+): ReadOnlyProperty<string | number> => {
   return getFormattedNumberProperty( valueProperty, false, providedOptions );
 };
 
 export const getFormattedAccessibleNumberProperty = (
   valueProperty: TReadOnlyProperty<number>,
   providedOptions?: FormattedNumberPropertyOptions<string | number>
-): TReadOnlyProperty<string | number> => {
+): ReadOnlyProperty<string | number> => {
   return getFormattedNumberProperty( valueProperty, true, providedOptions );
 };
 
@@ -296,7 +314,7 @@ export const getFormattedNumberStringProperty = (
   valueProperty: TReadOnlyProperty<number>,
   isAccessible?: boolean,
   providedOptions?: FormattedNumberPropertyOptions<string>
-): TReadOnlyProperty<string> => {
+): ReadOnlyProperty<string> => {
   // We could derive this from getAccessibleNumberProperty, but that would create another unnecessary Property that
   // would be hard to dispose of.
 
@@ -314,14 +332,14 @@ export const getFormattedNumberStringProperty = (
 export const getFormattedVisualNumberStringProperty = (
   valueProperty: TReadOnlyProperty<number>,
   providedOptions?: FormattedNumberPropertyOptions<string>
-): TReadOnlyProperty<string> => {
+): ReadOnlyProperty<string> => {
   return getFormattedNumberStringProperty( valueProperty, false, providedOptions );
 };
 
 export const getFormattedAccessibleNumberStringProperty = (
   valueProperty: TReadOnlyProperty<number>,
   providedOptions?: FormattedNumberPropertyOptions<string>
-): TReadOnlyProperty<string> => {
+): ReadOnlyProperty<string> => {
   return getFormattedNumberStringProperty( valueProperty, true, providedOptions );
 };
 
@@ -330,7 +348,7 @@ export const getDisposableNumberStringPatternProperty = (
   patternStringProperty: TReadOnlyProperty<string>,
   isAccessible?: boolean,
   providedOptions?: FormattedNumberPropertyOptions<string>
-): TReadOnlyProperty<string> => {
+): ReadOnlyProperty<string> => {
   const formattedNumberProperty = getFormattedNumberProperty( valueProperty, isAccessible, {
     numberFormatOptions: providedOptions?.numberFormatOptions
   } );
@@ -346,10 +364,10 @@ export const getDisposableNumberStringPatternProperty = (
 
 export const getDisposableNumberStringFluentPatternProperty = (
   valueProperty: TReadOnlyProperty<number>,
-  fluentPattern: FluentPattern<{ value: FluentVariable }>,
+  fluentPattern: AccessibleValuePattern,
   isAccessible?: boolean,
   providedOptions?: FormattedNumberPropertyOptions<string>
-): TReadOnlyProperty<string> => {
+): ReadOnlyProperty<string> => {
   const formattedNumberProperty = getFormattedNumberProperty( valueProperty, isAccessible, {
     numberFormatOptions: providedOptions?.numberFormatOptions
   } );
@@ -369,7 +387,7 @@ export const getDisposableNumberStringFluentPatternProperty = (
 export const combineToDisposableDualString = (
   visualStringProperty: TReadOnlyProperty<string>,
   accessibleStringProperty: TReadOnlyProperty<string>
-): TReadOnlyProperty<DualString> => {
+): ReadOnlyProperty<DualString> => {
   const derivedProperty = new DerivedProperty( [ visualStringProperty, accessibleStringProperty ], ( visualString, accessibleString ) => {
     return {
       visualString: visualString,

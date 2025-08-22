@@ -9,8 +9,9 @@
 import PhetUnit from '../PhetUnit.js';
 import SceneryPhetFluent from '../SceneryPhetFluent.js';
 import sceneryPhet from '../sceneryPhet.js';
+import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
 
-export const secondsUnit = new PhetUnit( 's', {
+export const secondsUnit = new PhetUnit<ReadOnlyProperty<string>>( 's', {
   visualStandaloneStringProperty: SceneryPhetFluent.units.secondsStringProperty,
   visualPatternStringProperty: SceneryPhetFluent.units.secondsPatternStringProperty,
   accessiblePattern: SceneryPhetFluent.a11y.units.secondsPattern
