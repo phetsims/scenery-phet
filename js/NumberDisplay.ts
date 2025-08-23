@@ -30,10 +30,10 @@ import IOType from '../../tandem/js/types/IOType.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
 import MathSymbols from './MathSymbols.js';
 import PhetFont from './PhetFont.js';
-import { getFormattedNumber } from './PhetUnit.js';
 import sceneryPhet from './sceneryPhet.js';
 import Property from '../../axon/js/Property.js';
 import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
+import { getFormattedAccessibleNumber, getFormattedVisualNumber } from './NumberFormatting.js';
 
 // constants
 const DEFAULT_FONT = new PhetFont( 20 );
@@ -203,8 +203,8 @@ export default class NumberDisplay extends Node {
     else {
       numberFormatter = ( value: number ) => {
         return {
-          visualString: getFormattedNumber( value, false, numberFormatOptions ),
-          accessibleString: getFormattedNumber( value, false, numberFormatOptions )
+          visualString: getFormattedVisualNumber( value, numberFormatOptions ),
+          accessibleString: getFormattedAccessibleNumber( value, numberFormatOptions )
         };
       };
     }
