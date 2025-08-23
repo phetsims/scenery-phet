@@ -7,11 +7,12 @@
  */
 
 import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
-import { AccessibleValuePattern, DualString, FormattedNumberPropertyOptions, NumberFormatOptions, Unit } from '../../axon/js/Unit.js';
+import { Unit } from '../../axon/js/Unit.js';
 import sceneryPhet from './sceneryPhet.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import { combineToDisposableDualString, getDisposableNumberStringFluentPatternProperty, getDisposableNumberStringPatternProperty, getFormattedAccessibleNumber, getFormattedVisualNumber } from './NumberFormatting.js';
+import { AccessibleValuePattern, DualString, FormattedNumberPropertyOptions, NumberFormatOptions } from '../../axon/js/AccessibleStrings.js';
 
 export type PhetUnitOptions<InputPropertyType extends TReadOnlyProperty<string>> = {
   visualStandaloneStringProperty?: InputPropertyType;

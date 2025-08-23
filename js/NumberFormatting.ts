@@ -12,12 +12,12 @@
 import { optionize3 } from '../../phet-core/js/optionize.js';
 import { toFixed } from '../../dot/js/util/toFixed.js';
 import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
-import { AccessibleValuePattern, DEFAULT_FORMATTED_NUMBER_SPOKEN_OPTIONS, DEFAULT_FORMATTED_NUMBER_VISUAL_OPTIONS, DualString, FormattedNumberPropertyOptions, NumberFormatOptions } from '../../axon/js/Unit.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import SceneryPhetFluent from './SceneryPhetFluent.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PatternStringProperty from '../../axon/js/PatternStringProperty.js';
 import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
+import { AccessibleValuePattern, DEFAULT_FORMATTED_NUMBER_ACCESSIBLE_OPTIONS, DEFAULT_FORMATTED_NUMBER_VISUAL_OPTIONS, DualString, FormattedNumberPropertyOptions, NumberFormatOptions } from '../../axon/js/AccessibleStrings.js';
 
 /**
  * Catch-all number formatter. NOTE: the output is a number OR a string, depending on the options.
@@ -103,7 +103,7 @@ export const getFormattedNumber = (
  * Defaults depend on whether the number is accessible or visual.
  */
 const getDefaultOptions = ( isAccessible?: boolean ): Required<NumberFormatOptions> => {
-  return isAccessible ? DEFAULT_FORMATTED_NUMBER_SPOKEN_OPTIONS : DEFAULT_FORMATTED_NUMBER_VISUAL_OPTIONS;
+  return isAccessible ? DEFAULT_FORMATTED_NUMBER_ACCESSIBLE_OPTIONS : DEFAULT_FORMATTED_NUMBER_VISUAL_OPTIONS;
 };
 
 /**

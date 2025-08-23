@@ -12,7 +12,6 @@
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Property from '../../axon/js/Property.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
-import { DualString } from '../../axon/js/Unit.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Range from '../../dot/js/Range.js';
 import { roundSymmetric } from '../../dot/js/util/roundSymmetric.js';
@@ -48,6 +47,7 @@ import SoundDragListener, { PressedSoundDragListener, SoundDragListenerOptions }
 import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from './SoundKeyboardDragListener.js';
 import Stopwatch from './Stopwatch.js';
 import UTurnArrowShape from './UTurnArrowShape.js';
+import { DualString } from '../../axon/js/AccessibleStrings.js';
 
 type SelfOptions = {
 
