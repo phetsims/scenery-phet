@@ -43,7 +43,7 @@ import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
 
-type ListItem = {
+export type AccessibleListItem = {
   stringProperty: TReadOnlyProperty<string>;
 
   // always visible if undefined
@@ -98,7 +98,7 @@ export default class AccessibleListNode extends Node {
   // AccessibleListNode. Used when reading with the Voicing feature.
   public readonly voicingContentStringProperty: TReadOnlyProperty<string>;
 
-  public constructor( listItems: ( TReadOnlyProperty<string> | ListItem )[], providedOptions?: AccessibleListNodeOptions ) {
+  public constructor( listItems: ( TReadOnlyProperty<string> | AccessibleListItem )[], providedOptions?: AccessibleListNodeOptions ) {
 
     const options = optionize<AccessibleListNodeOptions, SelfOptions, ParentOptions>()( {
       leadingParagraphStringProperty: null,
