@@ -11,7 +11,7 @@ import { Unit } from '../../axon/js/Unit.js';
 import sceneryPhet from './sceneryPhet.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
-import { combineToDisposableDualString, getDisposableNumberStringFluentPatternProperty, getDisposableNumberStringPatternProperty, getFormattedAccessibleNumber, getFormattedVisualNumber } from './NumberFormatting.js';
+import { combineToDisposableDualString, getDisposableNumberStringFluentPatternProperty, getDisposableNumberStringPatternProperty, getFormattedAccessibleNumber, getFormattedAccessibleNumberStringProperty, getFormattedVisualNumber } from './NumberFormatting.js';
 import { AccessibleValuePattern, DualString, FormattedNumberPropertyOptions, NumberFormatOptions } from '../../axon/js/AccessibleStrings.js';
 
 export type PhetUnitOptions<InputPropertyType extends TReadOnlyProperty<string>> = {
@@ -171,3 +171,19 @@ export default class PhetUnit<InputPropertyType extends TReadOnlyProperty<string
 }
 
 sceneryPhet.register( 'PhetUnit', PhetUnit );
+
+// Given a number Property, return an accessible string Property that either uses the unit's accessiblePattern (if available)
+// or just formats the number (if not).
+export const getFallbackAccessibleUnitsStringProperty = (
+  valueProperty: TReadOnlyProperty<number>,
+  providedOptions?: FormattedNumberPropertyOptions<string>
+): ReadOnlyProperty<string> => {
+  const units = ( valueProperty as unknown as ReadOnlyProperty<number> ).units;
+
+  if ( units && typeof units !== 'string' ) {
+    return units.getAccessibleStringProperty( valueProperty, providedOptions );
+  }
+  else {
+    return getFormattedAccessibleNumberStringProperty( valueProperty, providedOptions );
+  }
+};
