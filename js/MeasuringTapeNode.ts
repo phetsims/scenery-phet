@@ -17,7 +17,7 @@ import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
 import Property from '../../axon/js/Property.js';
 import TProperty from '../../axon/js/TProperty.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import { toFixed } from '../../dot/js/util/toFixed.js';
 import Vector2 from '../../dot/js/Vector2.js';

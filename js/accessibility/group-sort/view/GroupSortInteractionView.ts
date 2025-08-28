@@ -11,7 +11,7 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../../dot/js/Range.js';
 import optionize from '../../../../../phet-core/js/optionize.js';
 import KeyboardListener from '../../../../../scenery/js/listeners/KeyboardListener.js';

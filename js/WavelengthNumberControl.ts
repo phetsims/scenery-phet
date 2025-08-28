@@ -7,7 +7,7 @@
  */
 
 import Property from '../../axon/js/Property.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';

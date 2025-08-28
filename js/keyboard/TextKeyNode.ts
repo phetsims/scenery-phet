@@ -7,7 +7,7 @@
  */
 
 import PhetioProperty from '../../../axon/js/PhetioProperty.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
 import platform from '../../../phet-core/js/platform.js';
 import RichText from '../../../scenery/js/nodes/RichText.js';

@@ -9,7 +9,7 @@
  * @author Agustín Vallejo
  */
 
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import Shape from '../../kite/js/Shape.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';

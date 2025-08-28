@@ -9,7 +9,7 @@
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import StringProperty from '../../axon/js/StringProperty.js';
-import TReadOnlyProperty, { isTReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty, isTReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import Range from '../../dot/js/Range.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';

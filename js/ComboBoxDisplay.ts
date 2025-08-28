@@ -11,7 +11,7 @@
 import PatternStringProperty from '../../axon/js/PatternStringProperty.js';
 import Property from '../../axon/js/Property.js';
 import StringProperty from '../../axon/js/StringProperty.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import Range from '../../dot/js/Range.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';

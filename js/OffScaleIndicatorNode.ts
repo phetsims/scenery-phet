@@ -6,7 +6,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
 import ReadingBlock, { ReadingBlockOptions } from '../../scenery/js/accessibility/voicing/ReadingBlock.js';
 import HBox from '../../scenery/js/layout/nodes/HBox.js';

@@ -24,7 +24,7 @@
 import Property from '../../axon/js/Property.js';
 import stepTimer from '../../axon/js/stepTimer.js';
 import { TimerListener } from '../../axon/js/Timer.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import LinearFunction from '../../dot/js/LinearFunction.js';
 import Range from '../../dot/js/Range.js';

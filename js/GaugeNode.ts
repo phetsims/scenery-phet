@@ -8,7 +8,7 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import Matrix3 from '../../dot/js/Matrix3.js';
 import Range from '../../dot/js/Range.js';
 import { clamp } from '../../dot/js/util/clamp.js';

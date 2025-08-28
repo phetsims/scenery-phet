@@ -37,7 +37,7 @@ import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import Multilink from '../../../axon/js/Multilink.js';
 import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import sceneryPhet from '../sceneryPhet.js';
