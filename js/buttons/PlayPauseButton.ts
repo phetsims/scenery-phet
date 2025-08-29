@@ -12,8 +12,7 @@ import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import Property from '../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
-import optionize, { combineOptions, EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import { SpeakingOptions } from '../../../scenery/js/accessibility/voicing/Voicing.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import PauseIconShape from '../PauseIconShape.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -41,17 +40,6 @@ export default class PlayPauseButton extends PlayControlButton {
       );
     }
 
-    let ownedVoicingNameResponse: TReadOnlyProperty<string> | null = null;
-    if ( providedOptions === undefined || !providedOptions.voicingNameResponse ) {
-      ownedVoicingNameResponse = new DerivedProperty( [
-        isPlayingProperty,
-        SceneryPhetStrings.a11y.playPauseButton.playingAccessibleContextResponseStringProperty,
-        SceneryPhetStrings.a11y.playPauseButton.pausedAccessibleContextResponseStringProperty
-      ], ( isPlaying, playingString, pausedString ) => {
-        return isPlaying ? playingString : pausedString;
-      } );
-    }
-
     const options = optionize<PlayPauseButtonOptions, SelfOptions, PlayControlButtonOptions>()( {
 
       // PlayPauseButtonOptions
@@ -60,8 +48,7 @@ export default class PlayPauseButton extends PlayControlButton {
       // PlayControlButtonOptions
       includeGlobalHotkey: true,
       endPlayingAccessibleName: SceneryPhetStrings.a11y.playControlButton.pauseStringProperty,
-      accessibleContextResponse: ownedAccessibleContextResponseProperty || providedOptions!.accessibleContextResponse!,
-      voicingNameResponse: ownedVoicingNameResponse || providedOptions!.voicingNameResponse!
+      accessibleContextResponse: ownedAccessibleContextResponseProperty || providedOptions!.accessibleContextResponse!
     }, providedOptions );
 
     // icon sized relative to the radius
@@ -77,22 +64,6 @@ export default class PlayPauseButton extends PlayControlButton {
     if ( ownedAccessibleContextResponseProperty ) {
       this.addDisposable( ownedAccessibleContextResponseProperty );
     }
-
-    if ( ownedVoicingNameResponse ) {
-      this.addDisposable( ownedVoicingNameResponse );
-    }
-  }
-
-  /**
-   * The PlayPauseButton does not provide voicing for the context response, since that appears in the name response
-   */
-  public override voicingSpeakResponse( providedOptions?: SpeakingOptions ): void {
-
-    // create a new one but without the contextResponse
-    const options = combineOptions<SpeakingOptions>( {}, providedOptions, {
-      contextResponse: null
-    } );
-    super.voicingSpeakResponse( options );
   }
 }
 
