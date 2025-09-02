@@ -3,6 +3,8 @@
 /**
  * Help section for explaining how to use a keyboard to interact with a ComboBox.
  *
+ * NOTE that this keyboard help section is a numbered list by design. See https://github.com/phetsims/molarity/issues/96.
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
