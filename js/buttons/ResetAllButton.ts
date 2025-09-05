@@ -27,8 +27,6 @@ import SceneryPhetConstants from '../SceneryPhetConstants.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
 import ResetButton, { ResetButtonOptions } from './ResetButton.js';
 
-const MARGIN_COEFFICIENT = 5 / SceneryPhetConstants.DEFAULT_BUTTON_RADIUS;
-
 type SelfOptions = {
 
   // option specific to ResetAllButton. If true, then the reset all button will reset back to the
@@ -74,11 +72,15 @@ export default class ResetAllButton extends ResetButton {
 
       // voicing
       voicingNameResponse: SceneryPhetStrings.a11y.translatable.resetAll.labelStringProperty,
-      voicingContextResponse: SceneryPhetStrings.a11y.translatable.voicing.resetAll.contextResponseStringProperty
+      voicingContextResponse: SceneryPhetStrings.a11y.translatable.voicing.resetAll.contextResponseStringProperty,
+
+      adjustShapeForStroke: true,
+      xContentOffset: 0
     }, providedOptions );
 
     assert && assert( options.xMargin === undefined && options.yMargin === undefined, 'resetAllButton sets margins' );
-    options.xMargin = options.yMargin = options.radius * MARGIN_COEFFICIENT;
+    options.xMargin = 0.75;
+    options.yMargin = 0.75;
 
     super( options );
 
