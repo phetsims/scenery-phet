@@ -20,8 +20,6 @@ import SceneryPhetConstants from '../SceneryPhetConstants.js';
 import SceneryPhetStrings from '../SceneryPhetStrings.js';
 import ResetButton, { ResetButtonOptions } from './ResetButton.js';
 
-const MARGIN_COEFFICIENT = 5 / SceneryPhetConstants.DEFAULT_BUTTON_RADIUS;
-
 type SelfOptions = {
   phetioRestoreScreenStateOnReset?: boolean;
 };
@@ -62,7 +60,10 @@ export default class ResetAllButton extends ResetButton {
 
       // voicing
       voicingNameResponse: SceneryPhetStrings.a11y.resetAll.alertStringProperty,
-      voicingContextResponse: SceneryPhetStrings.a11y.voicing.resetAll.contextResponseStringProperty
+      voicingContextResponse: SceneryPhetStrings.a11y.voicing.resetAll.contextResponseStringProperty,
+
+      adjustShapeForStroke: true,
+      xContentOffset: 0
     }, providedOptions );
 
     // Wrap the listener for all cases, since PhET-iO won't be able to call this.isPhetioInstrumented() until the super
@@ -81,7 +82,8 @@ export default class ResetAllButton extends ResetButton {
     };
 
     assert && assert( options.xMargin === undefined && options.yMargin === undefined, 'resetAllButton sets margins' );
-    options.xMargin = options.yMargin = options.radius * MARGIN_COEFFICIENT;
+    options.xMargin = 0.75;
+    options.yMargin = 0.75;
 
     super( options );
 

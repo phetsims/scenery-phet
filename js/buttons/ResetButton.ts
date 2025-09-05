@@ -21,6 +21,9 @@ import sceneryPhet from '../sceneryPhet.js';
 type SelfOptions = {
   radius?: number;
   arrowColor?: TColor;
+
+  // ResetAllButton expands the geometry to make room for the stroke, see https://github.com/phetsims/scenery-phet/issues/938
+  adjustShapeForStroke?: boolean;
 };
 
 export type ResetButtonOptions = SelfOptions & StrictOmit<RoundPushButtonOptions, 'content'>;
@@ -50,12 +53,21 @@ export default class ResetButton extends RoundPushButton {
       yContentOffset: -0.0125 * BUTTON_RADIUS,
 
       tandem: Tandem.REQUIRED,
-      tandemNameSuffix: 'ResetButton'
+      tandemNameSuffix: 'ResetButton',
+
+      adjustShapeForStroke: false
     }, providedOptions );
 
     // icon, with bounds adjusted so that center of circle appears to be centered on button, see sun#235
-    const resetShape = new ResetShape( options.radius );
-    const resetIcon = new Path( resetShape, { fill: options.arrowColor } );
+    const resetShape = new ResetShape( options.radius, options.adjustShapeForStroke );
+
+    const resetIcon = new Path( resetShape, options.adjustShapeForStroke ? {
+      fill: options.arrowColor,
+      stroke: 'rgb(80,80,80)',
+      lineWidth: 0.7
+    } : {
+      fill: options.arrowColor
+    } );
     const reflectedIcon = new Path( resetShape.transformed( Matrix3.scaling( -1, -1 ) ) );
     resetIcon.localBounds = resetIcon.localBounds.union( reflectedIcon.localBounds );
 
