@@ -14,15 +14,16 @@ export default class ResetShape extends Shape {
 
   /**
    * @param radius of the center of the reset arrow
+   * @param adjustShapeForStroke - ResetAllButton expands the geometry to make room for the stroke
    */
-  public constructor( radius: number ) {
+  public constructor( radius: number, adjustShapeForStroke = false ) {
 
     super();
 
-    // Adjust these parameters to tweak the appearance of the arrow.
-    const INNER_RADIUS = radius * 0.4;
-    const OUTER_RADIUS = radius * 0.625;
-    const HEAD_WIDTH = 2.25 * ( OUTER_RADIUS - INNER_RADIUS );
+    const INNER_RADIUS = adjustShapeForStroke ? radius * 0.4 - 0.8 : radius * 0.4;
+    const OUTER_RADIUS = adjustShapeForStroke ? radius * 0.625 + 0.8 : radius * 0.625;
+    const HEAD_WIDTH = adjustShapeForStroke ? 2.0 * ( OUTER_RADIUS - INNER_RADIUS ) : 2.25 * ( OUTER_RADIUS - INNER_RADIUS );
+
     const START_ANGLE = -Math.PI * 0.35;
     const END_TO_NECK_ANGULAR_SPAN = -2 * Math.PI * 0.85;
     const ARROW_HEAD_ANGULAR_SPAN = -Math.PI * 0.18;
