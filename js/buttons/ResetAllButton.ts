@@ -22,8 +22,6 @@ import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import TinyProperty from '../../../axon/js/TinyProperty.js';
 import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 
-const MARGIN_COEFFICIENT = 5 / SceneryPhetConstants.DEFAULT_BUTTON_RADIUS;
-
 type SelfOptions = {
   phetioRestoreScreenStateOnReset?: boolean;
 };
@@ -65,11 +63,15 @@ export default class ResetAllButton extends ResetButton {
 
       // voicing
       voicingNameResponse: SceneryPhetStrings.a11y.resetAll.labelStringProperty,
-      voicingContextResponse: SceneryPhetStrings.a11y.voicing.resetAll.contextResponseStringProperty
+      voicingContextResponse: SceneryPhetStrings.a11y.voicing.resetAll.contextResponseStringProperty,
+
+      adjustShapeForStroke: true,
+      xContentOffset: 0
     }, providedOptions );
 
     assert && assert( options.xMargin === undefined && options.yMargin === undefined, 'resetAllButton sets margins' );
-    options.xMargin = options.yMargin = options.radius * MARGIN_COEFFICIENT;
+    options.xMargin = 0.75;
+    options.yMargin = 0.75;
 
     super( options );
 
