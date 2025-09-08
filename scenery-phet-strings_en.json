@@ -559,7 +559,7 @@
           "value": "Move with arrow keys or W, A, S, or D keys."
         },
         "moveSlowerDescription": {
-          "value": "Move slower with shift plus arrow keys or W, A, S, or D keys."
+          "value": "Move slower with Shift plus arrow keys or Shift plus W, A, S, or D keys."
         }
       },
       "timingControls": {

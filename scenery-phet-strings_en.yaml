@@ -198,7 +198,7 @@ a11y:
       closeWithoutChangingDescription: ' Close without changing with Escape key.'
     draggableItems:
       moveDescription:       Move with arrow keys or W, A, S, or D keys.
-      moveSlowerDescription: Move slower with shift plus arrow keys or W, A, S, or D keys.
+      moveSlowerDescription: Move slower with Shift plus arrow keys or Shift plus W, A, S, or D keys.
     timingControls:
       pauseOrPlayActionDescription:      Pause or play action with alt key plus K.
       pauseOrPlayActionMacOSDescription: Pause or play action with option key plus K.
