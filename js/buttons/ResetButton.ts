@@ -65,6 +65,9 @@ export default class ResetButton extends RoundPushButton {
     const resetIcon = new Path( resetShape, options.adjustShapeForStroke ? {
       fill: options.arrowColor,
       stroke: 'rgb(80,80,80)',
+
+      // See that this is related to the geometry in ResetShape. If you change this, you likely need to change those
+      // to compensate.
       lineWidth: 0.7
     } : {
       fill: options.arrowColor
