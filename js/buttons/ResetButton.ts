@@ -26,7 +26,7 @@ type SelfOptions = {
   adjustShapeForStroke?: boolean;
 };
 
-export type ResetButtonOptions = SelfOptions & StrictOmit<RoundPushButtonOptions, 'content'>;
+export type ResetButtonOptions = SelfOptions & StrictOmit<RoundPushButtonOptions, 'content' | 'xContentOffset' | 'yContentOffset'>;
 
 export default class ResetButton extends RoundPushButton {
 
@@ -49,7 +49,7 @@ export default class ResetButton extends RoundPushButton {
       // NOTE: this should be handled by RoundButton.ThreeDAppearanceStrategy, see https://github.com/phetsims/sun/issues/236
       // The icon doesn't look right when perfectly centered, account for that here, and see docs in RoundButton.
       // The multiplier values were empirically determined.
-      xContentOffset: -0.03 * BUTTON_RADIUS,
+      xContentOffset: providedOptions?.adjustShapeForStroke ? 0 : -0.03 * BUTTON_RADIUS,
       yContentOffset: -0.0125 * BUTTON_RADIUS,
 
       tandem: Tandem.REQUIRED,
