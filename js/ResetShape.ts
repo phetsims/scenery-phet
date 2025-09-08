@@ -20,9 +20,14 @@ export default class ResetShape extends Shape {
 
     super();
 
-    const INNER_RADIUS = adjustShapeForStroke ? radius * 0.4 - 0.8 : radius * 0.4;
-    const OUTER_RADIUS = adjustShapeForStroke ? radius * 0.625 + 0.8 : radius * 0.625;
-    const HEAD_WIDTH = adjustShapeForStroke ? 2.0 * ( OUTER_RADIUS - INNER_RADIUS ) : 2.25 * ( OUTER_RADIUS - INNER_RADIUS );
+    // This 0.8 offset is related to the stroke width (which is currently 0.7, see ResetButton.ts). However, adjusting
+    // by 0.7 here did not look correct and did not pass design review, so we had to adjust it independently.
+    const RADIUS_ADJUSTMENT = adjustShapeForStroke ? 0.8 : 0;
+    const HEAD_WIDTH_SCALE = adjustShapeForStroke ? 2.0 : 2.25;
+
+    const INNER_RADIUS = radius * 0.4 - RADIUS_ADJUSTMENT;
+    const OUTER_RADIUS = radius * 0.625 + RADIUS_ADJUSTMENT;
+    const HEAD_WIDTH = HEAD_WIDTH_SCALE * ( OUTER_RADIUS - INNER_RADIUS );
 
     const START_ANGLE = -Math.PI * 0.35;
     const END_TO_NECK_ANGULAR_SPAN = -2 * Math.PI * 0.85;
