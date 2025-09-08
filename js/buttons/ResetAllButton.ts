@@ -30,6 +30,8 @@ export type ResetAllButtonOptions = SelfOptions & StrictOmit<ResetButtonOptions,
 
 const isResettingAllProperty = new TinyProperty( false );
 
+const MARGIN_COEFFICIENT = 3 / SceneryPhetConstants.DEFAULT_BUTTON_RADIUS;
+
 export default class ResetAllButton extends ResetButton {
 
   private readonly disposeResetAllButton: () => void;
@@ -65,13 +67,11 @@ export default class ResetAllButton extends ResetButton {
       voicingNameResponse: SceneryPhetStrings.a11y.resetAll.labelStringProperty,
       voicingContextResponse: SceneryPhetStrings.a11y.voicing.resetAll.contextResponseStringProperty,
 
-      adjustShapeForStroke: true,
-      xContentOffset: 0
+      adjustShapeForStroke: true
     }, providedOptions );
 
     assert && assert( options.xMargin === undefined && options.yMargin === undefined, 'resetAllButton sets margins' );
-    options.xMargin = 0.75;
-    options.yMargin = 0.75;
+    options.xMargin = options.yMargin = options.radius * MARGIN_COEFFICIENT;
 
     super( options );
 
