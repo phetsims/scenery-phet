@@ -9,7 +9,7 @@
 
 import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
 import merge from '../../../phet-core/js/merge.js';
-import optionize from '../../../phet-core/js/optionize.js';
+import { optionize4 } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import { OneKeyStroke } from '../../../scenery/js/input/KeyDescriptor.js';
 import KeyboardListener, { KeyboardListenerOptions } from '../../../scenery/js/listeners/KeyboardListener.js';
@@ -19,6 +19,7 @@ import Font from '../../../scenery/js/util/Font.js';
 import TPaint from '../../../scenery/js/util/TPaint.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import AccessibleInteractiveOptions from '../accessibility/AccessibleInteractiveOptions.js';
 import BackspaceIcon from '../BackspaceIcon.js';
 import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
@@ -101,7 +102,7 @@ class Keypad extends Node {
    */
   public constructor( layout: ( Key | null )[][], providedOptions?: KeypadOptions ) {
 
-    const options = optionize<KeypadOptions, SelfOptions, NodeOptions>()( {
+    const options = optionize4<KeypadOptions, SelfOptions, NodeOptions>()( {}, AccessibleInteractiveOptions, {
       buttonWidth: DEFAULT_BUTTON_WIDTH,
       buttonHeight: DEFAULT_BUTTON_HEIGHT,
       xSpacing: 10,
@@ -114,9 +115,7 @@ class Keypad extends Node {
       accumulatorOptions: null,
       tandem: Tandem.REQUIRED,
       tandemNameSuffix: 'Keypad',
-      tagName: 'div',
-      ariaLabel: 'Keypad',
-      focusable: true,
+      accessibleName: 'Keypad',
       useGlobalKeyboardListener: false
     }, providedOptions );
 
