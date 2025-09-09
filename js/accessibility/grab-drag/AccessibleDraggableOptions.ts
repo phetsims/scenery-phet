@@ -2,6 +2,8 @@
 
 /**
  * Options that you should apply to a Scenery Node that is draggable with a keyboard.
+ * Applies ParallelDOM options that make the Node focusable, ensures that the accessible name
+ * is read correctly, and forces the screen reader to send all keyboard events.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
