@@ -19,7 +19,8 @@ const AccessibleInteractiveOptions: ParallelDOMOptions = {
   ariaRole: 'application',
 
   // Use aria-label to enforce the accessible name. The application role can prevent the inner content from
-  // being used as the accessible name on some platforms.
+  // being used as the accessible name on some platforms. On the other hand, VoiceOver requires innerContent to be set
+  // for the component to be focusable and read correctly.
   accessibleNameBehavior: ( node: Node, options: ParallelDOMOptions, accessibleName: PDOMValueType ): ParallelDOMOptions => {
     options.ariaLabel = accessibleName;
     options.innerContent = accessibleName;

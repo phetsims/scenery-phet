@@ -24,13 +24,14 @@ import InteractiveHighlighting from '../../scenery/js/accessibility/voicing/Inte
 import { PressListenerEvent } from '../../scenery/js/listeners/PressListener.js';
 import Circle from '../../scenery/js/nodes/Circle.js';
 import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
-import Path from '../../scenery/js/nodes/Path.js';
+import Path, { PathOptions } from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import SceneryConstants from '../../scenery/js/SceneryConstants.js';
 import LinearGradient from '../../scenery/js/util/LinearGradient.js';
 import PaintColorProperty from '../../scenery/js/util/PaintColorProperty.js';
 import TColor from '../../scenery/js/util/TColor.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import AccessibleDraggableOptions from './accessibility/grab-drag/AccessibleDraggableOptions.js';
 import sceneryPhet from './sceneryPhet.js';
 import SegmentedBarGraphNode from './SegmentedBarGraphNode.js';
 import SoundDragListener, { SoundDragListenerOptions } from './SoundDragListener.js';
@@ -671,13 +672,11 @@ class PumpHandleNode extends InteractiveHighlighting( Path ) {
       addRelativeColorStop( pumpHandleGradient, gripSingleBumpHalfWidth, pumpHandleWidth, handleFillDarkerColorProperty );
     }
 
-    super( pumpHandleShape, {
+    super( pumpHandleShape, combineOptions<PathOptions>( {
       lineWidth: 2,
       stroke: 'black',
-      fill: pumpHandleGradient,
-      tagName: 'div',
-      focusable: true
-    } );
+      fill: pumpHandleGradient
+    }, AccessibleDraggableOptions ) );
   }
 }
 

@@ -15,7 +15,7 @@ import Range from '../../dot/js/Range.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import optionize, { combineOptions, optionize4 } from '../../phet-core/js/optionize.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
@@ -31,6 +31,7 @@ import Text from '../../scenery/js/nodes/Text.js';
 import Font from '../../scenery/js/util/Font.js';
 import TColor from '../../scenery/js/util/TColor.js';
 import batteryDCell_png from '../images/batteryDCell_png.js';
+import AccessibleDraggableOptions from './accessibility/grab-drag/AccessibleDraggableOptions.js';
 import LightBulbNode from './LightBulbNode.js';
 import MinusNode from './MinusNode.js';
 import PhetFont from './PhetFont.js';
@@ -348,13 +349,11 @@ class ProbeNode extends InteractiveHighlighting( Node ) {
 
   public constructor( labelNode: Node, providedOptions?: ProbeNodeOptions ) {
 
-    const options = optionize<ProbeNodeOptions, ProbeNodeSelfOptions, NodeOptions>()( {
+    const options = optionize4<ProbeNodeOptions, ProbeNodeSelfOptions, NodeOptions>()( {}, AccessibleDraggableOptions, {
       size: new Dimension2( 20, 60 ),
       fill: 'white',
       stroke: 'black',
-      lineWidth: 1.5,
-      tagName: 'div',
-      focusable: true
+      lineWidth: 1.5
     }, providedOptions );
 
     super();
