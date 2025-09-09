@@ -11,11 +11,13 @@
 import TinyProperty from '../../../../axon/js/TinyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Shape from '../../../../kite/js/Shape.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import Path from '../../../../scenery/js/nodes/Path.js';
+import Path, { PathOptions } from '../../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
+import AccessibleDraggableOptions from '../../accessibility/grab-drag/AccessibleDraggableOptions.js';
 import PhetFont from '../../PhetFont.js';
 import SoundDragListener from '../../SoundDragListener.js';
 import SoundKeyboardDragListener from '../../SoundKeyboardDragListener.js';
@@ -54,11 +56,9 @@ export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
   //---------------------------------------------------------------------------------
   // SoundKeyboardDragListener
   //---------------------------------------------------------------------------------
-  const soundKeyboardDragListenerRectangle = new Rectangle( -RADIUS * 3 / 2, -RADIUS / 2, RADIUS * 3, RADIUS, {
-    fill: 'blue',
-    tagName: 'div',
-    focusable: true
-  } );
+  const soundKeyboardDragListenerRectangle = new Rectangle( -RADIUS * 3 / 2, -RADIUS / 2, RADIUS * 3, RADIUS, combineOptions<PathOptions>( {
+    fill: 'blue'
+  }, AccessibleDraggableOptions ) );
   const innerRectangleMessage = new RichText( 'Tab and keyboard-drag me!', {
     font: new PhetFont( 15 ),
     fill: 'white',
@@ -75,13 +75,9 @@ export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
   //---------------------------------------------------------------------------------
   // SoundRichDragListener
   //---------------------------------------------------------------------------------
-  const richDragListenerEllipse = new Path( Shape.ellipse( 0, 0, RADIUS * 2, RADIUS, 0 ), {
-    fill: 'green',
-
-    // so that it is focusable and can receive keyboard input
-    tagName: 'div',
-    focusable: true
-  } );
+  const richDragListenerEllipse = new Path( Shape.ellipse( 0, 0, RADIUS * 2, RADIUS, 0 ), combineOptions<PathOptions>( {
+    fill: 'green'
+  }, AccessibleDraggableOptions ) );
   const innerEllipseMessage = new RichText( 'Drag me with any input!', {
     font: new PhetFont( 15 ),
     fill: 'white',
