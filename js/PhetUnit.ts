@@ -38,7 +38,7 @@ export default class PhetUnit<InputPropertyType extends TReadOnlyProperty<string
   public readonly accessiblePattern?: AccessibleValuePattern;
 
   public constructor(
-    public readonly name: string, // Basic "backwards-compatible" name, e.g. "m" or "m/s^2"
+    public readonly name: string, // Basic "backwards-compatible" name, e.g. "m" or "m/s^2" (strings in axon/units.ts)
     options?: PhetUnitOptions<InputPropertyType>
   ) {
     this.visualStandaloneStringProperty = options?.visualStandaloneStringProperty;
