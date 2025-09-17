@@ -9,6 +9,7 @@
  * @author Anton Ulyanov (Mlearner)
  */
 
+import { DualString } from '../../axon/js/AccessibleStrings.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Property from '../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
@@ -47,7 +48,6 @@ import SoundDragListener, { PressedSoundDragListener, SoundDragListenerOptions }
 import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from './SoundKeyboardDragListener.js';
 import Stopwatch from './Stopwatch.js';
 import UTurnArrowShape from './UTurnArrowShape.js';
-import { DualString } from '../../axon/js/AccessibleStrings.js';
 
 type SelfOptions = {
 
@@ -243,10 +243,11 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
           tandem: options.tandem.createTandem( 'playPauseButton' ),
           phetioVisiblePropertyInstrumented: false,
           phetioEnabledPropertyInstrumented: false,
-          accessibleContextResponse: () => {
-            // When the stopwatch is paused, send the context response, see https://github.com/phetsims/scenery-phet/issues/929#issuecomment-3019748489
-            return stopwatch.isRunningProperty.value ? null : getValueReadoutContextResponse();
-          },
+
+          // When the stopwatch is paused, send the context response, see https://github.com/phetsims/scenery-phet/issues/929#issuecomment-3019748489
+          accessibleContextResponseOn: null,
+          accessibleContextResponseOff: numberDisplay.accessibleValueStringProperty,
+
           accessibleName: new DerivedProperty( [
             stopwatch.isRunningProperty,
             SceneryPhetStrings.a11y.stopwatch.pauseButton.accessibleNameStringProperty,
