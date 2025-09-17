@@ -6,21 +6,19 @@
   <meta name="viewport" content="width=device-width"/>
 </head>
 <body>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
-  $( document ).ready( () => {
-    showViewportSize();
-  } );
-  $( window ).resize( () => {
-    showViewportSize();
-  } );
-
   function showViewportSize() {
-    const the_width = $( window ).width();
-    const the_height = $( window ).height();
-    $( '#width' ).text( the_width );
-    $( '#height' ).text( the_height );
+    const theWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    const theHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    const widthEl = document.getElementById( 'width' );
+    const heightEl = document.getElementById( 'height' );
+    if ( widthEl ) { widthEl.textContent = theWidth; }
+    if ( heightEl ) { heightEl.textContent = theHeight; }
   }
+
+  // Initialize and bind resize listener
+  document.addEventListener( 'DOMContentLoaded', showViewportSize );
+  window.addEventListener( 'resize', showViewportSize );
 </script>
 
 <h1>The benfrain.com super simple, what size is my viewport page?</h1>
