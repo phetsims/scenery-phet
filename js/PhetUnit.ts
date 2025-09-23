@@ -14,6 +14,8 @@ import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import { combineToDisposableDualString, getDisposableNumberStringFluentPatternProperty, getDisposableNumberStringPatternProperty, getFormattedAccessibleNumber, getFormattedAccessibleNumberStringProperty, getFormattedVisualNumber } from './NumberFormatting.js';
 import { AccessibleValuePattern, DualString, FormattedNumberPropertyOptions, NumberFormatOptions } from '../../axon/js/AccessibleStrings.js';
+import affirm from '../../perennial-alias/js/browser-and-node/affirm.js';
+import units, { Units } from '../../axon/js/units.js';
 
 export type PhetUnitOptions<InputPropertyType extends TReadOnlyProperty<string>> = {
   visualStandaloneStringProperty?: InputPropertyType;
@@ -42,6 +44,8 @@ export default class PhetUnit<InputPropertyType extends TReadOnlyProperty<string
     public readonly name: string, // Basic "backwards-compatible" name, e.g. "m" or "m/s^2" (strings in axon/units.ts)
     options?: PhetUnitOptions<InputPropertyType>
   ) {
+    affirm( units.values.includes( name as Units ), 'PhetUnit name should be in units.ts values for now, see https://github.com/phetsims/axon/issues/466' );
+
     this.visualStandaloneStringProperty = options?.visualStandaloneStringProperty;
     this.visualPatternStringProperty = options?.visualPatternStringProperty;
     this.accessiblePattern = options?.accessiblePattern;
