@@ -190,9 +190,7 @@ export default class NumberDisplay extends Node {
     else if (
       numberProperty instanceof ReadOnlyProperty &&
       numberProperty.units !== null &&
-      typeof numberProperty.units !== 'string' &&
-      numberProperty.units.hasVisualString &&
-      numberProperty.units.hasAccessibleString
+      typeof numberProperty.units !== 'string'
     ) {
       const unit = numberProperty.units;
 

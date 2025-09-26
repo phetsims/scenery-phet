@@ -18,18 +18,13 @@ import affirm from '../../perennial-alias/js/browser-and-node/affirm.js';
 import units, { Units } from '../../axon/js/units.js';
 
 export type PhetUnitOptions<InputPropertyType extends TReadOnlyProperty<string>> = {
-  visualSymbolStringProperty?: InputPropertyType;
-  visualSymbolPatternStringProperty?: InputPropertyType;
-  accessiblePattern?: AccessibleValuePattern;
+  visualSymbolStringProperty: InputPropertyType;
+  visualSymbolPatternStringProperty: InputPropertyType;
+  accessiblePattern: AccessibleValuePattern;
 };
 
 // Parameterized so that we can get more specific methods on the input Properties.
 export default class PhetUnit<InputPropertyType extends TReadOnlyProperty<string>> implements Unit {
-
-  // Presence of support for methods that return strings
-  public readonly hasVisualStandaloneString: boolean;
-  public readonly hasVisualString: boolean;
-  public readonly hasAccessibleString: boolean;
 
   // String Property for the "standalone" string (e.g. units with no value)
   public readonly visualSymbolStringProperty?: InputPropertyType;
@@ -49,10 +44,6 @@ export default class PhetUnit<InputPropertyType extends TReadOnlyProperty<string
     this.visualSymbolStringProperty = options?.visualSymbolStringProperty;
     this.visualSymbolPatternStringProperty = options?.visualSymbolPatternStringProperty;
     this.accessiblePattern = options?.accessiblePattern;
-
-    this.hasVisualStandaloneString = !!this.visualSymbolStringProperty;
-    this.hasVisualString = !!this.visualSymbolPatternStringProperty;
-    this.hasAccessibleString = !!this.accessiblePattern;
   }
 
   /******************************************
@@ -62,7 +53,7 @@ export default class PhetUnit<InputPropertyType extends TReadOnlyProperty<string
   /**
    * Get the current value/translation of the standalone string (units with no value).
    */
-  public getVisualStandaloneString(): string {
+  public getVisualSymbolString(): string {
     if ( !this.visualSymbolStringProperty ) {
       throw new Error( `This PhetUnit (${this.name}) does not have support for visual standalone strings.` );
     }
@@ -73,7 +64,7 @@ export default class PhetUnit<InputPropertyType extends TReadOnlyProperty<string
   /**
    * Get the current value/translation of the visual string (value + units).
    */
-  public getVisualString( value: number, providedOptions?: NumberFormatOptions ): string {
+  public getVisualSymbolPatternString( value: number, providedOptions?: NumberFormatOptions ): string {
     if ( !this.visualSymbolPatternStringProperty ) {
       throw new Error( `This PhetUnit (${this.name}) does not have support for visual strings.` );
     }
@@ -101,7 +92,7 @@ export default class PhetUnit<InputPropertyType extends TReadOnlyProperty<string
    */
   public getDualString( value: number, providedOptions?: NumberFormatOptions ): DualString {
     return {
-      visualString: this.getVisualString( value, providedOptions ),
+      visualString: this.getVisualSymbolPatternString( value, providedOptions ),
       accessibleString: this.getAccessibleString( value, providedOptions )
     };
   }
@@ -113,7 +104,7 @@ export default class PhetUnit<InputPropertyType extends TReadOnlyProperty<string
   /**
    * Get the string Property for the standalone visual string (units with no value).
    */
-  public getVisualStandaloneStringProperty(): InputPropertyType {
+  public getVisualSymbolStringProperty(): InputPropertyType {
     if ( !this.visualSymbolStringProperty ) {
       throw new Error( `This PhetUnit (${this.name}) does not have support for visual standalone strings.` );
     }
@@ -124,7 +115,7 @@ export default class PhetUnit<InputPropertyType extends TReadOnlyProperty<string
   /**
    * Get a string Property for a visual string (value + units) based on a value Property.
    */
-  public getVisualStringProperty(
+  public getVisualSymbolPatternStringProperty(
     valueProperty: TReadOnlyProperty<number>,
     providedOptions?: FormattedNumberPropertyOptions<string>
   ): ReadOnlyProperty<string> {
@@ -157,7 +148,7 @@ export default class PhetUnit<InputPropertyType extends TReadOnlyProperty<string
     providedOptions?: FormattedNumberPropertyOptions<string>
   ): ReadOnlyProperty<DualString> {
     return combineToDisposableDualString(
-      this.getVisualStringProperty( valueProperty, providedOptions ),
+      this.getVisualSymbolPatternStringProperty( valueProperty, providedOptions ),
       this.getAccessibleStringProperty( valueProperty, providedOptions )
     );
   }
