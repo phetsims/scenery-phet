@@ -133,20 +133,203 @@ SoundToggleButton.name__deprecated:                     true
 scientificNotation:                                     '{{value}} × {{base}}<sup>{{exponent}}</sup>'
 units:
   centimeters:
-    symbol:  cm
+    symbol:        cm
     symbolPattern: '{{value}} cm'
   centimetersSquared:
     symbol: cm<sup>2</sup>
     symbolPattern: '{{value}} cm<sup>2</sup>'
   hertz:
-    symbol: Hz
+    symbol:        Hz
     symbolPattern: '{{value}} Hz'
   percent:
-    symbol: '%'
+    symbol:        '%'
     symbolPattern: '{{value}}%'
   seconds:
-    symbol: s
+    symbol:        s
     symbolPattern: '{{value}} s'
+  amperes:
+    symbol:        A
+    symbolPattern: '{{value}} A'
+  volts:
+    symbol:        V
+    symbolPattern: '{{value}} V'
+  newtons:
+    symbol:        N
+    symbolPattern: '{{value}} N'
+  watts:
+    symbol:        W
+    symbolPattern: '{{value}} W'
+  joules:
+    symbol:        J
+    symbolPattern: '{{value}} J'
+  kelvin:
+    symbol:        K
+    symbolPattern: '{{value}} K'
+  degrees:
+    symbol:        '°'
+    symbolPattern: '{{value}} °'
+  degreesCelsius:
+    symbol:        '°C'
+    symbolPattern: '{{value}} °C'
+  degreesFahrenheit:
+    symbol:        '°F'
+    symbolPattern: '{{value}} °F'
+  liters:
+    symbol:        L
+    symbolPattern: '{{value}} L'
+  litersPerSecond:
+    symbol:        L/s
+    symbolPattern: '{{value}} L/s'
+  meters:
+    symbol:        m
+    symbolPattern: '{{value}} m'
+  metersPerSecond:
+    symbol:        m/s
+    symbolPattern: '{{value}} m/s'
+  metersPerSecondSquared:
+    symbol:        m/s<sup>2</sup>
+    symbolPattern: '{{value}} m/s<sup>2</sup>'
+  metersPerSecondPerSecond:
+    symbol:        m/s/s
+    symbolPattern: '{{value}} m/s/s'
+  grams:
+    symbol:        g
+    symbolPattern: '{{value}} g'
+  kilograms:
+    symbol:        kg
+    symbolPattern: '{{value}} kg'
+  kilogramsPerLiter:
+    symbol:        kg/L
+    symbolPattern: '{{value}} kg/L'
+  kilogramsPerCubicMeter:
+    symbol:        kg/m<sup>3</sup>
+    symbolPattern: '{{value}} kg/m<sup>3</sup>'
+  kilopascals:
+    symbol:        kPa
+    symbolPattern: '{{value}} kPa'
+  nanometers:
+    symbol:        nm
+    symbolPattern: '{{value}} nm'
+  nanometersPerPicosecond:
+    symbol:        nm/ps
+    symbolPattern: '{{value}} nm/ps'
+  kilometersPerSecond:
+    symbol:        km/s
+    symbolPattern: '{{value}} km/s'
+  picometers:
+    symbol:        pm
+    symbolPattern: '{{value}} pm'
+  picometersPerSecond:
+    symbol:        pm/s
+    symbolPattern: '{{value}} pm/s'
+  picometersPerSecondSquared:
+    symbol:        pm/s<sup>2</sup>
+    symbolPattern: '{{value}} pm/s<sup>2</sup>'
+  nanoseconds:
+    symbol:        ns
+    symbolPattern: '{{value}} ns'
+  picoseconds:
+    symbol:        ps
+    symbolPattern: '{{value}} ps'
+  molarAbsorptivity:
+    symbol:        1/(cm*M)
+    symbolPattern: '{{value}} 1/(cm*M)'
+  ohms:
+    symbol:        'Ω'
+    symbolPattern: '{{value}} Ω'
+  ohmCentimeters:
+    symbol:        'Ω·cm'
+    symbolPattern: '{{value}} Ω·cm'
+  millivolts:
+    symbol:        mV
+    symbolPattern: '{{value}} mV'
+  milliamperes:
+    symbol:        mA
+    symbolPattern: '{{value}} mA'
+  farads:
+    symbol:        F
+    symbolPattern: '{{value}} F'
+  webers:
+    symbol:        Wb
+    symbolPattern: '{{value}} Wb'
+  gauss:
+    symbol:        G
+    symbolPattern: '{{value}} G'
+  pascalSeconds:
+    symbol:        Pa·s
+    symbolPattern: '{{value}} Pa·s'
+  newtonsPerMeter:
+    symbol:        N/m
+    symbolPattern: '{{value}} N/m'
+  newtonSecondsPerMeter:
+    symbol:        N·s/m
+    symbolPattern: '{{value}} N·s/m'
+  moles:
+    symbol:        mol
+    symbolPattern: '{{value}} mol'
+  molesPerSecond:
+    symbol:        mol/s
+    symbolPattern: '{{value}} mol/s'
+  molar:
+    symbol:        M
+    symbolPattern: '{{value}} M'
+  molesPerLiter:
+    symbol:        mol/L
+    symbolPattern: '{{value}} mol/L'
+  radians:
+    symbol:        radians
+    symbolPattern: '{{value}} radians'
+  radiansPerSecond:
+    symbol:        radians/s
+    symbolPattern: '{{value}} radians/s'
+  radiansPerSecondSquared:
+    symbol:        radians/s<sup>2</sup>
+    symbolPattern: '{{value}} radians/s<sup>2</sup>'
+  years:
+    symbol:        years
+    symbolPattern: '{{value}} years'
+  astronomicalUnits:
+    symbol:        AU
+    symbolPattern: '{{value}} AU'
+  astronomicalUnitsSquared:
+    symbol:        AU<sup>2</sup>
+    symbolPattern: '{{value}} AU<sup>2</sup>'
+  viewCoordinatesPerSecond:
+    symbol:        view-coordinates/s
+    symbolPattern: '{{value}} view-coordinates/s'
+  atomicMassUnits:
+    symbol:        AMU
+    symbolPattern: '{{value}} AMU'
+  coulombs:
+    symbol:        C
+    symbolPattern: '{{value}} C'
+  cubicMeters:
+    symbol:        m<sup>3</sup>
+    symbolPattern: '{{value}} m<sup>3</sup>'
+  cubicPicometers:
+    symbol:        pm<sup>3</sup>
+    symbolPattern: '{{value}} pm<sup>3</sup>'
+  electronVolt:
+    symbol:        eV
+    symbolPattern: '{{value}} eV'
+  millimeters:
+    symbol:        mm
+    symbolPattern: '{{value}} mm'
+  particlesPerPicosecond:
+    symbol:        particles/ps
+    symbolPattern: '{{value}} particles/ps'
+  revolutionsPerMinute:
+    symbol:        rpm
+    symbolPattern: '{{value}} rpm'
+  atmospheres:
+    symbol:        atm
+    symbolPattern: '{{value}} atm'
+  kilogramMetersPerSecond:
+    symbol:        kg·m/s
+    symbolPattern: '{{value}} kg·m/s'
+  picometersPerPicosecond:
+    symbol:        pm/ps
+    symbolPattern: '{{value}} pm/ps'
 a11y:
   simSection:
     screenSummary:
@@ -319,4 +502,354 @@ a11y:
                { $value ->
                  [one] { $value } second
                  *[other] { $value } seconds
+               }
+    kilopascals:
+      pattern: |-
+               { $value ->
+                 [one] { $value } kilopascal
+                 *[other] { $value } kilopascals
+               }
+    amperes:
+      pattern: |-
+               { $value ->
+                 [one] { $value } ampere
+                 *[other] { $value } amperes
+               }
+    volts:
+      pattern: |-
+               { $value ->
+                 [one] { $value } volt
+                 *[other] { $value } volts
+               }
+    newtons:
+      pattern: |-
+               { $value ->
+                 [one] { $value } newton
+                 *[other] { $value } newtons
+               }
+    watts:
+      pattern: |-
+               { $value ->
+                 [one] { $value } watt
+                 *[other] { $value } watts
+               }
+    joules:
+      pattern: |-
+               { $value ->
+                 [one] { $value } joule
+                 *[other] { $value } joules
+               }
+    kelvin:
+      pattern: |-
+               { $value ->
+                 [one] { $value } kelvin
+                 *[other] { $value } kelvins
+               }
+    degrees:
+      pattern: |-
+               { $value ->
+                 [one] { $value } degree
+                 *[other] { $value } degrees
+               }
+    degreesCelsius:
+      pattern: |-
+               { $value ->
+                 [one] { $value } degree Celsius
+                 *[other] { $value } degrees Celsius
+               }
+    degreesFahrenheit:
+      pattern: |-
+               { $value ->
+                 [one] { $value } degree Fahrenheit
+                 *[other] { $value } degrees Fahrenheit
+               }
+    liters:
+      pattern: |-
+               { $value ->
+                 [one] { $value } liter
+                 *[other] { $value } liters
+               }
+    litersPerSecond:
+      pattern: |-
+               { $value ->
+                 [one] { $value } liter per second
+                 *[other] { $value } liters per second
+               }
+    meters:
+      pattern: |-
+               { $value ->
+                 [one] { $value } meter
+                 *[other] { $value } meters
+               }
+    metersPerSecond:
+      pattern: |-
+               { $value ->
+                 [one] { $value } meter per second
+                 *[other] { $value } meters per second
+               }
+    metersPerSecondSquared:
+      pattern: |-
+               { $value ->
+                 [one] { $value } meter per second squared
+                 *[other] { $value } meters per second squared
+               }
+    metersPerSecondPerSecond:
+      pattern: |-
+               { $value ->
+                 [one] { $value } meter per second per second
+                 *[other] { $value } meters per second per second
+               }
+    grams:
+      pattern: |-
+               { $value ->
+                 [one] { $value } gram
+                 *[other] { $value } grams
+               }
+    kilograms:
+      pattern: |-
+               { $value ->
+                 [one] { $value } kilogram
+                 *[other] { $value } kilograms
+               }
+    kilogramsPerLiter:
+      pattern: |-
+               { $value ->
+                 [one] { $value } kilogram per liter
+                 *[other] { $value } kilograms per liter
+               }
+    kilogramsPerCubicMeter:
+      pattern: |-
+               { $value ->
+                 [one] { $value } kilogram per cubic meter
+                 *[other] { $value } kilograms per cubic meter
+               }
+    nanometers:
+      pattern: |-
+               { $value ->
+                 [one] { $value } nanometer
+                 *[other] { $value } nanometers
+               }
+    nanometersPerPicosecond:
+      pattern: |-
+               { $value ->
+                 [one] { $value } nanometer per picosecond
+                 *[other] { $value } nanometers per picosecond
+               }
+    kilometersPerSecond:
+      pattern: |-
+               { $value ->
+                 [one] { $value } kilometer per second
+                 *[other] { $value } kilometers per second
+               }
+    picometers:
+      pattern: |-
+               { $value ->
+                 [one] { $value } picometer
+                 *[other] { $value } picometers
+               }
+    picometersPerSecond:
+      pattern: |-
+               { $value ->
+                 [one] { $value } picometer per second
+                 *[other] { $value } picometers per second
+               }
+    picometersPerSecondSquared:
+      pattern: |-
+               { $value ->
+                 [one] { $value } picometer per second squared
+                 *[other] { $value } picometers per second squared
+               }
+    nanoseconds:
+      pattern: |-
+               { $value ->
+                 [one] { $value } nanosecond
+                 *[other] { $value } nanoseconds
+               }
+    picoseconds:
+      pattern: |-
+               { $value ->
+                 [one] { $value } picosecond
+                 *[other] { $value } picoseconds
+               }
+    molarAbsorptivity:
+      pattern: '{ $value } per centimeter per molar'
+    ohms:
+      pattern: |-
+               { $value ->
+                 [one] { $value } ohm
+                 *[other] { $value } ohms
+               }
+    ohmCentimeters:
+      pattern: |-
+               { $value ->
+                 [one] { $value } ohm-centimeter
+                 *[other] { $value } ohm-centimeters
+               }
+    millivolts:
+      pattern: |-
+               { $value ->
+                 [one] { $value } millivolt
+                 *[other] { $value } millivolts
+               }
+    milliamperes:
+      pattern: |-
+               { $value ->
+                 [one] { $value } milliampere
+                 *[other] { $value } milliamperes
+               }
+    farads:
+      pattern: |-
+               { $value ->
+                 [one] { $value } farad
+                 *[other] { $value } farads
+               }
+    webers:
+      pattern: |-
+               { $value ->
+                 [one] { $value } weber
+                 *[other] { $value } webers
+               }
+    gauss:
+      pattern: '{ $value } gauss'
+    pascalSeconds:
+      pattern: |-
+               { $value ->
+                 [one] { $value } pascal second
+                 *[other] { $value } pascal seconds
+               }
+    newtonsPerMeter:
+      pattern: |-
+               { $value ->
+                 [one] { $value } newton per meter
+                 *[other] { $value } newtons per meter
+               }
+    newtonSecondsPerMeter:
+      pattern: |-
+               { $value ->
+                 [one] { $value } newton-second per meter
+                 *[other] { $value } newton-seconds per meter
+               }
+    moles:
+      pattern: |-
+               { $value ->
+                 [one] { $value } mole
+                 *[other] { $value } moles
+               }
+    molesPerSecond:
+      pattern: |-
+               { $value ->
+                 [one] { $value } mole per second
+                 *[other] { $value } moles per second
+               }
+    molar:
+      pattern: '{ $value } molar'
+    molesPerLiter:
+      pattern: |-
+               { $value ->
+                 [one] { $value } mole per liter
+                 *[other] { $value } moles per liter
+               }
+    radians:
+      pattern: |-
+               { $value ->
+                 [one] { $value } radian
+                 *[other] { $value } radians
+               }
+    radiansPerSecond:
+      pattern: |-
+               { $value ->
+                 [one] { $value } radian per second
+                 *[other] { $value } radians per second
+               }
+    radiansPerSecondSquared:
+      pattern: |-
+               { $value ->
+                 [one] { $value } radian per second squared
+                 *[other] { $value } radians per second squared
+               }
+    years:
+      pattern: |-
+               { $value ->
+                 [one] { $value } year
+                 *[other] { $value } years
+               }
+    astronomicalUnits:
+      pattern: |-
+               { $value ->
+                 [one] { $value } astronomical unit
+                 *[other] { $value } astronomical units
+               }
+    astronomicalUnitsSquared:
+      pattern: |-
+               { $value ->
+                 [one] { $value } square astronomical unit
+                 *[other] { $value } square astronomical units
+               }
+    viewCoordinatesPerSecond:
+      pattern: '{ $value } view-coordinates per second'
+    atomicMassUnits:
+      pattern: |-
+               { $value ->
+                 [one] { $value } atomic mass unit
+                 *[other] { $value } atomic mass units
+               }
+    coulombs:
+      pattern: |-
+               { $value ->
+                 [one] { $value } coulomb
+                 *[other] { $value } coulombs
+               }
+    cubicMeters:
+      pattern: |-
+               { $value ->
+                 [one] { $value } cubic meter
+                 *[other] { $value } cubic meters
+               }
+    cubicPicometers:
+      pattern: |-
+               { $value ->
+                 [one] { $value } cubic picometer
+                 *[other] { $value } cubic picometers
+               }
+    electronVolt:
+      pattern: |-
+               { $value ->
+                 [one] { $value } electron volt
+                 *[other] { $value } electron volts
+               }
+    millimeters:
+      pattern: |-
+               { $value ->
+                 [one] { $value } millimeter
+                 *[other] { $value } millimeters
+               }
+    particlesPerPicosecond:
+      pattern: |-
+               { $value ->
+                 [one] { $value } particle per picosecond
+                 *[other] { $value } particles per picosecond
+               }
+    revolutionsPerMinute:
+      pattern: |-
+               { $value ->
+                 [one] { $value } revolution per minute
+                 *[other] { $value } revolutions per minute
+               }
+    atmospheres:
+      pattern: |-
+               { $value ->
+                 [one] { $value } atmosphere
+                 *[other] { $value } atmospheres
+               }
+    kilogramMetersPerSecond:
+      pattern: |-
+               { $value ->
+                 [one] { $value } kilogram-meter per second
+                 *[other] { $value } kilogram-meters per second
+               }
+    picometersPerPicosecond:
+      pattern: |-
+               { $value ->
+                 [one] { $value } picometer per picosecond
+                 *[other] { $value } picometers per picosecond
                }

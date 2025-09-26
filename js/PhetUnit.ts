@@ -18,8 +18,8 @@ import affirm from '../../perennial-alias/js/browser-and-node/affirm.js';
 import units, { Units } from '../../axon/js/units.js';
 
 export type PhetUnitOptions<InputPropertyType extends TReadOnlyProperty<string>> = {
-  visualStandaloneStringProperty?: InputPropertyType;
-  visualPatternStringProperty?: InputPropertyType;
+  visualSymbolStringProperty?: InputPropertyType;
+  visualSymbolPatternStringProperty?: InputPropertyType;
   accessiblePattern?: AccessibleValuePattern;
 };
 
@@ -32,10 +32,10 @@ export default class PhetUnit<InputPropertyType extends TReadOnlyProperty<string
   public readonly hasAccessibleString: boolean;
 
   // String Property for the "standalone" string (e.g. units with no value)
-  public readonly visualStandaloneStringProperty?: InputPropertyType;
+  public readonly visualSymbolStringProperty?: InputPropertyType;
 
   // Pattern for the visual "value + units" combination
-  public readonly visualPatternStringProperty?: InputPropertyType;
+  public readonly visualSymbolPatternStringProperty?: InputPropertyType;
 
   // Pattern for the accessible "value + units" combination
   public readonly accessiblePattern?: AccessibleValuePattern;
@@ -46,12 +46,12 @@ export default class PhetUnit<InputPropertyType extends TReadOnlyProperty<string
   ) {
     affirm( units.values.includes( name as Units ), 'PhetUnit name should be in units.ts values for now, see https://github.com/phetsims/axon/issues/466' );
 
-    this.visualStandaloneStringProperty = options?.visualStandaloneStringProperty;
-    this.visualPatternStringProperty = options?.visualPatternStringProperty;
+    this.visualSymbolStringProperty = options?.visualSymbolStringProperty;
+    this.visualSymbolPatternStringProperty = options?.visualSymbolPatternStringProperty;
     this.accessiblePattern = options?.accessiblePattern;
 
-    this.hasVisualStandaloneString = !!this.visualStandaloneStringProperty;
-    this.hasVisualString = !!this.visualPatternStringProperty;
+    this.hasVisualStandaloneString = !!this.visualSymbolStringProperty;
+    this.hasVisualString = !!this.visualSymbolPatternStringProperty;
     this.hasAccessibleString = !!this.accessiblePattern;
   }
 
@@ -63,22 +63,22 @@ export default class PhetUnit<InputPropertyType extends TReadOnlyProperty<string
    * Get the current value/translation of the standalone string (units with no value).
    */
   public getVisualStandaloneString(): string {
-    if ( !this.visualStandaloneStringProperty ) {
+    if ( !this.visualSymbolStringProperty ) {
       throw new Error( `This PhetUnit (${this.name}) does not have support for visual standalone strings.` );
     }
 
-    return this.visualStandaloneStringProperty.value;
+    return this.visualSymbolStringProperty.value;
   }
 
   /**
    * Get the current value/translation of the visual string (value + units).
    */
   public getVisualString( value: number, providedOptions?: NumberFormatOptions ): string {
-    if ( !this.visualPatternStringProperty ) {
+    if ( !this.visualSymbolPatternStringProperty ) {
       throw new Error( `This PhetUnit (${this.name}) does not have support for visual strings.` );
     }
 
-    return StringUtils.fillIn( this.visualPatternStringProperty.value, {
+    return StringUtils.fillIn( this.visualSymbolPatternStringProperty.value, {
       value: getFormattedVisualNumber( value, providedOptions )
     } );
   }
@@ -114,11 +114,11 @@ export default class PhetUnit<InputPropertyType extends TReadOnlyProperty<string
    * Get the string Property for the standalone visual string (units with no value).
    */
   public getVisualStandaloneStringProperty(): InputPropertyType {
-    if ( !this.visualStandaloneStringProperty ) {
+    if ( !this.visualSymbolStringProperty ) {
       throw new Error( `This PhetUnit (${this.name}) does not have support for visual standalone strings.` );
     }
 
-    return this.visualStandaloneStringProperty;
+    return this.visualSymbolStringProperty;
   }
 
   /**
@@ -128,11 +128,11 @@ export default class PhetUnit<InputPropertyType extends TReadOnlyProperty<string
     valueProperty: TReadOnlyProperty<number>,
     providedOptions?: FormattedNumberPropertyOptions<string>
   ): ReadOnlyProperty<string> {
-    if ( !this.visualPatternStringProperty ) {
+    if ( !this.visualSymbolPatternStringProperty ) {
       throw new Error( `This PhetUnit (${this.name}) does not have support for visual strings.` );
     }
 
-    return getDisposableNumberStringPatternProperty( valueProperty, this.visualPatternStringProperty, false, providedOptions );
+    return getDisposableNumberStringPatternProperty( valueProperty, this.visualSymbolPatternStringProperty, false, providedOptions );
   }
 
   /**
@@ -168,8 +168,8 @@ export default class PhetUnit<InputPropertyType extends TReadOnlyProperty<string
   public getDependentProperties(): TReadOnlyProperty<unknown>[] {
     return [
       // Spreads for TS to typecheck a bit safer than a filter could
-      ...( this.visualStandaloneStringProperty ? [ this.visualStandaloneStringProperty ] : [] ),
-      ...( this.visualPatternStringProperty ? [ this.visualPatternStringProperty ] : [] ),
+      ...( this.visualSymbolStringProperty ? [ this.visualSymbolStringProperty ] : [] ),
+      ...( this.visualSymbolPatternStringProperty ? [ this.visualSymbolPatternStringProperty ] : [] ),
       ...( this.accessiblePattern ? this.accessiblePattern.getDependentProperties() : [] )
     ];
   }

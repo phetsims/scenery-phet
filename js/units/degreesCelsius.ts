@@ -7,8 +7,14 @@
  */
 
 import PhetUnit from '../PhetUnit.js';
+import SceneryPhetFluent from '../SceneryPhetFluent.js';
 import sceneryPhet from '../sceneryPhet.js';
+import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
 
-export const degreesCelsiusUnit = new PhetUnit( '°C' );
+export const degreesCelsiusUnit = new PhetUnit<ReadOnlyProperty<string>>( '°C', {
+  visualSymbolStringProperty: SceneryPhetFluent.units.degreesCelsius.symbolStringProperty,
+  visualSymbolPatternStringProperty: SceneryPhetFluent.units.degreesCelsius.symbolPatternStringProperty,
+  accessiblePattern: SceneryPhetFluent.a11y.units.degreesCelsius.pattern
+} );
 
 sceneryPhet.register( 'degreesCelsiusUnit', degreesCelsiusUnit );

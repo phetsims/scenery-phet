@@ -185,6 +185,250 @@ type StringsType = {
     'seconds': {
       'symbolStringProperty': LocalizedStringProperty;
       'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'amperes': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'volts': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'newtons': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'watts': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'joules': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'kelvin': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'degrees': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'degreesCelsius': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'degreesFahrenheit': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'liters': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'litersPerSecond': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'meters': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'metersPerSecond': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'metersPerSecondSquared': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'metersPerSecondPerSecond': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'grams': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'kilograms': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'kilogramsPerLiter': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'kilogramsPerCubicMeter': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'kilopascals': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'nanometers': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'nanometersPerPicosecond': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'kilometersPerSecond': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'picometers': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'picometersPerSecond': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'picometersPerSecondSquared': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'nanoseconds': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'picoseconds': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'molarAbsorptivity': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'ohms': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'ohmCentimeters': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'millivolts': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'milliamperes': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'farads': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'webers': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'gauss': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'pascalSeconds': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'newtonsPerMeter': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'newtonSecondsPerMeter': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'moles': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'molesPerSecond': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'molar': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'molesPerLiter': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'radians': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'radiansPerSecond': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'radiansPerSecondSquared': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'years': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'astronomicalUnits': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'astronomicalUnitsSquared': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'viewCoordinatesPerSecond': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'atomicMassUnits': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'coulombs': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'cubicMeters': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'cubicPicometers': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'electronVolt': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'millimeters': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'particlesPerPicosecond': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'revolutionsPerMinute': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'atmospheres': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'kilogramMetersPerSecond': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'picometersPerPicosecond': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
     }
   };
   'a11y': {
@@ -375,6 +619,189 @@ type StringsType = {
         'patternStringProperty': LocalizedStringProperty;
       };
       'seconds': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'kilopascals': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'amperes': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'volts': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'newtons': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'watts': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'joules': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'kelvin': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'degrees': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'degreesCelsius': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'degreesFahrenheit': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'liters': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'litersPerSecond': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'meters': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'metersPerSecond': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'metersPerSecondSquared': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'metersPerSecondPerSecond': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'grams': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'kilograms': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'kilogramsPerLiter': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'kilogramsPerCubicMeter': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'nanometers': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'nanometersPerPicosecond': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'kilometersPerSecond': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'picometers': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'picometersPerSecond': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'picometersPerSecondSquared': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'nanoseconds': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'picoseconds': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'molarAbsorptivity': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'ohms': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'ohmCentimeters': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'millivolts': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'milliamperes': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'farads': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'webers': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'gauss': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'pascalSeconds': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'newtonsPerMeter': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'newtonSecondsPerMeter': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'moles': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'molesPerSecond': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'molar': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'molesPerLiter': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'radians': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'radiansPerSecond': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'radiansPerSecondSquared': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'years': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'astronomicalUnits': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'astronomicalUnitsSquared': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'viewCoordinatesPerSecond': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'atomicMassUnits': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'coulombs': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'cubicMeters': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'cubicPicometers': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'electronVolt': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'millimeters': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'particlesPerPicosecond': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'revolutionsPerMinute': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'atmospheres': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'kilogramMetersPerSecond': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'picometersPerPicosecond': {
         'patternStringProperty': LocalizedStringProperty;
       }
     }

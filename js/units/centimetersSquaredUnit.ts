@@ -12,8 +12,8 @@ import sceneryPhet from '../sceneryPhet.js';
 import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
 
 export const centimetersSquaredUnit = new PhetUnit<ReadOnlyProperty<string>>( 'cm^2', {
-  visualStandaloneStringProperty: SceneryPhetFluent.units.centimetersSquared.symbolStringProperty,
-  visualPatternStringProperty: SceneryPhetFluent.units.centimetersSquared.symbolPatternStringProperty,
+  visualSymbolStringProperty: SceneryPhetFluent.units.centimetersSquared.symbolStringProperty,
+  visualSymbolPatternStringProperty: SceneryPhetFluent.units.centimetersSquared.symbolPatternStringProperty,
   accessiblePattern: SceneryPhetFluent.a11y.units.centimetersSquared.pattern
 } );
 

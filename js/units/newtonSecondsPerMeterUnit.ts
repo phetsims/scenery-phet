@@ -7,8 +7,14 @@
  */
 
 import PhetUnit from '../PhetUnit.js';
+import SceneryPhetFluent from '../SceneryPhetFluent.js';
 import sceneryPhet from '../sceneryPhet.js';
+import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
 
-export const newtonSecondsPerMeterUnit = new PhetUnit( 'N·s/m' );
+export const newtonSecondsPerMeterUnit = new PhetUnit<ReadOnlyProperty<string>>( 'N·s/m', {
+  visualSymbolStringProperty: SceneryPhetFluent.units.newtonSecondsPerMeter.symbolStringProperty,
+  visualSymbolPatternStringProperty: SceneryPhetFluent.units.newtonSecondsPerMeter.symbolPatternStringProperty,
+  accessiblePattern: SceneryPhetFluent.a11y.units.newtonSecondsPerMeter.pattern
+} );
 
 sceneryPhet.register( 'newtonSecondsPerMeterUnit', newtonSecondsPerMeterUnit );

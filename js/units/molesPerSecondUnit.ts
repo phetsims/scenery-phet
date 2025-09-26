@@ -7,8 +7,14 @@
  */
 
 import PhetUnit from '../PhetUnit.js';
+import SceneryPhetFluent from '../SceneryPhetFluent.js';
 import sceneryPhet from '../sceneryPhet.js';
+import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
 
-export const molesPerSecondUnit = new PhetUnit( 'mol/s' );
+export const molesPerSecondUnit = new PhetUnit<ReadOnlyProperty<string>>( 'mol/s', {
+  visualSymbolStringProperty: SceneryPhetFluent.units.molesPerSecond.symbolStringProperty,
+  visualSymbolPatternStringProperty: SceneryPhetFluent.units.molesPerSecond.symbolPatternStringProperty,
+  accessiblePattern: SceneryPhetFluent.a11y.units.molesPerSecond.pattern
+} );
 
 sceneryPhet.register( 'molesPerSecondUnit', molesPerSecondUnit );

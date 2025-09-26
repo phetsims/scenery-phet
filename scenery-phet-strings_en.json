@@ -401,10 +401,10 @@
     },
     "centimetersSquared": {
       "symbol": {
-        "value": "cm<sup>2</sup>"
+        "value": "cm^2"
       },
       "symbolPattern": {
-        "value": "{{value}} cm<sup>2</sup>"
+        "value": "{{value}} cm^2"
       }
     },
     "hertz": {
@@ -429,6 +429,494 @@
       },
       "symbolPattern": {
         "value": "{{value}} s"
+      }
+    },
+    "amperes": {
+      "symbol": {
+        "value": "A"
+      },
+      "symbolPattern": {
+        "value": "{{value}} A"
+      }
+    },
+    "volts": {
+      "symbol": {
+        "value": "V"
+      },
+      "symbolPattern": {
+        "value": "{{value}} V"
+      }
+    },
+    "newtons": {
+      "symbol": {
+        "value": "N"
+      },
+      "symbolPattern": {
+        "value": "{{value}} N"
+      }
+    },
+    "watts": {
+      "symbol": {
+        "value": "W"
+      },
+      "symbolPattern": {
+        "value": "{{value}} W"
+      }
+    },
+    "joules": {
+      "symbol": {
+        "value": "J"
+      },
+      "symbolPattern": {
+        "value": "{{value}} J"
+      }
+    },
+    "kelvin": {
+      "symbol": {
+        "value": "K"
+      },
+      "symbolPattern": {
+        "value": "{{value}} K"
+      }
+    },
+    "degrees": {
+      "symbol": {
+        "value": "°"
+      },
+      "symbolPattern": {
+        "value": "{{value}} °"
+      }
+    },
+    "degreesCelsius": {
+      "symbol": {
+        "value": "°C"
+      },
+      "symbolPattern": {
+        "value": "{{value}} °C"
+      }
+    },
+    "degreesFahrenheit": {
+      "symbol": {
+        "value": "°F"
+      },
+      "symbolPattern": {
+        "value": "{{value}} °F"
+      }
+    },
+    "liters": {
+      "symbol": {
+        "value": "L"
+      },
+      "symbolPattern": {
+        "value": "{{value}} L"
+      }
+    },
+    "litersPerSecond": {
+      "symbol": {
+        "value": "L/s"
+      },
+      "symbolPattern": {
+        "value": "{{value}} L/s"
+      }
+    },
+    "meters": {
+      "symbol": {
+        "value": "m"
+      },
+      "symbolPattern": {
+        "value": "{{value}} m"
+      }
+    },
+    "metersPerSecond": {
+      "symbol": {
+        "value": "m/s"
+      },
+      "symbolPattern": {
+        "value": "{{value}} m/s"
+      }
+    },
+    "metersPerSecondSquared": {
+      "symbol": {
+        "value": "m/s^2"
+      },
+      "symbolPattern": {
+        "value": "{{value}} m/s^2"
+      }
+    },
+    "metersPerSecondPerSecond": {
+      "symbol": {
+        "value": "m/s/s"
+      },
+      "symbolPattern": {
+        "value": "{{value}} m/s/s"
+      }
+    },
+    "grams": {
+      "symbol": {
+        "value": "g"
+      },
+      "symbolPattern": {
+        "value": "{{value}} g"
+      }
+    },
+    "kilograms": {
+      "symbol": {
+        "value": "kg"
+      },
+      "symbolPattern": {
+        "value": "{{value}} kg"
+      }
+    },
+    "kilogramsPerLiter": {
+      "symbol": {
+        "value": "kg/L"
+      },
+      "symbolPattern": {
+        "value": "{{value}} kg/L"
+      }
+    },
+    "kilogramsPerCubicMeter": {
+      "symbol": {
+        "value": "kg/m^3"
+      },
+      "symbolPattern": {
+        "value": "{{value}} kg/m^3"
+      }
+    },
+    "kilopascals": {
+      "symbol": {
+        "value": "kPa"
+      },
+      "symbolPattern": {
+        "value": "{{value}} kPa"
+      }
+    },
+    "nanometers": {
+      "symbol": {
+        "value": "nm"
+      },
+      "symbolPattern": {
+        "value": "{{value}} nm"
+      }
+    },
+    "nanometersPerPicosecond": {
+      "symbol": {
+        "value": "nm/ps"
+      },
+      "symbolPattern": {
+        "value": "{{value}} nm/ps"
+      }
+    },
+    "kilometersPerSecond": {
+      "symbol": {
+        "value": "km/s"
+      },
+      "symbolPattern": {
+        "value": "{{value}} km/s"
+      }
+    },
+    "picometers": {
+      "symbol": {
+        "value": "pm"
+      },
+      "symbolPattern": {
+        "value": "{{value}} pm"
+      }
+    },
+    "picometersPerSecond": {
+      "symbol": {
+        "value": "pm/s"
+      },
+      "symbolPattern": {
+        "value": "{{value}} pm/s"
+      }
+    },
+    "picometersPerSecondSquared": {
+      "symbol": {
+        "value": "pm/s^2"
+      },
+      "symbolPattern": {
+        "value": "{{value}} pm/s^2"
+      }
+    },
+    "nanoseconds": {
+      "symbol": {
+        "value": "ns"
+      },
+      "symbolPattern": {
+        "value": "{{value}} ns"
+      }
+    },
+    "picoseconds": {
+      "symbol": {
+        "value": "ps"
+      },
+      "symbolPattern": {
+        "value": "{{value}} ps"
+      }
+    },
+    "molarAbsorptivity": {
+      "symbol": {
+        "value": "1/(cm*M)"
+      },
+      "symbolPattern": {
+        "value": "{{value}} 1/(cm*M)"
+      }
+    },
+    "ohms": {
+      "symbol": {
+        "value": "Ω"
+      },
+      "symbolPattern": {
+        "value": "{{value}} Ω"
+      }
+    },
+    "ohmCentimeters": {
+      "symbol": {
+        "value": "Ω·cm"
+      },
+      "symbolPattern": {
+        "value": "{{value}} Ω·cm"
+      }
+    },
+    "millivolts": {
+      "symbol": {
+        "value": "mV"
+      },
+      "symbolPattern": {
+        "value": "{{value}} mV"
+      }
+    },
+    "milliamperes": {
+      "symbol": {
+        "value": "mA"
+      },
+      "symbolPattern": {
+        "value": "{{value}} mA"
+      }
+    },
+    "farads": {
+      "symbol": {
+        "value": "F"
+      },
+      "symbolPattern": {
+        "value": "{{value}} F"
+      }
+    },
+    "webers": {
+      "symbol": {
+        "value": "Wb"
+      },
+      "symbolPattern": {
+        "value": "{{value}} Wb"
+      }
+    },
+    "gauss": {
+      "symbol": {
+        "value": "G"
+      },
+      "symbolPattern": {
+        "value": "{{value}} G"
+      }
+    },
+    "pascalSeconds": {
+      "symbol": {
+        "value": "Pa·s"
+      },
+      "symbolPattern": {
+        "value": "{{value}} Pa·s"
+      }
+    },
+    "newtonsPerMeter": {
+      "symbol": {
+        "value": "N/m"
+      },
+      "symbolPattern": {
+        "value": "{{value}} N/m"
+      }
+    },
+    "newtonSecondsPerMeter": {
+      "symbol": {
+        "value": "N·s/m"
+      },
+      "symbolPattern": {
+        "value": "{{value}} N·s/m"
+      }
+    },
+    "moles": {
+      "symbol": {
+        "value": "mol"
+      },
+      "symbolPattern": {
+        "value": "{{value}} mol"
+      }
+    },
+    "molesPerSecond": {
+      "symbol": {
+        "value": "mol/s"
+      },
+      "symbolPattern": {
+        "value": "{{value}} mol/s"
+      }
+    },
+    "molar": {
+      "symbol": {
+        "value": "M"
+      },
+      "symbolPattern": {
+        "value": "{{value}} M"
+      }
+    },
+    "molesPerLiter": {
+      "symbol": {
+        "value": "mol/L"
+      },
+      "symbolPattern": {
+        "value": "{{value}} mol/L"
+      }
+    },
+    "radians": {
+      "symbol": {
+        "value": "radians"
+      },
+      "symbolPattern": {
+        "value": "{{value}} radians"
+      }
+    },
+    "radiansPerSecond": {
+      "symbol": {
+        "value": "radians/s"
+      },
+      "symbolPattern": {
+        "value": "{{value}} radians/s"
+      }
+    },
+    "radiansPerSecondSquared": {
+      "symbol": {
+        "value": "radians/s^2"
+      },
+      "symbolPattern": {
+        "value": "{{value}} radians/s^2"
+      }
+    },
+    "years": {
+      "symbol": {
+        "value": "years"
+      },
+      "symbolPattern": {
+        "value": "{{value}} years"
+      }
+    },
+    "astronomicalUnits": {
+      "symbol": {
+        "value": "AU"
+      },
+      "symbolPattern": {
+        "value": "{{value}} AU"
+      }
+    },
+    "astronomicalUnitsSquared": {
+      "symbol": {
+        "value": "AU^2"
+      },
+      "symbolPattern": {
+        "value": "{{value}} AU^2"
+      }
+    },
+    "viewCoordinatesPerSecond": {
+      "symbol": {
+        "value": "view-coordinates/s"
+      },
+      "symbolPattern": {
+        "value": "{{value}} view-coordinates/s"
+      }
+    },
+    "atomicMassUnits": {
+      "symbol": {
+        "value": "AMU"
+      },
+      "symbolPattern": {
+        "value": "{{value}} AMU"
+      }
+    },
+    "coulombs": {
+      "symbol": {
+        "value": "C"
+      },
+      "symbolPattern": {
+        "value": "{{value}} C"
+      }
+    },
+    "cubicMeters": {
+      "symbol": {
+        "value": "m^3"
+      },
+      "symbolPattern": {
+        "value": "{{value}} m^3"
+      }
+    },
+    "cubicPicometers": {
+      "symbol": {
+        "value": "pm^3"
+      },
+      "symbolPattern": {
+        "value": "{{value}} pm^3"
+      }
+    },
+    "electronVolt": {
+      "symbol": {
+        "value": "eV"
+      },
+      "symbolPattern": {
+        "value": "{{value}} eV"
+      }
+    },
+    "millimeters": {
+      "symbol": {
+        "value": "mm"
+      },
+      "symbolPattern": {
+        "value": "{{value}} mm"
+      }
+    },
+    "particlesPerPicosecond": {
+      "symbol": {
+        "value": "particles/ps"
+      },
+      "symbolPattern": {
+        "value": "{{value}} particles/ps"
+      }
+    },
+    "revolutionsPerMinute": {
+      "symbol": {
+        "value": "rpm"
+      },
+      "symbolPattern": {
+        "value": "{{value}} rpm"
+      }
+    },
+    "atmospheres": {
+      "symbol": {
+        "value": "atm"
+      },
+      "symbolPattern": {
+        "value": "{{value}} atm"
+      }
+    },
+    "kilogramMetersPerSecond": {
+      "symbol": {
+        "value": "kg·m/s"
+      },
+      "symbolPattern": {
+        "value": "{{value}} kg·m/s"
+      }
+    },
+    "picometersPerPicosecond": {
+      "symbol": {
+        "value": "pm/ps"
+      },
+      "symbolPattern": {
+        "value": "{{value}} pm/ps"
       }
     }
   },
@@ -856,6 +1344,311 @@
       "seconds": {
         "pattern": {
           "value": "{ $value ->\n  [one] { $value } second\n  *[other] { $value } seconds\n}"
+        }
+      },
+      "kilopascals": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } kilopascal\n  *[other] { $value } kilopascals\n}"
+        }
+      },
+      "amperes": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } ampere\n  *[other] { $value } amperes\n}"
+        }
+      },
+      "volts": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } volt\n  *[other] { $value } volts\n}"
+        }
+      },
+      "newtons": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } newton\n  *[other] { $value } newtons\n}"
+        }
+      },
+      "watts": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } watt\n  *[other] { $value } watts\n}"
+        }
+      },
+      "joules": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } joule\n  *[other] { $value } joules\n}"
+        }
+      },
+      "kelvin": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } kelvin\n  *[other] { $value } kelvins\n}"
+        }
+      },
+      "degrees": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } degree\n  *[other] { $value } degrees\n}"
+        }
+      },
+      "degreesCelsius": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } degree Celsius\n  *[other] { $value } degrees Celsius\n}"
+        }
+      },
+      "degreesFahrenheit": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } degree Fahrenheit\n  *[other] { $value } degrees Fahrenheit\n}"
+        }
+      },
+      "liters": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } liter\n  *[other] { $value } liters\n}"
+        }
+      },
+      "litersPerSecond": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } liter per second\n  *[other] { $value } liters per second\n}"
+        }
+      },
+      "meters": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } meter\n  *[other] { $value } meters\n}"
+        }
+      },
+      "metersPerSecond": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } meter per second\n  *[other] { $value } meters per second\n}"
+        }
+      },
+      "metersPerSecondSquared": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } meter per second squared\n  *[other] { $value } meters per second squared\n}"
+        }
+      },
+      "metersPerSecondPerSecond": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } meter per second per second\n  *[other] { $value } meters per second per second\n}"
+        }
+      },
+      "grams": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } gram\n  *[other] { $value } grams\n}"
+        }
+      },
+      "kilograms": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } kilogram\n  *[other] { $value } kilograms\n}"
+        }
+      },
+      "kilogramsPerLiter": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } kilogram per liter\n  *[other] { $value } kilograms per liter\n}"
+        }
+      },
+      "kilogramsPerCubicMeter": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } kilogram per cubic meter\n  *[other] { $value } kilograms per cubic meter\n}"
+        }
+      },
+      "nanometers": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } nanometer\n  *[other] { $value } nanometers\n}"
+        }
+      },
+      "nanometersPerPicosecond": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } nanometer per picosecond\n  *[other] { $value } nanometers per picosecond\n}"
+        }
+      },
+      "kilometersPerSecond": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } kilometer per second\n  *[other] { $value } kilometers per second\n}"
+        }
+      },
+      "picometers": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } picometer\n  *[other] { $value } picometers\n}"
+        }
+      },
+      "picometersPerSecond": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } picometer per second\n  *[other] { $value } picometers per second\n}"
+        }
+      },
+      "picometersPerSecondSquared": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } picometer per second squared\n  *[other] { $value } picometers per second squared\n}"
+        }
+      },
+      "nanoseconds": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } nanosecond\n  *[other] { $value } nanoseconds\n}"
+        }
+      },
+      "picoseconds": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } picosecond\n  *[other] { $value } picoseconds\n}"
+        }
+      },
+      "molarAbsorptivity": {
+        "pattern": {
+          "value": "{ $value } per centimeter per molar"
+        }
+      },
+      "ohms": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } ohm\n  *[other] { $value } ohms\n}"
+        }
+      },
+      "ohmCentimeters": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } ohm-centimeter\n  *[other] { $value } ohm-centimeters\n}"
+        }
+      },
+      "millivolts": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } millivolt\n  *[other] { $value } millivolts\n}"
+        }
+      },
+      "milliamperes": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } milliampere\n  *[other] { $value } milliamperes\n}"
+        }
+      },
+      "farads": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } farad\n  *[other] { $value } farads\n}"
+        }
+      },
+      "webers": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } weber\n  *[other] { $value } webers\n}"
+        }
+      },
+      "gauss": {
+        "pattern": {
+          "value": "{ $value } gauss"
+        }
+      },
+      "pascalSeconds": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } pascal second\n  *[other] { $value } pascal seconds\n}"
+        }
+      },
+      "newtonsPerMeter": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } newton per meter\n  *[other] { $value } newtons per meter\n}"
+        }
+      },
+      "newtonSecondsPerMeter": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } newton-second per meter\n  *[other] { $value } newton-seconds per meter\n}"
+        }
+      },
+      "moles": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } mole\n  *[other] { $value } moles\n}"
+        }
+      },
+      "molesPerSecond": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } mole per second\n  *[other] { $value } moles per second\n}"
+        }
+      },
+      "molar": {
+        "pattern": {
+          "value": "{ $value } molar"
+        }
+      },
+      "molesPerLiter": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } mole per liter\n  *[other] { $value } moles per liter\n}"
+        }
+      },
+      "radians": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } radian\n  *[other] { $value } radians\n}"
+        }
+      },
+      "radiansPerSecond": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } radian per second\n  *[other] { $value } radians per second\n}"
+        }
+      },
+      "radiansPerSecondSquared": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } radian per second squared\n  *[other] { $value } radians per second squared\n}"
+        }
+      },
+      "years": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } year\n  *[other] { $value } years\n}"
+        }
+      },
+      "astronomicalUnits": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } astronomical unit\n  *[other] { $value } astronomical units\n}"
+        }
+      },
+      "astronomicalUnitsSquared": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } square astronomical unit\n  *[other] { $value } square astronomical units\n}"
+        }
+      },
+      "viewCoordinatesPerSecond": {
+        "pattern": {
+          "value": "{ $value } view-coordinates per second"
+        }
+      },
+      "atomicMassUnits": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } atomic mass unit\n  *[other] { $value } atomic mass units\n}"
+        }
+      },
+      "coulombs": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } coulomb\n  *[other] { $value } coulombs\n}"
+        }
+      },
+      "cubicMeters": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } cubic meter\n  *[other] { $value } cubic meters\n}"
+        }
+      },
+      "cubicPicometers": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } cubic picometer\n  *[other] { $value } cubic picometers\n}"
+        }
+      },
+      "electronVolt": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } electron volt\n  *[other] { $value } electron volts\n}"
+        }
+      },
+      "millimeters": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } millimeter\n  *[other] { $value } millimeters\n}"
+        }
+      },
+      "particlesPerPicosecond": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } particle per picosecond\n  *[other] { $value } particles per picosecond\n}"
+        }
+      },
+      "revolutionsPerMinute": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } revolution per minute\n  *[other] { $value } revolutions per minute\n}"
+        }
+      },
+      "atmospheres": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } atmosphere\n  *[other] { $value } atmospheres\n}"
+        }
+      },
+      "kilogramMetersPerSecond": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } kilogram-meter per second\n  *[other] { $value } kilogram-meters per second\n}"
+        }
+      },
+      "picometersPerPicosecond": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } picometer per picosecond\n  *[other] { $value } picometers per picosecond\n}"
         }
       }
     }
