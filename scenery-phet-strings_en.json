@@ -401,10 +401,10 @@
     },
     "centimetersSquared": {
       "symbol": {
-        "value": "cm^2"
+        "value": "cm<sup>2</sup>"
       },
       "symbolPattern": {
-        "value": "{{value}} cm^2"
+        "value": "{{value}} cm<sup>2</sup>"
       }
     },
     "hertz": {
@@ -537,10 +537,10 @@
     },
     "metersPerSecondSquared": {
       "symbol": {
-        "value": "m/s^2"
+        "value": "m/s<sup>2</sup>"
       },
       "symbolPattern": {
-        "value": "{{value}} m/s^2"
+        "value": "{{value}} m/s<sup>2</sup>"
       }
     },
     "metersPerSecondPerSecond": {
@@ -577,10 +577,10 @@
     },
     "kilogramsPerCubicMeter": {
       "symbol": {
-        "value": "kg/m^3"
+        "value": "kg/m<sup>3</sup>"
       },
       "symbolPattern": {
-        "value": "{{value}} kg/m^3"
+        "value": "{{value}} kg/m<sup>3</sup>"
       }
     },
     "kilopascals": {
@@ -633,10 +633,10 @@
     },
     "picometersPerSecondSquared": {
       "symbol": {
-        "value": "pm/s^2"
+        "value": "pm/s<sup>2</sup>"
       },
       "symbolPattern": {
-        "value": "{{value}} pm/s^2"
+        "value": "{{value}} pm/s<sup>2</sup>"
       }
     },
     "nanoseconds": {
@@ -793,10 +793,10 @@
     },
     "radiansPerSecondSquared": {
       "symbol": {
-        "value": "radians/s^2"
+        "value": "radians/s<sup>2</sup>"
       },
       "symbolPattern": {
-        "value": "{{value}} radians/s^2"
+        "value": "{{value}} radians/s<sup>2</sup>"
       }
     },
     "years": {
@@ -817,10 +817,10 @@
     },
     "astronomicalUnitsSquared": {
       "symbol": {
-        "value": "AU^2"
+        "value": "AU<sup>2</sup>"
       },
       "symbolPattern": {
-        "value": "{{value}} AU^2"
+        "value": "{{value}} AU<sup>2</sup>"
       }
     },
     "viewCoordinatesPerSecond": {
@@ -849,18 +849,18 @@
     },
     "cubicMeters": {
       "symbol": {
-        "value": "m^3"
+        "value": "m<sup>3</sup>"
       },
       "symbolPattern": {
-        "value": "{{value}} m^3"
+        "value": "{{value}} m<sup>3</sup>"
       }
     },
     "cubicPicometers": {
       "symbol": {
-        "value": "pm^3"
+        "value": "pm<sup>3</sup>"
       },
       "symbolPattern": {
-        "value": "{{value}} pm^3"
+        "value": "{{value}} pm<sup>3</sup>"
       }
     },
     "electronVolt": {
