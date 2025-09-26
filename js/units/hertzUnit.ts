@@ -12,9 +12,9 @@ import sceneryPhet from '../sceneryPhet.js';
 import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
 
 export const hertzUnit = new PhetUnit<ReadOnlyProperty<string>>( 'Hz', {
-  visualStandaloneStringProperty: SceneryPhetFluent.units.hertzStringProperty,
-  visualPatternStringProperty: SceneryPhetFluent.units.hertzPatternStringProperty,
-  accessiblePattern: SceneryPhetFluent.a11y.units.hertzPattern
+  visualStandaloneStringProperty: SceneryPhetFluent.units.hertz.symbolStringProperty,
+  visualPatternStringProperty: SceneryPhetFluent.units.hertz.symbolPatternStringProperty,
+  accessiblePattern: SceneryPhetFluent.a11y.units.hertz.pattern
 } );
 
 sceneryPhet.register( 'hertzUnit', hertzUnit );

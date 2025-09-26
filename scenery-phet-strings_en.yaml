@@ -132,16 +132,21 @@ SoundToggleButton.name__comment:                        See https://github.com/p
 SoundToggleButton.name__deprecated:                     true
 scientificNotation:                                     '{{value}} × {{base}}<sup>{{exponent}}</sup>'
 units:
-  centimeters:               cm
-  centimetersPattern:        '{{value}} cm'
-  centimetersSquared:        cm<sup>2</sup>
-  centimetersSquaredPattern: '{{value}} cm<sup>2</sup>'
-  hertz:                     Hz
-  hertzPattern:              '{{value}} Hz'
-  percent:                   '%'
-  percentPattern:            '{{value}}%'
-  seconds:                   s
-  secondsPattern:            '{{value}} s'
+  centimeters:
+    symbol:  cm
+    symbolPattern: '{{value}} cm'
+  centimetersSquared:
+    symbol: cm<sup>2</sup>
+    symbolPattern: '{{value}} cm<sup>2</sup>'
+  hertz:
+    symbol: Hz
+    symbolPattern: '{{value}} Hz'
+  percent:
+    symbol: '%'
+    symbolPattern: '{{value}}%'
+  seconds:
+    symbol: s
+    symbolPattern: '{{value}} s'
 a11y:
   simSection:
     screenSummary:
@@ -293,20 +298,25 @@ a11y:
   negativeNumber:     'negative { $value }'
   scientificNotation: '{ $value } times ${ $base } to the { $exponent } power'
   units:
-    centimetersPattern:        |-
-                               { $value ->
-                                 [one] { $value } centimeter
-                                 *[other] { $value } centimeters
-                               }
-    centimetersSquaredPattern: |-
-                               { $value ->
-                                 [one] { $value } square centimeter
-                                 *[other] { $value } square centimeters
-                               }
-    hertzPattern:              '{ $value } hertz'
-    percentPattern:            '{ $value } percent'
-    secondsPattern:            |-
-                               { $value ->
-                                 [one] { $value } second
-                                 *[other] { $value } seconds
-                               }
+    centimeters:
+      pattern: |-
+               { $value ->
+                 [one] { $value } centimeter
+                 *[other] { $value } centimeters
+               }
+    centimetersSquared:
+      pattern: |-
+               { $value ->
+                 [one] { $value } square centimeter
+                 *[other] { $value } square centimeters
+               }
+    hertz:
+      pattern: '{ $value } hertz'
+    percent:
+      pattern: '{ $value } percent'
+    seconds:
+      pattern: |-
+               { $value ->
+                 [one] { $value } second
+                 *[other] { $value } seconds
+               }

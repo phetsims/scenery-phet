@@ -166,16 +166,26 @@ type StringsType = {
   };
   'scientificNotationStringProperty': LocalizedStringProperty;
   'units': {
-    'centimetersStringProperty': LocalizedStringProperty;
-    'centimetersPatternStringProperty': LocalizedStringProperty;
-    'centimetersSquaredStringProperty': LocalizedStringProperty;
-    'centimetersSquaredPatternStringProperty': LocalizedStringProperty;
-    'hertzStringProperty': LocalizedStringProperty;
-    'hertzPatternStringProperty': LocalizedStringProperty;
-    'percentStringProperty': LocalizedStringProperty;
-    'percentPatternStringProperty': LocalizedStringProperty;
-    'secondsStringProperty': LocalizedStringProperty;
-    'secondsPatternStringProperty': LocalizedStringProperty;
+    'centimeters': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'centimetersSquared': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'hertz': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'percent': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'seconds': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    }
   };
   'a11y': {
     'simSection': {
@@ -352,11 +362,21 @@ type StringsType = {
     'negativeNumberStringProperty': LocalizedStringProperty;
     'scientificNotationStringProperty': LocalizedStringProperty;
     'units': {
-      'centimetersPatternStringProperty': LocalizedStringProperty;
-      'centimetersSquaredPatternStringProperty': LocalizedStringProperty;
-      'hertzPatternStringProperty': LocalizedStringProperty;
-      'percentPatternStringProperty': LocalizedStringProperty;
-      'secondsPatternStringProperty': LocalizedStringProperty;
+      'centimeters': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'centimetersSquared': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'hertz': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'percent': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'seconds': {
+        'patternStringProperty': LocalizedStringProperty;
+      }
     }
   }
 };

@@ -12,9 +12,9 @@ import sceneryPhet from '../sceneryPhet.js';
 import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
 
 export const centimetersUnit = new PhetUnit<ReadOnlyProperty<string>>( 'cm', {
-  visualStandaloneStringProperty: SceneryPhetFluent.units.centimetersStringProperty,
-  visualPatternStringProperty: SceneryPhetFluent.units.centimetersPatternStringProperty,
-  accessiblePattern: SceneryPhetFluent.a11y.units.centimetersPattern
+  visualStandaloneStringProperty: SceneryPhetFluent.units.centimeters.symbolStringProperty,
+  visualPatternStringProperty: SceneryPhetFluent.units.centimeters.symbolPatternStringProperty,
+  accessiblePattern: SceneryPhetFluent.a11y.units.centimeters.pattern
 } );
 
 sceneryPhet.register( 'centimetersUnit', centimetersUnit );
