@@ -1,0 +1,132 @@
+# Spanish translations for scenery-phet common strings (subset focused on common UI/keyboard/help)
+
+scenery-phet.title:                                     demostración de scenery-phet
+screen.buttons:                                         Botones
+screen.components:                                      Componentes
+screen.dialogs:                                         Diálogos
+screen.keyboard:                                        Teclado
+screen.sliders:                                         Deslizadores
+screen.spinners:                                        Selectores
+
+WavelengthSlider.pattern_0wavelength_1units:            '{0} {1}'
+frequencyUnitsPattern:                                  '{{frequency}} THz'
+stopwatchValueUnitsPattern:                             '{{value}} {{units}}'
+units_nm:                                               nm
+shortCircuit:                                           ¡Cortocircuito!
+heat:                                                   Calentar
+cool:                                                   Enfriar
+
+key.tab:                                                Tab
+key.shift:                                              Shift
+key.alt:                                                Alt
+key.option:                                             Opción
+key.k:                                                  K
+key.l:                                                  L
+key.capsLock:                                           Bloq Mayús
+key.enter:                                              Enter
+key.backspace:                                          Retroceso
+key.delete:                                             Suprimir
+key.space:                                              Espacio
+key.esc:                                                Esc
+key.fn:                                                 Fn
+key.pageUp:                                             Re Pág
+key.pageDown:                                           Av Pág
+key.home:                                               Inicio
+key.end:                                                Fin
+key.a:                                                  A
+key.c:                                                  C
+key.d:                                                  D
+key.r:                                                  R
+key.s:                                                  S
+key.w:                                                  W
+key.one:                                                '1'
+key.two:                                                '2'
+key.three:                                              '3'
+key.toGrabOrRelease:                                    para <b>Tomar</b> o <b>Soltar</b>
+
+webglWarning.title:                                     Ejecutando con calidad gráfica baja
+webglWarning.body:                                      WebGL no está habilitado o no está disponible. Haz clic para saber más.
+webglWarning.contextLossFailure:                        Se ha producido un error de gráficos.
+webglWarning.contextLossReload:                         Recargar
+webglWarning.ie11StencilBody:                           Actualiza Internet Explorer instalando las actualizaciones recomendadas de Windows Update.
+
+keyboardHelpDialog.sliderControls:                      Controles del deslizador
+keyboardHelpDialog.adjustSlider:                        Ajustar deslizador
+keyboardHelpDialog.spinnerControls:                     Controles del selector
+keyboardHelpDialog.adjustInSmallerSteps:                Ajustar en pasos más pequeños
+keyboardHelpDialog.adjustInLargerSteps:                 Ajustar en pasos más grandes
+keyboardHelpDialog.jumpToMinimum:                       Ir al mínimo
+keyboardHelpDialog.jumpToMaximum:                       Ir al máximo
+keyboardHelpDialog.adjust:                              Ajustar
+keyboardHelpDialog.slider:                              deslizador
+keyboardHelpDialog.spinner:                             selector
+keyboardHelpDialog.heatCoolControls:                    Controles de Calentar/Enfriar
+keyboardHelpDialog.maximumHeat:                         Calor máximo
+keyboardHelpDialog.maximumCool:                         Enfriamiento máximo
+keyboardHelpDialog.heatCoolOff:                         Apagado
+keyboardHelpDialog.verbSliderPattern:                   '{{verb}} {{slider}}'
+keyboardHelpDialog.verbInSmallerStepsPattern:           '{{verb}} en pasos más pequeños'
+keyboardHelpDialog.verbInLargerStepsPattern:            '{{verb}} en pasos más grandes'
+keyboardHelpDialog.minimum:                             mínimo
+keyboardHelpDialog.maximum:                             máximo
+keyboardHelpDialog.jumpToMinimumPattern:                Ir al {{minimum}}
+keyboardHelpDialog.jumpToMaximumPattern:                Ir al {{maximum}}
+keyboardHelpDialog.generalNavigation:                   Navegación general
+keyboardHelpDialog.basicActions:                        Acciones básicas
+keyboardHelpDialog.moveToNextItem:                      Ir al siguiente elemento
+keyboardHelpDialog.moveToPreviousItem:                  Ir al elemento anterior
+keyboardHelpDialog.moveToNextItemOrGroup:               Ir al siguiente elemento o grupo
+keyboardHelpDialog.moveToPreviousItemOrGroup:           Ir al elemento o grupo anterior
+keyboardHelpDialog.pressButtons:                        Pulsar botones
+keyboardHelpDialog.moveBetweenItemsInAGroup:            Moverse entre elementos de un grupo
+keyboardHelpDialog.setValuesInKeypad:                   Establecer valores en el teclado numérico
+keyboardHelpDialog.resetAll:                            Restablecer todo
+keyboardHelpDialog.exitADialog:                         Salir de un diálogo
+keyboardHelpDialog.toggleCheckboxes:                    Alternar casillas de verificación
+keyboardHelpDialog.or:                                  o
+keyboardHelpDialog.hyphen:                              '-'
+keyboardHelpDialog.grabOrReleaseHeadingPattern:         Tomar o soltar {{thing}}
+keyboardHelpDialog.grabOrReleaseLabelPattern:           Tomar o soltar {{thing}}
+keyboardHelpDialog.comboBox.chooseAThingPattern:        Elegir {{thingTitle}}
+keyboardHelpDialog.comboBox.headingString:              Cambiar opción
+keyboardHelpDialog.comboBox.popUpListPattern:           1. Mostrar {{thingPlural}}
+keyboardHelpDialog.comboBox.moveThroughPattern:         2. Recorrer {{thingPlural}}
+keyboardHelpDialog.comboBox.chooseNewPattern:           3. Cambiar {{thingSingular}}
+keyboardHelpDialog.comboBox.closeWithoutChanging:       4. Cerrar sin cambiar
+keyboardHelpDialog.comboBox.options:                    opciones
+keyboardHelpDialog.comboBox.option:                     opción
+keyboardHelpDialog.moveDraggableItems:                  Mover elementos arrastrables
+keyboardHelpDialog.move:                                Mover
+keyboardHelpDialog.moveSlower:                          Mover más despacio
+
+speed.normal:                                           Normal
+speed.slow:                                             Lento
+speed.fast:                                             Rápido
+
+keyboardHelpDialog.faucetControls.faucetControls:       Controles de grifo
+keyboardHelpDialog.faucetControls.adjustFaucetFlow:     Ajustar caudal del grifo
+keyboardHelpDialog.faucetControls.adjustInSmallerSteps: Ajustar en pasos más pequeños
+keyboardHelpDialog.faucetControls.adjustInLargerSteps:  Ajustar en pasos más grandes
+keyboardHelpDialog.faucetControls.closeFaucet:          Cerrar grifo
+keyboardHelpDialog.faucetControls.openFaucetFully:      Abrir grifo completamente
+keyboardHelpDialog.faucetControls.openFaucetBriefly:    Abrir grifo brevemente
+
+keyboardHelpDialog.timingControls.timingControls:       Controles de tiempo
+keyboardHelpDialog.timingControls.pauseOrPlayAction:    Pausar o reproducir acción
+
+symbol.ohms:                                            Ω
+symbol.resistivity:                                     ρ
+
+comboBoxDisplay.valueUnits:                             '{{value}} {{units}}'
+wavelengthNMValuePattern:                               '{0} nm'
+measuringTapeReadoutPattern:                            '{{distance}} {{units}}'
+wavelength:                                             Longitud de onda
+rulerCapitalized:                                       Regla
+ruler:                                                  Regla
+zero:                                                   cero
+one:                                                    uno
+two:                                                    dos
+three:                                                  tres
+four:                                                   cuatro
+five:                                                   cinco
+
