@@ -392,34 +392,44 @@
   },
   "units": {
     "centimeters": {
-      "value": "cm"
-    },
-    "centimetersPattern": {
-      "value": "{{value}} cm"
+      "symbol": {
+        "value": "cm"
+      },
+      "symbolPattern": {
+        "value": "{{value}} cm"
+      }
     },
     "centimetersSquared": {
-      "value": "cm<sup>2</sup>"
-    },
-    "centimetersSquaredPattern": {
-      "value": "{{value}} cm<sup>2</sup>"
+      "symbol": {
+        "value": "cm<sup>2</sup>"
+      },
+      "symbolPattern": {
+        "value": "{{value}} cm<sup>2</sup>"
+      }
     },
     "hertz": {
-      "value": "Hz"
-    },
-    "hertzPattern": {
-      "value": "{{value}} Hz"
+      "symbol": {
+        "value": "Hz"
+      },
+      "symbolPattern": {
+        "value": "{{value}} Hz"
+      }
     },
     "percent": {
-      "value": "%"
-    },
-    "percentPattern": {
-      "value": "{{value}}%"
+      "symbol": {
+        "value": "%"
+      },
+      "symbolPattern": {
+        "value": "{{value}}%"
+      }
     },
     "seconds": {
-      "value": "s"
-    },
-    "secondsPattern": {
-      "value": "{{value}} s"
+      "symbol": {
+        "value": "s"
+      },
+      "symbolPattern": {
+        "value": "{{value}} s"
+      }
     }
   },
   "a11y": {
@@ -823,20 +833,30 @@
       "value": "{ $value } times ${ $base } to the { $exponent } power"
     },
     "units": {
-      "centimetersPattern": {
-        "value": "{ $value ->\n  [one] { $value } centimeter\n  *[other] { $value } centimeters\n}"
+      "centimeters": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } centimeter\n  *[other] { $value } centimeters\n}"
+        }
       },
-      "centimetersSquaredPattern": {
-        "value": "{ $value ->\n  [one] { $value } square centimeter\n  *[other] { $value } square centimeters\n}"
+      "centimetersSquared": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } square centimeter\n  *[other] { $value } square centimeters\n}"
+        }
       },
-      "hertzPattern": {
-        "value": "{ $value } hertz"
+      "hertz": {
+        "pattern": {
+          "value": "{ $value } hertz"
+        }
       },
-      "percentPattern": {
-        "value": "{ $value } percent"
+      "percent": {
+        "pattern": {
+          "value": "{ $value } percent"
+        }
       },
-      "secondsPattern": {
-        "value": "{ $value ->\n  [one] { $value } second\n  *[other] { $value } seconds\n}"
+      "seconds": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } second\n  *[other] { $value } seconds\n}"
+        }
       }
     }
   }

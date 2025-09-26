@@ -12,9 +12,9 @@ import sceneryPhet from '../sceneryPhet.js';
 import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
 
 export const secondsUnit = new PhetUnit<ReadOnlyProperty<string>>( 's', {
-  visualStandaloneStringProperty: SceneryPhetFluent.units.secondsStringProperty,
-  visualPatternStringProperty: SceneryPhetFluent.units.secondsPatternStringProperty,
-  accessiblePattern: SceneryPhetFluent.a11y.units.secondsPattern
+  visualStandaloneStringProperty: SceneryPhetFluent.units.seconds.symbolStringProperty,
+  visualPatternStringProperty: SceneryPhetFluent.units.seconds.symbolPatternStringProperty,
+  accessiblePattern: SceneryPhetFluent.a11y.units.seconds.pattern
 } );
 
 sceneryPhet.register( 'secondsUnit', secondsUnit );

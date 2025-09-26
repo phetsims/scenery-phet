@@ -12,9 +12,9 @@ import SceneryPhetFluent from '../SceneryPhetFluent.js';
 import sceneryPhet from '../sceneryPhet.js';
 
 export const percentUnit = new PhetUnit<ReadOnlyProperty<string>>( '%', {
-  visualStandaloneStringProperty: SceneryPhetFluent.units.percentStringProperty,
-  visualPatternStringProperty: SceneryPhetFluent.units.percentPatternStringProperty,
-  accessiblePattern: SceneryPhetFluent.a11y.units.percentPattern
+  visualStandaloneStringProperty: SceneryPhetFluent.units.percent.symbolStringProperty,
+  visualPatternStringProperty: SceneryPhetFluent.units.percent.symbolPatternStringProperty,
+  accessiblePattern: SceneryPhetFluent.a11y.units.percent.pattern
 } );
 
 sceneryPhet.register( 'percentUnit', percentUnit );

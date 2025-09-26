@@ -142,11 +142,11 @@ addToMapIfDefined( 'ResetAllButton_name__deprecated', 'ResetAllButton.name__depr
 addToMapIfDefined( 'SoundToggleButton_name', 'SoundToggleButton.nameStringProperty' );
 addToMapIfDefined( 'SoundToggleButton_name__comment', 'SoundToggleButton.name__commentStringProperty' );
 addToMapIfDefined( 'SoundToggleButton_name__deprecated', 'SoundToggleButton.name__deprecatedStringProperty' );
-addToMapIfDefined( 'units_centimeters', 'units.centimetersStringProperty' );
-addToMapIfDefined( 'units_centimetersSquared', 'units.centimetersSquaredStringProperty' );
-addToMapIfDefined( 'units_hertz', 'units.hertzStringProperty' );
-addToMapIfDefined( 'units_percent', 'units.percentStringProperty' );
-addToMapIfDefined( 'units_seconds', 'units.secondsStringProperty' );
+addToMapIfDefined( 'units_centimeters_symbol', 'units.centimeters.symbolStringProperty' );
+addToMapIfDefined( 'units_centimetersSquared_symbol', 'units.centimetersSquared.symbolStringProperty' );
+addToMapIfDefined( 'units_hertz_symbol', 'units.hertz.symbolStringProperty' );
+addToMapIfDefined( 'units_percent_symbol', 'units.percent.symbolStringProperty' );
+addToMapIfDefined( 'units_seconds_symbol', 'units.seconds.symbolStringProperty' );
 addToMapIfDefined( 'a11y_simSection_screenSummary_keyboardShortcutsHint', 'a11y.simSection.screenSummary.keyboardShortcutsHintStringProperty' );
 addToMapIfDefined( 'a11y_simSection_playArea', 'a11y.simSection.playAreaStringProperty' );
 addToMapIfDefined( 'a11y_simSection_controlArea', 'a11y.simSection.controlAreaStringProperty' );
@@ -237,11 +237,11 @@ addToMapIfDefined( 'a11y_stopwatch_playButton_accessibleName', 'a11y.stopwatch.p
 addToMapIfDefined( 'a11y_stopwatch_pauseButton_accessibleName', 'a11y.stopwatch.pauseButton.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_negativeNumber', 'a11y.negativeNumberStringProperty' );
 addToMapIfDefined( 'a11y_scientificNotation', 'a11y.scientificNotationStringProperty' );
-addToMapIfDefined( 'a11y_units_centimetersPattern', 'a11y.units.centimetersPatternStringProperty' );
-addToMapIfDefined( 'a11y_units_centimetersSquaredPattern', 'a11y.units.centimetersSquaredPatternStringProperty' );
-addToMapIfDefined( 'a11y_units_hertzPattern', 'a11y.units.hertzPatternStringProperty' );
-addToMapIfDefined( 'a11y_units_percentPattern', 'a11y.units.percentPatternStringProperty' );
-addToMapIfDefined( 'a11y_units_secondsPattern', 'a11y.units.secondsPatternStringProperty' );
+addToMapIfDefined( 'a11y_units_centimeters_pattern', 'a11y.units.centimeters.patternStringProperty' );
+addToMapIfDefined( 'a11y_units_centimetersSquared_pattern', 'a11y.units.centimetersSquared.patternStringProperty' );
+addToMapIfDefined( 'a11y_units_hertz_pattern', 'a11y.units.hertz.patternStringProperty' );
+addToMapIfDefined( 'a11y_units_percent_pattern', 'a11y.units.percent.patternStringProperty' );
+addToMapIfDefined( 'a11y_units_seconds_pattern', 'a11y.units.seconds.patternStringProperty' );
 
 // A function that creates contents for a new Fluent file, which will be needed if any string changes.
 const createFluentFile = (): string => {
@@ -419,16 +419,26 @@ const SceneryPhetFluent = {
   },
   scientificNotationStringProperty: _.get( SceneryPhetStrings, 'scientificNotationStringProperty' ),
   units: {
-    centimetersStringProperty: _.get( SceneryPhetStrings, 'units.centimetersStringProperty' ),
-    centimetersPatternStringProperty: _.get( SceneryPhetStrings, 'units.centimetersPatternStringProperty' ),
-    centimetersSquaredStringProperty: _.get( SceneryPhetStrings, 'units.centimetersSquaredStringProperty' ),
-    centimetersSquaredPatternStringProperty: _.get( SceneryPhetStrings, 'units.centimetersSquaredPatternStringProperty' ),
-    hertzStringProperty: _.get( SceneryPhetStrings, 'units.hertzStringProperty' ),
-    hertzPatternStringProperty: _.get( SceneryPhetStrings, 'units.hertzPatternStringProperty' ),
-    percentStringProperty: _.get( SceneryPhetStrings, 'units.percentStringProperty' ),
-    percentPatternStringProperty: _.get( SceneryPhetStrings, 'units.percentPatternStringProperty' ),
-    secondsStringProperty: _.get( SceneryPhetStrings, 'units.secondsStringProperty' ),
-    secondsPatternStringProperty: _.get( SceneryPhetStrings, 'units.secondsPatternStringProperty' )
+    centimeters: {
+      symbolStringProperty: _.get( SceneryPhetStrings, 'units.centimeters.symbolStringProperty' ),
+      symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.centimeters.symbolPatternStringProperty' )
+    },
+    centimetersSquared: {
+      symbolStringProperty: _.get( SceneryPhetStrings, 'units.centimetersSquared.symbolStringProperty' ),
+      symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.centimetersSquared.symbolPatternStringProperty' )
+    },
+    hertz: {
+      symbolStringProperty: _.get( SceneryPhetStrings, 'units.hertz.symbolStringProperty' ),
+      symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.hertz.symbolPatternStringProperty' )
+    },
+    percent: {
+      symbolStringProperty: _.get( SceneryPhetStrings, 'units.percent.symbolStringProperty' ),
+      symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.percent.symbolPatternStringProperty' )
+    },
+    seconds: {
+      symbolStringProperty: _.get( SceneryPhetStrings, 'units.seconds.symbolStringProperty' ),
+      symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.seconds.symbolPatternStringProperty' )
+    }
   },
   a11y: {
     simSection: {
@@ -605,11 +615,21 @@ const SceneryPhetFluent = {
     negativeNumber: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_negativeNumber', _.get( SceneryPhetStrings, 'a11y.negativeNumberStringProperty' ), [{"name":"value"}] ),
     scientificNotation: new FluentPattern<{ base: FluentVariable, exponent: FluentVariable, value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_scientificNotation', _.get( SceneryPhetStrings, 'a11y.scientificNotationStringProperty' ), [{"name":"base"},{"name":"exponent"},{"name":"value"}] ),
     units: {
-      centimetersPattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_centimetersPattern', _.get( SceneryPhetStrings, 'a11y.units.centimetersPatternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] ),
-      centimetersSquaredPattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_centimetersSquaredPattern', _.get( SceneryPhetStrings, 'a11y.units.centimetersSquaredPatternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] ),
-      hertzPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_units_hertzPattern', _.get( SceneryPhetStrings, 'a11y.units.hertzPatternStringProperty' ), [{"name":"value"}] ),
-      percentPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_units_percentPattern', _.get( SceneryPhetStrings, 'a11y.units.percentPatternStringProperty' ), [{"name":"value"}] ),
-      secondsPattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_secondsPattern', _.get( SceneryPhetStrings, 'a11y.units.secondsPatternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
+      centimeters: {
+        pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_centimeters_pattern', _.get( SceneryPhetStrings, 'a11y.units.centimeters.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
+      },
+      centimetersSquared: {
+        pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_centimetersSquared_pattern', _.get( SceneryPhetStrings, 'a11y.units.centimetersSquared.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
+      },
+      hertz: {
+        pattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_units_hertz_pattern', _.get( SceneryPhetStrings, 'a11y.units.hertz.patternStringProperty' ), [{"name":"value"}] )
+      },
+      percent: {
+        pattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_units_percent_pattern', _.get( SceneryPhetStrings, 'a11y.units.percent.patternStringProperty' ), [{"name":"value"}] )
+      },
+      seconds: {
+        pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_seconds_pattern', _.get( SceneryPhetStrings, 'a11y.units.seconds.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
+      }
     }
   }
 };
