@@ -14,12 +14,14 @@ import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Range from '../../dot/js/Range.js';
 import { roundToInterval } from '../../dot/js/util/roundToInterval.js';
+import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import Orientation from '../../phet-core/js/Orientation.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import GroupHighlightPath from '../../scenery/js/accessibility/GroupHighlightPath.js';
 import ParallelDOM, { RemoveParallelDOMOptions, TrimParallelDOMOptions } from '../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import AlignBox from '../../scenery/js/layout/nodes/AlignBox.js';
 import HBox from '../../scenery/js/layout/nodes/HBox.js';
@@ -395,10 +397,6 @@ export default class NumberControl extends WidthSizable( Node ) {
       'NumberControl\'s accessible content uses AccessibleSlider, do not set accessible content on the buttons.' );
     options.arrowButtonOptions.tagName = null;
 
-    // pdom - if we include arrow buttons, use a groupFocusHighlight to surround the NumberControl to make it clear
-    // that it is a composite component and there is only one stop in the traversal order.
-    this.groupFocusHighlight = options.includeArrowButtons;
-
     // Since we support either a node title or passing the strings directly, we need to create the title node here.
     const titleNode = title instanceof Node ? title :
                       options.useRichText ?
@@ -583,6 +581,18 @@ export default class NumberControl extends WidthSizable( Node ) {
     this.mutate( options );
 
     this.numberDisplay = numberDisplay;
+
+    // pdom - if we include arrow buttons, use a groupFocusHighlight to surround the NumberControl to make it clear
+    // that it is a composite component and there is only one stop in the traversal order.
+    if ( options.includeArrowButtons ) {
+
+      // Use the child for bounds, since it is the layout that contains all components.
+      const paddedBounds = child.bounds.dilatedXY( 12, 12 );
+
+      // A custom group focus highlight is used so that it doesn't resize as the thumb moves beyond the track. The
+      // default behavior for the highlight is to resize with the visible bounds, but that looks awkward in this case.
+      this.groupFocusHighlight = new GroupHighlightPath( Shape.bounds( paddedBounds ) );
+    }
 
     this.disposeNumberControl = () => {
       titleNode.dispose(); // may be linked to a string Property
