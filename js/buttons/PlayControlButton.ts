@@ -9,7 +9,6 @@
 
 import Property from '../../../axon/js/Property.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { PDOMValueType } from '../../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import HotkeyData from '../../../scenery/js/input/HotkeyData.js';
 import { OneKeyStroke } from '../../../scenery/js/input/KeyDescriptor.js';
 import KeyboardListener from '../../../scenery/js/listeners/KeyboardListener.js';
@@ -36,12 +35,6 @@ type SelfOptions = {
   // of where focus is in the document. Only if the sim supports Interactive Description.
   includeGlobalHotkey?: boolean;
 
-  // Label for the button in the PDOM when the button will set isPlayingProperty to true
-  startPlayingAccessibleName?: PDOMValueType;
-
-  // Label for the button in the PDOM when the button will set isPlayingProperty to false
-  endPlayingAccessibleName?: PDOMValueType | null;
-
   // sound generation
   valueOffSoundPlayer?: TSoundPlayer;
   valueOnSoundPlayer?: TSoundPlayer;
@@ -66,8 +59,7 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
       radius: SceneryPhetConstants.PLAY_CONTROL_BUTTON_RADIUS,
       scaleFactorWhenNotPlaying: 1,
       includeGlobalHotkey: false,
-      startPlayingAccessibleName: SceneryPhetStrings.a11y.playControlButton.playStringProperty,
-      endPlayingAccessibleName: null,
+      accessibleNameOff: SceneryPhetStrings.a11y.playControlButton.playStringProperty,
       valueOffSoundPlayer: sharedSoundPlayers.get( 'pause' ),
       valueOnSoundPlayer: sharedSoundPlayers.get( 'play' ),
 
@@ -106,10 +98,6 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
     super( isPlayingProperty, endPlayingCircle, playCircle, options );
 
     const isPlayingListener = ( isPlaying: boolean, oldValue: boolean | null ) => {
-
-      // pdom - accessible name for the button
-      this.accessibleName = isPlaying ? options.endPlayingAccessibleName
-                                      : options.startPlayingAccessibleName;
 
       // so we don't scale down the button immediately if isPlayingProperty is initially false
       const runningScale = oldValue === null ? 1 : 1 / options.scaleFactorWhenNotPlaying;
