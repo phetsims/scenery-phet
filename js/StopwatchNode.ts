@@ -74,7 +74,8 @@ type SelfOptions = {
   keyboardDragListenerOptions?: SoundKeyboardDragListenerOptions;
 
   // Passed to their respective buttons
-  playPauseButtonOptions?: BooleanRectangularToggleButtonOptions;
+  // Instead of accessibleName, use accessibleNameOn and accessibleNameOff for playPauseButtonOptions.
+  playPauseButtonOptions?: StrictOmit<BooleanRectangularToggleButtonOptions, 'accessibleName'>;
   resetButtonOptions?: RectangularPushButtonOptions;
 
   // See https://github.com/phetsims/scenery-phet/issues/843
@@ -248,13 +249,8 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
           accessibleContextResponseOn: null,
           accessibleContextResponseOff: numberDisplay.accessibleValueStringProperty,
 
-          accessibleName: new DerivedProperty( [
-            stopwatch.isRunningProperty,
-            SceneryPhetStrings.a11y.stopwatch.pauseButton.accessibleNameStringProperty,
-            SceneryPhetStrings.a11y.stopwatch.playButton.accessibleNameStringProperty
-          ], ( isRunning, pauseString, playString ) => {
-            return isRunning ? pauseString : playString;
-          } )
+          accessibleNameOn: SceneryPhetStrings.a11y.stopwatch.pauseButton.accessibleNameStringProperty,
+          accessibleNameOff: SceneryPhetStrings.a11y.stopwatch.playButton.accessibleNameStringProperty
         }, options.playPauseButtonOptions ) );
 
       const resetButton = new RectangularPushButton( combineOptions<RectangularPushButtonOptions>( {
