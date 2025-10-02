@@ -1100,6 +1100,14 @@
         "value": "Erase"
       }
     },
+    "timerToggleButton": {
+      "accessibleNameOn": {
+        "value": "Timer On"
+      },
+      "accessibleNameOff": {
+        "value": "Timer Off"
+      }
+    },
     "playControlButton": {
       "play": {
         "value": "Play"

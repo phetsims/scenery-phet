@@ -243,6 +243,8 @@ addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_openFaucetFullyDescri
 addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_openFaucetFullyWithHomeDescription', 'a11y.keyboardHelpDialog.faucetControls.openFaucetFullyWithHomeDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_openFaucetBrieflyDescription', 'a11y.keyboardHelpDialog.faucetControls.openFaucetBrieflyDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_eraserButton_accessibleName', 'a11y.eraserButton.accessibleNameStringProperty' );
+addToMapIfDefined( 'a11y_timerToggleButton_accessibleNameOn', 'a11y.timerToggleButton.accessibleNameOnStringProperty' );
+addToMapIfDefined( 'a11y_timerToggleButton_accessibleNameOff', 'a11y.timerToggleButton.accessibleNameOffStringProperty' );
 addToMapIfDefined( 'a11y_playControlButton_play', 'a11y.playControlButton.playStringProperty' );
 addToMapIfDefined( 'a11y_playControlButton_pause', 'a11y.playControlButton.pauseStringProperty' );
 addToMapIfDefined( 'a11y_playControlButton_stop', 'a11y.playControlButton.stopStringProperty' );
@@ -883,6 +885,10 @@ const SceneryPhetFluent = {
     },
     eraserButton: {
       accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_eraserButton_accessibleName', _.get( SceneryPhetStrings, 'a11y.eraserButton.accessibleNameStringProperty' ) )
+    },
+    timerToggleButton: {
+      accessibleNameOnStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_timerToggleButton_accessibleNameOn', _.get( SceneryPhetStrings, 'a11y.timerToggleButton.accessibleNameOnStringProperty' ) ),
+      accessibleNameOffStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_timerToggleButton_accessibleNameOff', _.get( SceneryPhetStrings, 'a11y.timerToggleButton.accessibleNameOffStringProperty' ) )
     },
     playControlButton: {
       playStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_playControlButton_play', _.get( SceneryPhetStrings, 'a11y.playControlButton.playStringProperty' ) ),

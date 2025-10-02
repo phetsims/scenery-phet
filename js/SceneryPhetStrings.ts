@@ -509,6 +509,10 @@ type StringsType = {
     'eraserButton': {
       'accessibleNameStringProperty': LocalizedStringProperty;
     };
+    'timerToggleButton': {
+      'accessibleNameOnStringProperty': LocalizedStringProperty;
+      'accessibleNameOffStringProperty': LocalizedStringProperty;
+    };
     'playControlButton': {
       'playStringProperty': LocalizedStringProperty;
       'pauseStringProperty': LocalizedStringProperty;

@@ -401,6 +401,9 @@ a11y:
       openFaucetBrieflyDescription:       Open faucet briefly with Space or Enter keys.
   eraserButton:
     accessibleName: Erase
+  timerToggleButton:
+    accessibleNameOn: Timer On
+    accessibleNameOff: Timer Off
   playControlButton:
     play:  Play
     pause: Pause
