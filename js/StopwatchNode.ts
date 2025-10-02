@@ -529,7 +529,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       const centisecondsString = StopwatchNode.getDecimalPlaces( time, options.numberOfDecimalPlaces ); // includes a leading decimal point
       const minutesAndSeconds = extractMinutesAndSeconds( time );
       const minutes = minutesAndSeconds.minutes;
-      const seconds = minutesAndSeconds.seconds + parseFloat( `0${centisecondsString}` );
+      const seconds = minutesAndSeconds.seconds + centisecondsString;
 
       const fontSize = `${options.smallNumberFont}px`;
 
