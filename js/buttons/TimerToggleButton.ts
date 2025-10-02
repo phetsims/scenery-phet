@@ -14,6 +14,7 @@ import Path, { PathOptions } from '../../../scenery/js/nodes/Path.js';
 import BooleanRectangularToggleButton, { BooleanRectangularToggleButtonOptions } from '../../../sun/js/buttons/BooleanRectangularToggleButton.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
+import SceneryPhetFluent from '../SceneryPhetFluent.js';
 import SimpleClockIcon from '../SimpleClockIcon.js';
 
 // constants
@@ -39,7 +40,8 @@ export default class TimerToggleButton extends BooleanRectangularToggleButton {
       minHeight: HEIGHT,
       xMargin: MARGIN,
       yMargin: MARGIN,
-
+      accessibleNameOn: SceneryPhetFluent.a11y.timerToggleButton.accessibleNameOnStringProperty,
+      accessibleNameOff: SceneryPhetFluent.a11y.timerToggleButton.accessibleNameOffStringProperty,
       offIconOptions: {}
     }, provideOptions );
 
