@@ -51,6 +51,10 @@ export default class InfoButton extends RoundPushButton {
 
     super( options );
 
+    // pdom - The info button will pop up a dialog or additional information, this signifies
+    // that intent to assistive technology.
+    this.setPDOMAttribute( 'aria-haspopup', true );
+
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && window.phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerDataURL( 'scenery-phet', 'InfoButton', this );
   }
