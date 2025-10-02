@@ -192,7 +192,7 @@ export default class NumberDisplay extends Node {
       numberProperty.units !== null &&
       typeof numberProperty.units !== 'string' &&
       // Don't double-provide units if we have a valuePattern
-      !options.valuePattern
+      options.valuePattern === SunConstants.VALUE_NAMED_PLACEHOLDER
     ) {
       const unit = numberProperty.units;
 
