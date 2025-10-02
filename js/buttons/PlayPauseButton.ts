@@ -33,7 +33,7 @@ export default class PlayPauseButton extends PlayControlButton {
 
       // PlayControlButtonOptions
       includeGlobalHotkey: true,
-      endPlayingAccessibleName: SceneryPhetStrings.a11y.playControlButton.pauseStringProperty,
+      accessibleNameOn: SceneryPhetStrings.a11y.playControlButton.pauseStringProperty,
       accessibleContextResponseOff: SceneryPhetStrings.a11y.playPauseButton.pausedAccessibleContextResponseStringProperty,
       accessibleContextResponseOn: SceneryPhetStrings.a11y.playPauseButton.playingAccessibleContextResponseStringProperty
     }, providedOptions );
