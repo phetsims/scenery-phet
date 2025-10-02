@@ -6,10 +6,13 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import { DualString, DualStringNumber, DualValuePattern, DualValuePropertyPattern, NumberFormatOptions } from '../../axon/js/AccessibleStrings.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import Property from '../../axon/js/Property.js';
 import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import StringProperty from '../../axon/js/StringProperty.js';
-import { TReadOnlyProperty, isTReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
+import { isTReadOnlyProperty, TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
+import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
 import Range from '../../dot/js/Range.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
@@ -28,12 +31,9 @@ import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
 import MathSymbols from './MathSymbols.js';
+import { getFormattedAccessibleNumber, getFormattedVisualNumber } from './NumberFormatting.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import Property from '../../axon/js/Property.js';
-import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
-import { getFormattedAccessibleNumber, getFormattedVisualNumber } from './NumberFormatting.js';
-import { DualString, DualStringNumber, DualValuePattern, DualValuePropertyPattern, NumberFormatOptions } from '../../axon/js/AccessibleStrings.js';
 
 // constants
 const DEFAULT_FONT = new PhetFont( 20 );
@@ -528,7 +528,9 @@ const valueToDualString = (
 const dualValuePatternFromValuePattern = ( valuePattern: ValuePattern ): DualValuePropertyPattern => {
 
   const checkVisualString = ( string: string ) => {
-    if ( assert && !!phet?.chipper?.queryParameters?.stringTest ) {
+
+    // When running with ?stringTest, the string may have been disrupted. Otherwise, test for the placeholder.
+    if ( assert && !phet?.chipper?.queryParameters?.stringTest ) {
       assert( string.includes( SunConstants.VALUE_NAMED_PLACEHOLDER ) );
     }
   };
