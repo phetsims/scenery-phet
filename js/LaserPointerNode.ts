@@ -9,6 +9,7 @@
 
 import TProperty from '../../axon/js/TProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
+import { linear } from '../../dot/js/util/linear.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import merge from '../../phet-core/js/merge.js';
@@ -21,11 +22,10 @@ import LinearGradient from '../../scenery/js/util/LinearGradient.js';
 import TColor from '../../scenery/js/util/TColor.js';
 import { RoundButtonOptions } from '../../sun/js/buttons/RoundButton.js';
 import RoundMomentaryButton from '../../sun/js/buttons/RoundMomentaryButton.js';
-import RoundStickyToggleButton from '../../sun/js/buttons/RoundStickyToggleButton.js';
+import RoundStickyToggleButton, { RoundStickyToggleButtonOptions } from '../../sun/js/buttons/RoundStickyToggleButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
 import ShadedSphereNode, { ShadedSphereNodeOptions } from './ShadedSphereNode.js';
-import { linear } from '../../dot/js/util/linear.js';
 
 type ButtonType = 'toggle' | 'momentary';
 
@@ -174,10 +174,16 @@ export default class LaserPointerNode extends Node {
     let onOffButton: Node | null = null;
     if ( options.hasButton ) {
 
-      const buttonOptions = combineOptions<RoundButtonOptions>( options.buttonOptions, {
+      const buttonOptions = combineOptions<RoundButtonOptions | RoundStickyToggleButtonOptions>( options.buttonOptions, {
         center: options.getButtonLocation( bodyNode ),
         tandem: options.tandem.createTandem( 'button' )
       } );
+
+      // If the button uses a sticky toggle, the button is communicated to assistive technology as an
+      // "on/off" switch.
+      if ( options.buttonType === 'toggle' ) {
+        buttonOptions.accessibleRoleConfiguration = 'switch';
+      }
 
       onOffButton = ( options.buttonType === 'toggle' ) ?
                     new RoundStickyToggleButton( onProperty, false, true, buttonOptions ) :
