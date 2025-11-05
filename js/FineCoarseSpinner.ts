@@ -86,7 +86,7 @@ export default class FineCoarseSpinner extends AccessibleNumberSpinner( Node, 0 
 
     // options for the 'fine' arrow buttons, which show 1 arrow
     const fineButtonOptions: ArrowButtonOptions = combineOptions<ArrowButtonOptions>( {
-      focusable: false,
+      pdomVisible: false,
       numberOfArrows: 1,
       arrowWidth: 12, // width of base
       arrowHeight: 14, // from tip to base
@@ -110,7 +110,7 @@ export default class FineCoarseSpinner extends AccessibleNumberSpinner( Node, 0 
 
     // options for the 'coarse' arrow buttons, which show 2 arrows
     const coarseButtonOptions = combineOptions<ArrowButtonOptions>( {}, fineButtonOptions, {
-      focusable: false,
+      pdomVisible: false,
       numberOfArrows: 2,
       arrowSpacing: -0.5 * fineButtonArrowHeight, // arrows overlap
       soundPlayer: options.arrowsSoundPlayer,
