@@ -318,6 +318,7 @@ export default class KeyboardHelpIconFactory {
     p: new LetterKeyNode( 'P' ),
     r: new LetterKeyNode( 'R' ),
     s: new LetterKeyNode( 'S' ),
+    v: new LetterKeyNode( 'V' ),
     w: new LetterKeyNode( 'W' ),
     0: new LetterKeyNode( '0' ),
     1: new LetterKeyNode( '1' ),
