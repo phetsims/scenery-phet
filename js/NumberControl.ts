@@ -429,7 +429,7 @@ export default class NumberControl extends WidthSizable( Node ) {
       shiftKeyboardStep: options.delta,
 
       // pdom - The default aria-valuetext for the slider should read the value of the NumberDisplay.
-      pdomCreateAriaValueText: () => numberDisplay.accessibleValueStringProperty.value,
+      createAriaValueText: () => numberDisplay.accessibleValueStringProperty.value,
 
       // Make sure Slider gets created with the right IOType
       phetioType: Slider.SliderIO

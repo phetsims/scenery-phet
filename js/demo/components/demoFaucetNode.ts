@@ -69,7 +69,7 @@ export default function demoFaucetNode( layoutBounds: Bounds2 ): Node {
     reverseAlternativeInput: true, // Dragging the faucet shooter to the left will increase the flow rate.
 
     // The described value is
-    pdomCreateAriaValueText: ( mappedValue, propertyValue ) => {
+    createAriaValueText: ( mappedValue, propertyValue ) => {
       return `The flow rate is ${MAX_FLOW_RATE - propertyValue}`;
     }
   } );
@@ -90,7 +90,7 @@ export default function demoFaucetNode( layoutBounds: Bounds2 ): Node {
 }
 
 type FaucetDemoPanelOptions = PickRequired<FaucetNodeOptions, 'tapToDispenseEnabled' | 'closeOnRelease'> &
-  PickOptional<FaucetNodeOptions, 'reverseAlternativeInput' | 'pdomCreateAriaValueText'>;
+  PickOptional<FaucetNodeOptions, 'reverseAlternativeInput' | 'createAriaValueText'>;
 
 class FaucetDemoPanel extends Panel {
 
