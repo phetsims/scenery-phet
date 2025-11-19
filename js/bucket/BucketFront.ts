@@ -59,6 +59,7 @@ export default class BucketFront extends InteractiveHighlighting( Node ) {
       options.labelNode = new Text( bucket.captionText, {
         font: new PhetFont( 20 ),
         fill: bucket.captionColor,
+        pickable: false,
         tandem: options.tandem.createTandem( 'labelText' )
       } );
     }
