@@ -54,7 +54,7 @@ export default class TextKeyNode extends KeyNode {
   }
 
   /**
-   * Returns the correct platform dependent key string for "Alt". "Alt" on Windows, "Option" on Mac.
+   * Returns the correct string for the 'alt' key for the platform. "Option" on Mac, "Alt" elsewhere.
    */
   public static getAltKeyString(): PhetioProperty<string> {
     return platform.mac ?
@@ -63,7 +63,7 @@ export default class TextKeyNode extends KeyNode {
   }
 
   /**
-   * Returns the correct string for the "Enter" key for the platform. "Return" on Mac, "Enter" elsewhere.
+   * Returns the correct string for the 'enter' key for the platform. "Return" on Mac, "Enter" elsewhere.
    */
   public static getEnterKeyString(): TReadOnlyProperty<string> {
     return platform.mac ?
