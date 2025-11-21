@@ -62,6 +62,15 @@ export default class TextKeyNode extends KeyNode {
            SceneryPhetStrings.key.altStringProperty;
   }
 
+  /**
+   * Returns the correct string for the "Enter" key for the platform. "Return" on Mac, "Enter" elsewhere.
+   */
+  public static getEnterKeyString(): TReadOnlyProperty<string> {
+    return platform.mac ?
+           SceneryPhetStrings.key.returnStringProperty :
+           SceneryPhetStrings.key.enterStringProperty;
+  }
+
   //-------------------------------------------------------------------------------------------------
   // Static factory methods for specific text strings. For brevity, these methods have the same names
   // as their string keys. For example SceneryPhetStrings.key.esc is rendered by the esc method.
@@ -86,7 +95,7 @@ export default class TextKeyNode extends KeyNode {
   }
 
   public static enter( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.enterStringProperty, providedOptions );
+    return new TextKeyNode( TextKeyNode.getEnterKeyString(), providedOptions );
   }
 
   public static backspace( providedOptions?: TextKeyNodeOptions ): KeyNode {

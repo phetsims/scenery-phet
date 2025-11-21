@@ -33,8 +33,8 @@ import TColor from '../../../scenery/js/util/TColor.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../sun/js/buttons/RectangularPushButton.js';
 import Dialog, { DialogOptions } from '../../../sun/js/Dialog.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import TextKeyNode from '../keyboard/TextKeyNode.js';
 import sceneryPhet from '../sceneryPhet.js';
-import SceneryPhetStrings from '../SceneryPhetStrings.js';
 
 type SelfOptions = {
   // Font used for all Text instances within the Dialog.
@@ -151,7 +151,7 @@ class KeypadDialog extends Dialog {
     const valueDisplayBox = new Node( { children: [ valueBackgroundNode, this.valueText ] } );
 
     // Create the enterButton, which allows the user to submit an Edit.
-    const enterText = new Text( SceneryPhetStrings.key.enterStringProperty, {
+    const enterText = new Text( TextKeyNode.getEnterKeyString(), {
       font: options.font,
       maxWidth: this.keypad.width // constrain width for i18n
     } );
@@ -159,7 +159,7 @@ class KeypadDialog extends Dialog {
       listener: this.submitEdit.bind( this ),
 
       content: enterText,
-      accessibleName: SceneryPhetStrings.key.enterStringProperty,
+      accessibleName: TextKeyNode.getEnterKeyString(),
       tandem: Tandem.OPT_OUT
     }, options.enterButtonOptions ) );
 

@@ -20,6 +20,7 @@ key.k:                                                  K
 key.l:                                                  L
 key.capsLock:                                           Caps Lock
 key.enter:                                              Enter
+key.return:                                             Return
 key.backspace:                                          Backspace
 key.delete:                                             Delete
 key.space:                                              Space
@@ -136,7 +137,7 @@ units:
     symbol:        cm
     symbolPattern: '{{value}} cm'
   centimetersSquared:
-    symbol: cm<sup>2</sup>
+    symbol:        cm<sup>2</sup>
     symbolPattern: '{{value}} cm<sup>2</sup>'
   hertz:
     symbol:        Hz
@@ -402,7 +403,7 @@ a11y:
   eraserButton:
     accessibleName: Erase
   timerToggleButton:
-    accessibleNameOn: Timer On
+    accessibleNameOn:  Timer On
     accessibleNameOff: Timer Off
   playControlButton:
     play:  Play

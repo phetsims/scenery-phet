@@ -45,6 +45,7 @@ addToMapIfDefined( 'key_k', 'key.kStringProperty' );
 addToMapIfDefined( 'key_l', 'key.lStringProperty' );
 addToMapIfDefined( 'key_capsLock', 'key.capsLockStringProperty' );
 addToMapIfDefined( 'key_enter', 'key.enterStringProperty' );
+addToMapIfDefined( 'key_return', 'key.returnStringProperty' );
 addToMapIfDefined( 'key_backspace', 'key.backspaceStringProperty' );
 addToMapIfDefined( 'key_delete', 'key.deleteStringProperty' );
 addToMapIfDefined( 'key_space', 'key.spaceStringProperty' );
@@ -407,6 +408,7 @@ const SceneryPhetFluent = {
     lStringProperty: _.get( SceneryPhetStrings, 'key.lStringProperty' ),
     capsLockStringProperty: _.get( SceneryPhetStrings, 'key.capsLockStringProperty' ),
     enterStringProperty: _.get( SceneryPhetStrings, 'key.enterStringProperty' ),
+    returnStringProperty: _.get( SceneryPhetStrings, 'key.returnStringProperty' ),
     backspaceStringProperty: _.get( SceneryPhetStrings, 'key.backspaceStringProperty' ),
     deleteStringProperty: _.get( SceneryPhetStrings, 'key.deleteStringProperty' ),
     spaceStringProperty: _.get( SceneryPhetStrings, 'key.spaceStringProperty' ),
