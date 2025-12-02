@@ -372,18 +372,18 @@ a11y:
       shiftTabDescription:          Move to previous item with Shift plus Tab key.
       tabGroupDescription:          Move to next item or group with Tab key.
       shiftTabGroupDescription:     Move to previous item or group with Shift plus Tab key.
-      pressButtonsDescription:      Press buttons with Space or Enter keys.
+      pressButtonsDescription:      Press buttons with Space or {{enterOrReturn}} keys.
       groupNavigationDescription:   >-
                                     Move between items in a group with Left and Right arrow keys or Up and
                                     Down arrow keys.
       setValuesInKeypadDescription: Set values within keypad using number keys 0-9.
       exitDialogDescription:        Exit a dialog with Escape key.
       toggleCheckboxesDescription:  Toggle checkboxes with Space key.
-    grabOrReleaseDescriptionPattern: Grab or release {{thing}} with Space or Enter keys.
+    grabOrReleaseDescriptionPattern: Grab or release {{thing}} with Space or {{enterOrReturn}} keys.
     comboBox:
-      popUpListPatternDescription:     Show {{thingPlural}} with Space or Enter keys.
+      popUpListPatternDescription:     Show {{thingPlural}} with Space or {{enterOrReturn}} keys.
       moveThroughPatternDescription:   Move through {{thingPlural}} with Up and Down arrow keys.
-      chooseNewPatternDescription:     Change {{thingSingular}} with Enter key.
+      chooseNewPatternDescription:     Change {{thingSingular}} with {{enterOrReturn}} key.
       closeWithoutChangingDescription: ' Close without changing with Escape key.'
     draggableItems:
       moveDescription:       Move with arrow keys or W, A, S, or D keys.
@@ -399,7 +399,7 @@ a11y:
       closeFaucetWithEndDescription:      Close faucet with Zero or End keys.
       openFaucetFullyDescription:         Open faucet fully with End key.
       openFaucetFullyWithHomeDescription: Open faucet fully with Home key.
-      openFaucetBrieflyDescription:       Open faucet briefly with Space or Enter keys.
+      openFaucetBrieflyDescription:       Open faucet briefly with Space or {{enterOrReturn}} keys.
   eraserButton:
     accessibleName: Erase
   timerToggleButton:

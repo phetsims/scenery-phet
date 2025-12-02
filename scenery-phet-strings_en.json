@@ -1023,7 +1023,7 @@
           "value": "Move to previous item or group with Shift plus Tab key."
         },
         "pressButtonsDescription": {
-          "value": "Press buttons with Space or Enter keys."
+          "value": "Press buttons with Space or {{enterOrReturn}} keys."
         },
         "groupNavigationDescription": {
           "value": "Move between items in a group with Left and Right arrow keys or Up and Down arrow keys."
@@ -1039,17 +1039,17 @@
         }
       },
       "grabOrReleaseDescriptionPattern": {
-        "value": "Grab or release {{thing}} with Space or Enter keys."
+        "value": "Grab or release {{thing}} with Space or {{enterOrReturn}} keys."
       },
       "comboBox": {
         "popUpListPatternDescription": {
-          "value": "Show {{thingPlural}} with Space or Enter keys."
+          "value": "Show {{thingPlural}} with Space or {{enterOrReturn}} keys."
         },
         "moveThroughPatternDescription": {
           "value": "Move through {{thingPlural}} with Up and Down arrow keys."
         },
         "chooseNewPatternDescription": {
-          "value": "Change {{thingSingular}} with Enter key."
+          "value": "Change {{thingSingular}} with {{enterOrReturn}} key."
         },
         "closeWithoutChangingDescription": {
           "value": " Close without changing with Escape key."
@@ -1094,7 +1094,7 @@
           "value": "Open faucet fully with Home key."
         },
         "openFaucetBrieflyDescription": {
-          "value": "Open faucet briefly with Space or Enter keys."
+          "value": "Open faucet briefly with Space or {{enterOrReturn}} keys."
         }
       }
     },

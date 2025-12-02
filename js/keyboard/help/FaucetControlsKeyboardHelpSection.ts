@@ -7,6 +7,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import FaucetNode from '../../FaucetNode.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -104,7 +105,9 @@ export default class FaucetControlsKeyboardHelpSection extends KeyboardHelpSecti
         openFaucetBrieflyStringProperty,
         KeyboardHelpIconFactory.iconOrIcon( TextKeyNode.space(), TextKeyNode.enter() ),
         {
-          labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.faucetControls.openFaucetBrieflyDescriptionStringProperty
+          labelInnerContent: new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.faucetControls.openFaucetBrieflyDescriptionStringProperty, {
+            enterOrReturn: TextKeyNode.getEnterKeyString()
+          } )
         }
       );
       content.push( openFaucetBrieflyRow );

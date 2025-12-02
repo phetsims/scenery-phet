@@ -48,7 +48,8 @@ export default class GrabReleaseKeyboardHelpSection extends KeyboardHelpSection 
 
     // the string for the PDOM
     const descriptionStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.grabOrReleaseDescriptionPatternStringProperty, {
-      thing: thingAsLowerCase
+      thing: thingAsLowerCase,
+      enterOrReturn: TextKeyNode.getEnterKeyString()
     }, { tandem: Tandem.OPT_OUT } );
 
     const spaceKeyNode = TextKeyNode.space();

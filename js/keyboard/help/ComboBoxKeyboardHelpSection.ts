@@ -76,7 +76,10 @@ export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
     const popUpList = KeyboardHelpSectionRow.labelWithIcon(
       createPatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.comboBox.popUpListPatternStringProperty ),
       spaceOrEnterIcon, {
-        labelInnerContent: createPatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.popUpListPatternDescriptionStringProperty )
+        labelInnerContent: new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.popUpListPatternDescriptionStringProperty, {
+          thingPlural: thingAsLowerCasePluralStringProperty,
+          enterOrReturn: TextKeyNode.getEnterKeyString()
+        } )
       } );
 
     const moveThrough = KeyboardHelpSectionRow.labelWithIcon(
@@ -88,7 +91,10 @@ export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
     const chooseNew = KeyboardHelpSectionRow.labelWithIcon(
       createPatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.comboBox.chooseNewPatternStringProperty ),
       enterKeyNode, {
-        labelInnerContent: createPatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.chooseNewPatternDescriptionStringProperty )
+        labelInnerContent: new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.comboBox.chooseNewPatternDescriptionStringProperty, {
+          thingSingular: thingAsLowerCaseSingularStringProperty,
+          enterOrReturn: TextKeyNode.getEnterKeyString()
+        } )
       } );
 
     const escapeKeyNode = TextKeyNode.esc();

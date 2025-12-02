@@ -10,6 +10,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ResetAllButton from '../../buttons/ResetAllButton.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -72,7 +73,9 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
     const spaceOrEnterIcon = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode );
     const pressButtonsItemRow = KeyboardHelpSectionRow.labelWithIcon(
       SceneryPhetStrings.keyboardHelpDialog.pressButtonsStringProperty, spaceOrEnterIcon, {
-        labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.general.pressButtonsDescriptionStringProperty
+        labelInnerContent: new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.general.pressButtonsDescriptionStringProperty, {
+          enterOrReturn: TextKeyNode.getEnterKeyString()
+        } )
       } );
 
     // 'Reset All'

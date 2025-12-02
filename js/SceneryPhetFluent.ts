@@ -224,7 +224,6 @@ addToMapIfDefined( 'a11y_keyboardHelpDialog_general_tabDescription', 'a11y.keybo
 addToMapIfDefined( 'a11y_keyboardHelpDialog_general_shiftTabDescription', 'a11y.keyboardHelpDialog.general.shiftTabDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_general_tabGroupDescription', 'a11y.keyboardHelpDialog.general.tabGroupDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_general_shiftTabGroupDescription', 'a11y.keyboardHelpDialog.general.shiftTabGroupDescriptionStringProperty' );
-addToMapIfDefined( 'a11y_keyboardHelpDialog_general_pressButtonsDescription', 'a11y.keyboardHelpDialog.general.pressButtonsDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_general_groupNavigationDescription', 'a11y.keyboardHelpDialog.general.groupNavigationDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_general_setValuesInKeypadDescription', 'a11y.keyboardHelpDialog.general.setValuesInKeypadDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_general_exitDialogDescription', 'a11y.keyboardHelpDialog.general.exitDialogDescriptionStringProperty' );
@@ -241,7 +240,6 @@ addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_closeFaucetDescriptio
 addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_closeFaucetWithEndDescription', 'a11y.keyboardHelpDialog.faucetControls.closeFaucetWithEndDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_openFaucetFullyDescription', 'a11y.keyboardHelpDialog.faucetControls.openFaucetFullyDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_openFaucetFullyWithHomeDescription', 'a11y.keyboardHelpDialog.faucetControls.openFaucetFullyWithHomeDescriptionStringProperty' );
-addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_openFaucetBrieflyDescription', 'a11y.keyboardHelpDialog.faucetControls.openFaucetBrieflyDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_eraserButton_accessibleName', 'a11y.eraserButton.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_timerToggleButton_accessibleNameOn', 'a11y.timerToggleButton.accessibleNameOnStringProperty' );
 addToMapIfDefined( 'a11y_timerToggleButton_accessibleNameOff', 'a11y.timerToggleButton.accessibleNameOffStringProperty' );
@@ -852,7 +850,7 @@ const SceneryPhetFluent = {
         shiftTabDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_general_shiftTabDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.general.shiftTabDescriptionStringProperty' ) ),
         tabGroupDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_general_tabGroupDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.general.tabGroupDescriptionStringProperty' ) ),
         shiftTabGroupDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_general_shiftTabGroupDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.general.shiftTabGroupDescriptionStringProperty' ) ),
-        pressButtonsDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_general_pressButtonsDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.general.pressButtonsDescriptionStringProperty' ) ),
+        pressButtonsDescriptionStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.general.pressButtonsDescriptionStringProperty' ),
         groupNavigationDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_general_groupNavigationDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.general.groupNavigationDescriptionStringProperty' ) ),
         setValuesInKeypadDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_general_setValuesInKeypadDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.general.setValuesInKeypadDescriptionStringProperty' ) ),
         exitDialogDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_general_exitDialogDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.general.exitDialogDescriptionStringProperty' ) ),
@@ -881,7 +879,7 @@ const SceneryPhetFluent = {
         closeFaucetWithEndDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_faucetControls_closeFaucetWithEndDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.faucetControls.closeFaucetWithEndDescriptionStringProperty' ) ),
         openFaucetFullyDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_faucetControls_openFaucetFullyDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.faucetControls.openFaucetFullyDescriptionStringProperty' ) ),
         openFaucetFullyWithHomeDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_faucetControls_openFaucetFullyWithHomeDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.faucetControls.openFaucetFullyWithHomeDescriptionStringProperty' ) ),
-        openFaucetBrieflyDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_faucetControls_openFaucetBrieflyDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.faucetControls.openFaucetBrieflyDescriptionStringProperty' ) )
+        openFaucetBrieflyDescriptionStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.faucetControls.openFaucetBrieflyDescriptionStringProperty' )
       }
     },
     eraserButton: {
