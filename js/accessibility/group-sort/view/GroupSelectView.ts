@@ -80,8 +80,8 @@ type SelfOptions<ItemModel, ItemNode extends Node> = {
   releasedRoleDescription?: PDOMValueType;
 
   // Context responses describing the grab/release events. Only spoken with alternative input.
-  grabbedAccessibleContextResponse?: AlertableNoUtterance;
-  releasedAccessibleContextResponse?: AlertableNoUtterance;
+  grabbedAccessibleObjectResponse?: AlertableNoUtterance;
+  releasedAccessibleObjectResponse?: AlertableNoUtterance;
 };
 
 type ParentOptions = DisposableOptions;
@@ -129,8 +129,8 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
       grabReleaseCueOptions: {},
       grabbedRoleDescription: sortableStringProperty,
       releasedRoleDescription: navigableStringProperty,
-      grabbedAccessibleContextResponse: SceneryPhetStrings.a11y.groupSort.grabbedAccessibleContextResponseStringProperty,
-      releasedAccessibleContextResponse: SceneryPhetStrings.a11y.groupSort.releasedAccessibleContextResponseStringProperty
+      grabbedAccessibleObjectResponse: SceneryPhetStrings.a11y.groupSort.grabbedAccessibleObjectResponseStringProperty,
+      releasedAccessibleObjectResponse: SceneryPhetStrings.a11y.groupSort.releasedAccessibleObjectResponseStringProperty
     }, providedOptions );
 
     super( options );
@@ -155,7 +155,7 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
           // This listener is linked to a model Property, only speak through the Node if it is actually
           // displayed.
           if ( primaryFocusedNode.wasVisuallyDisplayed() ) {
-            this.primaryFocusedNode.addAccessibleContextResponse( options.grabbedAccessibleContextResponse );
+            this.primaryFocusedNode.addAccessibleObjectResponse( options.grabbedAccessibleObjectResponse );
           }
         }
         else {
@@ -164,7 +164,7 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
           // This listener is linked to a model Property, only speak through the Node if it is actually
           // displayed.
           if ( primaryFocusedNode.wasVisuallyDisplayed() ) {
-            this.primaryFocusedNode.addAccessibleContextResponse( options.releasedAccessibleContextResponse );
+            this.primaryFocusedNode.addAccessibleObjectResponse( options.releasedAccessibleObjectResponse );
           }
         }
       }

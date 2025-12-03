@@ -564,8 +564,8 @@ type StringsType = {
     'groupSort': {
       'sortableStringProperty': LocalizedStringProperty;
       'navigableStringProperty': LocalizedStringProperty;
-      'grabbedAccessibleContextResponseStringProperty': LocalizedStringProperty;
-      'releasedAccessibleContextResponseStringProperty': LocalizedStringProperty;
+      'grabbedAccessibleObjectResponseStringProperty': LocalizedStringProperty;
+      'releasedAccessibleObjectResponseStringProperty': LocalizedStringProperty;
     };
     'listItemPunctuation': {
       'semicolonPatternStringProperty': LocalizedStringProperty;

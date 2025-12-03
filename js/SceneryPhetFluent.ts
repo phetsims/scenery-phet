@@ -276,8 +276,8 @@ addToMapIfDefined( 'a11y_grabDrag_grabbed', 'a11y.grabDrag.grabbedStringProperty
 addToMapIfDefined( 'a11y_grabDrag_spaceToGrabOrRelease', 'a11y.grabDrag.spaceToGrabOrReleaseStringProperty' );
 addToMapIfDefined( 'a11y_groupSort_sortable', 'a11y.groupSort.sortableStringProperty' );
 addToMapIfDefined( 'a11y_groupSort_navigable', 'a11y.groupSort.navigableStringProperty' );
-addToMapIfDefined( 'a11y_groupSort_grabbedAccessibleContextResponse', 'a11y.groupSort.grabbedAccessibleContextResponseStringProperty' );
-addToMapIfDefined( 'a11y_groupSort_releasedAccessibleContextResponse', 'a11y.groupSort.releasedAccessibleContextResponseStringProperty' );
+addToMapIfDefined( 'a11y_groupSort_grabbedAccessibleObjectResponse', 'a11y.groupSort.grabbedAccessibleObjectResponseStringProperty' );
+addToMapIfDefined( 'a11y_groupSort_releasedAccessibleObjectResponse', 'a11y.groupSort.releasedAccessibleObjectResponseStringProperty' );
 addToMapIfDefined( 'a11y_voicing_grabbedAlert', 'a11y.voicing.grabbedAlertStringProperty' );
 addToMapIfDefined( 'a11y_voicing_draggableAlert', 'a11y.voicing.draggableAlertStringProperty' );
 addToMapIfDefined( 'a11y_close', 'a11y.closeStringProperty' );
@@ -939,8 +939,8 @@ const SceneryPhetFluent = {
     groupSort: {
       sortableStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_groupSort_sortable', _.get( SceneryPhetStrings, 'a11y.groupSort.sortableStringProperty' ) ),
       navigableStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_groupSort_navigable', _.get( SceneryPhetStrings, 'a11y.groupSort.navigableStringProperty' ) ),
-      grabbedAccessibleContextResponseStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_groupSort_grabbedAccessibleContextResponse', _.get( SceneryPhetStrings, 'a11y.groupSort.grabbedAccessibleContextResponseStringProperty' ) ),
-      releasedAccessibleContextResponseStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_groupSort_releasedAccessibleContextResponse', _.get( SceneryPhetStrings, 'a11y.groupSort.releasedAccessibleContextResponseStringProperty' ) )
+      grabbedAccessibleObjectResponseStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_groupSort_grabbedAccessibleObjectResponse', _.get( SceneryPhetStrings, 'a11y.groupSort.grabbedAccessibleObjectResponseStringProperty' ) ),
+      releasedAccessibleObjectResponseStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_groupSort_releasedAccessibleObjectResponse', _.get( SceneryPhetStrings, 'a11y.groupSort.releasedAccessibleObjectResponseStringProperty' ) )
     },
     listItemPunctuation: {
       semicolonPatternStringProperty: _.get( SceneryPhetStrings, 'a11y.listItemPunctuation.semicolonPatternStringProperty' ),

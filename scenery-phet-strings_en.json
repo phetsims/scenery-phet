@@ -1231,10 +1231,10 @@
       "navigable": {
         "value": "navigable"
       },
-      "grabbedAccessibleContextResponse": {
+      "grabbedAccessibleObjectResponse": {
         "value": "Grabbed."
       },
-      "releasedAccessibleContextResponse": {
+      "releasedAccessibleObjectResponse": {
         "value": "Released."
       }
     },

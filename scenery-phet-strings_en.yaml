@@ -448,8 +448,8 @@ a11y:
   groupSort:
     sortable:                          sortable
     navigable:                         navigable
-    grabbedAccessibleContextResponse:  Grabbed.
-    releasedAccessibleContextResponse: Released.
+    grabbedAccessibleObjectResponse:  Grabbed.
+    releasedAccessibleObjectResponse: Released.
   listItemPunctuation:
     semicolonPattern: '{{content}};'
     commaPattern:     '{{content}},'
