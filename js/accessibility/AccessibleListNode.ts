@@ -90,7 +90,7 @@ type SelfOptions = {
 
 type ParentOptions = NodeOptions;
 
-type AccessibleListNodeOptions = SelfOptions & Pick<ParentOptions, 'visibleProperty'>;
+export type AccessibleListNodeOptions = SelfOptions & Pick<ParentOptions, 'visibleProperty'>;
 
 export default class AccessibleListNode extends Node {
 
