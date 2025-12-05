@@ -179,6 +179,24 @@
   "key.three": {
     "value": "3"
   },
+  "key.four": {
+    "value": "4"
+  },
+  "key.five": {
+    "value": "5"
+  },
+  "key.six": {
+    "value": "6"
+  },
+  "key.seven": {
+    "value": "7"
+  },
+  "key.eight": {
+    "value": "8"
+  },
+  "key.nine": {
+    "value": "9"
+  },
   "key.toGrabOrRelease": {
     "value": "to <b>Grab</b> or <b>Release</b>"
   },

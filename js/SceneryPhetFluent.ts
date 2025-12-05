@@ -83,6 +83,12 @@ addToMapIfDefined( 'key_zero', 'key.zeroStringProperty' );
 addToMapIfDefined( 'key_one', 'key.oneStringProperty' );
 addToMapIfDefined( 'key_two', 'key.twoStringProperty' );
 addToMapIfDefined( 'key_three', 'key.threeStringProperty' );
+addToMapIfDefined( 'key_four', 'key.fourStringProperty' );
+addToMapIfDefined( 'key_five', 'key.fiveStringProperty' );
+addToMapIfDefined( 'key_six', 'key.sixStringProperty' );
+addToMapIfDefined( 'key_seven', 'key.sevenStringProperty' );
+addToMapIfDefined( 'key_eight', 'key.eightStringProperty' );
+addToMapIfDefined( 'key_nine', 'key.nineStringProperty' );
 addToMapIfDefined( 'key_toGrabOrRelease', 'key.toGrabOrReleaseStringProperty' );
 addToMapIfDefined( 'webglWarning_title', 'webglWarning.titleStringProperty' );
 addToMapIfDefined( 'webglWarning_body', 'webglWarning.bodyStringProperty' );
@@ -488,6 +494,12 @@ const SceneryPhetFluent = {
     oneStringProperty: _.get( SceneryPhetStrings, 'key.oneStringProperty' ),
     twoStringProperty: _.get( SceneryPhetStrings, 'key.twoStringProperty' ),
     threeStringProperty: _.get( SceneryPhetStrings, 'key.threeStringProperty' ),
+    fourStringProperty: _.get( SceneryPhetStrings, 'key.fourStringProperty' ),
+    fiveStringProperty: _.get( SceneryPhetStrings, 'key.fiveStringProperty' ),
+    sixStringProperty: _.get( SceneryPhetStrings, 'key.sixStringProperty' ),
+    sevenStringProperty: _.get( SceneryPhetStrings, 'key.sevenStringProperty' ),
+    eightStringProperty: _.get( SceneryPhetStrings, 'key.eightStringProperty' ),
+    nineStringProperty: _.get( SceneryPhetStrings, 'key.nineStringProperty' ),
     toGrabOrReleaseStringProperty: _.get( SceneryPhetStrings, 'key.toGrabOrReleaseStringProperty' )
   },
   webglWarning: {

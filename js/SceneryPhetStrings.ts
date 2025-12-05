@@ -79,6 +79,12 @@ type StringsType = {
     'oneStringProperty': LocalizedStringProperty;
     'twoStringProperty': LocalizedStringProperty;
     'threeStringProperty': LocalizedStringProperty;
+    'fourStringProperty': LocalizedStringProperty;
+    'fiveStringProperty': LocalizedStringProperty;
+    'sixStringProperty': LocalizedStringProperty;
+    'sevenStringProperty': LocalizedStringProperty;
+    'eightStringProperty': LocalizedStringProperty;
+    'nineStringProperty': LocalizedStringProperty;
     'toGrabOrReleaseStringProperty': LocalizedStringProperty;
   };
   'webglWarning': {

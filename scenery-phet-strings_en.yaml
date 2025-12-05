@@ -58,6 +58,12 @@ key.zero:                                               '0'
 key.one:                                                '1'
 key.two:                                                '2'
 key.three:                                              '3'
+key.four:                                               '4'
+key.five:                                               '5'
+key.six:                                                '6'
+key.seven:                                              '7'
+key.eight:                                              '8'
+key.nine:                                               '9'
 key.toGrabOrRelease:                                    to <b>Grab</b> or <b>Release</b>
 webglWarning.title:                                     Running with low graphics quality
 webglWarning.body:                                      WebGL is not enabled or not available. Click to learn more.
