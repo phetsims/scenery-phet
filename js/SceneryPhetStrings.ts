@@ -54,9 +54,12 @@ type StringsType = {
     'aStringProperty': LocalizedStringProperty;
     'cStringProperty': LocalizedStringProperty;
     'dStringProperty': LocalizedStringProperty;
+    'gStringProperty': LocalizedStringProperty;
+    'jStringProperty': LocalizedStringProperty;
     'rStringProperty': LocalizedStringProperty;
     'sStringProperty': LocalizedStringProperty;
     'wStringProperty': LocalizedStringProperty;
+    'zeroStringProperty': LocalizedStringProperty;
     'oneStringProperty': LocalizedStringProperty;
     'twoStringProperty': LocalizedStringProperty;
     'threeStringProperty': LocalizedStringProperty;

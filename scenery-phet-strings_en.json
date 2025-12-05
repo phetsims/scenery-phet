@@ -104,6 +104,12 @@
   "key.d": {
     "value": "D"
   },
+  "key.g": {
+    "value": "G"
+  },
+  "key.j": {
+    "value": "J"
+  },
   "key.r": {
     "value": "R"
   },
@@ -112,6 +118,9 @@
   },
   "key.w": {
     "value": "W"
+  },
+  "key.zero": {
+    "value": "0"
   },
   "key.one": {
     "value": "1"

@@ -33,9 +33,12 @@ key.end:                                                End
 key.a:                                                  A
 key.c:                                                  C
 key.d:                                                  D
+key.g:                                                  G
+key.j:                                                  J
 key.r:                                                  R
 key.s:                                                  S
 key.w:                                                  W
+key.zero:                                               '0'
 key.one:                                                '1'
 key.two:                                                '2'
 key.three:                                              '3'

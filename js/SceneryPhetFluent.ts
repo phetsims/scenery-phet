@@ -58,9 +58,12 @@ addToMapIfDefined( 'key_end', 'key.endStringProperty' );
 addToMapIfDefined( 'key_a', 'key.aStringProperty' );
 addToMapIfDefined( 'key_c', 'key.cStringProperty' );
 addToMapIfDefined( 'key_d', 'key.dStringProperty' );
+addToMapIfDefined( 'key_g', 'key.gStringProperty' );
+addToMapIfDefined( 'key_j', 'key.jStringProperty' );
 addToMapIfDefined( 'key_r', 'key.rStringProperty' );
 addToMapIfDefined( 'key_s', 'key.sStringProperty' );
 addToMapIfDefined( 'key_w', 'key.wStringProperty' );
+addToMapIfDefined( 'key_zero', 'key.zeroStringProperty' );
 addToMapIfDefined( 'key_one', 'key.oneStringProperty' );
 addToMapIfDefined( 'key_two', 'key.twoStringProperty' );
 addToMapIfDefined( 'key_three', 'key.threeStringProperty' );
@@ -444,9 +447,12 @@ const SceneryPhetFluent = {
     aStringProperty: _.get( SceneryPhetStrings, 'key.aStringProperty' ),
     cStringProperty: _.get( SceneryPhetStrings, 'key.cStringProperty' ),
     dStringProperty: _.get( SceneryPhetStrings, 'key.dStringProperty' ),
+    gStringProperty: _.get( SceneryPhetStrings, 'key.gStringProperty' ),
+    jStringProperty: _.get( SceneryPhetStrings, 'key.jStringProperty' ),
     rStringProperty: _.get( SceneryPhetStrings, 'key.rStringProperty' ),
     sStringProperty: _.get( SceneryPhetStrings, 'key.sStringProperty' ),
     wStringProperty: _.get( SceneryPhetStrings, 'key.wStringProperty' ),
+    zeroStringProperty: _.get( SceneryPhetStrings, 'key.zeroStringProperty' ),
     oneStringProperty: _.get( SceneryPhetStrings, 'key.oneStringProperty' ),
     twoStringProperty: _.get( SceneryPhetStrings, 'key.twoStringProperty' ),
     threeStringProperty: _.get( SceneryPhetStrings, 'key.threeStringProperty' ),
