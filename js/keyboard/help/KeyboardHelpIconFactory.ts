@@ -8,7 +8,6 @@
  */
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import type { EnglishKeyString } from '../../../../scenery/js/accessibility/EnglishStringToCodeMap.js';
@@ -23,6 +22,7 @@ import PlusNode from '../../PlusNode.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import ArrowKeyNode from '../ArrowKeyNode.js';
+import { getKeyBuilder } from '../KeyDisplayRegistry.js';
 import LetterKeyNode from '../LetterKeyNode.js';
 import TextKeyNode from '../TextKeyNode.js';
 import HotkeySetDefinitions, { HotkeySetDefinitionEntry } from './HotkeySetDefinitions.js';
@@ -344,59 +344,6 @@ export default class KeyboardHelpIconFactory {
   }
 
   /**
-   * Maps English key strings to a function that will create a new icon Node for it. Populated lazily, please
-   * add additional keys as needed.
-   */
-  private static readonly ENGLISH_KEY_TO_KEY_NODE_BUILDERS: Record<string, () => Node> = {
-    shift: () => TextKeyNode.shift(),
-    alt: () => TextKeyNode.altOrOption(),
-    escape: () => TextKeyNode.esc(),
-    arrowLeft: () => new ArrowKeyNode( 'left' ),
-    arrowRight: () => new ArrowKeyNode( 'right' ),
-    arrowUp: () => new ArrowKeyNode( 'up' ),
-    arrowDown: () => new ArrowKeyNode( 'down' ),
-    pageUp: () => TextKeyNode.pageUp(),
-    pageDown: () => TextKeyNode.pageDown(),
-    space: () => TextKeyNode.space(),
-    home: () => TextKeyNode.home(),
-    end: () => TextKeyNode.end(),
-    tab: () => TextKeyNode.tab(),
-    a: () => LetterKeyNode.a(),
-    b: () => LetterKeyNode.b(),
-    c: () => LetterKeyNode.c(),
-    d: () => LetterKeyNode.d(),
-    e: () => LetterKeyNode.e(),
-    f: () => LetterKeyNode.f(),
-    g: () => LetterKeyNode.g(),
-    h: () => LetterKeyNode.h(),
-    i: () => LetterKeyNode.i(),
-    j: () => LetterKeyNode.j(),
-    k: () => LetterKeyNode.k(),
-    l: () => LetterKeyNode.l(),
-    m: () => LetterKeyNode.m(),
-    n: () => LetterKeyNode.n(),
-    o: () => LetterKeyNode.o(),
-    p: () => LetterKeyNode.p(),
-    q: () => LetterKeyNode.q(),
-    r: () => LetterKeyNode.r(),
-    s: () => LetterKeyNode.s(),
-    t: () => LetterKeyNode.t(),
-    u: () => LetterKeyNode.u(),
-    v: () => LetterKeyNode.v(),
-    w: () => LetterKeyNode.w(),
-    x: () => LetterKeyNode.x(),
-    y: () => LetterKeyNode.y(),
-    z: () => LetterKeyNode.z(),
-    0: () => LetterKeyNode.zero(),
-    1: () => LetterKeyNode.one(),
-    2: () => LetterKeyNode.two(),
-    3: () => LetterKeyNode.three(),
-    enter: () => TextKeyNode.enter(),
-    backspace: () => TextKeyNode.backspace(),
-    delete: () => TextKeyNode.delete()
-  };
-
-  /**
    * Create an icon Node for a hotkey, based on the provided HotkeyData. Combines key icons with plus icons.
    * For example, a HotkeyData with 'shift+r' would produce a row with the shift icon, a plus icon, and the r icon.
    */
@@ -448,7 +395,7 @@ export default class KeyboardHelpIconFactory {
       const partitions = HotkeySetDefinitions.partitionKeySetForModifiers( normalizedKeys );
       if ( partitions.length > 1 ) {
         const alternativeIcons = partitions.map( partition => {
-          const modifierIcons = group.modifiers.map( modifier => KeyboardHelpIconFactory.createKeyNode( modifier ) );
+          const modifierIcons = group.modifiers.map( modifier => getKeyBuilder( modifier )() );
           const keyIcon = KeyboardHelpIconFactory.createKeySetIcon( partition );
           return KeyboardHelpIconFactory.iconPlusIconRow( [ ...modifierIcons, keyIcon ] );
         } );
@@ -459,7 +406,7 @@ export default class KeyboardHelpIconFactory {
       }
     }
 
-    const modifierIcons = group.modifiers.map( modifier => KeyboardHelpIconFactory.createKeyNode( modifier ) );
+    const modifierIcons = group.modifiers.map( modifier => getKeyBuilder( modifier )() );
     const keyIcon = KeyboardHelpIconFactory.createKeySetIcon( normalizedKeys );
 
     if ( modifierIcons.length === 0 ) {
@@ -502,23 +449,12 @@ export default class KeyboardHelpIconFactory {
       return iconFromDefinition;
     }
 
-    const keyNodes = normalizedKeys.map( key => KeyboardHelpIconFactory.createKeyNode( key ) );
+    const keyNodes = normalizedKeys.map( key => getKeyBuilder( key )() );
     if ( keyNodes.length === 1 ) {
       return keyNodes[ 0 ];
     }
 
     return KeyboardHelpIconFactory.connectIconsWithOr( keyNodes );
-  }
-
-  /**
-   * Creates the individual key icon node for a single English key string. Looks up the rendering strategy from the
-   * `ENGLISH_KEY_TO_KEY_NODE_BUILDERS` map so that platform-specific labels stay consistent. Asserts when a
-   * key is missing to surface new hotkeys that have not been wired into the factory yet.
-   */
-  private static createKeyNode( key: EnglishKeyString ): Node {
-    const factory = KeyboardHelpIconFactory.ENGLISH_KEY_TO_KEY_NODE_BUILDERS[ key ];
-    affirm( factory, `key ${key} not found in ENGLISH_KEY_TO_KEY_NODE_BUILDERS. Please add it.` );
-    return factory();
   }
 
   /**

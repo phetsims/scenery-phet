@@ -18,6 +18,7 @@ import type { EnglishKeyString } from '../../../../scenery/js/accessibility/Engl
 import KeyDescriptor from '../../../../scenery/js/input/KeyDescriptor.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetFluent from '../../SceneryPhetFluent.js';
+import { getKeyLabelProperty } from '../KeyDisplayRegistry.js';
 import TextKeyNode from '../TextKeyNode.js';
 import HotkeySetDefinitions from './HotkeySetDefinitions.js';
 
@@ -39,51 +40,6 @@ const WITH_STRING_PROPERTY = SceneryPhetFluent.a11y.keyboard.listFormatting.with
 const COMMA_SPACE_STRING_PROPERTY = SceneryPhetFluent.a11y.keyboard.listFormatting.commaSpaceStringProperty;
 const KEY_STRING_PROPERTY = SceneryPhetFluent.a11y.keyboard.labels.keyStringProperty;
 const KEYS_STRING_PROPERTY = SceneryPhetFluent.a11y.keyboard.labels.keysStringProperty;
-
-// Maps scenery specific identifiers to the human-readable labels shown in descriptions. Lazily populated,
-// add more entries as needed.
-const KEY_LABELS: Partial<Record<EnglishKeyString, TReadOnlyProperty<string>>> = {
-  arrowLeft: SceneryPhetFluent.a11y.keyboard.key.leftArrowStringProperty,
-  arrowRight: SceneryPhetFluent.a11y.keyboard.key.rightArrowStringProperty,
-  arrowUp: SceneryPhetFluent.a11y.keyboard.key.upArrowStringProperty,
-  arrowDown: SceneryPhetFluent.a11y.keyboard.key.downArrowStringProperty,
-  pageUp: SceneryPhetFluent.a11y.keyboard.key.pageUpStringProperty,
-  pageDown: SceneryPhetFluent.a11y.keyboard.key.pageDownStringProperty,
-  home: SceneryPhetFluent.key.homeStringProperty,
-  end: SceneryPhetFluent.key.endStringProperty,
-  escape: SceneryPhetFluent.a11y.keyboard.key.escapeStringProperty,
-  enter: SceneryPhetFluent.key.enterStringProperty,
-  space: SceneryPhetFluent.key.spaceStringProperty,
-  delete: SceneryPhetFluent.key.deleteStringProperty,
-  backspace: SceneryPhetFluent.key.backspaceStringProperty,
-  tab: SceneryPhetFluent.key.tabStringProperty,
-  a: SceneryPhetFluent.key.aStringProperty,
-  b: SceneryPhetFluent.key.bStringProperty,
-  c: SceneryPhetFluent.key.cStringProperty,
-  d: SceneryPhetFluent.key.dStringProperty,
-  e: SceneryPhetFluent.key.eStringProperty,
-  f: SceneryPhetFluent.key.fStringProperty,
-  g: SceneryPhetFluent.key.gStringProperty,
-  h: SceneryPhetFluent.key.hStringProperty,
-  i: SceneryPhetFluent.key.iStringProperty,
-  j: SceneryPhetFluent.key.jStringProperty,
-  k: SceneryPhetFluent.key.kStringProperty,
-  l: SceneryPhetFluent.key.lStringProperty,
-  m: SceneryPhetFluent.key.mStringProperty,
-  n: SceneryPhetFluent.key.nStringProperty,
-  o: SceneryPhetFluent.key.oStringProperty,
-  p: SceneryPhetFluent.key.pStringProperty,
-  q: SceneryPhetFluent.key.qStringProperty,
-  r: SceneryPhetFluent.key.rStringProperty,
-  s: SceneryPhetFluent.key.sStringProperty,
-  t: SceneryPhetFluent.key.tStringProperty,
-  u: SceneryPhetFluent.key.uStringProperty,
-  v: SceneryPhetFluent.key.vStringProperty,
-  w: SceneryPhetFluent.key.wStringProperty,
-  x: SceneryPhetFluent.key.xStringProperty,
-  y: SceneryPhetFluent.key.yStringProperty,
-  z: SceneryPhetFluent.key.zStringProperty
-};
 
 // Modifier labels need customized wording (for example, excluding the "key" suffix)
 // so they are configured separately from KEY_LABELS rather than using the generic
@@ -219,7 +175,7 @@ export default class HotkeyDescriptionBuilder {
     }
 
     // Fall back to describing it like a standard key.
-    return `${HotkeyDescriptionBuilder.describeKeyLabel( modifier )} ${KEY_STRING_PROPERTY.value}`;
+    return `${getKeyLabelProperty( modifier ).value} ${KEY_STRING_PROPERTY.value}`;
   }
 
   /**
@@ -236,7 +192,7 @@ export default class HotkeyDescriptionBuilder {
       return definition.phraseProperty.value;
     }
 
-    const labels = normalizedKeys.map( key => HotkeyDescriptionBuilder.describeSingleKey( key ) );
+    const labels = normalizedKeys.map( key => getKeyLabelProperty( key ).value );
     if ( labels.length === 1 ) {
       return `${labels[ 0 ]} ${KEY_STRING_PROPERTY.value}`;
     }
@@ -254,10 +210,8 @@ export default class HotkeyDescriptionBuilder {
     const labelProperties = new Set<TReadOnlyProperty<string>>();
 
     descriptors.forEach( descriptor => {
-      const labelProperty = KEY_LABELS[ descriptor.key ];
-      if ( labelProperty ) {
-        labelProperties.add( labelProperty );
-      }
+      const labelProperty = getKeyLabelProperty( descriptor.key );
+      labelProperties.add( labelProperty );
     } );
 
     return Array.from( labelProperties );
@@ -292,25 +246,6 @@ export default class HotkeyDescriptionBuilder {
     } );
 
     return Array.from( phraseProperties );
-  }
-
-  /**
-   * Returns the human-readable label for a single key.
-   */
-  private static describeSingleKey( key: EnglishKeyString ): string {
-    return HotkeyDescriptionBuilder.describeKeyLabel( key );
-  }
-
-  /**
-   * Looks up the human-readable label for a key, throwing an error if no label is configured.
-   */
-  private static describeKeyLabel( key: EnglishKeyString ): string {
-    const labelProperty = KEY_LABELS[ key ];
-    if ( labelProperty ) {
-      return labelProperty.value;
-    }
-
-    throw new Error( `No hotkey label configured for "${key}"; please add a description key label to the map.` );
   }
 
   /**
