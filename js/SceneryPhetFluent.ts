@@ -41,8 +41,6 @@ addToMapIfDefined( 'key_tab', 'key.tabStringProperty' );
 addToMapIfDefined( 'key_shift', 'key.shiftStringProperty' );
 addToMapIfDefined( 'key_alt', 'key.altStringProperty' );
 addToMapIfDefined( 'key_option', 'key.optionStringProperty' );
-addToMapIfDefined( 'key_k', 'key.kStringProperty' );
-addToMapIfDefined( 'key_l', 'key.lStringProperty' );
 addToMapIfDefined( 'key_capsLock', 'key.capsLockStringProperty' );
 addToMapIfDefined( 'key_enter', 'key.enterStringProperty' );
 addToMapIfDefined( 'key_return', 'key.returnStringProperty' );
@@ -56,13 +54,31 @@ addToMapIfDefined( 'key_pageDown', 'key.pageDownStringProperty' );
 addToMapIfDefined( 'key_home', 'key.homeStringProperty' );
 addToMapIfDefined( 'key_end', 'key.endStringProperty' );
 addToMapIfDefined( 'key_a', 'key.aStringProperty' );
+addToMapIfDefined( 'key_b', 'key.bStringProperty' );
 addToMapIfDefined( 'key_c', 'key.cStringProperty' );
 addToMapIfDefined( 'key_d', 'key.dStringProperty' );
+addToMapIfDefined( 'key_e', 'key.eStringProperty' );
+addToMapIfDefined( 'key_f', 'key.fStringProperty' );
 addToMapIfDefined( 'key_g', 'key.gStringProperty' );
+addToMapIfDefined( 'key_h', 'key.hStringProperty' );
+addToMapIfDefined( 'key_i', 'key.iStringProperty' );
 addToMapIfDefined( 'key_j', 'key.jStringProperty' );
+addToMapIfDefined( 'key_k', 'key.kStringProperty' );
+addToMapIfDefined( 'key_l', 'key.lStringProperty' );
+addToMapIfDefined( 'key_m', 'key.mStringProperty' );
+addToMapIfDefined( 'key_n', 'key.nStringProperty' );
+addToMapIfDefined( 'key_o', 'key.oStringProperty' );
+addToMapIfDefined( 'key_p', 'key.pStringProperty' );
+addToMapIfDefined( 'key_q', 'key.qStringProperty' );
 addToMapIfDefined( 'key_r', 'key.rStringProperty' );
 addToMapIfDefined( 'key_s', 'key.sStringProperty' );
+addToMapIfDefined( 'key_t', 'key.tStringProperty' );
+addToMapIfDefined( 'key_u', 'key.uStringProperty' );
+addToMapIfDefined( 'key_v', 'key.vStringProperty' );
 addToMapIfDefined( 'key_w', 'key.wStringProperty' );
+addToMapIfDefined( 'key_x', 'key.xStringProperty' );
+addToMapIfDefined( 'key_y', 'key.yStringProperty' );
+addToMapIfDefined( 'key_z', 'key.zStringProperty' );
 addToMapIfDefined( 'key_zero', 'key.zeroStringProperty' );
 addToMapIfDefined( 'key_one', 'key.oneStringProperty' );
 addToMapIfDefined( 'key_two', 'key.twoStringProperty' );
@@ -430,8 +446,6 @@ const SceneryPhetFluent = {
     shiftStringProperty: _.get( SceneryPhetStrings, 'key.shiftStringProperty' ),
     altStringProperty: _.get( SceneryPhetStrings, 'key.altStringProperty' ),
     optionStringProperty: _.get( SceneryPhetStrings, 'key.optionStringProperty' ),
-    kStringProperty: _.get( SceneryPhetStrings, 'key.kStringProperty' ),
-    lStringProperty: _.get( SceneryPhetStrings, 'key.lStringProperty' ),
     capsLockStringProperty: _.get( SceneryPhetStrings, 'key.capsLockStringProperty' ),
     enterStringProperty: _.get( SceneryPhetStrings, 'key.enterStringProperty' ),
     returnStringProperty: _.get( SceneryPhetStrings, 'key.returnStringProperty' ),
@@ -445,13 +459,31 @@ const SceneryPhetFluent = {
     homeStringProperty: _.get( SceneryPhetStrings, 'key.homeStringProperty' ),
     endStringProperty: _.get( SceneryPhetStrings, 'key.endStringProperty' ),
     aStringProperty: _.get( SceneryPhetStrings, 'key.aStringProperty' ),
+    bStringProperty: _.get( SceneryPhetStrings, 'key.bStringProperty' ),
     cStringProperty: _.get( SceneryPhetStrings, 'key.cStringProperty' ),
     dStringProperty: _.get( SceneryPhetStrings, 'key.dStringProperty' ),
+    eStringProperty: _.get( SceneryPhetStrings, 'key.eStringProperty' ),
+    fStringProperty: _.get( SceneryPhetStrings, 'key.fStringProperty' ),
     gStringProperty: _.get( SceneryPhetStrings, 'key.gStringProperty' ),
+    hStringProperty: _.get( SceneryPhetStrings, 'key.hStringProperty' ),
+    iStringProperty: _.get( SceneryPhetStrings, 'key.iStringProperty' ),
     jStringProperty: _.get( SceneryPhetStrings, 'key.jStringProperty' ),
+    kStringProperty: _.get( SceneryPhetStrings, 'key.kStringProperty' ),
+    lStringProperty: _.get( SceneryPhetStrings, 'key.lStringProperty' ),
+    mStringProperty: _.get( SceneryPhetStrings, 'key.mStringProperty' ),
+    nStringProperty: _.get( SceneryPhetStrings, 'key.nStringProperty' ),
+    oStringProperty: _.get( SceneryPhetStrings, 'key.oStringProperty' ),
+    pStringProperty: _.get( SceneryPhetStrings, 'key.pStringProperty' ),
+    qStringProperty: _.get( SceneryPhetStrings, 'key.qStringProperty' ),
     rStringProperty: _.get( SceneryPhetStrings, 'key.rStringProperty' ),
     sStringProperty: _.get( SceneryPhetStrings, 'key.sStringProperty' ),
+    tStringProperty: _.get( SceneryPhetStrings, 'key.tStringProperty' ),
+    uStringProperty: _.get( SceneryPhetStrings, 'key.uStringProperty' ),
+    vStringProperty: _.get( SceneryPhetStrings, 'key.vStringProperty' ),
     wStringProperty: _.get( SceneryPhetStrings, 'key.wStringProperty' ),
+    xStringProperty: _.get( SceneryPhetStrings, 'key.xStringProperty' ),
+    yStringProperty: _.get( SceneryPhetStrings, 'key.yStringProperty' ),
+    zStringProperty: _.get( SceneryPhetStrings, 'key.zStringProperty' ),
     zeroStringProperty: _.get( SceneryPhetStrings, 'key.zeroStringProperty' ),
     oneStringProperty: _.get( SceneryPhetStrings, 'key.oneStringProperty' ),
     twoStringProperty: _.get( SceneryPhetStrings, 'key.twoStringProperty' ),

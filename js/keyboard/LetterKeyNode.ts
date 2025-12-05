@@ -38,6 +38,10 @@ export default class LetterKeyNode extends TextKeyNode {
     return new LetterKeyNode( SceneryPhetStrings.key.aStringProperty, providedOptions );
   }
 
+  public static b( providedOptions?: LetterKeyNodeOptions ): KeyNode {
+    return new LetterKeyNode( SceneryPhetStrings.key.bStringProperty, providedOptions );
+  }
+
   public static c( providedOptions?: LetterKeyNodeOptions ): KeyNode {
     return new LetterKeyNode( SceneryPhetStrings.key.cStringProperty, providedOptions );
   }
@@ -46,8 +50,24 @@ export default class LetterKeyNode extends TextKeyNode {
     return new LetterKeyNode( SceneryPhetStrings.key.dStringProperty, providedOptions );
   }
 
+  public static e( providedOptions?: LetterKeyNodeOptions ): KeyNode {
+    return new LetterKeyNode( SceneryPhetStrings.key.eStringProperty, providedOptions );
+  }
+
+  public static f( providedOptions?: LetterKeyNodeOptions ): KeyNode {
+    return new LetterKeyNode( SceneryPhetStrings.key.fStringProperty, providedOptions );
+  }
+
   public static g( providedOptions?: LetterKeyNodeOptions ): KeyNode {
     return new LetterKeyNode( SceneryPhetStrings.key.gStringProperty, providedOptions );
+  }
+
+  public static h( providedOptions?: LetterKeyNodeOptions ): KeyNode {
+    return new LetterKeyNode( SceneryPhetStrings.key.hStringProperty, providedOptions );
+  }
+
+  public static i( providedOptions?: LetterKeyNodeOptions ): KeyNode {
+    return new LetterKeyNode( SceneryPhetStrings.key.iStringProperty, providedOptions );
   }
 
   public static j( providedOptions?: LetterKeyNodeOptions ): KeyNode {
@@ -62,6 +82,26 @@ export default class LetterKeyNode extends TextKeyNode {
     return new LetterKeyNode( SceneryPhetStrings.key.lStringProperty, providedOptions );
   }
 
+  public static m( providedOptions?: LetterKeyNodeOptions ): KeyNode {
+    return new LetterKeyNode( SceneryPhetStrings.key.mStringProperty, providedOptions );
+  }
+
+  public static n( providedOptions?: LetterKeyNodeOptions ): KeyNode {
+    return new LetterKeyNode( SceneryPhetStrings.key.nStringProperty, providedOptions );
+  }
+
+  public static o( providedOptions?: LetterKeyNodeOptions ): KeyNode {
+    return new LetterKeyNode( SceneryPhetStrings.key.oStringProperty, providedOptions );
+  }
+
+  public static p( providedOptions?: LetterKeyNodeOptions ): KeyNode {
+    return new LetterKeyNode( SceneryPhetStrings.key.pStringProperty, providedOptions );
+  }
+
+  public static q( providedOptions?: LetterKeyNodeOptions ): KeyNode {
+    return new LetterKeyNode( SceneryPhetStrings.key.qStringProperty, providedOptions );
+  }
+
   public static r( providedOptions?: LetterKeyNodeOptions ): KeyNode {
     return new LetterKeyNode( SceneryPhetStrings.key.rStringProperty, providedOptions );
   }
@@ -70,8 +110,32 @@ export default class LetterKeyNode extends TextKeyNode {
     return new LetterKeyNode( SceneryPhetStrings.key.sStringProperty, providedOptions );
   }
 
+  public static t( providedOptions?: LetterKeyNodeOptions ): KeyNode {
+    return new LetterKeyNode( SceneryPhetStrings.key.tStringProperty, providedOptions );
+  }
+
+  public static u( providedOptions?: LetterKeyNodeOptions ): KeyNode {
+    return new LetterKeyNode( SceneryPhetStrings.key.uStringProperty, providedOptions );
+  }
+
+  public static v( providedOptions?: LetterKeyNodeOptions ): KeyNode {
+    return new LetterKeyNode( SceneryPhetStrings.key.vStringProperty, providedOptions );
+  }
+
   public static w( providedOptions?: LetterKeyNodeOptions ): KeyNode {
     return new LetterKeyNode( SceneryPhetStrings.key.wStringProperty, providedOptions );
+  }
+
+  public static x( providedOptions?: LetterKeyNodeOptions ): KeyNode {
+    return new LetterKeyNode( SceneryPhetStrings.key.xStringProperty, providedOptions );
+  }
+
+  public static y( providedOptions?: LetterKeyNodeOptions ): KeyNode {
+    return new LetterKeyNode( SceneryPhetStrings.key.yStringProperty, providedOptions );
+  }
+
+  public static z( providedOptions?: LetterKeyNodeOptions ): KeyNode {
+    return new LetterKeyNode( SceneryPhetStrings.key.zStringProperty, providedOptions );
   }
 
   public static zero( providedOptions?: LetterKeyNodeOptions ): KeyNode {

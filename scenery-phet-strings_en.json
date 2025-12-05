@@ -53,12 +53,6 @@
   "key.option": {
     "value": "Option"
   },
-  "key.k": {
-    "value": "K"
-  },
-  "key.l": {
-    "value": "L"
-  },
   "key.capsLock": {
     "value": "Caps Lock"
   },
@@ -98,17 +92,53 @@
   "key.a": {
     "value": "A"
   },
+  "key.b": {
+    "value": "B"
+  },
   "key.c": {
     "value": "C"
   },
   "key.d": {
     "value": "D"
   },
+  "key.e": {
+    "value": "E"
+  },
+  "key.f": {
+    "value": "F"
+  },
   "key.g": {
     "value": "G"
   },
+  "key.h": {
+    "value": "H"
+  },
+  "key.i": {
+    "value": "I"
+  },
   "key.j": {
     "value": "J"
+  },
+  "key.k": {
+    "value": "K"
+  },
+  "key.l": {
+    "value": "L"
+  },
+  "key.m": {
+    "value": "M"
+  },
+  "key.n": {
+    "value": "N"
+  },
+  "key.o": {
+    "value": "O"
+  },
+  "key.p": {
+    "value": "P"
+  },
+  "key.q": {
+    "value": "Q"
   },
   "key.r": {
     "value": "R"
@@ -116,8 +146,26 @@
   "key.s": {
     "value": "S"
   },
+  "key.t": {
+    "value": "T"
+  },
+  "key.u": {
+    "value": "U"
+  },
+  "key.v": {
+    "value": "V"
+  },
   "key.w": {
     "value": "W"
+  },
+  "key.x": {
+    "value": "X"
+  },
+  "key.y": {
+    "value": "Y"
+  },
+  "key.z": {
+    "value": "Z"
   },
   "key.zero": {
     "value": "0"
