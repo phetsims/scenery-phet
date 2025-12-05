@@ -8,10 +8,14 @@
  */
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import type { EnglishKeyString } from '../../../../scenery/js/accessibility/EnglishStringToCodeMap.js';
 import HotkeyData from '../../../../scenery/js/input/HotkeyData.js';
+import KeyDescriptor from '../../../../scenery/js/input/KeyDescriptor.js';
 import HBox, { HBoxOptions } from '../../../../scenery/js/layout/nodes/HBox.js';
+import VBox, { VBoxOptions } from '../../../../scenery/js/layout/nodes/VBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import PhetFont from '../../PhetFont.js';
@@ -21,6 +25,7 @@ import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import ArrowKeyNode from '../ArrowKeyNode.js';
 import LetterKeyNode from '../LetterKeyNode.js';
 import TextKeyNode from '../TextKeyNode.js';
+import HotkeySetDefinitions, { HotkeySetDefinitionEntry } from './HotkeySetDefinitions.js';
 
 // constants
 const DEFAULT_HORIZONTAL_KEY_SPACING = 1.3;
@@ -37,6 +42,14 @@ type WithPlusIconSelfOptions = {
   plusIconSize?: Dimension2;
 };
 type WithPlusIconOptions = WithPlusIconSelfOptions & KeyboardHelpIconFactoryOptions;
+
+// Represents a collection of key descriptors that share the exact same modifiers. Each instance groups the modifier
+// icons with the set of primary keys that can be paired with those modifiers so we can build rows like
+// "Shift + [A] or Shift + [B]".
+type ModifierGroup = {
+  modifiers: EnglishKeyString[];
+  keys: EnglishKeyString[];
+};
 
 export default class KeyboardHelpIconFactory {
 
@@ -135,6 +148,42 @@ export default class KeyboardHelpIconFactory {
   }
 
   /**
+   * Vertically stacked list of icons, each separated by 'or' text on the same row. Useful when a modifier combination
+   * can be expressed as multiple grouped alternatives and the horizontal layout would become cramped.
+   */
+  public static iconListWithOr( icons: Node[], providedOptions?: VBoxOptions ): Node {
+    if ( icons.length === 0 ) {
+      return new Node();
+    }
+
+    const nodes: Node[] = [];
+    for ( let i = 0; i < icons.length; i++ ) {
+      const icon = icons[ i ];
+      if ( i < icons.length - 1 ) {
+        const orText = new Text( SceneryPhetStrings.keyboardHelpDialog.orStringProperty, {
+          font: LABEL_FONT,
+          maxWidth: OR_TEXT_MAX_WIDTH
+        } );
+        nodes.push( new HBox( {
+          children: [ new Node( { children: [ icon ] } ), orText ],
+          spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
+        } ) );
+      }
+      else {
+        nodes.push( new Node( { children: [ icon ] } ) );
+      }
+    }
+
+    const options = combineOptions<VBoxOptions>( {
+      spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING,
+      align: 'left',
+      children: nodes
+    }, providedOptions );
+
+    return new VBox( options );
+  }
+
+  /**
    * An icon with horizontal layout in order: shift, plus, and provided icon.
    */
   public static shiftPlusIcon( icon: Node, providedOptions?: WithPlusIconOptions ): Node {
@@ -157,6 +206,12 @@ export default class KeyboardHelpIconFactory {
     const spaceKey = TextKeyNode.space();
     const enterKey = TextKeyNode.enter();
     return KeyboardHelpIconFactory.iconOrIcon( spaceKey, enterKey );
+  }
+
+  public static deleteOrBackspace(): Node {
+    const deleteKey = TextKeyNode.delete();
+    const backspaceKey = TextKeyNode.backspace();
+    return KeyboardHelpIconFactory.iconOrIcon( deleteKey, backspaceKey );
   }
 
   /**
@@ -289,44 +344,37 @@ export default class KeyboardHelpIconFactory {
   }
 
   /**
-   * Maps English key strings to their corresponding icon nodes.
+   * Maps English key strings to a function that will create a new icon Node for it. Populated lazily, please
+   * add additional keys as needed.
    */
-  private static readonly ENGLISH_KEY_TO_KEY_NODE = {
-    shift: TextKeyNode.shift(),
-    alt: TextKeyNode.altOrOption(),
-    escape: TextKeyNode.esc(),
-    arrowLeft: new ArrowKeyNode( 'left' ),
-    arrowRight: new ArrowKeyNode( 'right' ),
-    arrowUp: new ArrowKeyNode( 'up' ),
-    arrowDown: new ArrowKeyNode( 'down' ),
-    pageUp: TextKeyNode.pageUp(),
-    pageDown: TextKeyNode.pageDown(),
-    space: TextKeyNode.space(),
-    home: TextKeyNode.home(),
-    end: TextKeyNode.end(),
-    a: new LetterKeyNode( 'A' ),
-    b: new LetterKeyNode( 'B' ),
-    c: new LetterKeyNode( 'C' ),
-    d: new LetterKeyNode( 'D' ),
-    g: new LetterKeyNode( 'G' ),
-    h: new LetterKeyNode( 'H' ),
-    j: new LetterKeyNode( 'J' ),
-    k: new LetterKeyNode( 'K' ),
-    l: new LetterKeyNode( 'L' ),
-    m: new LetterKeyNode( 'M' ),
-    n: new LetterKeyNode( 'N' ),
-    p: new LetterKeyNode( 'P' ),
-    r: new LetterKeyNode( 'R' ),
-    s: new LetterKeyNode( 'S' ),
-    v: new LetterKeyNode( 'V' ),
-    w: new LetterKeyNode( 'W' ),
-    0: new LetterKeyNode( '0' ),
-    1: new LetterKeyNode( '1' ),
-    2: new LetterKeyNode( '2' ),
-    3: new LetterKeyNode( '3' ),
-    enter: TextKeyNode.enter(),
-    backspace: TextKeyNode.backspace(),
-    delete: TextKeyNode.delete()
+  private static readonly ENGLISH_KEY_TO_KEY_NODE_BUILDERS: Record<string, () => Node> = {
+    shift: () => TextKeyNode.shift(),
+    alt: () => TextKeyNode.altOrOption(),
+    escape: () => TextKeyNode.esc(),
+    arrowLeft: () => new ArrowKeyNode( 'left' ),
+    arrowRight: () => new ArrowKeyNode( 'right' ),
+    arrowUp: () => new ArrowKeyNode( 'up' ),
+    arrowDown: () => new ArrowKeyNode( 'down' ),
+    pageUp: () => TextKeyNode.pageUp(),
+    pageDown: () => TextKeyNode.pageDown(),
+    space: () => TextKeyNode.space(),
+    home: () => TextKeyNode.home(),
+    end: () => TextKeyNode.end(),
+    tab: () => TextKeyNode.tab(),
+    a: () => LetterKeyNode.a(),
+    c: () => LetterKeyNode.c(),
+    k: () => LetterKeyNode.k(),
+    d: () => LetterKeyNode.d(),
+    l: () => LetterKeyNode.l(),
+    r: () => LetterKeyNode.r(),
+    s: () => LetterKeyNode.s(),
+    w: () => LetterKeyNode.w(),
+    1: () => LetterKeyNode.one(),
+    2: () => LetterKeyNode.two(),
+    3: () => LetterKeyNode.three(),
+    enter: () => TextKeyNode.enter(),
+    backspace: () => TextKeyNode.backspace(),
+    delete: () => TextKeyNode.delete()
   };
 
   /**
@@ -334,26 +382,137 @@ export default class KeyboardHelpIconFactory {
    * For example, a HotkeyData with 'shift+r' would produce a row with the shift icon, a plus icon, and the r icon.
    */
   public static fromHotkeyData( hotkeyData: HotkeyData ): Node {
-    const iconRows = hotkeyData.keyDescriptorsProperty.value.map( descriptor => {
-      const modifierKeyNodes = descriptor.modifierKeys.map( modifierKey => {
-
-        // @ts-expect-error - We know this record returns a TextKeyNode, but cannot have an entry for every possible OneKeyStroke.
-        const keyNode = KeyboardHelpIconFactory.ENGLISH_KEY_TO_KEY_NODE[ modifierKey ]!;
-        assert && assert( keyNode, `modifier key ${modifierKey} not found in ENGLISH_KEY_TO_KEY_NODE` );
-        return keyNode;
-      } );
-
-      // @ts-expect-error - We know this record returns a TextKeyNode, but cannot have an entry for every possible OneKeyStroke.
-      const keyNode = KeyboardHelpIconFactory.ENGLISH_KEY_TO_KEY_NODE[ descriptor.key ]!;
-      assert && assert( keyNode, `key ${descriptor.key} not found in ENGLISH_KEY_TO_KEY_NODE` );
-      return KeyboardHelpIconFactory.iconPlusIconRow( [ ...modifierKeyNodes, keyNode ] );
-    } );
-
-    // Combine icon rows with iconOrIcon
-    return iconRows.reduce( ( acc, iconRow ) => acc ? KeyboardHelpIconFactory.iconOrIcon( acc, iconRow ) : iconRow, null as Node | null )!;
+    const groups = KeyboardHelpIconFactory.groupDescriptors( hotkeyData.keyDescriptorsProperty.value );
+    const groupIcons = groups.map( group => KeyboardHelpIconFactory.createGroupIcon( group ) );
+    return KeyboardHelpIconFactory.connectIconsWithOr( groupIcons );
   }
 
+  /**
+   * Collapses the raw list of descriptor entries into groups that share an identical modifier set so they can be
+   * rendered as a single icon row. Deduplicates repeated keys within a modifier set so the help dialog doesn’t show
+   * redundant entries.
+   */
+  private static groupDescriptors( descriptors: KeyDescriptor[] ): ModifierGroup[] {
+    const map = new Map<string, ModifierGroup>();
 
+    descriptors.forEach( descriptor => {
+      const modifiers = HotkeySetDefinitions.sortModifiers( descriptor.modifierKeys );
+      const key = modifiers.join( '|' );
+
+      if ( !map.has( key ) ) {
+        map.set( key, {
+          modifiers: modifiers,
+          keys: []
+        } );
+      }
+
+      const group = map.get( key )!;
+      const descriptorKey = descriptor.key;
+      if ( !group.keys.includes( descriptorKey ) ) {
+        group.keys.push( descriptorKey );
+      }
+    } );
+
+    return [ ...map.values() ];
+  }
+
+  /**
+   * Builds the visual icon for a modifier group, expanding special-case definitions when present. Handles the case
+   * where a modifier set fans out into multiple key partitions (e.g., Shift + [1|2]) and decides whether the
+   * alternatives should sit inline with `or` or stacked vertically based on the hotkey definition metadata.
+   */
+  private static createGroupIcon( group: ModifierGroup ): Node {
+    const normalizedKeys = HotkeySetDefinitions.sortKeys( group.keys );
+    const definition = HotkeySetDefinitions.getDefinition( normalizedKeys );
+
+    if ( group.modifiers.length > 0 ) {
+      const partitions = HotkeySetDefinitions.partitionKeySetForModifiers( normalizedKeys );
+      if ( partitions.length > 1 ) {
+        const alternativeIcons = partitions.map( partition => {
+          const modifierIcons = group.modifiers.map( modifier => KeyboardHelpIconFactory.createKeyNode( modifier ) );
+          const keyIcon = KeyboardHelpIconFactory.createKeySetIcon( partition );
+          return KeyboardHelpIconFactory.iconPlusIconRow( [ ...modifierIcons, keyIcon ] );
+        } );
+        if ( definition?.modifierPartitionLayout === 'stacked' ) {
+          return KeyboardHelpIconFactory.iconListWithOr( alternativeIcons );
+        }
+        return KeyboardHelpIconFactory.connectIconsWithOr( alternativeIcons );
+      }
+    }
+
+    const modifierIcons = group.modifiers.map( modifier => KeyboardHelpIconFactory.createKeyNode( modifier ) );
+    const keyIcon = KeyboardHelpIconFactory.createKeySetIcon( normalizedKeys );
+
+    if ( modifierIcons.length === 0 ) {
+      return keyIcon;
+    }
+
+    return KeyboardHelpIconFactory.iconPlusIconRow( [ ...modifierIcons, keyIcon ] );
+  }
+
+  /**
+   * Attempts to create a canned icon builder specified on the hotkey definition. The iconFactory entry must name
+   * a static factory on `KeyboardHelpIconFactory`. Returns an icon Node when successful, otherwise null.
+   */
+  private static buildIconFromDefinition( definition: HotkeySetDefinitionEntry | null ): Node | null {
+    if ( !definition?.iconFactory ) {
+      return null;
+    }
+
+    const methodName = definition.iconFactory;
+    const builder = KeyboardHelpIconFactory[ methodName ];
+
+    if ( typeof builder === 'function' ) {
+      return ( builder as () => Node )();
+    }
+
+    return null;
+  }
+
+  /**
+   * Produces the icon for a set of keys that share the same modifiers. Prefers the specialized icon builders declared
+   * in `HotkeySetDefinitions`. If none exist, falls back to composing individual key nodes and joins them with `or`
+   * when multiple alternatives remain.
+   */
+  private static createKeySetIcon( keys: EnglishKeyString[] ): Node {
+    const normalizedKeys = HotkeySetDefinitions.sortKeys( keys );
+    const definition = HotkeySetDefinitions.getDefinition( normalizedKeys );
+
+    const iconFromDefinition = KeyboardHelpIconFactory.buildIconFromDefinition( definition );
+    if ( iconFromDefinition ) {
+      return iconFromDefinition;
+    }
+
+    const keyNodes = normalizedKeys.map( key => KeyboardHelpIconFactory.createKeyNode( key ) );
+    if ( keyNodes.length === 1 ) {
+      return keyNodes[ 0 ];
+    }
+
+    return KeyboardHelpIconFactory.connectIconsWithOr( keyNodes );
+  }
+
+  /**
+   * Creates the individual key icon node for a single English key string. Looks up the rendering strategy from the
+   * `ENGLISH_KEY_TO_KEY_NODE_BUILDERS` map so that platform-specific labels stay consistent. Asserts when a
+   * key is missing to surface new hotkeys that have not been wired into the factory yet.
+   */
+  private static createKeyNode( key: EnglishKeyString ): Node {
+    const factory = KeyboardHelpIconFactory.ENGLISH_KEY_TO_KEY_NODE_BUILDERS[ key ];
+    affirm( factory, `key ${key} not found in ENGLISH_KEY_TO_KEY_NODE_BUILDERS. Please add it.` );
+    return factory();
+  }
+
+  /**
+   * Chains an arbitrary number of icon nodes together with the localized "or" separator, preserving the original
+   * order. Returns an empty placeholder node when there are no icons so callers don’t need their own guards.
+   */
+  private static connectIconsWithOr( icons: Node[] ): Node {
+    if ( icons.length === 0 ) {
+      return new Node();
+    }
+
+    return icons.reduce( ( acc, icon ) => acc ? KeyboardHelpIconFactory.iconOrIcon( acc, icon ) : icon, null as Node | null )!;
+  }
 }
 
 assert && assert( Object.keys( KeyboardHelpIconFactory.prototype ).length === 0,

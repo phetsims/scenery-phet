@@ -507,6 +507,41 @@ type StringsType = {
         'openFaucetBrieflyDescriptionStringProperty': LocalizedStringProperty;
       }
     };
+    'keyboard': {
+      'labels': {
+        'keyStringProperty': LocalizedStringProperty;
+        'keysStringProperty': LocalizedStringProperty;
+      };
+      'listFormatting': {
+        'plusStringProperty': LocalizedStringProperty;
+        'withStringProperty': LocalizedStringProperty;
+        'spacePlusSpaceStringProperty': LocalizedStringProperty;
+        'commaSpaceStringProperty': LocalizedStringProperty;
+      };
+      'key': {
+        'leftArrowStringProperty': LocalizedStringProperty;
+        'rightArrowStringProperty': LocalizedStringProperty;
+        'upArrowStringProperty': LocalizedStringProperty;
+        'downArrowStringProperty': LocalizedStringProperty;
+        'pageUpStringProperty': LocalizedStringProperty;
+        'pageDownStringProperty': LocalizedStringProperty;
+        'escapeStringProperty': LocalizedStringProperty;
+        'controlStringProperty': LocalizedStringProperty;
+      }
+    };
+    'keySets': {
+      'arrowOrWASDStringProperty': LocalizedStringProperty;
+      'arrowStringProperty': LocalizedStringProperty;
+      'leftRightArrowsStringProperty': LocalizedStringProperty;
+      'upDownArrowsStringProperty': LocalizedStringProperty;
+      'wasdStringProperty': LocalizedStringProperty;
+      'adStringProperty': LocalizedStringProperty;
+      'wsStringProperty': LocalizedStringProperty;
+      'leftRightOrADStringProperty': LocalizedStringProperty;
+      'upDownOrWSStringProperty': LocalizedStringProperty;
+      'spaceOrEnterStringProperty': LocalizedStringProperty;
+      'deleteOrBackspaceStringProperty': LocalizedStringProperty;
+    };
     'eraserButton': {
       'accessibleNameStringProperty': LocalizedStringProperty;
     };

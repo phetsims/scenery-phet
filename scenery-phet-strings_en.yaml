@@ -400,6 +400,36 @@ a11y:
       openFaucetFullyDescription:         Open faucet fully with End key.
       openFaucetFullyWithHomeDescription: Open faucet fully with Home key.
       openFaucetBrieflyDescription:       Open faucet briefly with Space or {{enterOrReturn}} keys.
+  keyboard:
+    labels:
+      key:  key
+      keys: keys
+    listFormatting:
+      plus:           plus
+      with:           with
+      spacePlusSpace: ' plus '
+      commaSpace:     ', '
+    key:
+      leftArrow:  Left Arrow
+      rightArrow: Right Arrow
+      upArrow:    Up Arrow
+      downArrow:  Down Arrow
+      pageUp:     Page Up
+      pageDown:   Page Down
+      escape:     Escape
+      control:    Control
+  keySets:
+    arrowOrWASD:       Arrow keys or W, A, S, or D keys
+    arrow:             Arrow keys
+    leftRightArrows:   Left and Right Arrow keys
+    upDownArrows:      Up and Down Arrow keys
+    wasd:              W, A, S or D keys
+    ad:                A or D keys
+    ws:                W or S keys
+    leftRightOrAD:     Left and Right Arrow keys or A or D keys
+    upDownOrWS:        Up and Down Arrow keys or W or S keys
+    spaceOrEnter:      Space or Enter keys
+    deleteOrBackspace: Delete or Backspace keys
   eraserButton:
     accessibleName: Erase
   timerToggleButton:
@@ -446,8 +476,8 @@ a11y:
     gestureHelpTextPattern: Double tap and hold to drag {{objectToGrab}}. Lift finger to release.
     spaceToGrabOrRelease:   Space to Grab or Release.
   groupSort:
-    sortable:                          sortable
-    navigable:                         navigable
+    sortable:                         sortable
+    navigable:                        navigable
     grabbedAccessibleObjectResponse:  Grabbed.
     releasedAccessibleObjectResponse: Released.
   listItemPunctuation:

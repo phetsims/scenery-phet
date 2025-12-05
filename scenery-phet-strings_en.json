@@ -1098,6 +1098,91 @@
         }
       }
     },
+    "keyboard": {
+      "labels": {
+        "key": {
+          "value": "key"
+        },
+        "keys": {
+          "value": "keys"
+        }
+      },
+      "listFormatting": {
+        "plus": {
+          "value": "plus"
+        },
+        "with": {
+          "value": "with"
+        },
+        "spacePlusSpace": {
+          "value": " plus "
+        },
+        "commaSpace": {
+          "value": ", "
+        }
+      },
+      "key": {
+        "leftArrow": {
+          "value": "Left Arrow"
+        },
+        "rightArrow": {
+          "value": "Right Arrow"
+        },
+        "upArrow": {
+          "value": "Up Arrow"
+        },
+        "downArrow": {
+          "value": "Down Arrow"
+        },
+        "pageUp": {
+          "value": "Page Up"
+        },
+        "pageDown": {
+          "value": "Page Down"
+        },
+        "escape": {
+          "value": "Escape"
+        },
+        "control": {
+          "value": "Control"
+        }
+      }
+    },
+    "keySets": {
+      "arrowOrWASD": {
+        "value": "Arrow keys or W, A, S, or D keys"
+      },
+      "arrow": {
+        "value": "Arrow keys"
+      },
+      "leftRightArrows": {
+        "value": "Left and Right Arrow keys"
+      },
+      "upDownArrows": {
+        "value": "Up and Down Arrow keys"
+      },
+      "wasd": {
+        "value": "W, A, S or D keys"
+      },
+      "ad": {
+        "value": "A or D keys"
+      },
+      "ws": {
+        "value": "W or S keys"
+      },
+      "leftRightOrAD": {
+        "value": "Left and Right Arrow keys or A or D keys"
+      },
+      "upDownOrWS": {
+        "value": "Up and Down Arrow keys or W or S keys"
+      },
+      "spaceOrEnter": {
+        "value": "Space or Enter keys"
+      },
+      "deleteOrBackspace": {
+        "value": "Delete or Backspace keys"
+      }
+    },
     "eraserButton": {
       "accessibleName": {
         "value": "Erase"

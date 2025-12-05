@@ -13,6 +13,7 @@ import sceneryPhet from '../../sceneryPhet.js';
 import demoBasicActionsKeyboardHelpSection from './demoBasicActionsKeyboardHelpSection.js';
 import demoComboBoxKeyboardHelpSection from './demoComboBoxKeyboardHelpSection.js';
 import demoFaucetControlsKeyboardHelpSection from './demoFaucetControlsKeyboardHelpSection.js';
+import demoHotkeyDescriptionBuilder from './demoHotkeyDescriptionBuilder.js';
 import demoGrabReleaseKeyboardHelpSection from './demoGrabReleaseKeyboardHelpSection.js';
 import demoHeatCoolControlsKeyboardHelpSection from './demoHeatCoolControlsKeyboardHelpSection.js';
 import demoKeyboardHelpIconFactory from './demoKeyboardHelpIconFactory.js';
@@ -40,6 +41,7 @@ export default class KeyboardScreenView extends DemosScreenView {
       { label: 'HeatCoolControlsKeyboardHelpSection', createNode: demoHeatCoolControlsKeyboardHelpSection },
       { label: 'KeyboardHelpIconFactory', createNode: demoKeyboardHelpIconFactory },
       { label: 'KeyboardHelpSection', createNode: demoKeyboardHelpSection },
+      { label: 'HotkeyDescriptionBuilder', createNode: demoHotkeyDescriptionBuilder },
       { label: 'KeyNode', createNode: demoKeyNode },
       { label: 'SpinnerControlsKeyboardHelpSection', createNode: demoSpinnerControlsKeyboardHelpSection },
       { label: 'SliderControlsKeyboardHelpSection', createNode: demoSliderControlsKeyboardHelpSection },

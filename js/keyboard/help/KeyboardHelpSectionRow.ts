@@ -10,6 +10,7 @@
  */
 
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import { PDOMValueType } from '../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
@@ -25,6 +26,7 @@ import { VoicingResponse } from '../../../../utterance-queue/js/ResponsePacket.j
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
+import HotkeyDescriptionBuilder from './HotkeyDescriptionBuilder.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
 
@@ -251,12 +253,23 @@ class KeyboardHelpSectionRow {
     // fromHotkeyData is not used in options so that it is only called if necessary
     const icon = options.icon || KeyboardHelpIconFactory.fromHotkeyData( hotkeyData );
 
+    affirm( options.labelStringProperty || hotkeyData.keyboardHelpDialogLabelStringProperty,
+      'Either options.labelStringProperty or hotkeyData.keyboardHelpDialogLabelStringProperty must be defined' );
+
+    // Default to the provided value. But if one is not provided, generate it from the hotkey data.
+    const pdomContent =
+      options.pdomLabelStringProperty ||
+      HotkeyDescriptionBuilder.createDescriptionProperty(
+        ( options.labelStringProperty || hotkeyData.keyboardHelpDialogLabelStringProperty )!,
+        hotkeyData.keyDescriptorsProperty
+      );
+
     assert && assert( options.labelStringProperty, 'labelStringProperty must be defined' );
     return KeyboardHelpSectionRow.labelWithIcon(
       options.labelStringProperty!,
       icon,
       combineOptions<LabelWithIconOptions>( {
-        labelInnerContent: options.pdomLabelStringProperty
+        labelInnerContent: pdomContent
       }, options.labelWithIconOptions )
     );
   }

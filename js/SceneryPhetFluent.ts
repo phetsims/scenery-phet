@@ -240,6 +240,31 @@ addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_closeFaucetDescriptio
 addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_closeFaucetWithEndDescription', 'a11y.keyboardHelpDialog.faucetControls.closeFaucetWithEndDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_openFaucetFullyDescription', 'a11y.keyboardHelpDialog.faucetControls.openFaucetFullyDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_openFaucetFullyWithHomeDescription', 'a11y.keyboardHelpDialog.faucetControls.openFaucetFullyWithHomeDescriptionStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_labels_key', 'a11y.keyboard.labels.keyStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_labels_keys', 'a11y.keyboard.labels.keysStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_listFormatting_plus', 'a11y.keyboard.listFormatting.plusStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_listFormatting_with', 'a11y.keyboard.listFormatting.withStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_listFormatting_spacePlusSpace', 'a11y.keyboard.listFormatting.spacePlusSpaceStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_listFormatting_commaSpace', 'a11y.keyboard.listFormatting.commaSpaceStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_key_leftArrow', 'a11y.keyboard.key.leftArrowStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_key_rightArrow', 'a11y.keyboard.key.rightArrowStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_key_upArrow', 'a11y.keyboard.key.upArrowStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_key_downArrow', 'a11y.keyboard.key.downArrowStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_key_pageUp', 'a11y.keyboard.key.pageUpStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_key_pageDown', 'a11y.keyboard.key.pageDownStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_key_escape', 'a11y.keyboard.key.escapeStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_key_control', 'a11y.keyboard.key.controlStringProperty' );
+addToMapIfDefined( 'a11y_keySets_arrowOrWASD', 'a11y.keySets.arrowOrWASDStringProperty' );
+addToMapIfDefined( 'a11y_keySets_arrow', 'a11y.keySets.arrowStringProperty' );
+addToMapIfDefined( 'a11y_keySets_leftRightArrows', 'a11y.keySets.leftRightArrowsStringProperty' );
+addToMapIfDefined( 'a11y_keySets_upDownArrows', 'a11y.keySets.upDownArrowsStringProperty' );
+addToMapIfDefined( 'a11y_keySets_wasd', 'a11y.keySets.wasdStringProperty' );
+addToMapIfDefined( 'a11y_keySets_ad', 'a11y.keySets.adStringProperty' );
+addToMapIfDefined( 'a11y_keySets_ws', 'a11y.keySets.wsStringProperty' );
+addToMapIfDefined( 'a11y_keySets_leftRightOrAD', 'a11y.keySets.leftRightOrADStringProperty' );
+addToMapIfDefined( 'a11y_keySets_upDownOrWS', 'a11y.keySets.upDownOrWSStringProperty' );
+addToMapIfDefined( 'a11y_keySets_spaceOrEnter', 'a11y.keySets.spaceOrEnterStringProperty' );
+addToMapIfDefined( 'a11y_keySets_deleteOrBackspace', 'a11y.keySets.deleteOrBackspaceStringProperty' );
 addToMapIfDefined( 'a11y_eraserButton_accessibleName', 'a11y.eraserButton.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_timerToggleButton_accessibleNameOn', 'a11y.timerToggleButton.accessibleNameOnStringProperty' );
 addToMapIfDefined( 'a11y_timerToggleButton_accessibleNameOff', 'a11y.timerToggleButton.accessibleNameOffStringProperty' );
@@ -881,6 +906,41 @@ const SceneryPhetFluent = {
         openFaucetFullyWithHomeDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_faucetControls_openFaucetFullyWithHomeDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.faucetControls.openFaucetFullyWithHomeDescriptionStringProperty' ) ),
         openFaucetBrieflyDescriptionStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.faucetControls.openFaucetBrieflyDescriptionStringProperty' )
       }
+    },
+    keyboard: {
+      labels: {
+        keyStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_labels_key', _.get( SceneryPhetStrings, 'a11y.keyboard.labels.keyStringProperty' ) ),
+        keysStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_labels_keys', _.get( SceneryPhetStrings, 'a11y.keyboard.labels.keysStringProperty' ) )
+      },
+      listFormatting: {
+        plusStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_listFormatting_plus', _.get( SceneryPhetStrings, 'a11y.keyboard.listFormatting.plusStringProperty' ) ),
+        withStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_listFormatting_with', _.get( SceneryPhetStrings, 'a11y.keyboard.listFormatting.withStringProperty' ) ),
+        spacePlusSpaceStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_listFormatting_spacePlusSpace', _.get( SceneryPhetStrings, 'a11y.keyboard.listFormatting.spacePlusSpaceStringProperty' ) ),
+        commaSpaceStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_listFormatting_commaSpace', _.get( SceneryPhetStrings, 'a11y.keyboard.listFormatting.commaSpaceStringProperty' ) )
+      },
+      key: {
+        leftArrowStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_key_leftArrow', _.get( SceneryPhetStrings, 'a11y.keyboard.key.leftArrowStringProperty' ) ),
+        rightArrowStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_key_rightArrow', _.get( SceneryPhetStrings, 'a11y.keyboard.key.rightArrowStringProperty' ) ),
+        upArrowStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_key_upArrow', _.get( SceneryPhetStrings, 'a11y.keyboard.key.upArrowStringProperty' ) ),
+        downArrowStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_key_downArrow', _.get( SceneryPhetStrings, 'a11y.keyboard.key.downArrowStringProperty' ) ),
+        pageUpStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_key_pageUp', _.get( SceneryPhetStrings, 'a11y.keyboard.key.pageUpStringProperty' ) ),
+        pageDownStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_key_pageDown', _.get( SceneryPhetStrings, 'a11y.keyboard.key.pageDownStringProperty' ) ),
+        escapeStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_key_escape', _.get( SceneryPhetStrings, 'a11y.keyboard.key.escapeStringProperty' ) ),
+        controlStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_key_control', _.get( SceneryPhetStrings, 'a11y.keyboard.key.controlStringProperty' ) )
+      }
+    },
+    keySets: {
+      arrowOrWASDStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_arrowOrWASD', _.get( SceneryPhetStrings, 'a11y.keySets.arrowOrWASDStringProperty' ) ),
+      arrowStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_arrow', _.get( SceneryPhetStrings, 'a11y.keySets.arrowStringProperty' ) ),
+      leftRightArrowsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_leftRightArrows', _.get( SceneryPhetStrings, 'a11y.keySets.leftRightArrowsStringProperty' ) ),
+      upDownArrowsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_upDownArrows', _.get( SceneryPhetStrings, 'a11y.keySets.upDownArrowsStringProperty' ) ),
+      wasdStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_wasd', _.get( SceneryPhetStrings, 'a11y.keySets.wasdStringProperty' ) ),
+      adStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_ad', _.get( SceneryPhetStrings, 'a11y.keySets.adStringProperty' ) ),
+      wsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_ws', _.get( SceneryPhetStrings, 'a11y.keySets.wsStringProperty' ) ),
+      leftRightOrADStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_leftRightOrAD', _.get( SceneryPhetStrings, 'a11y.keySets.leftRightOrADStringProperty' ) ),
+      upDownOrWSStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_upDownOrWS', _.get( SceneryPhetStrings, 'a11y.keySets.upDownOrWSStringProperty' ) ),
+      spaceOrEnterStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_spaceOrEnter', _.get( SceneryPhetStrings, 'a11y.keySets.spaceOrEnterStringProperty' ) ),
+      deleteOrBackspaceStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_deleteOrBackspace', _.get( SceneryPhetStrings, 'a11y.keySets.deleteOrBackspaceStringProperty' ) )
     },
     eraserButton: {
       accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_eraserButton_accessibleName', _.get( SceneryPhetStrings, 'a11y.eraserButton.accessibleNameStringProperty' ) )
