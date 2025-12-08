@@ -20,6 +20,13 @@ export default class NumberKeyNode extends LetterKeyNode {
     assert && assert( value >= 0 && Number.isInteger( value ) );
     super( value.toString(), providedOptions );
   }
+
+  /**
+   * For convenience, a static factory method that creates a NumberKeyNode from a number.
+   */
+  public static fromNumber( value: number, providedOptions?: NumberKeyNodeOptions ): NumberKeyNode {
+    return new NumberKeyNode( value, providedOptions );
+  }
 }
 
 sceneryPhet.register( 'NumberKeyNode', NumberKeyNode );

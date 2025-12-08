@@ -14,6 +14,7 @@ import Node from '../../../scenery/js/nodes/Node.js';
 import SceneryPhetFluent from '../SceneryPhetFluent.js';
 import ArrowKeyNode from './ArrowKeyNode.js';
 import LetterKeyNode from './LetterKeyNode.js';
+import NumberKeyNode from './NumberKeyNode.js';
 import TextKeyNode from './TextKeyNode.js';
 
 type KeyDisplayDefinition = {
@@ -21,6 +22,12 @@ type KeyDisplayDefinition = {
   buildNode?: () => Node;
 };
 
+/**
+ * The main registry of key display definitions.
+ *
+ * Note that we cannot build this programmatically because PhET's build system requires static references to
+ * all strings for extraction.
+ */
 const KeyDisplayRegistry: Partial<Record<EnglishKeyString, KeyDisplayDefinition>> = {
   shift: {
     labelStringProperty: SceneryPhetFluent.key.shiftStringProperty,
@@ -85,49 +92,152 @@ const KeyDisplayRegistry: Partial<Record<EnglishKeyString, KeyDisplayDefinition>
   delete: {
     labelStringProperty: SceneryPhetFluent.key.deleteStringProperty,
     buildNode: () => TextKeyNode.delete()
+  },
+  a: {
+    labelStringProperty: SceneryPhetFluent.key.aStringProperty,
+    buildNode: LetterKeyNode.a
+  },
+  b: {
+    labelStringProperty: SceneryPhetFluent.key.bStringProperty,
+    buildNode: LetterKeyNode.b
+  },
+  c: {
+    labelStringProperty: SceneryPhetFluent.key.cStringProperty,
+    buildNode: LetterKeyNode.c
+  },
+  d: {
+    labelStringProperty: SceneryPhetFluent.key.dStringProperty,
+    buildNode: LetterKeyNode.d
+  },
+  e: {
+    labelStringProperty: SceneryPhetFluent.key.eStringProperty,
+    buildNode: LetterKeyNode.e
+  },
+  f: {
+    labelStringProperty: SceneryPhetFluent.key.fStringProperty,
+    buildNode: LetterKeyNode.f
+  },
+  g: {
+    labelStringProperty: SceneryPhetFluent.key.gStringProperty,
+    buildNode: LetterKeyNode.g
+  },
+  h: {
+    labelStringProperty: SceneryPhetFluent.key.hStringProperty,
+    buildNode: LetterKeyNode.h
+  },
+  i: {
+    labelStringProperty: SceneryPhetFluent.key.iStringProperty,
+    buildNode: LetterKeyNode.i
+  },
+  j: {
+    labelStringProperty: SceneryPhetFluent.key.jStringProperty,
+    buildNode: LetterKeyNode.j
+  },
+  k: {
+    labelStringProperty: SceneryPhetFluent.key.kStringProperty,
+    buildNode: LetterKeyNode.k
+  },
+  l: {
+    labelStringProperty: SceneryPhetFluent.key.lStringProperty,
+    buildNode: LetterKeyNode.l
+  },
+  m: {
+    labelStringProperty: SceneryPhetFluent.key.mStringProperty,
+    buildNode: LetterKeyNode.m
+  },
+  n: {
+    labelStringProperty: SceneryPhetFluent.key.nStringProperty,
+    buildNode: LetterKeyNode.n
+  },
+  o: {
+    labelStringProperty: SceneryPhetFluent.key.oStringProperty,
+    buildNode: LetterKeyNode.o
+  },
+  p: {
+    labelStringProperty: SceneryPhetFluent.key.pStringProperty,
+    buildNode: LetterKeyNode.p
+  },
+  q: {
+    labelStringProperty: SceneryPhetFluent.key.qStringProperty,
+    buildNode: LetterKeyNode.q
+  },
+  r: {
+    labelStringProperty: SceneryPhetFluent.key.rStringProperty,
+    buildNode: LetterKeyNode.r
+  },
+  s: {
+    labelStringProperty: SceneryPhetFluent.key.sStringProperty,
+    buildNode: LetterKeyNode.s
+  },
+  t: {
+    labelStringProperty: SceneryPhetFluent.key.tStringProperty,
+    buildNode: LetterKeyNode.t
+  },
+  u: {
+    labelStringProperty: SceneryPhetFluent.key.uStringProperty,
+    buildNode: LetterKeyNode.u
+  },
+  v: {
+    labelStringProperty: SceneryPhetFluent.key.vStringProperty,
+    buildNode: LetterKeyNode.v
+  },
+  w: {
+    labelStringProperty: SceneryPhetFluent.key.wStringProperty,
+    buildNode: LetterKeyNode.w
+  },
+  x: {
+    labelStringProperty: SceneryPhetFluent.key.xStringProperty,
+    buildNode: LetterKeyNode.x
+  },
+  y: {
+    labelStringProperty: SceneryPhetFluent.key.yStringProperty,
+    buildNode: LetterKeyNode.y
+  },
+  z: {
+    labelStringProperty: SceneryPhetFluent.key.zStringProperty,
+    buildNode: LetterKeyNode.z
+  },
+  0: {
+    labelStringProperty: SceneryPhetFluent.key.zeroStringProperty,
+    buildNode: () => NumberKeyNode.fromNumber( 0 )
+  },
+  1: {
+    labelStringProperty: SceneryPhetFluent.key.oneStringProperty,
+    buildNode: () => NumberKeyNode.fromNumber( 1 )
+  },
+  2: {
+    labelStringProperty: SceneryPhetFluent.key.twoStringProperty,
+    buildNode: () => NumberKeyNode.fromNumber( 2 )
+  },
+  3: {
+    labelStringProperty: SceneryPhetFluent.key.threeStringProperty,
+    buildNode: () => NumberKeyNode.fromNumber( 3 )
+  },
+  4: {
+    labelStringProperty: SceneryPhetFluent.key.fourStringProperty,
+    buildNode: () => NumberKeyNode.fromNumber( 4 )
+  },
+  5: {
+    labelStringProperty: SceneryPhetFluent.key.fiveStringProperty,
+    buildNode: () => NumberKeyNode.fromNumber( 5 )
+  },
+  6: {
+    labelStringProperty: SceneryPhetFluent.key.sixStringProperty,
+    buildNode: () => NumberKeyNode.fromNumber( 6 )
+  },
+  7: {
+    labelStringProperty: SceneryPhetFluent.key.sevenStringProperty,
+    buildNode: () => NumberKeyNode.fromNumber( 7 )
+  },
+  8: {
+    labelStringProperty: SceneryPhetFluent.key.eightStringProperty,
+    buildNode: () => NumberKeyNode.fromNumber( 8 )
+  },
+  9: {
+    labelStringProperty: SceneryPhetFluent.key.nineStringProperty,
+    buildNode: () => NumberKeyNode.fromNumber( 9 )
   }
 };
-
-const LETTER_KEYS = [
-  'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-  'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
-] as const;
-
-const DIGIT_KEY_TO_NAME = {
-  0: 'zero',
-  1: 'one',
-  2: 'two',
-  3: 'three',
-  4: 'four',
-  5: 'five',
-  6: 'six',
-  7: 'seven',
-  8: 'eight',
-  9: 'nine'
-} as const;
-
-
-// Building up the registry for letter keys programmatically in an attempt to reduce manual entries.
-LETTER_KEYS.forEach( letter => {
-  const labelProperty = ( SceneryPhetFluent.key as Record<string, TReadOnlyProperty<string>> )[ `${letter}StringProperty` ];
-  const builder = ( LetterKeyNode as unknown as Record<string, () => Node> )[ letter ];
-
-  KeyDisplayRegistry[ letter ] = {
-    labelStringProperty: labelProperty,
-    buildNode: builder || undefined
-  };
-} );
-
-// Building up the registry for digit keys programmatically in an attempt to reduce manual entries.
-Object.entries( DIGIT_KEY_TO_NAME ).forEach( ( [ key, name ] ) => {
-  const labelProperty = ( SceneryPhetFluent.key as Record<string, TReadOnlyProperty<string>> )[ `${name}StringProperty` ];
-  const builder = ( LetterKeyNode as unknown as Record<string, () => Node> )[ name ];
-
-  KeyDisplayRegistry[ key as EnglishKeyString ] = {
-    labelStringProperty: labelProperty,
-    buildNode: builder || undefined
-  };
-} );
 
 /**
  * Retrieve the localized label Property for a given key. Asserts if the key is not configured in the registry.
