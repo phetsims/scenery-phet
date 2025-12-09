@@ -444,15 +444,15 @@ a11y:
       escape:     Escape
       control:    Control
   keySets:
-    arrowOrWASD:       Arrow keys or W, A, S, or D keys
+    arrowOrWASD:       Arrow keys or W, A, S, or D letter keys
     arrow:             Arrow keys
     leftRightArrows:   Left and Right Arrow keys
     upDownArrows:      Up and Down Arrow keys
-    wasd:              W, A, S or D keys
-    ad:                A or D keys
-    ws:                W or S keys
-    leftRightOrAD:     Left and Right Arrow keys or A or D keys
-    upDownOrWS:        Up and Down Arrow keys or W or S keys
+    wasd:              W, A, S or D letter keys
+    ad:                A and D letter keys
+    ws:                W and S letter keys
+    leftRightOrAD:     Left and Right Arrow keys or A and D letter keys
+    upDownOrWS:        Up and Down Arrow keys or W and S letter keys
     spaceOrEnter:      Space or Enter keys
     deleteOrBackspace: Delete or Backspace keys
   eraserButton:

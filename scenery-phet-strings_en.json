@@ -1225,7 +1225,7 @@
     },
     "keySets": {
       "arrowOrWASD": {
-        "value": "Arrow keys or W, A, S, or D keys"
+        "value": "Arrow keys or W, A, S, or D letter keys"
       },
       "arrow": {
         "value": "Arrow keys"
@@ -1237,19 +1237,19 @@
         "value": "Up and Down Arrow keys"
       },
       "wasd": {
-        "value": "W, A, S or D keys"
+        "value": "W, A, S or D letter keys"
       },
       "ad": {
-        "value": "A or D keys"
+        "value": "A and D letter keys"
       },
       "ws": {
-        "value": "W or S keys"
+        "value": "W and S letter keys"
       },
       "leftRightOrAD": {
-        "value": "Left and Right Arrow keys or A or D keys"
+        "value": "Left and Right Arrow keys or A and D letter keys"
       },
       "upDownOrWS": {
-        "value": "Up and Down Arrow keys or W or S keys"
+        "value": "Up and Down Arrow keys or W and S letter keys"
       },
       "spaceOrEnter": {
         "value": "Space or Enter keys"

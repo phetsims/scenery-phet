@@ -27,7 +27,7 @@ import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 import HotkeyDescriptionBuilder from './HotkeyDescriptionBuilder.js';
-import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
+import KeyboardHelpIconFactory, { ModifierGroupIcon } from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
 
 // text fonts and max widths
@@ -250,8 +250,9 @@ class KeyboardHelpSectionRow {
       labelWithIconOptions: {}
     }, providedOptions );
 
-    // fromHotkeyData is not used in options so that it is only called if necessary
-    const icon = options.icon || KeyboardHelpIconFactory.fromHotkeyData( hotkeyData );
+    // Only build the icon data if one wasn't provided via options.
+    const iconData = options.icon ? null : KeyboardHelpIconFactory.fromHotkeyDataDetailed( hotkeyData );
+    const icon = options.icon || KeyboardHelpIconFactory.composeHotkeyIcon( iconData! );
 
     affirm( options.labelStringProperty || hotkeyData.keyboardHelpDialogLabelStringProperty,
       'Either options.labelStringProperty or hotkeyData.keyboardHelpDialogLabelStringProperty must be defined' );
@@ -265,13 +266,42 @@ class KeyboardHelpSectionRow {
       );
 
     assert && assert( options.labelStringProperty, 'labelStringProperty must be defined' );
-    return KeyboardHelpSectionRow.labelWithIcon(
-      options.labelStringProperty!,
-      icon,
-      combineOptions<LabelWithIconOptions>( {
-        labelInnerContent: pdomContent
-      }, options.labelWithIconOptions )
-    );
+
+    // If the icon data indicates a stacked layout (modifierPartitionLayout), align the label with the first icon in
+    // the stack by using labelWithIconList. Stacking only makes sense when a single modifier group fans out into
+    // multiple key partitions (for example Shift + [A/D] and Shift + [arrowLeft/arrowRight]), so we only switch
+    // to the stacked label layout when there is exactly one group and it prefers stacking.
+    let stackedGroup: ModifierGroupIcon | null = null;
+    if ( iconData && iconData.length === 1 ) {
+      const candidateGroup = iconData[ 0 ];
+      if ( candidateGroup.layout === 'stacked' && candidateGroup.alternatives.length > 0 ) {
+        stackedGroup = candidateGroup;
+      }
+    }
+
+    let row: KeyboardHelpSectionRow;
+    if ( stackedGroup ) {
+      row = KeyboardHelpSectionRow.labelWithIconList(
+        options.labelStringProperty!,
+        stackedGroup.alternatives,
+        {
+          labelInnerContent: pdomContent,
+          readingBlockContent: options.labelWithIconOptions.readingBlockContent || null,
+          labelOptions: options.labelWithIconOptions.labelOptions
+        }
+      );
+    }
+    else {
+      row = KeyboardHelpSectionRow.labelWithIcon(
+        options.labelStringProperty!,
+        icon,
+        combineOptions<LabelWithIconOptions>( {
+          labelInnerContent: pdomContent
+        }, options.labelWithIconOptions )
+      );
+    }
+
+    return row;
   }
 }
 

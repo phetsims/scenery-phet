@@ -51,6 +51,19 @@ type ModifierGroup = {
   keys: EnglishKeyString[];
 };
 
+// Represents the icon rows for a modifier group before they are composed into a single node. Each entry corresponds
+// to one group of modifiers paired with a set of primary key partitions.
+export type ModifierGroupIcon = {
+
+  // The rendered alternative keys for this modifier group. Each alternative is already combined with its modifiers (if
+  // any), but no "or"/stacking composition has been applied yet.
+  alternatives: Node[];
+
+  // Preferred layout when combining the alternative presses: inline joins with localized "or", stacked puts each
+  // alternative on its own row.
+  layout: 'inline' | 'stacked';
+};
+
 export default class KeyboardHelpIconFactory {
 
   public static readonly DEFAULT_ICON_SPACING = 6.5;
@@ -348,9 +361,16 @@ export default class KeyboardHelpIconFactory {
    * For example, a HotkeyData with 'shift+r' would produce a row with the shift icon, a plus icon, and the r icon.
    */
   public static fromHotkeyData( hotkeyData: HotkeyData ): Node {
+    return KeyboardHelpIconFactory.composeHotkeyIcon( KeyboardHelpIconFactory.fromHotkeyDataDetailed( hotkeyData ) );
+  }
+
+  /**
+   * Builds icon data for a HotkeyData entry, returning the per-group alternatives with their intended layout so
+   * callers can take over layout if needed.
+   */
+  public static fromHotkeyDataDetailed( hotkeyData: HotkeyData ): ModifierGroupIcon[] {
     const groups = KeyboardHelpIconFactory.groupDescriptors( hotkeyData.keyDescriptorsProperty.value );
-    const groupIcons = groups.map( group => KeyboardHelpIconFactory.createGroupIcon( group ) );
-    return KeyboardHelpIconFactory.connectIconsWithOr( groupIcons );
+    return groups.map( group => KeyboardHelpIconFactory.buildGroupIconData( group ) );
   }
 
   /**
@@ -383,37 +403,65 @@ export default class KeyboardHelpIconFactory {
   }
 
   /**
-   * Builds the visual icon for a modifier group, expanding special-case definitions when present. Handles the case
-   * where a modifier set fans out into multiple key partitions (e.g., Shift + [1|2]) and decides whether the
-   * alternatives should sit inline with `or` or stacked vertically based on the hotkey definition metadata.
+   * Builds the icon data for a modifier group, expanding special-case definitions when present. Handles the case
+   * where a modifier set fans out into multiple key partitions (for example, Shift + [1|2]) and records whether the
+   * alternatives prefer inline or stacked layout based on the hotkey definition metadata.
    */
-  private static createGroupIcon( group: ModifierGroup ): Node {
+  private static buildGroupIconData( group: ModifierGroup ): ModifierGroupIcon {
     const normalizedKeys = HotkeySetDefinitions.sortKeys( group.keys );
     const definition = HotkeySetDefinitions.getDefinition( normalizedKeys );
+    const modifierIcons = group.modifiers.map( modifier => getKeyBuilder( modifier )() );
+    let alternatives: Node[] | null = null;
+    let layout: 'inline' | 'stacked' = 'inline';
 
     if ( group.modifiers.length > 0 ) {
       const partitions = HotkeySetDefinitions.partitionKeySetForModifiers( normalizedKeys );
       if ( partitions.length > 1 ) {
-        const alternativeIcons = partitions.map( partition => {
-          const modifierIcons = group.modifiers.map( modifier => getKeyBuilder( modifier )() );
+        alternatives = partitions.map( partition => {
           const keyIcon = KeyboardHelpIconFactory.createKeySetIcon( partition );
           return KeyboardHelpIconFactory.iconPlusIconRow( [ ...modifierIcons, keyIcon ] );
         } );
-        if ( definition?.modifierPartitionLayout === 'stacked' ) {
-          return KeyboardHelpIconFactory.iconListWithOr( alternativeIcons );
-        }
-        return KeyboardHelpIconFactory.connectIconsWithOr( alternativeIcons );
+        layout = definition?.modifierPartitionLayout || 'inline';
       }
     }
 
-    const modifierIcons = group.modifiers.map( modifier => getKeyBuilder( modifier )() );
-    const keyIcon = KeyboardHelpIconFactory.createKeySetIcon( normalizedKeys );
-
-    if ( modifierIcons.length === 0 ) {
-      return keyIcon;
+    if ( !alternatives ) {
+      const keyIcon = KeyboardHelpIconFactory.createKeySetIcon( normalizedKeys );
+      alternatives = modifierIcons.length === 0 ? [ keyIcon ] : [
+        KeyboardHelpIconFactory.iconPlusIconRow( [ ...modifierIcons, keyIcon ] )
+      ];
     }
 
-    return KeyboardHelpIconFactory.iconPlusIconRow( [ ...modifierIcons, keyIcon ] );
+    return {
+      alternatives: alternatives,
+      layout: layout
+    };
+  }
+
+  /**
+   * Composes a modifier group's alternatives into a single icon node using the preferred layout.
+   */
+  private static composeGroupIcon( data: ModifierGroupIcon ): Node {
+    let iconNode: Node;
+    if ( data.alternatives.length === 0 ) {
+      iconNode = new Node();
+    }
+    else if ( data.layout === 'stacked' ) {
+      iconNode = KeyboardHelpIconFactory.iconListWithOr( data.alternatives );
+    }
+    else {
+      iconNode = KeyboardHelpIconFactory.connectIconsWithOr( data.alternatives );
+    }
+
+    return iconNode;
+  }
+
+  /**
+   * Composes all modifier-group icons for a HotkeyData into a single node using each group's preferred layout.
+   */
+  public static composeHotkeyIcon( groups: ModifierGroupIcon[] ): Node {
+    const composedGroupIcons = groups.map( data => KeyboardHelpIconFactory.composeGroupIcon( data ) );
+    return KeyboardHelpIconFactory.connectIconsWithOr( composedGroupIcons );
   }
 
   /**
