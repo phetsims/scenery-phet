@@ -1,7 +1,7 @@
 // Copyright 2018-2025, University of Colorado Boulder
 
 /**
- * A Node that displays a visual queue to use space to grab and release a component.
+ * A Node that displays a visual queue to use the keyboard for a component.
  *
  * Warning: This Node is only displayed when focus highlights are visible. You can additionally control visibility
  * with your own logic, but it will only be seen when focus highlights are visible. See option
@@ -18,15 +18,21 @@ import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import TextKeyNode from '../../keyboard/TextKeyNode.js';
+import KeyNode, { KeyNodeOptions } from '../../keyboard/KeyNode.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetStrings from '../../SceneryPhetStrings.js';
 
+// Type for the factory function that creates a KeyNode (e.g., TextKeyNode.space)
+type KeyNodeFactory = ( providedOptions?: KeyNodeOptions ) => KeyNode;
+
 type SelfOptions = {
 
-  // properties of the space key
-  spaceKeyWidth?: number;
+  // Factory function to create the key node (e.g., TextKeyNode.space)
+  createKeyNode: KeyNodeFactory;
+
+  // Options passed to the createKeyNode factory
+  keyWidth?: number;
   keyHeight?: number;
 
   // For most PhET usages, you should never need to change this.
@@ -46,12 +52,12 @@ type SelfOptions = {
 export type KeyboardCueNodeOptions = SelfOptions & NodeOptions;
 
 export default class KeyboardCueNode extends Node {
-  public constructor( providedOptions?: KeyboardCueNodeOptions ) {
-    const options = optionize<KeyboardCueNodeOptions, SelfOptions, PanelOptions>()( {
+  public constructor( providedOptions: KeyboardCueNodeOptions ) {
+    const options = optionize<KeyboardCueNodeOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
-      spaceKeyWidth: 50, // this space key is wider than default space key
-      keyHeight: 24, // height of the space key, larger than default KeyNode height
+      keyWidth: 50,
+      keyHeight: 24, // height of the key, larger than default KeyNode height
       pdomFocusHighlightsVisibleProperty: getGlobal( 'phet.joist.sim.display.focusManager.pdomFocusHighlightsVisibleProperty' ),
 
       // PanelOptions
@@ -68,21 +74,21 @@ export default class KeyboardCueNode extends Node {
 
     super( options );
 
-    // Create the help content for the space key to pick up the draggable item
-    const spaceKeyNode = TextKeyNode.space( {
+    // Create the key node using the provided factory function
+    const keyNode = options.createKeyNode( {
       keyHeight: options.keyHeight,
-      minKeyWidth: options.spaceKeyWidth
+      minKeyWidth: options.keyWidth
     } );
-    const spaceLabelText = new RichText( options.stringProperty, {
+    const labelText = new RichText( options.stringProperty, {
       maxWidth: 200,
       font: new PhetFont( 12 )
     } );
-    const spaceKeyHBox = new HBox( {
-      children: [ spaceKeyNode, spaceLabelText ],
+    const hBox = new HBox( {
+      children: [ keyNode, labelText ],
       spacing: 10
     } );
 
-    const panel = new Panel( spaceKeyHBox, combineOptions<PanelOptions>( {}, options.panelOptions, {
+    const panel = new Panel( hBox, combineOptions<PanelOptions>( {}, options.panelOptions, {
 
       // Set on a child of this Node so that setVisible and visibleProperty on the KeyboardCueNode will
       // still work when provided by the user.
@@ -90,7 +96,7 @@ export default class KeyboardCueNode extends Node {
     } ) );
     this.addChild( panel );
 
-    this.addDisposable( spaceKeyNode, spaceLabelText, spaceKeyHBox );
+    this.addDisposable( keyNode, labelText, hBox );
   }
 }
 
