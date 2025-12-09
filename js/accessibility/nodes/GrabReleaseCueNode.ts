@@ -39,6 +39,9 @@ type SelfOptions = {
 
   // Options for the panel surrounding content.
   panelOptions?: StrictOmit<PanelOptions, 'visibleProperty'>;
+
+  // message to show in the grab/release cue
+  stringProperty?: TReadOnlyProperty<string>;
 };
 export type GrabReleaseCueNodeOptions = SelfOptions & NodeOptions;
 
@@ -58,7 +61,9 @@ export default class GrabReleaseCueNode extends Node {
         xMargin: 15,
         yMargin: 5,
         cornerRadius: 0
-      }
+      },
+
+      stringProperty: SceneryPhetStrings.key.toGrabOrReleaseStringProperty
     }, providedOptions );
 
     super( options );
@@ -68,7 +73,7 @@ export default class GrabReleaseCueNode extends Node {
       keyHeight: options.keyHeight,
       minKeyWidth: options.spaceKeyWidth
     } );
-    const spaceLabelText = new RichText( SceneryPhetStrings.key.toGrabOrReleaseStringProperty, {
+    const spaceLabelText = new RichText( options.stringProperty, {
       maxWidth: 200,
       font: new PhetFont( 12 )
     } );
