@@ -1,4 +1,4 @@
-// Copyright 2020-2022, University of Colorado Boulder
+// Copyright 2020-2025, University of Colorado Boulder
 
 /**
  * NumberKeyNode looks like a keyboard key with a single letter. See LetterKeyNode for implementation details. This is
