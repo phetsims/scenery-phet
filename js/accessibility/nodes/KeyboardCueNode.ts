@@ -30,7 +30,7 @@ type SelfOptions = {
   keyHeight?: number;
 
   // For most PhET usages, you should never need to change this.
-  // By default, the GrabReleaseCueNode is only visible when focus highlights are visible - controlled by
+  // By default, the KeyboardCueNode is only visible when focus highlights are visible - controlled by
   // the global Property managing focus highlight visibility. You can set this option to null to opt out or provide
   // your own Property if you need to. This Property is an additional gate for your own visibility logic. Use
   // setVisible or visibleProperty to control visibility of this Node. But know that it will only be seen when
@@ -43,11 +43,11 @@ type SelfOptions = {
   // message to show in the grab/release cue
   stringProperty?: TReadOnlyProperty<string>;
 };
-export type GrabReleaseCueNodeOptions = SelfOptions & NodeOptions;
+export type KeyboardCueNodeOptions = SelfOptions & NodeOptions;
 
-export default class GrabReleaseCueNode extends Node {
-  public constructor( providedOptions?: GrabReleaseCueNodeOptions ) {
-    const options = optionize<GrabReleaseCueNodeOptions, SelfOptions, PanelOptions>()( {
+export default class KeyboardCueNode extends Node {
+  public constructor( providedOptions?: KeyboardCueNodeOptions ) {
+    const options = optionize<KeyboardCueNodeOptions, SelfOptions, PanelOptions>()( {
 
       // SelfOptions
       spaceKeyWidth: 50, // this space key is wider than default space key
@@ -84,7 +84,7 @@ export default class GrabReleaseCueNode extends Node {
 
     const panel = new Panel( spaceKeyHBox, combineOptions<PanelOptions>( {}, options.panelOptions, {
 
-      // Set on a child of this Node so that setVisible and visibleProperty on the GrabReleaseCueNode will
+      // Set on a child of this Node so that setVisible and visibleProperty on the KeyboardCueNode will
       // still work when provided by the user.
       visibleProperty: options.pdomFocusHighlightsVisibleProperty
     } ) );
@@ -94,4 +94,4 @@ export default class GrabReleaseCueNode extends Node {
   }
 }
 
-sceneryPhet.register( 'GrabReleaseCueNode', GrabReleaseCueNode );
+sceneryPhet.register( 'KeyboardCueNode', KeyboardCueNode );
