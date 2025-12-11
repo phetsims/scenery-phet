@@ -220,13 +220,7 @@ export default class KeyboardHelpIconFactory {
     const enterKey = TextKeyNode.enter();
     return KeyboardHelpIconFactory.iconOrIcon( spaceKey, enterKey );
   }
-
-  public static deleteOrBackspace(): Node {
-    const deleteKey = TextKeyNode.delete();
-    const backspaceKey = TextKeyNode.backspace();
-    return KeyboardHelpIconFactory.iconOrIcon( deleteKey, backspaceKey );
-  }
-
+  
   /**
    * An icon with up and down arrows, separated by 'or', in horizontal layout.
    */

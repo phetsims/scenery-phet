@@ -288,8 +288,6 @@ addToMapIfDefined( 'a11y_keySets_ad', 'a11y.keySets.adStringProperty' );
 addToMapIfDefined( 'a11y_keySets_ws', 'a11y.keySets.wsStringProperty' );
 addToMapIfDefined( 'a11y_keySets_leftRightOrAD', 'a11y.keySets.leftRightOrADStringProperty' );
 addToMapIfDefined( 'a11y_keySets_upDownOrWS', 'a11y.keySets.upDownOrWSStringProperty' );
-addToMapIfDefined( 'a11y_keySets_spaceOrEnter', 'a11y.keySets.spaceOrEnterStringProperty' );
-addToMapIfDefined( 'a11y_keySets_deleteOrBackspace', 'a11y.keySets.deleteOrBackspaceStringProperty' );
 addToMapIfDefined( 'a11y_eraserButton_accessibleName', 'a11y.eraserButton.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_timerToggleButton_accessibleNameOn', 'a11y.timerToggleButton.accessibleNameOnStringProperty' );
 addToMapIfDefined( 'a11y_timerToggleButton_accessibleNameOff', 'a11y.timerToggleButton.accessibleNameOffStringProperty' );
@@ -988,9 +986,7 @@ const SceneryPhetFluent = {
       adStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_ad', _.get( SceneryPhetStrings, 'a11y.keySets.adStringProperty' ) ),
       wsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_ws', _.get( SceneryPhetStrings, 'a11y.keySets.wsStringProperty' ) ),
       leftRightOrADStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_leftRightOrAD', _.get( SceneryPhetStrings, 'a11y.keySets.leftRightOrADStringProperty' ) ),
-      upDownOrWSStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_upDownOrWS', _.get( SceneryPhetStrings, 'a11y.keySets.upDownOrWSStringProperty' ) ),
-      spaceOrEnterStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_spaceOrEnter', _.get( SceneryPhetStrings, 'a11y.keySets.spaceOrEnterStringProperty' ) ),
-      deleteOrBackspaceStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_deleteOrBackspace', _.get( SceneryPhetStrings, 'a11y.keySets.deleteOrBackspaceStringProperty' ) )
+      upDownOrWSStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_upDownOrWS', _.get( SceneryPhetStrings, 'a11y.keySets.upDownOrWSStringProperty' ) )
     },
     eraserButton: {
       accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_eraserButton_accessibleName', _.get( SceneryPhetStrings, 'a11y.eraserButton.accessibleNameStringProperty' ) )

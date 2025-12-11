@@ -564,8 +564,6 @@ type StringsType = {
       'wsStringProperty': LocalizedStringProperty;
       'leftRightOrADStringProperty': LocalizedStringProperty;
       'upDownOrWSStringProperty': LocalizedStringProperty;
-      'spaceOrEnterStringProperty': LocalizedStringProperty;
-      'deleteOrBackspaceStringProperty': LocalizedStringProperty;
     };
     'eraserButton': {
       'accessibleNameStringProperty': LocalizedStringProperty;

@@ -453,8 +453,6 @@ a11y:
     ws:                W and S letter keys
     leftRightOrAD:     Left and Right Arrow keys or A and D letter keys
     upDownOrWS:        Up and Down Arrow keys or W and S letter keys
-    spaceOrEnter:      Space or Enter keys
-    deleteOrBackspace: Delete or Backspace keys
   eraserButton:
     accessibleName: Erase
   timerToggleButton:

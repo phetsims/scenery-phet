@@ -20,8 +20,6 @@ const UP_DOWN_ARROW_KEYS = [ 'arrowUp', 'arrowDown' ] as const;
 const WASD_KEYS = [ 'w', 'a', 's', 'd' ] as const;
 const AD_KEYS = [ 'a', 'd' ] as const;
 const WS_KEYS = [ 'w', 's' ] as const;
-const SPACE_ENTER_KEYS = [ 'space', 'enter' ] as const;
-const DELETE_BACKSPACE_KEYS = [ 'delete', 'backspace' ] as const;
 const ARROW_OR_WASD_KEYS = [ ...ARROW_KEYS, ...WASD_KEYS ] as const;
 const LEFT_RIGHT_OR_AD_KEYS = [ ...LEFT_RIGHT_ARROW_KEYS, ...AD_KEYS ] as const;
 const UP_DOWN_OR_WS_KEYS = [ ...UP_DOWN_ARROW_KEYS, ...WS_KEYS ] as const;
@@ -99,16 +97,6 @@ const HOTKEY_SET_ENTRIES: HotkeySetDefinitionEntry[] = [
     phraseProperty: SceneryPhetStrings.a11y.keySets.upDownOrWSStringProperty,
     iconFactory: 'upDownOrWSKeysRowIcon',
     modifierPartitionLayout: 'stacked'
-  },
-  {
-    keys: SPACE_ENTER_KEYS,
-    phraseProperty: SceneryPhetStrings.a11y.keySets.spaceOrEnterStringProperty,
-    iconFactory: 'spaceOrEnter'
-  },
-  {
-    keys: DELETE_BACKSPACE_KEYS,
-    phraseProperty: SceneryPhetStrings.a11y.keySets.deleteOrBackspaceStringProperty,
-    iconFactory: 'deleteOrBackspace'
   }
 ];
 

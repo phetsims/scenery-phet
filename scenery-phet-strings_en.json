@@ -1250,12 +1250,6 @@
       },
       "upDownOrWS": {
         "value": "Up and Down Arrow keys or W and S letter keys"
-      },
-      "spaceOrEnter": {
-        "value": "Space or Enter keys"
-      },
-      "deleteOrBackspace": {
-        "value": "Delete or Backspace keys"
       }
     },
     "eraserButton": {

@@ -82,7 +82,7 @@ const KeyDisplayRegistry: Partial<Record<EnglishKeyString, KeyDisplayDefinition>
     buildNode: () => TextKeyNode.tab()
   },
   enter: {
-    labelStringProperty: SceneryPhetFluent.key.enterStringProperty,
+    labelStringProperty: TextKeyNode.getEnterKeyString(),
     buildNode: () => TextKeyNode.enter()
   },
   backspace: {
