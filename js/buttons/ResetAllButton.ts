@@ -129,7 +129,7 @@ export default class ResetAllButton extends ResetButton {
         }
         else {
           utteranceQueue.enabled = ariaEnabledOnFirePerUtteranceQueueMap.get( utteranceQueue ) || utteranceQueue.enabled;
-          utteranceQueue.addToBack( resetUtterance );
+          utteranceQueue.addToBack( resetUtterance, 'context' );
         }
       } );
     } );

@@ -1015,13 +1015,13 @@ export default class GrabDragInteraction extends Disposable {
 
     this.grabDragModel.releasedEmitter.addListener( inputType => {
       responsePacket.objectResponse = this._createReleasedResponse( inputType );
-      this.node.addAccessibleResponse( responseUtterance );
+      this.node.addAccessibleObjectResponse( responseUtterance );
       isVoicing( node ) && Voicing.alertUtterance( responseUtterance );
     } );
 
     this.grabDragModel.grabbedEmitter.addListener( inputType => {
       responsePacket.objectResponse = this._createGrabbedResponse( inputType );
-      this.node.addAccessibleResponse( responseUtterance );
+      this.node.addAccessibleObjectResponse( responseUtterance );
       isVoicing( node ) && Voicing.alertUtterance( responseUtterance );
     } );
   }

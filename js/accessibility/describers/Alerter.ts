@@ -56,15 +56,18 @@ export default class Alerter extends EnabledComponent {
         Voicing.alertUtterance( alertable as Utterance );
       }
 
-      this.addAccessibleResponse( alertable );
+      this.addAccessibleContextResponse( alertable );
     }
   }
 
   /**
-   * Forward to provided Node for UtteranceQueue alerting logic. See ParallelDOM.addAccessibleResponse() for details.
+   * Forward to provided Node for UtteranceQueue alerting logic. At this time, we assume that all responses flowing
+   * through the Alerter are context responses.
+   *
+   * See ParallelDOM.addAccessibleContextResponse() for details.
    */
-  public addAccessibleResponse( alertable: TAlertable ): void {
-    this.enabled && this.descriptionAlertNode && this.descriptionAlertNode.addAccessibleResponse( alertable );
+  public addAccessibleContextResponse( alertable: TAlertable ): void {
+    this.enabled && this.descriptionAlertNode && this.descriptionAlertNode.addAccessibleContextResponse( alertable );
   }
 
   /**
