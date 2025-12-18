@@ -21,7 +21,7 @@ import HBox, { HBoxOptions } from '../../../scenery/js/layout/nodes/HBox.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetConstants from '../SceneryPhetConstants.js';
-import SceneryPhetStrings from '../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../SceneryPhetFluent.js';
 import PlayPauseButton, { PlayPauseButtonOptions } from './PlayPauseButton.js';
 import StepBackwardButton, { StepBackwardButtonOptions } from './StepBackwardButton.js';
 import StepForwardButton, { StepForwardButtonOptions } from './StepForwardButton.js';
@@ -164,11 +164,11 @@ export default class PlayPauseStepButtonGroup extends HBox {
     // when paused. The default accessibleHelpText will only be used if a step button is visible.
     const eitherStepButtonVisible = options.includeStepForwardButton || options.includeStepBackwardButton;
     const playingHelpText = options.playingHelpText || ( eitherStepButtonVisible
-                                                         ? SceneryPhetStrings.a11y.playPauseStepButtonGroup.playingHelpTextStringProperty
+                                                         ? SceneryPhetFluent.a11y.playPauseStepButtonGroup.playingHelpTextStringProperty
                                                          : null );
 
     const pausedHelpText = options.pausedHelpText || ( eitherStepButtonVisible
-                                                       ? SceneryPhetStrings.a11y.playPauseStepButtonGroup.pausedHelpTextStringProperty
+                                                       ? SceneryPhetFluent.a11y.playPauseStepButtonGroup.pausedHelpTextStringProperty
                                                        : null );
 
     const playingListener = ( playing: boolean ) => {

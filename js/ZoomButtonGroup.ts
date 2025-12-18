@@ -15,7 +15,7 @@ import Node from '../../scenery/js/nodes/Node.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
-import SceneryPhetStrings from './SceneryPhetStrings.js';
+import SceneryPhetFluent from './SceneryPhetFluent.js';
 
 type SelfOptions = {
 
@@ -78,8 +78,8 @@ export default class ZoomButtonGroup extends FlowBox {
       },
 
       // pdom support
-      accessibleNameZoomIn: SceneryPhetStrings.a11y.zoomInStringProperty,
-      accessibleNameZoomOut: SceneryPhetStrings.a11y.zoomOutStringProperty,
+      accessibleNameZoomIn: SceneryPhetFluent.a11y.zoomInStringProperty,
+      accessibleNameZoomOut: SceneryPhetFluent.a11y.zoomOutStringProperty,
       accessibleHelpTextZoomIn: null,
       accessibleHelpTextZoomOut: null,
 

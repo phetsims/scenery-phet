@@ -29,7 +29,7 @@ import Node, { NodeOptions } from '../../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../../scenery/js/nodes/Path.js';
 import { AlertableNoUtterance } from '../../../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../../../sceneryPhet.js';
-import SceneryPhetStrings from '../../../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../../../SceneryPhetFluent.js';
 import GrabReleaseCueNode, { GrabReleaseCueNodeOptions } from '../../nodes/GrabReleaseCueNode.js';
 import GroupSelectModel from '../model/GroupSelectModel.js';
 
@@ -39,8 +39,8 @@ function GROUP_SELECT_ACCESSIBLE_NAME_BEHAVIOR( node: Node, options: NodeOptions
   return options;
 }
 
-const navigableStringProperty = SceneryPhetStrings.a11y.groupSort.navigableStringProperty;
-const sortableStringProperty = SceneryPhetStrings.a11y.groupSort.sortableStringProperty;
+const navigableStringProperty = SceneryPhetFluent.a11y.groupSort.navigableStringProperty;
+const sortableStringProperty = SceneryPhetFluent.a11y.groupSort.sortableStringProperty;
 
 type SelfOptions<ItemModel, ItemNode extends Node> = {
 
@@ -129,8 +129,8 @@ class GroupSelectView<ItemModel, ItemNode extends Node> extends Disposable {
       grabReleaseCueOptions: {},
       grabbedRoleDescription: sortableStringProperty,
       releasedRoleDescription: navigableStringProperty,
-      grabbedAccessibleObjectResponse: SceneryPhetStrings.a11y.groupSort.grabbedAccessibleObjectResponseStringProperty,
-      releasedAccessibleObjectResponse: SceneryPhetStrings.a11y.groupSort.releasedAccessibleObjectResponseStringProperty
+      grabbedAccessibleObjectResponse: SceneryPhetFluent.a11y.groupSort.grabbedAccessibleObjectResponseStringProperty,
+      releasedAccessibleObjectResponse: SceneryPhetFluent.a11y.groupSort.releasedAccessibleObjectResponseStringProperty
     }, providedOptions );
 
     super( options );

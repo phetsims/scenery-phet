@@ -11,7 +11,7 @@
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import type { EnglishKeyString } from '../../../../scenery/js/accessibility/EnglishStringToCodeMap.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import SceneryPhetStrings from '../../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../../SceneryPhetFluent.js';
 import type KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 
 const ARROW_KEYS = [ 'arrowLeft', 'arrowRight', 'arrowUp', 'arrowDown' ] as const;
@@ -52,49 +52,49 @@ export type HotkeySetDefinitionEntry = {
 const HOTKEY_SET_ENTRIES: HotkeySetDefinitionEntry[] = [
   {
     keys: ARROW_OR_WASD_KEYS,
-    phraseProperty: SceneryPhetStrings.a11y.keySets.arrowOrWASDStringProperty,
+    phraseProperty: SceneryPhetFluent.a11y.keySets.arrowOrWASDStringProperty,
     iconFactory: 'arrowOrWasdKeysRowIcon',
     modifierPartitionLayout: 'stacked'
   },
   {
     keys: ARROW_KEYS,
-    phraseProperty: SceneryPhetStrings.a11y.keySets.arrowStringProperty,
+    phraseProperty: SceneryPhetFluent.a11y.keySets.arrowStringProperty,
     iconFactory: 'arrowKeysRowIcon'
   },
   {
     keys: LEFT_RIGHT_ARROW_KEYS,
-    phraseProperty: SceneryPhetStrings.a11y.keySets.leftRightArrowsStringProperty,
+    phraseProperty: SceneryPhetFluent.a11y.keySets.leftRightArrowsStringProperty,
     iconFactory: 'leftRightArrowKeysRowIcon'
   },
   {
     keys: UP_DOWN_ARROW_KEYS,
-    phraseProperty: SceneryPhetStrings.a11y.keySets.upDownArrowsStringProperty,
+    phraseProperty: SceneryPhetFluent.a11y.keySets.upDownArrowsStringProperty,
     iconFactory: 'upDownArrowKeysRowIcon'
   },
   {
     keys: WASD_KEYS,
-    phraseProperty: SceneryPhetStrings.a11y.keySets.wasdStringProperty,
+    phraseProperty: SceneryPhetFluent.a11y.keySets.wasdStringProperty,
     iconFactory: 'wasdRowIcon'
   },
   {
     keys: AD_KEYS,
-    phraseProperty: SceneryPhetStrings.a11y.keySets.adStringProperty,
+    phraseProperty: SceneryPhetFluent.a11y.keySets.adStringProperty,
     iconFactory: 'aDKeysRowIcon'
   },
   {
     keys: WS_KEYS,
-    phraseProperty: SceneryPhetStrings.a11y.keySets.wsStringProperty,
+    phraseProperty: SceneryPhetFluent.a11y.keySets.wsStringProperty,
     iconFactory: 'wSKeysRowIcon'
   },
   {
     keys: LEFT_RIGHT_OR_AD_KEYS,
-    phraseProperty: SceneryPhetStrings.a11y.keySets.leftRightOrADStringProperty,
+    phraseProperty: SceneryPhetFluent.a11y.keySets.leftRightOrADStringProperty,
     iconFactory: 'leftRightOrADKeysRowIcon',
     modifierPartitionLayout: 'stacked'
   },
   {
     keys: UP_DOWN_OR_WS_KEYS,
-    phraseProperty: SceneryPhetStrings.a11y.keySets.upDownOrWSStringProperty,
+    phraseProperty: SceneryPhetFluent.a11y.keySets.upDownOrWSStringProperty,
     iconFactory: 'upDownOrWSKeysRowIcon',
     modifierPartitionLayout: 'stacked'
   }

@@ -10,11 +10,11 @@
 
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import { ParallelDOMOptions } from '../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
-import SceneryPhetStrings from '../../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../../SceneryPhetFluent.js';
 import AccessibleInteractiveOptions from '../AccessibleInteractiveOptions.js';
 
 // constants
-const movableStringProperty = SceneryPhetStrings.a11y.grabDrag.movableStringProperty;
+const movableStringProperty = SceneryPhetFluent.a11y.grabDrag.movableStringProperty;
 
 const AccessibleDraggableOptions: ParallelDOMOptions = combineOptions<ParallelDOMOptions>(
   {},

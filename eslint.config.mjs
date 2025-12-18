@@ -21,6 +21,7 @@ export default [
   {
     files: [ '**/*.ts' ],
     rules: {
+      'phet/require-fluent': 'error',
       '@typescript-eslint/ban-ts-comment': [
         'error',
         {

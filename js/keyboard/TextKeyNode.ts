@@ -15,7 +15,7 @@ import Font from '../../../scenery/js/util/Font.js';
 import TColor from '../../../scenery/js/util/TColor.js';
 import PhetFont from '../PhetFont.js';
 import sceneryPhet from '../sceneryPhet.js';
-import SceneryPhetStrings from '../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../SceneryPhetFluent.js';
 import KeyNode, { KeyNodeOptions } from './KeyNode.js';
 
 type SelfOptions = {
@@ -58,8 +58,8 @@ export default class TextKeyNode extends KeyNode {
    */
   public static getAltKeyString(): PhetioProperty<string> {
     return platform.mac ?
-           SceneryPhetStrings.key.optionStringProperty :
-           SceneryPhetStrings.key.altStringProperty;
+           SceneryPhetFluent.key.optionStringProperty :
+           SceneryPhetFluent.key.altStringProperty;
   }
 
   /**
@@ -67,13 +67,13 @@ export default class TextKeyNode extends KeyNode {
    */
   public static getEnterKeyString(): TReadOnlyProperty<string> {
     return platform.mac ?
-           SceneryPhetStrings.key.returnStringProperty :
-           SceneryPhetStrings.key.enterStringProperty;
+           SceneryPhetFluent.key.returnStringProperty :
+           SceneryPhetFluent.key.enterStringProperty;
   }
 
   //-------------------------------------------------------------------------------------------------
   // Static factory methods for specific text strings. For brevity, these methods have the same names
-  // as their string keys. For example SceneryPhetStrings.key.esc is rendered by the esc method.
+  // as their string keys. For example SceneryPhetFluent.key.esc is rendered by the esc method.
   //-------------------------------------------------------------------------------------------------
 
   // Note that this will render "Alt" OR "Options", depending on platform. If there is a description of this icon
@@ -83,15 +83,15 @@ export default class TextKeyNode extends KeyNode {
   }
 
   public static capsLock( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.capsLockStringProperty, providedOptions );
+    return new TextKeyNode( SceneryPhetFluent.key.capsLockStringProperty, providedOptions );
   }
 
   public static esc( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.escStringProperty, providedOptions );
+    return new TextKeyNode( SceneryPhetFluent.key.escStringProperty, providedOptions );
   }
 
   public static end( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.endStringProperty, providedOptions );
+    return new TextKeyNode( SceneryPhetFluent.key.endStringProperty, providedOptions );
   }
 
   public static enter( providedOptions?: KeyNodeOptions ): KeyNode {
@@ -99,7 +99,7 @@ export default class TextKeyNode extends KeyNode {
   }
 
   public static backspace( providedOptions?: TextKeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.backspaceStringProperty, combineOptions<TextKeyNodeOptions>(
+    return new TextKeyNode( SceneryPhetFluent.key.backspaceStringProperty, combineOptions<TextKeyNodeOptions>(
       {},
       {
         // This is a longer key name in english, so it is allowed to grow.
@@ -110,35 +110,35 @@ export default class TextKeyNode extends KeyNode {
   }
 
   public static delete( providedOptions?: TextKeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.deleteStringProperty, providedOptions );
+    return new TextKeyNode( SceneryPhetFluent.key.deleteStringProperty, providedOptions );
   }
 
   public static fn( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.fnStringProperty, providedOptions );
+    return new TextKeyNode( SceneryPhetFluent.key.fnStringProperty, providedOptions );
   }
 
   public static home( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.homeStringProperty, providedOptions );
+    return new TextKeyNode( SceneryPhetFluent.key.homeStringProperty, providedOptions );
   }
 
   public static pageDown( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.pageDownStringProperty, providedOptions );
+    return new TextKeyNode( SceneryPhetFluent.key.pageDownStringProperty, providedOptions );
   }
 
   public static pageUp( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.pageUpStringProperty, providedOptions );
+    return new TextKeyNode( SceneryPhetFluent.key.pageUpStringProperty, providedOptions );
   }
 
   public static space( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.spaceStringProperty, providedOptions );
+    return new TextKeyNode( SceneryPhetFluent.key.spaceStringProperty, providedOptions );
   }
 
   public static shift( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.shiftStringProperty, providedOptions );
+    return new TextKeyNode( SceneryPhetFluent.key.shiftStringProperty, providedOptions );
   }
 
   public static tab( providedOptions?: KeyNodeOptions ): KeyNode {
-    return new TextKeyNode( SceneryPhetStrings.key.tabStringProperty, providedOptions );
+    return new TextKeyNode( SceneryPhetFluent.key.tabStringProperty, providedOptions );
   }
 }
 

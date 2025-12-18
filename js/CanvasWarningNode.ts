@@ -14,7 +14,7 @@ import openPopup from '../../scenery/js/util/openPopup.js';
 import exclamationSolidShape from '../../sun/js/shapes/exclamationSolidShape.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import SceneryPhetStrings from './SceneryPhetStrings.js';
+import SceneryPhetFluent from './SceneryPhetFluent.js';
 
 export default class CanvasWarningNode extends HBox {
 
@@ -22,12 +22,12 @@ export default class CanvasWarningNode extends HBox {
 
   public constructor() {
 
-    const titleText = new Text( SceneryPhetStrings.webglWarning.titleStringProperty, {
+    const titleText = new Text( SceneryPhetFluent.webglWarning.titleStringProperty, {
       font: new PhetFont( 14 ),
       fill: '#ddd'
     } );
 
-    const bodyText = new Text( SceneryPhetStrings.webglWarning.bodyStringProperty, {
+    const bodyText = new Text( SceneryPhetFluent.webglWarning.bodyStringProperty, {
       font: new PhetFont( 10 ),
       fill: '#999'
     } );

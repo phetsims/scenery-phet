@@ -20,7 +20,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import PhetFont from '../../PhetFont.js';
 import PlusNode from '../../PlusNode.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import SceneryPhetStrings from '../../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../../SceneryPhetFluent.js';
 import ArrowKeyNode from '../ArrowKeyNode.js';
 import { getKeyBuilder } from '../KeyDisplayRegistry.js';
 import LetterKeyNode from '../LetterKeyNode.js';
@@ -92,7 +92,7 @@ export default class KeyboardHelpIconFactory {
       spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
     }, providedOptions );
 
-    const orText = new Text( SceneryPhetStrings.keyboardHelpDialog.orStringProperty, {
+    const orText = new Text( SceneryPhetFluent.keyboardHelpDialog.orStringProperty, {
       font: LABEL_FONT,
       maxWidth: OR_TEXT_MAX_WIDTH
     } );
@@ -110,7 +110,7 @@ export default class KeyboardHelpIconFactory {
       spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING / 2
     }, providedOptions );
 
-    const hyphenText = new Text( SceneryPhetStrings.keyboardHelpDialog.hyphenStringProperty, {
+    const hyphenText = new Text( SceneryPhetFluent.keyboardHelpDialog.hyphenStringProperty, {
       font: LABEL_FONT,
       maxWidth: OR_TEXT_MAX_WIDTH
     } );
@@ -173,7 +173,7 @@ export default class KeyboardHelpIconFactory {
     for ( let i = 0; i < icons.length; i++ ) {
       const icon = icons[ i ];
       if ( i < icons.length - 1 ) {
-        const orText = new Text( SceneryPhetStrings.keyboardHelpDialog.orStringProperty, {
+        const orText = new Text( SceneryPhetFluent.keyboardHelpDialog.orStringProperty, {
           font: LABEL_FONT,
           maxWidth: OR_TEXT_MAX_WIDTH
         } );

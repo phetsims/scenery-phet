@@ -32,7 +32,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import HeaterCoolerBack from './HeaterCoolerBack.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import SceneryPhetStrings from './SceneryPhetStrings.js';
+import SceneryPhetFluent from './SceneryPhetFluent.js';
 
 const DEFAULT_WIDTH = 120; // in screen coords, much of the rest of the size of the stove derives from this value
 
@@ -107,8 +107,8 @@ export default class HeaterCoolerFront extends Node {
       coolEnabled: true,
       snapToZero: true,
       snapToZeroThreshold: 0.1,
-      heatString: SceneryPhetStrings.heatStringProperty,
-      coolString: SceneryPhetStrings.coolStringProperty,
+      heatString: SceneryPhetFluent.heatStringProperty,
+      coolString: SceneryPhetFluent.coolStringProperty,
       labelFont: new PhetFont( 14 ),
       labelMaxWidth: 35,
       thumbSize: new Dimension2( 45, 22 ),
@@ -281,7 +281,7 @@ export default class HeaterCoolerFront extends Node {
     public static readonly SET_TO_ZERO_HOTKEY_DATA = new HotkeyData( {
     keys: [ '0' ],
     repoName: sceneryPhet.name,
-    keyboardHelpDialogLabelStringProperty: SceneryPhetStrings.keyboardHelpDialog.heatCoolOffStringProperty,
+    keyboardHelpDialogLabelStringProperty: SceneryPhetFluent.keyboardHelpDialog.heatCoolOffStringProperty,
     binderName: 'Turn off heater/cooler'
   } );
 }

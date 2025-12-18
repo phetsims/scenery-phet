@@ -16,7 +16,7 @@ import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import NumberDisplay, { NumberDisplayOptions } from '../../NumberDisplay.js';
-import SceneryPhetStrings from '../../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../../SceneryPhetFluent.js';
 import StopwatchNode from '../../StopwatchNode.js';
 
 export default function demoNumberDisplay( layoutBounds: Bounds2 ): Node {
@@ -46,7 +46,7 @@ export default function demoNumberDisplay( layoutBounds: Bounds2 ): Node {
   } );
   const numberDisplayTimeRich = new NumberDisplay( property, range, {
     numberFormatter: StopwatchNode.RICH_TEXT_MINUTES_AND_SECONDS,
-    numberFormatterDependencies: [ SceneryPhetStrings.stopwatchValueUnitsPatternStringProperty ],
+    numberFormatterDependencies: [ SceneryPhetFluent.stopwatchValueUnitsPatternStringProperty ],
     useRichText: true,
     align: 'center'
   } );
@@ -57,7 +57,7 @@ export default function demoNumberDisplay( layoutBounds: Bounds2 ): Node {
       showAsMinutesAndSeconds: false,
       units: 'hours'
     } ),
-    numberFormatterDependencies: [ SceneryPhetStrings.stopwatchValueUnitsPatternStringProperty ],
+    numberFormatterDependencies: [ SceneryPhetFluent.stopwatchValueUnitsPatternStringProperty ],
     useRichText: true,
     align: 'center'
   } );

@@ -17,7 +17,7 @@ import warningSignShape from '../../sun/js/shapes/warningSignShape.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import SceneryPhetStrings from './SceneryPhetStrings.js';
+import SceneryPhetFluent from './SceneryPhetFluent.js';
 
 type SelfOptions = {
 
@@ -57,11 +57,11 @@ export default class ContextLossFailureDialog extends Dialog {
       scale: 1.2
     } );
 
-    const text = new Text( SceneryPhetStrings.webglWarning.contextLossFailureStringProperty, {
+    const text = new Text( SceneryPhetFluent.webglWarning.contextLossFailureStringProperty, {
       font: new PhetFont( 12 )
     } );
 
-    const button = new TextPushButton( SceneryPhetStrings.webglWarning.contextLossReloadStringProperty, {
+    const button = new TextPushButton( SceneryPhetFluent.webglWarning.contextLossReloadStringProperty, {
       font: new PhetFont( 12 ),
       baseColor: '#E87600',
       listener: () => this.hide(),

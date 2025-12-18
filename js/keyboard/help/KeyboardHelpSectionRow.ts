@@ -25,7 +25,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import { VoicingResponse } from '../../../../utterance-queue/js/ResponsePacket.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import SceneryPhetStrings from '../../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../../SceneryPhetFluent.js';
 import HotkeyDescriptionBuilder from './HotkeyDescriptionBuilder.js';
 import KeyboardHelpIconFactory, { ModifierGroupIcon } from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
@@ -208,7 +208,7 @@ class KeyboardHelpSectionRow {
 
     // for each of the icons (excluding the last one, add a vertically aligned 'or' text to the right
     for ( let i = 0; i < icons.length - 1; i++ ) {
-      const orText = new Text( SceneryPhetStrings.keyboardHelpDialog.orStringProperty, {
+      const orText = new Text( SceneryPhetFluent.keyboardHelpDialog.orStringProperty, {
         font: LABEL_FONT,
         maxWidth: OR_TEXT_MAX_WIDTH
       } );

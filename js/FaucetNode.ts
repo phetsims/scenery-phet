@@ -63,7 +63,7 @@ import faucetStop_png from '../images/faucetStop_png.js';
 import faucetTrack_png from '../images/faucetTrack_png.js';
 import faucetVerticalPipe_png from '../images/faucetVerticalPipe_png.js';
 import sceneryPhet from './sceneryPhet.js';
-import SceneryPhetStrings from './SceneryPhetStrings.js';
+import SceneryPhetFluent from './SceneryPhetFluent.js';
 import SoundDragListener from './SoundDragListener.js';
 
 // constants
@@ -452,8 +452,8 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
   public static readonly CLOSE_FAUCET_HOTKEY_DATA = new HotkeyData( {
     keys: [ FaucetNode.ZERO_CLOSE_FAUCET_STRING, 'home' ],
     repoName: sceneryPhet.name,
-    keyboardHelpDialogLabelStringProperty: SceneryPhetStrings.keyboardHelpDialog.faucetControls.closeFaucetStringProperty,
-    keyboardHelpDialogPDOMLabelStringProperty: SceneryPhetStrings.a11y.keyboardHelpDialog.faucetControls.closeFaucetDescriptionStringProperty
+    keyboardHelpDialogLabelStringProperty: SceneryPhetFluent.keyboardHelpDialog.faucetControls.closeFaucetStringProperty,
+    keyboardHelpDialogPDOMLabelStringProperty: SceneryPhetFluent.a11y.keyboardHelpDialog.faucetControls.closeFaucetDescriptionStringProperty
   } );
 
 
@@ -461,8 +461,8 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
   public static readonly CLOSE_FAUCET_REVERSED_HOTKEY_DATA = new HotkeyData( {
     keys: [ FaucetNode.ZERO_CLOSE_FAUCET_STRING, 'end' ],
     repoName: sceneryPhet.name,
-    keyboardHelpDialogLabelStringProperty: SceneryPhetStrings.keyboardHelpDialog.faucetControls.closeFaucetStringProperty,
-    keyboardHelpDialogPDOMLabelStringProperty: SceneryPhetStrings.a11y.keyboardHelpDialog.faucetControls.closeFaucetWithEndDescriptionStringProperty
+    keyboardHelpDialogLabelStringProperty: SceneryPhetFluent.keyboardHelpDialog.faucetControls.closeFaucetStringProperty,
+    keyboardHelpDialogPDOMLabelStringProperty: SceneryPhetFluent.a11y.keyboardHelpDialog.faucetControls.closeFaucetWithEndDescriptionStringProperty
   } );
 
   public static readonly TAP_TO_DISPENSE_HOTKEY_DATA = new HotkeyData( {

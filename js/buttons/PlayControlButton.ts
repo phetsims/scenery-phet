@@ -21,7 +21,7 @@ import TSoundPlayer from '../../../tambo/js/TSoundPlayer.js';
 import PlayIconShape from '../PlayIconShape.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetConstants from '../SceneryPhetConstants.js';
-import SceneryPhetStrings from '../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../SceneryPhetFluent.js';
 
 type SelfOptions = {
 
@@ -59,7 +59,7 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
       radius: SceneryPhetConstants.PLAY_CONTROL_BUTTON_RADIUS,
       scaleFactorWhenNotPlaying: 1,
       includeGlobalHotkey: false,
-      accessibleNameOff: SceneryPhetStrings.a11y.playControlButton.playStringProperty,
+      accessibleNameOff: SceneryPhetFluent.a11y.playControlButton.playStringProperty,
       valueOffSoundPlayer: sharedSoundPlayers.get( 'pause' ),
       valueOnSoundPlayer: sharedSoundPlayers.get( 'play' ),
 
@@ -136,7 +136,7 @@ export default class PlayControlButton extends BooleanRoundToggleButton {
 
   public static readonly TOGGLE_PLAY_HOTKEY_DATA = new HotkeyData( {
     keys: [ 'alt+k' ],
-    keyboardHelpDialogLabelStringProperty: SceneryPhetStrings.keyboardHelpDialog.timingControls.pauseOrPlayActionStringProperty,
+    keyboardHelpDialogLabelStringProperty: SceneryPhetFluent.keyboardHelpDialog.timingControls.pauseOrPlayActionStringProperty,
     repoName: sceneryPhet.name,
     global: true
   } );

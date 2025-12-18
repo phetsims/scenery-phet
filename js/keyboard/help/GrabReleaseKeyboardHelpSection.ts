@@ -12,7 +12,7 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import SceneryPhetStrings from '../../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../../SceneryPhetFluent.js';
 import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
@@ -37,17 +37,17 @@ export default class GrabReleaseKeyboardHelpSection extends KeyboardHelpSection 
     }, providedOptions );
 
     // the visible heading string
-    const headingStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.grabOrReleaseHeadingPatternStringProperty, {
+    const headingStringProperty = new PatternStringProperty( SceneryPhetFluent.keyboardHelpDialog.grabOrReleaseHeadingPatternStringProperty, {
       thing: thingAsTitle
     }, { tandem: Tandem.OPT_OUT } );
 
     // the visible label string
-    const labelStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.grabOrReleaseLabelPatternStringProperty, {
+    const labelStringProperty = new PatternStringProperty( SceneryPhetFluent.keyboardHelpDialog.grabOrReleaseLabelPatternStringProperty, {
       thing: thingAsLowerCase
     }, { tandem: Tandem.OPT_OUT } );
 
     // the string for the PDOM
-    const descriptionStringProperty = new PatternStringProperty( SceneryPhetStrings.a11y.keyboardHelpDialog.grabOrReleaseDescriptionPatternStringProperty, {
+    const descriptionStringProperty = new PatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.grabOrReleaseDescriptionPatternStringProperty, {
       thing: thingAsLowerCase,
       enterOrReturn: TextKeyNode.getEnterKeyString()
     }, { tandem: Tandem.OPT_OUT } );

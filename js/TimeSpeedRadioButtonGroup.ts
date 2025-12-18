@@ -19,21 +19,21 @@ import VerticalAquaRadioButtonGroup, { VerticalAquaRadioButtonGroupOptions } fro
 import Tandem from '../../tandem/js/Tandem.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import SceneryPhetStrings from './SceneryPhetStrings.js';
+import SceneryPhetFluent from './SceneryPhetFluent.js';
 import TimeSpeed from './TimeSpeed.js';
 
 // maps TimeSpeed to its label and Tandem name
 const SPEED_LABEL_MAP = new Map();
 SPEED_LABEL_MAP.set( TimeSpeed.FAST, {
-  stringProperty: SceneryPhetStrings.speed.fastStringProperty,
+  stringProperty: SceneryPhetFluent.speed.fastStringProperty,
   tandemName: 'fastRadioButton'
 } );
 SPEED_LABEL_MAP.set( TimeSpeed.NORMAL, {
-  stringProperty: SceneryPhetStrings.speed.normalStringProperty,
+  stringProperty: SceneryPhetFluent.speed.normalStringProperty,
   tandemName: 'normalRadioButton'
 } );
 SPEED_LABEL_MAP.set( TimeSpeed.SLOW, {
-  stringProperty: SceneryPhetStrings.speed.slowStringProperty,
+  stringProperty: SceneryPhetFluent.speed.slowStringProperty,
   tandemName: 'slowRadioButton'
 } );
 
@@ -66,8 +66,8 @@ export default class TimeSpeedRadioButtonGroup extends VerticalAquaRadioButtonGr
       tandemNameSuffix: 'RadioButtonGroup',
 
       // pdom
-      accessibleName: SceneryPhetStrings.a11y.timeControlNode.simSpeedsStringProperty,
-      accessibleHelpText: SceneryPhetStrings.a11y.timeControlNode.simSpeedDescriptionStringProperty
+      accessibleName: SceneryPhetFluent.a11y.timeControlNode.simSpeedsStringProperty,
+      accessibleHelpText: SceneryPhetFluent.a11y.timeControlNode.simSpeedDescriptionStringProperty
     }, providedOptions );
 
     // by default, radio buttons match height of label before maxWidth scaling adjustments

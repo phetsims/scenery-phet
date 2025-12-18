@@ -23,7 +23,7 @@ import TextKeyNode from '../keyboard/TextKeyNode.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetConstants from '../SceneryPhetConstants.js';
-import SceneryPhetStrings from '../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../SceneryPhetFluent.js';
 import ResetButton, { ResetButtonOptions } from './ResetButton.js';
 
 type SelfOptions = {
@@ -69,11 +69,11 @@ export default class ResetAllButton extends ResetButton {
       soundPlayer: sharedSoundPlayers.get( 'resetAll' ),
 
       // pdom
-      accessibleName: SceneryPhetStrings.a11y.resetAll.accessibleNameStringProperty,
+      accessibleName: SceneryPhetFluent.a11y.resetAll.accessibleNameStringProperty,
 
       // voicing - set here instead of using accessibleContextResponse because we make a manual request to speak
       // the response after the button fires.
-      voicingContextResponse: SceneryPhetStrings.a11y.resetAll.accessibleContextResponseStringProperty,
+      voicingContextResponse: SceneryPhetFluent.a11y.resetAll.accessibleContextResponseStringProperty,
 
       adjustShapeForStroke: true
     }, providedOptions );
@@ -86,7 +86,7 @@ export default class ResetAllButton extends ResetButton {
     // a11y - When reset all button is fired, disable alerts so that there isn't an excessive stream of alerts while
     // many Properties are reset. When callbacks are ended for reset all, enable alerts again and announce an alert that
     // everything was reset.
-    const resetUtterance = new ActivationUtterance( { alert: SceneryPhetStrings.a11y.resetAll.accessibleContextResponseStringProperty } );
+    const resetUtterance = new ActivationUtterance( { alert: SceneryPhetFluent.a11y.resetAll.accessibleContextResponseStringProperty } );
     let voicingEnabledOnFire = voicingUtteranceQueue.enabled;
     const ariaEnabledOnFirePerUtteranceQueueMap = new Map(); // Keep track of the enabled of each connected description UtteranceQueue
     this.pushButtonModel.isFiringProperty.lazyLink( ( isFiring: boolean ) => {
@@ -191,10 +191,10 @@ export default class ResetAllButton extends ResetButton {
     keys: [ 'alt+r' ],
 
     // visual label for this Hotkey in the Keyboard Help dialog
-    keyboardHelpDialogLabelStringProperty: SceneryPhetStrings.keyboardHelpDialog.resetAllStringProperty,
+    keyboardHelpDialogLabelStringProperty: SceneryPhetFluent.keyboardHelpDialog.resetAllStringProperty,
 
     // PDOM description for this Hotkey in the Keyboard Help dialog
-    keyboardHelpDialogPDOMLabelStringProperty: StringUtils.fillIn( SceneryPhetStrings.a11y.keyboardHelpDialog.general.resetAllDescriptionPatternStringProperty, {
+    keyboardHelpDialogPDOMLabelStringProperty: StringUtils.fillIn( SceneryPhetFluent.a11y.keyboardHelpDialog.general.resetAllDescriptionPatternStringProperty, {
       altOrOption: TextKeyNode.getAltKeyString()
     } ),
 

@@ -21,7 +21,7 @@ import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import KeyNode, { KeyNodeOptions } from '../../keyboard/KeyNode.js';
 import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import SceneryPhetStrings from '../../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../../SceneryPhetFluent.js';
 
 // Type for the factory function that creates a KeyNode (e.g., TextKeyNode.space)
 type KeyNodeFactory = ( providedOptions?: KeyNodeOptions ) => KeyNode;
@@ -69,7 +69,7 @@ export default class KeyboardCueNode extends Node {
         cornerRadius: 0
       },
 
-      stringProperty: SceneryPhetStrings.key.toGrabOrReleaseStringProperty
+      stringProperty: SceneryPhetFluent.key.toGrabOrReleaseStringProperty
     }, providedOptions );
 
     super( options );

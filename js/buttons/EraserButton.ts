@@ -16,7 +16,7 @@ import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import eraser_svg from '../../images/eraser_svg.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
-import SceneryPhetStrings from '../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../SceneryPhetFluent.js';
 
 type SelfOptions = {
   iconWidth?: number; // width of eraser icon, used for scaling, the aspect ratio will determine height
@@ -38,7 +38,7 @@ export default class EraserButton extends RectangularPushButton {
       baseColor: PhetColorScheme.BUTTON_YELLOW,
 
       // pdom
-      accessibleName: SceneryPhetStrings.a11y.eraserButton.accessibleNameStringProperty,
+      accessibleName: SceneryPhetFluent.a11y.eraserButton.accessibleNameStringProperty,
 
       // sound
       soundPlayer: sharedSoundPlayers.get( 'erase' )

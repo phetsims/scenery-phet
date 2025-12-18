@@ -8,11 +8,11 @@
 
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import SceneryPhetStrings from '../../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../../SceneryPhetFluent.js';
 import SliderControlsKeyboardHelpSection, { SliderControlsKeyboardHelpSectionOptions } from './SliderControlsKeyboardHelpSection.js';
 
-const spinnerControlsStringProperty = SceneryPhetStrings.keyboardHelpDialog.spinnerControlsStringProperty;
-const spinnerStringProperty = SceneryPhetStrings.keyboardHelpDialog.spinnerStringProperty;
+const spinnerControlsStringProperty = SceneryPhetFluent.keyboardHelpDialog.spinnerControlsStringProperty;
+const spinnerStringProperty = SceneryPhetFluent.keyboardHelpDialog.spinnerStringProperty;
 
 type SelfOptions = EmptySelfOptions;
 type ParentOptions = SliderControlsKeyboardHelpSectionOptions;

@@ -41,7 +41,7 @@ import { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import sceneryPhet from '../sceneryPhet.js';
-import SceneryPhetStrings from '../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../SceneryPhetFluent.js';
 
 export type AccessibleListItem = {
   stringProperty: TReadOnlyProperty<string>;
@@ -132,8 +132,8 @@ export default class AccessibleListNode extends Node {
     // Collect all string content and scenery Nodes to make it easier to render the requested list structure and punctuation.
     const collectedListItems = listItems.map( item => {
       const patternProperty = options.punctuationStyle === 'comma' ?
-                              SceneryPhetStrings.a11y.listItemPunctuation.commaPatternStringProperty :
-                              SceneryPhetStrings.a11y.listItemPunctuation.semicolonPatternStringProperty;
+                              SceneryPhetFluent.a11y.listItemPunctuation.commaPatternStringProperty :
+                              SceneryPhetFluent.a11y.listItemPunctuation.semicolonPatternStringProperty;
 
       // eslint-disable-next-line phet/bad-sim-text
       const contentProperty = ( 'stringProperty' in item ) ? item.stringProperty : item;
@@ -154,7 +154,7 @@ export default class AccessibleListNode extends Node {
         punctuationStringProperty: new PatternStringProperty( patternProperty, { content: contentProperty } ),
 
         // The string wrapped with a period for the final item.
-        periodStringProperty: new PatternStringProperty( SceneryPhetStrings.a11y.listItemPunctuation.periodPatternStringProperty, { content: contentProperty } )
+        periodStringProperty: new PatternStringProperty( SceneryPhetFluent.a11y.listItemPunctuation.periodPatternStringProperty, { content: contentProperty } )
       };
     } );
 

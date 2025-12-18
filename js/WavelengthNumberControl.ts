@@ -17,7 +17,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import NumberControl, { NumberControlOptions } from './NumberControl.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import SceneryPhetStrings from './SceneryPhetStrings.js';
+import SceneryPhetFluent from './SceneryPhetFluent.js';
 import SpectrumSliderThumb, { SpectrumSliderThumbOptions } from './SpectrumSliderThumb.js';
 import SpectrumSliderTrack, { SpectrumSliderTrackOptions } from './SpectrumSliderTrack.js';
 import VisibleColor from './VisibleColor.js';
@@ -53,7 +53,7 @@ export default class WavelengthNumberControl extends NumberControl {
   public constructor( wavelengthProperty: Property<number>, providedOptions?: WavelengthNumberControlOptions ) {
 
     const options = optionize<WavelengthNumberControlOptions, SelfOptions, NumberControlOptions>()( {
-      title: SceneryPhetStrings.wavelengthStringProperty,
+      title: SceneryPhetFluent.wavelengthStringProperty,
       range: DEFAULT_RANGE,
       spectrumSliderTrackOptions: {
         valueToColor: DEFAULT_VALUE_TO_COLOR,
@@ -88,7 +88,7 @@ export default class WavelengthNumberControl extends NumberControl {
         textOptions: {
           font: new PhetFont( 14 )
         },
-        valuePattern: SceneryPhetStrings.wavelengthNMValuePatternStringProperty,
+        valuePattern: SceneryPhetFluent.wavelengthNMValuePatternStringProperty,
         maxWidth: 120
       },
       sliderOptions: {

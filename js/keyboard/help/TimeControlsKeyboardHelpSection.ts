@@ -11,15 +11,15 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import platform from '../../../../phet-core/js/platform.js';
 import PlayControlButton from '../../buttons/PlayControlButton.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import SceneryPhetStrings from '../../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../../SceneryPhetFluent.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 
 // constants
-const timeControlsStringProperty = SceneryPhetStrings.keyboardHelpDialog.timingControls.timingControlsStringProperty;
-const pauseOrPlayActionStringProperty = SceneryPhetStrings.keyboardHelpDialog.timingControls.pauseOrPlayActionStringProperty;
-const pauseOrPlayActionDescriptionStringProperty = SceneryPhetStrings.a11y.keyboardHelpDialog.timingControls.pauseOrPlayActionDescriptionStringProperty;
-const pauseOrPlayActionMacOSDescriptionStringProperty = SceneryPhetStrings.a11y.keyboardHelpDialog.timingControls.pauseOrPlayActionMacOSDescriptionStringProperty;
+const timeControlsStringProperty = SceneryPhetFluent.keyboardHelpDialog.timingControls.timingControlsStringProperty;
+const pauseOrPlayActionStringProperty = SceneryPhetFluent.keyboardHelpDialog.timingControls.pauseOrPlayActionStringProperty;
+const pauseOrPlayActionDescriptionStringProperty = SceneryPhetFluent.a11y.keyboardHelpDialog.timingControls.pauseOrPlayActionDescriptionStringProperty;
+const pauseOrPlayActionMacOSDescriptionStringProperty = SceneryPhetFluent.a11y.keyboardHelpDialog.timingControls.pauseOrPlayActionMacOSDescriptionStringProperty;
 
 type SelfOptions = {
 

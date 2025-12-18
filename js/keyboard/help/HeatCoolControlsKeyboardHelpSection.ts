@@ -8,7 +8,7 @@
 
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import SceneryPhetStrings from '../../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../../SceneryPhetFluent.js';
 import NumberKeyNode from '../NumberKeyNode.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 import SliderControlsKeyboardHelpSection, { ArrowKeyIconDisplay, SliderControlsKeyboardHelpSectionOptions } from './SliderControlsKeyboardHelpSection.js';
@@ -21,14 +21,14 @@ export default class HeatCoolControlsKeyboardHelpSection extends SliderControlsK
   public constructor( providedOptions?: HeatCoolControlsKeyboardHelpSectionOptions ) {
 
     const offIcon = new NumberKeyNode( 0 );
-    const offStringRow = KeyboardHelpSectionRow.labelWithIcon( SceneryPhetStrings.keyboardHelpDialog.heatCoolOffStringProperty, offIcon );
+    const offStringRow = KeyboardHelpSectionRow.labelWithIcon( SceneryPhetFluent.keyboardHelpDialog.heatCoolOffStringProperty, offIcon );
 
     const options = optionize<HeatCoolControlsKeyboardHelpSectionOptions, SelfOptions, ParentOptions>()( {
       arrowKeyIconDisplay: ArrowKeyIconDisplay.UP_DOWN,
 
-      headingStringProperty: SceneryPhetStrings.keyboardHelpDialog.heatCoolControlsStringProperty,
-      jumpToMaximumStringProperty: SceneryPhetStrings.keyboardHelpDialog.maximumHeatStringProperty,
-      jumpToMinimumStringProperty: SceneryPhetStrings.keyboardHelpDialog.maximumCoolStringProperty,
+      headingStringProperty: SceneryPhetFluent.keyboardHelpDialog.heatCoolControlsStringProperty,
+      jumpToMaximumStringProperty: SceneryPhetFluent.keyboardHelpDialog.maximumHeatStringProperty,
+      jumpToMinimumStringProperty: SceneryPhetFluent.keyboardHelpDialog.maximumCoolStringProperty,
 
       additionalRows: [
         offStringRow

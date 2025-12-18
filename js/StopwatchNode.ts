@@ -42,7 +42,7 @@ import PauseIconShape from './PauseIconShape.js';
 import PhetFont from './PhetFont.js';
 import PlayIconShape from './PlayIconShape.js';
 import sceneryPhet from './sceneryPhet.js';
-import SceneryPhetStrings from './SceneryPhetStrings.js';
+import SceneryPhetFluent from './SceneryPhetFluent.js';
 import ShadedRectangle from './ShadedRectangle.js';
 import SoundDragListener, { PressedSoundDragListener, SoundDragListenerOptions } from './SoundDragListener.js';
 import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from './SoundKeyboardDragListener.js';
@@ -168,7 +168,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
           numberFormatterDependencies: [
 
             // Used in the numberFormatter above
-            SceneryPhetStrings.stopwatchValueUnitsPatternStringProperty
+            SceneryPhetFluent.stopwatchValueUnitsPatternStringProperty
           ],
           useRichText: true,
           textOptions: {
@@ -199,8 +199,8 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
         tandem: Tandem.REQUIRED,
         phetioFeatured: true,
 
-        accessibleName: SceneryPhetStrings.a11y.stopwatch.accessibleNameStringProperty,
-        accessibleHelpText: SceneryPhetStrings.a11y.stopwatch.accessibleHelpTextStringProperty
+        accessibleName: SceneryPhetFluent.a11y.stopwatch.accessibleNameStringProperty,
+        accessibleHelpText: SceneryPhetFluent.a11y.stopwatch.accessibleHelpTextStringProperty
       },
       providedOptions
     );
@@ -249,8 +249,8 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
           accessibleContextResponseOn: null,
           accessibleContextResponseOff: numberDisplay.accessibleValueStringProperty,
 
-          accessibleNameOn: SceneryPhetStrings.a11y.stopwatch.pauseButton.accessibleNameStringProperty,
-          accessibleNameOff: SceneryPhetStrings.a11y.stopwatch.playButton.accessibleNameStringProperty
+          accessibleNameOn: SceneryPhetFluent.a11y.stopwatch.pauseButton.accessibleNameStringProperty,
+          accessibleNameOff: SceneryPhetFluent.a11y.stopwatch.playButton.accessibleNameStringProperty
         }, options.playPauseButtonOptions ) );
 
       const resetButton = new RectangularPushButton( combineOptions<RectangularPushButtonOptions>( {
@@ -267,8 +267,8 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
         tandem: options.tandem.createTandem( 'resetButton' ),
         phetioVisiblePropertyInstrumented: false,
         phetioEnabledPropertyInstrumented: false,
-        accessibleName: SceneryPhetStrings.a11y.stopwatch.resetButton.accessibleNameStringProperty,
-        accessibleContextResponse: SceneryPhetStrings.a11y.stopwatch.resetButton.accessibleContextResponseStringProperty
+        accessibleName: SceneryPhetFluent.a11y.stopwatch.resetButton.accessibleNameStringProperty,
+        accessibleContextResponse: SceneryPhetFluent.a11y.stopwatch.resetButton.accessibleContextResponseStringProperty
       }, options.resetButtonOptions ) );
 
       playPauseResetButtonContainer = new HBox( {
@@ -497,7 +497,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
    *   ...
    * } ),
    * numberFormatterDependencies: [
-   *   SceneryPhetStrings.stopwatchValueUnitsPatternStringProperty,
+   *   SceneryPhetFluent.stopwatchValueUnitsPatternStringProperty,
    *   unitsProperty
    * ],
    */
@@ -515,7 +515,7 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
       units: '',
 
       // Units cannot be baked into the i18n string because they can change independently
-      valueUnitsPattern: SceneryPhetStrings.stopwatchValueUnitsPatternStringProperty
+      valueUnitsPattern: SceneryPhetFluent.stopwatchValueUnitsPatternStringProperty
     }, providedOptions );
 
     return ( time: number ) => {

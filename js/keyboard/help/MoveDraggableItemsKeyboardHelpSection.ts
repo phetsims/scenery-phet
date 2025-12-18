@@ -7,7 +7,7 @@
  */
 
 import sceneryPhet from '../../sceneryPhet.js';
-import SceneryPhetStrings from '../../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../../SceneryPhetFluent.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
@@ -25,23 +25,23 @@ export default class MoveDraggableItemsKeyboardHelpSection extends KeyboardHelpS
   public constructor( providedOptions?: MoveDraggableItemsKeyboardHelpSectionOptions ) {
 
     const options = optionize<MoveDraggableItemsKeyboardHelpSectionOptions>()( {
-      headingStringProperty: SceneryPhetStrings.keyboardHelpDialog.moveDraggableItemsStringProperty
+      headingStringProperty: SceneryPhetFluent.keyboardHelpDialog.moveDraggableItemsStringProperty
     }, providedOptions );
 
     // Move
     const moveRow = KeyboardHelpSectionRow.labelWithIcon(
-      SceneryPhetStrings.keyboardHelpDialog.moveStringProperty,
+      SceneryPhetFluent.keyboardHelpDialog.moveStringProperty,
       KeyboardHelpIconFactory.arrowOrWasdKeysRowIcon(), {
-        labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.draggableItems.moveDescriptionStringProperty
+        labelInnerContent: SceneryPhetFluent.a11y.keyboardHelpDialog.draggableItems.moveDescriptionStringProperty
       } );
 
     // Move slower
     const moveSlowerRow = KeyboardHelpSectionRow.labelWithIconList(
-      SceneryPhetStrings.keyboardHelpDialog.moveSlowerStringProperty, [
+      SceneryPhetFluent.keyboardHelpDialog.moveSlowerStringProperty, [
         KeyboardHelpIconFactory.shiftPlusIcon( KeyboardHelpIconFactory.arrowKeysRowIcon() ),
         KeyboardHelpIconFactory.shiftPlusIcon( KeyboardHelpIconFactory.wasdRowIcon() )
       ], {
-        labelInnerContent: SceneryPhetStrings.a11y.keyboardHelpDialog.draggableItems.moveSlowerDescriptionStringProperty
+        labelInnerContent: SceneryPhetFluent.a11y.keyboardHelpDialog.draggableItems.moveSlowerDescriptionStringProperty
       } );
 
     super( options.headingStringProperty, [ moveRow, moveSlowerRow ] );

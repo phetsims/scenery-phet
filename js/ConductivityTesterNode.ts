@@ -37,7 +37,7 @@ import MinusNode from './MinusNode.js';
 import PhetFont from './PhetFont.js';
 import PlusNode from './PlusNode.js';
 import sceneryPhet from './sceneryPhet.js';
-import SceneryPhetStrings from './SceneryPhetStrings.js';
+import SceneryPhetFluent from './SceneryPhetFluent.js';
 import { clamp } from '../../dot/js/util/clamp.js';
 
 // constants
@@ -143,7 +143,7 @@ export default class ConductivityTesterNode extends Node {
 
     // short-circuit indicator, centered above the light bulb
     assert && assert( brightnessProperty.value === 0, 'layout will be incorrect if lightBulbNode has rays' );
-    const shortCircuitNode = new Text( SceneryPhetStrings.shortCircuitStringProperty, {
+    const shortCircuitNode = new Text( SceneryPhetFluent.shortCircuitStringProperty, {
       font: options.shortCircuitFont,
       fill: options.shortCircuitFill,
       visible: false // initial state is no short circuit

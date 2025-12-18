@@ -16,7 +16,7 @@ import Panel, { PanelOptions } from '../../sun/js/Panel.js';
 import ArrowNode, { ArrowNodeOptions } from './ArrowNode.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import SceneryPhetStrings from './SceneryPhetStrings.js';
+import SceneryPhetFluent from './SceneryPhetFluent.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { TrimParallelDOMOptions } from '../../scenery/js/accessibility/pdom/ParallelDOM.js';
 
@@ -51,7 +51,7 @@ export default class OffScaleIndicatorNode extends ReadingBlock( Node ) {
 
   public constructor( direction: 'left' | 'right' | 'up' | 'down', providedOptions?: OffScaleIndicatorNodeOptions ) {
     const options = optionize<OffScaleIndicatorNodeOptions, SelfOptions, ParentOptions>()( {
-      offScaleStringProperty: SceneryPhetStrings.offScaleIndicator.pointsOffScaleStringProperty,
+      offScaleStringProperty: SceneryPhetFluent.offScaleIndicator.pointsOffScaleStringProperty,
       arrowTailLength: 25,
       spacing: 5,
       arrowNodeOptions: {
@@ -111,10 +111,10 @@ export default class OffScaleIndicatorNode extends ReadingBlock( Node ) {
   }
 
   private static getAccessibleParagraphForDirection( direction: 'left' | 'right' | 'up' | 'down' ): TReadOnlyProperty<string> {
-    return direction === 'right' ? SceneryPhetStrings.a11y.offScaleIndicator.pointsOffScaleRightStringProperty :
-           direction === 'left' ? SceneryPhetStrings.a11y.offScaleIndicator.pointsOffScaleLeftStringProperty :
-           direction === 'up' ? SceneryPhetStrings.a11y.offScaleIndicator.pointsOffScaleUpStringProperty :
-           SceneryPhetStrings.a11y.offScaleIndicator.pointsOffScaleDownStringProperty;
+    return direction === 'right' ? SceneryPhetFluent.a11y.offScaleIndicator.pointsOffScaleRightStringProperty :
+           direction === 'left' ? SceneryPhetFluent.a11y.offScaleIndicator.pointsOffScaleLeftStringProperty :
+           direction === 'up' ? SceneryPhetFluent.a11y.offScaleIndicator.pointsOffScaleUpStringProperty :
+           SceneryPhetFluent.a11y.offScaleIndicator.pointsOffScaleDownStringProperty;
   }
 }
 

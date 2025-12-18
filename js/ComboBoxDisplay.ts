@@ -21,7 +21,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import NumberDisplay, { NumberDisplayOptions } from './NumberDisplay.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import SceneryPhetStrings from './SceneryPhetStrings.js';
+import SceneryPhetFluent from './SceneryPhetFluent.js';
 
 // constants
 const DEFAULT_FONT = new PhetFont( 14 );
@@ -96,7 +96,7 @@ export default class ComboBoxDisplay<T> extends ComboBox<T> {
     items.forEach( item => {
 
       const unitsProperty = ( typeof item.units === 'string' ) ? new StringProperty( item.units ) : item.units;
-      const valuePatternStringProperty = new PatternStringProperty( SceneryPhetStrings.comboBoxDisplay.valueUnitsStringProperty, {
+      const valuePatternStringProperty = new PatternStringProperty( SceneryPhetFluent.comboBoxDisplay.valueUnitsStringProperty, {
         units: unitsProperty
       }, { tandem: Tandem.OPT_OUT } );
       valuePatternStringProperties.push( valuePatternStringProperty );

@@ -16,7 +16,7 @@ import RectangularPushButton, { RectangularPushButtonOptions } from '../../../su
 import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
-import SceneryPhetStrings from '../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../SceneryPhetFluent.js';
 
 type SelfOptions = {
   iconLength?: number; // length of the 'X' icon, whose bounds are square
@@ -48,10 +48,10 @@ export default class CloseButton extends RectangularPushButton {
       soundPlayer: sharedSoundPlayers.get( 'generalClose' ),
 
       // pdom
-      accessibleName: SceneryPhetStrings.a11y.closeStringProperty,
+      accessibleName: SceneryPhetFluent.a11y.closeStringProperty,
 
       //voicing
-      voicingNameResponse: SceneryPhetStrings.a11y.closeStringProperty
+      voicingNameResponse: SceneryPhetFluent.a11y.closeStringProperty
     }, providedOptions );
 
     // 'X' icon

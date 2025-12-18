@@ -14,14 +14,14 @@ import KeyboardUtils from '../../../../scenery/js/accessibility/KeyboardUtils.js
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import SceneryPhetStrings from '../../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../../SceneryPhetFluent.js';
 import DirectionEnum from './DirectionEnum.js';
 
 // constants
-const leftBorderAlertString = SceneryPhetStrings.a11y.movementAlerter.leftBorderAlert;
-const rightBorderAlertString = SceneryPhetStrings.a11y.movementAlerter.rightBorderAlert;
-const topBorderAlertString = SceneryPhetStrings.a11y.movementAlerter.topBorderAlert;
-const bottomBorderAlertString = SceneryPhetStrings.a11y.movementAlerter.bottomBorderAlert;
+const leftBorderAlertString = SceneryPhetFluent.a11y.movementAlerter.leftBorderAlert;
+const rightBorderAlertString = SceneryPhetFluent.a11y.movementAlerter.rightBorderAlert;
+const topBorderAlertString = SceneryPhetFluent.a11y.movementAlerter.topBorderAlert;
+const bottomBorderAlertString = SceneryPhetFluent.a11y.movementAlerter.bottomBorderAlert;
 
 const DEFAULT_TOP_BORDER_ALERT = topBorderAlertString;
 

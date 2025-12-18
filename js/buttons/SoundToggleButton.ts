@@ -19,7 +19,7 @@ import volumeOffShape from '../../../sun/js/shapes/volumeOffShape.js';
 import volumeOnShape from '../../../sun/js/shapes/volumeOnShape.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
-import SceneryPhetStrings from '../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../SceneryPhetFluent.js';
 
 // constants
 const WIDTH = 45;
@@ -46,7 +46,7 @@ export default class SoundToggleButton extends BooleanRectangularToggleButton {
       xMargin: MARGIN,
       yMargin: MARGIN,
       tagName: 'button',
-      innerContent: SceneryPhetStrings.a11y.soundToggle.labelStringProperty
+      innerContent: SceneryPhetFluent.a11y.soundToggle.labelStringProperty
     }, provideOptions );
 
     // 'on' icon is a font-awesome icon

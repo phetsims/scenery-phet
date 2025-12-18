@@ -12,7 +12,7 @@ import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import sceneryPhet from './sceneryPhet.js';
-import SceneryPhetStrings from './SceneryPhetStrings.js';
+import SceneryPhetFluent from './SceneryPhetFluent.js';
 import SpectrumSlider, { SpectrumSliderOptions } from './SpectrumSlider.js';
 import VisibleColor from './VisibleColor.js';
 import { toFixed } from '../../dot/js/util/toFixed.js';
@@ -46,8 +46,8 @@ export default class WavelengthSlider extends SpectrumSlider {
       // SpectrumSliderOptions
       valueToString: function( value: number ) {
 
-        const patternStringProperty = SceneryPhetStrings.WavelengthSlider.pattern_0wavelength_1unitsStringProperty;
-        const unitsStringProperty = SceneryPhetStrings.units_nmStringProperty;
+        const patternStringProperty = SceneryPhetFluent.WavelengthSlider.pattern_0wavelength_1unitsStringProperty;
+        const unitsStringProperty = SceneryPhetFluent.units_nmStringProperty;
 
         // NOTE: Because this class is deprecated, the API was not reworked to support dynamic strings here.
         return StringUtils.format( patternStringProperty.value, toFixed( value, 0 ), unitsStringProperty.value );

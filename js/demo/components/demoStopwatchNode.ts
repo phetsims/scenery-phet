@@ -15,7 +15,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import { SunDemoOptions } from '../../../../sun/js/demo/DemosScreenView.js';
-import SceneryPhetStrings from '../../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../../SceneryPhetFluent.js';
 import Stopwatch from '../../Stopwatch.js';
 import StopwatchNode from '../../StopwatchNode.js';
 
@@ -63,7 +63,7 @@ export default function demoStopwatchNode( layoutBounds: Bounds2, providedOption
         units: unitsProperty.value
       } ),
       numberFormatterDependencies: [
-        SceneryPhetStrings.stopwatchValueUnitsPatternStringProperty, // used by StopwatchNode.createRichTextNumberFormatter
+        SceneryPhetFluent.stopwatchValueUnitsPatternStringProperty, // used by StopwatchNode.createRichTextNumberFormatter
         unitsProperty
       ]
     },

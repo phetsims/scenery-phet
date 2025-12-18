@@ -25,7 +25,7 @@ import RoundPushButton from '../../sun/js/buttons/RoundPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import PlayPauseStepButtonGroup, { PlayPauseStepButtonGroupOptions } from './buttons/PlayPauseStepButtonGroup.js';
 import sceneryPhet from './sceneryPhet.js';
-import SceneryPhetStrings from './SceneryPhetStrings.js';
+import SceneryPhetFluent from './SceneryPhetFluent.js';
 import TimeSpeed from './TimeSpeed.js';
 import TimeSpeedRadioButtonGroup, { TimeSpeedRadioButtonGroupOptions } from './TimeSpeedRadioButtonGroup.js';
 
@@ -90,7 +90,7 @@ export default class TimeControlNode extends Node {
       excludeInvisibleChildrenFromBounds: true,
 
       // pdom
-      accessibleHeading: SceneryPhetStrings.a11y.timeControlNode.labelStringProperty
+      accessibleHeading: SceneryPhetFluent.a11y.timeControlNode.labelStringProperty
     }, providedOptions );
 
     super();

@@ -73,19 +73,19 @@ import AriaLiveAnnouncer from '../../../../utterance-queue/js/AriaLiveAnnouncer.
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import SceneryPhetStrings from '../../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../../SceneryPhetFluent.js';
 import GrabReleaseCueNode from '../nodes/GrabReleaseCueNode.js';
 import GrabDragModel, { GrabDragInteractionState, GrabDragModelOptions, InputType } from './GrabDragModel.js';
 import GrabDragUsageTracker from './GrabDragUsageTracker.js';
 
 // constants
-const grabPatternStringStringProperty = SceneryPhetStrings.a11y.grabDrag.grabPatternStringProperty;
-const gestureHelpTextPatternStringProperty = SceneryPhetStrings.a11y.grabDrag.gestureHelpTextPatternStringProperty;
-const movableStringProperty = SceneryPhetStrings.a11y.grabDrag.movableStringProperty;
-const buttonStringProperty = SceneryPhetStrings.a11y.grabDrag.buttonStringProperty;
-const defaultObjectToGrabStringProperty = SceneryPhetStrings.a11y.grabDrag.defaultObjectToGrabStringProperty;
-const releasedStringProperty = SceneryPhetStrings.a11y.grabDrag.releasedStringProperty;
-const grabbedStringProperty = SceneryPhetStrings.a11y.grabDrag.grabbedStringProperty;
+const grabPatternStringStringProperty = SceneryPhetFluent.a11y.grabDrag.grabPatternStringProperty;
+const gestureHelpTextPatternStringProperty = SceneryPhetFluent.a11y.grabDrag.gestureHelpTextPatternStringProperty;
+const movableStringProperty = SceneryPhetFluent.a11y.grabDrag.movableStringProperty;
+const buttonStringProperty = SceneryPhetFluent.a11y.grabDrag.buttonStringProperty;
+const defaultObjectToGrabStringProperty = SceneryPhetFluent.a11y.grabDrag.defaultObjectToGrabStringProperty;
+const releasedStringProperty = SceneryPhetFluent.a11y.grabDrag.releasedStringProperty;
+const grabbedStringProperty = SceneryPhetFluent.a11y.grabDrag.grabbedStringProperty;
 
 type GrabDragCallback = ( inputType: InputType ) => void;
 
@@ -1005,7 +1005,7 @@ export default class GrabDragInteraction extends Disposable {
       this.onGrabButtonFocusEmitter.addListener( () => {
         if ( this.grabDragModel.enabled && this.shouldShowGrabCueNode() ) {
           const alert = voicingFocusUtterance.alert! as ResponsePacket;
-          alert.hintResponse = SceneryPhetStrings.a11y.grabDrag.spaceToGrabOrReleaseStringProperty;
+          alert.hintResponse = SceneryPhetFluent.a11y.grabDrag.spaceToGrabOrReleaseStringProperty;
           Voicing.alertUtterance( voicingFocusUtterance );
         }
       } );

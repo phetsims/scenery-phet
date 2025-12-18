@@ -11,7 +11,7 @@
 
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import sceneryPhet from '../../sceneryPhet.js';
-import SceneryPhetStrings from '../../SceneryPhetStrings.js';
+import SceneryPhetFluent from '../../SceneryPhetFluent.js';
 import PDOMSectionNode, { PDOMSectionNodeOptions } from '../PDOMSectionNode.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -19,7 +19,7 @@ export type ControlAreaNodeOptions = SelfOptions & PDOMSectionNodeOptions;
 
 export default class ControlAreaNode extends PDOMSectionNode {
   public constructor( providedOptions?: ControlAreaNodeOptions ) {
-    super( SceneryPhetStrings.a11y.simSection.controlAreaStringProperty, providedOptions );
+    super( SceneryPhetFluent.a11y.simSection.controlAreaStringProperty, providedOptions );
   }
 }
 

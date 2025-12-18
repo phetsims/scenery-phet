@@ -45,7 +45,7 @@ import NumberIO from '../../tandem/js/types/NumberIO.js';
 import measuringTape_png from '../images/measuringTape_png.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
-import SceneryPhetStrings from './SceneryPhetStrings.js';
+import SceneryPhetFluent from './SceneryPhetFluent.js';
 import SoundDragListener, { SoundDragListenerOptions } from './SoundDragListener.js';
 import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from './SoundKeyboardDragListener.js';
 
@@ -265,8 +265,8 @@ class MeasuringTapeNode extends Node {
       tagName: 'div',
       focusable: true,
       ariaRole: 'application',
-      innerContent: SceneryPhetStrings.a11y.measuringTapeStringProperty,
-      ariaLabel: SceneryPhetStrings.a11y.measuringTapeStringProperty
+      innerContent: SceneryPhetFluent.a11y.measuringTapeStringProperty,
+      ariaLabel: SceneryPhetFluent.a11y.measuringTapeStringProperty
     } );
     baseImageParent.addChild( this.baseImage );
 
@@ -288,12 +288,12 @@ class MeasuringTapeNode extends Node {
       tagName: 'div',
       focusable: true,
       ariaRole: 'application',
-      innerContent: SceneryPhetStrings.a11y.measuringTapeTipStringProperty,
-      ariaLabel: SceneryPhetStrings.a11y.measuringTapeTipStringProperty
+      innerContent: SceneryPhetFluent.a11y.measuringTapeTipStringProperty,
+      ariaLabel: SceneryPhetFluent.a11y.measuringTapeTipStringProperty
     } );
 
     const readoutStringProperty = new DerivedStringProperty(
-      [ this.unitsProperty, this.measuredDistanceProperty, SceneryPhetStrings.measuringTapeReadoutPatternStringProperty ],
+      [ this.unitsProperty, this.measuredDistanceProperty, SceneryPhetFluent.measuringTapeReadoutPatternStringProperty ],
       ( units, measuredDistance, measuringTapeReadoutPattern ) => {
         const distance = toFixed( units.multiplier * measuredDistance, this.significantFigures );
         return StringUtils.fillIn( measuringTapeReadoutPattern, {
