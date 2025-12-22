@@ -18,7 +18,7 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import StringProperty from '../../../../axon/js/StringProperty.js';
-import { TReadOnlyProperty, isTReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
+import { isTReadOnlyProperty, TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ReadingBlock, { ReadingBlockOptions } from '../../../../scenery/js/accessibility/voicing/ReadingBlock.js';
@@ -57,7 +57,7 @@ type SelfOptions = {
   // tag name for the entire content, usually content is a list of items
   a11yContentTagName?: string | null;
 };
-type ParentOptions = ReadingBlockOptions & VBoxOptions;
+type ParentOptions = ReadingBlockOptions & StrictOmit<VBoxOptions, 'children'>;
 export type KeyboardHelpSectionOptions = SelfOptions & ParentOptions;
 
 export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
