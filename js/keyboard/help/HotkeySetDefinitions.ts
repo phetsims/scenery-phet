@@ -165,15 +165,22 @@ export default class HotkeySetDefinitions {
   }
 
   /**
-   * Sorts modifiers so that commonly used combinations appear in a consistent order.
+   * Sorts modifier keys into a predictable display order. Standard modifiers (ctrl, alt, shift, meta) are prioritized.
+   * Any other modifier keys are retained and placed afterward alphabetically so the ordering stays deterministic.
+   *
+   * Note that PhET treats modifierKeys as a broader, PhET-specific set beyond the OS-standard four. (See
+   * KeyDescriptor.modifierKeys in scenery)
+   *
+   * Example:
+   * [ 'shift','alt','j' ] -> [ 'alt','shift','j' ]
    */
-  public static sortModifiers( modifiers: readonly EnglishKeyString[] ): EnglishKeyString[] {
+  public static sortModifiers( keys: readonly EnglishKeyString[] ): EnglishKeyString[] {
     const priority = ( modifier: EnglishKeyString ): number => {
       const index = HotkeySetDefinitions.MODIFIER_PRIORITY.indexOf( modifier );
       return index === -1 ? HotkeySetDefinitions.MODIFIER_PRIORITY.length : index;
     };
 
-    return [ ...modifiers ].sort( ( a, b ) => {
+    return [ ...keys ].sort( ( a, b ) => {
       const diff = priority( a ) - priority( b );
       return diff !== 0 ? diff : a.localeCompare( b );
     } );
