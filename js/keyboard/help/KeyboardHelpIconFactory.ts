@@ -22,7 +22,7 @@ import PlusNode from '../../PlusNode.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetFluent from '../../SceneryPhetFluent.js';
 import ArrowKeyNode from '../ArrowKeyNode.js';
-import { getKeyBuilder } from '../KeyDisplayRegistry.js';
+import KeyDisplayRegistry from '../KeyDisplayRegistry.js';
 import LetterKeyNode from '../LetterKeyNode.js';
 import TextKeyNode from '../TextKeyNode.js';
 import HotkeySetDefinitions, { HotkeySetDefinitionEntry } from './HotkeySetDefinitions.js';
@@ -404,7 +404,7 @@ export default class KeyboardHelpIconFactory {
   private static buildGroupIconData( group: ModifierGroup ): ModifierGroupIcon {
     const normalizedKeys = HotkeySetDefinitions.sortKeys( group.keys );
     const definition = HotkeySetDefinitions.getDefinition( normalizedKeys );
-    const modifierIcons = group.modifiers.map( modifier => getKeyBuilder( modifier )() );
+    const modifierIcons = group.modifiers.map( modifier => KeyDisplayRegistry.getKeyBuilder( modifier )() );
     let alternatives: Node[] | null = null;
     let layout: 'inline' | 'stacked' = 'inline';
 
@@ -491,7 +491,7 @@ export default class KeyboardHelpIconFactory {
       return iconFromDefinition;
     }
 
-    const keyNodes = normalizedKeys.map( key => getKeyBuilder( key )() );
+    const keyNodes = normalizedKeys.map( key => KeyDisplayRegistry.getKeyBuilder( key )() );
     if ( keyNodes.length === 1 ) {
       return keyNodes[ 0 ];
     }

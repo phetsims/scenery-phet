@@ -18,7 +18,7 @@ import type { EnglishKeyString } from '../../../../scenery/js/accessibility/Engl
 import KeyDescriptor from '../../../../scenery/js/input/KeyDescriptor.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetFluent from '../../SceneryPhetFluent.js';
-import { getKeyLabelProperty } from '../KeyDisplayRegistry.js';
+import KeyDisplayRegistry from '../KeyDisplayRegistry.js';
 import TextKeyNode from '../TextKeyNode.js';
 import HotkeySetDefinitions from './HotkeySetDefinitions.js';
 
@@ -175,7 +175,7 @@ export default class HotkeyDescriptionBuilder {
     }
 
     // Fall back to describing it like a standard key.
-    return `${getKeyLabelProperty( modifier ).value} ${KEY_STRING_PROPERTY.value}`;
+    return `${KeyDisplayRegistry.getKeyLabelProperty( modifier ).value} ${KEY_STRING_PROPERTY.value}`;
   }
 
   /**
@@ -192,7 +192,7 @@ export default class HotkeyDescriptionBuilder {
       return definition.phraseProperty.value;
     }
 
-    const labels = normalizedKeys.map( key => getKeyLabelProperty( key ).value );
+    const labels = normalizedKeys.map( key => KeyDisplayRegistry.getKeyLabelProperty( key ).value );
     if ( labels.length === 1 ) {
       return `${labels[ 0 ]} ${KEY_STRING_PROPERTY.value}`;
     }
@@ -210,7 +210,7 @@ export default class HotkeyDescriptionBuilder {
     const labelProperties = new Set<TReadOnlyProperty<string>>();
 
     descriptors.forEach( descriptor => {
-      const labelProperty = getKeyLabelProperty( descriptor.key );
+      const labelProperty = KeyDisplayRegistry.getKeyLabelProperty( descriptor.key );
       labelProperties.add( labelProperty );
     } );
 
