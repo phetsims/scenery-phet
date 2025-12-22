@@ -137,7 +137,15 @@ export default class HotkeySetDefinitions {
     return HotkeySetDefinitions.HOTKEY_SET_DEFINITIONS.get( HotkeySetDefinitions.createKeyStrokeIdentifier( keys ) ) || null;
   }
 
-  // Produces a stable string identifier for a key set so it can be used as a Map key.
+  /**
+   * Builds a string identifier that is used as a map key for a keystroke. Parts are sorted and joined so the same
+   * logical keystroke always produces the same, unambiguous identifier. For example:
+   *
+   * `[ 'shift', 'arrowLeft' ]` becomes `'shift|arrowLeft'`.
+   *
+   * The character used in the join is arbitrary, but it improves readability and helps avoid collisions that could
+   * happen from bare concatenation.
+   */
   private static createKeyStrokeIdentifier( keys: readonly EnglishKeyString[] ): string {
     return HotkeySetDefinitions.sortKeys( keys ).join( '|' );
   }
