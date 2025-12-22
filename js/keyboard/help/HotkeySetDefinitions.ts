@@ -187,12 +187,20 @@ export default class HotkeySetDefinitions {
   }
 
   /**
-   * Splits a key set into grouped partitions that can be rendered next to modifier keys without duplication.
+   * Detects known key groupings (arrows, WASD, etc. from MODIFIER_SPLIT_KEY_FAMILIES) and keeps them together so they
+   * can be rendered with a shared modifier set. Modifiers are not included in the groups. These are only the
+   * non-modifier keys that are likely to share the same modifiers.
    *
-   * Example: `[ 'ctrl', 'shift', 'arrowLeft', 'arrowRight' ]` becomes
-   * `[[ 'arrowLeft', 'arrowRight' ], [ 'ctrl', 'shift' ]]` so modifiers can be rendered beside the paired arrows.
-   * Example: `[ 'ctrl', 'w', 's', 'space' ]` becomes
-   * `[[ 'w', 's' ], [ 'ctrl', 'space' ]]`, keeping the W/S cluster intact while still preserving remaining keys.
+   * Examples:
+   * [ arrowLeft, arrowRight, space ] -> [ [ arrowLeft, arrowRight ], [ space ] ]
+   * [ w, s, space ] -> [ [ w, s ], [ space ] ]
+   * [ space ] -> [ [ space ] ]  // no grouping needed
+   *
+   * Callers prepend the same modifier set to each partition when rendering text/icons so grouped keys stay together
+   * and stray keys get their own row/phrase.
+   *
+   * It may return 1+ partitions. If no known grouping is fully present (or there’s only one group with no leftovers),
+   * it returns a single partition containing all keys.
    */
   public static partitionKeySetForModifiers( normalizedKeys: readonly EnglishKeyString[] ): EnglishKeyString[][] {
     const remaining = new Set<EnglishKeyString>( normalizedKeys );
