@@ -97,6 +97,8 @@ export default class HotkeyDescriptionBuilder {
    * Builds the full sentence for the keyboard help row.
    */
   private static createDescriptionString( actionString: string, keyDescriptors: KeyDescriptor[] ): string {
+
+    // Trim away stray leading/trailing whitespace from translated action text; if it’s all whitespace, skip rendering.
     const trimmedAction = actionString.trim();
     if ( !trimmedAction ) {
       return '';
