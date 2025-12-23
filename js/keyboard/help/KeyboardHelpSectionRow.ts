@@ -250,22 +250,20 @@ class KeyboardHelpSectionRow {
       labelWithIconOptions: {}
     }, providedOptions );
 
+    const visualLabelStringProperty = options.labelStringProperty!;
+    affirm( visualLabelStringProperty, 'A visual labelStringProperty must be defined.' );
+
     // Only build the icon data if one wasn't provided via options.
     const iconData = options.icon ? null : KeyboardHelpIconFactory.fromHotkeyDataDetailed( hotkeyData );
     const icon = options.icon || KeyboardHelpIconFactory.composeHotkeyIcon( iconData! );
 
-    affirm( options.labelStringProperty || hotkeyData.keyboardHelpDialogLabelStringProperty,
-      'Either options.labelStringProperty or hotkeyData.keyboardHelpDialogLabelStringProperty must be defined' );
-
-    // Default to the provided value. But if one is not provided, generate it from the hotkey data.
-    const pdomContent =
-      options.pdomLabelStringProperty ||
-      HotkeyDescriptionBuilder.createDescriptionProperty(
-        ( options.labelStringProperty || hotkeyData.keyboardHelpDialogLabelStringProperty )!,
-        hotkeyData.keyDescriptorsProperty
-      );
-
-    assert && assert( options.labelStringProperty, 'labelStringProperty must be defined' );
+    // Determine the PDOM content. Use the provided one when available, otherwise make sure that markup is removed
+    // from the visual label and build the description from it.
+    const accessibleContent = options.pdomLabelStringProperty ||
+                              HotkeyDescriptionBuilder.createDescriptionProperty(
+                                RichText.getAccessibleStringProperty( visualLabelStringProperty ),
+                                hotkeyData.keyDescriptorsProperty
+                              );
 
     // If the icon data indicates a stacked layout (modifierPartitionLayout), align the label with the first icon in
     // the stack by using labelWithIconList. Stacking only makes sense when a single modifier group fans out into
@@ -282,10 +280,10 @@ class KeyboardHelpSectionRow {
     let row: KeyboardHelpSectionRow;
     if ( stackedGroup ) {
       row = KeyboardHelpSectionRow.labelWithIconList(
-        options.labelStringProperty!,
+        visualLabelStringProperty,
         stackedGroup.alternatives,
         {
-          labelInnerContent: pdomContent,
+          labelInnerContent: accessibleContent,
           readingBlockContent: options.labelWithIconOptions.readingBlockContent || null,
           labelOptions: options.labelWithIconOptions.labelOptions
         }
@@ -293,10 +291,10 @@ class KeyboardHelpSectionRow {
     }
     else {
       row = KeyboardHelpSectionRow.labelWithIcon(
-        options.labelStringProperty!,
+        visualLabelStringProperty,
         icon,
         combineOptions<LabelWithIconOptions>( {
-          labelInnerContent: pdomContent
+          labelInnerContent: accessibleContent
         }, options.labelWithIconOptions )
       );
     }
