@@ -51,6 +51,9 @@ const MODIFIER_LABEL_OVERRIDES: Record<string, TReadOnlyProperty<string>> = {
 };
 
 export default class HotkeyDescriptionBuilder {
+  private constructor() {
+    // Not intended for instantiation.
+  }
 
   /**
    * Creates a localized description Property for a set of keys. Whenever the action text, key descriptors, or any
