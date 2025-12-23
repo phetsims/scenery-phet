@@ -282,6 +282,10 @@ export default class HotkeyDescriptionBuilder {
     const map = new Map<string, ModifierGroup>();
 
     descriptors.forEach( descriptor => {
+
+      // Builds a stable map key for the modifier set. Sorted keys are joined so the same combo always yields
+      // the same identifier. For example: [ 'alt', 'shift' ] => 'alt|shift'. The delimiter is
+      // arbitrary but improves readability and avoids collisions from bare concatenation.
       const modifiers = HotkeySetDefinitions.sortModifiers( descriptor.modifierKeys );
       const key = modifiers.join( '|' );
 
