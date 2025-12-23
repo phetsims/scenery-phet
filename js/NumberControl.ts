@@ -22,6 +22,7 @@ import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import GroupHighlightPath from '../../scenery/js/accessibility/GroupHighlightPath.js';
+import { findStringProperty } from '../../scenery/js/accessibility/pdom/findStringProperty.js';
 import ParallelDOM, { RemoveParallelDOMOptions, TrimParallelDOMOptions } from '../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import AlignBox from '../../scenery/js/layout/nodes/AlignBox.js';
 import HBox from '../../scenery/js/layout/nodes/HBox.js';
@@ -449,6 +450,11 @@ export default class NumberControl extends WidthSizable( Node ) {
     // pdom - forward the accessibleName and help text set on this component to the slider
     ParallelDOM.forwardAccessibleName( this, this.slider );
     ParallelDOM.forwardHelpText( this, this.slider );
+
+    // If no accessibleName is provided, try to find one from the provided title.
+    if ( !options.accessibleName ) {
+      this.accessibleName = title instanceof Node ? findStringProperty( title ) : title;
+    }
 
     // set below, see options.includeArrowButtons
     let decrementButton: ArrowButton | null = null;
