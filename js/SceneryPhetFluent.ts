@@ -10,6 +10,7 @@ import type { FluentVariable } from '../../chipper/js/browser/FluentPattern.js';
 import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
 import FluentConstant from '../../chipper/js/browser/FluentConstant.js';
 import FluentContainer from '../../chipper/js/browser/FluentContainer.js';
+import FluentComment from '../../chipper/js/browser/FluentComment.js';
 import FluentLibrary from '../../chipper/js/browser-and-node/FluentLibrary.js';
 import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetStrings from './SceneryPhetStrings.js';
@@ -266,12 +267,15 @@ addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_closeFaucetDescriptio
 addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_closeFaucetWithEndDescription', 'a11y.keyboardHelpDialog.faucetControls.closeFaucetWithEndDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_openFaucetFullyDescription', 'a11y.keyboardHelpDialog.faucetControls.openFaucetFullyDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_openFaucetFullyWithHomeDescription', 'a11y.keyboardHelpDialog.faucetControls.openFaucetFullyWithHomeDescriptionStringProperty' );
-addToMapIfDefined( 'a11y_keyboard_labels_key', 'a11y.keyboard.labels.keyStringProperty' );
-addToMapIfDefined( 'a11y_keyboard_labels_keys', 'a11y.keyboard.labels.keysStringProperty' );
-addToMapIfDefined( 'a11y_keyboard_listFormatting_plus', 'a11y.keyboard.listFormatting.plusStringProperty' );
-addToMapIfDefined( 'a11y_keyboard_listFormatting_with', 'a11y.keyboard.listFormatting.withStringProperty' );
-addToMapIfDefined( 'a11y_keyboard_listFormatting_spacePlusSpace', 'a11y.keyboard.listFormatting.spacePlusSpaceStringProperty' );
-addToMapIfDefined( 'a11y_keyboard_listFormatting_commaSpace', 'a11y.keyboard.listFormatting.commaSpaceStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_helpPatterns_actionStatement', 'a11y.keyboard.helpPatterns.actionStatementStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_helpPatterns_actionWithKeys', 'a11y.keyboard.helpPatterns.actionWithKeysStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_helpPatterns_modifiersPlusKeys', 'a11y.keyboard.helpPatterns.modifiersPlusKeysStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_helpPatterns_singleKey', 'a11y.keyboard.helpPatterns.singleKeyStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_helpPatterns_multipleKeys', 'a11y.keyboard.helpPatterns.multipleKeysStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_helpPatterns_twoItemList', 'a11y.keyboard.helpPatterns.twoItemListStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_helpPatterns_serialList', 'a11y.keyboard.helpPatterns.serialListStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_helpPatterns_commaSpace', 'a11y.keyboard.helpPatterns.commaSpaceStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_helpPatterns_spacePlusSpace', 'a11y.keyboard.helpPatterns.spacePlusSpaceStringProperty' );
 addToMapIfDefined( 'a11y_keyboard_key_leftArrow', 'a11y.keyboard.key.leftArrowStringProperty' );
 addToMapIfDefined( 'a11y_keyboard_key_rightArrow', 'a11y.keyboard.key.rightArrowStringProperty' );
 addToMapIfDefined( 'a11y_keyboard_key_upArrow', 'a11y.keyboard.key.upArrowStringProperty' );
@@ -957,15 +961,25 @@ const SceneryPhetFluent = {
       }
     },
     keyboard: {
-      labels: {
-        keyStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_labels_key', _.get( SceneryPhetStrings, 'a11y.keyboard.labels.keyStringProperty' ) ),
-        keysStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_labels_keys', _.get( SceneryPhetStrings, 'a11y.keyboard.labels.keysStringProperty' ) )
-      },
-      listFormatting: {
-        plusStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_listFormatting_plus', _.get( SceneryPhetStrings, 'a11y.keyboard.listFormatting.plusStringProperty' ) ),
-        withStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_listFormatting_with', _.get( SceneryPhetStrings, 'a11y.keyboard.listFormatting.withStringProperty' ) ),
-        spacePlusSpaceStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_listFormatting_spacePlusSpace', _.get( SceneryPhetStrings, 'a11y.keyboard.listFormatting.spacePlusSpaceStringProperty' ) ),
-        commaSpaceStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_listFormatting_commaSpace', _.get( SceneryPhetStrings, 'a11y.keyboard.listFormatting.commaSpaceStringProperty' ) )
+      helpPatterns: {
+        _comment_0: new FluentComment( {"comment":"A standalone action statement without modifier keys. This should not be used, but is","associatedKey":"actionStatement"} ),
+        _comment_1: new FluentComment( {"comment":"used as a fallback case.","associatedKey":"actionStatement"} ),
+        actionStatement: new FluentPattern<{ action: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_keyboard_helpPatterns_actionStatement', _.get( SceneryPhetStrings, 'a11y.keyboard.helpPatterns.actionStatementStringProperty' ), [{"name":"action"}] ),
+        _comment_2: new FluentComment( {"comment":"Combines an action with keys/modifiers in various ways.","associatedKey":"actionWithKeys"} ),
+        actionWithKeys: new FluentPattern<{ action: FluentVariable, keys: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_keyboard_helpPatterns_actionWithKeys', _.get( SceneryPhetStrings, 'a11y.keyboard.helpPatterns.actionWithKeysStringProperty' ), [{"name":"action"},{"name":"keys"}] ),
+        _comment_3: new FluentComment( {"comment":"Combines modifiers plus a list of keys.","associatedKey":"modifiersPlusKeys"} ),
+        modifiersPlusKeys: new FluentPattern<{ keys: FluentVariable, modifiers: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_keyboard_helpPatterns_modifiersPlusKeys', _.get( SceneryPhetStrings, 'a11y.keyboard.helpPatterns.modifiersPlusKeysStringProperty' ), [{"name":"keys"},{"name":"modifiers"}] ),
+        _comment_4: new FluentComment( {"comment":"Describes a single key or multiple keys. Used in other patterns, no punctuation.","associatedKey":"singleKey"} ),
+        singleKey: new FluentPattern<{ keyLabel: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_keyboard_helpPatterns_singleKey', _.get( SceneryPhetStrings, 'a11y.keyboard.helpPatterns.singleKeyStringProperty' ), [{"name":"keyLabel"}] ),
+        multipleKeys: new FluentPattern<{ keyLabels: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_keyboard_helpPatterns_multipleKeys', _.get( SceneryPhetStrings, 'a11y.keyboard.helpPatterns.multipleKeysStringProperty' ), [{"name":"keyLabels"}] ),
+        _comment_5: new FluentComment( {"comment":"Lists of items - when there are two items there is no comma in english.","associatedKey":"twoItemList"} ),
+        twoItemList: new FluentPattern<{ first: FluentVariable, second: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_keyboard_helpPatterns_twoItemList', _.get( SceneryPhetStrings, 'a11y.keyboard.helpPatterns.twoItemListStringProperty' ), [{"name":"first"},{"name":"second"}] ),
+        _comment_6: new FluentComment( {"comment":"Lists of items - when there are 3+, items is the joined prefix list, last is the final item.","associatedKey":"serialList"} ),
+        serialList: new FluentPattern<{ items: FluentVariable, last: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_keyboard_helpPatterns_serialList', _.get( SceneryPhetStrings, 'a11y.keyboard.helpPatterns.serialListStringProperty' ), [{"name":"items"},{"name":"last"}] ),
+        _comment_7: new FluentComment( {"comment":"Punctuation for lists of keys so they can be combined into a format like: 'A, B, C, D'","associatedKey":"commaSpace"} ),
+        commaSpaceStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_helpPatterns_commaSpace', _.get( SceneryPhetStrings, 'a11y.keyboard.helpPatterns.commaSpaceStringProperty' ) ),
+        _comment_8: new FluentComment( {"comment":"For combining arbitrary items with 'plus' in between.","associatedKey":"spacePlusSpace"} ),
+        spacePlusSpaceStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_helpPatterns_spacePlusSpace', _.get( SceneryPhetStrings, 'a11y.keyboard.helpPatterns.spacePlusSpaceStringProperty' ) )
       },
       key: {
         leftArrowStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_key_leftArrow', _.get( SceneryPhetStrings, 'a11y.keyboard.key.leftArrowStringProperty' ) ),

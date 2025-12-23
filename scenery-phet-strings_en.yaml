@@ -426,14 +426,33 @@ a11y:
       openFaucetFullyWithHomeDescription: Open faucet fully with Home key.
       openFaucetBrieflyDescription:       Open faucet briefly with Space or {{enterOrReturn}} keys.
   keyboard:
-    labels:
-      key:  key
-      keys: keys
-    listFormatting:
-      plus:           plus
-      with:           with
-      spacePlusSpace: ' plus '
-      commaSpace:     ', '
+    helpPatterns:
+
+      # A standalone action statement without modifier keys. This should not be used, but is
+      # used as a fallback case.
+      actionStatement:   '{ $action }.'
+
+      # Combines an action with keys/modifiers in various ways.
+      actionWithKeys:    '{ $action } with { $keys }.'
+
+      # Combines modifiers plus a list of keys.
+      modifiersPlusKeys: '{ $modifiers } plus { $keys }'
+
+      # Describes a single key or multiple keys. Used in other patterns, no punctuation.
+      singleKey:         '{ $keyLabel } key'
+      multipleKeys:      '{ $keyLabels } keys'
+
+      # Lists of items - when there are two items there is no comma in english.
+      twoItemList:       '{ $first } or { $second }'
+
+      # Lists of items - when there are 3+, items is the joined prefix list, last is the final item.
+      serialList:        '{ $items }, or { $last }'
+
+      # Punctuation for lists of keys so they can be combined into a format like: 'A, B, C, D'
+      commaSpace:        ', '
+
+      # For combining arbitrary items with 'plus' in between.
+      spacePlusSpace:    ' plus '
     key:
       leftArrow:  Left Arrow
       rightArrow: Right Arrow
@@ -444,15 +463,15 @@ a11y:
       escape:     Escape
       control:    Control
   keySets:
-    arrowOrWASD:       Arrow keys or W, A, S, or D letter keys
-    arrow:             Arrow keys
-    leftRightArrows:   Left and Right Arrow keys
-    upDownArrows:      Up and Down Arrow keys
-    wasd:              W, A, S or D letter keys
-    ad:                A and D letter keys
-    ws:                W and S letter keys
-    leftRightOrAD:     Left and Right Arrow keys or A and D letter keys
-    upDownOrWS:        Up and Down Arrow keys or W and S letter keys
+    arrowOrWASD:     Arrow keys or W, A, S, or D letter keys
+    arrow:           Arrow keys
+    leftRightArrows: Left and Right Arrow keys
+    upDownArrows:    Up and Down Arrow keys
+    wasd:            W, A, S or D letter keys
+    ad:              A and D letter keys
+    ws:              W and S letter keys
+    leftRightOrAD:   Left and Right Arrow keys or A and D letter keys
+    upDownOrWS:      Up and Down Arrow keys or W and S letter keys
   eraserButton:
     accessibleName: Erase
   timerToggleButton:

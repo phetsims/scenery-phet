@@ -533,15 +533,16 @@ type StringsType = {
       }
     };
     'keyboard': {
-      'labels': {
-        'keyStringProperty': LocalizedStringProperty;
-        'keysStringProperty': LocalizedStringProperty;
-      };
-      'listFormatting': {
-        'plusStringProperty': LocalizedStringProperty;
-        'withStringProperty': LocalizedStringProperty;
-        'spacePlusSpaceStringProperty': LocalizedStringProperty;
+      'helpPatterns': {
+        'actionStatementStringProperty': LocalizedStringProperty;
+        'actionWithKeysStringProperty': LocalizedStringProperty;
+        'modifiersPlusKeysStringProperty': LocalizedStringProperty;
+        'singleKeyStringProperty': LocalizedStringProperty;
+        'multipleKeysStringProperty': LocalizedStringProperty;
+        'twoItemListStringProperty': LocalizedStringProperty;
+        'serialListStringProperty': LocalizedStringProperty;
         'commaSpaceStringProperty': LocalizedStringProperty;
+        'spacePlusSpaceStringProperty': LocalizedStringProperty;
       };
       'key': {
         'leftArrowStringProperty': LocalizedStringProperty;

@@ -32,15 +32,6 @@ type ModifierGroup = {
   keys: EnglishKeyString[];
 };
 
-// Word used when joining two entries in a human-friendly list ("A or B").
-const OR_STRING_PROPERTY = SceneryPhetFluent.keyboardHelpDialog.orStringProperty;
-const PLUS_STRING_PROPERTY = SceneryPhetFluent.a11y.keyboard.listFormatting.plusStringProperty;
-const SPACE_PLUS_SPACE_STRING_PROPERTY = SceneryPhetFluent.a11y.keyboard.listFormatting.spacePlusSpaceStringProperty;
-const WITH_STRING_PROPERTY = SceneryPhetFluent.a11y.keyboard.listFormatting.withStringProperty;
-const COMMA_SPACE_STRING_PROPERTY = SceneryPhetFluent.a11y.keyboard.listFormatting.commaSpaceStringProperty;
-const KEY_STRING_PROPERTY = SceneryPhetFluent.a11y.keyboard.labels.keyStringProperty;
-const KEYS_STRING_PROPERTY = SceneryPhetFluent.a11y.keyboard.labels.keysStringProperty;
-
 // Modifier labels need customized wording (for example, excluding the "key" suffix)
 // so they are configured separately from KEY_LABELS rather than using the generic
 // describeKeyLabel fallback.
@@ -77,19 +68,28 @@ export default class HotkeyDescriptionBuilder {
     const descriptorLabelProperties = HotkeyDescriptionBuilder.getLabelPropertiesForDescriptors( keyDescriptors );
     const descriptorPhraseProperties = HotkeyDescriptionBuilder.getPhrasePropertiesForDescriptors( keyDescriptors );
 
+    // Additional dependency strings that are used in the derivation that may change with language. For this
+    // implementation, it is easier to list them all here and create one derivation than to use createProperty()
+    // with every pattern up front.
+    const usedStringDependencies = _.uniq( [
+      ...SceneryPhetFluent.a11y.keyboard.helpPatterns.actionStatement.getDependentProperties(),
+      ...SceneryPhetFluent.a11y.keyboard.helpPatterns.actionWithKeys.getDependentProperties(),
+      ...SceneryPhetFluent.a11y.keyboard.helpPatterns.modifiersPlusKeys.getDependentProperties(),
+      ...SceneryPhetFluent.a11y.keyboard.helpPatterns.singleKey.getDependentProperties(),
+      ...SceneryPhetFluent.a11y.keyboard.helpPatterns.multipleKeys.getDependentProperties(),
+      ...SceneryPhetFluent.a11y.keyboard.helpPatterns.twoItemList.getDependentProperties(),
+      ...SceneryPhetFluent.a11y.keyboard.helpPatterns.serialList.getDependentProperties(),
+      SceneryPhetFluent.a11y.keyboard.helpPatterns.spacePlusSpaceStringProperty,
+      SceneryPhetFluent.a11y.keyboard.helpPatterns.commaSpaceStringProperty
+    ] );
+
     return DerivedProperty.deriveAny( [
       actionStringProperty,
       ...descriptorLabelProperties,
       ...descriptorPhraseProperties,
 
-      // additional dependency strings that may change with language
-      OR_STRING_PROPERTY,
-      PLUS_STRING_PROPERTY,
-      WITH_STRING_PROPERTY,
-      SPACE_PLUS_SPACE_STRING_PROPERTY,
-      COMMA_SPACE_STRING_PROPERTY,
-      KEY_STRING_PROPERTY,
-      KEYS_STRING_PROPERTY
+      ...usedStringDependencies
+
     ], () => HotkeyDescriptionBuilder.createDescriptionString( actionStringProperty.value, keyDescriptors ) );
   }
 
@@ -106,10 +106,15 @@ export default class HotkeyDescriptionBuilder {
 
     const keyPhrase = HotkeyDescriptionBuilder.describeDescriptors( keyDescriptors );
     if ( !keyPhrase ) {
-      return `${trimmedAction}.`;
+      return SceneryPhetFluent.a11y.keyboard.helpPatterns.actionStatement.format( {
+        action: trimmedAction
+      } );
     }
 
-    return `${trimmedAction} ${WITH_STRING_PROPERTY.value} ${keyPhrase}.`;
+    return SceneryPhetFluent.a11y.keyboard.helpPatterns.actionWithKeys.format( {
+      action: trimmedAction,
+      keys: keyPhrase
+    } );
   }
 
   /**
@@ -140,7 +145,15 @@ export default class HotkeyDescriptionBuilder {
       if ( partitions.length > 1 ) {
         const partitionDescriptions = partitions.map( partition => {
           const description = HotkeyDescriptionBuilder.describeKeySet( partition );
-          return description ? `${modifierDescription} ${PLUS_STRING_PROPERTY.value} ${description}` : modifierDescription;
+          if ( description ) {
+            return SceneryPhetFluent.a11y.keyboard.helpPatterns.modifiersPlusKeys.format( {
+              modifiers: modifierDescription,
+              keys: description
+            } );
+          }
+          else {
+            return modifierDescription;
+          }
         } ).filter( desc => desc.length > 0 );
 
         if ( partitionDescriptions.length > 0 ) {
@@ -152,7 +165,10 @@ export default class HotkeyDescriptionBuilder {
     const keyDescription = HotkeyDescriptionBuilder.describeKeySet( normalizedKeys );
 
     if ( modifierDescription && keyDescription ) {
-      return `${modifierDescription} ${PLUS_STRING_PROPERTY.value} ${keyDescription}`;
+      return SceneryPhetFluent.a11y.keyboard.helpPatterns.modifiersPlusKeys.format( {
+        modifiers: modifierDescription,
+        keys: keyDescription
+      } );
     }
 
     return modifierDescription || keyDescription || '';
@@ -168,7 +184,7 @@ export default class HotkeyDescriptionBuilder {
 
     const sorted = HotkeySetDefinitions.sortModifiers( modifiers );
     const labels = sorted.map( modifier => HotkeyDescriptionBuilder.describeModifier( modifier ) );
-    return labels.join( SPACE_PLUS_SPACE_STRING_PROPERTY.value );
+    return labels.join( SceneryPhetFluent.a11y.keyboard.helpPatterns.spacePlusSpaceStringProperty.value );
   }
 
   /**
@@ -180,7 +196,9 @@ export default class HotkeyDescriptionBuilder {
     }
 
     // Fall back to describing it like a standard key.
-    return `${KeyDisplayRegistry.getKeyLabelProperty( modifier ).value} ${KEY_STRING_PROPERTY.value}`;
+    return SceneryPhetFluent.a11y.keyboard.helpPatterns.singleKey.format( {
+      keyLabel: KeyDisplayRegistry.getKeyLabelProperty( modifier ).value
+    } );
   }
 
   /**
@@ -199,9 +217,13 @@ export default class HotkeyDescriptionBuilder {
 
     const labels = normalizedKeys.map( key => KeyDisplayRegistry.getKeyLabelProperty( key ).value );
     if ( labels.length === 1 ) {
-      return `${labels[ 0 ]} ${KEY_STRING_PROPERTY.value}`;
+      return SceneryPhetFluent.a11y.keyboard.helpPatterns.singleKey.format( {
+        keyLabel: labels[ 0 ]
+      } );
     }
-    return `${HotkeyDescriptionBuilder.joinList( labels )} ${KEYS_STRING_PROPERTY.value}`;
+    return SceneryPhetFluent.a11y.keyboard.helpPatterns.multipleKeys.format( {
+      keyLabels: HotkeyDescriptionBuilder.joinList( labels )
+    } );
   }
 
   /**
@@ -290,9 +312,15 @@ export default class HotkeyDescriptionBuilder {
       return items[ 0 ];
     }
     if ( items.length === 2 ) {
-      return `${items[ 0 ]} ${OR_STRING_PROPERTY.value} ${items[ 1 ]}`;
+      return SceneryPhetFluent.a11y.keyboard.helpPatterns.twoItemList.format( {
+        first: items[ 0 ],
+        second: items[ 1 ]
+      } );
     }
-    return `${items.slice( 0, -1 ).join( COMMA_SPACE_STRING_PROPERTY.value )}, ${OR_STRING_PROPERTY.value} ${items[ items.length - 1 ]}`;
+    return SceneryPhetFluent.a11y.keyboard.helpPatterns.serialList.format( {
+      items: items.slice( 0, -1 ).join( SceneryPhetFluent.a11y.keyboard.helpPatterns.commaSpaceStringProperty.value ),
+      last: items[ items.length - 1 ]
+    } );
   }
 }
 

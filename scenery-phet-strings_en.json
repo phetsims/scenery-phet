@@ -1174,26 +1174,33 @@
       }
     },
     "keyboard": {
-      "labels": {
-        "key": {
-          "value": "key"
+      "helpPatterns": {
+        "actionStatement": {
+          "value": "{ $action }."
         },
-        "keys": {
-          "value": "keys"
-        }
-      },
-      "listFormatting": {
-        "plus": {
-          "value": "plus"
+        "actionWithKeys": {
+          "value": "{ $action } with { $keys }."
         },
-        "with": {
-          "value": "with"
+        "modifiersPlusKeys": {
+          "value": "{ $modifiers } plus { $keys }"
         },
-        "spacePlusSpace": {
-          "value": " plus "
+        "singleKey": {
+          "value": "{ $keyLabel } key"
+        },
+        "multipleKeys": {
+          "value": "{ $keyLabels } keys"
+        },
+        "twoItemList": {
+          "value": "{ $first } or { $second }"
+        },
+        "serialList": {
+          "value": "{ $items }, or { $last }"
         },
         "commaSpace": {
           "value": ", "
+        },
+        "spacePlusSpace": {
+          "value": " plus "
         }
       },
       "key": {
