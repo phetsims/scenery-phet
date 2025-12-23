@@ -55,12 +55,16 @@ type ModifierGroup = {
 // to one group of modifiers paired with a set of primary key partitions.
 export type ModifierGroupIcon = {
 
-  // The rendered alternative keys for this modifier group. Each alternative is already combined with its modifiers (if
-  // any), but no "or"/stacking composition has been applied yet.
+  // For a single modifier group, these are the allowable key combos already composed with those modifiers.
+  // `composeGroupIcon` will join them with "or" or stack them.
+  // Example: Shift + [1,2] -> this holds two nodes: "Shift + 1" and "Shift + 2".
   alternatives: Node[];
 
-  // Preferred layout when combining the alternative presses: inline joins with localized "or", stacked puts each
-  // alternative on its own row.
+  // Preferred layout when combining the presses for this modifier group: inline will join them into a single line
+  // while stacked puts each on its own row. Example for "Shift + [1,2]":
+  // - inline:  [Shift + 1] or [Shift + 2]
+  // - stacked: [Shift + 1] or
+  //            [Shift + 2]
   layout: 'inline' | 'stacked';
 };
 
@@ -220,7 +224,7 @@ export default class KeyboardHelpIconFactory {
     const enterKey = TextKeyNode.enter();
     return KeyboardHelpIconFactory.iconOrIcon( spaceKey, enterKey );
   }
-  
+
   /**
    * An icon with up and down arrows, separated by 'or', in horizontal layout.
    */
