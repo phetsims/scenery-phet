@@ -432,7 +432,7 @@ a11y:
       # used as a fallback case.
       actionStatement:   '{ $action }.'
 
-      # Combines an action with keys/modifiers in various ways.
+      # Combines an action with keys/modifiers in a single sentence.
       actionWithKeys:    '{ $action } with { $keys }.'
 
       # Combines modifiers plus a list of keys.

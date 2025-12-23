@@ -965,7 +965,7 @@ const SceneryPhetFluent = {
         _comment_0: new FluentComment( {"comment":"A standalone action statement without modifier keys. This should not be used, but is","associatedKey":"actionStatement"} ),
         _comment_1: new FluentComment( {"comment":"used as a fallback case.","associatedKey":"actionStatement"} ),
         actionStatement: new FluentPattern<{ action: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_keyboard_helpPatterns_actionStatement', _.get( SceneryPhetStrings, 'a11y.keyboard.helpPatterns.actionStatementStringProperty' ), [{"name":"action"}] ),
-        _comment_2: new FluentComment( {"comment":"Combines an action with keys/modifiers in various ways.","associatedKey":"actionWithKeys"} ),
+        _comment_2: new FluentComment( {"comment":"Combines an action with keys/modifiers in a single sentence.","associatedKey":"actionWithKeys"} ),
         actionWithKeys: new FluentPattern<{ action: FluentVariable, keys: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_keyboard_helpPatterns_actionWithKeys', _.get( SceneryPhetStrings, 'a11y.keyboard.helpPatterns.actionWithKeysStringProperty' ), [{"name":"action"},{"name":"keys"}] ),
         _comment_3: new FluentComment( {"comment":"Combines modifiers plus a list of keys.","associatedKey":"modifiersPlusKeys"} ),
         modifiersPlusKeys: new FluentPattern<{ keys: FluentVariable, modifiers: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_keyboard_helpPatterns_modifiersPlusKeys', _.get( SceneryPhetStrings, 'a11y.keyboard.helpPatterns.modifiersPlusKeysStringProperty' ), [{"name":"keys"},{"name":"modifiers"}] ),
