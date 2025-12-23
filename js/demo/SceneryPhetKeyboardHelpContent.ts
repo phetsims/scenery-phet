@@ -33,10 +33,10 @@ export default class SceneryPhetKeyboardHelpContent extends TwoColumnKeyboardHel
 
     const grabDragHelpContent = new GrabReleaseKeyboardHelpSection( new StringProperty( 'Grabbable' ),
       new StringProperty( 'grabbable' ), helpContentOptions );
-    const leftHelpContent = [ basicActionsHelpContent ];
+    const rightHelpContent = [ basicActionsHelpContent ];
 
     KeyboardHelpSection.alignHelpSectionIcons( [ grabDragHelpContent, sliderControlsKeyboardHelpSection ] );
-    const rightHelpContent = [ grabDragHelpContent, sliderControlsKeyboardHelpSection ];
+    const leftHelpContent = [ grabDragHelpContent, sliderControlsKeyboardHelpSection ];
 
     super( leftHelpContent, rightHelpContent );
   }
