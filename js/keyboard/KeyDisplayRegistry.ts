@@ -32,7 +32,7 @@ export default class KeyDisplayRegistry {
    * Retrieve the localized label Property for a given key. Asserts if the key is not configured in the registry.
    */
   public static getKeyLabelProperty( key: EnglishKeyString ): TReadOnlyProperty<string> {
-    const labelProperty = KeyDisplayRegistry.registry[ key ]?.labelStringProperty;
+    const labelProperty = KeyDisplayRegistry.registry.get( key )?.labelStringProperty;
     affirm( labelProperty, `No label configured for key "${key}". Please add it to the registry.` );
     return labelProperty;
   }
@@ -41,7 +41,7 @@ export default class KeyDisplayRegistry {
    * Retrieve the Node builder function for a given key. Asserts if the key is not configured in the registry.
    */
   public static getKeyBuilder( key: EnglishKeyString ): ( () => Node ) {
-    const builder = KeyDisplayRegistry.registry[ key ]?.builder;
+    const builder = KeyDisplayRegistry.registry.get( key )?.builder;
     affirm( builder, `No key builder configured for key "${key}". Please add it to the registry.` );
     return builder;
   }
@@ -52,216 +52,216 @@ export default class KeyDisplayRegistry {
    * Note that we cannot build this programmatically because PhET's build system requires static references to
    * all strings for extraction.
    */
-  private static registry: Partial<Record<EnglishKeyString, KeyDisplayDefinition>> = {
-    shift: {
+  private static readonly registry = new Map<EnglishKeyString, KeyDisplayDefinition>( [
+    [ 'shift', {
       labelStringProperty: SceneryPhetFluent.key.shiftStringProperty,
       builder: () => TextKeyNode.shift()
-    },
-    alt: {
+    } ],
+    [ 'alt', {
       labelStringProperty: TextKeyNode.getAltKeyString(),
       builder: () => TextKeyNode.altOrOption()
-    },
-    escape: {
+    } ],
+    [ 'escape', {
       labelStringProperty: SceneryPhetFluent.a11y.keyboard.key.escapeStringProperty,
       builder: () => TextKeyNode.esc()
-    },
-    arrowLeft: {
+    } ],
+    [ 'arrowLeft', {
       labelStringProperty: SceneryPhetFluent.a11y.keyboard.key.leftArrowStringProperty,
       builder: () => new ArrowKeyNode( 'left' )
-    },
-    arrowRight: {
+    } ],
+    [ 'arrowRight', {
       labelStringProperty: SceneryPhetFluent.a11y.keyboard.key.rightArrowStringProperty,
       builder: () => new ArrowKeyNode( 'right' )
-    },
-    arrowUp: {
+    } ],
+    [ 'arrowUp', {
       labelStringProperty: SceneryPhetFluent.a11y.keyboard.key.upArrowStringProperty,
       builder: () => new ArrowKeyNode( 'up' )
-    },
-    arrowDown: {
+    } ],
+    [ 'arrowDown', {
       labelStringProperty: SceneryPhetFluent.a11y.keyboard.key.downArrowStringProperty,
       builder: () => new ArrowKeyNode( 'down' )
-    },
-    pageUp: {
+    } ],
+    [ 'pageUp', {
       labelStringProperty: SceneryPhetFluent.a11y.keyboard.key.pageUpStringProperty,
       builder: () => TextKeyNode.pageUp()
-    },
-    pageDown: {
+    } ],
+    [ 'pageDown', {
       labelStringProperty: SceneryPhetFluent.a11y.keyboard.key.pageDownStringProperty,
       builder: () => TextKeyNode.pageDown()
-    },
-    home: {
+    } ],
+    [ 'home', {
       labelStringProperty: SceneryPhetFluent.key.homeStringProperty,
       builder: () => TextKeyNode.home()
-    },
-    end: {
+    } ],
+    [ 'end', {
       labelStringProperty: SceneryPhetFluent.key.endStringProperty,
       builder: () => TextKeyNode.end()
-    },
-    space: {
+    } ],
+    [ 'space', {
       labelStringProperty: SceneryPhetFluent.key.spaceStringProperty,
       builder: () => TextKeyNode.space()
-    },
-    tab: {
+    } ],
+    [ 'tab', {
       labelStringProperty: SceneryPhetFluent.key.tabStringProperty,
       builder: () => TextKeyNode.tab()
-    },
-    enter: {
+    } ],
+    [ 'enter', {
       labelStringProperty: TextKeyNode.getEnterKeyString(),
       builder: () => TextKeyNode.enter()
-    },
-    backspace: {
+    } ],
+    [ 'backspace', {
       labelStringProperty: SceneryPhetFluent.key.backspaceStringProperty,
       builder: () => TextKeyNode.backspace()
-    },
-    delete: {
+    } ],
+    [ 'delete', {
       labelStringProperty: SceneryPhetFluent.key.deleteStringProperty,
       builder: () => TextKeyNode.delete()
-    },
-    a: {
+    } ],
+    [ 'a', {
       labelStringProperty: SceneryPhetFluent.key.aStringProperty,
       builder: LetterKeyNode.a
-    },
-    b: {
+    } ],
+    [ 'b', {
       labelStringProperty: SceneryPhetFluent.key.bStringProperty,
       builder: LetterKeyNode.b
-    },
-    c: {
+    } ],
+    [ 'c', {
       labelStringProperty: SceneryPhetFluent.key.cStringProperty,
       builder: LetterKeyNode.c
-    },
-    d: {
+    } ],
+    [ 'd', {
       labelStringProperty: SceneryPhetFluent.key.dStringProperty,
       builder: LetterKeyNode.d
-    },
-    e: {
+    } ],
+    [ 'e', {
       labelStringProperty: SceneryPhetFluent.key.eStringProperty,
       builder: LetterKeyNode.e
-    },
-    f: {
+    } ],
+    [ 'f', {
       labelStringProperty: SceneryPhetFluent.key.fStringProperty,
       builder: LetterKeyNode.f
-    },
-    g: {
+    } ],
+    [ 'g', {
       labelStringProperty: SceneryPhetFluent.key.gStringProperty,
       builder: LetterKeyNode.g
-    },
-    h: {
+    } ],
+    [ 'h', {
       labelStringProperty: SceneryPhetFluent.key.hStringProperty,
       builder: LetterKeyNode.h
-    },
-    i: {
+    } ],
+    [ 'i', {
       labelStringProperty: SceneryPhetFluent.key.iStringProperty,
       builder: LetterKeyNode.i
-    },
-    j: {
+    } ],
+    [ 'j', {
       labelStringProperty: SceneryPhetFluent.key.jStringProperty,
       builder: LetterKeyNode.j
-    },
-    k: {
+    } ],
+    [ 'k', {
       labelStringProperty: SceneryPhetFluent.key.kStringProperty,
       builder: LetterKeyNode.k
-    },
-    l: {
+    } ],
+    [ 'l', {
       labelStringProperty: SceneryPhetFluent.key.lStringProperty,
       builder: LetterKeyNode.l
-    },
-    m: {
+    } ],
+    [ 'm', {
       labelStringProperty: SceneryPhetFluent.key.mStringProperty,
       builder: LetterKeyNode.m
-    },
-    n: {
+    } ],
+    [ 'n', {
       labelStringProperty: SceneryPhetFluent.key.nStringProperty,
       builder: LetterKeyNode.n
-    },
-    o: {
+    } ],
+    [ 'o', {
       labelStringProperty: SceneryPhetFluent.key.oStringProperty,
       builder: LetterKeyNode.o
-    },
-    p: {
+    } ],
+    [ 'p', {
       labelStringProperty: SceneryPhetFluent.key.pStringProperty,
       builder: LetterKeyNode.p
-    },
-    q: {
+    } ],
+    [ 'q', {
       labelStringProperty: SceneryPhetFluent.key.qStringProperty,
       builder: LetterKeyNode.q
-    },
-    r: {
+    } ],
+    [ 'r', {
       labelStringProperty: SceneryPhetFluent.key.rStringProperty,
       builder: LetterKeyNode.r
-    },
-    s: {
+    } ],
+    [ 's', {
       labelStringProperty: SceneryPhetFluent.key.sStringProperty,
       builder: LetterKeyNode.s
-    },
-    t: {
+    } ],
+    [ 't', {
       labelStringProperty: SceneryPhetFluent.key.tStringProperty,
       builder: LetterKeyNode.t
-    },
-    u: {
+    } ],
+    [ 'u', {
       labelStringProperty: SceneryPhetFluent.key.uStringProperty,
       builder: LetterKeyNode.u
-    },
-    v: {
+    } ],
+    [ 'v', {
       labelStringProperty: SceneryPhetFluent.key.vStringProperty,
       builder: LetterKeyNode.v
-    },
-    w: {
+    } ],
+    [ 'w', {
       labelStringProperty: SceneryPhetFluent.key.wStringProperty,
       builder: LetterKeyNode.w
-    },
-    x: {
+    } ],
+    [ 'x', {
       labelStringProperty: SceneryPhetFluent.key.xStringProperty,
       builder: LetterKeyNode.x
-    },
-    y: {
+    } ],
+    [ 'y', {
       labelStringProperty: SceneryPhetFluent.key.yStringProperty,
       builder: LetterKeyNode.y
-    },
-    z: {
+    } ],
+    [ 'z', {
       labelStringProperty: SceneryPhetFluent.key.zStringProperty,
       builder: LetterKeyNode.z
-    },
-    0: {
+    } ],
+    [ '0', {
       labelStringProperty: SceneryPhetFluent.key.zeroStringProperty,
       builder: () => NumberKeyNode.fromNumber( 0 )
-    },
-    1: {
+    } ],
+    [ '1', {
       labelStringProperty: SceneryPhetFluent.key.oneStringProperty,
       builder: () => NumberKeyNode.fromNumber( 1 )
-    },
-    2: {
+    } ],
+    [ '2', {
       labelStringProperty: SceneryPhetFluent.key.twoStringProperty,
       builder: () => NumberKeyNode.fromNumber( 2 )
-    },
-    3: {
+    } ],
+    [ '3', {
       labelStringProperty: SceneryPhetFluent.key.threeStringProperty,
       builder: () => NumberKeyNode.fromNumber( 3 )
-    },
-    4: {
+    } ],
+    [ '4', {
       labelStringProperty: SceneryPhetFluent.key.fourStringProperty,
       builder: () => NumberKeyNode.fromNumber( 4 )
-    },
-    5: {
+    } ],
+    [ '5', {
       labelStringProperty: SceneryPhetFluent.key.fiveStringProperty,
       builder: () => NumberKeyNode.fromNumber( 5 )
-    },
-    6: {
+    } ],
+    [ '6', {
       labelStringProperty: SceneryPhetFluent.key.sixStringProperty,
       builder: () => NumberKeyNode.fromNumber( 6 )
-    },
-    7: {
+    } ],
+    [ '7', {
       labelStringProperty: SceneryPhetFluent.key.sevenStringProperty,
       builder: () => NumberKeyNode.fromNumber( 7 )
-    },
-    8: {
+    } ],
+    [ '8', {
       labelStringProperty: SceneryPhetFluent.key.eightStringProperty,
       builder: () => NumberKeyNode.fromNumber( 8 )
-    },
-    9: {
+    } ],
+    [ '9', {
       labelStringProperty: SceneryPhetFluent.key.nineStringProperty,
       builder: () => NumberKeyNode.fromNumber( 9 )
-    }
-  };
+    } ]
+  ] );
 }
 
 sceneryPhet.register( 'KeyDisplayRegistry', KeyDisplayRegistry );
