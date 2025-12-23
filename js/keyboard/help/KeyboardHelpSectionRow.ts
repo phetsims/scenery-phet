@@ -40,8 +40,8 @@ type LabelWithIconListOptions = {
   // content for the parallel DOM representing the entire row, read by a screen reader
   labelInnerContent?: PDOMValueType | null;
 
-  // options passed to the RichText label
-  labelOptions?: RichTextOptions;
+  // options passed to the RichText label - maxWidth is set by the KeyboardHelpSection for all rows at once
+  labelOptions?: StrictOmit<RichTextOptions, 'maxWidth'>;
 
   // voicing
   // Content for this icon that is read by the Voicing feature when in a KeyboardHelpSection. If null,
@@ -62,8 +62,8 @@ export type LabelWithIconOptions = {
   // will default to the options.labelInnerContent.
   readingBlockContent?: VoicingResponse | null;
 
-  // options passed to the RichText label
-  labelOptions?: RichTextOptions;
+  // options passed to the RichText label - maxWidth is set by the KeyboardHelpSection for all rows at once
+  labelOptions?: StrictOmit<RichTextOptions, 'maxWidth'>;
 
   // options passed to the AlignBox surrounding the icon
   iconOptions?: StrictOmit<AlignBoxOptions, 'innerContent'>;

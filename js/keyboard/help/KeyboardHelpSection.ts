@@ -115,7 +115,7 @@ export default class KeyboardHelpSection extends ReadingBlock( VBox ) {
     for ( let i = 0; i < content.length; i++ ) {
       const helpSectionRow = content[ i ];
 
-      assert && assert( helpSectionRow.text.maxWidth === null, 'KeyboardHelpSection sets maxWidth for children' );
+      assert && assert( helpSectionRow.text.maxWidth === null, 'KeyboardHelpSection sets maxWidth for all rows, use options.textMaxWidth with KeyboardHelpSection' );
       helpSectionRow.text.maxWidth = options.textMaxWidth;
 
       icons.push( helpSectionRow.icon );
