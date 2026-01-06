@@ -184,7 +184,8 @@ export default class HotkeyDescriptionBuilder {
 
     const sorted = HotkeySetDefinitions.sortModifiers( modifiers );
     const labels = sorted.map( modifier => HotkeyDescriptionBuilder.describeModifier( modifier ) );
-    return labels.join( SceneryPhetFluent.a11y.keyboard.helpPatterns.spacePlusSpaceStringProperty.value );
+    const spacePlusSpaceStringProperty = SceneryPhetFluent.a11y.keyboard.helpPatterns.spacePlusSpaceStringProperty;
+    return labels.join( spacePlusSpaceStringProperty.value );
   }
 
   /**
@@ -321,8 +322,9 @@ export default class HotkeyDescriptionBuilder {
         second: items[ 1 ]
       } );
     }
+    const commaSpaceStringProperty = SceneryPhetFluent.a11y.keyboard.helpPatterns.commaSpaceStringProperty;
     return SceneryPhetFluent.a11y.keyboard.helpPatterns.serialList.format( {
-      items: items.slice( 0, -1 ).join( SceneryPhetFluent.a11y.keyboard.helpPatterns.commaSpaceStringProperty.value ),
+      items: items.slice( 0, -1 ).join( commaSpaceStringProperty.value ),
       last: items[ items.length - 1 ]
     } );
   }
