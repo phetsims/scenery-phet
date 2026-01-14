@@ -8,14 +8,16 @@
 
 import TRangedProperty from '../../axon/js/TRangedProperty.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
+import PickOptional from '../../phet-core/js/types/PickOptional.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { PDOMValueType, RemoveParallelDOMOptions } from '../../scenery/js/accessibility/pdom/ParallelDOM.js';
+import { RemoveParallelDOMOptions } from '../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import FlowBox, { FlowBoxOptions } from '../../scenery/js/layout/nodes/FlowBox.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import sceneryPhet from './sceneryPhet.js';
-import SceneryPhetFluent from './SceneryPhetFluent.js';
+
+type ZoomButtonOptions = PickOptional<RectangularPushButtonOptions, 'accessibleName' | 'accessibleHelpText' | 'accessibleContextResponse'>;
 
 type SelfOptions = {
 
@@ -28,19 +30,15 @@ type SelfOptions = {
   // propagated to the '+' and '-' push buttons
   buttonOptions?: RemoveParallelDOMOptions<StrictOmit<RectangularPushButtonOptions, 'content' | 'listener' | 'tandem'>>;
 
+  // These are applied after buttonOptions.
+  zoomInButtonOptions?: ZoomButtonOptions;
+  zoomOutButtonOptions?: ZoomButtonOptions;
+
   // pointer area dilation, correct for options.orientation, and overlap will be prevented by shifting
   touchAreaXDilation?: number;
   touchAreaYDilation?: number;
   mouseAreaXDilation?: number;
   mouseAreaYDilation?: number;
-
-  // pdom support
-  accessibleNameZoomIn?: PDOMValueType;
-  accessibleHelpTextZoomIn?: PDOMValueType;
-  accessibleContextResponseZoomIn?: PDOMValueType;
-  accessibleNameZoomOut?: PDOMValueType;
-  accessibleHelpTextZoomOut?: PDOMValueType;
-  accessibleContextResponseZoomOut?: PDOMValueType;
 };
 
 export type ZoomButtonGroupOptions = SelfOptions & RemoveParallelDOMOptions<StrictOmit<FlowBoxOptions, 'children'>>;
@@ -62,7 +60,7 @@ export default class ZoomButtonGroup extends FlowBox {
 
     const zoomLevelRange = zoomLevelProperty.range;
 
-    const options = optionize<ZoomButtonGroupOptions, SelfOptions, FlowBoxOptions>()( {
+    const options = optionize<ZoomButtonGroupOptions, StrictOmit<SelfOptions, 'zoomInButtonOptions' | 'zoomOutButtonOptions'>, FlowBoxOptions>()( {
 
       // ZoomButtonGroupOptions
       applyZoomIn: ( currentZoom: number ) => currentZoom + 1,
@@ -78,14 +76,6 @@ export default class ZoomButtonGroup extends FlowBox {
         phetioVisiblePropertyInstrumented: false,
         phetioEnabledPropertyInstrumented: false
       },
-
-      // pdom support
-      accessibleNameZoomIn: SceneryPhetFluent.a11y.zoomInStringProperty,
-      accessibleHelpTextZoomIn: null,
-      accessibleContextResponseZoomIn: null,
-      accessibleNameZoomOut: SceneryPhetFluent.a11y.zoomOutStringProperty,
-      accessibleHelpTextZoomOut: null,
-      accessibleContextResponseZoomOut: null,
 
       // FlowBoxOptions
       spacing: 0,
@@ -117,11 +107,8 @@ export default class ZoomButtonGroup extends FlowBox {
       touchAreaYShift: -touchYShift,
       mouseAreaXShift: mouseXShift,
       mouseAreaYShift: -mouseYShift,
-      accessibleName: options.accessibleNameZoomIn,
-      accessibleHelpText: options.accessibleHelpTextZoomIn,
-      accessibleContextResponse: options.accessibleContextResponseZoomIn,
       tandem: options.tandem.createTandem( 'zoomInButton' )
-    }, options.buttonOptions ) );
+    }, options.buttonOptions, options.zoomInButtonOptions ) );
 
     // zoom out
     const zoomOutButton = new RectangularPushButton( combineOptions<RectangularPushButtonOptions>( {
@@ -137,11 +124,8 @@ export default class ZoomButtonGroup extends FlowBox {
       touchAreaYShift: touchYShift,
       mouseAreaXShift: -mouseXShift,
       mouseAreaYShift: mouseYShift,
-      accessibleName: options.accessibleNameZoomOut,
-      accessibleHelpText: options.accessibleHelpTextZoomOut,
-      accessibleContextResponse: options.accessibleContextResponseZoomOut,
       tandem: options.tandem.createTandem( 'zoomOutButton' )
-    }, options.buttonOptions ) );
+    }, options.buttonOptions, options.zoomOutButtonOptions ) );
 
     options.children = ( options.orientation === 'horizontal' ) ? [ zoomOutButton, zoomInButton ] : [ zoomInButton, zoomOutButton ];
 
