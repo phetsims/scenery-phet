@@ -37,8 +37,10 @@ type SelfOptions = {
   // pdom support
   accessibleNameZoomIn?: PDOMValueType;
   accessibleHelpTextZoomIn?: PDOMValueType;
+  accessibleContextResponseZoomIn?: PDOMValueType;
   accessibleNameZoomOut?: PDOMValueType;
   accessibleHelpTextZoomOut?: PDOMValueType;
+  accessibleContextResponseZoomOut?: PDOMValueType;
 };
 
 export type ZoomButtonGroupOptions = SelfOptions & RemoveParallelDOMOptions<StrictOmit<FlowBoxOptions, 'children'>>;
@@ -79,9 +81,11 @@ export default class ZoomButtonGroup extends FlowBox {
 
       // pdom support
       accessibleNameZoomIn: SceneryPhetFluent.a11y.zoomInStringProperty,
-      accessibleNameZoomOut: SceneryPhetFluent.a11y.zoomOutStringProperty,
       accessibleHelpTextZoomIn: null,
+      accessibleContextResponseZoomIn: null,
+      accessibleNameZoomOut: SceneryPhetFluent.a11y.zoomOutStringProperty,
       accessibleHelpTextZoomOut: null,
+      accessibleContextResponseZoomOut: null,
 
       // FlowBoxOptions
       spacing: 0,
@@ -115,6 +119,7 @@ export default class ZoomButtonGroup extends FlowBox {
       mouseAreaYShift: -mouseYShift,
       accessibleName: options.accessibleNameZoomIn,
       accessibleHelpText: options.accessibleHelpTextZoomIn,
+      accessibleContextResponse: options.accessibleContextResponseZoomIn,
       tandem: options.tandem.createTandem( 'zoomInButton' )
     }, options.buttonOptions ) );
 
@@ -134,6 +139,7 @@ export default class ZoomButtonGroup extends FlowBox {
       mouseAreaYShift: mouseYShift,
       accessibleName: options.accessibleNameZoomOut,
       accessibleHelpText: options.accessibleHelpTextZoomOut,
+      accessibleContextResponse: options.accessibleContextResponseZoomOut,
       tandem: options.tandem.createTandem( 'zoomOutButton' )
     }, options.buttonOptions ) );
 
