@@ -113,6 +113,11 @@ const MODIFIER_SPLIT_KEY_FAMILIES: readonly ( readonly EnglishKeyString[] )[] = 
 // Provides helpers for de-duplicating, ordering, and describing hotkey sets and their modifiers.
 export default class HotkeySetDefinitions {
 
+  // Used to concatenate multiple keys into a single identifier. See HotkeySetDefinitions.createKeyStrokeIdentifier.
+  // The character used is arbitrary, but it improves readability and helps avoid collisions that could happen from
+  // bare concatenation.
+  public static readonly KEY_SEPARATOR = '|';
+
   // Supports predictable ordering for common keystrokes so that icons and phrases are nicely formatted,
   // regardless of keys in the input data.
   public static readonly ONE_KEY_STROKE_PRIORITY: EnglishKeyString[] = [
@@ -142,12 +147,9 @@ export default class HotkeySetDefinitions {
    * logical keystroke always produces the same, unambiguous identifier. For example:
    *
    * `[ 'shift', 'arrowLeft' ]` becomes `'shift|arrowLeft'`.
-   *
-   * The character used in the join is arbitrary, but it improves readability and helps avoid collisions that could
-   * happen from bare concatenation.
    */
   private static createKeyStrokeIdentifier( keys: readonly EnglishKeyString[] ): string {
-    return HotkeySetDefinitions.sortKeys( keys ).join( '|' );
+    return HotkeySetDefinitions.sortKeys( keys ).join( HotkeySetDefinitions.KEY_SEPARATOR );
   }
 
   /**

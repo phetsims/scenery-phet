@@ -381,7 +381,7 @@ export default class KeyboardHelpIconFactory {
 
     descriptors.forEach( descriptor => {
       const modifiers = HotkeySetDefinitions.sortModifiers( descriptor.modifierKeys );
-      const key = modifiers.join( '|' );
+      const key = modifiers.join( HotkeySetDefinitions.KEY_SEPARATOR );
 
       if ( !map.has( key ) ) {
         map.set( key, {
