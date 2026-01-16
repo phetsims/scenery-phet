@@ -11,6 +11,7 @@ import Property from '../../axon/js/Property.js';
 import Shape from '../../kite/js/Shape.js';
 import deprecationWarning from '../../phet-core/js/deprecationWarning.js';
 import merge from '../../phet-core/js/merge.js';
+import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import FireListener from '../../scenery/js/listeners/FireListener.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
@@ -21,11 +22,14 @@ import sceneryPhet from './sceneryPhet.js';
  * @deprecated Do not use in new code until https://github.com/phetsims/scenery-phet/issues/763 is addressed.
  * This is currently used only in build-a-molecule.
  */
-class NextPreviousNavigationNode extends Node {
+export default class NextPreviousNavigationNode extends Node {
+
+  public readonly hasNextProperty = new Property( false );
+  public readonly hasPreviousProperty = new Property( false );
 
   /**
-   * @param {Node} centerNode
-   * @param {Object} [selfOptions]  Valid options are:
+   * @param centerNode
+   * @param [selfOptions]  Valid options are:
    *                                arrowColor         - color for the arrow's fill
    *                                arrowStrokeColor   - color for the arrow's stroke
    *                                arrowWidth         - the width of the arrow, from its point to its side
@@ -33,9 +37,8 @@ class NextPreviousNavigationNode extends Node {
    *                                next               - a function to be called when the "next" arrow is pressed
    *                                previous           - a function to be called when the "previous" arrow is pressed
    *                                createTouchAreaShape - function( shape, isPrevious ) that returns the touch area for the specified arrow
-   * @param {Object} [nodeOptions] passed to the Node (super) constructor
    */
-  constructor( centerNode, selfOptions, nodeOptions ) {
+  public constructor( centerNode: Node, selfOptions: IntentionalAny ) {
     assert && deprecationWarning( 'NextPreviousNavigationNode is deprecated, see https://github.com/phetsims/scenery-phet/issues/763' );
 
     selfOptions = merge( {
@@ -46,16 +49,12 @@ class NextPreviousNavigationNode extends Node {
       arrowPadding: 15,
       next: null, // function() { ... }
       previous: null, // function() { ... }
-      createTouchAreaShape: function( shape, isPrevious ) {
+      createTouchAreaShape: function() {
         return null; // pass in function that returns a shape given the shape of the arrow
       }
     }, selfOptions );
 
     super();
-
-    // @public
-    this.hasNextProperty = new Property( false );
-    this.hasPreviousProperty = new Property( false );
 
     const arrowWidth = selfOptions.arrowWidth;
     const arrowHeight = selfOptions.arrowHeight;
@@ -137,10 +136,7 @@ class NextPreviousNavigationNode extends Node {
     // previousKitNode.x = 0;
     centerNode.x = arrowWidth + selfOptions.arrowPadding;
     nextKitNode.x = centerNode.right + selfOptions.arrowPadding;
-
-    this.mutate( nodeOptions );
   }
 }
 
 sceneryPhet.register( 'NextPreviousNavigationNode', NextPreviousNavigationNode );
-export default NextPreviousNavigationNode;
