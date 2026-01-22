@@ -1,4 +1,4 @@
-// Copyright 2002-2013, University of Colorado Boulder
+// Copyright 2014-2015, University of Colorado Boulder
 
 /**
  * StepBackButton button is generally used along side play/pause and forward buttons.

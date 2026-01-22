@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado Boulder
+// Copyright 2015, University of Colorado Boulder
 
 /**
  * Representation of the back of a HeaterCoolerNode.  It is independent from the front of the HeaterCoolerNode so that one can easily layer

@@ -1,4 +1,4 @@
-// Copyright 2002-2013, University of Colorado Boulder
+// Copyright 2014-2015, University of Colorado Boulder
 
 /**
  * Button used for stepping the simulation forward when paused.  Generated programmatically, as opposed to using a
