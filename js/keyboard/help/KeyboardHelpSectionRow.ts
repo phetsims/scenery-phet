@@ -11,6 +11,7 @@
 
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
+import assertMutuallyExclusiveOptions from '../../../../phet-core/js/assertMutuallyExclusiveOptions.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import { PDOMValueType } from '../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
@@ -73,6 +74,9 @@ type FromHotkeyDataOptions = {
 
   // A custom icon for this row, if you don't want the one from the HotkeyData.
   icon?: Node | null;
+
+  // Instead of an icon, detailed icon data can be provided to customize even more the generated icon.
+  iconData?: ModifierGroupIcon[] | null;
 
   // The visual label for this row, if you don't want the one from the HotkeyData.
   labelStringProperty?: TReadOnlyProperty<string> | null;
@@ -243,8 +247,13 @@ class KeyboardHelpSectionRow {
    * you want to customize the row so it is different from the actual key data.
    */
   public static fromHotkeyData( hotkeyData: HotkeyData, providedOptions?: FromHotkeyDataOptions ): KeyboardHelpSectionRow {
+
+    // Ensure that only one of icon OR iconData is provided.
+    assertMutuallyExclusiveOptions( providedOptions, [ 'icon' ], [ 'iconData' ] );
+
     const options = optionize<FromHotkeyDataOptions>()( {
       icon: null,
+      iconData: null,
       labelStringProperty: hotkeyData.keyboardHelpDialogLabelStringProperty,
       pdomLabelStringProperty: hotkeyData.keyboardHelpDialogPDOMLabelStringProperty,
       labelWithIconOptions: {}
@@ -254,7 +263,8 @@ class KeyboardHelpSectionRow {
     affirm( visualLabelStringProperty, 'A visual labelStringProperty must be defined.' );
 
     // Only build the icon data if one wasn't provided via options.
-    const iconData = options.icon ? null : KeyboardHelpIconFactory.fromHotkeyDataDetailed( hotkeyData );
+    const iconData = options.icon ? null :
+                     options.iconData ? options.iconData : KeyboardHelpIconFactory.fromHotkeyDataDetailed( hotkeyData );
     const icon = options.icon || KeyboardHelpIconFactory.composeHotkeyIcon( iconData! );
 
     // Determine the PDOM content. Use the provided one when available, otherwise make sure that markup is removed
