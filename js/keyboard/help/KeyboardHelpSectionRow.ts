@@ -75,7 +75,18 @@ type FromHotkeyDataOptions = {
   // A custom icon for this row, if you don't want the one from the HotkeyData.
   icon?: Node | null;
 
-  // Instead of an icon, detailed icon data can be provided to customize even more the generated icon.
+  // Instead of an icon, detailed icon data can be provided to customize the generated icon.
+  // Use this when HotkeyData is correct but you want a clearer visual grouping or layout in the keyboard help row,
+  // such as stacking rows of icons or presenting a custom combination of keys.
+  //
+  // Example - instead of the default horizontal row of arrow keys, you want two stacked rows separated by "or":
+  // iconData: {
+  //   alternatives: [
+  //     KeyboardHelpIconFactory.shiftPlusIcon( KeyboardHelpIconFactory.leftRightArrowKeysRowIcon() ),
+  //     KeyboardHelpIconFactory.shiftPlusIcon( KeyboardHelpIconFactory.upDownArrowKeysRowIcon() )
+  //   ],
+  //   layout: 'stacked'
+  // }
   iconData?: ModifierGroupIcon | null;
 
   // The visual label for this row, if you don't want the one from the HotkeyData.
