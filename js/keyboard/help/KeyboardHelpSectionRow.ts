@@ -76,7 +76,7 @@ type FromHotkeyDataOptions = {
   icon?: Node | null;
 
   // Instead of an icon, detailed icon data can be provided to customize even more the generated icon.
-  iconData?: ModifierGroupIcon[] | null;
+  iconData?: ModifierGroupIcon | null;
 
   // The visual label for this row, if you don't want the one from the HotkeyData.
   labelStringProperty?: TReadOnlyProperty<string> | null;
@@ -264,7 +264,8 @@ class KeyboardHelpSectionRow {
 
     // Only build the icon data if one wasn't provided via options.
     const iconData = options.icon ? null :
-                     options.iconData ? options.iconData : KeyboardHelpIconFactory.fromHotkeyDataDetailed( hotkeyData );
+                     options.iconData ? [ options.iconData ] :
+                     KeyboardHelpIconFactory.fromHotkeyDataDetailed( hotkeyData );
     const icon = options.icon || KeyboardHelpIconFactory.composeHotkeyIcon( iconData! );
 
     // Determine the PDOM content. Use the provided one when available, otherwise make sure that markup is removed

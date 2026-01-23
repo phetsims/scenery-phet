@@ -73,19 +73,17 @@ export default function demoFromHotkeyData( layoutBounds: Bounds2 ): Node {
       repoName: sceneryPhet.name
     } ),
     {
-      iconData: [
 
-        // Alternatives are the different key presses that can be used for this action.
-        {
-          alternatives: [
-            KeyboardHelpIconFactory.leftRightArrowKeysRowIcon(),
-            KeyboardHelpIconFactory.upDownArrowKeysRowIcon()
-          ],
+      // Alternatives are the different key presses that can be used for this action.
+      iconData: {
+        alternatives: [
+          KeyboardHelpIconFactory.leftRightArrowKeysRowIcon(),
+          KeyboardHelpIconFactory.upDownArrowKeysRowIcon()
+        ],
 
-          // Stacked into one row per alternative.
-          layout: 'stacked'
-        }
-      ]
+        // Stacked into one row per alternative.
+        layout: 'stacked'
+      }
     }
   ) );
 
