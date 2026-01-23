@@ -13,6 +13,7 @@ import HotkeyData, { HotkeyDataOptions } from '../../../../scenery/js/input/Hotk
 import type { OneKeyStroke } from '../../../../scenery/js/input/KeyDescriptor.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
+import KeyboardHelpIconFactory from '../../keyboard/help/KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from '../../keyboard/help/KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from '../../keyboard/help/KeyboardHelpSectionRow.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -56,11 +57,35 @@ export default function demoFromHotkeyData( layoutBounds: Bounds2 ): Node {
   rows.push( KeyboardHelpSectionRow.fromHotkeyData(
     new HotkeyData( {
       keys: [ 'arrowLeft', 'arrowRight', 'arrowUp', 'arrowDown' ],
-      keyboardHelpDialogLabelStringProperty: new Property( 'Arrow Keys' ),
+      keyboardHelpDialogLabelStringProperty: new Property( 'Arrow Keys (circle)' ),
       repoName: sceneryPhet.name
     } ),
     {
       icon: new Circle( 10, { fill: 'blue' } )
+    }
+  ) );
+
+  // Demonstrate a custom icon using data options
+  rows.push( KeyboardHelpSectionRow.fromHotkeyData(
+    new HotkeyData( {
+      keys: [ 'arrowLeft', 'arrowRight', 'arrowUp', 'arrowDown' ],
+      keyboardHelpDialogLabelStringProperty: new Property( 'Arrow Keys' ),
+      repoName: sceneryPhet.name
+    } ),
+    {
+      iconData: [
+
+        // Alternatives are the different key presses that can be used for this action.
+        {
+          alternatives: [
+            KeyboardHelpIconFactory.leftRightArrowKeysRowIcon(),
+            KeyboardHelpIconFactory.upDownArrowKeysRowIcon()
+          ],
+
+          // Stacked into one row per alternative.
+          layout: 'stacked'
+        }
+      ]
     }
   ) );
 
