@@ -53,7 +53,7 @@ type ModifierGroup = {
 
 // Represents the icon rows for a single keyboard action before they are composed into a single node. Each entry
 // corresponds to one set of alternative key presses that should be displayed together.
-export type ModifierGroupIcon = {
+export type KeyAlternativesIcon = {
 
   // These are the complete icon rows to present as alternatives. They will be separated by "or" when composed,
   // either inline or stacked depending on layout.
@@ -366,7 +366,7 @@ export default class KeyboardHelpIconFactory {
    * Builds icon data for a HotkeyData entry, returning the per-group alternatives with their intended layout so
    * callers can take over layout if needed.
    */
-  public static fromHotkeyDataDetailed( hotkeyData: HotkeyData ): ModifierGroupIcon[] {
+  public static fromHotkeyDataDetailed( hotkeyData: HotkeyData ): KeyAlternativesIcon[] {
     const groups = KeyboardHelpIconFactory.groupDescriptors( hotkeyData.keyDescriptorsProperty.value );
     return groups.map( group => KeyboardHelpIconFactory.buildGroupIconData( group ) );
   }
@@ -405,7 +405,7 @@ export default class KeyboardHelpIconFactory {
    * where a modifier set fans out into multiple key partitions (for example, Shift + [1|2]) and records whether the
    * alternatives prefer inline or stacked layout based on the hotkey definition metadata.
    */
-  private static buildGroupIconData( group: ModifierGroup ): ModifierGroupIcon {
+  private static buildGroupIconData( group: ModifierGroup ): KeyAlternativesIcon {
     const normalizedKeys = HotkeySetDefinitions.sortKeys( group.keys );
     const definition = HotkeySetDefinitions.getDefinition( normalizedKeys );
     const modifierIcons = group.modifiers.map( modifier => KeyDisplayRegistry.getKeyBuilder( modifier )() );
@@ -439,7 +439,7 @@ export default class KeyboardHelpIconFactory {
   /**
    * Composes a modifier group's alternatives into a single icon node using the preferred layout.
    */
-  private static composeGroupIcon( data: ModifierGroupIcon ): Node {
+  private static composeGroupIcon( data: KeyAlternativesIcon ): Node {
     let iconNode: Node;
     if ( data.alternatives.length === 0 ) {
       iconNode = new Node();
@@ -457,7 +457,7 @@ export default class KeyboardHelpIconFactory {
   /**
    * Composes all modifier-group icons for a HotkeyData into a single node using each group's preferred layout.
    */
-  public static composeHotkeyIcon( groups: ModifierGroupIcon[] ): Node {
+  public static composeHotkeyIcon( groups: KeyAlternativesIcon[] ): Node {
     const composedGroupIcons = groups.map( data => KeyboardHelpIconFactory.composeGroupIcon( data ) );
     return KeyboardHelpIconFactory.connectIconsWithOr( composedGroupIcons );
   }

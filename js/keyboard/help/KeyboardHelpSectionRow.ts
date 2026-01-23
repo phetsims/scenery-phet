@@ -28,7 +28,7 @@ import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetFluent from '../../SceneryPhetFluent.js';
 import HotkeyDescriptionBuilder from './HotkeyDescriptionBuilder.js';
-import KeyboardHelpIconFactory, { ModifierGroupIcon } from './KeyboardHelpIconFactory.js';
+import KeyboardHelpIconFactory, { KeyAlternativesIcon } from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
 
 // text fonts and max widths
@@ -87,7 +87,7 @@ type FromHotkeyDataOptions = {
   //   ],
   //   layout: 'stacked'
   // }
-  iconData?: ModifierGroupIcon | null;
+  iconData?: KeyAlternativesIcon | null;
 
   // The visual label for this row, if you don't want the one from the HotkeyData.
   labelStringProperty?: TReadOnlyProperty<string> | null;
@@ -291,7 +291,7 @@ class KeyboardHelpSectionRow {
     // the stack by using labelWithIconList. Stacking only makes sense when a single modifier group fans out into
     // multiple key partitions (for example Shift + [A/D] and Shift + [arrowLeft/arrowRight]), so we only switch
     // to the stacked label layout when there is exactly one group and it prefers stacking.
-    let stackedGroup: ModifierGroupIcon | null = null;
+    let stackedGroup: KeyAlternativesIcon | null = null;
     if ( iconData && iconData.length === 1 ) {
       const candidateGroup = iconData[ 0 ];
       if ( candidateGroup.layout === 'stacked' && candidateGroup.alternatives.length > 0 ) {
