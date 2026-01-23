@@ -51,16 +51,16 @@ type ModifierGroup = {
   keys: EnglishKeyString[];
 };
 
-// Represents the icon rows for a modifier group before they are composed into a single node. Each entry corresponds
-// to one group of modifiers paired with a set of primary key partitions.
+// Represents the icon rows for a single keyboard action before they are composed into a single node. Each entry
+// corresponds to one set of alternative key presses that should be displayed together.
 export type ModifierGroupIcon = {
 
-  // For a single modifier group, these are the allowable key combos already composed with those modifiers.
-  // `composeGroupIcon` will join them with "or" or stack them.
+  // These are the complete icon rows to present as alternatives. They will be separated by "or" when composed,
+  // either inline or stacked depending on layout.
   // Example: Shift + [1,2] -> this holds two nodes: "Shift + 1" and "Shift + 2".
   alternatives: Node[];
 
-  // Preferred layout when combining the presses for this modifier group: inline will join them into a single line
+  // Preferred layout when combining the presses for this group: inline will join them into a single line
   // while stacked puts each on its own row. Example for "Shift + [1,2]":
   // - inline:  [Shift + 1] or [Shift + 2]
   // - stacked: [Shift + 1] or
