@@ -19,7 +19,11 @@ import sceneryPhet from '../sceneryPhet.js';
 
 type SelfOptions = EmptySelfOptions;
 
-export type EyeToggleButtonOptions = SelfOptions & StrictOmit<RectangularToggleButtonOptions, 'content'>;
+// The EyeToggleButton is meant to be a "toggle" with a single accessible name. It uses accessibleRoleConfiguration
+// "toggle" to indicate the pressed state. As such, use an accessible name like "Component Visibility" rather than
+// "Show Component" / "Hide Component". The result will be "Component Visibility, pressed" when the eye is open,
+// and "Component Visibility, not pressed" when the eye is closed.
+export type EyeToggleButtonOptions = SelfOptions & StrictOmit<RectangularToggleButtonOptions, 'content' | 'accessibleNameOn' | 'accessibleNameOff' | 'accessibleRoleConfiguration'>;
 
 export default class EyeToggleButton extends RectangularToggleButton<boolean> {
 
@@ -30,8 +34,9 @@ export default class EyeToggleButton extends RectangularToggleButton<boolean> {
    * @param providedOptions
    */
   public constructor( eyeOpenProperty: Property<boolean>, providedOptions?: EyeToggleButtonOptions ) {
-
-    const options = optionize<EyeToggleButtonOptions, SelfOptions, RectangularToggleButtonOptions>()( {}, providedOptions );
+    const options = optionize<EyeToggleButtonOptions, SelfOptions, RectangularToggleButtonOptions>()( {
+      accessibleRoleConfiguration: 'toggle'
+    }, providedOptions );
 
     // icons
     const iconOptions = {
