@@ -97,6 +97,11 @@ type FromHotkeyDataOptions = {
 
   // Options for the labelWithIcon produced by this function
   labelWithIconOptions?: StrictOmit<LabelWithIconOptions, 'labelInnerContent'>;
+
+  // Optional variant identifier for alternate hotkey set definitions and layout. Some hotkey sets have variants
+  // that change the appearance and description of the hotkeys. For example, the 'paired' variant for arrow keys.
+  // See HotkeySetDefinitions for more information.
+  hotkeySetVariant?: string;
 };
 
 type SelfOptions = {
@@ -267,7 +272,8 @@ class KeyboardHelpSectionRow {
       iconData: null,
       labelStringProperty: hotkeyData.keyboardHelpDialogLabelStringProperty,
       pdomLabelStringProperty: hotkeyData.keyboardHelpDialogPDOMLabelStringProperty,
-      labelWithIconOptions: {}
+      labelWithIconOptions: {},
+      hotkeySetVariant: 'default'
     }, providedOptions );
 
     const visualLabelStringProperty = options.labelStringProperty!;
@@ -276,7 +282,7 @@ class KeyboardHelpSectionRow {
     // Only build the icon data if one wasn't provided via options.
     const iconData = options.icon ? null :
                      options.iconData ? [ options.iconData ] :
-                     KeyboardHelpIconFactory.fromHotkeyDataDetailed( hotkeyData );
+                     KeyboardHelpIconFactory.fromHotkeyDataDetailed( hotkeyData, options.hotkeySetVariant );
     const icon = options.icon || KeyboardHelpIconFactory.composeHotkeyIcon( iconData! );
 
     // Determine the PDOM content. Use the provided one when available, otherwise make sure that markup is removed
@@ -284,7 +290,8 @@ class KeyboardHelpSectionRow {
     const accessibleContent = options.pdomLabelStringProperty ||
                               HotkeyDescriptionBuilder.createDescriptionProperty(
                                 RichText.getAccessibleStringProperty( visualLabelStringProperty ),
-                                hotkeyData.keyDescriptorsProperty
+                                hotkeyData.keyDescriptorsProperty,
+                                options.hotkeySetVariant
                               );
 
     // If the icon data indicates a stacked layout (modifierPartitionLayout), align the label with the first icon in

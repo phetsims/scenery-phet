@@ -553,6 +553,7 @@ type StringsType = {
     'keySets': {
       'arrowOrWASDStringProperty': LocalizedStringProperty;
       'arrowStringProperty': LocalizedStringProperty;
+      'leftRightOrUpDownArrowsStringProperty': LocalizedStringProperty;
       'leftRightArrowsStringProperty': LocalizedStringProperty;
       'upDownArrowsStringProperty': LocalizedStringProperty;
       'wasdStringProperty': LocalizedStringProperty;

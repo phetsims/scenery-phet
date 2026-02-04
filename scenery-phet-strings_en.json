@@ -1222,6 +1222,9 @@
       "arrow": {
         "value": "Arrow keys"
       },
+      "leftRightOrUpDownArrows": {
+        "value": "Left and Right Arrow keys or Up and Down Arrow keys"
+      },
       "leftRightArrows": {
         "value": "Left and Right Arrow keys"
       },

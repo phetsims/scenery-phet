@@ -13,7 +13,6 @@ import HotkeyData, { HotkeyDataOptions } from '../../../../scenery/js/input/Hotk
 import type { OneKeyStroke } from '../../../../scenery/js/input/KeyDescriptor.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import KeyboardHelpIconFactory from '../../keyboard/help/KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from '../../keyboard/help/KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from '../../keyboard/help/KeyboardHelpSectionRow.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -24,7 +23,7 @@ const DEFAULT_HOTKEY_DATA_OPTIONS = {
 };
 
 // Row-specific data for the demo.
-const DEMO_ENTRIES: { label: string; keys: OneKeyStroke[] }[] = [
+const DEMO_ENTRIES: { label: string; keys: OneKeyStroke[]; hotkeySetVariant?: string }[] = [
   {
     label: 'Move between items in a group',
     keys: [ 'arrowLeft', 'arrowRight', 'arrowUp', 'arrowDown' ]
@@ -39,6 +38,20 @@ const DEMO_ENTRIES: { label: string; keys: OneKeyStroke[] }[] = [
   {
     label: 'Move horizontally',
     keys: [ 'arrowLeft', 'arrowRight', 'a', 'd' ]
+  },
+  {
+    label: 'Use Arrow Keys (paired)',
+    keys: [ 'arrowLeft', 'arrowRight', 'arrowUp', 'arrowDown' ],
+
+    // Demonstrate the arrow keys with the alternative 'paired' hotkey set variant.
+    hotkeySetVariant: 'paired'
+  },
+  {
+    label: 'Use Arrow Keys Slowly (paired)',
+    keys: [ 'shift+arrowLeft', 'shift+arrowRight', 'shift+arrowUp', 'shift+arrowDown' ],
+
+    // Demonstrate the arrow keys with the alternative 'paired' hotkey set variant, with a modifier.
+    hotkeySetVariant: 'paired'
   }
 ];
 
@@ -50,7 +63,9 @@ export default function demoFromHotkeyData( layoutBounds: Bounds2 ): Node {
       keyboardHelpDialogLabelStringProperty: labelProperty
     } ) );
 
-    return KeyboardHelpSectionRow.fromHotkeyData( hotkeyData );
+    return KeyboardHelpSectionRow.fromHotkeyData( hotkeyData, {
+      hotkeySetVariant: entry.hotkeySetVariant
+    } );
   } );
 
   // Demonstrate a custom icon for arrow keys
@@ -62,28 +77,6 @@ export default function demoFromHotkeyData( layoutBounds: Bounds2 ): Node {
     } ),
     {
       icon: new Circle( 10, { fill: 'blue' } )
-    }
-  ) );
-
-  // Demonstrate a custom icon using data options
-  rows.push( KeyboardHelpSectionRow.fromHotkeyData(
-    new HotkeyData( {
-      keys: [ 'arrowLeft', 'arrowRight', 'arrowUp', 'arrowDown' ],
-      keyboardHelpDialogLabelStringProperty: new Property( 'Arrow Keys' ),
-      repoName: sceneryPhet.name
-    } ),
-    {
-
-      // Alternatives are the different key presses that can be used for this action.
-      iconData: {
-        alternatives: [
-          KeyboardHelpIconFactory.leftRightArrowKeysRowIcon(),
-          KeyboardHelpIconFactory.upDownArrowKeysRowIcon()
-        ],
-
-        // Stacked into one row per alternative.
-        layout: 'stacked'
-      }
     }
   ) );
 

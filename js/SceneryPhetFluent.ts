@@ -282,6 +282,7 @@ addToMapIfDefined( 'a11y_keyboard_key_escape', 'a11y.keyboard.key.escapeStringPr
 addToMapIfDefined( 'a11y_keyboard_key_control', 'a11y.keyboard.key.controlStringProperty' );
 addToMapIfDefined( 'a11y_keySets_arrowOrWASD', 'a11y.keySets.arrowOrWASDStringProperty' );
 addToMapIfDefined( 'a11y_keySets_arrow', 'a11y.keySets.arrowStringProperty' );
+addToMapIfDefined( 'a11y_keySets_leftRightOrUpDownArrows', 'a11y.keySets.leftRightOrUpDownArrowsStringProperty' );
 addToMapIfDefined( 'a11y_keySets_leftRightArrows', 'a11y.keySets.leftRightArrowsStringProperty' );
 addToMapIfDefined( 'a11y_keySets_upDownArrows', 'a11y.keySets.upDownArrowsStringProperty' );
 addToMapIfDefined( 'a11y_keySets_wasd', 'a11y.keySets.wasdStringProperty' );
@@ -986,6 +987,7 @@ const SceneryPhetFluent = {
     keySets: {
       arrowOrWASDStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_arrowOrWASD', _.get( SceneryPhetStrings, 'a11y.keySets.arrowOrWASDStringProperty' ) ),
       arrowStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_arrow', _.get( SceneryPhetStrings, 'a11y.keySets.arrowStringProperty' ) ),
+      leftRightOrUpDownArrowsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_leftRightOrUpDownArrows', _.get( SceneryPhetStrings, 'a11y.keySets.leftRightOrUpDownArrowsStringProperty' ) ),
       leftRightArrowsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_leftRightArrows', _.get( SceneryPhetStrings, 'a11y.keySets.leftRightArrowsStringProperty' ) ),
       upDownArrowsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_upDownArrows', _.get( SceneryPhetStrings, 'a11y.keySets.upDownArrowsStringProperty' ) ),
       wasdStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_wasd', _.get( SceneryPhetStrings, 'a11y.keySets.wasdStringProperty' ) ),

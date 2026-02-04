@@ -51,10 +51,15 @@ export default class HotkeyDescriptionBuilder {
    * of the supporting localization strings change (conjunctions, punctuation, singular/plural labels, etc.), the
    * returned property recomputes the full sentence so consumers always display the correct phrasing for the current
    * locale.
+   *
+   * @param actionStringProperty - Property that provides the action description (e.g. "Move to next item")
+   * @param keyDescriptorsProperty - Property that provides the array of KeyDescriptors for the hotkey
+   * @param hotkeySetVariant - variant string to use when looking up hotkey set definitions
    */
   public static createDescriptionProperty(
     actionStringProperty: TReadOnlyProperty<string>,
-    keyDescriptorsProperty: TReadOnlyProperty<KeyDescriptor[]>
+    keyDescriptorsProperty: TReadOnlyProperty<KeyDescriptor[]>,
+    hotkeySetVariant = 'default'
   ): TReadOnlyProperty<string> {
 
     // NOTE: We assume here that keyDescriptors will not change. The only way they can change is if the actual
@@ -66,7 +71,7 @@ export default class HotkeyDescriptionBuilder {
     // Collect all string Properties that may be used in the final description string. To support dynamic locales,
     // they must all be used as dependencies so that changes trigger a recompute.
     const descriptorLabelProperties = HotkeyDescriptionBuilder.getLabelPropertiesForDescriptors( keyDescriptors );
-    const descriptorPhraseProperties = HotkeyDescriptionBuilder.getPhrasePropertiesForDescriptors( keyDescriptors );
+    const descriptorPhraseProperties = HotkeyDescriptionBuilder.getPhrasePropertiesForDescriptors( keyDescriptors, hotkeySetVariant );
 
     // Additional dependency strings that are used in the derivation that may change with language. For this
     // implementation, it is easier to list them all here and create one derivation than to use createProperty()
@@ -90,13 +95,13 @@ export default class HotkeyDescriptionBuilder {
 
       ...usedStringDependencies
 
-    ], () => HotkeyDescriptionBuilder.createDescriptionString( actionStringProperty.value, keyDescriptors ) );
+    ], () => HotkeyDescriptionBuilder.createDescriptionString( actionStringProperty.value, keyDescriptors, hotkeySetVariant ) );
   }
 
   /**
    * Builds the full sentence for the keyboard help row.
    */
-  private static createDescriptionString( actionString: string, keyDescriptors: KeyDescriptor[] ): string {
+  private static createDescriptionString( actionString: string, keyDescriptors: KeyDescriptor[], hotkeySetVariant: string ): string {
 
     // Trim away stray leading/trailing whitespace from translated action text; if it’s all whitespace, skip rendering.
     const trimmedAction = actionString.trim();
@@ -104,7 +109,7 @@ export default class HotkeyDescriptionBuilder {
       return '';
     }
 
-    const keyPhrase = HotkeyDescriptionBuilder.describeDescriptors( keyDescriptors );
+    const keyPhrase = HotkeyDescriptionBuilder.describeDescriptors( keyDescriptors, hotkeySetVariant );
     if ( !keyPhrase ) {
       return SceneryPhetFluent.a11y.keyboard.helpPatterns.actionStatement.format( {
         action: trimmedAction
@@ -120,14 +125,14 @@ export default class HotkeyDescriptionBuilder {
   /**
    * Produces a localized phrase that describes the provided descriptors, combining groups when possible.
    */
-  private static describeDescriptors( descriptors: KeyDescriptor[] ): string {
+  private static describeDescriptors( descriptors: KeyDescriptor[], hotkeySetVariant: string ): string {
     if ( descriptors.length === 0 ) {
       return '';
     }
 
     const groups = HotkeyDescriptionBuilder.groupDescriptors( descriptors );
     const clauses = groups
-      .map( group => HotkeyDescriptionBuilder.describeGroup( group ) )
+      .map( group => HotkeyDescriptionBuilder.describeGroup( group, hotkeySetVariant ) )
       .filter( clause => clause.length > 0 );
 
     return HotkeyDescriptionBuilder.joinList( clauses );
@@ -136,15 +141,15 @@ export default class HotkeyDescriptionBuilder {
   /**
    * Generates a clause for a single modifier grouping, optionally splitting keys when clusters are detected.
    */
-  private static describeGroup( group: ModifierGroup ): string {
+  private static describeGroup( group: ModifierGroup, hotkeySetVariant: string ): string {
     const modifierDescription = HotkeyDescriptionBuilder.describeModifiers( group.modifiers );
     const normalizedKeys = HotkeySetDefinitions.sortKeys( group.keys );
 
     if ( modifierDescription && group.modifiers.length > 0 ) {
-      const partitions = HotkeySetDefinitions.partitionKeySetForModifiers( normalizedKeys );
+      const partitions = HotkeySetDefinitions.partitionKeySetForModifiers( normalizedKeys, hotkeySetVariant );
       if ( partitions.length > 1 ) {
         const partitionDescriptions = partitions.map( partition => {
-          const description = HotkeyDescriptionBuilder.describeKeySet( partition );
+          const description = HotkeyDescriptionBuilder.describeKeySet( partition, hotkeySetVariant );
           if ( description ) {
             return SceneryPhetFluent.a11y.keyboard.helpPatterns.modifiersPlusKeys.format( {
               modifiers: modifierDescription,
@@ -162,7 +167,7 @@ export default class HotkeyDescriptionBuilder {
       }
     }
 
-    const keyDescription = HotkeyDescriptionBuilder.describeKeySet( normalizedKeys );
+    const keyDescription = HotkeyDescriptionBuilder.describeKeySet( normalizedKeys, hotkeySetVariant );
 
     if ( modifierDescription && keyDescription ) {
       return SceneryPhetFluent.a11y.keyboard.helpPatterns.modifiersPlusKeys.format( {
@@ -205,13 +210,13 @@ export default class HotkeyDescriptionBuilder {
   /**
    * Builds a description for a set of non-modifier keys, preferring shared definitions when possible.
    */
-  private static describeKeySet( keys: EnglishKeyString[] ): string {
+  private static describeKeySet( keys: EnglishKeyString[], hotkeySetVariant: string ): string {
     if ( keys.length === 0 ) {
       return '';
     }
 
     const normalizedKeys = HotkeySetDefinitions.sortKeys( keys );
-    const definition = HotkeySetDefinitions.getDefinition( normalizedKeys );
+    const definition = HotkeySetDefinitions.getDefinition( normalizedKeys, hotkeySetVariant );
     if ( definition?.phraseProperty ) {
       return definition.phraseProperty.value;
     }
@@ -251,13 +256,14 @@ export default class HotkeyDescriptionBuilder {
    * so the sentence recomputes when a phrase changes due to a language switch.
    */
   private static getPhrasePropertiesForDescriptors(
-    descriptors: KeyDescriptor[]
+    descriptors: KeyDescriptor[],
+    hotkeySetVariant: string
   ): TReadOnlyProperty<string>[] {
     const phraseProperties = new Set<TReadOnlyProperty<string>>();
     const groups = HotkeyDescriptionBuilder.groupDescriptors( descriptors );
 
     const addPhraseForKeys = ( keys: EnglishKeyString[] ): void => {
-      const definition = HotkeySetDefinitions.getDefinition( keys );
+      const definition = HotkeySetDefinitions.getDefinition( keys, hotkeySetVariant );
       if ( definition?.phraseProperty ) {
         phraseProperties.add( definition.phraseProperty );
       }
@@ -268,7 +274,7 @@ export default class HotkeyDescriptionBuilder {
       addPhraseForKeys( normalizedKeys );
 
       if ( group.modifiers.length > 0 ) {
-        const partitions = HotkeySetDefinitions.partitionKeySetForModifiers( normalizedKeys );
+        const partitions = HotkeySetDefinitions.partitionKeySetForModifiers( normalizedKeys, hotkeySetVariant );
         partitions.forEach( partition => addPhraseForKeys( partition ) );
       }
     } );

@@ -30,6 +30,9 @@ export type HotkeySetDefinitionEntry = {
   // Keys that comprise the set.
   keys: readonly EnglishKeyString[];
 
+  // Optional variant identifier to allow alternate phrasing/layouts for the same key set.
+  variant?: string;
+
   // Phrase that describing the set in natural language. Presented to the user and possibly recombined with
   // other phrases.
   phraseProperty?: TReadOnlyProperty<string>;
@@ -44,6 +47,10 @@ export type HotkeySetDefinitionEntry = {
   // 'stacked' - "Shift + [A] or
   //              Shift + [D]"
   modifierPartitionLayout?: 'inline' | 'stacked';
+
+  // Optional modifier-based partitions for this key set variant. When provided, these families are applied
+  // before the default modifier split families. This will only be relevant if you provide the variant option.
+  modifierPartitionFamilies?: readonly ( readonly EnglishKeyString[] )[];
 };
 
 /**
@@ -60,6 +67,21 @@ const HOTKEY_SET_ENTRIES: HotkeySetDefinitionEntry[] = [
     keys: ARROW_KEYS,
     phraseProperty: SceneryPhetFluent.a11y.keySets.arrowStringProperty,
     iconFactory: 'arrowKeysRowIcon'
+  },
+  {
+    // The arrow keys, but in a layout that separates the left/right and up/down pairs:
+    // "Left and Right arrow keys, or Up and Down arrow keys"
+    variant: 'paired',
+    keys: ARROW_KEYS,
+    phraseProperty: SceneryPhetFluent.a11y.keySets.leftRightOrUpDownArrowsStringProperty,
+    iconFactory: 'leftRightOrUpDownArrowKeysRowIcon',
+    modifierPartitionLayout: 'stacked',
+
+    // So that left/right and up/down are given their own rows when splitting on the modifier key.
+    modifierPartitionFamilies: [
+      LEFT_RIGHT_ARROW_KEYS,
+      UP_DOWN_ARROW_KEYS
+    ]
   },
   {
     keys: LEFT_RIGHT_ARROW_KEYS,
@@ -134,22 +156,49 @@ export default class HotkeySetDefinitions {
 
   // Lookup table keyed by the normalized createKeyStrokeIdentifier string representation of a key set.
   private static readonly HOTKEY_SET_DEFINITIONS = new Map<string, HotkeySetDefinitionEntry>(
-    HOTKEY_SET_ENTRIES.map( entry => [ HotkeySetDefinitions.createKeyStrokeIdentifier( entry.keys ), entry ] )
+    HOTKEY_SET_ENTRIES.map( entry => {
+      assert && assert(
+        !entry.modifierPartitionFamilies || ( entry.variant && entry.variant !== 'default' ),
+        'modifierPartitionFamilies requires a non-default variant.'
+      );
+
+      return [
+        HotkeySetDefinitions.createKeyStrokeIdentifier( entry.keys, entry.variant ),
+        entry
+      ];
+    } )
   );
 
   // Returns the definition matching the provided key set, or null when no specialized grouping exists.
-  public static getDefinition( keys: readonly EnglishKeyString[] ): HotkeySetDefinitionEntry | null {
-    return HotkeySetDefinitions.HOTKEY_SET_DEFINITIONS.get( HotkeySetDefinitions.createKeyStrokeIdentifier( keys ) ) || null;
+  public static getDefinition( keys: readonly EnglishKeyString[], variant = 'default' ): HotkeySetDefinitionEntry | null {
+    const identifier = HotkeySetDefinitions.createKeyStrokeIdentifier( keys, variant );
+    const definition = HotkeySetDefinitions.HOTKEY_SET_DEFINITIONS.get( identifier );
+    if ( definition ) {
+      return definition;
+    }
+
+    if ( variant !== 'default' ) {
+      return HotkeySetDefinitions.HOTKEY_SET_DEFINITIONS.get(
+        HotkeySetDefinitions.createKeyStrokeIdentifier( keys )
+      ) || null;
+    }
+
+    return null;
   }
 
   /**
    * Builds a string identifier that is used as a map key for a keystroke. Parts are sorted and joined so the same
    * logical keystroke always produces the same, unambiguous identifier. For example:
    *
-   * `[ 'shift', 'arrowLeft' ]` becomes `'shift|arrowLeft'`.
+   * `[ 'shift', 'arrowLeft' ]` becomes `'shift|arrowLeft::default'`.
+   *
+   * The variant allows alternate phrasings/layouts for the same key set. IF provided, it is appended to the identifier.
+   * For example:
+   *
+   * `[ 'arrowLeft', 'arrowRight' ]` with variant `'paired'` becomes `'arrowLeft|arrowRight::paired'`.
    */
-  private static createKeyStrokeIdentifier( keys: readonly EnglishKeyString[] ): string {
-    return HotkeySetDefinitions.sortKeys( keys ).join( HotkeySetDefinitions.KEY_SEPARATOR );
+  private static createKeyStrokeIdentifier( keys: readonly EnglishKeyString[], variant = 'default' ): string {
+    return `${HotkeySetDefinitions.sortKeys( keys ).join( HotkeySetDefinitions.KEY_SEPARATOR )}::${variant}`;
   }
 
   /**
@@ -191,7 +240,7 @@ export default class HotkeySetDefinitions {
   /**
    * Detects known key groupings (arrows, WASD, etc. from MODIFIER_SPLIT_KEY_FAMILIES) and keeps them together so they
    * can be rendered with a shared modifier set. Modifiers are not included in the groups. These are only the
-   * non-modifier keys that are likely to share the same modifiers.
+   * non-modifier keys that are likely to share the same modifiers. Variant-specific splits can be applied first.
    *
    * Examples:
    * [ arrowLeft, arrowRight, space ] -> [ [ arrowLeft, arrowRight ], [ space ] ]
@@ -204,11 +253,18 @@ export default class HotkeySetDefinitions {
    * It may return 1+ partitions. If no known grouping is fully present (or there’s only one group with no leftovers),
    * it returns a single partition containing all keys.
    */
-  public static partitionKeySetForModifiers( normalizedKeys: readonly EnglishKeyString[] ): EnglishKeyString[][] {
+  public static partitionKeySetForModifiers(
+    normalizedKeys: readonly EnglishKeyString[],
+    variant = 'default'
+  ): EnglishKeyString[][] {
     const remaining = new Set<EnglishKeyString>( normalizedKeys );
     const partitions: EnglishKeyString[][] = [];
 
-    MODIFIER_SPLIT_KEY_FAMILIES.forEach( family => {
+    const definition = HotkeySetDefinitions.getDefinition( normalizedKeys, variant );
+    const variantFamilies = definition?.modifierPartitionFamilies || [];
+    const families = [ ...variantFamilies, ...MODIFIER_SPLIT_KEY_FAMILIES ];
+
+    families.forEach( family => {
       if ( family.every( key => remaining.has( key ) ) ) {
         partitions.push( [ ...family ] );
         family.forEach( key => remaining.delete( key ) );

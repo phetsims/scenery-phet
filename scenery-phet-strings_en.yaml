@@ -460,6 +460,7 @@ a11y:
   keySets:
     arrowOrWASD:     Arrow keys or W, A, S, or D letter keys
     arrow:           Arrow keys
+    leftRightOrUpDownArrows: Left and Right Arrow keys or Up and Down Arrow keys
     leftRightArrows: Left and Right Arrow keys
     upDownArrows:    Up and Down Arrow keys
     wasd:            W, A, S or D letter keys
