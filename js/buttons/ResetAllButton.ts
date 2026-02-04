@@ -10,7 +10,6 @@
 
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import HotkeyData from '../../../scenery/js/input/HotkeyData.js';
 import KeyboardListener from '../../../scenery/js/listeners/KeyboardListener.js';
@@ -19,7 +18,6 @@ import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../utterance-queue/js/ActivationUtterance.js';
 import isResettingAllProperty from '../isResettingAllProperty.js';
-import TextKeyNode from '../keyboard/TextKeyNode.js';
 import PhetColorScheme from '../PhetColorScheme.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetConstants from '../SceneryPhetConstants.js';
@@ -187,17 +185,8 @@ export default class ResetAllButton extends ResetButton {
   }
 
   public static readonly RESET_ALL_HOTKEY_DATA = new HotkeyData( {
-
     keys: [ 'alt+r' ],
-
-    // visual label for this Hotkey in the Keyboard Help dialog
     keyboardHelpDialogLabelStringProperty: SceneryPhetFluent.keyboardHelpDialog.resetAllStringProperty,
-
-    // PDOM description for this Hotkey in the Keyboard Help dialog
-    keyboardHelpDialogPDOMLabelStringProperty: StringUtils.fillIn( SceneryPhetFluent.a11y.keyboardHelpDialog.general.resetAllDescriptionPatternStringProperty, {
-      altOrOption: TextKeyNode.getAltKeyString()
-    } ),
-
     repoName: sceneryPhet.name,
     global: true
   } );

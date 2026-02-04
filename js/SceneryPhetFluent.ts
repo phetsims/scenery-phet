@@ -923,7 +923,6 @@ const SceneryPhetFluent = {
         jumpToMaximumDescriptionPatternStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.slider.jumpToMaximumDescriptionPatternStringProperty' )
       },
       general: {
-        resetAllDescriptionPatternStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.general.resetAllDescriptionPatternStringProperty' ),
         tabDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_general_tabDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.general.tabDescriptionStringProperty' ) ),
         shiftTabDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_general_shiftTabDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.general.shiftTabDescriptionStringProperty' ) ),
         tabGroupDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_general_tabGroupDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.general.tabGroupDescriptionStringProperty' ) ),

@@ -495,7 +495,6 @@ type StringsType = {
         'jumpToMaximumDescriptionPatternStringProperty': LocalizedStringProperty;
       };
       'general': {
-        'resetAllDescriptionPatternStringProperty': LocalizedStringProperty;
         'tabDescriptionStringProperty': LocalizedStringProperty;
         'shiftTabDescriptionStringProperty': LocalizedStringProperty;
         'tabGroupDescriptionStringProperty': LocalizedStringProperty;

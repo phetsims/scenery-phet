@@ -1082,9 +1082,6 @@
         }
       },
       "general": {
-        "resetAllDescriptionPattern": {
-          "value": "Reset All with {{altOrOption}} plus R key."
-        },
         "tabDescription": {
           "value": "Move to next item with Tab key."
         },
