@@ -247,8 +247,6 @@ addToMapIfDefined( 'a11y_keyboardHelpDialog_slider_leftRightArrowKeys', 'a11y.ke
 addToMapIfDefined( 'a11y_keyboardHelpDialog_slider_upDownArrowKeys', 'a11y.keyboardHelpDialog.slider.upDownArrowKeysStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_slider_shiftLeftRightArrowKeys', 'a11y.keyboardHelpDialog.slider.shiftLeftRightArrowKeysStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_slider_shiftUpDownArrowKeys', 'a11y.keyboardHelpDialog.slider.shiftUpDownArrowKeysStringProperty' );
-addToMapIfDefined( 'a11y_keyboardHelpDialog_general_tabGroupDescription', 'a11y.keyboardHelpDialog.general.tabGroupDescriptionStringProperty' );
-addToMapIfDefined( 'a11y_keyboardHelpDialog_general_shiftTabGroupDescription', 'a11y.keyboardHelpDialog.general.shiftTabGroupDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_general_groupNavigationDescription', 'a11y.keyboardHelpDialog.general.groupNavigationDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_general_setValuesInKeypadDescription', 'a11y.keyboardHelpDialog.general.setValuesInKeypadDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_general_exitDialogDescription', 'a11y.keyboardHelpDialog.general.exitDialogDescriptionStringProperty' );
@@ -921,8 +919,6 @@ const SceneryPhetFluent = {
         jumpToMaximumDescriptionPatternStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.slider.jumpToMaximumDescriptionPatternStringProperty' )
       },
       general: {
-        tabGroupDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_general_tabGroupDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.general.tabGroupDescriptionStringProperty' ) ),
-        shiftTabGroupDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_general_shiftTabGroupDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.general.shiftTabGroupDescriptionStringProperty' ) ),
         pressButtonsDescriptionStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.general.pressButtonsDescriptionStringProperty' ),
         groupNavigationDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_general_groupNavigationDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.general.groupNavigationDescriptionStringProperty' ) ),
         setValuesInKeypadDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_general_setValuesInKeypadDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.general.setValuesInKeypadDescriptionStringProperty' ) ),

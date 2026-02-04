@@ -12,6 +12,7 @@
 
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import HotkeyData from '../../../../scenery/js/input/HotkeyData.js';
 import ResetAllButton from '../../buttons/ResetAllButton.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetFluent from '../../SceneryPhetFluent.js';
@@ -42,20 +43,18 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
     }, providedOptions );
 
     // 'Move to next item or group'
-    const tabKeyNode = TextKeyNode.tab();
-    const moveToNextItemRow = KeyboardHelpSectionRow.labelWithIcon(
-      SceneryPhetFluent.keyboardHelpDialog.moveToNextItemOrGroupStringProperty,
-      tabKeyNode, {
-        labelInnerContent: SceneryPhetFluent.a11y.keyboardHelpDialog.general.tabGroupDescriptionStringProperty
-      } );
+    const moveToNextItemRow = KeyboardHelpSectionRow.fromHotkeyData( new HotkeyData( {
+      keys: [ 'tab' ],
+      keyboardHelpDialogLabelStringProperty: SceneryPhetFluent.keyboardHelpDialog.moveToNextItemOrGroupStringProperty,
+      repoName: sceneryPhet.name
+    } ) );
 
     // 'Move to previous item or group'
-    const shiftPlusTabIcon = KeyboardHelpIconFactory.shiftPlusIcon( tabKeyNode );
-    const moveToPreviousItemRow = KeyboardHelpSectionRow.labelWithIcon(
-      SceneryPhetFluent.keyboardHelpDialog.moveToPreviousItemOrGroupStringProperty,
-      shiftPlusTabIcon, {
-        labelInnerContent: SceneryPhetFluent.a11y.keyboardHelpDialog.general.shiftTabGroupDescriptionStringProperty
-      } );
+    const moveToPreviousItemRow = KeyboardHelpSectionRow.fromHotkeyData( new HotkeyData( {
+      keys: [ 'shift+tab' ],
+      keyboardHelpDialogLabelStringProperty: SceneryPhetFluent.keyboardHelpDialog.moveToPreviousItemOrGroupStringProperty,
+      repoName: sceneryPhet.name
+    } ) );
 
     // 'Move between items in a group'
     const leftRightArrowsIcon = KeyboardHelpIconFactory.leftRightArrowKeysRowIcon();

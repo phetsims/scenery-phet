@@ -1082,12 +1082,6 @@
         }
       },
       "general": {
-        "tabGroupDescription": {
-          "value": "Move to next item or group with Tab key."
-        },
-        "shiftTabGroupDescription": {
-          "value": "Move to previous item or group with Shift plus Tab key."
-        },
         "pressButtonsDescription": {
           "value": "Press buttons with Space or {{enterOrReturn}} keys."
         },
