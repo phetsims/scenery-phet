@@ -65,7 +65,7 @@ const DEFAULT_HSLIDER_THUMB_SIZE = new Dimension2( 17, 34 );
 export type LayoutFunction = ( titleNode: Node, numberDisplay: NumberDisplay, slider: Slider, decrementButton: ArrowButton | null, incrementButton: ArrowButton | null ) => Node;
 
 // description of a major tick
-type NumberControlMajorTick = {
+export type NumberControlMajorTick = {
   value: number; // value that the tick corresponds to
   label?: Node; // optional label that appears at the tick mark
 };
