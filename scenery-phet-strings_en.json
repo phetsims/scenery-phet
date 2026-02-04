@@ -1082,12 +1082,6 @@
         }
       },
       "general": {
-        "tabDescription": {
-          "value": "Move to next item with Tab key."
-        },
-        "shiftTabDescription": {
-          "value": "Move to previous item with Shift plus Tab key."
-        },
         "tabGroupDescription": {
           "value": "Move to next item or group with Tab key."
         },

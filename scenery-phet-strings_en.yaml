@@ -392,8 +392,6 @@ a11y:
       jumpToMinimumDescriptionPattern:            Jump to {{minimum}} with Home key.
       jumpToMaximumDescriptionPattern:            Jump to {{maximum}} with End key.
     general:
-      tabDescription:               Move to next item with Tab key.
-      shiftTabDescription:          Move to previous item with Shift plus Tab key.
       tabGroupDescription:          Move to next item or group with Tab key.
       shiftTabGroupDescription:     Move to previous item or group with Shift plus Tab key.
       pressButtonsDescription:      Press buttons with Space or {{enterOrReturn}} keys.
