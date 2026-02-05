@@ -1280,9 +1280,6 @@
       }
     },
     "stepButton": {
-      "stepForward": {
-        "value": "Step Forward"
-      },
       "playingDescription": {
         "value": "Pause sim to step forward little by little."
       },

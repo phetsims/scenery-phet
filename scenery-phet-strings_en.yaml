@@ -481,7 +481,6 @@ a11y:
     playingAccessibleContextResponse: Sim Playing.
     pausedAccessibleContextResponse:  Sim Paused.
   stepButton:
-    stepForward:        Step Forward
     playingDescription: Pause sim to step forward little by little.
     pausedDescription:  Play sim to resume chosen speed.
   timeControlNode:

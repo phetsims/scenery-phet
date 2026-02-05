@@ -298,7 +298,6 @@ addToMapIfDefined( 'a11y_playControlButton_pause', 'a11y.playControlButton.pause
 addToMapIfDefined( 'a11y_playControlButton_stop', 'a11y.playControlButton.stopStringProperty' );
 addToMapIfDefined( 'a11y_playPauseButton_playingAccessibleContextResponse', 'a11y.playPauseButton.playingAccessibleContextResponseStringProperty' );
 addToMapIfDefined( 'a11y_playPauseButton_pausedAccessibleContextResponse', 'a11y.playPauseButton.pausedAccessibleContextResponseStringProperty' );
-addToMapIfDefined( 'a11y_stepButton_stepForward', 'a11y.stepButton.stepForwardStringProperty' );
 addToMapIfDefined( 'a11y_stepButton_playingDescription', 'a11y.stepButton.playingDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_stepButton_pausedDescription', 'a11y.stepButton.pausedDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_timeControlNode_simSpeedDescription', 'a11y.timeControlNode.simSpeedDescriptionStringProperty' );
@@ -1013,7 +1012,6 @@ const SceneryPhetFluent = {
       pausedAccessibleContextResponseStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_playPauseButton_pausedAccessibleContextResponse', _.get( SceneryPhetStrings, 'a11y.playPauseButton.pausedAccessibleContextResponseStringProperty' ) )
     },
     stepButton: {
-      stepForwardStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_stepButton_stepForward', _.get( SceneryPhetStrings, 'a11y.stepButton.stepForwardStringProperty' ) ),
       playingDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_stepButton_playingDescription', _.get( SceneryPhetStrings, 'a11y.stepButton.playingDescriptionStringProperty' ) ),
       pausedDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_stepButton_pausedDescription', _.get( SceneryPhetStrings, 'a11y.stepButton.pausedDescriptionStringProperty' ) )
     },
