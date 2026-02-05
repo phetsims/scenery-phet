@@ -590,7 +590,7 @@ type StringsType = {
     };
     'timeControlNode': {
       'simSpeedDescriptionStringProperty': LocalizedStringProperty;
-      'labelStringProperty': LocalizedStringProperty;
+      'accessibleHeadingStringProperty': LocalizedStringProperty;
       'simSpeedsStringProperty': LocalizedStringProperty;
     };
     'playPauseStepButtonGroup': {

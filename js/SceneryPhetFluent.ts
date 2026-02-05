@@ -303,7 +303,7 @@ addToMapIfDefined( 'a11y_stepForwardButton_accessibleName', 'a11y.stepForwardBut
 addToMapIfDefined( 'a11y_stepButton_playingDescription', 'a11y.stepButton.playingDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_stepButton_pausedDescription', 'a11y.stepButton.pausedDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_timeControlNode_simSpeedDescription', 'a11y.timeControlNode.simSpeedDescriptionStringProperty' );
-addToMapIfDefined( 'a11y_timeControlNode_label', 'a11y.timeControlNode.labelStringProperty' );
+addToMapIfDefined( 'a11y_timeControlNode_accessibleHeading', 'a11y.timeControlNode.accessibleHeadingStringProperty' );
 addToMapIfDefined( 'a11y_timeControlNode_simSpeeds', 'a11y.timeControlNode.simSpeedsStringProperty' );
 addToMapIfDefined( 'a11y_playPauseStepButtonGroup_playingHelpText', 'a11y.playPauseStepButtonGroup.playingHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_playPauseStepButtonGroup_pausedHelpText', 'a11y.playPauseStepButtonGroup.pausedHelpTextStringProperty' );
@@ -1025,7 +1025,7 @@ const SceneryPhetFluent = {
     },
     timeControlNode: {
       simSpeedDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_timeControlNode_simSpeedDescription', _.get( SceneryPhetStrings, 'a11y.timeControlNode.simSpeedDescriptionStringProperty' ) ),
-      labelStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_timeControlNode_label', _.get( SceneryPhetStrings, 'a11y.timeControlNode.labelStringProperty' ) ),
+      accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_timeControlNode_accessibleHeading', _.get( SceneryPhetStrings, 'a11y.timeControlNode.accessibleHeadingStringProperty' ) ),
       simSpeedsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_timeControlNode_simSpeeds', _.get( SceneryPhetStrings, 'a11y.timeControlNode.simSpeedsStringProperty' ) )
     },
     playPauseStepButtonGroup: {

@@ -90,7 +90,7 @@ export default class TimeControlNode extends Node {
       excludeInvisibleChildrenFromBounds: true,
 
       // pdom
-      accessibleHeading: SceneryPhetFluent.a11y.timeControlNode.labelStringProperty
+      accessibleHeading: SceneryPhetFluent.a11y.timeControlNode.accessibleHeadingStringProperty
     }, providedOptions );
 
     super();

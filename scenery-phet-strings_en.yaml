@@ -489,7 +489,7 @@ a11y:
     pausedDescription:  Play sim to resume chosen speed.
   timeControlNode:
     simSpeedDescription: For closer observations Play sim on slower speed.
-    label:               Time Controls
+    accessibleHeading:               Time Controls
     simSpeeds:           Sim Speeds
   playPauseStepButtonGroup:
     playingHelpText: Pause sim to step through little by little.

@@ -1301,7 +1301,7 @@
       "simSpeedDescription": {
         "value": "For closer observations Play sim on slower speed."
       },
-      "label": {
+      "accessibleHeading": {
         "value": "Time Controls"
       },
       "simSpeeds": {
