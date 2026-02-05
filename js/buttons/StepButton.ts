@@ -17,7 +17,6 @@ import Path from '../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import TPaint from '../../../scenery/js/util/TPaint.js';
 import RoundPushButton, { RoundPushButtonOptions } from '../../../sun/js/buttons/RoundPushButton.js';
-import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import sceneryPhet from '../sceneryPhet.js';
 
 const DEFAULT_RADIUS = 20;
@@ -46,7 +45,6 @@ export default class StepButton extends RoundPushButton {
 
       // RoundPushButtonOptions
       fireOnHold: true,
-      soundPlayer: sharedSoundPlayers.get( 'stepForward' ),
       appendDescription: true
     }, providedOptions );
 

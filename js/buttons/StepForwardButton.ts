@@ -8,6 +8,7 @@
  */
 
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetFluent from '../SceneryPhetFluent.js';
 import StepButton, { StepButtonOptions } from './StepButton.js';
@@ -21,7 +22,8 @@ export default class StepForwardButton extends StepButton {
   public constructor( providedOptions?: StepForwardButtonOptions ) {
 
     const options = optionize<StepForwardButtonOptions, SelfOptions, StepButtonOptions>()( {
-      accessibleName: SceneryPhetFluent.a11y.stepForwardButton.accessibleNameStringProperty
+      accessibleName: SceneryPhetFluent.a11y.stepForwardButton.accessibleNameStringProperty,
+      soundPlayer: sharedSoundPlayers.get( 'stepForward' )
     }, providedOptions );
 
     super( 'forward', options );
