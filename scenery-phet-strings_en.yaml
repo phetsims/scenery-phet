@@ -458,16 +458,16 @@ a11y:
       escape:     Escape
       control:    Control
   keySets:
-    arrowOrWASD:     Arrow keys or W, A, S, or D letter keys
-    arrow:           Arrow keys
+    arrowOrWASD:             Arrow keys or W, A, S, or D letter keys
+    arrow:                   Arrow keys
     leftRightOrUpDownArrows: Left and Right Arrow keys or Up and Down Arrow keys
-    leftRightArrows: Left and Right Arrow keys
-    upDownArrows:    Up and Down Arrow keys
-    wasd:            W, A, S or D letter keys
-    ad:              A and D letter keys
-    ws:              W and S letter keys
-    leftRightOrAD:   Left and Right Arrow keys or A and D letter keys
-    upDownOrWS:      Up and Down Arrow keys or W and S letter keys
+    leftRightArrows:         Left and Right Arrow keys
+    upDownArrows:            Up and Down Arrow keys
+    wasd:                    W, A, S or D letter keys
+    ad:                      A and D letter keys
+    ws:                      W and S letter keys
+    leftRightOrAD:           Left and Right Arrow keys or A and D letter keys
+    upDownOrWS:              Up and Down Arrow keys or W and S letter keys
   eraserButton:
     accessibleName: Erase
   timerToggleButton:
@@ -489,7 +489,7 @@ a11y:
     pausedDescription:  Play sim to resume chosen speed.
   timeControlNode:
     simSpeedDescription: For closer observations Play sim on slower speed.
-    accessibleHeading:               Time Controls
+    accessibleHeading:   Time Controls
     simSpeeds:           Sim Speeds
   playPauseStepButtonGroup:
     playingHelpText: Pause sim to step through little by little.
