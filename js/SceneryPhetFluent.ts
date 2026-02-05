@@ -298,6 +298,8 @@ addToMapIfDefined( 'a11y_playControlButton_pause', 'a11y.playControlButton.pause
 addToMapIfDefined( 'a11y_playControlButton_stop', 'a11y.playControlButton.stopStringProperty' );
 addToMapIfDefined( 'a11y_playPauseButton_playingAccessibleContextResponse', 'a11y.playPauseButton.playingAccessibleContextResponseStringProperty' );
 addToMapIfDefined( 'a11y_playPauseButton_pausedAccessibleContextResponse', 'a11y.playPauseButton.pausedAccessibleContextResponseStringProperty' );
+addToMapIfDefined( 'a11y_stepBackwardButton_accessibleName', 'a11y.stepBackwardButton.accessibleNameStringProperty' );
+addToMapIfDefined( 'a11y_stepForwardButton_accessibleName', 'a11y.stepForwardButton.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_stepButton_playingDescription', 'a11y.stepButton.playingDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_stepButton_pausedDescription', 'a11y.stepButton.pausedDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_timeControlNode_simSpeedDescription', 'a11y.timeControlNode.simSpeedDescriptionStringProperty' );
@@ -1010,6 +1012,12 @@ const SceneryPhetFluent = {
     playPauseButton: {
       playingAccessibleContextResponseStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_playPauseButton_playingAccessibleContextResponse', _.get( SceneryPhetStrings, 'a11y.playPauseButton.playingAccessibleContextResponseStringProperty' ) ),
       pausedAccessibleContextResponseStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_playPauseButton_pausedAccessibleContextResponse', _.get( SceneryPhetStrings, 'a11y.playPauseButton.pausedAccessibleContextResponseStringProperty' ) )
+    },
+    stepBackwardButton: {
+      accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_stepBackwardButton_accessibleName', _.get( SceneryPhetStrings, 'a11y.stepBackwardButton.accessibleNameStringProperty' ) )
+    },
+    stepForwardButton: {
+      accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_stepForwardButton_accessibleName', _.get( SceneryPhetStrings, 'a11y.stepForwardButton.accessibleNameStringProperty' ) )
     },
     stepButton: {
       playingDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_stepButton_playingDescription', _.get( SceneryPhetStrings, 'a11y.stepButton.playingDescriptionStringProperty' ) ),

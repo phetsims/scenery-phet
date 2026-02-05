@@ -1279,6 +1279,16 @@
         "value": "Sim Paused."
       }
     },
+    "stepBackwardButton": {
+      "accessibleName": {
+        "value": "Step Backward"
+      }
+    },
+    "stepForwardButton": {
+      "accessibleName": {
+        "value": "Step Forward"
+      }
+    },
     "stepButton": {
       "playingDescription": {
         "value": "Pause sim to step forward little by little."

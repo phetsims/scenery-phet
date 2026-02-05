@@ -10,6 +10,7 @@
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import sceneryPhet from '../sceneryPhet.js';
+import SceneryPhetFluent from '../SceneryPhetFluent.js';
 import StepButton, { StepButtonOptions } from './StepButton.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -21,6 +22,7 @@ export default class StepForwardButton extends StepButton {
   public constructor( providedOptions?: StepForwardButtonOptions ) {
 
     const options = optionize<StepForwardButtonOptions, SelfOptions, StepButtonOptions>()( {
+      accessibleName: SceneryPhetFluent.a11y.stepForwardButton.accessibleNameStringProperty,
 
       // StepButtonOptions
       direction: 'forward'

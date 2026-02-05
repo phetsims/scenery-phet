@@ -480,6 +480,10 @@ a11y:
   playPauseButton:
     playingAccessibleContextResponse: Sim Playing.
     pausedAccessibleContextResponse:  Sim Paused.
+  stepBackwardButton:
+    accessibleName: Step Backward
+  stepForwardButton:
+    accessibleName: Step Forward
   stepButton:
     playingDescription: Pause sim to step forward little by little.
     pausedDescription:  Play sim to resume chosen speed.

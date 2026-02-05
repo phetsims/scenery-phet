@@ -578,6 +578,12 @@ type StringsType = {
       'playingAccessibleContextResponseStringProperty': LocalizedStringProperty;
       'pausedAccessibleContextResponseStringProperty': LocalizedStringProperty;
     };
+    'stepBackwardButton': {
+      'accessibleNameStringProperty': LocalizedStringProperty;
+    };
+    'stepForwardButton': {
+      'accessibleNameStringProperty': LocalizedStringProperty;
+    };
     'stepButton': {
       'playingDescriptionStringProperty': LocalizedStringProperty;
       'pausedDescriptionStringProperty': LocalizedStringProperty;
