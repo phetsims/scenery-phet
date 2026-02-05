@@ -478,8 +478,8 @@ a11y:
     pause: Pause
     stop:  Stop
   playPauseButton:
-    playingAccessibleContextResponse: Sim Playing.
-    pausedAccessibleContextResponse:  Sim Paused.
+    playingAccessibleContextResponse: Sim playing.
+    pausedAccessibleContextResponse:  Sim paused.
   stepBackwardButton:
     accessibleName: Step Backward
   stepForwardButton:

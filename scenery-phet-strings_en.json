@@ -1273,10 +1273,10 @@
     },
     "playPauseButton": {
       "playingAccessibleContextResponse": {
-        "value": "Sim Playing."
+        "value": "Sim playing."
       },
       "pausedAccessibleContextResponse": {
-        "value": "Sim Paused."
+        "value": "Sim paused."
       }
     },
     "stepBackwardButton": {
