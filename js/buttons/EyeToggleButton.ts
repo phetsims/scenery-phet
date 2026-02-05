@@ -19,7 +19,10 @@ import sceneryPhet from '../sceneryPhet.js';
 
 type SelfOptions = EmptySelfOptions;
 
-export type EyeToggleButtonOptions = SelfOptions & StrictOmit<RectangularToggleButtonOptions, 'content'>;
+// The EyeToggleButton is meant to be a "button" with two accessible names using accessibleNameOn and
+// accessibleNameOff. As such, you cannot provide a role configuration or single accessibleName. See
+// https://github.com/phetsims/scenery-phet/issues/964.
+export type EyeToggleButtonOptions = SelfOptions & StrictOmit<RectangularToggleButtonOptions, 'content' | 'accessibleName' | 'accessibleRoleConfiguration'>;
 
 export default class EyeToggleButton extends RectangularToggleButton<boolean> {
 
