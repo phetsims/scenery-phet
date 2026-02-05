@@ -27,7 +27,6 @@ type Direction = 'forward' | 'backward';
 
 type SelfOptions = {
   radius?: number;
-  direction?: Direction;
   iconFill?: TPaint;
 };
 
@@ -36,14 +35,13 @@ export type StepButtonOptions = SelfOptions &
 
 export default class StepButton extends RoundPushButton {
 
-  public constructor( providedOptions?: StepButtonOptions ) {
+  public constructor( direction: Direction, providedOptions?: StepButtonOptions ) {
 
     // these options are used in computation of other default options
     const options = optionize<StepButtonOptions, SelfOptions, RoundPushButtonOptions>()( {
 
       // SelfOptions
       radius: DEFAULT_RADIUS,
-      direction: 'forward',
       iconFill: 'black',
 
       // RoundPushButtonOptions
@@ -52,11 +50,8 @@ export default class StepButton extends RoundPushButton {
       appendDescription: true
     }, providedOptions );
 
-    assert && assert( options.direction === 'forward' || options.direction === 'backward',
-      `unsupported direction: ${options.direction}` );
-
     // shift the content to center align, assumes 3D appearance and specific content
-    options.xContentOffset = ( options.direction === 'forward' ) ? ( 0.075 * options.radius ) : ( -0.15 * options.radius );
+    options.xContentOffset = ( direction === 'forward' ) ? ( 0.075 * options.radius ) : ( -0.15 * options.radius );
 
     assert && assert( options.xMargin === undefined && options.yMargin === undefined, 'StepButton sets margins' );
     options.xMargin = options.yMargin = options.radius * MARGIN_COEFFICIENT;
@@ -80,7 +75,7 @@ export default class StepButton extends RoundPushButton {
       children: [ barPath, trianglePath ],
       spacing: BAR_WIDTH,
       sizable: false,
-      rotation: ( options.direction === 'forward' ) ? 0 : Math.PI
+      rotation: ( direction === 'forward' ) ? 0 : Math.PI
     } );
 
     super( options );
