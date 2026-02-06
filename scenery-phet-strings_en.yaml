@@ -494,6 +494,9 @@ a11y:
   playPauseStepButtonGroup:
     playingHelpText: Pause sim to step through little by little.
     pausedHelpText:  Step through little by little.
+  restartButton:
+    accessibleName:     Restart
+    accessibleHelpText: Reset sim time to zero.
   movementAlerter:
     down:              down
     left:              left

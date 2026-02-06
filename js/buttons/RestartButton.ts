@@ -15,6 +15,7 @@ import Path from '../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import RoundPushButton, { RoundPushButtonOptions } from '../../../sun/js/buttons/RoundPushButton.js';
 import sceneryPhet from '../sceneryPhet.js';
+import SceneryPhetFluent from '../SceneryPhetFluent.js';
 
 // constants
 const scale = 0.75;
@@ -32,7 +33,9 @@ export default class RestartButton extends RoundPushButton {
 
   public constructor( providedOptions?: RestartButtonOptions ) {
 
-    const options = optionize<RestartButtonOptions, SelfOptions, RoundPushButtonOptions>()( {}, providedOptions );
+    const options = optionize<RestartButtonOptions, SelfOptions, RoundPushButtonOptions>()( {
+      accessibleName: SceneryPhetFluent.a11y.restartButton.accessibleNameStringProperty
+    }, providedOptions );
 
     const barPath = new Rectangle( 0, 0, barWidth, barHeight, { fill: 'black' } );
     const trianglePath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( -triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {

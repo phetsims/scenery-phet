@@ -307,6 +307,8 @@ addToMapIfDefined( 'a11y_timeControlNode_accessibleHeading', 'a11y.timeControlNo
 addToMapIfDefined( 'a11y_timeControlNode_simSpeeds', 'a11y.timeControlNode.simSpeedsStringProperty' );
 addToMapIfDefined( 'a11y_playPauseStepButtonGroup_playingHelpText', 'a11y.playPauseStepButtonGroup.playingHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_playPauseStepButtonGroup_pausedHelpText', 'a11y.playPauseStepButtonGroup.pausedHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_restartButton_accessibleName', 'a11y.restartButton.accessibleNameStringProperty' );
+addToMapIfDefined( 'a11y_restartButton_accessibleHelpText', 'a11y.restartButton.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_movementAlerter_down', 'a11y.movementAlerter.downStringProperty' );
 addToMapIfDefined( 'a11y_movementAlerter_left', 'a11y.movementAlerter.leftStringProperty' );
 addToMapIfDefined( 'a11y_movementAlerter_right', 'a11y.movementAlerter.rightStringProperty' );
@@ -1031,6 +1033,10 @@ const SceneryPhetFluent = {
     playPauseStepButtonGroup: {
       playingHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_playPauseStepButtonGroup_playingHelpText', _.get( SceneryPhetStrings, 'a11y.playPauseStepButtonGroup.playingHelpTextStringProperty' ) ),
       pausedHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_playPauseStepButtonGroup_pausedHelpText', _.get( SceneryPhetStrings, 'a11y.playPauseStepButtonGroup.pausedHelpTextStringProperty' ) )
+    },
+    restartButton: {
+      accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_restartButton_accessibleName', _.get( SceneryPhetStrings, 'a11y.restartButton.accessibleNameStringProperty' ) ),
+      accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_restartButton_accessibleHelpText', _.get( SceneryPhetStrings, 'a11y.restartButton.accessibleHelpTextStringProperty' ) )
     },
     movementAlerter: {
       downStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_movementAlerter_down', _.get( SceneryPhetStrings, 'a11y.movementAlerter.downStringProperty' ) ),

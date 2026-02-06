@@ -597,6 +597,10 @@ type StringsType = {
       'playingHelpTextStringProperty': LocalizedStringProperty;
       'pausedHelpTextStringProperty': LocalizedStringProperty;
     };
+    'restartButton': {
+      'accessibleNameStringProperty': LocalizedStringProperty;
+      'accessibleHelpTextStringProperty': LocalizedStringProperty;
+    };
     'movementAlerter': {
       'downStringProperty': LocalizedStringProperty;
       'leftStringProperty': LocalizedStringProperty;

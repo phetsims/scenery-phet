@@ -1316,6 +1316,14 @@
         "value": "Step through little by little."
       }
     },
+    "restartButton": {
+      "accessibleName": {
+        "value": "Restart"
+      },
+      "accessibleHelpText": {
+        "value": "Reset sim time to zero."
+      }
+    },
     "movementAlerter": {
       "down": {
         "value": "down"
