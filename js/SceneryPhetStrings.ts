@@ -599,7 +599,6 @@ type StringsType = {
     };
     'restartButton': {
       'accessibleNameStringProperty': LocalizedStringProperty;
-      'accessibleHelpTextStringProperty': LocalizedStringProperty;
     };
     'movementAlerter': {
       'downStringProperty': LocalizedStringProperty;

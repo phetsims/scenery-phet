@@ -496,7 +496,6 @@ a11y:
     pausedHelpText:  Step through little by little.
   restartButton:
     accessibleName:     Restart
-    accessibleHelpText: Reset sim time to zero.
   movementAlerter:
     down:              down
     left:              left

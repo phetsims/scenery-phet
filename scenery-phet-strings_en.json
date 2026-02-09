@@ -1319,9 +1319,6 @@
     "restartButton": {
       "accessibleName": {
         "value": "Restart"
-      },
-      "accessibleHelpText": {
-        "value": "Reset sim time to zero."
       }
     },
     "movementAlerter": {
