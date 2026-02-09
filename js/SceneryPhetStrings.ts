@@ -495,11 +495,7 @@ type StringsType = {
         'jumpToMaximumDescriptionPatternStringProperty': LocalizedStringProperty;
       };
       'general': {
-        'pressButtonsDescriptionStringProperty': LocalizedStringProperty;
-        'groupNavigationDescriptionStringProperty': LocalizedStringProperty;
         'setValuesInKeypadDescriptionStringProperty': LocalizedStringProperty;
-        'exitDialogDescriptionStringProperty': LocalizedStringProperty;
-        'toggleCheckboxesDescriptionStringProperty': LocalizedStringProperty;
       };
       'grabOrReleaseDescriptionPatternStringProperty': LocalizedStringProperty;
       'comboBox': {

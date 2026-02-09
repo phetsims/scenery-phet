@@ -10,14 +10,12 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import HotkeyData from '../../../../scenery/js/input/HotkeyData.js';
 import ResetAllButton from '../../buttons/ResetAllButton.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetFluent from '../../SceneryPhetFluent.js';
 import NumberKeyNode from '../NumberKeyNode.js';
-import TextKeyNode from '../TextKeyNode.js';
 import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
@@ -56,36 +54,28 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
       repoName: sceneryPhet.name
     } ) );
 
-    // 'Move between items in a group'
-    const leftRightArrowsIcon = KeyboardHelpIconFactory.leftRightArrowKeysRowIcon();
-    const upDownArrowsIcon = KeyboardHelpIconFactory.upDownArrowKeysRowIcon();
-    const arrowsIcon = KeyboardHelpIconFactory.iconOrIcon( leftRightArrowsIcon, upDownArrowsIcon );
-    const moveBetweenItemsInAGroupRow = KeyboardHelpSectionRow.labelWithIcon(
-      SceneryPhetFluent.keyboardHelpDialog.moveBetweenItemsInAGroupStringProperty,
-      arrowsIcon, {
-        labelInnerContent: SceneryPhetFluent.a11y.keyboardHelpDialog.general.groupNavigationDescriptionStringProperty
-      } );
+    const moveBetweenItemsInAGroupRow = KeyboardHelpSectionRow.fromHotkeyData( new HotkeyData( {
+      keys: [ 'arrowLeft', 'arrowRight', 'arrowUp', 'arrowDown' ],
+      keyboardHelpDialogLabelStringProperty: SceneryPhetFluent.keyboardHelpDialog.moveBetweenItemsInAGroupStringProperty,
+      repoName: sceneryPhet.name
+    } ), { hotkeySetVariant: 'paired' } );
 
     // 'Press buttons'
-    const spaceKeyNode = TextKeyNode.space();
-    const enterKeyNode = TextKeyNode.enter();
-    const spaceOrEnterIcon = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode );
-    const pressButtonsItemRow = KeyboardHelpSectionRow.labelWithIcon(
-      SceneryPhetFluent.keyboardHelpDialog.pressButtonsStringProperty, spaceOrEnterIcon, {
-        labelInnerContent: new PatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.general.pressButtonsDescriptionStringProperty, {
-          enterOrReturn: TextKeyNode.getEnterKeyString()
-        } )
-      } );
+    const pressButtonsItemRow = KeyboardHelpSectionRow.fromHotkeyData( new HotkeyData( {
+      keys: [ 'space', 'enter' ],
+      keyboardHelpDialogLabelStringProperty: SceneryPhetFluent.keyboardHelpDialog.pressButtonsStringProperty,
+      repoName: sceneryPhet.name
+    } ) );
 
     // 'Reset All'
     const resetAllRow = KeyboardHelpSectionRow.fromHotkeyData( ResetAllButton.RESET_ALL_HOTKEY_DATA );
 
     // 'Exit a dialog'
-    const escapeKeyNode = TextKeyNode.esc();
-    const exitADialogRow = KeyboardHelpSectionRow.labelWithIcon(
-      SceneryPhetFluent.keyboardHelpDialog.exitADialogStringProperty, escapeKeyNode, {
-        labelInnerContent: SceneryPhetFluent.a11y.keyboardHelpDialog.general.exitDialogDescriptionStringProperty
-      } );
+    const exitADialogRow = KeyboardHelpSectionRow.fromHotkeyData( new HotkeyData( {
+      keys: [ 'escape' ],
+      keyboardHelpDialogLabelStringProperty: SceneryPhetFluent.keyboardHelpDialog.exitADialogStringProperty,
+      repoName: sceneryPhet.name
+    } ) );
 
     const content = [
       moveToNextItemRow,
@@ -96,6 +86,8 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
     if ( options.withKeypadContent ) {
 
       // 'Set values within keypad'
+      // NOTE: Not using fromHotkeyData for this one because this is a very custom icon and description and there
+      // isn't a hotkey entry in HotkeySetDefinitions that matches this content.
       const zeroToNineIcon = KeyboardHelpIconFactory.iconToIcon( new NumberKeyNode( 0 ), new NumberKeyNode( 9 ) );
       const setValuesInKeypadRow = KeyboardHelpSectionRow.labelWithIcon(
         SceneryPhetFluent.keyboardHelpDialog.setValuesInKeypadStringProperty, zeroToNineIcon, {
@@ -106,11 +98,11 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
 
     // 'Toggle checkboxes'
     if ( options.withCheckboxContent ) {
-      const checkboxSpaceKeyNode = TextKeyNode.space();
-      const toggleCheckboxes = KeyboardHelpSectionRow.labelWithIcon(
-        SceneryPhetFluent.keyboardHelpDialog.toggleCheckboxesStringProperty, checkboxSpaceKeyNode, {
-          labelInnerContent: SceneryPhetFluent.a11y.keyboardHelpDialog.general.toggleCheckboxesDescriptionStringProperty
-        } );
+      const toggleCheckboxes = KeyboardHelpSectionRow.fromHotkeyData( new HotkeyData( {
+        keys: [ 'space' ],
+        keyboardHelpDialogLabelStringProperty: SceneryPhetFluent.keyboardHelpDialog.toggleCheckboxesStringProperty,
+        repoName: sceneryPhet.name
+      } ) );
       content.push( toggleCheckboxes );
     }
 

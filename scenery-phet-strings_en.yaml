@@ -392,13 +392,7 @@ a11y:
       jumpToMinimumDescriptionPattern:            Jump to {{minimum}} with Home key.
       jumpToMaximumDescriptionPattern:            Jump to {{maximum}} with End key.
     general:
-      pressButtonsDescription:      Press buttons with Space or {{enterOrReturn}} keys.
-      groupNavigationDescription:   >-
-                                    Move between items in a group with Left and Right arrow keys or Up and
-                                    Down arrow keys.
       setValuesInKeypadDescription: Set values within keypad using number keys 0-9.
-      exitDialogDescription:        Exit a dialog with Escape key.
-      toggleCheckboxesDescription:  Toggle checkboxes with Space key.
     grabOrReleaseDescriptionPattern: Grab or release {{thing}} with Space or {{enterOrReturn}} keys.
     comboBox:
       popUpListPatternDescription:     Show {{thingPlural}} with Space or {{enterOrReturn}} keys.
