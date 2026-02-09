@@ -393,7 +393,6 @@ a11y:
       jumpToMaximumDescriptionPattern:            Jump to {{maximum}} with End key.
     general:
       setValuesInKeypadDescription: Set values within keypad using number keys 0-9.
-    grabOrReleaseDescriptionPattern: Grab or release {{thing}} with Space or {{enterOrReturn}} keys.
     comboBox:
       popUpListPatternDescription:     Show {{thingPlural}} with Space or {{enterOrReturn}} keys.
       moveThroughPatternDescription:   Move through {{thingPlural}} with Up and Down arrow keys.

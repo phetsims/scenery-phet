@@ -1086,9 +1086,6 @@
           "value": "Set values within keypad using number keys 0-9."
         }
       },
-      "grabOrReleaseDescriptionPattern": {
-        "value": "Grab or release {{thing}} with Space or {{enterOrReturn}} keys."
-      },
       "comboBox": {
         "popUpListPatternDescription": {
           "value": "Show {{thingPlural}} with Space or {{enterOrReturn}} keys."

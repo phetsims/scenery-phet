@@ -10,11 +10,10 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import HotkeyData from '../../../../scenery/js/input/HotkeyData.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetFluent from '../../SceneryPhetFluent.js';
-import TextKeyNode from '../TextKeyNode.js';
-import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 
@@ -46,21 +45,11 @@ export default class GrabReleaseKeyboardHelpSection extends KeyboardHelpSection 
       thing: thingAsLowerCase
     }, { tandem: Tandem.OPT_OUT } );
 
-    // the string for the PDOM
-    const descriptionStringProperty = new PatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.grabOrReleaseDescriptionPatternStringProperty, {
-      thing: thingAsLowerCase,
-      enterOrReturn: TextKeyNode.getEnterKeyString()
-    }, { tandem: Tandem.OPT_OUT } );
-
-    const spaceKeyNode = TextKeyNode.space();
-    const enterKeyNode = TextKeyNode.enter();
-    const icons = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode );
-    const labelWithContentRow = KeyboardHelpSectionRow.labelWithIcon( labelStringProperty, icons, {
-      labelInnerContent: descriptionStringProperty,
-      iconOptions: {
-        tagName: 'p' // it is the only item, so it is 'p' rather than 'li'
-      }
-    } );
+    const labelWithContentRow = KeyboardHelpSectionRow.fromHotkeyData( new HotkeyData( {
+      keys: [ 'space', 'enter' ],
+      keyboardHelpDialogLabelStringProperty: labelStringProperty,
+      repoName: sceneryPhet.name
+    } ) );
 
     super( headingStringProperty, [ labelWithContentRow ], options );
   }

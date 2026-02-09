@@ -497,7 +497,6 @@ type StringsType = {
       'general': {
         'setValuesInKeypadDescriptionStringProperty': LocalizedStringProperty;
       };
-      'grabOrReleaseDescriptionPatternStringProperty': LocalizedStringProperty;
       'comboBox': {
         'popUpListPatternDescriptionStringProperty': LocalizedStringProperty;
         'moveThroughPatternDescriptionStringProperty': LocalizedStringProperty;
