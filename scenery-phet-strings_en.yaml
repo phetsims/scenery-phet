@@ -378,17 +378,6 @@ a11y:
       simSoundOff: Sim sound off.
   keyboardHelpDialog:
     slider:
-      orKeysPattern:                              '{{leftRight}}, or {{upDown}}'
-      leftRightArrowKeys:                         Left and Right arrow keys
-      upDownArrowKeys:                            Up and Down arrow keys
-      defaultStepsDescriptionPattern:             '{{verb}} {{slider}} with {{keys}}.'
-      defaultStepsAdjustSliderDescriptionPattern: '{{adjustSlider}} with {{keys}}.'
-      shiftLeftRightArrowKeys:                    Shift plus Left or Right arrow key
-      shiftUpDownArrowKeys:                       Shift plus Up or Down arrow key
-      smallerStepsDescriptionPattern:             '{{verb}} in smaller steps with {{keys}}.'
-      smallerStepsAdjustSliderDescriptionPattern: '{{adjustInSmallerSteps}} with {{keys}}.'
-      largerStepsDescriptionPattern:              '{{verb}} in larger steps with Page Up or Page Down key.'
-      largerStepsAdjustSliderDescriptionPattern:  '{{adjustInLargerSteps}} with Page Up or Page Down key.'
       jumpToMinimumDescriptionPattern:            Jump to {{minimum}} with Home key.
       jumpToMaximumDescriptionPattern:            Jump to {{maximum}} with End key.
     general:
@@ -455,7 +444,9 @@ a11y:
     arrow:                   Arrow keys
     leftRightOrUpDownArrows: Left and Right Arrow keys or Up and Down Arrow keys
     leftRightArrows:         Left and Right Arrow keys
+    leftOrRightArrows:       Left or Right Arrow keys
     upDownArrows:            Up and Down Arrow keys
+    upOrDownArrows:          Up or Down Arrow keys
     wasd:                    W, A, S or D letter keys
     ad:                      A and D letter keys
     ws:                      W and S letter keys

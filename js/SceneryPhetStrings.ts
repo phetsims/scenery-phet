@@ -480,17 +480,6 @@ type StringsType = {
     };
     'keyboardHelpDialog': {
       'slider': {
-        'orKeysPatternStringProperty': LocalizedStringProperty;
-        'leftRightArrowKeysStringProperty': LocalizedStringProperty;
-        'upDownArrowKeysStringProperty': LocalizedStringProperty;
-        'defaultStepsDescriptionPatternStringProperty': LocalizedStringProperty;
-        'defaultStepsAdjustSliderDescriptionPatternStringProperty': LocalizedStringProperty;
-        'shiftLeftRightArrowKeysStringProperty': LocalizedStringProperty;
-        'shiftUpDownArrowKeysStringProperty': LocalizedStringProperty;
-        'smallerStepsDescriptionPatternStringProperty': LocalizedStringProperty;
-        'smallerStepsAdjustSliderDescriptionPatternStringProperty': LocalizedStringProperty;
-        'largerStepsDescriptionPatternStringProperty': LocalizedStringProperty;
-        'largerStepsAdjustSliderDescriptionPatternStringProperty': LocalizedStringProperty;
         'jumpToMinimumDescriptionPatternStringProperty': LocalizedStringProperty;
         'jumpToMaximumDescriptionPatternStringProperty': LocalizedStringProperty;
       };
@@ -550,7 +539,9 @@ type StringsType = {
       'arrowStringProperty': LocalizedStringProperty;
       'leftRightOrUpDownArrowsStringProperty': LocalizedStringProperty;
       'leftRightArrowsStringProperty': LocalizedStringProperty;
+      'leftOrRightArrowsStringProperty': LocalizedStringProperty;
       'upDownArrowsStringProperty': LocalizedStringProperty;
+      'upOrDownArrowsStringProperty': LocalizedStringProperty;
       'wasdStringProperty': LocalizedStringProperty;
       'adStringProperty': LocalizedStringProperty;
       'wsStringProperty': LocalizedStringProperty;

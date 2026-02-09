@@ -243,10 +243,6 @@ addToMapIfDefined( 'a11y_resetAll_accessibleContextResponse', 'a11y.resetAll.acc
 addToMapIfDefined( 'a11y_soundToggle_label', 'a11y.soundToggle.labelStringProperty' );
 addToMapIfDefined( 'a11y_soundToggle_alert_simSoundOn', 'a11y.soundToggle.alert.simSoundOnStringProperty' );
 addToMapIfDefined( 'a11y_soundToggle_alert_simSoundOff', 'a11y.soundToggle.alert.simSoundOffStringProperty' );
-addToMapIfDefined( 'a11y_keyboardHelpDialog_slider_leftRightArrowKeys', 'a11y.keyboardHelpDialog.slider.leftRightArrowKeysStringProperty' );
-addToMapIfDefined( 'a11y_keyboardHelpDialog_slider_upDownArrowKeys', 'a11y.keyboardHelpDialog.slider.upDownArrowKeysStringProperty' );
-addToMapIfDefined( 'a11y_keyboardHelpDialog_slider_shiftLeftRightArrowKeys', 'a11y.keyboardHelpDialog.slider.shiftLeftRightArrowKeysStringProperty' );
-addToMapIfDefined( 'a11y_keyboardHelpDialog_slider_shiftUpDownArrowKeys', 'a11y.keyboardHelpDialog.slider.shiftUpDownArrowKeysStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_general_setValuesInKeypadDescription', 'a11y.keyboardHelpDialog.general.setValuesInKeypadDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_comboBox_closeWithoutChangingDescription', 'a11y.keyboardHelpDialog.comboBox.closeWithoutChangingDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_draggableItems_moveDescription', 'a11y.keyboardHelpDialog.draggableItems.moveDescriptionStringProperty' );
@@ -281,7 +277,9 @@ addToMapIfDefined( 'a11y_keySets_arrowOrWASD', 'a11y.keySets.arrowOrWASDStringPr
 addToMapIfDefined( 'a11y_keySets_arrow', 'a11y.keySets.arrowStringProperty' );
 addToMapIfDefined( 'a11y_keySets_leftRightOrUpDownArrows', 'a11y.keySets.leftRightOrUpDownArrowsStringProperty' );
 addToMapIfDefined( 'a11y_keySets_leftRightArrows', 'a11y.keySets.leftRightArrowsStringProperty' );
+addToMapIfDefined( 'a11y_keySets_leftOrRightArrows', 'a11y.keySets.leftOrRightArrowsStringProperty' );
 addToMapIfDefined( 'a11y_keySets_upDownArrows', 'a11y.keySets.upDownArrowsStringProperty' );
+addToMapIfDefined( 'a11y_keySets_upOrDownArrows', 'a11y.keySets.upOrDownArrowsStringProperty' );
 addToMapIfDefined( 'a11y_keySets_wasd', 'a11y.keySets.wasdStringProperty' );
 addToMapIfDefined( 'a11y_keySets_ad', 'a11y.keySets.adStringProperty' );
 addToMapIfDefined( 'a11y_keySets_ws', 'a11y.keySets.wsStringProperty' );
@@ -904,17 +902,6 @@ const SceneryPhetFluent = {
     },
     keyboardHelpDialog: {
       slider: {
-        orKeysPatternStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.slider.orKeysPatternStringProperty' ),
-        leftRightArrowKeysStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_slider_leftRightArrowKeys', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.slider.leftRightArrowKeysStringProperty' ) ),
-        upDownArrowKeysStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_slider_upDownArrowKeys', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.slider.upDownArrowKeysStringProperty' ) ),
-        defaultStepsDescriptionPatternStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.slider.defaultStepsDescriptionPatternStringProperty' ),
-        defaultStepsAdjustSliderDescriptionPatternStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.slider.defaultStepsAdjustSliderDescriptionPatternStringProperty' ),
-        shiftLeftRightArrowKeysStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_slider_shiftLeftRightArrowKeys', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.slider.shiftLeftRightArrowKeysStringProperty' ) ),
-        shiftUpDownArrowKeysStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_slider_shiftUpDownArrowKeys', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.slider.shiftUpDownArrowKeysStringProperty' ) ),
-        smallerStepsDescriptionPatternStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.slider.smallerStepsDescriptionPatternStringProperty' ),
-        smallerStepsAdjustSliderDescriptionPatternStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.slider.smallerStepsAdjustSliderDescriptionPatternStringProperty' ),
-        largerStepsDescriptionPatternStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.slider.largerStepsDescriptionPatternStringProperty' ),
-        largerStepsAdjustSliderDescriptionPatternStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.slider.largerStepsAdjustSliderDescriptionPatternStringProperty' ),
         jumpToMinimumDescriptionPatternStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.slider.jumpToMinimumDescriptionPatternStringProperty' ),
         jumpToMaximumDescriptionPatternStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.slider.jumpToMaximumDescriptionPatternStringProperty' )
       },
@@ -983,7 +970,9 @@ const SceneryPhetFluent = {
       arrowStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_arrow', _.get( SceneryPhetStrings, 'a11y.keySets.arrowStringProperty' ) ),
       leftRightOrUpDownArrowsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_leftRightOrUpDownArrows', _.get( SceneryPhetStrings, 'a11y.keySets.leftRightOrUpDownArrowsStringProperty' ) ),
       leftRightArrowsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_leftRightArrows', _.get( SceneryPhetStrings, 'a11y.keySets.leftRightArrowsStringProperty' ) ),
+      leftOrRightArrowsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_leftOrRightArrows', _.get( SceneryPhetStrings, 'a11y.keySets.leftOrRightArrowsStringProperty' ) ),
       upDownArrowsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_upDownArrows', _.get( SceneryPhetStrings, 'a11y.keySets.upDownArrowsStringProperty' ) ),
+      upOrDownArrowsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_upOrDownArrows', _.get( SceneryPhetStrings, 'a11y.keySets.upOrDownArrowsStringProperty' ) ),
       wasdStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_wasd', _.get( SceneryPhetStrings, 'a11y.keySets.wasdStringProperty' ) ),
       adStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_ad', _.get( SceneryPhetStrings, 'a11y.keySets.adStringProperty' ) ),
       wsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keySets_ws', _.get( SceneryPhetStrings, 'a11y.keySets.wsStringProperty' ) ),

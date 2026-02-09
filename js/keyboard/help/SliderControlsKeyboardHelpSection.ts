@@ -12,12 +12,11 @@ import assertMutuallyExclusiveOptions from '../../../../phet-core/js/assertMutua
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
-import AccessibleValueHandlerHotkeyDataCollection from '../../../../sun/js/accessibility/AccessibleValueHandlerHotkeyDataCollection.js';
+import HotkeyData from '../../../../scenery/js/input/HotkeyData.js';
+import { OneKeyStroke } from '../../../../scenery/js/input/KeyDescriptor.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetFluent from '../../SceneryPhetFluent.js';
-import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 
@@ -136,72 +135,6 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
       }, { tandem: Tandem.OPT_OUT } );
     }
 
-    const keysStringProperty =
-      ( options.arrowKeyIconDisplay === ArrowKeyIconDisplay.LEFT_RIGHT ) ? SceneryPhetFluent.a11y.keyboardHelpDialog.slider.leftRightArrowKeysStringProperty :
-      ( options.arrowKeyIconDisplay === ArrowKeyIconDisplay.UP_DOWN ) ? SceneryPhetFluent.a11y.keyboardHelpDialog.slider.upDownArrowKeysStringProperty :
-      ( options.arrowKeyIconDisplay === ArrowKeyIconDisplay.BOTH ) ?
-      new PatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.slider.orKeysPatternStringProperty, {
-        leftRight: SceneryPhetFluent.a11y.keyboardHelpDialog.slider.leftRightArrowKeysStringProperty,
-        upDown: SceneryPhetFluent.a11y.keyboardHelpDialog.slider.upDownArrowKeysStringProperty
-      }, { tandem: Tandem.OPT_OUT } ) : null;
-    assert && assert( keysStringProperty );
-
-    // The PDOM content describing how to adjust the slider in default steps.
-    const keyboardHelpDialogDefaultStepsStringProperty =
-
-      // The user provided a custom string for the adjustSliderStringProperty, so use that in the pattern.
-      options.adjustSliderStringProperty !== SceneryPhetFluent.keyboardHelpDialog.adjustSliderStringProperty ?
-      new PatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.slider.defaultStepsAdjustSliderDescriptionPatternStringProperty, {
-        adjustSlider: options.adjustSliderStringProperty,
-        keys: keysStringProperty!
-      }, { tandem: Tandem.OPT_OUT } ) :
-
-        // Otherwise, use the default pattern.
-      new PatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.slider.defaultStepsDescriptionPatternStringProperty, {
-        verb: options.verbStringProperty,
-        slider: options.sliderStringProperty,
-        keys: keysStringProperty!
-      }, { tandem: Tandem.OPT_OUT } );
-
-    const shiftKeysStringProperty =
-      ( options.arrowKeyIconDisplay === ArrowKeyIconDisplay.LEFT_RIGHT ) ? SceneryPhetFluent.a11y.keyboardHelpDialog.slider.shiftLeftRightArrowKeysStringProperty :
-      ( options.arrowKeyIconDisplay === ArrowKeyIconDisplay.UP_DOWN ) ? SceneryPhetFluent.a11y.keyboardHelpDialog.slider.shiftUpDownArrowKeysStringProperty :
-      ( options.arrowKeyIconDisplay === ArrowKeyIconDisplay.BOTH ) ? new PatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.slider.orKeysPatternStringProperty, {
-        leftRight: SceneryPhetFluent.a11y.keyboardHelpDialog.slider.shiftLeftRightArrowKeysStringProperty,
-        upDown: SceneryPhetFluent.a11y.keyboardHelpDialog.slider.shiftUpDownArrowKeysStringProperty
-      }, { tandem: Tandem.OPT_OUT } ) : null;
-    assert && assert( shiftKeysStringProperty );
-
-    // The PDOM content describing how to adjust the slider in smaller steps.
-    const keyboardHelpDialogSmallerStepsStringProperty =
-
-      // The user provided a custom string for the adjustInSmallerStepsStringProperty, so use that in the pattern.
-      options.adjustInSmallerStepsStringProperty !== SceneryPhetFluent.keyboardHelpDialog.adjustInSmallerStepsStringProperty ?
-      new PatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.slider.smallerStepsAdjustSliderDescriptionPatternStringProperty, {
-        adjustInSmallerSteps: options.adjustInSmallerStepsStringProperty,
-        keys: shiftKeysStringProperty!
-      }, { tandem: Tandem.OPT_OUT } ) :
-
-        // Otherwise, use the default pattern.
-      new PatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.slider.smallerStepsDescriptionPatternStringProperty, {
-        verb: options.verbStringProperty,
-        keys: shiftKeysStringProperty!
-      }, { tandem: Tandem.OPT_OUT } );
-
-    // The PDOM content describing how to adjust the slider in larger steps.
-    const keyboardHelpDialogLargerStepsStringProperty =
-
-      // The user provided a custom string for the adjustInLargerStepsStringProperty, so use that in the pattern.
-      options.adjustInLargerStepsStringProperty !== SceneryPhetFluent.keyboardHelpDialog.adjustInLargerStepsStringProperty ?
-      new PatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.slider.largerStepsAdjustSliderDescriptionPatternStringProperty, {
-        adjustInLargerSteps: options.adjustInLargerStepsStringProperty
-      }, { tandem: Tandem.OPT_OUT } ) :
-
-        // Otherwise, use the default pattern.
-      new PatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.slider.largerStepsDescriptionPatternStringProperty, {
-        verb: options.verbStringProperty
-      }, { tandem: Tandem.OPT_OUT } );
-
     let jumpToMinimumStringProperty = options.jumpToMinimumStringProperty;
     if ( ownsMinimumStringProperty ) {
       jumpToMinimumStringProperty = new PatternStringProperty( SceneryPhetFluent.keyboardHelpDialog.jumpToMinimumPatternStringProperty, {
@@ -215,74 +148,65 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
         maximum: options.maximumStringProperty
       }, { tandem: Tandem.OPT_OUT } );
     }
-    const jumpToMinimumDescriptionStringProperty = new PatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.slider.jumpToMinimumDescriptionPatternStringProperty, {
-      minimum: options.minimumStringProperty
-    }, { tandem: Tandem.OPT_OUT } );
-    const jumpToMaximumDescriptionStringProperty = new PatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.slider.jumpToMaximumDescriptionPatternStringProperty, {
-      maximum: options.maximumStringProperty
-    }, { tandem: Tandem.OPT_OUT } );
 
-    // 'Move sliders' content
-    const leftRightArrowKeysRowIcon = KeyboardHelpIconFactory.iconRow( [
-      KeyboardHelpIconFactory.fromHotkeyData( AccessibleValueHandlerHotkeyDataCollection.LEFT_ARROW_HOTKEY_DATA ),
-      KeyboardHelpIconFactory.fromHotkeyData( AccessibleValueHandlerHotkeyDataCollection.RIGHT_ARROW_HOTKEY_DATA )
-    ] );
-    const shiftPlusLeftRightIcon = KeyboardHelpIconFactory.shiftPlusIcon( leftRightArrowKeysRowIcon );
-    const upDownArrowKeysRowIcon = KeyboardHelpIconFactory.iconRow( [
-      KeyboardHelpIconFactory.fromHotkeyData( AccessibleValueHandlerHotkeyDataCollection.UP_ARROW_HOTKEY_DATA ),
-      KeyboardHelpIconFactory.fromHotkeyData( AccessibleValueHandlerHotkeyDataCollection.DOWN_ARROW_HOTKEY_DATA )
-    ] );
-    const shiftPlusUpDownIcon = KeyboardHelpIconFactory.shiftPlusIcon( upDownArrowKeysRowIcon );
-    const leftRightOrUpDownIcon = KeyboardHelpIconFactory.iconOrIcon( leftRightArrowKeysRowIcon, upDownArrowKeysRowIcon );
-
-    let adjustSliderIcon = null;
-    let adjustSliderSmallerStepsIcons = null;
+    let adjustSliderKeys: null | OneKeyStroke[] = null;
+    let adjustSliderHotkeySetVariant = 'default';
+    let adjustSliderSmallerStepsKeys: null | OneKeyStroke[] = null;
+    let adjustSliderSmallerStepsHotkeySetVariant = 'default';
 
     switch( options.arrowKeyIconDisplay ) {
       case ArrowKeyIconDisplay.LEFT_RIGHT:
-        adjustSliderIcon = leftRightArrowKeysRowIcon;
-        adjustSliderSmallerStepsIcons = [ shiftPlusLeftRightIcon ];
+        adjustSliderKeys = [ 'arrowLeft', 'arrowRight' ];
+        adjustSliderSmallerStepsKeys = [ 'shift+arrowLeft', 'shift+arrowRight' ];
         break;
       case ArrowKeyIconDisplay.UP_DOWN:
-        adjustSliderIcon = upDownArrowKeysRowIcon;
-        adjustSliderSmallerStepsIcons = [ shiftPlusUpDownIcon ];
+        adjustSliderKeys = [ 'arrowUp', 'arrowDown' ];
+        adjustSliderSmallerStepsKeys = [ 'shift+arrowUp', 'shift+arrowDown' ];
         break;
       default:
         assert && assert( options.arrowKeyIconDisplay === ArrowKeyIconDisplay.BOTH, 'unsupported arrowKeyIconDisplay' );
-        adjustSliderIcon = leftRightOrUpDownIcon;
-        adjustSliderSmallerStepsIcons = [ shiftPlusLeftRightIcon, shiftPlusUpDownIcon ];
+        adjustSliderKeys = [ 'arrowLeft', 'arrowRight', 'arrowUp', 'arrowDown' ];
+        adjustSliderHotkeySetVariant = 'paired';
+        adjustSliderSmallerStepsKeys = [ 'shift+arrowLeft', 'shift+arrowRight', 'shift+arrowUp', 'shift+arrowDown' ];
+        adjustSliderSmallerStepsHotkeySetVariant = 'paired';
     }
-    const adjustSliderRow = KeyboardHelpSectionRow.labelWithIcon( adjustSliderStringProperty, adjustSliderIcon, {
-      labelInnerContent: keyboardHelpDialogDefaultStepsStringProperty
+
+    const adjustSliderRow = KeyboardHelpSectionRow.fromHotkeyData( new HotkeyData( {
+      keys: adjustSliderKeys,
+      keyboardHelpDialogLabelStringProperty: adjustSliderStringProperty,
+      repoName: sceneryPhet.name
+    } ), {
+      hotkeySetVariant: adjustSliderHotkeySetVariant
     } );
 
-    const adjustSliderInSmallerStepsRow = KeyboardHelpSectionRow.labelWithIconList( adjustInSmallerStepsStringProperty,
-      adjustSliderSmallerStepsIcons, {
-        labelInnerContent: keyboardHelpDialogSmallerStepsStringProperty
-      } );
+    const adjustSliderInSmallerStepsRow = KeyboardHelpSectionRow.fromHotkeyData( new HotkeyData( {
+      keys: adjustSliderSmallerStepsKeys,
+      keyboardHelpDialogLabelStringProperty: adjustInSmallerStepsStringProperty,
+      repoName: sceneryPhet.name
+    } ), {
+      hotkeySetVariant: adjustSliderSmallerStepsHotkeySetVariant
+    } );
 
     // 'move in larger steps' content
-    const pageUpKeyNode = KeyboardHelpIconFactory.fromHotkeyData( AccessibleValueHandlerHotkeyDataCollection.PAGE_UP_HOTKEY_DATA );
-    const pageDownKeyNode = KeyboardHelpIconFactory.fromHotkeyData( AccessibleValueHandlerHotkeyDataCollection.PAGE_DOWN_HOTKEY_DATA );
-    const pageUpPageDownIcon = new HBox( {
-      children: [ pageUpKeyNode, pageDownKeyNode ],
-      spacing: KeyboardHelpIconFactory.DEFAULT_ICON_SPACING
-    } );
-    const adjustInLargerStepsRow = KeyboardHelpSectionRow.labelWithIcon( adjustInLargerStepsStringProperty, pageUpPageDownIcon, {
-      labelInnerContent: keyboardHelpDialogLargerStepsStringProperty
-    } );
+    const adjustInLargerStepsRow = KeyboardHelpSectionRow.fromHotkeyData( new HotkeyData( {
+      keys: [ 'pageUp', 'pageDown' ],
+      keyboardHelpDialogLabelStringProperty: adjustInLargerStepsStringProperty,
+      repoName: sceneryPhet.name
+    } ) );
 
     // 'move to minimum value' content
-    const homeKeyNode = KeyboardHelpIconFactory.fromHotkeyData( AccessibleValueHandlerHotkeyDataCollection.HOME_HOTKEY_DATA );
-    const jumpToMinimumRow = KeyboardHelpSectionRow.labelWithIcon( jumpToMinimumStringProperty, homeKeyNode, {
-      labelInnerContent: jumpToMinimumDescriptionStringProperty
-    } );
+    const jumpToMinimumRow = KeyboardHelpSectionRow.fromHotkeyData( new HotkeyData( {
+      keys: [ 'home' ],
+      keyboardHelpDialogLabelStringProperty: jumpToMinimumStringProperty,
+      repoName: sceneryPhet.name
+    } ) );
 
     // 'move to maximum value' content
-    const endKeyNode = KeyboardHelpIconFactory.fromHotkeyData( AccessibleValueHandlerHotkeyDataCollection.END_HOTKEY_DATA );
-    const jumpToMaximumRow = KeyboardHelpSectionRow.labelWithIcon( jumpToMaximumStringProperty, endKeyNode, {
-      labelInnerContent: jumpToMaximumDescriptionStringProperty
-    } );
+    const jumpToMaximumRow = KeyboardHelpSectionRow.fromHotkeyData( new HotkeyData( {
+      keys: [ 'end' ],
+      keyboardHelpDialogLabelStringProperty: jumpToMaximumStringProperty,
+      repoName: sceneryPhet.name
+    } ) );
 
     // assemble final content for KeyboardHelpSection
     const content = [

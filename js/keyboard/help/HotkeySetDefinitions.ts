@@ -89,8 +89,22 @@ const HOTKEY_SET_ENTRIES: HotkeySetDefinitionEntry[] = [
     iconFactory: 'leftRightArrowKeysRowIcon'
   },
   {
+    // Paired variant uses "or" phrasing when these keys are split out under a shared modifier
+    variant: 'paired',
+    keys: LEFT_RIGHT_ARROW_KEYS,
+    phraseProperty: SceneryPhetFluent.a11y.keySets.leftOrRightArrowsStringProperty,
+    iconFactory: 'leftRightArrowKeysRowIcon'
+  },
+  {
     keys: UP_DOWN_ARROW_KEYS,
     phraseProperty: SceneryPhetFluent.a11y.keySets.upDownArrowsStringProperty,
+    iconFactory: 'upDownArrowKeysRowIcon'
+  },
+  {
+    // Paired variant uses "or" phrasing when these keys are split out under a shared modifier
+    variant: 'paired',
+    keys: UP_DOWN_ARROW_KEYS,
+    phraseProperty: SceneryPhetFluent.a11y.keySets.upOrDownArrowsStringProperty,
     iconFactory: 'upDownArrowKeysRowIcon'
   },
   {
@@ -119,6 +133,10 @@ const HOTKEY_SET_ENTRIES: HotkeySetDefinitionEntry[] = [
     phraseProperty: SceneryPhetFluent.a11y.keySets.upDownOrWSStringProperty,
     iconFactory: 'upDownOrWSKeysRowIcon',
     modifierPartitionLayout: 'stacked'
+  },
+  {
+    keys: [ 'pageUp', 'pageDown' ],
+    iconFactory: 'pageUpPageDownRowIcon'
   }
 ];
 

@@ -1041,39 +1041,6 @@
     },
     "keyboardHelpDialog": {
       "slider": {
-        "orKeysPattern": {
-          "value": "{{leftRight}}, or {{upDown}}"
-        },
-        "leftRightArrowKeys": {
-          "value": "Left and Right arrow keys"
-        },
-        "upDownArrowKeys": {
-          "value": "Up and Down arrow keys"
-        },
-        "defaultStepsDescriptionPattern": {
-          "value": "{{verb}} {{slider}} with {{keys}}."
-        },
-        "defaultStepsAdjustSliderDescriptionPattern": {
-          "value": "{{adjustSlider}} with {{keys}}."
-        },
-        "shiftLeftRightArrowKeys": {
-          "value": "Shift plus Left or Right arrow key"
-        },
-        "shiftUpDownArrowKeys": {
-          "value": "Shift plus Up or Down arrow key"
-        },
-        "smallerStepsDescriptionPattern": {
-          "value": "{{verb}} in smaller steps with {{keys}}."
-        },
-        "smallerStepsAdjustSliderDescriptionPattern": {
-          "value": "{{adjustInSmallerSteps}} with {{keys}}."
-        },
-        "largerStepsDescriptionPattern": {
-          "value": "{{verb}} in larger steps with Page Up or Page Down key."
-        },
-        "largerStepsAdjustSliderDescriptionPattern": {
-          "value": "{{adjustInLargerSteps}} with Page Up or Page Down key."
-        },
         "jumpToMinimumDescriptionPattern": {
           "value": "Jump to {{minimum}} with Home key."
         },
@@ -1213,8 +1180,14 @@
       "leftRightArrows": {
         "value": "Left and Right Arrow keys"
       },
+      "leftOrRightArrows": {
+        "value": "Left or Right Arrow keys"
+      },
       "upDownArrows": {
         "value": "Up and Down Arrow keys"
+      },
+      "upOrDownArrows": {
+        "value": "Up or Down Arrow keys"
       },
       "wasd": {
         "value": "W, A, S or D letter keys"
