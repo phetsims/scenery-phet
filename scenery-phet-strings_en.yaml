@@ -380,10 +380,15 @@ a11y:
     general:
       setValuesInKeypadDescription: Set values within keypad using number keys 0-9.
     comboBox:
-      popUpListPatternDescription:     Show {{thingPlural}} with Space or {{enterOrReturn}} keys.
-      moveThroughPatternDescription:   Move through {{thingPlural}} with Up and Down arrow keys.
-      chooseNewPatternDescription:     Change {{thingSingular}} with {{enterOrReturn}} key.
-      closeWithoutChangingDescription: ' Close without changing with Escape key.'
+
+      # These descriptions are the same as the visual, but without the numbers. The numbers need to be
+      # displayed visually, but included in the string so that formatting can be localized.
+      # For the accessible content, the numbers are implicit in the accessible markup, so they are not included
+      # in the accessible descriptions. Unfortunately, this means that the strings cannot be shared.
+      popUpListPattern:     Show {{thingPlural}}
+      moveThroughPattern:   Move through {{thingPlural}}
+      chooseNewPattern:     Change {{thingSingular}}
+      closeWithoutChanging: Close without changing
     draggableItems:
       moveDescription:       Move with arrow keys or W, A, S, or D keys.
       moveSlowerDescription: Move slower with Shift plus arrow keys or Shift plus W, A, S, or D keys.
@@ -476,7 +481,7 @@ a11y:
     playingHelpText: Pause sim to step through little by little.
     pausedHelpText:  Step through little by little.
   restartButton:
-    accessibleName:     Restart
+    accessibleName: Restart
   movementAlerter:
     down:              down
     left:              left

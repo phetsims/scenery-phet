@@ -483,10 +483,10 @@ type StringsType = {
         'setValuesInKeypadDescriptionStringProperty': LocalizedStringProperty;
       };
       'comboBox': {
-        'popUpListPatternDescriptionStringProperty': LocalizedStringProperty;
-        'moveThroughPatternDescriptionStringProperty': LocalizedStringProperty;
-        'chooseNewPatternDescriptionStringProperty': LocalizedStringProperty;
-        'closeWithoutChangingDescriptionStringProperty': LocalizedStringProperty;
+        'popUpListPatternStringProperty': LocalizedStringProperty;
+        'moveThroughPatternStringProperty': LocalizedStringProperty;
+        'chooseNewPatternStringProperty': LocalizedStringProperty;
+        'closeWithoutChangingStringProperty': LocalizedStringProperty;
       };
       'draggableItems': {
         'moveDescriptionStringProperty': LocalizedStringProperty;

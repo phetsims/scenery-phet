@@ -12,13 +12,47 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import StringProperty from '../../../../axon/js/StringProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import HotkeyData from '../../../../scenery/js/input/HotkeyData.js';
+import { OneKeyStroke } from '../../../../scenery/js/input/KeyDescriptor.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetFluent from '../../SceneryPhetFluent.js';
-import TextKeyNode from '../TextKeyNode.js';
-import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
+import HotkeyDescriptionBuilder from './HotkeyDescriptionBuilder.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
+
+/**
+ * Helper function to create a KeyboardHelpSectionRow for this content. The content for
+ * this section is more complicated than usual. The visual string needs to be numbered, and that number
+ * needs to be in the translatable strings file for localized formatting. However, the accessible string
+ * can NOT include the number, because it is implicit from the PDOM markup. As such, there are unique
+ * strings for both the visual and accessible content.
+ *
+ * This class still generates the description of the actual keys from HotkeyData, using the accessible
+ * label.
+ *
+ * Note that this creates Properties that cannot be disposed. If this section needs to be destroyed,
+ * dispose will need to be implemented here.
+ */
+const createSectionRow = (
+  keys: OneKeyStroke[],
+  visualLabelStringProperty: TReadOnlyProperty<string>,
+  accessibleLabelStringProperty: TReadOnlyProperty<string>
+) => {
+
+  const hotkeyData = new HotkeyData( {
+    keys: keys,
+    repoName: sceneryPhet.name,
+    keyboardHelpDialogLabelStringProperty: visualLabelStringProperty
+  } );
+
+  return KeyboardHelpSectionRow.fromHotkeyData( hotkeyData, {
+    pdomLabelStringProperty: HotkeyDescriptionBuilder.createDescriptionProperty(
+      accessibleLabelStringProperty,
+      hotkeyData.keyDescriptorsProperty
+    )
+  } );
+};
 
 type SelfOptions = {
 
@@ -49,7 +83,11 @@ export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
       a11yContentTagName: 'ol', // ordered list
       vBoxOptions: {
         spacing: 8 // A bit tighter so that it looks like one set of instructions
-      }
+      },
+
+      // This class does not implement dispose for string Properties. If you need to dispose this class,
+      // the implementation will need to change.
+      isDisposable: false
     }, providedOptions );
 
     // options may be string or TReadOnlyProperty<string>, so ensure that we have a TReadOnlyProperty<string>.
@@ -69,40 +107,29 @@ export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
         }, { tandem: Tandem.OPT_OUT } );
     };
 
-    const spaceKeyNode = TextKeyNode.space();
-    const enterKeyNode = TextKeyNode.enter();
-    const spaceOrEnterIcon = KeyboardHelpIconFactory.iconOrIcon( spaceKeyNode, enterKeyNode );
-
-    const popUpList = KeyboardHelpSectionRow.labelWithIcon(
+    const popUpList = createSectionRow(
+      [ 'space', 'enter' ],
       createPatternStringProperty( SceneryPhetFluent.keyboardHelpDialog.comboBox.popUpListPatternStringProperty ),
-      spaceOrEnterIcon, {
-        labelInnerContent: new PatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.comboBox.popUpListPatternDescriptionStringProperty, {
-          thingPlural: thingAsLowerCasePluralStringProperty,
-          enterOrReturn: TextKeyNode.getEnterKeyString()
-        } )
-      } );
+      createPatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.comboBox.popUpListPatternStringProperty )
+    );
 
-    const moveThrough = KeyboardHelpSectionRow.labelWithIcon(
+    const moveThrough = createSectionRow(
+      [ 'arrowUp', 'arrowDown' ],
       createPatternStringProperty( SceneryPhetFluent.keyboardHelpDialog.comboBox.moveThroughPatternStringProperty ),
-      KeyboardHelpIconFactory.upDownArrowKeysRowIcon(), {
-        labelInnerContent: createPatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.comboBox.moveThroughPatternDescriptionStringProperty )
-      } );
+      createPatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.comboBox.moveThroughPatternStringProperty )
+    );
 
-    const chooseNew = KeyboardHelpSectionRow.labelWithIcon(
+    const chooseNew = createSectionRow(
+      [ 'enter' ],
       createPatternStringProperty( SceneryPhetFluent.keyboardHelpDialog.comboBox.chooseNewPatternStringProperty ),
-      enterKeyNode, {
-        labelInnerContent: new PatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.comboBox.chooseNewPatternDescriptionStringProperty, {
-          thingSingular: thingAsLowerCaseSingularStringProperty,
-          enterOrReturn: TextKeyNode.getEnterKeyString()
-        } )
-      } );
+      createPatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.comboBox.chooseNewPatternStringProperty )
+    );
 
-    const escapeKeyNode = TextKeyNode.esc();
-    const closeWithoutChanging = KeyboardHelpSectionRow.labelWithIcon(
+    const closeWithoutChanging = createSectionRow(
+      [ 'escape' ],
       SceneryPhetFluent.keyboardHelpDialog.comboBox.closeWithoutChangingStringProperty,
-      escapeKeyNode, {
-        labelInnerContent: SceneryPhetFluent.a11y.keyboardHelpDialog.comboBox.closeWithoutChangingDescriptionStringProperty
-      } );
+      SceneryPhetFluent.a11y.keyboardHelpDialog.comboBox.closeWithoutChangingStringProperty
+    );
 
     // order the rows of content
     const rows = [ popUpList, moveThrough, chooseNew, closeWithoutChanging ];

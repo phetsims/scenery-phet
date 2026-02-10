@@ -1046,17 +1046,17 @@
         }
       },
       "comboBox": {
-        "popUpListPatternDescription": {
-          "value": "Show {{thingPlural}} with Space or {{enterOrReturn}} keys."
+        "popUpListPattern": {
+          "value": "Show {{thingPlural}}"
         },
-        "moveThroughPatternDescription": {
-          "value": "Move through {{thingPlural}} with Up and Down arrow keys."
+        "moveThroughPattern": {
+          "value": "Move through {{thingPlural}}"
         },
-        "chooseNewPatternDescription": {
-          "value": "Change {{thingSingular}} with {{enterOrReturn}} key."
+        "chooseNewPattern": {
+          "value": "Change {{thingSingular}}"
         },
-        "closeWithoutChangingDescription": {
-          "value": " Close without changing with Escape key."
+        "closeWithoutChanging": {
+          "value": "Close without changing"
         }
       },
       "draggableItems": {

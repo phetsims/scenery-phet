@@ -244,7 +244,7 @@ addToMapIfDefined( 'a11y_soundToggle_label', 'a11y.soundToggle.labelStringProper
 addToMapIfDefined( 'a11y_soundToggle_alert_simSoundOn', 'a11y.soundToggle.alert.simSoundOnStringProperty' );
 addToMapIfDefined( 'a11y_soundToggle_alert_simSoundOff', 'a11y.soundToggle.alert.simSoundOffStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_general_setValuesInKeypadDescription', 'a11y.keyboardHelpDialog.general.setValuesInKeypadDescriptionStringProperty' );
-addToMapIfDefined( 'a11y_keyboardHelpDialog_comboBox_closeWithoutChangingDescription', 'a11y.keyboardHelpDialog.comboBox.closeWithoutChangingDescriptionStringProperty' );
+addToMapIfDefined( 'a11y_keyboardHelpDialog_comboBox_closeWithoutChanging', 'a11y.keyboardHelpDialog.comboBox.closeWithoutChangingStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_draggableItems_moveDescription', 'a11y.keyboardHelpDialog.draggableItems.moveDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_draggableItems_moveSlowerDescription', 'a11y.keyboardHelpDialog.draggableItems.moveSlowerDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_timingControls_pauseOrPlayActionDescription', 'a11y.keyboardHelpDialog.timingControls.pauseOrPlayActionDescriptionStringProperty' );
@@ -547,6 +547,10 @@ const SceneryPhetFluent = {
     comboBox: {
       chooseAThingPatternStringProperty: _.get( SceneryPhetStrings, 'keyboardHelpDialog.comboBox.chooseAThingPatternStringProperty' ),
       headingStringStringProperty: _.get( SceneryPhetStrings, 'keyboardHelpDialog.comboBox.headingStringStringProperty' ),
+      _comment_0: new FluentComment( {"comment":"These descriptions are the same as the visual, but without the numbers. The numbers need to be","associatedKey":"popUpListPattern"} ),
+      _comment_1: new FluentComment( {"comment":"displayed visually, but included in the string so that formatting can be localized.","associatedKey":"popUpListPattern"} ),
+      _comment_2: new FluentComment( {"comment":"For the accessible content, the numbers are implicit in the accessible markup, so they are not included","associatedKey":"popUpListPattern"} ),
+      _comment_3: new FluentComment( {"comment":"in the accessible descriptions. Unfortunately, this means that the strings cannot be shared.","associatedKey":"popUpListPattern"} ),
       popUpListPatternStringProperty: _.get( SceneryPhetStrings, 'keyboardHelpDialog.comboBox.popUpListPatternStringProperty' ),
       moveThroughPatternStringProperty: _.get( SceneryPhetStrings, 'keyboardHelpDialog.comboBox.moveThroughPatternStringProperty' ),
       chooseNewPatternStringProperty: _.get( SceneryPhetStrings, 'keyboardHelpDialog.comboBox.chooseNewPatternStringProperty' ),
@@ -905,10 +909,14 @@ const SceneryPhetFluent = {
         setValuesInKeypadDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_general_setValuesInKeypadDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.general.setValuesInKeypadDescriptionStringProperty' ) )
       },
       comboBox: {
-        popUpListPatternDescriptionStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.comboBox.popUpListPatternDescriptionStringProperty' ),
-        moveThroughPatternDescriptionStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.comboBox.moveThroughPatternDescriptionStringProperty' ),
-        chooseNewPatternDescriptionStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.comboBox.chooseNewPatternDescriptionStringProperty' ),
-        closeWithoutChangingDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_comboBox_closeWithoutChangingDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.comboBox.closeWithoutChangingDescriptionStringProperty' ) )
+        _comment_0: new FluentComment( {"comment":"These descriptions are the same as the visual, but without the numbers. The numbers need to be","associatedKey":"popUpListPattern"} ),
+        _comment_1: new FluentComment( {"comment":"displayed visually, but included in the string so that formatting can be localized.","associatedKey":"popUpListPattern"} ),
+        _comment_2: new FluentComment( {"comment":"For the accessible content, the numbers are implicit in the accessible markup, so they are not included","associatedKey":"popUpListPattern"} ),
+        _comment_3: new FluentComment( {"comment":"in the accessible descriptions. Unfortunately, this means that the strings cannot be shared.","associatedKey":"popUpListPattern"} ),
+        popUpListPatternStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.comboBox.popUpListPatternStringProperty' ),
+        moveThroughPatternStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.comboBox.moveThroughPatternStringProperty' ),
+        chooseNewPatternStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.comboBox.chooseNewPatternStringProperty' ),
+        closeWithoutChangingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_comboBox_closeWithoutChanging', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.comboBox.closeWithoutChangingStringProperty' ) )
       },
       draggableItems: {
         moveDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_draggableItems_moveDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.draggableItems.moveDescriptionStringProperty' ) ),
