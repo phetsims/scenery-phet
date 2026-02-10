@@ -389,9 +389,6 @@ a11y:
       moveThroughPattern:   Move through {{thingPlural}}
       chooseNewPattern:     Change {{thingSingular}}
       closeWithoutChanging: Close without changing
-    timingControls:
-      pauseOrPlayActionDescription:      Pause or play action with alt key plus K.
-      pauseOrPlayActionMacOSDescription: Pause or play action with option key plus K.
     faucetControls:
       adjustFaucetFlowDescription:        Adjust faucet flow with Left and Right Arrow keys.
       adjustInSmallerStepsDescription:    Adjust in smaller steps with Shift plus Left and Right Arrow keys.

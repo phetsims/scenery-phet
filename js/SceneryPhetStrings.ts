@@ -488,10 +488,6 @@ type StringsType = {
         'chooseNewPatternStringProperty': LocalizedStringProperty;
         'closeWithoutChangingStringProperty': LocalizedStringProperty;
       };
-      'timingControls': {
-        'pauseOrPlayActionDescriptionStringProperty': LocalizedStringProperty;
-        'pauseOrPlayActionMacOSDescriptionStringProperty': LocalizedStringProperty;
-      };
       'faucetControls': {
         'adjustFaucetFlowDescriptionStringProperty': LocalizedStringProperty;
         'adjustInSmallerStepsDescriptionStringProperty': LocalizedStringProperty;

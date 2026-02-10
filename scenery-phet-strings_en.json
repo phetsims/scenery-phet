@@ -1059,14 +1059,6 @@
           "value": "Close without changing"
         }
       },
-      "timingControls": {
-        "pauseOrPlayActionDescription": {
-          "value": "Pause or play action with alt key plus K."
-        },
-        "pauseOrPlayActionMacOSDescription": {
-          "value": "Pause or play action with option key plus K."
-        }
-      },
       "faucetControls": {
         "adjustFaucetFlowDescription": {
           "value": "Adjust faucet flow with Left and Right Arrow keys."

@@ -8,7 +8,6 @@
 
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import platform from '../../../../phet-core/js/platform.js';
 import PlayControlButton from '../../buttons/PlayControlButton.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetFluent from '../../SceneryPhetFluent.js';
@@ -17,9 +16,6 @@ import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 
 // constants
 const timeControlsStringProperty = SceneryPhetFluent.keyboardHelpDialog.timingControls.timingControlsStringProperty;
-const pauseOrPlayActionStringProperty = SceneryPhetFluent.keyboardHelpDialog.timingControls.pauseOrPlayActionStringProperty;
-const pauseOrPlayActionDescriptionStringProperty = SceneryPhetFluent.a11y.keyboardHelpDialog.timingControls.pauseOrPlayActionDescriptionStringProperty;
-const pauseOrPlayActionMacOSDescriptionStringProperty = SceneryPhetFluent.a11y.keyboardHelpDialog.timingControls.pauseOrPlayActionMacOSDescriptionStringProperty;
 
 type SelfOptions = {
 
@@ -35,13 +31,7 @@ class TimeControlsKeyboardHelpSection extends KeyboardHelpSection {
       headingString: timeControlsStringProperty
     }, providedOptions );
 
-
-    const playPauseRow = KeyboardHelpSectionRow.fromHotkeyData( PlayControlButton.TOGGLE_PLAY_HOTKEY_DATA, {
-      labelStringProperty: pauseOrPlayActionStringProperty,
-
-      // A unique description for mac since the modifier key is different
-      pdomLabelStringProperty: platform.mac ? pauseOrPlayActionMacOSDescriptionStringProperty : pauseOrPlayActionDescriptionStringProperty
-    } );
+    const playPauseRow = KeyboardHelpSectionRow.fromHotkeyData( PlayControlButton.TOGGLE_PLAY_HOTKEY_DATA );
 
     super( options.headingString, [ playPauseRow ], options );
   }
