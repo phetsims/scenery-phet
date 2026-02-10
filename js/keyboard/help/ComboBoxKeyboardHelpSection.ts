@@ -8,6 +8,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import { HasDispose } from '../../../../axon/js/Disposable.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import StringProperty from '../../../../axon/js/StringProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
@@ -37,7 +38,8 @@ import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 const createSectionRow = (
   keys: OneKeyStroke[],
   visualLabelStringProperty: TReadOnlyProperty<string>,
-  accessibleLabelStringProperty: TReadOnlyProperty<string>
+  accessibleLabelStringProperty: TReadOnlyProperty<string>,
+  disposables: HasDispose[]
 ) => {
 
   const hotkeyData = new HotkeyData( {
@@ -46,11 +48,18 @@ const createSectionRow = (
     keyboardHelpDialogLabelStringProperty: visualLabelStringProperty
   } );
 
+  // The final description for the row, including the leading accessible string plus the generated
+  // description of the keys.
+  const accessibleDescriptionStringProperty = HotkeyDescriptionBuilder.createDescriptionProperty(
+    accessibleLabelStringProperty,
+    hotkeyData.keyDescriptorsProperty
+  );
+
+  disposables.push( accessibleDescriptionStringProperty );
+  disposables.push( hotkeyData );
+
   return KeyboardHelpSectionRow.fromHotkeyData( hotkeyData, {
-    pdomLabelStringProperty: HotkeyDescriptionBuilder.createDescriptionProperty(
-      accessibleLabelStringProperty,
-      hotkeyData.keyDescriptorsProperty
-    )
+    pdomLabelStringProperty: accessibleLabelStringProperty
   } );
 };
 
@@ -83,12 +92,10 @@ export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
       a11yContentTagName: 'ol', // ordered list
       vBoxOptions: {
         spacing: 8 // A bit tighter so that it looks like one set of instructions
-      },
-
-      // This class does not implement dispose for string Properties. If you need to dispose this class,
-      // the implementation will need to change.
-      isDisposable: false
+      }
     }, providedOptions );
+
+    const disposables: HasDispose[] = [];
 
     // options may be string or TReadOnlyProperty<string>, so ensure that we have a TReadOnlyProperty<string>.
     const thingAsLowerCasePluralStringProperty = ( typeof options.thingAsLowerCasePlural === 'string' ) ?
@@ -100,40 +107,50 @@ export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
 
     // Create a PatternStringProperty that fills in a plural/singular pattern, and support dynamic locale.
     const createPatternStringProperty = ( providedStringProperty: TReadOnlyProperty<string> ) => {
-      return new PatternStringProperty(
+      const patternStringProperty = new PatternStringProperty(
         providedStringProperty, {
           thingPlural: thingAsLowerCasePluralStringProperty,
           thingSingular: thingAsLowerCaseSingularStringProperty
         }, { tandem: Tandem.OPT_OUT } );
+
+      disposables.push( patternStringProperty );
+      return patternStringProperty;
     };
 
     const popUpList = createSectionRow(
       [ 'space', 'enter' ],
       createPatternStringProperty( SceneryPhetFluent.keyboardHelpDialog.comboBox.popUpListPatternStringProperty ),
-      createPatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.comboBox.popUpListPatternStringProperty )
+      createPatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.comboBox.popUpListPatternStringProperty ),
+      disposables
     );
 
     const moveThrough = createSectionRow(
       [ 'arrowUp', 'arrowDown' ],
       createPatternStringProperty( SceneryPhetFluent.keyboardHelpDialog.comboBox.moveThroughPatternStringProperty ),
-      createPatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.comboBox.moveThroughPatternStringProperty )
+      createPatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.comboBox.moveThroughPatternStringProperty ),
+      disposables
     );
 
     const chooseNew = createSectionRow(
       [ 'enter' ],
       createPatternStringProperty( SceneryPhetFluent.keyboardHelpDialog.comboBox.chooseNewPatternStringProperty ),
-      createPatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.comboBox.chooseNewPatternStringProperty )
+      createPatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.comboBox.chooseNewPatternStringProperty ),
+      disposables
     );
 
     const closeWithoutChanging = createSectionRow(
       [ 'escape' ],
       SceneryPhetFluent.keyboardHelpDialog.comboBox.closeWithoutChangingStringProperty,
-      SceneryPhetFluent.a11y.keyboardHelpDialog.comboBox.closeWithoutChangingStringProperty
+      SceneryPhetFluent.a11y.keyboardHelpDialog.comboBox.closeWithoutChangingStringProperty,
+      disposables
     );
 
     // order the rows of content
     const rows = [ popUpList, moveThrough, chooseNew, closeWithoutChanging ];
     super( options.headingString, rows, options );
+
+    // Add all created disposables after the super call
+    this.addDisposable( ...disposables );
   }
 }
 
