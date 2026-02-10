@@ -377,9 +377,6 @@ a11y:
       simSoundOn:  Sim sound on.
       simSoundOff: Sim sound off.
   keyboardHelpDialog:
-    slider:
-      jumpToMinimumDescriptionPattern:            Jump to {{minimum}} with Home key.
-      jumpToMaximumDescriptionPattern:            Jump to {{maximum}} with End key.
     general:
       setValuesInKeypadDescription: Set values within keypad using number keys 0-9.
     comboBox:

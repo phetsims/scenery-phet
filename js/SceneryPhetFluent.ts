@@ -901,10 +901,6 @@ const SceneryPhetFluent = {
       }
     },
     keyboardHelpDialog: {
-      slider: {
-        jumpToMinimumDescriptionPatternStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.slider.jumpToMinimumDescriptionPatternStringProperty' ),
-        jumpToMaximumDescriptionPatternStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.slider.jumpToMaximumDescriptionPatternStringProperty' )
-      },
       general: {
         setValuesInKeypadDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_general_setValuesInKeypadDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.general.setValuesInKeypadDescriptionStringProperty' ) )
       },

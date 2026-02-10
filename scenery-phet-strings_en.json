@@ -1040,14 +1040,6 @@
       }
     },
     "keyboardHelpDialog": {
-      "slider": {
-        "jumpToMinimumDescriptionPattern": {
-          "value": "Jump to {{minimum}} with Home key."
-        },
-        "jumpToMaximumDescriptionPattern": {
-          "value": "Jump to {{maximum}} with End key."
-        }
-      },
       "general": {
         "setValuesInKeypadDescription": {
           "value": "Set values within keypad using number keys 0-9."

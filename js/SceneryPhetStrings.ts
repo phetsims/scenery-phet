@@ -479,10 +479,6 @@ type StringsType = {
       }
     };
     'keyboardHelpDialog': {
-      'slider': {
-        'jumpToMinimumDescriptionPatternStringProperty': LocalizedStringProperty;
-        'jumpToMaximumDescriptionPatternStringProperty': LocalizedStringProperty;
-      };
       'general': {
         'setValuesInKeypadDescriptionStringProperty': LocalizedStringProperty;
       };
