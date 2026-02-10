@@ -20,6 +20,7 @@ import demoHotkeyDescriptionBuilder from './demoHotkeyDescriptionBuilder.js';
 import demoKeyboardHelpIconFactory from './demoKeyboardHelpIconFactory.js';
 import demoKeyboardHelpSection from './demoKeyboardHelpSection.js';
 import demoKeyNode from './demoKeyNode.js';
+import demoMoveDraggableItemsKeyboardHelpSection from './demoMoveDraggableItemsKeyboardHelpSection.js';
 import demoSliderControlsKeyboardHelpSection from './demoSliderControlsKeyboardHelpSection.js';
 import demoSpinnerControlsKeyboardHelpSection from './demoSpinnerControlsKeyboardHelpSection.js';
 
@@ -45,6 +46,7 @@ export default class KeyboardScreenView extends DemosScreenView {
       { label: 'KeyboardHelpSection', createNode: demoKeyboardHelpSection },
       { label: 'HotkeyDescriptionBuilder', createNode: demoHotkeyDescriptionBuilder },
       { label: 'KeyNode', createNode: demoKeyNode },
+      { label: 'MoveDraggableItemsKeyboardHelpSection', createNode: demoMoveDraggableItemsKeyboardHelpSection },
       { label: 'SpinnerControlsKeyboardHelpSection', createNode: demoSpinnerControlsKeyboardHelpSection },
       { label: 'SliderControlsKeyboardHelpSection', createNode: demoSliderControlsKeyboardHelpSection },
       { label: 'GrabReleaseKeyboardHelpSection', createNode: demoGrabReleaseKeyboardHelpSection }

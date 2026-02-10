@@ -6,13 +6,13 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import sceneryPhet from '../../sceneryPhet.js';
-import SceneryPhetFluent from '../../SceneryPhetFluent.js';
-import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
-import KeyboardHelpSection from './KeyboardHelpSection.js';
-import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import KeyboardDragListener from '../../../../scenery/js/listeners/KeyboardDragListener.js';
+import sceneryPhet from '../../sceneryPhet.js';
+import SceneryPhetFluent from '../../SceneryPhetFluent.js';
+import KeyboardHelpSection from './KeyboardHelpSection.js';
+import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 
 type MoveDraggableItemsKeyboardHelpSectionOptions = {
 
@@ -29,20 +29,14 @@ export default class MoveDraggableItemsKeyboardHelpSection extends KeyboardHelpS
     }, providedOptions );
 
     // Move
-    const moveRow = KeyboardHelpSectionRow.labelWithIcon(
-      SceneryPhetFluent.keyboardHelpDialog.moveStringProperty,
-      KeyboardHelpIconFactory.arrowOrWasdKeysRowIcon(), {
-        labelInnerContent: SceneryPhetFluent.a11y.keyboardHelpDialog.draggableItems.moveDescriptionStringProperty
-      } );
+    const moveRow = KeyboardHelpSectionRow.fromHotkeyData( KeyboardDragListener.MOVE_HOTKEY_DATA, {
+      labelStringProperty: SceneryPhetFluent.keyboardHelpDialog.moveStringProperty
+    } );
 
     // Move slower
-    const moveSlowerRow = KeyboardHelpSectionRow.labelWithIconList(
-      SceneryPhetFluent.keyboardHelpDialog.moveSlowerStringProperty, [
-        KeyboardHelpIconFactory.shiftPlusIcon( KeyboardHelpIconFactory.arrowKeysRowIcon() ),
-        KeyboardHelpIconFactory.shiftPlusIcon( KeyboardHelpIconFactory.wasdRowIcon() )
-      ], {
-        labelInnerContent: SceneryPhetFluent.a11y.keyboardHelpDialog.draggableItems.moveSlowerDescriptionStringProperty
-      } );
+    const moveSlowerRow = KeyboardHelpSectionRow.fromHotkeyData( KeyboardDragListener.MOVE_SLOWER_HOTKEY_DATA, {
+      labelStringProperty: SceneryPhetFluent.keyboardHelpDialog.moveSlowerStringProperty
+    } );
 
     super( options.headingStringProperty, [ moveRow, moveSlowerRow ] );
   }

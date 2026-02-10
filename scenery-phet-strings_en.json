@@ -1059,14 +1059,6 @@
           "value": "Close without changing"
         }
       },
-      "draggableItems": {
-        "moveDescription": {
-          "value": "Move with arrow keys or W, A, S, or D keys."
-        },
-        "moveSlowerDescription": {
-          "value": "Move slower with Shift plus arrow keys or Shift plus W, A, S, or D keys."
-        }
-      },
       "timingControls": {
         "pauseOrPlayActionDescription": {
           "value": "Pause or play action with alt key plus K."
@@ -1182,7 +1174,7 @@
         "value": "Up or Down Arrow keys"
       },
       "wasd": {
-        "value": "W, A, S or D letter keys"
+        "value": "W, A, S, or D letter keys"
       },
       "ad": {
         "value": "A and D letter keys"

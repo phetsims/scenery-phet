@@ -389,9 +389,6 @@ a11y:
       moveThroughPattern:   Move through {{thingPlural}}
       chooseNewPattern:     Change {{thingSingular}}
       closeWithoutChanging: Close without changing
-    draggableItems:
-      moveDescription:       Move with arrow keys or W, A, S, or D keys.
-      moveSlowerDescription: Move slower with Shift plus arrow keys or Shift plus W, A, S, or D keys.
     timingControls:
       pauseOrPlayActionDescription:      Pause or play action with alt key plus K.
       pauseOrPlayActionMacOSDescription: Pause or play action with option key plus K.
@@ -449,7 +446,7 @@ a11y:
     leftOrRightArrows:       Left or Right Arrow keys
     upDownArrows:            Up and Down Arrow keys
     upOrDownArrows:          Up or Down Arrow keys
-    wasd:                    W, A, S or D letter keys
+    wasd:                    W, A, S, or D letter keys
     ad:                      A and D letter keys
     ws:                      W and S letter keys
     leftRightOrAD:           Left and Right Arrow keys or A and D letter keys

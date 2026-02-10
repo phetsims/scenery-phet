@@ -488,10 +488,6 @@ type StringsType = {
         'chooseNewPatternStringProperty': LocalizedStringProperty;
         'closeWithoutChangingStringProperty': LocalizedStringProperty;
       };
-      'draggableItems': {
-        'moveDescriptionStringProperty': LocalizedStringProperty;
-        'moveSlowerDescriptionStringProperty': LocalizedStringProperty;
-      };
       'timingControls': {
         'pauseOrPlayActionDescriptionStringProperty': LocalizedStringProperty;
         'pauseOrPlayActionMacOSDescriptionStringProperty': LocalizedStringProperty;

@@ -245,8 +245,6 @@ addToMapIfDefined( 'a11y_soundToggle_alert_simSoundOn', 'a11y.soundToggle.alert.
 addToMapIfDefined( 'a11y_soundToggle_alert_simSoundOff', 'a11y.soundToggle.alert.simSoundOffStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_general_setValuesInKeypadDescription', 'a11y.keyboardHelpDialog.general.setValuesInKeypadDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_comboBox_closeWithoutChanging', 'a11y.keyboardHelpDialog.comboBox.closeWithoutChangingStringProperty' );
-addToMapIfDefined( 'a11y_keyboardHelpDialog_draggableItems_moveDescription', 'a11y.keyboardHelpDialog.draggableItems.moveDescriptionStringProperty' );
-addToMapIfDefined( 'a11y_keyboardHelpDialog_draggableItems_moveSlowerDescription', 'a11y.keyboardHelpDialog.draggableItems.moveSlowerDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_timingControls_pauseOrPlayActionDescription', 'a11y.keyboardHelpDialog.timingControls.pauseOrPlayActionDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_timingControls_pauseOrPlayActionMacOSDescription', 'a11y.keyboardHelpDialog.timingControls.pauseOrPlayActionMacOSDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_faucetControls_adjustFaucetFlowDescription', 'a11y.keyboardHelpDialog.faucetControls.adjustFaucetFlowDescriptionStringProperty' );
@@ -917,10 +915,6 @@ const SceneryPhetFluent = {
         moveThroughPatternStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.comboBox.moveThroughPatternStringProperty' ),
         chooseNewPatternStringProperty: _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.comboBox.chooseNewPatternStringProperty' ),
         closeWithoutChangingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_comboBox_closeWithoutChanging', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.comboBox.closeWithoutChangingStringProperty' ) )
-      },
-      draggableItems: {
-        moveDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_draggableItems_moveDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.draggableItems.moveDescriptionStringProperty' ) ),
-        moveSlowerDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_draggableItems_moveSlowerDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.draggableItems.moveSlowerDescriptionStringProperty' ) )
       },
       timingControls: {
         pauseOrPlayActionDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_timingControls_pauseOrPlayActionDescription', _.get( SceneryPhetStrings, 'a11y.keyboardHelpDialog.timingControls.pauseOrPlayActionDescriptionStringProperty' ) ),
