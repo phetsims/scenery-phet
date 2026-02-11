@@ -62,6 +62,7 @@ import { Association, ParallelDOMOptions, PDOMValueType } from '../../../../scen
 import PDOMPeer from '../../../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import { isInteractiveHighlighting } from '../../../../scenery/js/accessibility/voicing/isInteractiveHighlighting.js';
 import Voicing, { isVoicing } from '../../../../scenery/js/accessibility/voicing/Voicing.js';
+import HotkeyData from '../../../../scenery/js/input/HotkeyData.js';
 import TInputListener from '../../../../scenery/js/input/TInputListener.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import KeyboardDragListener, { KeyboardDragDirectionToKeyStringPropertiesMap } from '../../../../scenery/js/listeners/KeyboardDragListener.js';
@@ -432,7 +433,7 @@ export default class GrabDragInteraction extends Disposable {
     const ownsInteractiveHighlight = !( isInteractiveHighlighting( node ) && node.interactiveHighlight );
     this.grabDragInteractiveHighlight = !ownsInteractiveHighlight ? ( node.interactiveHighlight as HighlightPath ) :
 
-                                        // If it doesn't have a custom interactive highlight, use the same highlight as the focus highlight.
+      // If it doesn't have a custom interactive highlight, use the same highlight as the focus highlight.
                                         this.grabDragFocusHighlight;
 
     node.focusHighlight = this.grabDragFocusHighlight;
@@ -1052,6 +1053,18 @@ export default class GrabDragInteraction extends Disposable {
   public get grabDragUsageTracker(): GrabDragUsageTracker {
     return this.grabDragModel.grabDragUsageTracker;
   }
+
+  /**
+   * Reusable hotkey data for listeners and keyboard help content.
+   *
+   * Beware that this class does not actually use this data because it requires a special
+   * implementation with buttons. But this is still useful for convenience and consistency.
+   */
+  public static readonly GRAB_RELEASE_HOTKEY_DATA = new HotkeyData( {
+    keys: [ 'space', 'enter' ],
+    binderName: 'Grab/Drop Object',
+    repoName: sceneryPhet.name
+  } );
 }
 
 sceneryPhet.register( 'GrabDragInteraction', GrabDragInteraction );
