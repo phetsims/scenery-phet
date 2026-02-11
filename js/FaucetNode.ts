@@ -1,4 +1,4 @@
-// Copyright 2013-2025, University of Colorado Boulder
+// Copyright 2013-2026, University of Colorado Boulder
 
 /**
  * FaucetNode is a faucet with a pinball machine 'shooter' that behaves like a slider.

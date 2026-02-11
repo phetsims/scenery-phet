@@ -1,4 +1,4 @@
-// Copyright 2022-2025, University of Colorado Boulder
+// Copyright 2022-2026, University of Colorado Boulder
 
 /**
  * Help section that explains how to use a keyboard to toggle play/pause and time controls.
