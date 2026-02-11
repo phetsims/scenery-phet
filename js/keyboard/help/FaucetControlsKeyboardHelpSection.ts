@@ -7,14 +7,11 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import HotkeyData from '../../../../scenery/js/input/HotkeyData.js';
 import FaucetNode from '../../FaucetNode.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetFluent from '../../SceneryPhetFluent.js';
-import ArrowKeyNode from '../ArrowKeyNode.js';
-import TextKeyNode from '../TextKeyNode.js';
-import KeyboardHelpIconFactory from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 
@@ -23,7 +20,6 @@ const adjustFaucetFlowStringProperty = SceneryPhetFluent.keyboardHelpDialog.fauc
 const adjustInSmallerStepsStringProperty = SceneryPhetFluent.keyboardHelpDialog.faucetControls.adjustInSmallerStepsStringProperty;
 const adjustInLargerStepsStringProperty = SceneryPhetFluent.keyboardHelpDialog.faucetControls.adjustInLargerStepsStringProperty;
 const openFaucetFullyStringProperty = SceneryPhetFluent.keyboardHelpDialog.faucetControls.openFaucetFullyStringProperty;
-const openFaucetBrieflyStringProperty = SceneryPhetFluent.keyboardHelpDialog.faucetControls.openFaucetBrieflyStringProperty;
 
 type SelfOptions = {
   tapToDispenseEnabled?: boolean; // Set this to true if any faucet in your sim has FaucetNodeOptions.tapToDispenseEnabled: true
@@ -43,30 +39,26 @@ export default class FaucetControlsKeyboardHelpSection extends KeyboardHelpSecti
       reverseAlternativeInput: false
     }, providedOptions );
 
-    const leftRightArrowKeysIcon = KeyboardHelpIconFactory.iconRow( [ new ArrowKeyNode( 'left' ), new ArrowKeyNode( 'right' ) ] );
-
     // Adjust faucet flow [<] [>]
-    const adjustFaucetFlowRow = KeyboardHelpSectionRow.labelWithIcon( adjustFaucetFlowStringProperty, leftRightArrowKeysIcon, {
-      labelInnerContent: SceneryPhetFluent.a11y.keyboardHelpDialog.faucetControls.adjustFaucetFlowDescriptionStringProperty
-    } );
+    const adjustFaucetFlowRow = KeyboardHelpSectionRow.fromHotkeyData( new HotkeyData( {
+      keys: [ 'arrowLeft', 'arrowRight' ],
+      keyboardHelpDialogLabelStringProperty: adjustFaucetFlowStringProperty,
+      repoName: sceneryPhet.name
+    } ) );
 
     // Adjust in smaller steps [Shift] + [<] [>]
-    const adjustInSmallerStepsRow = KeyboardHelpSectionRow.labelWithIcon(
-      adjustInSmallerStepsStringProperty,
-      KeyboardHelpIconFactory.shiftPlusIcon( leftRightArrowKeysIcon ),
-      {
-        labelInnerContent: SceneryPhetFluent.a11y.keyboardHelpDialog.faucetControls.adjustInSmallerStepsDescriptionStringProperty
-      }
-    );
+    const adjustInSmallerStepsRow = KeyboardHelpSectionRow.fromHotkeyData( new HotkeyData( {
+      keys: [ 'shift+arrowLeft', 'shift+arrowRight' ],
+      keyboardHelpDialogLabelStringProperty: adjustInSmallerStepsStringProperty,
+      repoName: sceneryPhet.name
+    } ) );
 
     // Adjust in larger steps [Pg Up] [Pg Down]
-    const adjustInLargerStepsRow = KeyboardHelpSectionRow.labelWithIcon(
-      adjustInLargerStepsStringProperty,
-      KeyboardHelpIconFactory.pageUpPageDownRowIcon(),
-      {
-        labelInnerContent: SceneryPhetFluent.a11y.keyboardHelpDialog.faucetControls.adjustInLargerStepsDescriptionStringProperty
-      }
-    );
+    const adjustInLargerStepsRow = KeyboardHelpSectionRow.fromHotkeyData( new HotkeyData( {
+      keys: [ 'pageUp', 'pageDown' ],
+      keyboardHelpDialogLabelStringProperty: adjustInLargerStepsStringProperty,
+      repoName: sceneryPhet.name
+    } ) );
 
     let closeFaucetRow: KeyboardHelpSectionRow;
     let openFaucetFullyRow: KeyboardHelpSectionRow;
@@ -76,9 +68,11 @@ export default class FaucetControlsKeyboardHelpSection extends KeyboardHelpSecti
       closeFaucetRow = KeyboardHelpSectionRow.fromHotkeyData( FaucetNode.CLOSE_FAUCET_REVERSED_HOTKEY_DATA );
 
       // Open faucet fully [Home]
-      openFaucetFullyRow = KeyboardHelpSectionRow.labelWithIcon( openFaucetFullyStringProperty, TextKeyNode.home(), {
-        labelInnerContent: SceneryPhetFluent.a11y.keyboardHelpDialog.faucetControls.openFaucetFullyWithHomeDescriptionStringProperty
-      } );
+      openFaucetFullyRow = KeyboardHelpSectionRow.fromHotkeyData( new HotkeyData( {
+        keys: [ 'home' ],
+        keyboardHelpDialogLabelStringProperty: openFaucetFullyStringProperty,
+        repoName: sceneryPhet.name
+      } ) );
     }
     else {
 
@@ -86,9 +80,11 @@ export default class FaucetControlsKeyboardHelpSection extends KeyboardHelpSecti
       closeFaucetRow = KeyboardHelpSectionRow.fromHotkeyData( FaucetNode.CLOSE_FAUCET_HOTKEY_DATA );
 
       // Open faucet fully [End]
-      openFaucetFullyRow = KeyboardHelpSectionRow.labelWithIcon( openFaucetFullyStringProperty, TextKeyNode.end(), {
-        labelInnerContent: SceneryPhetFluent.a11y.keyboardHelpDialog.faucetControls.openFaucetFullyDescriptionStringProperty
-      } );
+      openFaucetFullyRow = KeyboardHelpSectionRow.fromHotkeyData( new HotkeyData( {
+        keys: [ 'end' ],
+        keyboardHelpDialogLabelStringProperty: openFaucetFullyStringProperty,
+        repoName: sceneryPhet.name
+      } ) );
     }
 
     const content: KeyboardHelpSectionRow[] = [
@@ -101,15 +97,7 @@ export default class FaucetControlsKeyboardHelpSection extends KeyboardHelpSecti
 
     // Open faucet briefly [Space] or [Enter]
     if ( options.tapToDispenseEnabled ) {
-      const openFaucetBrieflyRow = KeyboardHelpSectionRow.labelWithIcon(
-        openFaucetBrieflyStringProperty,
-        KeyboardHelpIconFactory.iconOrIcon( TextKeyNode.space(), TextKeyNode.enter() ),
-        {
-          labelInnerContent: new PatternStringProperty( SceneryPhetFluent.a11y.keyboardHelpDialog.faucetControls.openFaucetBrieflyDescriptionStringProperty, {
-            enterOrReturn: TextKeyNode.getEnterKeyString()
-          } )
-        }
-      );
+      const openFaucetBrieflyRow = KeyboardHelpSectionRow.fromHotkeyData( FaucetNode.TAP_TO_DISPENSE_HOTKEY_DATA );
       content.push( openFaucetBrieflyRow );
     }
 

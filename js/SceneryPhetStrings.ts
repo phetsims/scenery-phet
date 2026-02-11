@@ -487,16 +487,6 @@ type StringsType = {
         'moveThroughPatternStringProperty': LocalizedStringProperty;
         'chooseNewPatternStringProperty': LocalizedStringProperty;
         'closeWithoutChangingStringProperty': LocalizedStringProperty;
-      };
-      'faucetControls': {
-        'adjustFaucetFlowDescriptionStringProperty': LocalizedStringProperty;
-        'adjustInSmallerStepsDescriptionStringProperty': LocalizedStringProperty;
-        'adjustInLargerStepsDescriptionStringProperty': LocalizedStringProperty;
-        'closeFaucetDescriptionStringProperty': LocalizedStringProperty;
-        'closeFaucetWithEndDescriptionStringProperty': LocalizedStringProperty;
-        'openFaucetFullyDescriptionStringProperty': LocalizedStringProperty;
-        'openFaucetFullyWithHomeDescriptionStringProperty': LocalizedStringProperty;
-        'openFaucetBrieflyDescriptionStringProperty': LocalizedStringProperty;
       }
     };
     'keyboard': {

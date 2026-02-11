@@ -452,8 +452,7 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
   public static readonly CLOSE_FAUCET_HOTKEY_DATA = new HotkeyData( {
     keys: [ FaucetNode.ZERO_CLOSE_FAUCET_STRING, 'home' ],
     repoName: sceneryPhet.name,
-    keyboardHelpDialogLabelStringProperty: SceneryPhetFluent.keyboardHelpDialog.faucetControls.closeFaucetStringProperty,
-    keyboardHelpDialogPDOMLabelStringProperty: SceneryPhetFluent.a11y.keyboardHelpDialog.faucetControls.closeFaucetDescriptionStringProperty
+    keyboardHelpDialogLabelStringProperty: SceneryPhetFluent.keyboardHelpDialog.faucetControls.closeFaucetStringProperty
   } );
 
 
@@ -461,14 +460,13 @@ export default class FaucetNode extends AccessibleSlider( Node, 0 ) {
   public static readonly CLOSE_FAUCET_REVERSED_HOTKEY_DATA = new HotkeyData( {
     keys: [ FaucetNode.ZERO_CLOSE_FAUCET_STRING, 'end' ],
     repoName: sceneryPhet.name,
-    keyboardHelpDialogLabelStringProperty: SceneryPhetFluent.keyboardHelpDialog.faucetControls.closeFaucetStringProperty,
-    keyboardHelpDialogPDOMLabelStringProperty: SceneryPhetFluent.a11y.keyboardHelpDialog.faucetControls.closeFaucetWithEndDescriptionStringProperty
+    keyboardHelpDialogLabelStringProperty: SceneryPhetFluent.keyboardHelpDialog.faucetControls.closeFaucetStringProperty
   } );
 
   public static readonly TAP_TO_DISPENSE_HOTKEY_DATA = new HotkeyData( {
     keys: [ 'enter', 'space' ],
     repoName: sceneryPhet.name,
-    binderName: 'Tap to dispense faucet'
+    keyboardHelpDialogLabelStringProperty: SceneryPhetFluent.keyboardHelpDialog.faucetControls.openFaucetBrieflyStringProperty
   } );
 
   public static FaucetNodeIO = new IOType<IntentionalAny, IntentionalAny>( 'FaucetNodeIO', {

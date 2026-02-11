@@ -1058,32 +1058,6 @@
         "closeWithoutChanging": {
           "value": "Close without changing"
         }
-      },
-      "faucetControls": {
-        "adjustFaucetFlowDescription": {
-          "value": "Adjust faucet flow with Left and Right Arrow keys."
-        },
-        "adjustInSmallerStepsDescription": {
-          "value": "Adjust in smaller steps with Shift plus Left and Right Arrow keys."
-        },
-        "adjustInLargerStepsDescription": {
-          "value": "Adjust in larger steps with Page Up and Page Down keys."
-        },
-        "closeFaucetDescription": {
-          "value": "Close faucet with Zero or Home keys."
-        },
-        "closeFaucetWithEndDescription": {
-          "value": "Close faucet with Zero or End keys."
-        },
-        "openFaucetFullyDescription": {
-          "value": "Open faucet fully with End key."
-        },
-        "openFaucetFullyWithHomeDescription": {
-          "value": "Open faucet fully with Home key."
-        },
-        "openFaucetBrieflyDescription": {
-          "value": "Open faucet briefly with Space or {{enterOrReturn}} keys."
-        }
       }
     },
     "keyboard": {
