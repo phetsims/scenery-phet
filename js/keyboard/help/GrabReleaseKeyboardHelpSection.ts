@@ -32,7 +32,7 @@ export default class GrabReleaseKeyboardHelpSection extends KeyboardHelpSection 
     const options = combineOptions<KeyboardHelpSectionOptions>( {
 
       // There is only a single paragraph for this section, no list needed in the PDOM
-      a11yContentTagName: null
+      // a11yContentTagName: null
     }, providedOptions );
 
     // the visible heading string
