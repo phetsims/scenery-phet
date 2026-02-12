@@ -1,4 +1,4 @@
-// Copyright 2018-2025, University of Colorado Boulder
+// Copyright 2018-2026, University of Colorado Boulder
 
 /**
  * The main interaction for grabbing and dragging an object through the PDOM and assistive technology. It works by
