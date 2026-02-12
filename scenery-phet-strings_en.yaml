@@ -1,162 +1,177 @@
-scenery-phet.title:                                     scenery-phet demo
-screen.buttons:                                         Buttons
-screen.components:                                      Components
-screen.dialogs:                                         Dialogs
-screen.keyboard:                                        Keyboard
-screen.sliders:                                         Sliders
-screen.spinners:                                        Spinners
-WavelengthSlider.pattern_0wavelength_1units:            '{0} {1}'
-frequencyUnitsPattern:                                  '{{frequency}} THz'
-stopwatchValueUnitsPattern:                             '{{value}} {{units}}'
-units_nm:                                               nm
-shortCircuit:                                           Short circuit!
-heat:                                                   Heat
-cool:                                                   Cool
-key.tab:                                                Tab
-key.shift:                                              Shift
-key.alt:                                                Alt
-key.option:                                             Option
-key.capsLock:                                           Caps Lock
-key.enter:                                              Enter
-key.return:                                             Return
-key.backspace:                                          Backspace
-key.delete:                                             Delete
-key.space:                                              Space
-key.esc:                                                Esc
-key.fn:                                                 Fn
-key.pageUp:                                             Pg Up
-key.pageDown:                                           Pg Dn
-key.home:                                               Home
-key.end:                                                End
-key.a:                                                  A
-key.b:                                                  B
-key.c:                                                  C
-key.d:                                                  D
-key.e:                                                  E
-key.f:                                                  F
-key.g:                                                  G
-key.h:                                                  H
-key.i:                                                  I
-key.j:                                                  J
-key.k:                                                  K
-key.l:                                                  L
-key.m:                                                  M
-key.n:                                                  N
-key.o:                                                  O
-key.p:                                                  P
-key.q:                                                  Q
-key.r:                                                  R
-key.s:                                                  S
-key.t:                                                  T
-key.u:                                                  U
-key.v:                                                  V
-key.w:                                                  W
-key.x:                                                  X
-key.y:                                                  Y
-key.z:                                                  Z
-key.zero:                                               '0'
-key.one:                                                '1'
-key.two:                                                '2'
-key.three:                                              '3'
-key.four:                                               '4'
-key.five:                                               '5'
-key.six:                                                '6'
-key.seven:                                              '7'
-key.eight:                                              '8'
-key.nine:                                               '9'
-key.toGrabOrRelease:                                    to <b>Grab</b> or <b>Release</b>
-webglWarning.title:                                     Running with low graphics quality
-webglWarning.body:                                      WebGL is not enabled or not available. Click to learn more.
-webglWarning.contextLossFailure:                        Sorry, a graphics error has occurred.
-webglWarning.contextLossReload:                         Reload
-webglWarning.ie11StencilBody:                           Update Internet Explorer by installing recommended Windows Update patches.
-keyboardHelpDialog.sliderControls:                      Slider Controls
-keyboardHelpDialog.adjustSlider:                        Adjust slider
-keyboardHelpDialog.spinnerControls:                     Spinner Controls
-keyboardHelpDialog.adjustInSmallerSteps:                Adjust in smaller steps
-keyboardHelpDialog.adjustInLargerSteps:                 Adjust in larger steps
-keyboardHelpDialog.jumpToMinimum:                       Jump to minimum
-keyboardHelpDialog.jumpToMaximum:                       Jump to maximum
-keyboardHelpDialog.adjust:                              Adjust
-keyboardHelpDialog.slider:                              slider
-keyboardHelpDialog.spinner:                             spinner
-keyboardHelpDialog.heatCoolControls:                    Heat/Cool Controls
-keyboardHelpDialog.maximumHeat:                         Maximum heat
-keyboardHelpDialog.maximumCool:                         Maximum cool
-keyboardHelpDialog.heatCoolOff:                         'Off'
-keyboardHelpDialog.verbSliderPattern:                   '{{verb}} {{slider}}'
-keyboardHelpDialog.verbInSmallerStepsPattern:           '{{verb}} in smaller steps'
-keyboardHelpDialog.verbInLargerStepsPattern:            '{{verb}} in larger steps'
-keyboardHelpDialog.minimum:                             minimum
-keyboardHelpDialog.maximum:                             maximum
-keyboardHelpDialog.jumpToMinimumPattern:                Jump to {{minimum}}
-keyboardHelpDialog.jumpToMaximumPattern:                Jump to {{maximum}}
-keyboardHelpDialog.generalNavigation:                   General Navigation
-keyboardHelpDialog.basicActions:                        Basic Actions
-keyboardHelpDialog.moveToNextItem:                      Move to next item
-keyboardHelpDialog.moveToPreviousItem:                  Move to previous item
-keyboardHelpDialog.moveToNextItemOrGroup:               Move to next item or group
-keyboardHelpDialog.moveToPreviousItemOrGroup:           Move to previous item or group
-keyboardHelpDialog.pressButtons:                        Press buttons
-keyboardHelpDialog.moveBetweenItemsInAGroup:            Move between items in a group
-keyboardHelpDialog.setValuesInKeypad:                   Set values within keypad
-keyboardHelpDialog.resetAll:                            Reset All
-keyboardHelpDialog.exitADialog:                         Exit a dialog
-keyboardHelpDialog.toggleCheckboxes:                    Toggle checkboxes
-keyboardHelpDialog.or:                                  or
-keyboardHelpDialog.hyphen:                              '-'
-keyboardHelpDialog.grabOrReleaseHeadingPattern:         Grab or Release {{thing}}
-keyboardHelpDialog.grabOrReleaseLabelPattern:           Grab or release {{thing}}
-keyboardHelpDialog.comboBox.chooseAThingPattern:        Choose a {{thingTitle}}
-keyboardHelpDialog.comboBox.headingString:              Change Choice
-keyboardHelpDialog.comboBox.popUpListPattern:           1. Show {{thingPlural}}
-keyboardHelpDialog.comboBox.moveThroughPattern:         2. Move through {{thingPlural}}
-keyboardHelpDialog.comboBox.chooseNewPattern:           3. Change {{thingSingular}}
-keyboardHelpDialog.comboBox.closeWithoutChanging:       4. Close without changing
-keyboardHelpDialog.comboBox.options:                    choices
-keyboardHelpDialog.comboBox.option:                     choice
-keyboardHelpDialog.moveDraggableItems:                  Move Draggable Items
-keyboardHelpDialog.move:                                Move
-keyboardHelpDialog.moveSlower:                          Move slower
-speed.normal:                                           Normal
-speed.slow:                                             Slow
-keyboardHelpDialog.faucetControls.faucetControls:       Faucet Controls
-keyboardHelpDialog.faucetControls.adjustFaucetFlow:     Adjust faucet flow
-keyboardHelpDialog.faucetControls.adjustInSmallerSteps: Adjust in smaller steps
-keyboardHelpDialog.faucetControls.adjustInLargerSteps:  Adjust in larger steps
-keyboardHelpDialog.faucetControls.closeFaucet:          Close faucet
-keyboardHelpDialog.faucetControls.openFaucetFully:      Open faucet fully
-keyboardHelpDialog.faucetControls.openFaucetBriefly:    Open faucet briefly
-keyboardHelpDialog.timingControls.timingControls:       Time Controls
-keyboardHelpDialog.timingControls.pauseOrPlayAction:    Pause or play action
-speed.fast:                                             Fast
-symbol.ohms:                                            Ω
-symbol.resistivity:                                     ρ
-comboBoxDisplay.valueUnits:                             '{{value}} {{units}}'
-wavelengthNMValuePattern:                               '{0} nm'
-measuringTapeReadoutPattern:                            '{{distance}} {{units}}'
-wavelength:                                             Wavelength
-rulerCapitalized:                                       Ruler
-ruler:                                                  Ruler
-zero:                                                   zero
-one:                                                    one
-two:                                                    two
-three:                                                  three
-four:                                                   four
-five:                                                   five
-six:                                                    six
-seven:                                                  seven
-eight:                                                  eight
-nine:                                                   nine
-ten:                                                    ten
-offScaleIndicator.pointsOffScale:                       Points<br>off scale!
-ResetAllButton.name:                                    Reset All
-ResetAllButton.name__comment:                           See https://github.com/phetsims/chipper/issues/1446
-ResetAllButton.name__deprecated:                        true
-SoundToggleButton.name:                                 Toggle Sound
-SoundToggleButton.name__comment:                        See https://github.com/phetsims/chipper/issues/1446
-SoundToggleButton.name__deprecated:                     true
-scientificNotation:                                     '{{value}} × {{base}}<sup>{{exponent}}</sup>'
+scenery-phet:
+  title: scenery-phet demo
+screen:
+  buttons:    Buttons
+  components: Components
+  dialogs:    Dialogs
+  keyboard:   Keyboard
+  sliders:    Sliders
+  spinners:   Spinners
+WavelengthSlider:
+  pattern_0wavelength_1units: '{0} {1}'
+frequencyUnitsPattern:       '{{frequency}} THz'
+stopwatchValueUnitsPattern:  '{{value}} {{units}}'
+units_nm:                    nm
+shortCircuit:                Short circuit!
+heat:                        Heat
+cool:                        Cool
+key:
+  tab:             Tab
+  shift:           Shift
+  alt:             Alt
+  option:          Option
+  capsLock:        Caps Lock
+  enter:           Enter
+  return:          Return
+  backspace:       Backspace
+  delete:          Delete
+  space:           Space
+  esc:             Esc
+  fn:              Fn
+  pageUp:          Pg Up
+  pageDown:        Pg Dn
+  home:            Home
+  end:             End
+  a:               A
+  b:               B
+  c:               C
+  d:               D
+  e:               E
+  f:               F
+  g:               G
+  h:               H
+  i:               I
+  j:               J
+  k:               K
+  l:               L
+  m:               M
+  n:               N
+  o:               O
+  p:               P
+  q:               Q
+  r:               R
+  s:               S
+  t:               T
+  u:               U
+  v:               V
+  w:               W
+  x:               X
+  y:               Y
+  z:               Z
+  zero:            '0'
+  one:             '1'
+  two:             '2'
+  three:           '3'
+  four:            '4'
+  five:            '5'
+  six:             '6'
+  seven:           '7'
+  eight:           '8'
+  nine:            '9'
+  toGrabOrRelease: to <b>Grab</b> or <b>Release</b>
+webglWarning:
+  title:              Running with low graphics quality
+  body:               WebGL is not enabled or not available. Click to learn more.
+  contextLossFailure: Sorry, a graphics error has occurred.
+  contextLossReload:  Reload
+  ie11StencilBody:    Update Internet Explorer by installing recommended Windows Update patches.
+keyboardHelpDialog:
+  sliderControls:                      Slider Controls
+  adjustSlider:                        Adjust slider
+  spinnerControls:                     Spinner Controls
+  adjustInSmallerSteps:                Adjust in smaller steps
+  adjustInLargerSteps:                 Adjust in larger steps
+  jumpToMinimum:                       Jump to minimum
+  jumpToMaximum:                       Jump to maximum
+  adjust:                              Adjust
+  slider:                              slider
+  spinner:                             spinner
+  heatCoolControls:                    Heat/Cool Controls
+  maximumHeat:                         Maximum heat
+  maximumCool:                         Maximum cool
+  heatCoolOff:                         'Off'
+  verbSliderPattern:                   '{{verb}} {{slider}}'
+  verbInSmallerStepsPattern:           '{{verb}} in smaller steps'
+  verbInLargerStepsPattern:            '{{verb}} in larger steps'
+  minimum:                             minimum
+  maximum:                             maximum
+  jumpToMinimumPattern:                Jump to {{minimum}}
+  jumpToMaximumPattern:                Jump to {{maximum}}
+  generalNavigation:                   General Navigation
+  basicActions:                        Basic Actions
+  moveToNextItem:                      Move to next item
+  moveToPreviousItem:                  Move to previous item
+  moveToNextItemOrGroup:               Move to next item or group
+  moveToPreviousItemOrGroup:           Move to previous item or group
+  pressButtons:                        Press buttons
+  moveBetweenItemsInAGroup:            Move between items in a group
+  setValuesInKeypad:                   Set values within keypad
+  resetAll:                            Reset All
+  exitADialog:                         Exit a dialog
+  toggleCheckboxes:                    Toggle checkboxes
+  or:                                  or
+  hyphen:                              '-'
+  grabOrReleaseHeadingPattern:         Grab or Release {{thing}}
+  grabOrReleaseLabelPattern:           Grab or release {{thing}}
+  comboBox:
+    chooseAThingPattern:  Choose a {{thingTitle}}
+    headingString:        Change Choice
+    popUpListPattern:     1. Show {{thingPlural}}
+    moveThroughPattern:   2. Move through {{thingPlural}}
+    chooseNewPattern:     3. Change {{thingSingular}}
+    closeWithoutChanging: 4. Close without changing
+    options:              choices
+    option:               choice
+  moveDraggableItems:                  Move Draggable Items
+  move:                                Move
+  moveSlower:                          Move slower
+  faucetControls:
+    faucetControls:       Faucet Controls
+    adjustFaucetFlow:     Adjust faucet flow
+    adjustInSmallerSteps: Adjust in smaller steps
+    adjustInLargerSteps:  Adjust in larger steps
+    closeFaucet:          Close faucet
+    openFaucetFully:      Open faucet fully
+    openFaucetBriefly:    Open faucet briefly
+  timingControls:
+    timingControls:       Time Controls
+    pauseOrPlayAction:    Pause or play action
+speed:
+  normal: Normal
+  slow:   Slow
+  fast:   Fast
+symbol:
+  ohms:        Ω
+  resistivity: ρ
+comboBoxDisplay:
+  valueUnits: '{{value}} {{units}}'
+wavelengthNMValuePattern:    '{0} nm'
+measuringTapeReadoutPattern: '{{distance}} {{units}}'
+wavelength:                  Wavelength
+rulerCapitalized:            Ruler
+ruler:                       Ruler
+zero:                        zero
+one:                         one
+two:                         two
+three:                       three
+four:                        four
+five:                        five
+six:                         six
+seven:                       seven
+eight:                       eight
+nine:                        nine
+ten:                         ten
+offScaleIndicator:
+  pointsOffScale: Points<br>off scale!
+ResetAllButton:
+  name:             Reset All
+  name__comment:    See https://github.com/phetsims/chipper/issues/1446
+  name__deprecated: true
+SoundToggleButton:
+  name:             Toggle Sound
+  name__comment:    See https://github.com/phetsims/chipper/issues/1446
+  name__deprecated: true
+scientificNotation:          '{{value}} × {{base}}<sup>{{exponent}}</sup>'
 units:
   centimeters:
     symbol:        cm

@@ -1,27 +1,33 @@
 {
-  "scenery-phet.title": {
-    "value": "scenery-phet demo"
+  "scenery-phet": {
+    "title": {
+      "value": "scenery-phet demo"
+    }
   },
-  "screen.buttons": {
-    "value": "Buttons"
+  "screen": {
+    "buttons": {
+      "value": "Buttons"
+    },
+    "components": {
+      "value": "Components"
+    },
+    "dialogs": {
+      "value": "Dialogs"
+    },
+    "keyboard": {
+      "value": "Keyboard"
+    },
+    "sliders": {
+      "value": "Sliders"
+    },
+    "spinners": {
+      "value": "Spinners"
+    }
   },
-  "screen.components": {
-    "value": "Components"
-  },
-  "screen.dialogs": {
-    "value": "Dialogs"
-  },
-  "screen.keyboard": {
-    "value": "Keyboard"
-  },
-  "screen.sliders": {
-    "value": "Sliders"
-  },
-  "screen.spinners": {
-    "value": "Spinners"
-  },
-  "WavelengthSlider.pattern_0wavelength_1units": {
-    "value": "{0} {1}"
+  "WavelengthSlider": {
+    "pattern_0wavelength_1units": {
+      "value": "{0} {1}"
+    }
   },
   "frequencyUnitsPattern": {
     "value": "{{frequency}} THz"
@@ -41,368 +47,386 @@
   "cool": {
     "value": "Cool"
   },
-  "key.tab": {
-    "value": "Tab"
-  },
-  "key.shift": {
-    "value": "Shift"
-  },
-  "key.alt": {
-    "value": "Alt"
-  },
-  "key.option": {
-    "value": "Option"
-  },
-  "key.capsLock": {
-    "value": "Caps Lock"
-  },
-  "key.enter": {
-    "value": "Enter"
-  },
-  "key.return": {
-    "value": "Return"
-  },
-  "key.backspace": {
-    "value": "Backspace"
-  },
-  "key.delete": {
-    "value": "Delete"
-  },
-  "key.space": {
-    "value": "Space"
-  },
-  "key.esc": {
-    "value": "Esc"
-  },
-  "key.fn": {
-    "value": "Fn"
-  },
-  "key.pageUp": {
-    "value": "Pg Up"
-  },
-  "key.pageDown": {
-    "value": "Pg Dn"
-  },
-  "key.home": {
-    "value": "Home"
-  },
-  "key.end": {
-    "value": "End"
-  },
-  "key.a": {
-    "value": "A"
-  },
-  "key.b": {
-    "value": "B"
-  },
-  "key.c": {
-    "value": "C"
-  },
-  "key.d": {
-    "value": "D"
-  },
-  "key.e": {
-    "value": "E"
-  },
-  "key.f": {
-    "value": "F"
-  },
-  "key.g": {
-    "value": "G"
-  },
-  "key.h": {
-    "value": "H"
-  },
-  "key.i": {
-    "value": "I"
-  },
-  "key.j": {
-    "value": "J"
-  },
-  "key.k": {
-    "value": "K"
-  },
-  "key.l": {
-    "value": "L"
-  },
-  "key.m": {
-    "value": "M"
-  },
-  "key.n": {
-    "value": "N"
-  },
-  "key.o": {
-    "value": "O"
-  },
-  "key.p": {
-    "value": "P"
-  },
-  "key.q": {
-    "value": "Q"
-  },
-  "key.r": {
-    "value": "R"
-  },
-  "key.s": {
-    "value": "S"
-  },
-  "key.t": {
-    "value": "T"
-  },
-  "key.u": {
-    "value": "U"
-  },
-  "key.v": {
-    "value": "V"
-  },
-  "key.w": {
-    "value": "W"
-  },
-  "key.x": {
-    "value": "X"
-  },
-  "key.y": {
-    "value": "Y"
-  },
-  "key.z": {
-    "value": "Z"
-  },
-  "key.zero": {
-    "value": "0"
-  },
-  "key.one": {
-    "value": "1"
-  },
-  "key.two": {
-    "value": "2"
-  },
-  "key.three": {
-    "value": "3"
-  },
-  "key.four": {
-    "value": "4"
-  },
-  "key.five": {
-    "value": "5"
-  },
-  "key.six": {
-    "value": "6"
-  },
-  "key.seven": {
-    "value": "7"
-  },
-  "key.eight": {
-    "value": "8"
-  },
-  "key.nine": {
-    "value": "9"
-  },
-  "key.toGrabOrRelease": {
-    "value": "to <b>Grab</b> or <b>Release</b>"
-  },
-  "webglWarning.title": {
-    "value": "Running with low graphics quality"
-  },
-  "webglWarning.body": {
-    "value": "WebGL is not enabled or not available. Click to learn more."
-  },
-  "webglWarning.contextLossFailure": {
-    "value": "Sorry, a graphics error has occurred."
-  },
-  "webglWarning.contextLossReload": {
-    "value": "Reload"
-  },
-  "webglWarning.ie11StencilBody": {
-    "value": "Update Internet Explorer by installing recommended Windows Update patches."
-  },
-  "keyboardHelpDialog.sliderControls": {
-    "value": "Slider Controls"
-  },
-  "keyboardHelpDialog.adjustSlider": {
-    "value": "Adjust slider"
-  },
-  "keyboardHelpDialog.spinnerControls": {
-    "value": "Spinner Controls"
-  },
-  "keyboardHelpDialog.adjustInSmallerSteps": {
-    "value": "Adjust in smaller steps"
-  },
-  "keyboardHelpDialog.adjustInLargerSteps": {
-    "value": "Adjust in larger steps"
-  },
-  "keyboardHelpDialog.jumpToMinimum": {
-    "value": "Jump to minimum"
-  },
-  "keyboardHelpDialog.jumpToMaximum": {
-    "value": "Jump to maximum"
-  },
-  "keyboardHelpDialog.adjust": {
-    "value": "Adjust"
-  },
-  "keyboardHelpDialog.slider": {
-    "value": "slider"
-  },
-  "keyboardHelpDialog.spinner": {
-    "value": "spinner"
-  },
-  "keyboardHelpDialog.heatCoolControls": {
-    "value": "Heat/Cool Controls"
-  },
-  "keyboardHelpDialog.maximumHeat": {
-    "value": "Maximum heat"
-  },
-  "keyboardHelpDialog.maximumCool": {
-    "value": "Maximum cool"
-  },
-  "keyboardHelpDialog.heatCoolOff": {
-    "value": "Off"
-  },
-  "keyboardHelpDialog.verbSliderPattern": {
-    "value": "{{verb}} {{slider}}"
-  },
-  "keyboardHelpDialog.verbInSmallerStepsPattern": {
-    "value": "{{verb}} in smaller steps"
-  },
-  "keyboardHelpDialog.verbInLargerStepsPattern": {
-    "value": "{{verb}} in larger steps"
-  },
-  "keyboardHelpDialog.minimum": {
-    "value": "minimum"
-  },
-  "keyboardHelpDialog.maximum": {
-    "value": "maximum"
-  },
-  "keyboardHelpDialog.jumpToMinimumPattern": {
-    "value": "Jump to {{minimum}}"
-  },
-  "keyboardHelpDialog.jumpToMaximumPattern": {
-    "value": "Jump to {{maximum}}"
-  },
-  "keyboardHelpDialog.generalNavigation": {
-    "value": "General Navigation"
-  },
-  "keyboardHelpDialog.basicActions": {
-    "value": "Basic Actions"
-  },
-  "keyboardHelpDialog.moveToNextItem": {
-    "value": "Move to next item"
-  },
-  "keyboardHelpDialog.moveToPreviousItem": {
-    "value": "Move to previous item"
-  },
-  "keyboardHelpDialog.moveToNextItemOrGroup": {
-    "value": "Move to next item or group"
-  },
-  "keyboardHelpDialog.moveToPreviousItemOrGroup": {
-    "value": "Move to previous item or group"
-  },
-  "keyboardHelpDialog.pressButtons": {
-    "value": "Press buttons"
-  },
-  "keyboardHelpDialog.moveBetweenItemsInAGroup": {
-    "value": "Move between items in a group"
-  },
-  "keyboardHelpDialog.setValuesInKeypad": {
-    "value": "Set values within keypad"
-  },
-  "keyboardHelpDialog.resetAll": {
-    "value": "Reset All"
-  },
-  "keyboardHelpDialog.exitADialog": {
-    "value": "Exit a dialog"
-  },
-  "keyboardHelpDialog.toggleCheckboxes": {
-    "value": "Toggle checkboxes"
-  },
-  "keyboardHelpDialog.or": {
-    "value": "or"
-  },
-  "keyboardHelpDialog.hyphen": {
-    "value": "-"
-  },
-  "keyboardHelpDialog.grabOrReleaseHeadingPattern": {
-    "value": "Grab or Release {{thing}}"
-  },
-  "keyboardHelpDialog.grabOrReleaseLabelPattern": {
-    "value": "Grab or release {{thing}}"
-  },
-  "keyboardHelpDialog.comboBox.chooseAThingPattern": {
-    "value": "Choose a {{thingTitle}}"
-  },
-  "keyboardHelpDialog.comboBox.headingString": {
-    "value": "Change Choice"
-  },
-  "keyboardHelpDialog.comboBox.popUpListPattern": {
-    "value": "1. Show {{thingPlural}}"
-  },
-  "keyboardHelpDialog.comboBox.moveThroughPattern": {
-    "value": "2. Move through {{thingPlural}}"
-  },
-  "keyboardHelpDialog.comboBox.chooseNewPattern": {
-    "value": "3. Change {{thingSingular}}"
-  },
-  "keyboardHelpDialog.comboBox.closeWithoutChanging": {
-    "value": "4. Close without changing"
-  },
-  "keyboardHelpDialog.comboBox.options": {
-    "value": "choices"
-  },
-  "keyboardHelpDialog.comboBox.option": {
-    "value": "choice"
-  },
-  "keyboardHelpDialog.moveDraggableItems": {
-    "value": "Move Draggable Items"
-  },
-  "keyboardHelpDialog.move": {
-    "value": "Move"
-  },
-  "keyboardHelpDialog.moveSlower": {
-    "value": "Move slower"
-  },
-  "speed.normal": {
-    "value": "Normal"
-  },
-  "speed.slow": {
-    "value": "Slow"
-  },
-  "keyboardHelpDialog.faucetControls.faucetControls": {
-    "value": "Faucet Controls"
-  },
-  "keyboardHelpDialog.faucetControls.adjustFaucetFlow": {
-    "value": "Adjust faucet flow"
-  },
-  "keyboardHelpDialog.faucetControls.adjustInSmallerSteps": {
-    "value": "Adjust in smaller steps"
-  },
-  "keyboardHelpDialog.faucetControls.adjustInLargerSteps": {
-    "value": "Adjust in larger steps"
-  },
-  "keyboardHelpDialog.faucetControls.closeFaucet": {
-    "value": "Close faucet"
-  },
-  "keyboardHelpDialog.faucetControls.openFaucetFully": {
-    "value": "Open faucet fully"
-  },
-  "keyboardHelpDialog.faucetControls.openFaucetBriefly": {
-    "value": "Open faucet briefly"
-  },
-  "keyboardHelpDialog.timingControls.timingControls": {
-    "value": "Time Controls"
-  },
-  "keyboardHelpDialog.timingControls.pauseOrPlayAction": {
-    "value": "Pause or play action"
-  },
-  "speed.fast": {
-    "value": "Fast"
-  },
-  "symbol.ohms": {
-    "value": "Ω"
-  },
-  "symbol.resistivity": {
-    "value": "ρ"
-  },
-  "comboBoxDisplay.valueUnits": {
-    "value": "{{value}} {{units}}"
+  "key": {
+    "tab": {
+      "value": "Tab"
+    },
+    "shift": {
+      "value": "Shift"
+    },
+    "alt": {
+      "value": "Alt"
+    },
+    "option": {
+      "value": "Option"
+    },
+    "capsLock": {
+      "value": "Caps Lock"
+    },
+    "enter": {
+      "value": "Enter"
+    },
+    "return": {
+      "value": "Return"
+    },
+    "backspace": {
+      "value": "Backspace"
+    },
+    "delete": {
+      "value": "Delete"
+    },
+    "space": {
+      "value": "Space"
+    },
+    "esc": {
+      "value": "Esc"
+    },
+    "fn": {
+      "value": "Fn"
+    },
+    "pageUp": {
+      "value": "Pg Up"
+    },
+    "pageDown": {
+      "value": "Pg Dn"
+    },
+    "home": {
+      "value": "Home"
+    },
+    "end": {
+      "value": "End"
+    },
+    "a": {
+      "value": "A"
+    },
+    "b": {
+      "value": "B"
+    },
+    "c": {
+      "value": "C"
+    },
+    "d": {
+      "value": "D"
+    },
+    "e": {
+      "value": "E"
+    },
+    "f": {
+      "value": "F"
+    },
+    "g": {
+      "value": "G"
+    },
+    "h": {
+      "value": "H"
+    },
+    "i": {
+      "value": "I"
+    },
+    "j": {
+      "value": "J"
+    },
+    "k": {
+      "value": "K"
+    },
+    "l": {
+      "value": "L"
+    },
+    "m": {
+      "value": "M"
+    },
+    "n": {
+      "value": "N"
+    },
+    "o": {
+      "value": "O"
+    },
+    "p": {
+      "value": "P"
+    },
+    "q": {
+      "value": "Q"
+    },
+    "r": {
+      "value": "R"
+    },
+    "s": {
+      "value": "S"
+    },
+    "t": {
+      "value": "T"
+    },
+    "u": {
+      "value": "U"
+    },
+    "v": {
+      "value": "V"
+    },
+    "w": {
+      "value": "W"
+    },
+    "x": {
+      "value": "X"
+    },
+    "y": {
+      "value": "Y"
+    },
+    "z": {
+      "value": "Z"
+    },
+    "zero": {
+      "value": "0"
+    },
+    "one": {
+      "value": "1"
+    },
+    "two": {
+      "value": "2"
+    },
+    "three": {
+      "value": "3"
+    },
+    "four": {
+      "value": "4"
+    },
+    "five": {
+      "value": "5"
+    },
+    "six": {
+      "value": "6"
+    },
+    "seven": {
+      "value": "7"
+    },
+    "eight": {
+      "value": "8"
+    },
+    "nine": {
+      "value": "9"
+    },
+    "toGrabOrRelease": {
+      "value": "to <b>Grab</b> or <b>Release</b>"
+    }
+  },
+  "webglWarning": {
+    "title": {
+      "value": "Running with low graphics quality"
+    },
+    "body": {
+      "value": "WebGL is not enabled or not available. Click to learn more."
+    },
+    "contextLossFailure": {
+      "value": "Sorry, a graphics error has occurred."
+    },
+    "contextLossReload": {
+      "value": "Reload"
+    },
+    "ie11StencilBody": {
+      "value": "Update Internet Explorer by installing recommended Windows Update patches."
+    }
+  },
+  "keyboardHelpDialog": {
+    "sliderControls": {
+      "value": "Slider Controls"
+    },
+    "adjustSlider": {
+      "value": "Adjust slider"
+    },
+    "spinnerControls": {
+      "value": "Spinner Controls"
+    },
+    "adjustInSmallerSteps": {
+      "value": "Adjust in smaller steps"
+    },
+    "adjustInLargerSteps": {
+      "value": "Adjust in larger steps"
+    },
+    "jumpToMinimum": {
+      "value": "Jump to minimum"
+    },
+    "jumpToMaximum": {
+      "value": "Jump to maximum"
+    },
+    "adjust": {
+      "value": "Adjust"
+    },
+    "slider": {
+      "value": "slider"
+    },
+    "spinner": {
+      "value": "spinner"
+    },
+    "heatCoolControls": {
+      "value": "Heat/Cool Controls"
+    },
+    "maximumHeat": {
+      "value": "Maximum heat"
+    },
+    "maximumCool": {
+      "value": "Maximum cool"
+    },
+    "heatCoolOff": {
+      "value": "Off"
+    },
+    "verbSliderPattern": {
+      "value": "{{verb}} {{slider}}"
+    },
+    "verbInSmallerStepsPattern": {
+      "value": "{{verb}} in smaller steps"
+    },
+    "verbInLargerStepsPattern": {
+      "value": "{{verb}} in larger steps"
+    },
+    "minimum": {
+      "value": "minimum"
+    },
+    "maximum": {
+      "value": "maximum"
+    },
+    "jumpToMinimumPattern": {
+      "value": "Jump to {{minimum}}"
+    },
+    "jumpToMaximumPattern": {
+      "value": "Jump to {{maximum}}"
+    },
+    "generalNavigation": {
+      "value": "General Navigation"
+    },
+    "basicActions": {
+      "value": "Basic Actions"
+    },
+    "moveToNextItem": {
+      "value": "Move to next item"
+    },
+    "moveToPreviousItem": {
+      "value": "Move to previous item"
+    },
+    "moveToNextItemOrGroup": {
+      "value": "Move to next item or group"
+    },
+    "moveToPreviousItemOrGroup": {
+      "value": "Move to previous item or group"
+    },
+    "pressButtons": {
+      "value": "Press buttons"
+    },
+    "moveBetweenItemsInAGroup": {
+      "value": "Move between items in a group"
+    },
+    "setValuesInKeypad": {
+      "value": "Set values within keypad"
+    },
+    "resetAll": {
+      "value": "Reset All"
+    },
+    "exitADialog": {
+      "value": "Exit a dialog"
+    },
+    "toggleCheckboxes": {
+      "value": "Toggle checkboxes"
+    },
+    "or": {
+      "value": "or"
+    },
+    "hyphen": {
+      "value": "-"
+    },
+    "grabOrReleaseHeadingPattern": {
+      "value": "Grab or Release {{thing}}"
+    },
+    "grabOrReleaseLabelPattern": {
+      "value": "Grab or release {{thing}}"
+    },
+    "comboBox": {
+      "chooseAThingPattern": {
+        "value": "Choose a {{thingTitle}}"
+      },
+      "headingString": {
+        "value": "Change Choice"
+      },
+      "popUpListPattern": {
+        "value": "1. Show {{thingPlural}}"
+      },
+      "moveThroughPattern": {
+        "value": "2. Move through {{thingPlural}}"
+      },
+      "chooseNewPattern": {
+        "value": "3. Change {{thingSingular}}"
+      },
+      "closeWithoutChanging": {
+        "value": "4. Close without changing"
+      },
+      "options": {
+        "value": "choices"
+      },
+      "option": {
+        "value": "choice"
+      }
+    },
+    "moveDraggableItems": {
+      "value": "Move Draggable Items"
+    },
+    "move": {
+      "value": "Move"
+    },
+    "moveSlower": {
+      "value": "Move slower"
+    },
+    "faucetControls": {
+      "faucetControls": {
+        "value": "Faucet Controls"
+      },
+      "adjustFaucetFlow": {
+        "value": "Adjust faucet flow"
+      },
+      "adjustInSmallerSteps": {
+        "value": "Adjust in smaller steps"
+      },
+      "adjustInLargerSteps": {
+        "value": "Adjust in larger steps"
+      },
+      "closeFaucet": {
+        "value": "Close faucet"
+      },
+      "openFaucetFully": {
+        "value": "Open faucet fully"
+      },
+      "openFaucetBriefly": {
+        "value": "Open faucet briefly"
+      }
+    },
+    "timingControls": {
+      "timingControls": {
+        "value": "Time Controls"
+      },
+      "pauseOrPlayAction": {
+        "value": "Pause or play action"
+      }
+    }
+  },
+  "speed": {
+    "normal": {
+      "value": "Normal"
+    },
+    "slow": {
+      "value": "Slow"
+    },
+    "fast": {
+      "value": "Fast"
+    }
+  },
+  "symbol": {
+    "ohms": {
+      "value": "Ω"
+    },
+    "resistivity": {
+      "value": "ρ"
+    }
+  },
+  "comboBoxDisplay": {
+    "valueUnits": {
+      "value": "{{value}} {{units}}"
+    }
   },
   "wavelengthNMValuePattern": {
     "value": "{0} nm"
@@ -452,18 +476,24 @@
   "ten": {
     "value": "ten"
   },
-  "offScaleIndicator.pointsOffScale": {
-    "value": "Points<br>off scale!"
+  "offScaleIndicator": {
+    "pointsOffScale": {
+      "value": "Points<br>off scale!"
+    }
   },
-  "ResetAllButton.name": {
-    "value": "Reset All",
-    "deprecated": true,
-    "_comment": "See https://github.com/phetsims/chipper/issues/1446"
+  "ResetAllButton": {
+    "name": {
+      "value": "Reset All",
+      "deprecated": true,
+      "_comment": "See https://github.com/phetsims/chipper/issues/1446"
+    }
   },
-  "SoundToggleButton.name": {
-    "value": "Toggle Sound",
-    "deprecated": true,
-    "_comment": "See https://github.com/phetsims/chipper/issues/1446"
+  "SoundToggleButton": {
+    "name": {
+      "value": "Toggle Sound",
+      "deprecated": true,
+      "_comment": "See https://github.com/phetsims/chipper/issues/1446"
+    }
   },
   "scientificNotation": {
     "value": "{{value}} × {{base}}<sup>{{exponent}}</sup>"

@@ -134,8 +134,6 @@ addToMapIfDefined( 'keyboardHelpDialog_comboBox_option', 'keyboardHelpDialog.com
 addToMapIfDefined( 'keyboardHelpDialog_moveDraggableItems', 'keyboardHelpDialog.moveDraggableItemsStringProperty' );
 addToMapIfDefined( 'keyboardHelpDialog_move', 'keyboardHelpDialog.moveStringProperty' );
 addToMapIfDefined( 'keyboardHelpDialog_moveSlower', 'keyboardHelpDialog.moveSlowerStringProperty' );
-addToMapIfDefined( 'speed_normal', 'speed.normalStringProperty' );
-addToMapIfDefined( 'speed_slow', 'speed.slowStringProperty' );
 addToMapIfDefined( 'keyboardHelpDialog_faucetControls_faucetControls', 'keyboardHelpDialog.faucetControls.faucetControlsStringProperty' );
 addToMapIfDefined( 'keyboardHelpDialog_faucetControls_adjustFaucetFlow', 'keyboardHelpDialog.faucetControls.adjustFaucetFlowStringProperty' );
 addToMapIfDefined( 'keyboardHelpDialog_faucetControls_adjustInSmallerSteps', 'keyboardHelpDialog.faucetControls.adjustInSmallerStepsStringProperty' );
@@ -145,6 +143,8 @@ addToMapIfDefined( 'keyboardHelpDialog_faucetControls_openFaucetFully', 'keyboar
 addToMapIfDefined( 'keyboardHelpDialog_faucetControls_openFaucetBriefly', 'keyboardHelpDialog.faucetControls.openFaucetBrieflyStringProperty' );
 addToMapIfDefined( 'keyboardHelpDialog_timingControls_timingControls', 'keyboardHelpDialog.timingControls.timingControlsStringProperty' );
 addToMapIfDefined( 'keyboardHelpDialog_timingControls_pauseOrPlayAction', 'keyboardHelpDialog.timingControls.pauseOrPlayActionStringProperty' );
+addToMapIfDefined( 'speed_normal', 'speed.normalStringProperty' );
+addToMapIfDefined( 'speed_slow', 'speed.slowStringProperty' );
 addToMapIfDefined( 'speed_fast', 'speed.fastStringProperty' );
 addToMapIfDefined( 'symbol_ohms', 'symbol.ohmsStringProperty' );
 addToMapIfDefined( 'symbol_resistivity', 'symbol.resistivityStringProperty' );
