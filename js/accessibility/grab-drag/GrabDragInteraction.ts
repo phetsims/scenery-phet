@@ -348,9 +348,6 @@ export default class GrabDragInteraction extends Disposable {
       // in general, the help text is after the component in the PDOM
       appendDescription: true,
 
-      // position the PDOM elements when idle for drag and drop on touch-based screen readers
-      positionInPDOM: true,
-
       accessibleName: null
     }, options.idleStateOptions );
 

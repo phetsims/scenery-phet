@@ -26,10 +26,7 @@ const AccessibleInteractiveOptions: ParallelDOMOptions = {
     options.innerContent = accessibleName;
 
     return options;
-  },
-
-  // So that you can drag and drop this component on screen readers on mobile devices.
-  positionInPDOM: true
+  }
 } as const;
 
 export default AccessibleInteractiveOptions;
