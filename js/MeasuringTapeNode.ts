@@ -18,6 +18,7 @@ import Multilink from '../../axon/js/Multilink.js';
 import Property from '../../axon/js/Property.js';
 import TProperty from '../../axon/js/TProperty.js';
 import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
+import { Unit } from '../../axon/js/Unit.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import { toFixed } from '../../dot/js/util/toFixed.js';
 import Vector2 from '../../dot/js/Vector2.js';
@@ -52,6 +53,9 @@ import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from './S
 export type MeasuringTapeUnits = {
   name: string;
   multiplier: number;
+
+  // If specified, used for the context response so it would say "6.2 meters" instead of "6.2 m"
+  unit?: Unit;
 };
 
 // Drag speed with the keyboard, in view coordinates per second
@@ -417,6 +421,21 @@ class MeasuringTapeNode extends Node {
 
       const tipEnd = () => {
         this._isTipUserControlledProperty.value = false;
+
+        const units = this.unitsProperty.value;
+
+        // If specified, used for the context response so it would say "6.2 meters" instead of "6.2 m"
+        if ( units.unit ) {
+          const distance = units.multiplier * this.measuredDistanceProperty.value;
+          tip.addAccessibleContextResponse( units.unit.getAccessibleString( distance, {
+            decimalPlaces: this.significantFigures
+          } ) );
+        }
+        else {
+
+          // Fall back to the default readout string if no unit is specified, which will at least include the distance measurement (e.g. "6.2 m")
+          tip.addAccessibleContextResponse( readoutStringProperty.value );
+        }
       };
 
       let tipStartOffset: Vector2;
