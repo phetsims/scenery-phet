@@ -93,7 +93,7 @@ type FromHotkeyDataOptions = {
   labelStringProperty?: TReadOnlyProperty<string> | null;
 
   // The label used for the PDOM (screen readers) for this row, if you don't want the one from the HotkeyData.
-  pdomLabelStringProperty?: TReadOnlyProperty<string> | string | null;
+  accessibleRowDescriptionProperty?: TReadOnlyProperty<string> | string | null;
 
   // Options for the labelWithIcon produced by this function
   labelWithIconOptions?: StrictOmit<LabelWithIconOptions, 'labelInnerContent'>;
@@ -271,7 +271,7 @@ class KeyboardHelpSectionRow {
       icon: null,
       iconData: null,
       labelStringProperty: hotkeyData.keyboardHelpDialogLabelStringProperty,
-      pdomLabelStringProperty: hotkeyData.keyboardHelpDialogPDOMLabelStringProperty,
+      accessibleRowDescriptionProperty: hotkeyData.keyboardHelpDialogPDOMLabelStringProperty,
       labelWithIconOptions: {},
       hotkeySetVariant: 'default'
     }, providedOptions );
@@ -287,7 +287,7 @@ class KeyboardHelpSectionRow {
 
     // Determine the PDOM content. Use the provided one when available, otherwise make sure that markup is removed
     // from the visual label and build the description from it.
-    const accessibleContent = options.pdomLabelStringProperty ||
+    const accessibleContent = options.accessibleRowDescriptionProperty ||
                               HotkeyDescriptionBuilder.createDescriptionProperty(
                                 RichText.getAccessibleStringProperty( visualLabelStringProperty ),
                                 hotkeyData.keyDescriptorsProperty,

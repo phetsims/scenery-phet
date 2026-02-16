@@ -38,7 +38,7 @@ import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 const createSectionRow = (
   keys: OneKeyStroke[],
   visualLabelStringProperty: TReadOnlyProperty<string>,
-  accessibleLabelStringProperty: TReadOnlyProperty<string>,
+  accessibleRowDescriptionProperty: TReadOnlyProperty<string>,
   disposables: HasDispose[]
 ) => {
 
@@ -51,7 +51,7 @@ const createSectionRow = (
   // The final description for the row, including the leading accessible string plus the generated
   // description of the keys.
   const accessibleDescriptionStringProperty = HotkeyDescriptionBuilder.createDescriptionProperty(
-    accessibleLabelStringProperty,
+    accessibleRowDescriptionProperty,
     hotkeyData.keyDescriptorsProperty
   );
 
@@ -59,7 +59,7 @@ const createSectionRow = (
   disposables.push( hotkeyData );
 
   return KeyboardHelpSectionRow.fromHotkeyData( hotkeyData, {
-    pdomLabelStringProperty: accessibleLabelStringProperty
+    accessibleRowDescriptionProperty: accessibleDescriptionStringProperty
   } );
 };
 

@@ -468,8 +468,10 @@ a11y:
     pausedAccessibleContextResponse:  Sim paused.
   stepBackwardButton:
     accessibleName: Step Backward
+    accessibleContextResponse: Stepping backward.
   stepForwardButton:
     accessibleName: Step Forward
+    accessibleContextResponse: Stepping forward.
   stepButton:
     playingDescription: Pause sim to step forward little by little.
     pausedDescription:  Play sim to resume chosen speed.
