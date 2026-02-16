@@ -92,7 +92,10 @@ type FromHotkeyDataOptions = {
   // The visual label for this row, if you don't want the one from the HotkeyData.
   labelStringProperty?: TReadOnlyProperty<string> | null;
 
-  // The label used for the PDOM (screen readers) for this row, if you don't want the one from the HotkeyData.
+  // The accessible content for this row, if you are not using the default from HotkeyData. You should almost
+  // never need to use this because fromHotkeyData should generate this for you. This should be a description
+  // that describes the keys used and the function. For example:
+  // "Move object with Arrow keys."
   accessibleRowDescriptionProperty?: TReadOnlyProperty<string> | string | null;
 
   // Options for the labelWithIcon produced by this function
