@@ -56,8 +56,10 @@ type LabelWithIconListOptions = {
 // Options type for labelWithIcon, see that function
 export type LabelWithIconOptions = {
 
-  // {string|null} to provide the PDOM description of this row
-  labelInnerContent?: string | TReadOnlyProperty<string> | null;
+  // The description content describing this row. It should describe the label string and icons together in a
+  // single descriptive sentence. Something like:
+  // "Move object with Arrow keys."
+  accessibleRowDescriptionProperty?: string | TReadOnlyProperty<string> | null;
 
   // {string} - Content for this icon that is read by the Voicing feature when in a KeyboardHelpSection. If null,
   // will default to the options.labelInnerContent.
@@ -99,7 +101,7 @@ type FromHotkeyDataOptions = {
   accessibleRowDescriptionProperty?: TReadOnlyProperty<string> | string | null;
 
   // Options for the labelWithIcon produced by this function
-  labelWithIconOptions?: StrictOmit<LabelWithIconOptions, 'labelInnerContent'>;
+  labelWithIconOptions?: StrictOmit<LabelWithIconOptions, 'accessibleRowDescriptionProperty'>;
 
   // Optional variant identifier for alternate hotkey set definitions and layout. Some hotkey sets have variants
   // that change the appearance and description of the hotkeys. For example, the 'paired' variant for arrow keys.
@@ -162,7 +164,7 @@ class KeyboardHelpSectionRow {
   public static labelWithIcon( labelString: string | TReadOnlyProperty<string>, icon: Node,
                                providedOptions?: LabelWithIconOptions ): KeyboardHelpSectionRow {
     const options = optionize<LabelWithIconOptions>()( {
-      labelInnerContent: null,
+      accessibleRowDescriptionProperty: null,
       readingBlockContent: null,
 
       labelOptions: {
@@ -181,10 +183,10 @@ class KeyboardHelpSectionRow {
     const labelBox = labelIconGroup.createBox( labelText );
     const iconBox = labelIconGroup.createBox( new Node( { children: [ icon ] } ), options.iconOptions );
 
-    iconBox.innerContent = options.labelInnerContent;
+    iconBox.innerContent = options.accessibleRowDescriptionProperty;
 
     return new KeyboardHelpSectionRow( labelText, labelBox, iconBox, {
-      readingBlockContent: options.readingBlockContent || options.labelInnerContent
+      readingBlockContent: options.readingBlockContent || options.accessibleRowDescriptionProperty
     } );
   }
 
@@ -326,7 +328,7 @@ class KeyboardHelpSectionRow {
         visualLabelStringProperty,
         icon,
         combineOptions<LabelWithIconOptions>( {
-          labelInnerContent: accessibleContent
+          accessibleRowDescriptionProperty: accessibleContent
         }, options.labelWithIconOptions )
       );
     }

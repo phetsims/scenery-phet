@@ -91,7 +91,7 @@ export default class BasicActionsKeyboardHelpSection extends KeyboardHelpSection
       const zeroToNineIcon = KeyboardHelpIconFactory.iconToIcon( new NumberKeyNode( 0 ), new NumberKeyNode( 9 ) );
       const setValuesInKeypadRow = KeyboardHelpSectionRow.labelWithIcon(
         SceneryPhetFluent.keyboardHelpDialog.setValuesInKeypadStringProperty, zeroToNineIcon, {
-          labelInnerContent: SceneryPhetFluent.a11y.keyboardHelpDialog.general.setValuesInKeypadDescriptionStringProperty
+          accessibleRowDescriptionProperty: SceneryPhetFluent.a11y.keyboardHelpDialog.general.setValuesInKeypadDescriptionStringProperty
         } );
       content.push( setValuesInKeypadRow );
     }
