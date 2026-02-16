@@ -39,14 +39,14 @@ const OR_TEXT_MAX_WIDTH = 16;
 type LabelWithIconListOptions = {
 
   // content for the parallel DOM representing the entire row, read by a screen reader
-  labelInnerContent?: PDOMValueType | null;
+  accessibleRowDescriptionProperty?: PDOMValueType | null;
 
   // options passed to the RichText label - maxWidth is set by the KeyboardHelpSection for all rows at once
   labelOptions?: StrictOmit<RichTextOptions, 'maxWidth'>;
 
   // voicing
   // Content for this icon that is read by the Voicing feature when in a KeyboardHelpSection. If null,
-  // will default to options.labelInnerContent.
+  // will default to options.accessibleRowDescriptionProperty.
   readingBlockContent?: VoicingResponse | null;
 
   // Options for the VBox that manages layout for all icons in the list. Options omitted are set by the function.
@@ -62,7 +62,7 @@ export type LabelWithIconOptions = {
   accessibleRowDescriptionProperty?: string | TReadOnlyProperty<string> | null;
 
   // {string} - Content for this icon that is read by the Voicing feature when in a KeyboardHelpSection. If null,
-  // will default to the options.labelInnerContent.
+  // will default to the options.accessibleRowDescriptionProperty.
   readingBlockContent?: VoicingResponse | null;
 
   // options passed to the RichText label - maxWidth is set by the KeyboardHelpSection for all rows at once
@@ -204,7 +204,7 @@ class KeyboardHelpSectionRow {
                                    providedOptions?: LabelWithIconListOptions ): KeyboardHelpSectionRow {
 
     const options = optionize<LabelWithIconListOptions>()( {
-      labelInnerContent: null,
+      accessibleRowDescriptionProperty: null,
       readingBlockContent: null,
       iconsVBoxOptions: {},
       labelOptions: {
@@ -218,7 +218,7 @@ class KeyboardHelpSectionRow {
 
       // pdom - each icon will be presented as a list item under the parent 'ul' of the KeyboardHelpSectionRow.
       tagName: 'li',
-      innerContent: options.labelInnerContent
+      innerContent: options.accessibleRowDescriptionProperty
     }, options.iconsVBoxOptions );
 
     const labelText = new RichText( labelString, options.labelOptions );
@@ -259,7 +259,7 @@ class KeyboardHelpSectionRow {
     const labelWithHeightBox = labelIconListGroup.createBox( labelBox, groupOptions );
 
     return new KeyboardHelpSectionRow( labelText, labelWithHeightBox, iconsBox, {
-      readingBlockContent: options.readingBlockContent || options.labelInnerContent
+      readingBlockContent: options.readingBlockContent || options.accessibleRowDescriptionProperty
     } );
   }
 
@@ -317,7 +317,7 @@ class KeyboardHelpSectionRow {
         visualLabelStringProperty,
         stackedGroup.alternatives,
         {
-          labelInnerContent: accessibleContent,
+          accessibleRowDescriptionProperty: accessibleContent,
           readingBlockContent: options.labelWithIconOptions.readingBlockContent || null,
           labelOptions: options.labelWithIconOptions.labelOptions
         }

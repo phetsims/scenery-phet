@@ -46,7 +46,7 @@ export default function demoKeyboardHelpSection( layoutBounds: Bounds2 ): Node {
     new TextKeyNode( 'Hello' ),
     new TextKeyNode( 'Ahoy\' Manatee' )
   ], {
-    labelInnerContent: 'Label with icon list of hi, hello, Ahoy Manatee.'
+    accessibleRowDescriptionProperty: 'Label with icon list of hi, hello, Ahoy Manatee.'
   } );
 
   const content = [
