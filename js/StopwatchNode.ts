@@ -64,7 +64,8 @@ type SelfOptions = {
   xMargin?: number;
   yMargin?: number;
 
-  numberDisplayOptions?: NumberDisplayOptions;
+  // The StopwatchNode sets an accessibleParagraph on the number display.
+  numberDisplayOptions?: StrictOmit<NumberDisplayOptions, 'accessibleParagraph'>;
 
   // If provided, the stopwatch is draggable within the bounds. If null, the stopwatch is not draggable.
   dragBoundsProperty?: Property<Bounds2> | null;
@@ -439,6 +440,8 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
         this.addAccessibleContextResponse( getValueReadoutContextResponse() );
       }
     } );
+
+    numberDisplay.accessibleParagraph = numberDisplay.accessibleValueStringProperty;
 
     this.addLinkedElement( stopwatch, {
       tandemName: 'stopwatch'
