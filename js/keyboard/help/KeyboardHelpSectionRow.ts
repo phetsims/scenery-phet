@@ -14,7 +14,6 @@ import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import assertMutuallyExclusiveOptions from '../../../../phet-core/js/assertMutuallyExclusiveOptions.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { PDOMValueType } from '../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import HotkeyData from '../../../../scenery/js/input/HotkeyData.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import { AlignBoxOptions } from '../../../../scenery/js/layout/nodes/AlignBox.js';
@@ -39,7 +38,7 @@ const OR_TEXT_MAX_WIDTH = 16;
 type LabelWithIconListOptions = {
 
   // content for the parallel DOM representing the entire row, read by a screen reader
-  accessibleRowDescriptionProperty?: PDOMValueType | null;
+  accessibleRowDescriptionProperty?: TReadOnlyProperty<string> | null;
 
   // options passed to the RichText label - maxWidth is set by the KeyboardHelpSection for all rows at once
   labelOptions?: StrictOmit<RichTextOptions, 'maxWidth'>;
@@ -59,7 +58,7 @@ export type LabelWithIconOptions = {
   // The description content describing this row. It should describe the label string and icons together in a
   // single descriptive sentence. Something like:
   // "Move object with Arrow keys."
-  accessibleRowDescriptionProperty?: string | TReadOnlyProperty<string> | null;
+  accessibleRowDescriptionProperty?: TReadOnlyProperty<string> | null;
 
   // {string} - Content for this icon that is read by the Voicing feature when in a KeyboardHelpSection. If null,
   // will default to the options.accessibleRowDescriptionProperty.
@@ -98,7 +97,7 @@ type FromHotkeyDataOptions = {
   // never need to use this because fromHotkeyData should generate this for you. This should be a description
   // that describes the keys used and the function. For example:
   // "Move object with Arrow keys."
-  accessibleRowDescriptionProperty?: TReadOnlyProperty<string> | string | null;
+  accessibleRowDescriptionProperty?: TReadOnlyProperty<string> | null;
 
   // Options for the labelWithIcon produced by this function
   labelWithIconOptions?: StrictOmit<LabelWithIconOptions, 'accessibleRowDescriptionProperty'>;
@@ -292,12 +291,12 @@ class KeyboardHelpSectionRow {
 
     // Determine the PDOM content. Use the provided one when available, otherwise make sure that markup is removed
     // from the visual label and build the description from it.
-    const accessibleContent = options.accessibleRowDescriptionProperty ||
-                              HotkeyDescriptionBuilder.createDescriptionProperty(
-                                RichText.getAccessibleStringProperty( visualLabelStringProperty ),
-                                hotkeyData.keyDescriptorsProperty,
-                                options.hotkeySetVariant
-                              );
+    const accessibleContentProperty = options.accessibleRowDescriptionProperty ||
+                                      HotkeyDescriptionBuilder.createDescriptionProperty(
+                                        RichText.getAccessibleStringProperty( visualLabelStringProperty ),
+                                        hotkeyData.keyDescriptorsProperty,
+                                        options.hotkeySetVariant
+                                      );
 
     // If the icon data indicates a stacked layout (modifierPartitionLayout), align the label with the first icon in
     // the stack by using labelWithIconList. Stacking only makes sense when a single modifier group fans out into
@@ -317,7 +316,7 @@ class KeyboardHelpSectionRow {
         visualLabelStringProperty,
         stackedGroup.alternatives,
         {
-          accessibleRowDescriptionProperty: accessibleContent,
+          accessibleRowDescriptionProperty: accessibleContentProperty,
           readingBlockContent: options.labelWithIconOptions.readingBlockContent || null,
           labelOptions: options.labelWithIconOptions.labelOptions
         }
@@ -328,7 +327,7 @@ class KeyboardHelpSectionRow {
         visualLabelStringProperty,
         icon,
         combineOptions<LabelWithIconOptions>( {
-          accessibleRowDescriptionProperty: accessibleContent
+          accessibleRowDescriptionProperty: accessibleContentProperty
         }, options.labelWithIconOptions )
       );
     }

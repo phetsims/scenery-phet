@@ -37,7 +37,7 @@ export default function demoKeyboardHelpSection( layoutBounds: Bounds2 ): Node {
 
   // Unusual example that does not use keys or HotkeyData, but you can create an icon with any content you want.
   const labelWithIcon = KeyboardHelpSectionRow.labelWithIcon( 'Label With Icon:', new TextKeyNode( 'Hi' ), {
-    accessibleRowDescriptionProperty: 'Label With Icon Hi'
+    accessibleRowDescriptionProperty: new Property( 'Label With Icon Hi' )
   } );
 
   // Unusual example that does not use keys or HotkeyData, but you can create a list of icons if you want.
@@ -46,7 +46,7 @@ export default function demoKeyboardHelpSection( layoutBounds: Bounds2 ): Node {
     new TextKeyNode( 'Hello' ),
     new TextKeyNode( 'Ahoy\' Manatee' )
   ], {
-    accessibleRowDescriptionProperty: 'Label with icon list of hi, hello, Ahoy Manatee.'
+    accessibleRowDescriptionProperty: new Property( 'Label with icon list of hi, hello, Ahoy Manatee.' )
   } );
 
   const content = [
