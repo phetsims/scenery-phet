@@ -624,6 +624,18 @@ type StringsType = {
     'stopwatch': {
       'accessibleNameStringProperty': LocalizedStringProperty;
       'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      'units': {
+        'seconds': {
+          'secondsStringProperty': LocalizedStringProperty;
+          'patternStringProperty': LocalizedStringProperty;
+        };
+        'minutesAndSeconds': {
+          'patternStringProperty': LocalizedStringProperty;
+        };
+        'valueUnits': {
+          'patternStringProperty': LocalizedStringProperty;
+        }
+      };
       'resetButton': {
         'accessibleNameStringProperty': LocalizedStringProperty;
         'accessibleContextResponseStringProperty': LocalizedStringProperty;

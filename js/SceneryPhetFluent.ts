@@ -328,6 +328,10 @@ addToMapIfDefined( 'a11y_offScaleIndicator_pointsOffScaleLeft', 'a11y.offScaleIn
 addToMapIfDefined( 'a11y_offScaleIndicator_pointsOffScaleRight', 'a11y.offScaleIndicator.pointsOffScaleRightStringProperty' );
 addToMapIfDefined( 'a11y_stopwatch_accessibleName', 'a11y.stopwatch.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_stopwatch_accessibleHelpText', 'a11y.stopwatch.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_stopwatch_units_seconds_seconds', 'a11y.stopwatch.units.seconds.secondsStringProperty' );
+addToMapIfDefined( 'a11y_stopwatch_units_seconds_pattern', 'a11y.stopwatch.units.seconds.patternStringProperty' );
+addToMapIfDefined( 'a11y_stopwatch_units_minutesAndSeconds_pattern', 'a11y.stopwatch.units.minutesAndSeconds.patternStringProperty' );
+addToMapIfDefined( 'a11y_stopwatch_units_valueUnits_pattern', 'a11y.stopwatch.units.valueUnits.patternStringProperty' );
 addToMapIfDefined( 'a11y_stopwatch_resetButton_accessibleName', 'a11y.stopwatch.resetButton.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_stopwatch_resetButton_accessibleContextResponse', 'a11y.stopwatch.resetButton.accessibleContextResponseStringProperty' );
 addToMapIfDefined( 'a11y_stopwatch_playButton_accessibleName', 'a11y.stopwatch.playButton.accessibleNameStringProperty' );
@@ -1052,6 +1056,18 @@ const SceneryPhetFluent = {
     stopwatch: {
       accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_stopwatch_accessibleName', _.get( SceneryPhetStrings, 'a11y.stopwatch.accessibleNameStringProperty' ) ),
       accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_stopwatch_accessibleHelpText', _.get( SceneryPhetStrings, 'a11y.stopwatch.accessibleHelpTextStringProperty' ) ),
+      units: {
+        seconds: {
+          secondsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_stopwatch_units_seconds_seconds', _.get( SceneryPhetStrings, 'a11y.stopwatch.units.seconds.secondsStringProperty' ) ),
+          pattern: new FluentPattern<{ seconds: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_stopwatch_units_seconds_pattern', _.get( SceneryPhetStrings, 'a11y.stopwatch.units.seconds.patternStringProperty' ), [{"name":"seconds"}] )
+        },
+        minutesAndSeconds: {
+          pattern: new FluentPattern<{ minutes: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'>, seconds: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_stopwatch_units_minutesAndSeconds_pattern', _.get( SceneryPhetStrings, 'a11y.stopwatch.units.minutesAndSeconds.patternStringProperty' ), [{"name":"minutes","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]},{"name":"seconds"}] )
+        },
+        valueUnits: {
+          pattern: new FluentPattern<{ units: FluentVariable, value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_stopwatch_units_valueUnits_pattern', _.get( SceneryPhetStrings, 'a11y.stopwatch.units.valueUnits.patternStringProperty' ), [{"name":"units"},{"name":"value"}] )
+        }
+      },
       resetButton: {
         accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_stopwatch_resetButton_accessibleName', _.get( SceneryPhetStrings, 'a11y.stopwatch.resetButton.accessibleNameStringProperty' ) ),
         accessibleContextResponseStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_stopwatch_resetButton_accessibleContextResponse', _.get( SceneryPhetStrings, 'a11y.stopwatch.resetButton.accessibleContextResponseStringProperty' ) )

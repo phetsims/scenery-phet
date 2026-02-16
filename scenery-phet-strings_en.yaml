@@ -534,6 +534,18 @@ a11y:
   stopwatch:
     accessibleName:     Stopwatch
     accessibleHelpText: Measure elapsed time.
+    units:
+      seconds:
+        seconds:   seconds
+        pattern: '{ $seconds } seconds'
+      minutesAndSeconds:
+        pattern: |-
+                 { $minutes ->
+                   [one] { $minutes } minute
+                   *[other] { $minutes } minutes
+                 } and { $seconds } seconds
+      valueUnits:
+        pattern: '{ $value } { $units }'
     resetButton:
       accessibleName:            Reset Stopwatch
       accessibleContextResponse: Stopwatch reset.

@@ -1405,6 +1405,26 @@
       "accessibleHelpText": {
         "value": "Measure elapsed time."
       },
+      "units": {
+        "seconds": {
+          "seconds": {
+            "value": "seconds"
+          },
+          "pattern": {
+            "value": "{ $seconds } seconds"
+          }
+        },
+        "minutesAndSeconds": {
+          "pattern": {
+            "value": "{ $minutes ->\n  [one] { $minutes } minute\n  *[other] { $minutes } minutes\n} and { $seconds } seconds"
+          }
+        },
+        "valueUnits": {
+          "pattern": {
+            "value": "{ $value } { $units }"
+          }
+        }
+      },
       "resetButton": {
         "accessibleName": {
           "value": "Reset Stopwatch"

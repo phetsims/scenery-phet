@@ -165,11 +165,17 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
         yMargin: 8,
         numberDisplayOptions: {
           numberFormatter: StopwatchNode.RICH_TEXT_MINUTES_AND_SECONDS,
-          numberFormatterDependencies: [
+          numberFormatterDependencies: _.uniq( [
 
             // Used in the numberFormatter above
-            SceneryPhetFluent.stopwatchValueUnitsPatternStringProperty
-          ],
+            SceneryPhetFluent.stopwatchValueUnitsPatternStringProperty,
+
+            // Patterns for accessibility strings
+            SceneryPhetFluent.a11y.stopwatch.units.seconds.secondsStringProperty,
+            ...SceneryPhetFluent.a11y.stopwatch.units.seconds.pattern.getDependentProperties(),
+            ...SceneryPhetFluent.a11y.stopwatch.units.minutesAndSeconds.pattern.getDependentProperties(),
+            ...SceneryPhetFluent.a11y.stopwatch.units.valueUnits.pattern.getDependentProperties()
+          ] ),
           useRichText: true,
           textOptions: {
             font: StopwatchNode.DEFAULT_FONT
@@ -536,26 +542,43 @@ export default class StopwatchNode extends InteractiveHighlighting( Node ) {
         units: `<span style='font-size: ${options.unitsFont}px; font-family:${StopwatchNode.NUMBER_FONT_FAMILY};'>${units}</span>`
       } );
 
-      // TODO: This will be moved to fluent-translated content, see https://github.com/phetsims/scenery-phet/issues/929
       let accessibleString: string;
       if ( options.showAsMinutesAndSeconds ) {
         assert && assert( units === '' || units === 's', 'showAsMinutesAndSeconds:true only supported for seconds as units' );
 
         if ( minutes === 0 ) {
-          accessibleString = `${seconds} seconds`;
+
+          // Note that seconds includes the ms as a formatted string, so this pattern does not
+          // include pluralization for the seconds unit.
+          accessibleString = SceneryPhetFluent.a11y.stopwatch.units.seconds.pattern.format( {
+            seconds: seconds
+          } );
         }
         else {
-          accessibleString = `${minutes} minutes and ${seconds} seconds`;
+          accessibleString = SceneryPhetFluent.a11y.stopwatch.units.minutesAndSeconds.pattern.format( {
+            minutes: minutes,
+            seconds: seconds
+          } );
         }
       }
       else {
-        const expandedUnitsMap: Record<string, string> = {
-          s: 'seconds'
+        const expandedUnitsMap: Record<string, TReadOnlyProperty<string>> = {
+          s: SceneryPhetFluent.a11y.stopwatch.units.seconds.secondsStringProperty
         };
 
-        const unitsString = units.length ? ` ${expandedUnitsMap[ units ] ?? units}` : '';
+        // value string already built as minutesAndSecondsString + centisecondsString
+        const valueString = `${minutesAndSecondsString}${centisecondsString}`;
 
-        accessibleString = `${minutesAndSecondsString}${centisecondsString}${unitsString}`;
+        // If units are empty, skip the pattern
+        if ( units.length === 0 ) {
+          accessibleString = valueString;
+        }
+        else {
+          accessibleString = SceneryPhetFluent.a11y.stopwatch.units.valueUnits.pattern.format( {
+            value: valueString,
+            units: expandedUnitsMap[ units ] ?? units
+          } );
+        }
       }
 
       return {
