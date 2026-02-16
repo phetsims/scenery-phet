@@ -1220,11 +1220,17 @@
     "stepBackwardButton": {
       "accessibleName": {
         "value": "Step Backward"
+      },
+      "accessibleContextResponse": {
+        "value": "Stepping backward."
       }
     },
     "stepForwardButton": {
       "accessibleName": {
         "value": "Step Forward"
+      },
+      "accessibleContextResponse": {
+        "value": "Stepping forward."
       }
     },
     "stepButton": {

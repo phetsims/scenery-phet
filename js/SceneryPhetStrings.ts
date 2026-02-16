@@ -544,9 +544,11 @@ type StringsType = {
     };
     'stepBackwardButton': {
       'accessibleNameStringProperty': LocalizedStringProperty;
+      'accessibleContextResponseStringProperty': LocalizedStringProperty;
     };
     'stepForwardButton': {
       'accessibleNameStringProperty': LocalizedStringProperty;
+      'accessibleContextResponseStringProperty': LocalizedStringProperty;
     };
     'stepButton': {
       'playingDescriptionStringProperty': LocalizedStringProperty;

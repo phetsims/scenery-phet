@@ -23,6 +23,7 @@ export default class StepForwardButton extends StepButton {
 
     const options = optionize<StepForwardButtonOptions, SelfOptions, StepButtonOptions>()( {
       accessibleName: SceneryPhetFluent.a11y.stepForwardButton.accessibleNameStringProperty,
+      accessibleContextResponse: SceneryPhetFluent.a11y.stepForwardButton.accessibleContextResponseStringProperty,
       soundPlayer: sharedSoundPlayers.get( 'stepForward' )
     }, providedOptions );
 

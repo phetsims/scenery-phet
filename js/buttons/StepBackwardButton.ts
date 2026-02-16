@@ -21,6 +21,7 @@ export default class StepBackwardButton extends StepButton {
   public constructor( providedOptions?: StepBackwardButtonOptions ) {
     const options = optionize<StepBackwardButtonOptions, SelfOptions, StepButtonOptions>()( {
       accessibleName: SceneryPhetFluent.a11y.stepBackwardButton.accessibleNameStringProperty,
+      accessibleContextResponse: SceneryPhetFluent.a11y.stepBackwardButton.accessibleContextResponseStringProperty,
       soundPlayer: sharedSoundPlayers.get( 'stepBackward' )
     }, providedOptions );
 
