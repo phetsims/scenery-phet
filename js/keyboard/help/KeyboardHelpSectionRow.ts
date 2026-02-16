@@ -275,7 +275,7 @@ class KeyboardHelpSectionRow {
       icon: null,
       iconData: null,
       labelStringProperty: hotkeyData.keyboardHelpDialogLabelStringProperty,
-      accessibleRowDescriptionProperty: hotkeyData.keyboardHelpDialogPDOMLabelStringProperty,
+      accessibleRowDescriptionProperty: hotkeyData.accessibleKeyboardHelpDialogDescriptionStringProperty,
       labelWithIconOptions: {},
       hotkeySetVariant: 'default'
     }, providedOptions );
