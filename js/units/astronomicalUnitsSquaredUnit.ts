@@ -3,7 +3,7 @@
 /**
  * Unit for astronomical units squared (AU^2)
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import PhetUnit from '../PhetUnit.js';

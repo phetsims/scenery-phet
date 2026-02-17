@@ -3,7 +3,7 @@
 /**
  * Unit for view-coordinates per second (view-coordinates/s)
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import PhetUnit from '../PhetUnit.js';

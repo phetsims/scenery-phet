@@ -5,7 +5,7 @@
  * The arrow can be color-coded to the thing being deleted by setting options.arrowColor.
  *
  * @author Sam Reid (PhET Interactive Simulations)
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';

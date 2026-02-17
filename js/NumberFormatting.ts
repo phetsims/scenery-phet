@@ -6,7 +6,7 @@
  * NOTE: This exists in scenery-phet (as opposed to phetcommon or axon) because it has a dependency on accessible strings
  * that are defined in scenery-phet.
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import { optionize3 } from '../../phet-core/js/optionize.js';

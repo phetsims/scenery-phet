@@ -7,7 +7,7 @@
  * The actual rectangles/circles/etc. (called elements in the documentation) stay in fixed positions, but their fill is
  * changed to give the impression of rotation.
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

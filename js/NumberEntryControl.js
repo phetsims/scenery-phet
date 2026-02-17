@@ -6,7 +6,7 @@
  *
  * @author Sharfudeen Ashraf
  * @author John Blanco
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import deprecationWarning from '../../phet-core/js/deprecationWarning.js';

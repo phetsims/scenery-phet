@@ -3,7 +3,7 @@
 /**
  * Unit for revolutions per minute (rpm)
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import PhetUnit from '../PhetUnit.js';

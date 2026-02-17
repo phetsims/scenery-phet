@@ -3,7 +3,7 @@
 /**
  * Unit for meters per second per second (m/s/s)
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import PhetUnit from '../PhetUnit.js';

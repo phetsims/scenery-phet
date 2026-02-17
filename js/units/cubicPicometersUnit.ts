@@ -3,7 +3,7 @@
 /**
  * Unit for cubic picometers (pm^3)
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import PhetUnit from '../PhetUnit.js';

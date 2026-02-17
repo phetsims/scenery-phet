@@ -3,7 +3,7 @@
 /**
  * U-Turn arrow shape, for use with "reset" or "undo" purposes
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import Shape from '../../kite/js/Shape.js';

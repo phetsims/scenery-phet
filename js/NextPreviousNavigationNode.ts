@@ -4,7 +4,7 @@
  * Shows a central node surrounded with next/previous arrows. Need to implement next(),previous(),
  * and when availability changes modify hasNextProperty and hasPreviousProperty
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import Property from '../../axon/js/Property.js';

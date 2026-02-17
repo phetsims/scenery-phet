@@ -3,7 +3,7 @@
 /**
  * Warning displayed when we have to fall back to Canvas
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import HBox from '../../scenery/js/layout/nodes/HBox.js';

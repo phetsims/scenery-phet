@@ -4,7 +4,7 @@
  * Failure message displayed when a WebGL context loss is experienced and we can't recover. Offers a button to reload
  * the simulation.
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import optionize from '../../phet-core/js/optionize.js';

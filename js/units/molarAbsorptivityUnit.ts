@@ -3,7 +3,7 @@
 /**
  * Unit for molar absorptivity (1/(cm*M)).
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import PhetUnit from '../PhetUnit.js';

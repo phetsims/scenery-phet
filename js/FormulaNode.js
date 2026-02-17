@@ -11,7 +11,7 @@
  * IMPORTANT: See packageKatexCSS.js for more information, particularly about generating a particular customized preload
  * file that includes only the font-files needed.
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  * @author Saurabh Totey
  */
 

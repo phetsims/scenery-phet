@@ -4,7 +4,7 @@
  * A rich enumeration value for units (which can be associated with Property instances).
  * Instances typically live in scenery-phet/js/units/.
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';

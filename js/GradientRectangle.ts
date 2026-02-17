@@ -23,7 +23,7 @@
  * These options can be provided in the options object, or can be used with setters/getters (like normal Node
  * options). Note that the getters only work if all equivalent values are the same.
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';

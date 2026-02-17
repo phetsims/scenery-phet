@@ -3,7 +3,7 @@
 /**
  * Unit for kilograms per cubic meter (kg/m^3)
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import PhetUnit from '../PhetUnit.js';
