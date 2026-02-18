@@ -25,7 +25,7 @@ import ArrowKeyNode from '../ArrowKeyNode.js';
 import KeyDisplayRegistry from '../KeyDisplayRegistry.js';
 import LetterKeyNode from '../LetterKeyNode.js';
 import TextKeyNode from '../TextKeyNode.js';
-import HotkeySetDefinitions, { HotkeySetDefinitionEntry } from './HotkeySetDefinitions.js';
+import HotkeySetDefinitions, { HotkeySetDefinitionEntry, HotkeySetVariant } from './HotkeySetDefinitions.js';
 
 // constants
 const DEFAULT_HORIZONTAL_KEY_SPACING = 1.3;
@@ -369,7 +369,7 @@ export default class KeyboardHelpIconFactory {
    * Create an icon Node for a hotkey, based on the provided HotkeyData. Combines key icons with plus icons.
    * For example, a HotkeyData with 'shift+r' would produce a row with the shift icon, a plus icon, and the r icon.
    */
-  public static fromHotkeyData( hotkeyData: HotkeyData, hotkeySetVariant = 'default' ): Node {
+  public static fromHotkeyData( hotkeyData: HotkeyData, hotkeySetVariant: HotkeySetVariant = 'default' ): Node {
     return KeyboardHelpIconFactory.composeHotkeyIcon(
       KeyboardHelpIconFactory.fromHotkeyDataDetailed( hotkeyData, hotkeySetVariant )
     );
@@ -379,7 +379,7 @@ export default class KeyboardHelpIconFactory {
    * Builds icon data for a HotkeyData entry, returning the per-group alternatives with their intended layout so
    * callers can take over layout if needed.
    */
-  public static fromHotkeyDataDetailed( hotkeyData: HotkeyData, hotkeySetVariant = 'default' ): KeyAlternativesIcon[] {
+  public static fromHotkeyDataDetailed( hotkeyData: HotkeyData, hotkeySetVariant: HotkeySetVariant = 'default' ): KeyAlternativesIcon[] {
     const groups = KeyboardHelpIconFactory.groupDescriptors( hotkeyData.keyDescriptorsProperty.value );
     return groups.map( group => KeyboardHelpIconFactory.buildGroupIconData( group, hotkeySetVariant ) );
   }
@@ -418,7 +418,7 @@ export default class KeyboardHelpIconFactory {
    * where a modifier set fans out into multiple key partitions (for example, Shift + [1|2]) and records whether the
    * alternatives prefer inline or stacked layout based on the hotkey definition metadata.
    */
-  private static buildGroupIconData( group: ModifierGroup, hotkeySetVariant: string ): KeyAlternativesIcon {
+  private static buildGroupIconData( group: ModifierGroup, hotkeySetVariant: HotkeySetVariant ): KeyAlternativesIcon {
     const normalizedKeys = HotkeySetDefinitions.sortKeys( group.keys );
     const definition = HotkeySetDefinitions.getDefinition( normalizedKeys, hotkeySetVariant );
     const modifierIcons = group.modifiers.map( modifier => KeyDisplayRegistry.getKeyBuilder( modifier )() );
@@ -499,7 +499,7 @@ export default class KeyboardHelpIconFactory {
    * in `HotkeySetDefinitions`. If none exist, falls back to composing individual key nodes and joins them with `or`
    * when multiple alternatives remain.
    */
-  private static createKeySetIcon( keys: EnglishKeyString[], hotkeySetVariant: string ): Node {
+  private static createKeySetIcon( keys: EnglishKeyString[], hotkeySetVariant: HotkeySetVariant ): Node {
     const normalizedKeys = HotkeySetDefinitions.sortKeys( keys );
     const definition = HotkeySetDefinitions.getDefinition( normalizedKeys, hotkeySetVariant );
 

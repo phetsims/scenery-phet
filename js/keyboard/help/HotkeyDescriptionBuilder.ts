@@ -20,7 +20,7 @@ import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetFluent from '../../SceneryPhetFluent.js';
 import KeyDisplayRegistry from '../KeyDisplayRegistry.js';
 import TextKeyNode from '../TextKeyNode.js';
-import HotkeySetDefinitions from './HotkeySetDefinitions.js';
+import HotkeySetDefinitions, { HotkeySetVariant } from './HotkeySetDefinitions.js';
 
 // Represents a collection of descriptor keys that share the same modifier combination.
 type ModifierGroup = {
@@ -59,7 +59,7 @@ export default class HotkeyDescriptionBuilder {
   public static createDescriptionProperty(
     actionStringProperty: TReadOnlyProperty<string>,
     keyDescriptorsProperty: TReadOnlyProperty<KeyDescriptor[]>,
-    hotkeySetVariant = 'default'
+    hotkeySetVariant: HotkeySetVariant = 'default'
   ): TReadOnlyProperty<string> {
 
     // NOTE: We assume here that keyDescriptors will not change. The only way they can change is if the actual
@@ -101,7 +101,7 @@ export default class HotkeyDescriptionBuilder {
   /**
    * Builds the full sentence for the keyboard help row.
    */
-  private static createDescriptionString( actionString: string, keyDescriptors: KeyDescriptor[], hotkeySetVariant: string ): string {
+  private static createDescriptionString( actionString: string, keyDescriptors: KeyDescriptor[], hotkeySetVariant: HotkeySetVariant ): string {
 
     // Trim away stray leading/trailing whitespace from translated action text; if it’s all whitespace, skip rendering.
     const trimmedAction = actionString.trim();
@@ -125,7 +125,7 @@ export default class HotkeyDescriptionBuilder {
   /**
    * Produces a localized phrase that describes the provided descriptors, combining groups when possible.
    */
-  private static describeDescriptors( descriptors: KeyDescriptor[], hotkeySetVariant: string ): string {
+  private static describeDescriptors( descriptors: KeyDescriptor[], hotkeySetVariant: HotkeySetVariant ): string {
     if ( descriptors.length === 0 ) {
       return '';
     }
@@ -141,7 +141,7 @@ export default class HotkeyDescriptionBuilder {
   /**
    * Generates a clause for a single modifier grouping, optionally splitting keys when clusters are detected.
    */
-  private static describeGroup( group: ModifierGroup, hotkeySetVariant: string ): string {
+  private static describeGroup( group: ModifierGroup, hotkeySetVariant: HotkeySetVariant ): string {
     const modifierDescription = HotkeyDescriptionBuilder.describeModifiers( group.modifiers );
     const normalizedKeys = HotkeySetDefinitions.sortKeys( group.keys );
 
@@ -210,7 +210,7 @@ export default class HotkeyDescriptionBuilder {
   /**
    * Builds a description for a set of non-modifier keys, preferring shared definitions when possible.
    */
-  private static describeKeySet( keys: EnglishKeyString[], hotkeySetVariant: string ): string {
+  private static describeKeySet( keys: EnglishKeyString[], hotkeySetVariant: HotkeySetVariant ): string {
     if ( keys.length === 0 ) {
       return '';
     }
@@ -257,7 +257,7 @@ export default class HotkeyDescriptionBuilder {
    */
   private static getPhrasePropertiesForDescriptors(
     descriptors: KeyDescriptor[],
-    hotkeySetVariant: string
+    hotkeySetVariant: HotkeySetVariant
   ): TReadOnlyProperty<string>[] {
     const phraseProperties = new Set<TReadOnlyProperty<string>>();
     const groups = HotkeyDescriptionBuilder.groupDescriptors( descriptors );

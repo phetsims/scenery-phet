@@ -17,6 +17,7 @@ import { OneKeyStroke } from '../../../../scenery/js/input/KeyDescriptor.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetFluent from '../../SceneryPhetFluent.js';
+import { HotkeySetVariant } from './HotkeySetDefinitions.js';
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from './KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from './KeyboardHelpSectionRow.js';
 
@@ -150,9 +151,9 @@ export default class SliderControlsKeyboardHelpSection extends KeyboardHelpSecti
     }
 
     let adjustSliderKeys: null | OneKeyStroke[] = null;
-    let adjustSliderHotkeySetVariant = 'default';
+    let adjustSliderHotkeySetVariant: HotkeySetVariant = 'default';
     let adjustSliderSmallerStepsKeys: null | OneKeyStroke[] = null;
-    let adjustSliderSmallerStepsHotkeySetVariant = 'default';
+    let adjustSliderSmallerStepsHotkeySetVariant: HotkeySetVariant = 'default';
 
     switch( options.arrowKeyIconDisplay ) {
       case ArrowKeyIconDisplay.LEFT_RIGHT:

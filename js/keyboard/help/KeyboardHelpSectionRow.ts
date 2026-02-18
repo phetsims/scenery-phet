@@ -27,6 +27,7 @@ import PhetFont from '../../PhetFont.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetFluent from '../../SceneryPhetFluent.js';
 import HotkeyDescriptionBuilder from './HotkeyDescriptionBuilder.js';
+import { HotkeySetVariant } from './HotkeySetDefinitions.js';
 import KeyboardHelpIconFactory, { KeyAlternativesIcon } from './KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from './KeyboardHelpSection.js';
 
@@ -105,7 +106,7 @@ type FromHotkeyDataOptions = {
   // Optional variant identifier for alternate hotkey set definitions and layout. Some hotkey sets have variants
   // that change the appearance and description of the hotkeys. For example, the 'paired' variant for arrow keys.
   // See HotkeySetDefinitions for more information.
-  hotkeySetVariant?: string;
+  hotkeySetVariant?: HotkeySetVariant;
 };
 
 type SelfOptions = {

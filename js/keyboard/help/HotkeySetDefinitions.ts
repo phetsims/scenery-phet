@@ -24,6 +24,8 @@ const ARROW_OR_WASD_KEYS = [ ...ARROW_KEYS, ...WASD_KEYS ] as const;
 const LEFT_RIGHT_OR_AD_KEYS = [ ...LEFT_RIGHT_ARROW_KEYS, ...AD_KEYS ] as const;
 const UP_DOWN_OR_WS_KEYS = [ ...UP_DOWN_ARROW_KEYS, ...WS_KEYS ] as const;
 
+export type HotkeySetVariant = 'default' | 'paired';
+
 // Structure describing how a set of raw keyboard inputs should be represented textually and visually.
 export type HotkeySetDefinitionEntry = {
 
@@ -31,7 +33,7 @@ export type HotkeySetDefinitionEntry = {
   keys: readonly EnglishKeyString[];
 
   // Optional variant identifier to allow alternate phrasing/layouts for the same key set.
-  variant?: string;
+  variant?: HotkeySetVariant;
 
   // Phrase that describing the set in natural language. Presented to the user and possibly recombined with
   // other phrases.

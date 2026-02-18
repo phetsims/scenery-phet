@@ -13,6 +13,7 @@ import HotkeyData, { HotkeyDataOptions } from '../../../../scenery/js/input/Hotk
 import type { OneKeyStroke } from '../../../../scenery/js/input/KeyDescriptor.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
+import { HotkeySetVariant } from '../../keyboard/help/HotkeySetDefinitions.js';
 import KeyboardHelpSection from '../../keyboard/help/KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from '../../keyboard/help/KeyboardHelpSectionRow.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -23,7 +24,7 @@ const DEFAULT_HOTKEY_DATA_OPTIONS = {
 };
 
 // Row-specific data for the demo.
-const DEMO_ENTRIES: { label: string; keys: OneKeyStroke[]; hotkeySetVariant?: string }[] = [
+const DEMO_ENTRIES: { label: string; keys: OneKeyStroke[]; hotkeySetVariant?: HotkeySetVariant }[] = [
   {
     label: 'Move between items in a group',
     keys: [ 'arrowLeft', 'arrowRight', 'arrowUp', 'arrowDown' ]
