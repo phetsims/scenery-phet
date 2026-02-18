@@ -11,7 +11,6 @@
 
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
-import assertMutuallyExclusiveOptions from '../../../../phet-core/js/assertMutuallyExclusiveOptions.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import HotkeyData from '../../../../scenery/js/input/HotkeyData.js';
@@ -76,20 +75,6 @@ type FromHotkeyDataOptions = {
 
   // A custom icon for this row, if you don't want the one from the HotkeyData.
   icon?: Node | null;
-
-  // Instead of an icon, detailed icon data can be provided to customize the generated icon.
-  // Use this when HotkeyData is correct but you want a clearer visual grouping or layout in the keyboard help row,
-  // such as stacking rows of icons or presenting a custom combination of keys.
-  //
-  // Example - instead of the default horizontal row of arrow keys, you want two stacked rows separated by "or":
-  // iconData: {
-  //   alternatives: [
-  //     KeyboardHelpIconFactory.shiftPlusIcon( KeyboardHelpIconFactory.leftRightArrowKeysRowIcon() ),
-  //     KeyboardHelpIconFactory.shiftPlusIcon( KeyboardHelpIconFactory.upDownArrowKeysRowIcon() )
-  //   ],
-  //   layout: 'stacked'
-  // }
-  iconData?: KeyAlternativesIcon | null;
 
   // The visual label for this row, if you don't want the one from the HotkeyData.
   labelStringProperty?: TReadOnlyProperty<string> | null;
@@ -269,12 +254,8 @@ class KeyboardHelpSectionRow {
    */
   public static fromHotkeyData( hotkeyData: HotkeyData, providedOptions?: FromHotkeyDataOptions ): KeyboardHelpSectionRow {
 
-    // Ensure that only one of icon OR iconData is provided.
-    assertMutuallyExclusiveOptions( providedOptions, [ 'icon' ], [ 'iconData' ] );
-
     const options = optionize<FromHotkeyDataOptions>()( {
       icon: null,
-      iconData: null,
       labelStringProperty: hotkeyData.keyboardHelpDialogLabelStringProperty,
       accessibleRowDescriptionProperty: hotkeyData.accessibleKeyboardHelpDialogDescriptionStringProperty,
       labelWithIconOptions: {},
@@ -286,7 +267,6 @@ class KeyboardHelpSectionRow {
 
     // Only build the icon data if one wasn't provided via options.
     const iconData = options.icon ? null :
-                     options.iconData ? [ options.iconData ] :
                      KeyboardHelpIconFactory.fromHotkeyDataDetailed( hotkeyData, options.hotkeySetVariant );
     const icon = options.icon || KeyboardHelpIconFactory.composeHotkeyIcon( iconData! );
 
