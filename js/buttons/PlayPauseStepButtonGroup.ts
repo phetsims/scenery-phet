@@ -1,4 +1,4 @@
-// Copyright 2022-2025, University of Colorado Boulder
+// Copyright 2022-2026, University of Colorado Boulder
 
 /**
  * PlayPauseStepButtonGroup has a play & pause button, optional step-forward button, and optional step-back button.

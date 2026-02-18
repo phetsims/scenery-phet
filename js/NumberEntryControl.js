@@ -1,4 +1,4 @@
-// Copyright 2016-2025, University of Colorado Boulder
+// Copyright 2016-2026, University of Colorado Boulder
 
 /**
  * A composite Scenery node that brings together a keypad and a box where the entered values are displayed.  Kind of

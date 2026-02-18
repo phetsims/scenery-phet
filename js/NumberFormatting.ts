@@ -1,4 +1,4 @@
-// Copyright 2025, University of Colorado Boulder
+// Copyright 2025-2026, University of Colorado Boulder
 
 /**
  * Number formatting utilities (based on getFormattedNumber), for both immediate mode and Property-based formatting.

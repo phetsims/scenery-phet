@@ -1,4 +1,4 @@
-// Copyright 2015-2025, University of Colorado Boulder
+// Copyright 2015-2026, University of Colorado Boulder
 
 /**
  * SpinningIndicatorNode is a spinning progress indicator, used to indicate operation is in progress (but with no
