@@ -267,7 +267,7 @@ export default class GrabDragInteraction extends Disposable {
 
     const ownsEnabledProperty = !providedOptions || !providedOptions.enabledProperty;
 
-    // Options filled in the second optionize pass are ommitted from the self options of first pass.
+    // Options filled in the second optionize pass are omitted from the self options of first pass.
     const firstPassOptions = optionize<GrabDragInteractionOptions,
       StrictOmit<SelfOptions, 'gestureHelpText' | 'shouldAddAriaDescribedby'>, GrabDragModelOptions>()( {
       objectToGrabString: defaultObjectToGrabStringProperty,
