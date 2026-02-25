@@ -6,7 +6,7 @@
  * This is helpful to use in cases where you've got to track model-view pairs, and you want to make sure that
  * the view is created/removed when the corresponding model element is created/removed.
  *
- * @author Agustín Vallejo
+ * @author Agustín Vallejo (PhET Interactive Simulations)
  * @author Jonathan Olson
  */
 

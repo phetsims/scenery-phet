@@ -6,7 +6,7 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Aaron Davis (PhET Interactive Simulations)
- * @author Agustín Vallejo
+ * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
 import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';

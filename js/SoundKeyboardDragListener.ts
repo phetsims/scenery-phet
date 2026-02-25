@@ -8,7 +8,7 @@
  * - create SoundClips and register them with soundManager
  * - dispose of SoundClips and deregister them with soundManager
  *
- * @author Agustín Vallejo
+ * @author Agustín Vallejo (PhET Interactive Simulations)
  * @author Michael Kauzmann
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Jesse Greenberg
