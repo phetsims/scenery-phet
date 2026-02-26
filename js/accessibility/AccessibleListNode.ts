@@ -42,13 +42,7 @@ import optionize from '../../../phet-core/js/optionize.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetFluent from '../SceneryPhetFluent.js';
-
-export type AccessibleListItem = {
-  stringProperty: TReadOnlyProperty<string>;
-
-  // always visible if undefined
-  visibleProperty?: TReadOnlyProperty<boolean>;
-};
+import { AccessibleListItem } from './AccessibleList.js';
 
 type SelfOptions = {
 
