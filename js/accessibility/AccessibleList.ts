@@ -101,6 +101,14 @@ export type AccessibleListOptions = {
   punctuationStyle?: null | 'comma' | 'semicolon';
 };
 
+type CollectedListItem = {
+  visibleProperty: TReadOnlyProperty<boolean>;
+  ownsVisibleProperty: boolean;
+  contentProperty: TReadOnlyProperty<string>;
+  punctuationStringProperty: TReadOnlyProperty<string>;
+  periodStringProperty?: TReadOnlyProperty<string>;
+};
+
 export default class AccessibleList {
   public static createTemplate( providedOptions: AccessibleListOptions ): TReadOnlyProperty<AccessibleTemplateValue> {
     const options = optionize<AccessibleListOptions>()( {
@@ -111,34 +119,7 @@ export default class AccessibleList {
       punctuationStyle: null
     }, providedOptions );
 
-    // Collect all string content and Properties to make it easier to render the requested list structure and
-    // punctuation.
-    const collectedListItems = options.listItems.map( item => {
-      const patternProperty = options.punctuationStyle === 'comma' ?
-                              SceneryPhetFluent.a11y.listItemPunctuation.commaPatternStringProperty :
-                              SceneryPhetFluent.a11y.listItemPunctuation.semicolonPatternStringProperty;
-
-      // eslint-disable-next-line phet/bad-sim-text
-      const contentProperty = ( 'stringProperty' in item ) ? item.stringProperty : item;
-      const hasVisibleProperty = 'visibleProperty' in item && !!item.visibleProperty;
-      const visibleProperty = hasVisibleProperty ? item.visibleProperty! : new BooleanProperty( true );
-
-      return {
-        visibleProperty: visibleProperty,
-
-        // If the AccessibleList owns the Property, it must be disposed.
-        ownsVisibleProperty: !hasVisibleProperty,
-
-        // The unmodified string.
-        contentProperty: contentProperty,
-
-        // The string wrapped in the requested punctuation style.
-        punctuationStringProperty: new PatternStringProperty( patternProperty, { content: contentProperty } ),
-
-        // The string wrapped with a period for the final item.
-        periodStringProperty: new PatternStringProperty( SceneryPhetFluent.a11y.listItemPunctuation.periodPatternStringProperty, { content: contentProperty } )
-      };
-    } );
+    const collectedListItems = AccessibleList.createCollectedListItems( options, true );
 
     // Collect list of Properties to make it easy to hand off to the DerivedProperty, and manage disposal.
     const dependencySet = new Set<TReadOnlyProperty<unknown>>();
@@ -173,7 +154,7 @@ export default class AccessibleList {
       // Render each visible list item with punctuation if requested.
       const listItemsTemplate = visibleItems.map( ( item, index ) => {
         const itemString = options.punctuationStyle ?
-                           ( index === visibleItems.length - 1 ? item.periodStringProperty.value : item.punctuationStringProperty.value ) :
+                           ( index === visibleItems.length - 1 ? item.periodStringProperty!.value : item.punctuationStringProperty.value ) :
                            item.contentProperty.value;
         return html`
           <li>${itemString}</li>`;
@@ -194,13 +175,114 @@ export default class AccessibleList {
     // Dispose internally created Properties when the template property is disposed.
     collectedListItems.forEach( item => {
       templateProperty.addDisposable( item.punctuationStringProperty );
-      templateProperty.addDisposable( item.periodStringProperty );
+      item.periodStringProperty && templateProperty.addDisposable( item.periodStringProperty );
       if ( item.ownsVisibleProperty ) {
         templateProperty.addDisposable( item.visibleProperty );
       }
     } );
 
     return templateProperty;
+  }
+
+  /**
+   * Creates a single-string equivalent for Voicing. This is useful when a reading block or summary wants one
+   * combined utterance that reflects the same list visibility rules used by createTemplate.
+   */
+  public static createVoicingStringProperty( providedOptions: AccessibleListOptions ): TReadOnlyProperty<string> {
+    const options = optionize<AccessibleListOptions>()( {
+      visibleProperty: null,
+      leadingParagraphStringProperty: null,
+      leadingParagraphVisibleProperty: null,
+      listType: 'unordered',
+      punctuationStyle: null
+    }, providedOptions );
+
+    const collectedListItems = AccessibleList.createCollectedListItems( options, false );
+
+    const dependencySet = new Set<TReadOnlyProperty<unknown>>();
+    const addDependency = ( property: TReadOnlyProperty<unknown> | null | undefined ): void => {
+      if ( property ) {
+        dependencySet.add( property );
+      }
+    };
+
+    collectedListItems.forEach( item => {
+      addDependency( item.visibleProperty );
+      addDependency( item.contentProperty );
+      if ( options.punctuationStyle ) {
+        addDependency( item.punctuationStringProperty );
+      }
+    } );
+    addDependency( options.leadingParagraphStringProperty );
+    addDependency( options.leadingParagraphVisibleProperty );
+    addDependency( options.visibleProperty );
+
+    const voicingStringProperty = DerivedProperty.deriveAny( Array.from( dependencySet ), () => {
+      if ( options.visibleProperty && !options.visibleProperty.value ) {
+        return '';
+      }
+
+      const visibleItems = collectedListItems.filter( item => item.visibleProperty.value );
+      const showLeadingParagraph = !!options.leadingParagraphStringProperty &&
+                                   ( !options.leadingParagraphVisibleProperty || options.leadingParagraphVisibleProperty.value );
+
+      const voicingStrings: string[] = [];
+      if ( showLeadingParagraph ) {
+        voicingStrings.push( options.leadingParagraphStringProperty!.value );
+      }
+
+      visibleItems.forEach( item => {
+        voicingStrings.push( options.punctuationStyle ? item.punctuationStringProperty.value : item.contentProperty.value );
+      } );
+
+      return voicingStrings.filter( str => !!str ).join( ' ' );
+    } );
+
+    collectedListItems.forEach( item => {
+      voicingStringProperty.addDisposable( item.punctuationStringProperty );
+      if ( item.ownsVisibleProperty ) {
+        voicingStringProperty.addDisposable( item.visibleProperty );
+      }
+    } );
+
+    return voicingStringProperty;
+  }
+
+  /**
+   * Normalize list items so public methods can share item visibility/content/punctuation handling.
+   *
+   * @param options - fully parsed options for list creation
+   * @param includePeriodStringProperty - when true, create period-terminated content used for final template item
+   */
+  private static createCollectedListItems( options: AccessibleListOptions, includePeriodStringProperty: boolean ): CollectedListItem[] {
+    return options.listItems.map( item => {
+      const patternProperty = options.punctuationStyle === 'comma' ?
+                              SceneryPhetFluent.a11y.listItemPunctuation.commaPatternStringProperty :
+                              SceneryPhetFluent.a11y.listItemPunctuation.semicolonPatternStringProperty;
+
+      // eslint-disable-next-line phet/bad-sim-text
+      const contentProperty = ( 'stringProperty' in item ) ? item.stringProperty : item;
+      const hasVisibleProperty = 'visibleProperty' in item && !!item.visibleProperty;
+      const visibleProperty = hasVisibleProperty ? item.visibleProperty! : new BooleanProperty( true );
+
+      return {
+        visibleProperty: visibleProperty,
+
+        // If the AccessibleList owns the Property, it must be disposed.
+        ownsVisibleProperty: !hasVisibleProperty,
+
+        // The unmodified string.
+        contentProperty: contentProperty,
+
+        // The string wrapped in the requested punctuation style.
+        punctuationStringProperty: new PatternStringProperty( patternProperty, { content: contentProperty } ),
+
+        // The string wrapped with a period for the final item (used by createTemplate only).
+        periodStringProperty: includePeriodStringProperty ?
+                              new PatternStringProperty( SceneryPhetFluent.a11y.listItemPunctuation.periodPatternStringProperty, { content: contentProperty } ) :
+                              undefined
+      };
+    } );
   }
 }
 
