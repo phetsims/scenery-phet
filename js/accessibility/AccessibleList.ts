@@ -73,7 +73,13 @@ export type AccessibleListOptions = {
 
   // Automatically manage terminating punctuation for each <li>.
   //
-  // Behaviour when provided:
+  // It is better to include punctuation directly in the translatable string when possible.
+  // This option creates challenge for i18n. Use only when necessary.
+  //
+  // It is useful when the number of visible list items can change at runtime, and you want to maintain a specific
+  // punctuation pattern for the visible items.
+  //
+  // Behavior when provided:
   //   - All but the last *visible* list item end with the chosen punctuation
   //     (`comma` => ',' and `semicolon` => ';').
   //   - The last *visible* list item ends with a period.
@@ -81,9 +87,6 @@ export type AccessibleListOptions = {
   // This option is ONLY useful when both of the following are true:
   //   (1) You want the punctuation pattern described above, and
   //   (2) The number or order of visible list items can change at runtime.
-  //
-  // For static lists it is clearer to include the desired punctuation directly
-  // in the translation strings instead of using this option.
   //
   // Example (`punctuationStyle:'semicolon'`):
   //     In the basket:
