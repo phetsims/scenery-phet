@@ -44,8 +44,8 @@ import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
 import { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import type { TemplateResult } from '../../../sherpa/lib/lit-core-3.3.1.min.js';
-import { html } from '../../../sherpa/lib/lit-core-3.3.1.min.js';
+import type { AccessibleTemplateValue } from '../../../scenery/js/accessibility/pdom/ParallelDOM.js';
+import type { html } from '../../../sherpa/lib/lit-core-3.3.1.min.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetFluent from '../SceneryPhetFluent.js';
 
@@ -58,6 +58,9 @@ export type AccessibleListItem = {
 
 export type AccessibleListOptions = {
   listItems: ( TReadOnlyProperty<string> | AccessibleListItem )[];
+
+  // Controls visibility of the entire list template. If false, returns null so no template is rendered.
+  visibleProperty?: TReadOnlyProperty<boolean> | null;
 
   // If provided, this is a descriptive paragraph that comes before the list of items.
   leadingParagraphStringProperty?: TReadOnlyProperty<string> | null;
@@ -96,8 +99,9 @@ export type AccessibleListOptions = {
 };
 
 export default class AccessibleList {
-  public static createTemplate( providedOptions: AccessibleListOptions ): TReadOnlyProperty<TemplateResult> {
+  public static createTemplate( providedOptions: AccessibleListOptions ): TReadOnlyProperty<AccessibleTemplateValue> {
     const options = optionize<AccessibleListOptions>()( {
+      visibleProperty: null,
       leadingParagraphStringProperty: null,
       leadingParagraphVisibleProperty: null,
       listType: 'unordered',
@@ -151,8 +155,12 @@ export default class AccessibleList {
     } );
     addDependency( options.leadingParagraphStringProperty );
     addDependency( options.leadingParagraphVisibleProperty );
+    addDependency( options.visibleProperty );
 
     const templateProperty = DerivedProperty.deriveAny( Array.from( dependencySet ), () => {
+      if ( options.visibleProperty && !options.visibleProperty.value ) {
+        return null;
+      }
 
       // Collects a list of just the visible items in the list.
       const visibleItems = collectedListItems.filter( item => item.visibleProperty.value );
