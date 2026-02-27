@@ -45,7 +45,7 @@ import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
 import { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import type { AccessibleTemplateValue } from '../../../scenery/js/accessibility/pdom/ParallelDOM.js';
-import type { html } from '../../../sherpa/lib/lit-core-3.3.1.min.js';
+import { html } from '../../../sherpa/lib/lit-core-3.3.1.min.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetFluent from '../SceneryPhetFluent.js';
 
