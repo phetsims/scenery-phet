@@ -117,9 +117,12 @@ export type MeasuringTapeNodeOptions = SelfOptions & StrictOmit<NodeOptions, key
 
 type MeasuringTapeIconSelfOptions = {
   tapeLength?: number; // length of the measuring tape
+  crosshairColor?: TColor; // color of the crosshair, default is orange
 };
 
 export type MeasuringTapeIconOptions = MeasuringTapeIconSelfOptions & StrictOmit<NodeOptions, 'children'>;
+
+const DEFAULT_CROSSHAIR_COLOR = 'rgb(224, 95, 32)';
 
 class MeasuringTapeNode extends Node {
 
@@ -181,7 +184,7 @@ class MeasuringTapeNode extends Node {
       tapeLineWidth: 2, // lineWidth of the tape line
       tipCircleColor: 'rgba(0,0,0,0.1)', // color of the circle at the tip
       tipCircleRadius: 10, // radius of the circle on the tip
-      crosshairColor: 'rgb(224, 95, 32)', // orange, color of the two crosshairs
+      crosshairColor: DEFAULT_CROSSHAIR_COLOR, // orange, color of the two crosshairs
       crosshairSize: 5, // size of the crosshairs in scenery coordinates ( measured from center)
       crosshairLineWidth: 2, // linewidth of the crosshairs
       isBaseCrosshairRotating: true, // do crosshairs rotate around their own axis to line up with the tapeline
@@ -612,14 +615,16 @@ class MeasuringTapeNode extends Node {
 
     // See documentation above!
     const options = optionize<MeasuringTapeIconOptions, MeasuringTapeIconSelfOptions, NodeOptions>()( {
-      tapeLength: 30
+      tapeLength: 30,
+      crosshairColor: DEFAULT_CROSSHAIR_COLOR
     }, providedOptions );
 
     // Create an actual measuring tape.
     const measuringTapeNode = new MeasuringTapeNode( new Property( { name: '', multiplier: 1 } ), {
       tipPositionProperty: new Vector2Property( new Vector2( options.tapeLength, 0 ) ),
       hasValue: false, // no value below the tape
-      interactive: false
+      interactive: false,
+      crosshairColor: options.crosshairColor
     } );
     options.children = [ measuringTapeNode ];
 
