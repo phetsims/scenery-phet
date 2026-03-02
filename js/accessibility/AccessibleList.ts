@@ -110,6 +110,10 @@ type CollectedListItem = {
 };
 
 export default class AccessibleList {
+  private constructor() {
+    // static class, should not be instantiated
+  }
+
   public static createTemplate( providedOptions: AccessibleListOptions ): TReadOnlyProperty<AccessibleTemplateValue> {
     const options = optionize<AccessibleListOptions>()( {
       visibleProperty: null,
