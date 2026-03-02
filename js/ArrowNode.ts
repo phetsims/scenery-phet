@@ -3,9 +3,9 @@
 /**
  * A single- or double-headed arrow. This is a convenience class, most of the work is done in ArrowShape.
  *
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  * @author Chris Malley (PixelZoom, Inc.)
- * @author Aaron Davis
+ * @author Aaron Davis (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
