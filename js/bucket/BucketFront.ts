@@ -34,9 +34,15 @@ export type BucketFrontOptions = SelfOptions & NodeOptions;
 
 export default class BucketFront extends InteractiveHighlighting( Node ) {
 
-  public readonly bucket: Bucket; // public (a11y)
+  public readonly bucket: Bucket; // public for a11y purposes
   private labelNode: Node;
   private readonly disposeBucketFront: () => void;
+
+  // Whether this instance created the labelNode, which determines whether it is responsible for disposing it.
+  private labelNodeCreated = false;
+
+  // Container for the label, so that we can keep it centered on the bucket.
+  private labelContainer = new Node();
 
   public constructor( bucket: Bucket,
                       modelViewTransform: ModelViewTransform2,
@@ -54,14 +60,13 @@ export default class BucketFront extends InteractiveHighlighting( Node ) {
 
     // If the client didn't provide a label for the bucket, create one.
     if ( !options.labelNode ) {
-
-      //TODO https://github.com/phetsims/scenery-phet/issues/732 BuckFront owns this instance, and must dispose it
       options.labelNode = new Text( bucket.captionText, {
         font: new PhetFont( 20 ),
         fill: bucket.captionColor,
         pickable: false,
         tandem: options.tandem.createTandem( 'labelText' )
       } );
+      this.labelNodeCreated = true;
     }
 
     this.bucket = bucket;
@@ -85,11 +90,16 @@ export default class BucketFront extends InteractiveHighlighting( Node ) {
       fill: frontGradient
     } ) );
 
-    this.labelNode = options.labelNode;
-    this.setLabel( this.labelNode );
-    this.labelNode.boundsProperty.link( () => {
+    this.addChild( this.labelContainer );
+
+    // Keep the label centered on the bucket.
+    this.labelContainer.boundsProperty.lazyLink( () => {
       this.labelNode.center = this.localBounds.center;
     } );
+
+    // Set the initial label.
+    this.labelNode = options.labelNode;
+    this.setLabel( this.labelNode );
 
     // Set initial position.
     this.translation = modelViewTransform.modelToViewPosition( bucket.position );
@@ -97,10 +107,8 @@ export default class BucketFront extends InteractiveHighlighting( Node ) {
     this.mutate( options );
 
     this.disposeBucketFront = () => {
-
-      // TODO https://github.com/phetsims/scenery-phet/issues/732 if BucketFront didn't create labelNode, then it should
-      //      not be disposing it here.
-      this.labelNode && this.labelNode.dispose();
+      this.labelNodeCreated && this.labelNode.dispose();
+      this.labelContainer.dispose();
       baseLeftSidePaintProperty.dispose();
       baseRightSidePaintProperty.dispose();
     };
@@ -111,20 +119,16 @@ export default class BucketFront extends InteractiveHighlighting( Node ) {
    */
   public setLabel( labelNode: Node ): void {
 
-    if ( this.hasChild( this.labelNode ) ) {
-
-      // TODO https://github.com/phetsims/scenery-phet/issues/732 memory leak - if BucketFront created this instance of
-      //      labelNode, it needs to dispose it.
+    if ( this.labelContainer.hasChild( this.labelNode ) ) {
       this.removeChild( this.labelNode );
+      this.labelNodeCreated && this.labelNode.dispose();
     }
 
-    if ( labelNode ) {
-      this.labelNode = labelNode;
-      this.labelNode.maxWidth = this.width * 0.8;
-      this.labelNode.maxHeight = this.height;
-      this.labelNode.center = this.localBounds.center;
-      this.addChild( this.labelNode );
-    }
+    this.labelNode = labelNode;
+    this.labelNode.maxWidth = this.width * 0.8;
+    this.labelNode.maxHeight = this.height;
+    this.labelContainer.addChild( this.labelNode );
+    this.labelNodeCreated = false;
   }
 
   public override dispose(): void {
