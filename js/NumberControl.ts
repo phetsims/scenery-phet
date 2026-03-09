@@ -16,6 +16,7 @@ import Range from '../../dot/js/Range.js';
 import { roundToInterval } from '../../dot/js/util/roundToInterval.js';
 import Shape from '../../kite/js/Shape.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
+import getGlobal from '../../phet-core/js/getGlobal.js';
 import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import Orientation from '../../phet-core/js/Orientation.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
@@ -24,6 +25,7 @@ import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import GroupHighlightPath from '../../scenery/js/accessibility/GroupHighlightPath.js';
 import { findStringProperty } from '../../scenery/js/accessibility/pdom/findStringProperty.js';
 import ParallelDOM, { RemoveParallelDOMOptions, TrimParallelDOMOptions } from '../../scenery/js/accessibility/pdom/ParallelDOM.js';
+import SceneryEvent from '../../scenery/js/input/SceneryEvent.js';
 import AlignBox from '../../scenery/js/layout/nodes/AlignBox.js';
 import HBox from '../../scenery/js/layout/nodes/HBox.js';
 import VBox from '../../scenery/js/layout/nodes/VBox.js';
@@ -461,6 +463,9 @@ export default class NumberControl extends WidthSizable( Node ) {
     let incrementButton: ArrowButton | null = null;
     let arrowEnabledListener: ( () => void ) | null = null;
 
+    // TODO: Need another way to get this global, OR get rid disabling on focus entirely?, see https://github.com/phetsims/joist/issues/750
+    const focusHighlightsVisibleProperty = getGlobal( 'phet.joist.sim.display.focusManager.pdomFocusHighlightsVisibleProperty' );
+
     if ( options.includeArrowButtons ) {
 
       const touchAreaXDilation = options.arrowButtonOptions.touchAreaXDilation!;
@@ -525,17 +530,23 @@ export default class NumberControl extends WidthSizable( Node ) {
       arrowEnabledListener = () => {
         const value = numberProperty.value;
         assert && assert( options.arrowButtonOptions.enabledEpsilon !== undefined );
-        decrementButton!.enabled = ( value - options.arrowButtonOptions.enabledEpsilon! > getCurrentRange().min && !this.slider.isFocused() );
-        incrementButton!.enabled = ( value + options.arrowButtonOptions.enabledEpsilon! < getCurrentRange().max && !this.slider.isFocused() );
+
+        const focusedAndVisible = this.slider.isFocused() && focusHighlightsVisibleProperty.value;
+        const disableDueToFocus = focusHighlightsVisibleProperty.value ? focusedAndVisible : false;
+        decrementButton!.enabled = ( value - options.arrowButtonOptions.enabledEpsilon! > getCurrentRange().min && !disableDueToFocus );
+        incrementButton!.enabled = ( value + options.arrowButtonOptions.enabledEpsilon! < getCurrentRange().max && !disableDueToFocus );
       };
       numberProperty.lazyLink( arrowEnabledListener );
+      focusHighlightsVisibleProperty.lazyLink( arrowEnabledListener );
       options.enabledRangeProperty && options.enabledRangeProperty.lazyLink( arrowEnabledListener );
       arrowEnabledListener();
 
       this.slider.addInputListener( {
-        focus: () => {
-          decrementButton!.enabled = false;
-          incrementButton!.enabled = false;
+        focus: ( event: SceneryEvent ) => {
+          if ( event.focusOrigin !== 'pointer-down' ) {
+            decrementButton!.enabled = false;
+            incrementButton!.enabled = false;
+          }
         },
         blur: () => arrowEnabledListener!() // recompute if the arrow buttons should be enabled
       } );
@@ -611,6 +622,8 @@ export default class NumberControl extends WidthSizable( Node ) {
       decrementButton && decrementButton.dispose();
       incrementButton && incrementButton.dispose();
       arrowEnabledListener && numberProperty.unlink( arrowEnabledListener );
+      focusHighlightsVisibleProperty.unlink( arrowEnabledListener );
+
       arrowEnabledListener && options.enabledRangeProperty && options.enabledRangeProperty.unlink( arrowEnabledListener );
     };
 
