@@ -11,7 +11,7 @@
  *   const strawberryStringProperty = new StringProperty( 'there are 4 strawberries' );
  *   const strawberriesVisible = new BooleanProperty( true );
  *
- *   const listTemplateProperty = AccessibleList.createTemplate( {
+ *   const listTemplateProperty = AccessibleList.createTemplateProperty( {
  *     leadingParagraphStringProperty: new StringProperty( 'In the basket:' ),
  *     listItems: [
  *       appleStringProperty,
@@ -114,7 +114,7 @@ export default class AccessibleList {
     // static class, should not be instantiated
   }
 
-  public static createTemplate( providedOptions: AccessibleListOptions ): TReadOnlyProperty<AccessibleTemplateValue> {
+  public static createTemplateProperty( providedOptions: AccessibleListOptions ): TReadOnlyProperty<AccessibleTemplateValue> {
     const options = optionize<AccessibleListOptions>()( {
       visibleProperty: null,
       leadingParagraphStringProperty: null,
@@ -190,7 +190,7 @@ export default class AccessibleList {
 
   /**
    * Creates a single-string equivalent for Voicing. This is useful when a reading block or summary wants one
-   * combined utterance that reflects the same list visibility rules used by createTemplate.
+   * combined utterance that reflects the same list visibility rules used by createTemplateProperty.
    */
   public static createVoicingStringProperty( providedOptions: AccessibleListOptions ): TReadOnlyProperty<string> {
     const options = optionize<AccessibleListOptions>()( {
@@ -281,7 +281,7 @@ export default class AccessibleList {
         // The string wrapped in the requested punctuation style.
         punctuationStringProperty: new PatternStringProperty( patternProperty, { content: contentProperty } ),
 
-        // The string wrapped with a period for the final item (used by createTemplate only).
+        // The string wrapped with a period for the final item (used by createTemplateProperty only).
         periodStringProperty: includePeriodStringProperty ?
                               new PatternStringProperty( SceneryPhetFluent.a11y.listItemPunctuation.periodPatternStringProperty, { content: contentProperty } ) :
                               undefined
