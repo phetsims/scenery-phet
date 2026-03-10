@@ -19,6 +19,7 @@ import SceneryPhetFluent from '../SceneryPhetFluent.js';
 
 type SelfOptions = {
   iconFill?: TColor;
+  iconScale?: number;
 };
 
 export type InfoButtonOptions = SelfOptions & StrictOmit<RoundPushButtonOptions, 'content'>;
@@ -31,6 +32,7 @@ export default class InfoButton extends RoundPushButton {
 
       // SelfOptions
       iconFill: 'rgb( 41, 106, 163 )',
+      iconScale: 1.45,
 
       // RoundPushButtonOptions
       baseColor: 'rgb( 238, 238, 238 )',
@@ -45,8 +47,8 @@ export default class InfoButton extends RoundPushButton {
     }, providedOptions );
 
     options.content = new Path( infoCircleSolidShape, {
-      scale: 1.45,
-      fill: options.iconFill
+      fill: options.iconFill,
+      scale: options.iconScale
     } );
 
     super( options );
