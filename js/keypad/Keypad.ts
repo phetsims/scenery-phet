@@ -226,6 +226,10 @@ class Keypad extends Node {
     this.addDisposable( keyboardListener );
 
     this.stringProperty.link( string => {
+
+      // NOTE: This sets the innerContent without updating the aria-label.
+      // I cannot determine if that is intentional or the state of accessibility
+      // for this component, so leaving as innerContent for now.
       this.innerContent = string; // show current value in the PDOM
     } );
 

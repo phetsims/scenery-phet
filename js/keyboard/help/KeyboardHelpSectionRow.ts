@@ -49,7 +49,7 @@ type LabelWithIconListOptions = {
   readingBlockContent?: VoicingResponse | null;
 
   // Options for the VBox that manages layout for all icons in the list. Options omitted are set by the function.
-  iconsVBoxOptions?: StrictOmit<VBoxOptions, 'innerContent' | 'spacing' | 'align' | 'tagName'>;
+  iconsVBoxOptions?: StrictOmit<VBoxOptions, 'accessibleName' | 'spacing' | 'align' | 'tagName'>;
 };
 
 // Options type for labelWithIcon, see that function
@@ -68,7 +68,7 @@ export type LabelWithIconOptions = {
   labelOptions?: StrictOmit<RichTextOptions, 'maxWidth'>;
 
   // options passed to the AlignBox surrounding the icon
-  iconOptions?: StrictOmit<AlignBoxOptions, 'innerContent'>;
+  iconOptions?: StrictOmit<AlignBoxOptions, 'accessibleName'>;
 };
 
 type FromHotkeyDataOptions = {
