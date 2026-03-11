@@ -29,11 +29,11 @@ import optionize, { combineOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../phetcommon/js/view/ModelViewTransform2.js';
-import InteractiveHighlightingNode from '../../scenery/js/accessibility/voicing/nodes/InteractiveHighlightingNode.js';
+import InteractiveHighlightingNode, { InteractiveHighlightingNodeOptions } from '../../scenery/js/accessibility/voicing/nodes/InteractiveHighlightingNode.js';
 import DragListener from '../../scenery/js/listeners/DragListener.js';
 import { PressListenerEvent } from '../../scenery/js/listeners/PressListener.js';
 import Circle from '../../scenery/js/nodes/Circle.js';
-import Image from '../../scenery/js/nodes/Image.js';
+import Image, { ImageOptions } from '../../scenery/js/nodes/Image.js';
 import Line from '../../scenery/js/nodes/Line.js';
 import Node, { NodeOptions, NodeTranslationOptions } from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
@@ -44,6 +44,7 @@ import TColor from '../../scenery/js/util/TColor.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
 import measuringTape_png from '../images/measuringTape_png.js';
+import AccessibleDraggableOptions from './accessibility/grab-drag/AccessibleDraggableOptions.js';
 import PhetFont from './PhetFont.js';
 import sceneryPhet from './sceneryPhet.js';
 import SceneryPhetFluent from './SceneryPhetFluent.js';
@@ -264,17 +265,11 @@ class MeasuringTapeNode extends Node {
       // will only be enabled if interactive
       interactiveHighlightEnabled: false
     } );
-    this.baseImage = new Image( measuringTape_png, {
+    this.baseImage = new Image( measuringTape_png, combineOptions<ImageOptions>( {}, AccessibleDraggableOptions, {
       scale: options.baseScale,
       cursor: 'pointer',
-
-      // pdom
-      tagName: 'div',
-      focusable: true,
-      ariaRole: 'application',
-      innerContent: SceneryPhetFluent.a11y.measuringTapeStringProperty,
-      ariaLabel: SceneryPhetFluent.a11y.measuringTapeStringProperty
-    } );
+      accessibleName: SceneryPhetFluent.a11y.measuringTapeStringProperty
+    } ) );
     baseImageParent.addChild( this.baseImage );
 
     // create tapeline (running from one crosshair to the other)
@@ -284,20 +279,14 @@ class MeasuringTapeNode extends Node {
     } );
 
     // add tipCrosshair and tipCircle to the tip
-    const tip = new InteractiveHighlightingNode( {
+    const tip = new InteractiveHighlightingNode( combineOptions<InteractiveHighlightingNodeOptions>( {}, AccessibleDraggableOptions, {
       children: [ tipCircle, tipCrosshair ],
       cursor: 'pointer',
 
       // interactive highlights - will only be enabled when interactive
       interactiveHighlightEnabled: false,
-
-      // pdom
-      tagName: 'div',
-      focusable: true,
-      ariaRole: 'application',
-      innerContent: SceneryPhetFluent.a11y.measuringTapeTipStringProperty,
-      ariaLabel: SceneryPhetFluent.a11y.measuringTapeTipStringProperty
-    } );
+      accessibleName: SceneryPhetFluent.a11y.measuringTapeTipStringProperty
+    } ) );
 
     const readoutStringProperty = new DerivedStringProperty(
       [ this.unitsProperty, this.measuredDistanceProperty, SceneryPhetFluent.measuringTapeReadoutPatternStringProperty ],

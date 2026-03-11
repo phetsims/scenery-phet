@@ -5,6 +5,12 @@
  * Applies ParallelDOM options that make the Node focusable, ensures that the accessible name
  * is read correctly, and forces the screen reader to send all keyboard events.
  *
+ * Example usage (with combineOptions):
+ *
+ * const handleNode = new Rectangle( 0, 0, 30, 10, combineOptions<RectangleOptions>( {}, AccessibleDraggableOptions, {
+ *   accessibleName: 'Handle'
+ * } ) );
+ *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
