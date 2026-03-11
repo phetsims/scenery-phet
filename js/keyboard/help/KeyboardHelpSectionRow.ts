@@ -203,7 +203,7 @@ class KeyboardHelpSectionRow {
 
       // pdom - each icon will be presented as a list item under the parent 'ul' of the KeyboardHelpSectionRow.
       tagName: 'li',
-      innerContent: options.accessibleRowDescriptionProperty
+      accessibleName: options.accessibleRowDescriptionProperty
     }, options.iconsVBoxOptions );
 
     const labelText = new RichText( labelString, options.labelOptions );
