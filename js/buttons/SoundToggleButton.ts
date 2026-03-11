@@ -8,10 +8,12 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import Property from '../../../axon/js/Property.js';
 import Shape from '../../../kite/js/Shape.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import BooleanRectangularToggleButton, { BooleanRectangularToggleButtonOptions } from '../../../sun/js/buttons/BooleanRectangularToggleButton.js';
@@ -29,13 +31,15 @@ const X_WIDTH = WIDTH * 0.25; // Empirically determined.
 
 type SelfOptions = EmptySelfOptions;
 
-export type SoundToggleButtonOptions = SelfOptions & BooleanRectangularToggleButtonOptions;
+export type SoundToggleButtonOptions = SelfOptions & StrictOmit<BooleanRectangularToggleButtonOptions,
+  'accessibleName' | 'accessiblePressedProperty' | 'accessibleRoleConfiguration'>;
 
 export default class SoundToggleButton extends BooleanRectangularToggleButton {
 
   private readonly disposeSoundToggleButton: () => void;
 
   public constructor( property: Property<boolean>, provideOptions?: SoundToggleButtonOptions ) {
+    const accessiblePressedProperty = DerivedProperty.not( property );
 
     const options = optionize<SoundToggleButtonOptions, SelfOptions, BooleanRectangularToggleButtonOptions>()( {
 
@@ -45,8 +49,13 @@ export default class SoundToggleButton extends BooleanRectangularToggleButton {
       minHeight: HEIGHT,
       xMargin: MARGIN,
       yMargin: MARGIN,
-      tagName: 'button',
-      innerContent: SceneryPhetFluent.a11y.soundToggle.labelStringProperty
+
+      // This button acts as a "toggle" for sound, but with inverted "pressed" logic. The
+      // accessibleName for the button is "Mute Sound" and so it is is "pressed" when
+      // sound is OFF, while our property is true when sound is ON.
+      accessibleName: SceneryPhetFluent.a11y.soundToggle.labelStringProperty,
+      accessibleRoleConfiguration: 'toggle',
+      accessiblePressedProperty: accessiblePressedProperty
     }, provideOptions );
 
     // 'on' icon is a font-awesome icon
@@ -72,15 +81,8 @@ export default class SoundToggleButton extends BooleanRectangularToggleButton {
 
     super( property, soundOnNode, soundOffNode, options );
 
-    // pdom attribute lets user know when the toggle is pressed
-    const pressedListener = ( value: boolean ) => {
-      this.setPDOMAttribute( 'aria-pressed', !value );
-    };
-    property.lazyLink( pressedListener );
-    this.setPDOMAttribute( 'aria-pressed', !property.get() );
-
     this.disposeSoundToggleButton = () => {
-      property.unlink( pressedListener );
+      accessiblePressedProperty.dispose();
     };
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
