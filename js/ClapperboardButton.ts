@@ -60,8 +60,6 @@ class ClapperboardButton extends Node {
       } ),
       synchronizeButtonOptions: {
         content: new RichText( BUTTON_LABEL ),
-        innerContent: BUTTON_LABEL,
-        voicingNameResponse: BUTTON_LABEL,
         soundPlayer: {
           play: () => {
             soundGenerator.play();
