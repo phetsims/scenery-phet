@@ -168,7 +168,7 @@ class KeyboardHelpSectionRow {
     const labelBox = labelIconGroup.createBox( labelText );
     const iconBox = labelIconGroup.createBox( new Node( { children: [ icon ] } ), options.iconOptions );
 
-    iconBox.innerContent = options.accessibleRowDescriptionProperty;
+    iconBox.accessibleName = options.accessibleRowDescriptionProperty;
 
     return new KeyboardHelpSectionRow( labelText, labelBox, iconBox, {
       readingBlockContent: options.readingBlockContent || options.accessibleRowDescriptionProperty
