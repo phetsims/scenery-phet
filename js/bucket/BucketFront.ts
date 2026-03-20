@@ -127,7 +127,7 @@ export default class BucketFront extends InteractiveHighlighting( Node ) {
     this.labelNode = labelNode;
     this.labelNode.maxWidth = this.width * 0.8;
     this.labelNode.maxHeight = this.height;
-    this.labelContainer.addChild( this.labelNode );``
+    this.labelContainer.addChild( this.labelNode );
     this.labelNodeCreated = false;
   }
 
