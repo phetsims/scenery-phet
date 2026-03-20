@@ -120,7 +120,7 @@ export default class BucketFront extends InteractiveHighlighting( Node ) {
   public setLabel( labelNode: Node ): void {
 
     if ( this.labelContainer.hasChild( this.labelNode ) ) {
-      this.removeChild( this.labelNode );
+      this.labelContainer.removeChild( this.labelNode );
       this.labelNodeCreated && this.labelNode.dispose();
     }
 
