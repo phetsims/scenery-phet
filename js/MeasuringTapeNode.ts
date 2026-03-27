@@ -40,6 +40,7 @@ import Path from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import Font from '../../scenery/js/util/Font.js';
+import { rasterizeNode } from '../../scenery/js/util/rasterizeNode.js';
 import TColor from '../../scenery/js/util/TColor.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
@@ -615,17 +616,12 @@ class MeasuringTapeNode extends Node {
       interactive: false,
       crosshairColor: options.crosshairColor
     } );
-    options.children = [ measuringTapeNode ];
 
-    // Create the icon, with measuringTape as its initial child.  This child will be replaced once the image becomes
-    // available in the callback to toImage (see below). Since toImage happens asynchronously, this ensures that
-    // the icon has initial bounds that will match the icon once the image is available.
-    const measuringTapeIcon = new Node( options );
+    // Rasterize the measuring tape node into an image-backed Node (synchronous).
+    // useTargetBounds: false preserves the ~2px padding from the rasterization, matching the legacy toImage behavior that has been here since 2012
+    options.children = [ rasterizeNode( measuringTapeNode, { useTargetBounds: false } ) ];
 
-    // Convert measuringTapeNode to an image, and make it the child of measuringTapeIcon.
-    measuringTapeNode.toImage( image => measuringTapeIcon.setChildren( [ new Image( image ) ] ) );
-
-    return measuringTapeIcon;
+    return new Node( options );
   }
 }
 
