@@ -657,6 +657,10 @@ export default class GrabDragInteraction extends Disposable {
    */
   public setGrabbedStateAccessibleName( name: PDOMValueType ): void {
     this._grabbedStateAccessibleName = name;
+
+    // NOTE: using lower level options instead of accessibleName because both of these
+    // Setting the aria-label on the interactionState element fixes a bug with VoiceOver in Safari where the aria role
+    // from the grabbed state is never cleared, see https://github.com/phetsims/scenery-phet/issues/688
     this.grabbedStateOptions.innerContent = this._grabbedStateAccessibleName;
     this.grabbedStateOptions.ariaLabel = this._grabbedStateAccessibleName;
 
@@ -676,10 +680,11 @@ export default class GrabDragInteraction extends Disposable {
    */
   public setIdleStateAccessibleName( name: PDOMValueType ): void {
     this._idleStateAccessibleName = name;
-    this.idleStateOptions.innerContent = this._idleStateAccessibleName;
 
+    // NOTE: Using lower level options instead of accessibleName.
     // Setting the aria-label on the interactionState element fixes a bug with VoiceOver in Safari where the aria role
     // from the grabbed state is never cleared, see https://github.com/phetsims/scenery-phet/issues/688
+    this.idleStateOptions.innerContent = this._idleStateAccessibleName;
     this.idleStateOptions.ariaLabel = this._idleStateAccessibleName;
 
     // if idle, mutate the Node with these options right away

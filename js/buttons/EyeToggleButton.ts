@@ -8,16 +8,20 @@
 
 import Property from '../../../axon/js/Property.js';
 import InstanceRegistry from '../../../phet-core/js/documentation/InstanceRegistry.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
+import TColor from '../../../scenery/js/util/TColor.js';
 import RectangularToggleButton, { RectangularToggleButtonOptions } from '../../../sun/js/buttons/RectangularToggleButton.js';
 import eyeSlashSolidShape from '../../../sun/js/shapes/eyeSlashSolidShape.js';
 import eyeSolidShape from '../../../sun/js/shapes/eyeSolidShape.js';
 import sceneryPhet from '../sceneryPhet.js';
 
-type SelfOptions = EmptySelfOptions;
+type SelfOptions = {
+  iconFill?: TColor;
+  iconScale?: number;
+};
 
 // The EyeToggleButton is meant to be a "button" with two accessible names using accessibleNameOn and
 // accessibleNameOff. As such, you cannot provide a role configuration or single accessibleName. See
@@ -34,12 +38,17 @@ export default class EyeToggleButton extends RectangularToggleButton<boolean> {
    */
   public constructor( eyeOpenProperty: Property<boolean>, providedOptions?: EyeToggleButtonOptions ) {
 
-    const options = optionize<EyeToggleButtonOptions, SelfOptions, RectangularToggleButtonOptions>()( {}, providedOptions );
+    const options = optionize<EyeToggleButtonOptions, SelfOptions, RectangularToggleButtonOptions>()( {
+
+      // SelfOptions
+      iconFill: 'black',
+      iconScale: 0.76
+    }, providedOptions );
 
     // icons
     const iconOptions = {
-      scale: 0.76,
-      fill: 'black'
+      scale: options.iconScale,
+      fill: options.iconFill
     };
     const eyeOpenNode = new Path( eyeSolidShape, iconOptions );
     const eyeCloseNode = new Path( eyeSlashSolidShape, iconOptions );

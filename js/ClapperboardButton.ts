@@ -1,4 +1,4 @@
-// Copyright 2022-2025, University of Colorado Boulder
+// Copyright 2022-2026, University of Colorado Boulder
 
 /**
  * A Node that produces a variety of loud outputs to support data synchronizing during a recording.
@@ -60,8 +60,6 @@ class ClapperboardButton extends Node {
       } ),
       synchronizeButtonOptions: {
         content: new RichText( BUTTON_LABEL ),
-        innerContent: BUTTON_LABEL,
-        voicingNameResponse: BUTTON_LABEL,
         soundPlayer: {
           play: () => {
             soundGenerator.play();

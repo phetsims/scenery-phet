@@ -49,7 +49,7 @@ type LabelWithIconListOptions = {
   readingBlockContent?: VoicingResponse | null;
 
   // Options for the VBox that manages layout for all icons in the list. Options omitted are set by the function.
-  iconsVBoxOptions?: StrictOmit<VBoxOptions, 'innerContent' | 'spacing' | 'align' | 'tagName'>;
+  iconsVBoxOptions?: StrictOmit<VBoxOptions, 'accessibleName' | 'spacing' | 'align' | 'tagName'>;
 };
 
 // Options type for labelWithIcon, see that function
@@ -68,7 +68,7 @@ export type LabelWithIconOptions = {
   labelOptions?: StrictOmit<RichTextOptions, 'maxWidth'>;
 
   // options passed to the AlignBox surrounding the icon
-  iconOptions?: StrictOmit<AlignBoxOptions, 'innerContent'>;
+  iconOptions?: StrictOmit<AlignBoxOptions, 'accessibleName'>;
 };
 
 type FromHotkeyDataOptions = {
@@ -168,7 +168,7 @@ class KeyboardHelpSectionRow {
     const labelBox = labelIconGroup.createBox( labelText );
     const iconBox = labelIconGroup.createBox( new Node( { children: [ icon ] } ), options.iconOptions );
 
-    iconBox.innerContent = options.accessibleRowDescriptionProperty;
+    iconBox.accessibleName = options.accessibleRowDescriptionProperty;
 
     return new KeyboardHelpSectionRow( labelText, labelBox, iconBox, {
       readingBlockContent: options.readingBlockContent || options.accessibleRowDescriptionProperty
@@ -203,7 +203,7 @@ class KeyboardHelpSectionRow {
 
       // pdom - each icon will be presented as a list item under the parent 'ul' of the KeyboardHelpSectionRow.
       tagName: 'li',
-      innerContent: options.accessibleRowDescriptionProperty
+      accessibleName: options.accessibleRowDescriptionProperty
     }, options.iconsVBoxOptions );
 
     const labelText = new RichText( labelString, options.labelOptions );

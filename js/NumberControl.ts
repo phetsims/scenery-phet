@@ -381,8 +381,7 @@ export default class NumberControl extends WidthSizable( Node ) {
       titleNodeOptions: {
         font: new PhetFont( 12 ),
         maxWidth: null, // {null|number} maxWidth to use for title, to constrain width for i18n
-        fill: 'black',
-        tandem: initialOptions.tandem.createTandem( 'titleText' )
+        fill: 'black'
       }
     }, initialOptions );
 

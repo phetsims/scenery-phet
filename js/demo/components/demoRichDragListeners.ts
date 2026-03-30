@@ -1,4 +1,4 @@
-// Copyright 2024-2025, University of Colorado Boulder
+// Copyright 2024-2026, University of Colorado Boulder
 
 /**
  * Demo for SoundDragListener and SoundKeyboardDragListener
@@ -10,6 +10,7 @@
 
 import TinyProperty from '../../../../axon/js/TinyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
@@ -22,6 +23,7 @@ import PhetFont from '../../PhetFont.js';
 import SoundDragListener from '../../SoundDragListener.js';
 import SoundKeyboardDragListener from '../../SoundKeyboardDragListener.js';
 import SoundRichDragListener from '../../SoundRichDragListener.js';
+import { toFixed } from '../../../../dot/js/util/toFixed.js';
 
 export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
   const RADIUS = 75;
@@ -50,6 +52,7 @@ export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
     dragBoundsProperty: dragBoundsProperty,
     drag: ( event, listener ) => {
       soundDragistenerCircle.translate( listener.modelDelta );
+      updateModelPointText( listener.modelPoint );
     }
   } ) );
 
@@ -69,7 +72,10 @@ export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
     dragBoundsProperty: dragBoundsProperty,
     translateNode: true,
     dragSpeed: RADIUS * 5,
-    shiftDragSpeed: RADIUS
+    shiftDragSpeed: RADIUS,
+    drag: ( event, listener ) => {
+      updateModelPointText( listener.modelPoint );
+    }
   } ) );
 
   //---------------------------------------------------------------------------------
@@ -86,10 +92,19 @@ export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
   const richDragListenerStateText = new RichText( 'Ready to drag...', {
     font: new PhetFont( 24 )
   } );
+  const richDragListenerModelPointText = new RichText( 'modelPoint: (0.00, 0.00)', {
+    font: new PhetFont( 18 )
+  } );
 
   const updateStateText = ( newString: string ) => {
     richDragListenerStateText.string = newString;
     richDragListenerStateText.centerBottom = dragArea.centerBottom;
+    richDragListenerModelPointText.centerTop = richDragListenerStateText.centerBottom.plusXY( 0, 10 );
+  };
+
+  const updateModelPointText = ( modelPoint: Vector2 ) => {
+    richDragListenerModelPointText.string = `modelPoint: (${toFixed( modelPoint.x, 2 )}, ${toFixed( modelPoint.y, 2 )})`;
+    richDragListenerModelPointText.centerTop = richDragListenerStateText.centerBottom.plusXY( 0, 10 );
   };
 
   richDragListenerEllipse.addChild( innerEllipseMessage );
@@ -108,6 +123,9 @@ export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
         updateStateText( 'Mouse drag started' );
       }
     },
+    drag: ( event, listener ) => {
+      updateModelPointText( listener.modelPoint );
+    },
     end: ( event, listener ) => {
       if ( event && event.isFromPDOM() ) {
         updateStateText( 'Keyboard drag ended' );
@@ -124,7 +142,8 @@ export default function demoRichDragListeners( layoutBounds: Bounds2 ): Node {
       soundDragistenerCircle,
       soundKeyboardDragListenerRectangle,
       richDragListenerEllipse,
-      richDragListenerStateText
+      richDragListenerStateText,
+      richDragListenerModelPointText
     ]
   } );
 

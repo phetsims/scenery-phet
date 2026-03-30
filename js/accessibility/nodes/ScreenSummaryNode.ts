@@ -1,4 +1,4 @@
-// Copyright 2018-2025, University of Colorado Boulder
+// Copyright 2018-2026, University of Colorado Boulder
 
 /**
  * A node that creates a summary of the screen in the PDOM. This type prevents duplicated code because
@@ -24,11 +24,10 @@ export default class ScreenSummaryNode extends Node {
 
     super();
 
-    this.openingSummaryNode = new Node( { tagName: 'p' } );
+    this.openingSummaryNode = new Node();
 
     const keyboardShortcutsHint = new Node( {
-      tagName: 'p',
-      innerContent: SceneryPhetFluent.a11y.simSection.screenSummary.keyboardShortcutsHintStringProperty
+      accessibleParagraph: SceneryPhetFluent.a11y.simSection.screenSummary.keyboardShortcutsHintStringProperty
     } );
 
     this.addChild( this.openingSummaryNode );
@@ -47,7 +46,7 @@ export default class ScreenSummaryNode extends Node {
   public setIntroString( simName: string, screenDisplayName: string | null, isMultiScreen: boolean ): void {
 
     // different default string depending on if there are multiple screens
-    this.openingSummaryNode.innerContent =
+    this.openingSummaryNode.accessibleParagraph =
       ( isMultiScreen && screenDisplayName ) ?
       StringUtils.fillIn( SceneryPhetFluent.a11y.simSection.screenSummary.multiScreenIntroStringProperty, { screen: screenDisplayName } ) :
       StringUtils.fillIn( SceneryPhetFluent.a11y.simSection.screenSummary.singleScreenIntroPatternStringProperty, { sim: simName } );
