@@ -67,7 +67,7 @@ export default class ResetAllButton extends ResetButton {
       soundPlayer: sharedSoundPlayers.get( 'resetAll' ),
 
       // pdom
-      accessibleName: SceneryPhetFluent.a11y.resetAll.accessibleNameStringProperty,
+      // accessibleName: SceneryPhetFluent.a11y.resetAll.accessibleNameStringProperty,
 
       // voicing - set here instead of using accessibleContextResponse because we make a manual request to speak
       // the response after the button fires.
