@@ -21,7 +21,7 @@ type SelfOptions = {
   iconScale?: number;
 };
 
-type CameraButtonOptions = SelfOptions &
+export type CameraButtonOptions = SelfOptions &
   StrictOmit<RectangularPushButtonOptions, 'content'> &
   PickRequired<RectangularPushButtonOptions, 'tandem'>;
 
