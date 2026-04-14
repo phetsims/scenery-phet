@@ -14,6 +14,7 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import DemosScreenView, { DemosScreenViewOptions } from '../../../../sun/js/demo/DemosScreenView.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import demoArrowNode from './demoArrowNode.js';
+import demoAttachmentKeyboardListener from './demoAttachmentKeyboardListener.js';
 import demoBeakerNode from './demoBeakerNode.js';
 import demoBicyclePumpNode from './demoBicyclePumpNode.js';
 import demoBracketNode from './demoBracketNode.js';
@@ -60,6 +61,7 @@ export default class ComponentsScreenView extends DemosScreenView {
     // To add a demo, add an entry here of type DemoItemData.
     const demos = [
       { label: 'ArrowNode', createNode: demoArrowNode },
+      { label: 'AttachmentKeyboardListener', createNode: demoAttachmentKeyboardListener },
       { label: 'BeakerNode', createNode: demoBeakerNode },
       { label: 'BicyclePumpNode', createNode: demoBicyclePumpNode },
       { label: 'BracketNode', createNode: demoBracketNode },
