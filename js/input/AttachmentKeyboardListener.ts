@@ -25,7 +25,7 @@
  * 4. User navigates items with arrow keys; showHighlight() tracks the current target
  * 5. Enter confirms selection → applySelection() called → ComboBox disposed → focus restored
  * 6. Escape cancels → applySelection(null) called → ComboBox disposed → focus restored
- * 7. If the target is disposed while open, the ComboBox is silently cancelled
+ * 7. If cancelEmitter fires while open, the ComboBox is silently cancelled
  *
  * ## Keyboard Help Dialog
  * Because the ComboBox handles key bindings internally (arrow keys, Enter, Escape are built into
@@ -101,8 +101,8 @@ export type AttachmentKeyboardListenerOptions<T> = {
   // Override when the triggerNode may be disposed during applySelection (e.g., after a track join).
   restoreFocus?: () => void;
 
-  // If the target being attached is disposed while the combo box is open, cancel the combo box
-  targetDisposeEmitter?: TReadOnlyEmitter;
+  // If this emitter fires while the combo box is open, silently cancel the combo box
+  cancelEmitter?: TReadOnlyEmitter;
 
   // Optional callback to sort items before displaying in the combo box
   sortItems?: ( items: AttachmentItem<T>[] ) => AttachmentItem<T>[];
@@ -218,10 +218,8 @@ export default class AttachmentKeyboardListener<T> extends KeyboardListener<OneK
 
         } );
 
-        // If the target (e.g., vertex) is disposed while the combo box is open, cancel without applying selection.
-        // See https://github.com/phetsims/circuit-construction-kit-common/issues/1090
-        if ( options.targetDisposeEmitter ) {
-          const disposeListener = () => {
+        if ( options.cancelEmitter ) {
+          const cancelListener = () => {
             cancelled = true;
             options.hideHighlight();
 
@@ -229,12 +227,11 @@ export default class AttachmentKeyboardListener<T> extends KeyboardListener<OneK
               cleanComboBoxDispose();
             } );
           };
-          options.targetDisposeEmitter.addListener( disposeListener );
+          options.cancelEmitter.addListener( cancelListener );
 
-          // Clean up the listener when the combo box is disposed
           comboBox.disposeEmitter.addListener( () => {
-            if ( options.targetDisposeEmitter!.hasListener( disposeListener ) ) {
-              options.targetDisposeEmitter!.removeListener( disposeListener );
+            if ( options.cancelEmitter!.hasListener( cancelListener ) ) {
+              options.cancelEmitter!.removeListener( cancelListener );
             }
           } );
         }
