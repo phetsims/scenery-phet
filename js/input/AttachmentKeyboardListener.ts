@@ -29,9 +29,9 @@
  *
  * ## Keyboard Help Dialog
  * Because the ComboBox handles key bindings internally (arrow keys, Enter, Escape are built into
- * ComboBox/ListBox), there are no sim-level KeyboardListeners or HotkeyData to reference. The
- * keyboard help section must create its own HotkeyData instances solely for display purposes.
- * See ConnectTrackEndpointsKeyboardHelpSection (ESP) or ChooseJunctionConnectionKeyboardHelpSection (CCK).
+ * ComboBox/ListBox), there are no sim-level KeyboardListeners or HotkeyData to reference.
+ * Use ComboBoxKeyboardHelpSection with closeVisualStringProperty/closeAccessibleStringProperty
+ * to customize the cancel row text.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

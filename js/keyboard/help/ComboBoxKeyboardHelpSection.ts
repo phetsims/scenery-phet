@@ -73,6 +73,11 @@ type SelfOptions = {
 
   // plural version of thingAsLowerCaseSingular
   thingAsLowerCasePlural?: string | TReadOnlyProperty<string>;
+
+  // Override the last row's text (default: "Close without changing").
+  // Use for interactions where "Cancel" is more appropriate (e.g., AttachmentKeyboardListener).
+  closeVisualStringProperty?: TReadOnlyProperty<string>;
+  closeAccessibleStringProperty?: TReadOnlyProperty<string>;
 };
 
 export type ComboBoxKeyboardHelpSectionOptions = SelfOptions & KeyboardHelpSectionOptions;
@@ -87,6 +92,8 @@ export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
       headingString: SceneryPhetFluent.keyboardHelpDialog.comboBox.headingStringStringProperty,
       thingAsLowerCaseSingular: SceneryPhetFluent.keyboardHelpDialog.comboBox.optionStringProperty,
       thingAsLowerCasePlural: SceneryPhetFluent.keyboardHelpDialog.comboBox.optionsStringProperty,
+      closeVisualStringProperty: SceneryPhetFluent.keyboardHelpDialog.comboBox.closeWithoutChangingStringProperty,
+      closeAccessibleStringProperty: SceneryPhetFluent.a11y.keyboardHelpDialog.comboBox.closeWithoutChangingStringProperty,
 
       // KeyboardHelpSectionOptions
       a11yContentTagName: 'ol', // ordered list
@@ -140,8 +147,8 @@ export default class ComboBoxKeyboardHelpSection extends KeyboardHelpSection {
 
     const closeWithoutChanging = createSectionRow(
       [ 'escape' ],
-      SceneryPhetFluent.keyboardHelpDialog.comboBox.closeWithoutChangingStringProperty,
-      SceneryPhetFluent.a11y.keyboardHelpDialog.comboBox.closeWithoutChangingStringProperty,
+      options.closeVisualStringProperty,
+      options.closeAccessibleStringProperty,
       disposables
     );
 
