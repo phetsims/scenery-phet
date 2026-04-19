@@ -112,7 +112,6 @@ export default function demoAttachmentKeyboardListener( layoutBounds: Bounds2 ):
         createNode: () => new Text( target.label )
       } ) );
     },
-    getInitialPosition: () => initialCircleCenter,
     getHighlightPosition: selection => selection ? targetCenterMap.get( selection ) || initialCircleCenter : initialCircleCenter,
     applySelection: ( selection, targetPosition ) => {
       if ( selection ) {

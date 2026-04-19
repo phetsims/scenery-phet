@@ -80,9 +80,8 @@ export type AttachmentKeyboardListenerOptions<T> = {
   // Items to appear in the ComboBox list
   getItems: () => AttachmentItem<T>[];
 
-  getInitialPosition: () => Vector2;
-
-  // Position used for the highlight when the given selection is active
+  // Position for the highlight when the given selection is active. null means no selection
+  // (used as the snap-back position on cancel).
   getHighlightPosition: ( selection: T | null ) => Vector2;
 
   // Called when the ComboBox closes with a confirmed selection, or with null on cancel
@@ -134,15 +133,13 @@ export default class AttachmentKeyboardListener<T> extends KeyboardListener<OneK
         const listParent = typeof options.listParent === 'function' ? options.listParent() : options.listParent;
         const layoutBounds = typeof options.layoutBounds === 'function' ? options.layoutBounds() : options.layoutBounds;
 
-        const initialPosition = options.getInitialPosition();
-
         let items: AttachmentItem<T>[] = [ ...availableItems ];
         if ( options.sortItems ) {
           items = options.sortItems( items );
         }
 
         const selectionProperty = new Property<T | null>( items[ 0 ].value );
-        let targetDropPosition = initialPosition;
+        let targetDropPosition = options.getHighlightPosition( null );
 
         const comboBox = new ComboBox( selectionProperty, items, listParent, {
           opacity: 0.8,
@@ -205,7 +202,7 @@ export default class AttachmentKeyboardListener<T> extends KeyboardListener<OneK
         comboBox.focusListItemNode( items[ 0 ].value );
 
         comboBox.cancelEmitter.addListener( () => {
-          targetDropPosition = initialPosition;
+          targetDropPosition = options.getHighlightPosition( null );
 
           options.applySelection( null, targetDropPosition );
           cancelled = true;
