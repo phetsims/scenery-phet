@@ -70,10 +70,11 @@ export type AttachmentKeyboardListenerOptions<T> = {
   // Accepts a getter function for deferred resolution.
   layoutBounds: Bounds2 | ( () => Bounds2 );
 
-  // Show a visual highlight at the given position to indicate the current attachment target.
+  // Called when the focused combo box item changes, to show a visual highlight on the current
+  // attachment target. The position is in the coordinate frame of the highlight node's parent
+  // (model or view, depending on where the caller places the highlight in the scene graph).
   showHighlight: ( position: Vector2 ) => void;
 
-  // Hide the attachment target highlight.
   hideHighlight: () => void;
 
   // Items to appear in the ComboBox list
