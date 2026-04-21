@@ -20,17 +20,34 @@ import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import LinearGradient from '../../scenery/js/util/LinearGradient.js';
 import TColor from '../../scenery/js/util/TColor.js';
+import type TSoundPlayer from '../../tambo/js/TSoundPlayer.js';
 import { RoundButtonOptions } from '../../sun/js/buttons/RoundButton.js';
-import RoundMomentaryButton from '../../sun/js/buttons/RoundMomentaryButton.js';
+import RoundMomentaryButton, { type RoundMomentaryButtonOptions } from '../../sun/js/buttons/RoundMomentaryButton.js';
 import RoundStickyToggleButton, { RoundStickyToggleButtonOptions } from '../../sun/js/buttons/RoundStickyToggleButton.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import { TAlertable } from '../../utterance-queue/js/Utterance.js';
 import sceneryPhet from './sceneryPhet.js';
 import ShadedSphereNode, { ShadedSphereNodeOptions } from './ShadedSphereNode.js';
 
 type ButtonType = 'toggle' | 'momentary';
 
-type ButtonOptions = PickOptional<RoundButtonOptions, 'baseColor' | 'radius' | 'xMargin' |
-  'yMargin' | 'touchAreaDilation' | 'mouseAreaDilation' | 'rotation' | 'accessibleName' | 'accessibleHelpText'>;
+type CommonButtonOptions = PickOptional<RoundButtonOptions, 'baseColor' | 'radius' | 'xMargin' |
+  'yMargin' | 'touchAreaDilation' | 'mouseAreaDilation' | 'rotation' | 'accessibleName' | 'accessibleHelpText'> & {
+  accessibleContextResponseOn?: TAlertable;
+  accessibleContextResponseOff?: TAlertable;
+};
+
+type ToggleButtonOptions = CommonButtonOptions & {
+  valueUpSoundPlayer?: TSoundPlayer;
+  valueDownSoundPlayer?: TSoundPlayer;
+};
+
+type MomentaryButtonOptions = CommonButtonOptions & {
+  valueOffSoundPlayer?: TSoundPlayer;
+  valueOnSoundPlayer?: TSoundPlayer;
+};
+
+type ButtonOptions = ToggleButtonOptions | MomentaryButtonOptions;
 
 type SelfOptions = {
 
@@ -174,7 +191,7 @@ export default class LaserPointerNode extends Node {
     let onOffButton: Node | null = null;
     if ( options.hasButton ) {
 
-      const buttonOptions = combineOptions<RoundButtonOptions | RoundStickyToggleButtonOptions>( options.buttonOptions, {
+      const buttonOptions = combineOptions<RoundStickyToggleButtonOptions | RoundMomentaryButtonOptions>( options.buttonOptions, {
         center: options.getButtonLocation( bodyNode ),
         tandem: options.tandem.createTandem( 'button' )
       } );
@@ -182,7 +199,7 @@ export default class LaserPointerNode extends Node {
       // If the button uses a sticky toggle, the button is communicated to assistive technology as an
       // "on/off" switch.
       if ( options.buttonType === 'toggle' ) {
-        buttonOptions.accessibleRoleConfiguration = 'switch';
+        ( buttonOptions as RoundStickyToggleButtonOptions ).accessibleRoleConfiguration = 'switch';
       }
 
       onOffButton = ( options.buttonType === 'toggle' ) ?
