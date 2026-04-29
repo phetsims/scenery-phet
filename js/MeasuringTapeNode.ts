@@ -302,6 +302,27 @@ class MeasuringTapeNode extends Node {
         phetioDocumentation: 'The text content of the readout on the measuring tape'
       } );
 
+    // The distance measured by the measuring tape in a user-friendly string, mostly for accessible responses.
+    const getTipDistanceAccessibleString = (): string => {
+      const units = this.unitsProperty.value;
+      let tipDistanceAccessibleString: string;
+
+      // If specified, used so it says "6.2 meters" instead of "6.2 m"
+      if ( units.unit ) {
+        tipDistanceAccessibleString = units.unit.getAccessibleString( units.multiplier * this.measuredDistanceProperty.value, {
+          decimalPlaces: this.significantFigures
+        } );
+      }
+      else {
+
+        // Fall back to the default readout string if no unit is specified, which will at least include the
+        // distance measurement (e.g. "6.2 m")
+        tipDistanceAccessibleString = readoutStringProperty.value;
+      }
+
+      return tipDistanceAccessibleString;
+    };
+
     this.valueNode = new Text( readoutStringProperty, {
       font: options.textFont,
       fill: options.textColor,
@@ -346,6 +367,7 @@ class MeasuringTapeNode extends Node {
       // interactive highlights - highlights are enabled only when the component is interactive
       baseImageParent.interactiveHighlightEnabled = true;
       tip.interactiveHighlightEnabled = true;
+      tip.accessibleFocusObjectResponse = getTipDistanceAccessibleString;
 
       const baseStart = () => {
         this.moveToFront();
@@ -414,21 +436,9 @@ class MeasuringTapeNode extends Node {
 
       const tipEnd = () => {
         this._isTipUserControlledProperty.value = false;
-
-        const units = this.unitsProperty.value;
-
-        // If specified, used for the context response so it would say "6.2 meters" instead of "6.2 m"
-        if ( units.unit ) {
-          const distance = units.multiplier * this.measuredDistanceProperty.value;
-          tip.addAccessibleContextResponse( units.unit.getAccessibleString( distance, {
-            decimalPlaces: this.significantFigures
-          } ) );
-        }
-        else {
-
-          // Fall back to the default readout string if no unit is specified, which will at least include the distance measurement (e.g. "6.2 m")
-          tip.addAccessibleContextResponse( readoutStringProperty.value );
-        }
+        tip.addAccessibleObjectResponse( getTipDistanceAccessibleString(), {
+          responseGroup: 'measuringTapeTipDistance'
+        } );
       };
 
       let tipStartOffset: Vector2;
