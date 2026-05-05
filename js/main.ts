@@ -6,6 +6,7 @@
 
 import sceneryPhet from './sceneryPhet.js';
 import './ArrowNode.js';
+import './BatteryNode.js';
 import './FaceNode.js';
 import './GradientRectangle.js';
 import './GridNode.js';
