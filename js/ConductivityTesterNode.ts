@@ -23,15 +23,14 @@ import InteractiveHighlighting from '../../scenery/js/accessibility/voicing/Inte
 import DragListener from '../../scenery/js/listeners/DragListener.js';
 import KeyboardDragListener, { KeyboardDragListenerOptions } from '../../scenery/js/listeners/KeyboardDragListener.js';
 import Circle from '../../scenery/js/nodes/Circle.js';
-import Image from '../../scenery/js/nodes/Image.js';
 import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
 import Path, { PathOptions } from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import Font from '../../scenery/js/util/Font.js';
 import TColor from '../../scenery/js/util/TColor.js';
-import batteryDCell_png from '../images/batteryDCell_png.js';
 import AccessibleDraggableOptions from './accessibility/grab-drag/AccessibleDraggableOptions.js';
+import BatteryNode from './BatteryNode.js';
 import LightBulbNode from './LightBulbNode.js';
 import MinusNode from './MinusNode.js';
 import PhetFont from './PhetFont.js';
@@ -49,7 +48,7 @@ type SelfOptions = {
 
   modelViewTransform?: ModelViewTransform2;
   bulbImageScale?: number;
-  batteryDCell_pngScale?: number;
+  batteryScale?: number;
 
   // common to both probes
   probeSize?: Dimension2; // probe dimensions, in view coordinates
@@ -104,7 +103,7 @@ export default class ConductivityTesterNode extends Node {
 
       modelViewTransform: ModelViewTransform2.createIdentity(),
       bulbImageScale: 0.33,
-      batteryDCell_pngScale: 0.6,
+      batteryScale: 0.35,
 
       // common to both probes
       probeSize: new Dimension2( 20, 68 ),
@@ -154,8 +153,8 @@ export default class ConductivityTesterNode extends Node {
     } );
 
     // battery
-    const battery = new Image( batteryDCell_png, {
-      scale: options.batteryDCell_pngScale,
+    const battery = new BatteryNode( {
+      scale: options.batteryScale,
       left: options.bulbToBatteryWireLength,
       centerY: 0
     } );
@@ -179,10 +178,13 @@ export default class ConductivityTesterNode extends Node {
       apparatusNode.addChild( new Circle( 2, { fill: 'red' } ) );
     }
 
+    const positiveWireStartX = battery.right - 1; // empirically lined up with the terminal on BatteryNode
+    const positiveWireStartY = battery.centerY;
+
     // wire from battery terminal to positive probe
     const positiveWire = new WireNode(
-      battery.getGlobalBounds().right,
-      battery.getGlobalBounds().centerY,
+      positiveWireStartX,
+      positiveWireStartY,
       options.modelViewTransform.modelToViewX( positiveProbePositionProperty.value.x ) - options.modelViewTransform.modelToViewX( positionProperty.value.x ),
       options.modelViewTransform.modelToViewY( positiveProbePositionProperty.value.y ) - options.modelViewTransform.modelToViewY( positionProperty.value.y ) - options.probeSize.height,
       { stroke: options.wireStroke, lineWidth: options.wireLineWidth }

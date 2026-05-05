@@ -10,11 +10,10 @@ import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.j
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
-import Image from '../../../../scenery/js/nodes/Image.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Dialog from '../../../../sun/js/Dialog.js';
-import batteryDCell_png from '../../../images/batteryDCell_png.js';
+import BatteryNode from '../../BatteryNode.js';
 import CanvasWarningNode from '../../CanvasWarningNode.js';
 import ContextLossFailureDialog from '../../ContextLossFailureDialog.js';
 import OopsDialog from '../../OopsDialog.js';
@@ -73,7 +72,7 @@ export default class DialogsScreenView extends ScreenView {
       listener: () => {
         if ( !oopsDialog ) {
           oopsDialog = new OopsDialog( 'Oops!<br><br>Your battery appears to be dead.', {
-            iconNode: new Image( batteryDCell_png, { rotation: -Math.PI / 2 } ),
+            iconNode: new BatteryNode( { rotation: -Math.PI / 2 } ),
             iconPosition: 'left'
           } );
         }
