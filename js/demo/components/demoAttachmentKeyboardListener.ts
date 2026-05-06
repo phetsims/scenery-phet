@@ -63,6 +63,7 @@ export default function demoAttachmentKeyboardListener( layoutBounds: Bounds2 ):
     lineWidth: 1.5,
     center: initialCircleCenter,
     tagName: 'button',
+    ariaRole: 'application',
     accessibleName: 'Attachable circle'
   } );
 
@@ -93,8 +94,6 @@ export default function demoAttachmentKeyboardListener( layoutBounds: Bounds2 ):
     } );
   } );
 
-  // TODO: The keyboard listener fails because it expects `fireOnClick` true in the listener.
-  //  Why isn't that an issue for sim usages? See https://github.com/phetsims/energy-skate-park/issues/524
   circleNode.addInputListener( new AttachmentKeyboardListener<AttachmentSelection>( {
     triggerNode: circleNode,
     listParent: rootNode,

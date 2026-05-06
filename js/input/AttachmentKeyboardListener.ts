@@ -4,6 +4,9 @@
  * Generic keyboard listener that presents a transient ComboBox for selecting from discrete attachment
  * targets (e.g., connecting circuit vertices, joining track endpoints, snapping a probe to a measurement point).
  *
+ * AttachmentKeyboardListener uses Enter/Space keyboard events and requires ariaRole="application" on the trigger
+ * node or an ancestor.
+ *
  * ## Transient ComboBox Pattern
  *
  * This pattern uses a standard ComboBox component purely for its PDOM (Parallel DOM) list navigation —
@@ -44,6 +47,7 @@ import Bounds2 from '../../../dot/js/Bounds2.js';
 import type Vector2 from '../../../dot/js/Vector2.js';
 import { pdomFocusProperty } from '../../../scenery/js/accessibility/pdomFocusProperty.js';
 import { OneKeyStroke } from '../../../scenery/js/input/KeyDescriptor.js';
+import SceneryEvent from '../../../scenery/js/input/SceneryEvent.js';
 import KeyboardListener from '../../../scenery/js/listeners/KeyboardListener.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import ComboBox from '../../../sun/js/ComboBox.js';
@@ -113,12 +117,19 @@ export type AttachmentKeyboardListenerOptions<T> = {
 
 export default class AttachmentKeyboardListener<T> extends KeyboardListener<OneKeyStroke[]> {
 
+  // Run the application-role trail assertion only once per listener instance.
+  private trailRoleValidated = false;
+
   public constructor( options: AttachmentKeyboardListenerOptions<T> ) {
 
     const restoreFocus = options.restoreFocus || ( () => options.triggerNode.focus() );
 
     super( {
       keys: [ 'space', 'enter' ],
+
+      // We still require an application-role ancestor (see keydown override below). This option disables
+      // KeyboardListener's generic enter/space assertion so we can provide an AttachmentKeyboardListener-specific one.
+      allowEnterSpaceWithoutApplicationRole: true,
 
       fire: () => {
         const availableItems = options.getItems();
@@ -250,5 +261,28 @@ export default class AttachmentKeyboardListener<T> extends KeyboardListener<OneK
         } );
       }
     } );
+  }
+
+  /**
+   * Hook into keydown dispatch so we can assert that attachment hotkeys run in an application-role context
+   * (trigger node or ancestor). Doing the check here bypasses the generic check for role configuration
+   * in KeyboardDragListener for a more specific requirement.
+   */
+  public override keydown( event: SceneryEvent<KeyboardEvent> ): void {
+    if ( assert && !this.trailRoleValidated ) {
+
+      // Best-effort invariant: attachment hotkeys should run in an application-role context.
+      const hasApplicationRoleInTrail = event.trail.nodes.some( node => {
+        return node.ariaRole === 'application' || node.containerAriaRole === 'application';
+      } );
+
+      assert && assert( hasApplicationRoleInTrail,
+        'AttachmentKeyboardListener requires ariaRole="application" on the trigger node or one of its ancestors.'
+      );
+
+      this.trailRoleValidated = true;
+    }
+
+    super.keydown( event );
   }
 }
