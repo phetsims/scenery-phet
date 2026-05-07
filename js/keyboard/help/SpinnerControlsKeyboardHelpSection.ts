@@ -7,6 +7,7 @@
  */
 
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import sceneryPhet from '../../sceneryPhet.js';
 import SceneryPhetFluent from '../../SceneryPhetFluent.js';
 import SliderControlsKeyboardHelpSection, { SliderControlsKeyboardHelpSectionOptions } from './SliderControlsKeyboardHelpSection.js';
@@ -16,17 +17,14 @@ const spinnerStringProperty = SceneryPhetFluent.keyboardHelpDialog.spinnerString
 
 type SelfOptions = EmptySelfOptions;
 type ParentOptions = SliderControlsKeyboardHelpSectionOptions;
-export type SpinnerControlsKeyboardHelpSectionOptions = SelfOptions & ParentOptions;
+export type SpinnerControlsKeyboardHelpSectionOptions = SelfOptions & StrictOmit<ParentOptions, 'includeLargerStepsRow'>;
 
 export default class SpinnerControlsKeyboardHelpSection extends SliderControlsKeyboardHelpSection {
   public constructor( providedOptions?: SpinnerControlsKeyboardHelpSectionOptions ) {
 
     const options = optionize<SpinnerControlsKeyboardHelpSectionOptions, SelfOptions, ParentOptions>()( {
       headingStringProperty: spinnerControlsStringProperty,
-      sliderStringProperty: spinnerStringProperty,
-
-      // PhET 'spinners' usually do not support larger steps with the page up/page down keys.
-      includeLargerStepsRow: false
+      sliderStringProperty: spinnerStringProperty
     }, providedOptions );
 
     super( options );
