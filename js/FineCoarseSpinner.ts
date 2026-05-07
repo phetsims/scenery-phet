@@ -39,7 +39,7 @@ type ParentOptions = AccessibleNumberSpinnerOptions & NodeOptions;
 
 export type FineCoarseSpinnerOptions =
   SelfOptions
-  & StrictOmit<ParentOptions, 'children' | 'valueProperty' | 'enabledRangeProperty' | 'keyboardStep' | 'shiftKeyboardStep' | 'pageKeyboardStep' | 'onInput'>;
+  & StrictOmit<ParentOptions, 'children' | 'valueProperty' | 'enabledRangeProperty' | 'onInput'>;
 
 export default class FineCoarseSpinner extends AccessibleNumberSpinner( Node, 0 ) {
 
@@ -64,12 +64,6 @@ export default class FineCoarseSpinner extends AccessibleNumberSpinner( Node, 0 
       // The focus highlight surrounds the entire component, but the spinner display is not interactive with
       // mouse and touch events so this highlight is hidden. Instead, default highlights surround the arrow buttons.
       interactiveHighlight: 'invisible',
-
-      // Instead of changing the value with keyboard step options, the arrow buttons are synthetically
-      // pressed in response to keyboard input so that the buttons look pressed.
-      keyboardStep: 0,
-      shiftKeyboardStep: 0,
-      pageKeyboardStep: 0,
 
       // NodeOptions
       disabledOpacity: 0.5, // {number} opacity used to make the control look disabled
@@ -182,6 +176,11 @@ export default class FineCoarseSpinner extends AccessibleNumberSpinner( Node, 0 
     } ) );
 
     super( options );
+
+    // FineCoarseSpinner responds to keyboard interaction through synthetic button clicks.
+    this.keyboardStep = 0;
+    this.shiftKeyboardStep = 0;
+    this.pageKeyboardStep = 0;
 
     // Disable the buttons when the value is at min or max of the range
     const buttonsEnabledListener = ( value: number, range: Range ) => {
