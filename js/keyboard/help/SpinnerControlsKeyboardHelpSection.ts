@@ -24,7 +24,9 @@ export default class SpinnerControlsKeyboardHelpSection extends SliderControlsKe
 
     const options = optionize<SpinnerControlsKeyboardHelpSectionOptions, SelfOptions, ParentOptions>()( {
       headingStringProperty: spinnerControlsStringProperty,
-      sliderStringProperty: spinnerStringProperty
+      sliderStringProperty: spinnerStringProperty,
+      includeSmallerStepsRow: false,
+      includeLargerStepsRow: false
     }, providedOptions );
 
     super( options );
