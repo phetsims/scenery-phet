@@ -427,11 +427,11 @@ a11y:
       # Lists of items - when there are 3+, items is the joined prefix list, last is the final item.
       serialList:        '{ $items }, or { $last }'
 
-      # Punctuation for lists of keys so they can be combined into a format like: 'A, B, C, D'
-      commaSpace:        ', '
+      # Pattern for lists of keys so they can be combined into a format like: 'A, B, C, D'
+      listSeparatorPattern: '{ $first }, { $second }'
 
       # For combining arbitrary items with 'plus' in between.
-      spacePlusSpace:    ' plus '
+      modifierSeparatorPattern: '{ $first } plus { $second }'
     key:
       leftArrow:  Left Arrow
       rightArrow: Right Arrow

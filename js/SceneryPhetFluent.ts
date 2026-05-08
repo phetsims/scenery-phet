@@ -252,8 +252,8 @@ addToMapIfDefined( 'a11y_keyboard_helpPatterns_singleKey', 'a11y.keyboard.helpPa
 addToMapIfDefined( 'a11y_keyboard_helpPatterns_multipleKeys', 'a11y.keyboard.helpPatterns.multipleKeysStringProperty' );
 addToMapIfDefined( 'a11y_keyboard_helpPatterns_twoItemList', 'a11y.keyboard.helpPatterns.twoItemListStringProperty' );
 addToMapIfDefined( 'a11y_keyboard_helpPatterns_serialList', 'a11y.keyboard.helpPatterns.serialListStringProperty' );
-addToMapIfDefined( 'a11y_keyboard_helpPatterns_commaSpace', 'a11y.keyboard.helpPatterns.commaSpaceStringProperty' );
-addToMapIfDefined( 'a11y_keyboard_helpPatterns_spacePlusSpace', 'a11y.keyboard.helpPatterns.spacePlusSpaceStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_helpPatterns_listSeparatorPattern', 'a11y.keyboard.helpPatterns.listSeparatorPatternStringProperty' );
+addToMapIfDefined( 'a11y_keyboard_helpPatterns_modifierSeparatorPattern', 'a11y.keyboard.helpPatterns.modifierSeparatorPatternStringProperty' );
 addToMapIfDefined( 'a11y_keyboard_key_leftArrow', 'a11y.keyboard.key.leftArrowStringProperty' );
 addToMapIfDefined( 'a11y_keyboard_key_rightArrow', 'a11y.keyboard.key.rightArrowStringProperty' );
 addToMapIfDefined( 'a11y_keyboard_key_upArrow', 'a11y.keyboard.key.upArrowStringProperty' );
@@ -930,10 +930,10 @@ const SceneryPhetFluent = {
         twoItemList: new FluentPattern<{ first: FluentVariable, second: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_keyboard_helpPatterns_twoItemList', _.get( SceneryPhetStrings, 'a11y.keyboard.helpPatterns.twoItemListStringProperty' ), [{"name":"first"},{"name":"second"}] ),
         _comment_6: new FluentComment( {"comment":"Lists of items - when there are 3+, items is the joined prefix list, last is the final item.","associatedKey":"serialList"} ),
         serialList: new FluentPattern<{ items: FluentVariable, last: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_keyboard_helpPatterns_serialList', _.get( SceneryPhetStrings, 'a11y.keyboard.helpPatterns.serialListStringProperty' ), [{"name":"items"},{"name":"last"}] ),
-        _comment_7: new FluentComment( {"comment":"Punctuation for lists of keys so they can be combined into a format like: 'A, B, C, D'","associatedKey":"commaSpace"} ),
-        commaSpaceStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_helpPatterns_commaSpace', _.get( SceneryPhetStrings, 'a11y.keyboard.helpPatterns.commaSpaceStringProperty' ) ),
-        _comment_8: new FluentComment( {"comment":"For combining arbitrary items with 'plus' in between.","associatedKey":"spacePlusSpace"} ),
-        spacePlusSpaceStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_helpPatterns_spacePlusSpace', _.get( SceneryPhetStrings, 'a11y.keyboard.helpPatterns.spacePlusSpaceStringProperty' ) )
+        _comment_7: new FluentComment( {"comment":"Pattern for lists of keys so they can be combined into a format like: 'A, B, C, D'","associatedKey":"listSeparatorPattern"} ),
+        listSeparatorPattern: new FluentPattern<{ first: FluentVariable, second: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_keyboard_helpPatterns_listSeparatorPattern', _.get( SceneryPhetStrings, 'a11y.keyboard.helpPatterns.listSeparatorPatternStringProperty' ), [{"name":"first"},{"name":"second"}] ),
+        _comment_8: new FluentComment( {"comment":"For combining arbitrary items with 'plus' in between.","associatedKey":"modifierSeparatorPattern"} ),
+        modifierSeparatorPattern: new FluentPattern<{ first: FluentVariable, second: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_keyboard_helpPatterns_modifierSeparatorPattern', _.get( SceneryPhetStrings, 'a11y.keyboard.helpPatterns.modifierSeparatorPatternStringProperty' ), [{"name":"first"},{"name":"second"}] )
       },
       key: {
         leftArrowStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboard_key_leftArrow', _.get( SceneryPhetStrings, 'a11y.keyboard.key.leftArrowStringProperty' ) ),
