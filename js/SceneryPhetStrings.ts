@@ -498,8 +498,8 @@ type StringsType = {
         'multipleKeysStringProperty': LocalizedStringProperty;
         'twoItemListStringProperty': LocalizedStringProperty;
         'serialListStringProperty': LocalizedStringProperty;
-        'commaSpaceStringProperty': LocalizedStringProperty;
-        'spacePlusSpaceStringProperty': LocalizedStringProperty;
+        'listSeparatorPatternStringProperty': LocalizedStringProperty;
+        'modifierSeparatorPatternStringProperty': LocalizedStringProperty;
       };
       'key': {
         'leftArrowStringProperty': LocalizedStringProperty;

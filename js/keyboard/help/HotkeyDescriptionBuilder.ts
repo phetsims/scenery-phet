@@ -14,6 +14,7 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import type { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
+import FluentUtils from '../../../../chipper/js/browser/FluentUtils.js';
 import type { EnglishKeyString } from '../../../../scenery/js/accessibility/EnglishStringToCodeMap.js';
 import KeyDescriptor from '../../../../scenery/js/input/KeyDescriptor.js';
 import sceneryPhet from '../../sceneryPhet.js';
@@ -84,8 +85,8 @@ export default class HotkeyDescriptionBuilder {
       ...SceneryPhetFluent.a11y.keyboard.helpPatterns.multipleKeys.getDependentProperties(),
       ...SceneryPhetFluent.a11y.keyboard.helpPatterns.twoItemList.getDependentProperties(),
       ...SceneryPhetFluent.a11y.keyboard.helpPatterns.serialList.getDependentProperties(),
-      SceneryPhetFluent.a11y.keyboard.helpPatterns.spacePlusSpaceStringProperty,
-      SceneryPhetFluent.a11y.keyboard.helpPatterns.commaSpaceStringProperty
+      ...SceneryPhetFluent.a11y.keyboard.helpPatterns.modifierSeparatorPattern.getDependentProperties(),
+      ...SceneryPhetFluent.a11y.keyboard.helpPatterns.listSeparatorPattern.getDependentProperties()
     ] );
 
     return DerivedProperty.deriveAny( [
@@ -189,8 +190,7 @@ export default class HotkeyDescriptionBuilder {
 
     const sorted = HotkeySetDefinitions.sortModifiers( modifiers );
     const labels = sorted.map( modifier => HotkeyDescriptionBuilder.describeModifier( modifier ) );
-    const spacePlusSpaceStringProperty = SceneryPhetFluent.a11y.keyboard.helpPatterns.spacePlusSpaceStringProperty;
-    return labels.join( spacePlusSpaceStringProperty.value );
+    return FluentUtils.joinFirstAndSecond( SceneryPhetFluent.a11y.keyboard.helpPatterns.modifierSeparatorPattern, labels );
   }
 
   /**
@@ -327,9 +327,8 @@ export default class HotkeyDescriptionBuilder {
         second: items[ 1 ]
       } );
     }
-    const commaSpaceStringProperty = SceneryPhetFluent.a11y.keyboard.helpPatterns.commaSpaceStringProperty;
     return SceneryPhetFluent.a11y.keyboard.helpPatterns.serialList.format( {
-      items: items.slice( 0, -1 ).join( commaSpaceStringProperty.value ),
+      items: FluentUtils.joinFirstAndSecond( SceneryPhetFluent.a11y.keyboard.helpPatterns.listSeparatorPattern, items.slice( 0, -1 ) ),
       last: items[ items.length - 1 ]
     } );
   }

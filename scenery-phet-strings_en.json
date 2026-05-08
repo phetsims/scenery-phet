@@ -1113,11 +1113,11 @@
         "serialList": {
           "value": "{ $items }, or { $last }"
         },
-        "commaSpace": {
-          "value": ", "
+        "listSeparatorPattern": {
+          "value": "{ $first }, { $second }"
         },
-        "spacePlusSpace": {
-          "value": " plus "
+        "modifierSeparatorPattern": {
+          "value": "{ $first } plus { $second }"
         }
       },
       "key": {
