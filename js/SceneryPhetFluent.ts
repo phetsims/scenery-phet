@@ -174,6 +174,9 @@ addToMapIfDefined( 'units_centimetersSquared_symbol', 'units.centimetersSquared.
 addToMapIfDefined( 'units_hertz_symbol', 'units.hertz.symbolStringProperty' );
 addToMapIfDefined( 'units_percent_symbol', 'units.percent.symbolStringProperty' );
 addToMapIfDefined( 'units_seconds_symbol', 'units.seconds.symbolStringProperty' );
+addToMapIfDefined( 'units_milliseconds_symbol', 'units.milliseconds.symbolStringProperty' );
+addToMapIfDefined( 'units_microseconds_symbol', 'units.microseconds.symbolStringProperty' );
+addToMapIfDefined( 'units_femtoseconds_symbol', 'units.femtoseconds.symbolStringProperty' );
 addToMapIfDefined( 'units_amperes_symbol', 'units.amperes.symbolStringProperty' );
 addToMapIfDefined( 'units_volts_symbol', 'units.volts.symbolStringProperty' );
 addToMapIfDefined( 'units_newtons_symbol', 'units.newtons.symbolStringProperty' );
@@ -230,6 +233,7 @@ addToMapIfDefined( 'units_cubicMeters_symbol', 'units.cubicMeters.symbolStringPr
 addToMapIfDefined( 'units_cubicPicometers_symbol', 'units.cubicPicometers.symbolStringProperty' );
 addToMapIfDefined( 'units_electronVolt_symbol', 'units.electronVolt.symbolStringProperty' );
 addToMapIfDefined( 'units_millimeters_symbol', 'units.millimeters.symbolStringProperty' );
+addToMapIfDefined( 'units_micrometers_symbol', 'units.micrometers.symbolStringProperty' );
 addToMapIfDefined( 'units_particlesPerPicosecond_symbol', 'units.particlesPerPicosecond.symbolStringProperty' );
 addToMapIfDefined( 'units_revolutionsPerMinute_symbol', 'units.revolutionsPerMinute.symbolStringProperty' );
 addToMapIfDefined( 'units_atmospheres_symbol', 'units.atmospheres.symbolStringProperty' );
@@ -345,6 +349,9 @@ addToMapIfDefined( 'a11y_units_centimetersSquared_pattern', 'a11y.units.centimet
 addToMapIfDefined( 'a11y_units_hertz_pattern', 'a11y.units.hertz.patternStringProperty' );
 addToMapIfDefined( 'a11y_units_percent_pattern', 'a11y.units.percent.patternStringProperty' );
 addToMapIfDefined( 'a11y_units_seconds_pattern', 'a11y.units.seconds.patternStringProperty' );
+addToMapIfDefined( 'a11y_units_milliseconds_pattern', 'a11y.units.milliseconds.patternStringProperty' );
+addToMapIfDefined( 'a11y_units_microseconds_pattern', 'a11y.units.microseconds.patternStringProperty' );
+addToMapIfDefined( 'a11y_units_femtoseconds_pattern', 'a11y.units.femtoseconds.patternStringProperty' );
 addToMapIfDefined( 'a11y_units_kilopascals_pattern', 'a11y.units.kilopascals.patternStringProperty' );
 addToMapIfDefined( 'a11y_units_amperes_pattern', 'a11y.units.amperes.patternStringProperty' );
 addToMapIfDefined( 'a11y_units_volts_pattern', 'a11y.units.volts.patternStringProperty' );
@@ -401,6 +408,7 @@ addToMapIfDefined( 'a11y_units_cubicMeters_pattern', 'a11y.units.cubicMeters.pat
 addToMapIfDefined( 'a11y_units_cubicPicometers_pattern', 'a11y.units.cubicPicometers.patternStringProperty' );
 addToMapIfDefined( 'a11y_units_electronVolt_pattern', 'a11y.units.electronVolt.patternStringProperty' );
 addToMapIfDefined( 'a11y_units_millimeters_pattern', 'a11y.units.millimeters.patternStringProperty' );
+addToMapIfDefined( 'a11y_units_micrometers_pattern', 'a11y.units.micrometers.patternStringProperty' );
 addToMapIfDefined( 'a11y_units_particlesPerPicosecond_pattern', 'a11y.units.particlesPerPicosecond.patternStringProperty' );
 addToMapIfDefined( 'a11y_units_revolutionsPerMinute_pattern', 'a11y.units.revolutionsPerMinute.patternStringProperty' );
 addToMapIfDefined( 'a11y_units_atmospheres_pattern', 'a11y.units.atmospheres.patternStringProperty' );
@@ -633,6 +641,18 @@ const SceneryPhetFluent = {
       symbolStringProperty: _.get( SceneryPhetStrings, 'units.seconds.symbolStringProperty' ),
       symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.seconds.symbolPatternStringProperty' )
     },
+    milliseconds: {
+      symbolStringProperty: _.get( SceneryPhetStrings, 'units.milliseconds.symbolStringProperty' ),
+      symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.milliseconds.symbolPatternStringProperty' )
+    },
+    microseconds: {
+      symbolStringProperty: _.get( SceneryPhetStrings, 'units.microseconds.symbolStringProperty' ),
+      symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.microseconds.symbolPatternStringProperty' )
+    },
+    femtoseconds: {
+      symbolStringProperty: _.get( SceneryPhetStrings, 'units.femtoseconds.symbolStringProperty' ),
+      symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.femtoseconds.symbolPatternStringProperty' )
+    },
     amperes: {
       symbolStringProperty: _.get( SceneryPhetStrings, 'units.amperes.symbolStringProperty' ),
       symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.amperes.symbolPatternStringProperty' )
@@ -856,6 +876,10 @@ const SceneryPhetFluent = {
     millimeters: {
       symbolStringProperty: _.get( SceneryPhetStrings, 'units.millimeters.symbolStringProperty' ),
       symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.millimeters.symbolPatternStringProperty' )
+    },
+    micrometers: {
+      symbolStringProperty: _.get( SceneryPhetStrings, 'units.micrometers.symbolStringProperty' ),
+      symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.micrometers.symbolPatternStringProperty' )
     },
     particlesPerPicosecond: {
       symbolStringProperty: _.get( SceneryPhetStrings, 'units.particlesPerPicosecond.symbolStringProperty' ),
@@ -1101,6 +1125,15 @@ const SceneryPhetFluent = {
       seconds: {
         pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_seconds_pattern', _.get( SceneryPhetStrings, 'a11y.units.seconds.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
       },
+      milliseconds: {
+        pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_milliseconds_pattern', _.get( SceneryPhetStrings, 'a11y.units.milliseconds.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
+      },
+      microseconds: {
+        pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_microseconds_pattern', _.get( SceneryPhetStrings, 'a11y.units.microseconds.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
+      },
+      femtoseconds: {
+        pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_femtoseconds_pattern', _.get( SceneryPhetStrings, 'a11y.units.femtoseconds.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
+      },
       kilopascals: {
         pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_kilopascals_pattern', _.get( SceneryPhetStrings, 'a11y.units.kilopascals.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
       },
@@ -1268,6 +1301,9 @@ const SceneryPhetFluent = {
       },
       millimeters: {
         pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_millimeters_pattern', _.get( SceneryPhetStrings, 'a11y.units.millimeters.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
+      },
+      micrometers: {
+        pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_micrometers_pattern', _.get( SceneryPhetStrings, 'a11y.units.micrometers.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
       },
       particlesPerPicosecond: {
         pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_particlesPerPicosecond_pattern', _.get( SceneryPhetStrings, 'a11y.units.particlesPerPicosecond.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )

@@ -188,6 +188,15 @@ units:
   seconds:
     symbol:        s
     symbolPattern: '{{value}} s'
+  milliseconds:
+    symbol:        ms
+    symbolPattern: '{{value}} ms'
+  microseconds:
+    symbol:        μs
+    symbolPattern: '{{value}} μs'
+  femtoseconds:
+    symbol:        fs
+    symbolPattern: '{{value}} fs'
   amperes:
     symbol:        A
     symbolPattern: '{{value}} A'
@@ -356,6 +365,9 @@ units:
   millimeters:
     symbol:        mm
     symbolPattern: '{{value}} mm'
+  micrometers:
+    symbol:        μm
+    symbolPattern: '{{value}} μm'
   particlesPerPicosecond:
     symbol:        particles/ps
     symbolPattern: '{{value}} particles/ps'
@@ -579,6 +591,24 @@ a11y:
                { $value ->
                  [one] { $value } second
                  *[other] { $value } seconds
+               }
+    milliseconds:
+      pattern: |-
+               { $value ->
+                 [one] { $value } millisecond
+                 *[other] { $value } milliseconds
+               }
+    microseconds:
+      pattern: |-
+               { $value ->
+                 [one] { $value } microsecond
+                 *[other] { $value } microseconds
+               }
+    femtoseconds:
+      pattern: |-
+               { $value ->
+                 [one] { $value } femtosecond
+                 *[other] { $value } femtoseconds
                }
     kilopascals:
       pattern: |-
@@ -899,6 +929,12 @@ a11y:
                { $value ->
                  [one] { $value } millimeter
                  *[other] { $value } millimeters
+               }
+    micrometers:
+      pattern: |-
+               { $value ->
+                 [one] { $value } micrometer
+                 *[other] { $value } micrometers
                }
     particlesPerPicosecond:
       pattern: |-

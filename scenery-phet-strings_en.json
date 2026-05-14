@@ -539,6 +539,30 @@
         "value": "{{value}} s"
       }
     },
+    "milliseconds": {
+      "symbol": {
+        "value": "ms"
+      },
+      "symbolPattern": {
+        "value": "{{value}} ms"
+      }
+    },
+    "microseconds": {
+      "symbol": {
+        "value": "μs"
+      },
+      "symbolPattern": {
+        "value": "{{value}} μs"
+      }
+    },
+    "femtoseconds": {
+      "symbol": {
+        "value": "fs"
+      },
+      "symbolPattern": {
+        "value": "{{value}} fs"
+      }
+    },
     "amperes": {
       "symbol": {
         "value": "A"
@@ -985,6 +1009,14 @@
       },
       "symbolPattern": {
         "value": "{{value}} mm"
+      }
+    },
+    "micrometers": {
+      "symbol": {
+        "value": "μm"
+      },
+      "symbolPattern": {
+        "value": "{{value}} μm"
       }
     },
     "particlesPerPicosecond": {
@@ -1482,6 +1514,21 @@
           "value": "{ $value ->\n  [one] { $value } second\n  *[other] { $value } seconds\n}"
         }
       },
+      "milliseconds": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } millisecond\n  *[other] { $value } milliseconds\n}"
+        }
+      },
+      "microseconds": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } microsecond\n  *[other] { $value } microseconds\n}"
+        }
+      },
+      "femtoseconds": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } femtosecond\n  *[other] { $value } femtoseconds\n}"
+        }
+      },
       "kilopascals": {
         "pattern": {
           "value": "{ $value ->\n  [one] { $value } kilopascal\n  *[other] { $value } kilopascals\n}"
@@ -1760,6 +1807,11 @@
       "millimeters": {
         "pattern": {
           "value": "{ $value ->\n  [one] { $value } millimeter\n  *[other] { $value } millimeters\n}"
+        }
+      },
+      "micrometers": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } micrometer\n  *[other] { $value } micrometers\n}"
         }
       },
       "particlesPerPicosecond": {

@@ -212,6 +212,18 @@ type StringsType = {
       'symbolStringProperty': LocalizedStringProperty;
       'symbolPatternStringProperty': LocalizedStringProperty;
     };
+    'milliseconds': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'microseconds': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'femtoseconds': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
     'amperes': {
       'symbolStringProperty': LocalizedStringProperty;
       'symbolPatternStringProperty': LocalizedStringProperty;
@@ -433,6 +445,10 @@ type StringsType = {
       'symbolPatternStringProperty': LocalizedStringProperty;
     };
     'millimeters': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'micrometers': {
       'symbolStringProperty': LocalizedStringProperty;
       'symbolPatternStringProperty': LocalizedStringProperty;
     };
@@ -667,6 +683,15 @@ type StringsType = {
       'seconds': {
         'patternStringProperty': LocalizedStringProperty;
       };
+      'milliseconds': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'microseconds': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'femtoseconds': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
       'kilopascals': {
         'patternStringProperty': LocalizedStringProperty;
       };
@@ -833,6 +858,9 @@ type StringsType = {
         'patternStringProperty': LocalizedStringProperty;
       };
       'millimeters': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'micrometers': {
         'patternStringProperty': LocalizedStringProperty;
       };
       'particlesPerPicosecond': {
