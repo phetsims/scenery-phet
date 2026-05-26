@@ -45,7 +45,6 @@ import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
 import { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import type { AccessibleTemplateValue } from '../../../scenery/js/accessibility/pdom/ParallelDOM.js';
-import PDOMUtils from '../../../scenery/js/accessibility/pdom/PDOMUtils.js';
 import { html } from '../../../sherpa/lib/lit-core-3.3.1.min.js';
 import sceneryPhet from '../sceneryPhet.js';
 import SceneryPhetFluent from '../SceneryPhetFluent.js';
@@ -71,12 +70,6 @@ export type AccessibleListOptions = {
 
   // The list type for the accessible content.
   listType?: 'unordered' | 'ordered';
-
-  // When true, strings containing only PDOM-approved formatting tags are rendered as markup. Disallowed or malformed
-  // tags still render as text.
-  // Defaults to false so dynamic strings use lit's default escaped-text behavior unless the caller opts in. This avoids
-  // changing the DOM for translated strings or strings with literal angle brackets that were not intended as markup.
-  renderFormattingTags?: boolean;
 
   // Automatically manage terminating punctuation for each <li>.
   //
@@ -127,7 +120,6 @@ export default class AccessibleList {
       leadingParagraphStringProperty: null,
       leadingParagraphVisibleProperty: null,
       listType: 'unordered',
-      renderFormattingTags: false,
       punctuationStyle: null
     }, providedOptions );
 
@@ -169,7 +161,7 @@ export default class AccessibleList {
                            ( index === visibleItems.length - 1 ? item.periodStringProperty!.value : item.punctuationStringProperty.value ) :
                            item.contentProperty.value;
         return html`
-          <li>${AccessibleList.createAccessibleListContent( itemString, options.renderFormattingTags )}</li>`;
+          <li>${itemString}</li>`;
       } );
 
       const listTemplate = options.listType === 'ordered' ?
@@ -179,12 +171,7 @@ export default class AccessibleList {
                              <ul>${listItemsTemplate}</ul>`;
 
       return html`
-        ${showLeadingParagraph ?
-          html`
-            <p>
-              ${AccessibleList.createAccessibleListContent( options.leadingParagraphStringProperty!.value, options.renderFormattingTags )}
-            </p>` :
-          null}
+        ${showLeadingParagraph ? html`<p>${options.leadingParagraphStringProperty!.value}</p>` : null}
         ${listTemplate}
       `;
     } );
@@ -211,7 +198,6 @@ export default class AccessibleList {
       leadingParagraphStringProperty: null,
       leadingParagraphVisibleProperty: null,
       listType: 'unordered',
-      renderFormattingTags: false,
       punctuationStyle: null
     }, providedOptions );
 
@@ -301,14 +287,6 @@ export default class AccessibleList {
                               undefined
       };
     } );
-  }
-
-  /**
-   * Helper function to render strings with formatting tags as DOM Nodes for lit. Otherwise, content will
-   * be rendered using lit's escaped-text default behavior.
-   */
-  private static createAccessibleListContent( content: string, renderFormattingTags: boolean ): string | ChildNode[] {
-    return renderFormattingTags ? PDOMUtils.createAccessibleTemplateTextContent( content ) : content;
   }
 }
 
