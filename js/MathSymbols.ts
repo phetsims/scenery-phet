@@ -52,7 +52,8 @@ const MathSymbols = {
   ALPHA: '\u03b1' as const,
   BETA: '\u03b2' as const,
   THETA: '\u03b8' as const,
-  PHI: '\u03c6' as const,
+  PHI: '\u03c6' as const, // Greek small letter phi
+  PHI_SYMBOL: '\u03D5' as const, // Greek phi symbol
   PI: '\u03c0' as const,
   PSI: '\u03c8' as const,
 
