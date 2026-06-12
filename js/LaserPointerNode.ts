@@ -32,7 +32,8 @@ import ShadedSphereNode, { ShadedSphereNodeOptions } from './ShadedSphereNode.js
 type ButtonType = 'toggle' | 'momentary';
 
 type CommonButtonOptions = PickOptional<RoundButtonOptions, 'baseColor' | 'radius' | 'xMargin' |
-  'yMargin' | 'touchAreaDilation' | 'mouseAreaDilation' | 'rotation' | 'accessibleName' | 'accessibleHelpText'> & {
+  'yMargin' | 'touchAreaDilation' | 'mouseAreaDilation' | 'rotation' | 'accessibleName' | 'accessibleHelpText' |
+  'enabledPropertyOptions'> & {
   accessibleContextResponseOn?: TAlertable;
   accessibleContextResponseOff?: TAlertable;
 };
