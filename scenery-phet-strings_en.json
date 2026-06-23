@@ -1058,6 +1058,62 @@
       "symbolPattern": {
         "value": "{{value}} pm/ps"
       }
+    },
+    "electronMasses": {
+      "symbol": {
+        "value": "m<sub>e</sub>"
+      },
+      "symbolPattern": {
+        "value": "{{value}} m<sub>e</sub>"
+      }
+    },
+    "electronVolts": {
+      "symbol": {
+        "value": "eV"
+      },
+      "symbolPattern": {
+        "value": "{{value}} eV"
+      }
+    },
+    "electronVoltsPerNanometerSquared": {
+      "symbol": {
+        "value": "eV/nm<sup>2</sup>"
+      },
+      "symbolPattern": {
+        "value": "{{value}} eV/nm<sup>2</sup>"
+      }
+    },
+    "inverseFemtoseconds": {
+      "symbol": {
+        "value": "fs<sup>-1</sup>"
+      },
+      "symbolPattern": {
+        "value": "{{value}} fs<sup>-1</sup>"
+      }
+    },
+    "inverseNanometers": {
+      "symbol": {
+        "value": "nm<sup>-1</sup>"
+      },
+      "symbolPattern": {
+        "value": "{{value}} nm<sup>-1</sup>"
+      }
+    },
+    "inverseSquareRootNanometers": {
+      "symbol": {
+        "value": "nm<sup>-1/2</sup>"
+      },
+      "symbolPattern": {
+        "value": "{{value}} nm<sup>-1/2</sup>"
+      }
+    },
+    "voltsPerNanometer": {
+      "symbol": {
+        "value": "V/nm"
+      },
+      "symbolPattern": {
+        "value": "{{value}} V/nm"
+      }
     }
   },
   "a11y": {
@@ -1837,6 +1893,41 @@
       "picometersPerPicosecond": {
         "pattern": {
           "value": "{ $value ->\n  [one] { $value } picometer per picosecond\n  *[other] { $value } picometers per picosecond\n}"
+        }
+      },
+      "electronMasses": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } electron mass\n  *[other] { $value } electron masses\n}"
+        }
+      },
+      "electronVolts": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } electron volt\n  *[other] { $value } electron volts\n}"
+        }
+      },
+      "electronVoltsPerNanometerSquared": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } electron volt per nanometer squared\n  *[other] { $value } electron volts per nanometer squared\n}"
+        }
+      },
+      "inverseFemtoseconds": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } inverse femtosecond\n  *[other] { $value } inverse femtoseconds\n}"
+        }
+      },
+      "inverseNanometers": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } inverse nanometer\n  *[other] { $value } inverse nanometers\n}"
+        }
+      },
+      "inverseSquareRootNanometers": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } inverse square root nanometer\n  *[other] { $value } inverse square root nanometers\n}"
+        }
+      },
+      "voltsPerNanometer": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } volt per nanometer\n  *[other] { $value } volts per nanometer\n}"
         }
       }
     }

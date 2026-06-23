@@ -471,6 +471,34 @@ type StringsType = {
     'picometersPerPicosecond': {
       'symbolStringProperty': LocalizedStringProperty;
       'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'electronMasses': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'electronVolts': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'electronVoltsPerNanometerSquared': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'inverseFemtoseconds': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'inverseNanometers': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'inverseSquareRootNanometers': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
+    'voltsPerNanometer': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
     }
   };
   'a11y': {
@@ -876,6 +904,27 @@ type StringsType = {
         'patternStringProperty': LocalizedStringProperty;
       };
       'picometersPerPicosecond': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'electronMasses': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'electronVolts': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'electronVoltsPerNanometerSquared': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'inverseFemtoseconds': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'inverseNanometers': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'inverseSquareRootNanometers': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'voltsPerNanometer': {
         'patternStringProperty': LocalizedStringProperty;
       }
     }

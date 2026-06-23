@@ -383,6 +383,28 @@ units:
   picometersPerPicosecond:
     symbol:        pm/ps
     symbolPattern: '{{value}} pm/ps'
+  electronMasses:
+    symbol:        m<sub>e</sub>
+    symbolPattern: '{{value}} m<sub>e</sub>'
+  electronVolts:
+    symbol:        eV
+    symbolPattern: '{{value}} eV'
+  electronVoltsPerNanometerSquared:
+    symbol:        eV/nm<sup>2</sup>
+    symbolPattern: '{{value}} eV/nm<sup>2</sup>'
+  inverseFemtoseconds:
+    symbol:        fs<sup>-1</sup>
+    symbolPattern: '{{value}} fs<sup>-1</sup>'
+  inverseNanometers:
+    symbol:        nm<sup>-1</sup>
+    symbolPattern: '{{value}} nm<sup>-1</sup>'
+  inverseSquareRootNanometers:
+    symbol:        nm<sup>-1/2</sup>
+    symbolPattern: '{{value}} nm<sup>-1/2</sup>'
+  voltsPerNanometer:
+    symbol:        V/nm
+    symbolPattern: '{{value}} V/nm'
+
 a11y:
   simSection:
     screenSummary:
@@ -965,4 +987,46 @@ a11y:
                { $value ->
                  [one] { $value } picometer per picosecond
                  *[other] { $value } picometers per picosecond
+               }
+    electronMasses:
+      pattern: |-
+               { $value ->
+                 [one] { $value } electron mass
+                 *[other] { $value } electron masses
+               }
+    electronVolts:
+      pattern: |-
+               { $value ->
+                 [one] { $value } electron volt
+                 *[other] { $value } electron volts
+               }
+    electronVoltsPerNanometerSquared:
+      pattern: |-
+               { $value ->
+                 [one] { $value } electron volt per nanometer squared
+                 *[other] { $value } electron volts per nanometer squared
+               }
+    inverseFemtoseconds:
+      pattern: |-
+               { $value ->
+                 [one] { $value } inverse femtosecond
+                 *[other] { $value } inverse femtoseconds
+               }
+    inverseNanometers:
+      pattern: |-
+               { $value ->
+                 [one] { $value } inverse nanometer
+                 *[other] { $value } inverse nanometers
+               }
+    inverseSquareRootNanometers:
+      pattern: |-
+               { $value ->
+                 [one] { $value } inverse square root nanometer
+                 *[other] { $value } inverse square root nanometers
+               }
+    voltsPerNanometer:
+      pattern: |-
+               { $value ->
+                 [one] { $value } volt per nanometer
+                 *[other] { $value } volts per nanometer
                }

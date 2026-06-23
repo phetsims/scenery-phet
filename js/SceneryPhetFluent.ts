@@ -239,6 +239,13 @@ addToMapIfDefined( 'units_revolutionsPerMinute_symbol', 'units.revolutionsPerMin
 addToMapIfDefined( 'units_atmospheres_symbol', 'units.atmospheres.symbolStringProperty' );
 addToMapIfDefined( 'units_kilogramMetersPerSecond_symbol', 'units.kilogramMetersPerSecond.symbolStringProperty' );
 addToMapIfDefined( 'units_picometersPerPicosecond_symbol', 'units.picometersPerPicosecond.symbolStringProperty' );
+addToMapIfDefined( 'units_electronMasses_symbol', 'units.electronMasses.symbolStringProperty' );
+addToMapIfDefined( 'units_electronVolts_symbol', 'units.electronVolts.symbolStringProperty' );
+addToMapIfDefined( 'units_electronVoltsPerNanometerSquared_symbol', 'units.electronVoltsPerNanometerSquared.symbolStringProperty' );
+addToMapIfDefined( 'units_inverseFemtoseconds_symbol', 'units.inverseFemtoseconds.symbolStringProperty' );
+addToMapIfDefined( 'units_inverseNanometers_symbol', 'units.inverseNanometers.symbolStringProperty' );
+addToMapIfDefined( 'units_inverseSquareRootNanometers_symbol', 'units.inverseSquareRootNanometers.symbolStringProperty' );
+addToMapIfDefined( 'units_voltsPerNanometer_symbol', 'units.voltsPerNanometer.symbolStringProperty' );
 addToMapIfDefined( 'a11y_simSection_screenSummary_keyboardShortcutsHint', 'a11y.simSection.screenSummary.keyboardShortcutsHintStringProperty' );
 addToMapIfDefined( 'a11y_simSection_playArea', 'a11y.simSection.playAreaStringProperty' );
 addToMapIfDefined( 'a11y_simSection_controlArea', 'a11y.simSection.controlAreaStringProperty' );
@@ -414,6 +421,13 @@ addToMapIfDefined( 'a11y_units_revolutionsPerMinute_pattern', 'a11y.units.revolu
 addToMapIfDefined( 'a11y_units_atmospheres_pattern', 'a11y.units.atmospheres.patternStringProperty' );
 addToMapIfDefined( 'a11y_units_kilogramMetersPerSecond_pattern', 'a11y.units.kilogramMetersPerSecond.patternStringProperty' );
 addToMapIfDefined( 'a11y_units_picometersPerPicosecond_pattern', 'a11y.units.picometersPerPicosecond.patternStringProperty' );
+addToMapIfDefined( 'a11y_units_electronMasses_pattern', 'a11y.units.electronMasses.patternStringProperty' );
+addToMapIfDefined( 'a11y_units_electronVolts_pattern', 'a11y.units.electronVolts.patternStringProperty' );
+addToMapIfDefined( 'a11y_units_electronVoltsPerNanometerSquared_pattern', 'a11y.units.electronVoltsPerNanometerSquared.patternStringProperty' );
+addToMapIfDefined( 'a11y_units_inverseFemtoseconds_pattern', 'a11y.units.inverseFemtoseconds.patternStringProperty' );
+addToMapIfDefined( 'a11y_units_inverseNanometers_pattern', 'a11y.units.inverseNanometers.patternStringProperty' );
+addToMapIfDefined( 'a11y_units_inverseSquareRootNanometers_pattern', 'a11y.units.inverseSquareRootNanometers.patternStringProperty' );
+addToMapIfDefined( 'a11y_units_voltsPerNanometer_pattern', 'a11y.units.voltsPerNanometer.patternStringProperty' );
 
 // A function that creates contents for a new Fluent file, which will be needed if any string changes.
 const createFluentFile = (): string => {
@@ -900,6 +914,34 @@ const SceneryPhetFluent = {
     picometersPerPicosecond: {
       symbolStringProperty: _.get( SceneryPhetStrings, 'units.picometersPerPicosecond.symbolStringProperty' ),
       symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.picometersPerPicosecond.symbolPatternStringProperty' )
+    },
+    electronMasses: {
+      symbolStringProperty: _.get( SceneryPhetStrings, 'units.electronMasses.symbolStringProperty' ),
+      symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.electronMasses.symbolPatternStringProperty' )
+    },
+    electronVolts: {
+      symbolStringProperty: _.get( SceneryPhetStrings, 'units.electronVolts.symbolStringProperty' ),
+      symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.electronVolts.symbolPatternStringProperty' )
+    },
+    electronVoltsPerNanometerSquared: {
+      symbolStringProperty: _.get( SceneryPhetStrings, 'units.electronVoltsPerNanometerSquared.symbolStringProperty' ),
+      symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.electronVoltsPerNanometerSquared.symbolPatternStringProperty' )
+    },
+    inverseFemtoseconds: {
+      symbolStringProperty: _.get( SceneryPhetStrings, 'units.inverseFemtoseconds.symbolStringProperty' ),
+      symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.inverseFemtoseconds.symbolPatternStringProperty' )
+    },
+    inverseNanometers: {
+      symbolStringProperty: _.get( SceneryPhetStrings, 'units.inverseNanometers.symbolStringProperty' ),
+      symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.inverseNanometers.symbolPatternStringProperty' )
+    },
+    inverseSquareRootNanometers: {
+      symbolStringProperty: _.get( SceneryPhetStrings, 'units.inverseSquareRootNanometers.symbolStringProperty' ),
+      symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.inverseSquareRootNanometers.symbolPatternStringProperty' )
+    },
+    voltsPerNanometer: {
+      symbolStringProperty: _.get( SceneryPhetStrings, 'units.voltsPerNanometer.symbolStringProperty' ),
+      symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.voltsPerNanometer.symbolPatternStringProperty' )
     }
   },
   a11y: {
@@ -1319,6 +1361,27 @@ const SceneryPhetFluent = {
       },
       picometersPerPicosecond: {
         pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_picometersPerPicosecond_pattern', _.get( SceneryPhetStrings, 'a11y.units.picometersPerPicosecond.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
+      },
+      electronMasses: {
+        pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_electronMasses_pattern', _.get( SceneryPhetStrings, 'a11y.units.electronMasses.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
+      },
+      electronVolts: {
+        pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_electronVolts_pattern', _.get( SceneryPhetStrings, 'a11y.units.electronVolts.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
+      },
+      electronVoltsPerNanometerSquared: {
+        pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_electronVoltsPerNanometerSquared_pattern', _.get( SceneryPhetStrings, 'a11y.units.electronVoltsPerNanometerSquared.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
+      },
+      inverseFemtoseconds: {
+        pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_inverseFemtoseconds_pattern', _.get( SceneryPhetStrings, 'a11y.units.inverseFemtoseconds.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
+      },
+      inverseNanometers: {
+        pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_inverseNanometers_pattern', _.get( SceneryPhetStrings, 'a11y.units.inverseNanometers.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
+      },
+      inverseSquareRootNanometers: {
+        pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_inverseSquareRootNanometers_pattern', _.get( SceneryPhetStrings, 'a11y.units.inverseSquareRootNanometers.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
+      },
+      voltsPerNanometer: {
+        pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_voltsPerNanometer_pattern', _.get( SceneryPhetStrings, 'a11y.units.voltsPerNanometer.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
       }
     }
   }
