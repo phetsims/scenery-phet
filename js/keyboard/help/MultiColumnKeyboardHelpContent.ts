@@ -16,7 +16,7 @@ import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 
 type SelfOptions = {
 
-  // spacing between the left and right columns of the help content
+  // horizontal spacing between the columns
   columnSpacing?: number;
 
   // vertical spacing between KeyboardHelpSections in each column
