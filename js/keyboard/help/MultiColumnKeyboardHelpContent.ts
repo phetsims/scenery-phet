@@ -34,6 +34,8 @@ export default class MultiColumnKeyboardHelpContent extends Node {
   public constructor( columns: KeyboardHelpSection[][], providedOptions?: MultiColumnKeyboardHelpContentOptions ) {
 
     const options = optionize<MultiColumnKeyboardHelpContentOptions, SelfOptions, NodeOptions>()( {
+
+      // SelfOptions
       columnSpacing: 40,
       sectionSpacing: 40
     }, providedOptions );
