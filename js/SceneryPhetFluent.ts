@@ -210,6 +210,7 @@ addToMapIfDefined( 'units_ohms_symbol', 'units.ohms.symbolStringProperty' );
 addToMapIfDefined( 'units_ohmCentimeters_symbol', 'units.ohmCentimeters.symbolStringProperty' );
 addToMapIfDefined( 'units_millivolts_symbol', 'units.millivolts.symbolStringProperty' );
 addToMapIfDefined( 'units_milliamperes_symbol', 'units.milliamperes.symbolStringProperty' );
+addToMapIfDefined( 'units_microamperes_symbol', 'units.microamperes.symbolStringProperty' );
 addToMapIfDefined( 'units_farads_symbol', 'units.farads.symbolStringProperty' );
 addToMapIfDefined( 'units_webers_symbol', 'units.webers.symbolStringProperty' );
 addToMapIfDefined( 'units_gauss_symbol', 'units.gauss.symbolStringProperty' );
@@ -392,6 +393,7 @@ addToMapIfDefined( 'a11y_units_ohms_pattern', 'a11y.units.ohms.patternStringProp
 addToMapIfDefined( 'a11y_units_ohmCentimeters_pattern', 'a11y.units.ohmCentimeters.patternStringProperty' );
 addToMapIfDefined( 'a11y_units_millivolts_pattern', 'a11y.units.millivolts.patternStringProperty' );
 addToMapIfDefined( 'a11y_units_milliamperes_pattern', 'a11y.units.milliamperes.patternStringProperty' );
+addToMapIfDefined( 'a11y_units_microamperes_pattern', 'a11y.units.microamperes.patternStringProperty' );
 addToMapIfDefined( 'a11y_units_farads_pattern', 'a11y.units.farads.patternStringProperty' );
 addToMapIfDefined( 'a11y_units_webers_pattern', 'a11y.units.webers.patternStringProperty' );
 addToMapIfDefined( 'a11y_units_gauss_pattern', 'a11y.units.gauss.patternStringProperty' );
@@ -798,6 +800,10 @@ const SceneryPhetFluent = {
     milliamperes: {
       symbolStringProperty: _.get( SceneryPhetStrings, 'units.milliamperes.symbolStringProperty' ),
       symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.milliamperes.symbolPatternStringProperty' )
+    },
+    microamperes: {
+      symbolStringProperty: _.get( SceneryPhetStrings, 'units.microamperes.symbolStringProperty' ),
+      symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.microamperes.symbolPatternStringProperty' )
     },
     farads: {
       symbolStringProperty: _.get( SceneryPhetStrings, 'units.farads.symbolStringProperty' ),
@@ -1274,6 +1280,9 @@ const SceneryPhetFluent = {
       },
       milliamperes: {
         pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_milliamperes_pattern', _.get( SceneryPhetStrings, 'a11y.units.milliamperes.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
+      },
+      microamperes: {
+        pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_microamperes_pattern', _.get( SceneryPhetStrings, 'a11y.units.microamperes.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
       },
       farads: {
         pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_farads_pattern', _.get( SceneryPhetStrings, 'a11y.units.farads.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )

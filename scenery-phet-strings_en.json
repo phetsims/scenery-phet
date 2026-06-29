@@ -827,6 +827,14 @@
         "value": "{{value}} mA"
       }
     },
+    "microamperes": {
+      "symbol": {
+        "value": "μA"
+      },
+      "symbolPattern": {
+        "value": "{{value}} μA"
+      }
+    },
     "farads": {
       "symbol": {
         "value": "F"
@@ -1748,6 +1756,11 @@
       "milliamperes": {
         "pattern": {
           "value": "{ $value ->\n  [one] { $value } milliampere\n  *[other] { $value } milliamperes\n}"
+        }
+      },
+      "microamperes": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } microampere\n  *[other] { $value } microamperes\n}"
         }
       },
       "farads": {

@@ -356,6 +356,10 @@ type StringsType = {
       'symbolStringProperty': LocalizedStringProperty;
       'symbolPatternStringProperty': LocalizedStringProperty;
     };
+    'microamperes': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
     'farads': {
       'symbolStringProperty': LocalizedStringProperty;
       'symbolPatternStringProperty': LocalizedStringProperty;
@@ -817,6 +821,9 @@ type StringsType = {
         'patternStringProperty': LocalizedStringProperty;
       };
       'milliamperes': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'microamperes': {
         'patternStringProperty': LocalizedStringProperty;
       };
       'farads': {

@@ -296,6 +296,9 @@ units:
   milliamperes:
     symbol:        mA
     symbolPattern: '{{value}} mA'
+  microamperes:
+    symbol:        μA
+    symbolPattern: '{{value}} μA'
   farads:
     symbol:        F
     symbolPattern: '{{value}} F'
@@ -825,6 +828,12 @@ a11y:
                { $value ->
                  [one] { $value } milliampere
                  *[other] { $value } milliamperes
+               }
+    microamperes:
+      pattern: |-
+               { $value ->
+                 [one] { $value } microampere
+                 *[other] { $value } microamperes
                }
     farads:
       pattern: |-
