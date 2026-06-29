@@ -1035,6 +1035,14 @@
         "value": "{{value}} particles/ps"
       }
     },
+    "photonsPerSecond": {
+      "symbol": {
+        "value": "photons/s"
+      },
+      "symbolPattern": {
+        "value": "{{value}} photons/s"
+      }
+    },
     "revolutionsPerMinute": {
       "symbol": {
         "value": "rpm"
@@ -1886,6 +1894,11 @@
       "particlesPerPicosecond": {
         "pattern": {
           "value": "{ $value ->\n  [one] { $value } particle per picosecond\n  *[other] { $value } particles per picosecond\n}"
+        }
+      },
+      "photonsPerSecond": {
+        "pattern": {
+          "value": "{ $value ->\n  [one] { $value } photon per second\n  *[other] { $value } photons per second\n}"
         }
       },
       "revolutionsPerMinute": {

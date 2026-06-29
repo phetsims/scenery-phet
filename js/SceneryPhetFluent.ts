@@ -236,6 +236,7 @@ addToMapIfDefined( 'units_electronVolt_symbol', 'units.electronVolt.symbolString
 addToMapIfDefined( 'units_millimeters_symbol', 'units.millimeters.symbolStringProperty' );
 addToMapIfDefined( 'units_micrometers_symbol', 'units.micrometers.symbolStringProperty' );
 addToMapIfDefined( 'units_particlesPerPicosecond_symbol', 'units.particlesPerPicosecond.symbolStringProperty' );
+addToMapIfDefined( 'units_photonsPerSecond_symbol', 'units.photonsPerSecond.symbolStringProperty' );
 addToMapIfDefined( 'units_revolutionsPerMinute_symbol', 'units.revolutionsPerMinute.symbolStringProperty' );
 addToMapIfDefined( 'units_atmospheres_symbol', 'units.atmospheres.symbolStringProperty' );
 addToMapIfDefined( 'units_kilogramMetersPerSecond_symbol', 'units.kilogramMetersPerSecond.symbolStringProperty' );
@@ -419,6 +420,7 @@ addToMapIfDefined( 'a11y_units_electronVolt_pattern', 'a11y.units.electronVolt.p
 addToMapIfDefined( 'a11y_units_millimeters_pattern', 'a11y.units.millimeters.patternStringProperty' );
 addToMapIfDefined( 'a11y_units_micrometers_pattern', 'a11y.units.micrometers.patternStringProperty' );
 addToMapIfDefined( 'a11y_units_particlesPerPicosecond_pattern', 'a11y.units.particlesPerPicosecond.patternStringProperty' );
+addToMapIfDefined( 'a11y_units_photonsPerSecond_pattern', 'a11y.units.photonsPerSecond.patternStringProperty' );
 addToMapIfDefined( 'a11y_units_revolutionsPerMinute_pattern', 'a11y.units.revolutionsPerMinute.patternStringProperty' );
 addToMapIfDefined( 'a11y_units_atmospheres_pattern', 'a11y.units.atmospheres.patternStringProperty' );
 addToMapIfDefined( 'a11y_units_kilogramMetersPerSecond_pattern', 'a11y.units.kilogramMetersPerSecond.patternStringProperty' );
@@ -905,6 +907,10 @@ const SceneryPhetFluent = {
       symbolStringProperty: _.get( SceneryPhetStrings, 'units.particlesPerPicosecond.symbolStringProperty' ),
       symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.particlesPerPicosecond.symbolPatternStringProperty' )
     },
+    photonsPerSecond: {
+      symbolStringProperty: _.get( SceneryPhetStrings, 'units.photonsPerSecond.symbolStringProperty' ),
+      symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.photonsPerSecond.symbolPatternStringProperty' )
+    },
     revolutionsPerMinute: {
       symbolStringProperty: _.get( SceneryPhetStrings, 'units.revolutionsPerMinute.symbolStringProperty' ),
       symbolPatternStringProperty: _.get( SceneryPhetStrings, 'units.revolutionsPerMinute.symbolPatternStringProperty' )
@@ -1358,6 +1364,9 @@ const SceneryPhetFluent = {
       },
       particlesPerPicosecond: {
         pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_particlesPerPicosecond_pattern', _.get( SceneryPhetStrings, 'a11y.units.particlesPerPicosecond.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
+      },
+      photonsPerSecond: {
+        pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_photonsPerSecond_pattern', _.get( SceneryPhetStrings, 'a11y.units.photonsPerSecond.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
       },
       revolutionsPerMinute: {
         pattern: new FluentPattern<{ value: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_units_revolutionsPerMinute_pattern', _.get( SceneryPhetStrings, 'a11y.units.revolutionsPerMinute.patternStringProperty' ), [{"name":"value","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )

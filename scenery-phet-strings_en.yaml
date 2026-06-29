@@ -374,6 +374,9 @@ units:
   particlesPerPicosecond:
     symbol:        particles/ps
     symbolPattern: '{{value}} particles/ps'
+  photonsPerSecond:
+    symbol:        photons/s
+    symbolPattern: '{{value}} photons/s'
   revolutionsPerMinute:
     symbol:        rpm
     symbolPattern: '{{value}} rpm'
@@ -972,6 +975,12 @@ a11y:
                { $value ->
                  [one] { $value } particle per picosecond
                  *[other] { $value } particles per picosecond
+               }
+    photonsPerSecond:
+      pattern: |-
+               { $value ->
+                 [one] { $value } photon per second
+                 *[other] { $value } photons per second
                }
     revolutionsPerMinute:
       pattern: |-

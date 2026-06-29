@@ -460,6 +460,10 @@ type StringsType = {
       'symbolStringProperty': LocalizedStringProperty;
       'symbolPatternStringProperty': LocalizedStringProperty;
     };
+    'photonsPerSecond': {
+      'symbolStringProperty': LocalizedStringProperty;
+      'symbolPatternStringProperty': LocalizedStringProperty;
+    };
     'revolutionsPerMinute': {
       'symbolStringProperty': LocalizedStringProperty;
       'symbolPatternStringProperty': LocalizedStringProperty;
@@ -899,6 +903,9 @@ type StringsType = {
         'patternStringProperty': LocalizedStringProperty;
       };
       'particlesPerPicosecond': {
+        'patternStringProperty': LocalizedStringProperty;
+      };
+      'photonsPerSecond': {
         'patternStringProperty': LocalizedStringProperty;
       };
       'revolutionsPerMinute': {
