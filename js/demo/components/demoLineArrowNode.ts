@@ -29,9 +29,18 @@ export default function demoLineArrowNode( layoutBounds: Bounds2 ): Node {
     tailLineWidth: 8
   } );
 
+  const dashedArrowNode = new LineArrowNode( 0, 0, 200, 0, {
+    stroke: 'maroon',
+    headWidth: 30,
+    headHeight: 30,
+    headLineWidth: 7,
+    tailLineWidth: 7,
+    tailLineDash: [ 10, 8 ]
+  } );
+
   return new VBox( {
     spacing: 100,
-    children: [ lineArrowNode, smoothArrowNode ],
+    children: [ lineArrowNode, smoothArrowNode, dashedArrowNode ],
     center: layoutBounds.center
   } );
 }
